@@ -19,21 +19,10 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RedirectingController extends Controller
 {
-    public function removeTrailingSlashAction(Request $request): RedirectResponse
-    {
-        $pathInfo = $request->getPathInfo();
-        $requestUri = $request->getRequestUri();
-
-        $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
-
-        return $this->redirect($url, 301);
-    }
-
     public function redirectBasedOnExtraDataAction(string $key, string $value): RedirectResponse
     {
         $articleRepository = $this->container->get('swp.repository.article');

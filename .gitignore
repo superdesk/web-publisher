@@ -17,10 +17,9 @@
 !/docker/pgsql/config/.gitkeep
 /docker/pgsql/data/*
 !/docker/pgsql/data/.gitkeep
-/vendor/
-/web/bundles/
-/web/uploads/*
-!/web/uploads/.gitkeep
+/pubic/bundles/
+/pubic/uploads/*
+!/pubic/uploads/.gitkeep
 logs/
 build/
 RMT
@@ -31,8 +30,9 @@ nohup.out
 !/config/jwt/
 
 ###> symfony/framework-bundle ###
-/.env
-/public/bundles/
+/.env.*.local
+/.env.local
+/public/bundles
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -51,5 +51,8 @@ behat.yml
 
 ###> symfony/phpunit-bridge ###
 .phpunit
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###

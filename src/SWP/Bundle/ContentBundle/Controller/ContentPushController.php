@@ -19,8 +19,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use Hoa\Mime\Mime;
 use SWP\Component\Bridge\Events;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Provider\FileProvider;
@@ -30,6 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ContentPushController extends Controller
 {
@@ -43,8 +42,7 @@ class ContentPushController extends Controller
      *         201="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/content/push", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
-     * @Method("POST")
+     * @Route("/api/{version}/content/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
      */
     public function pushContentAction(Request $request)
     {
@@ -73,8 +71,7 @@ class ContentPushController extends Controller
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\MediaFileType"
      * )
-     * @Route("/api/{version}/assets/push", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_push")
-     * @Method("POST")
+     * @Route("/api/{version}/assets/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_push")
      */
     public function pushAssetsAction(Request $request)
     {
@@ -123,9 +120,8 @@ class ContentPushController extends Controller
      *         200="Returned on form errors"
      *     }
      * )
-     * @Route("/api/{version}/assets/push/{mediaId}.{extension}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
-     * @Route("/api/{version}/assets/get/{mediaId}.{extension}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
-     * @Method("GET")
+     * @Route("/api/{version}/assets/push/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
+     * @Route("/api/{version}/assets/get/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
      */
     public function getAssetsAction(string $mediaId, string $extension)
     {

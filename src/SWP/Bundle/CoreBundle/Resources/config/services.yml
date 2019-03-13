@@ -103,7 +103,7 @@ services:
             - '%kernel.cache_dir%'
             - '@swp_multi_tenancy.tenant_context'
             - '@sylius.repository.theme'
-            - '@sylius.context.theme'
+            - '@swp_core.theme.context.tenant_aware'
             - '@swp.repository.tenant'
 
     swp_core.generator.theme.routes:

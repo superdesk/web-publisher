@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleCommentsType;
@@ -27,6 +25,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleCommentsController extends Controller
 {
@@ -39,8 +38,7 @@ class ArticleCommentsController extends Controller
      *         404="Return when article was not found"
      *     },
      * )
-     * @Route("/api/{version}/content/articles", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_article_comments")
-     * @Method("PATCH")
+     * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_article_comments")
      */
     public function updateAction(Request $request)
     {

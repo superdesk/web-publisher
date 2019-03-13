@@ -18,18 +18,24 @@ namespace SWP\Bundle\CoreBundle\Translation;
 
 use Symfony\Component\Translation\Formatter\ChoiceMessageFormatterInterface;
 use Symfony\Component\Translation\Formatter\MessageFormatterInterface;
+use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\MessageSelector;
+use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MessageFormatter implements MessageFormatterInterface, ChoiceMessageFormatterInterface
 {
-    private $selector;
+    private $translator;
 
-    /**
-     * @param MessageSelector|null $selector The message selector for pluralization
-     */
-    public function __construct(MessageSelector $selector = null)
+    public function __construct($translator = null)
     {
-        $this->selector = $selector ?: new MessageSelector();
+        if ($translator instanceof MessageSelector) {
+            $translator = new IdentityTranslator($translator);
+        } elseif (null !== $translator && !$translator instanceof TranslatorInterface && !$translator instanceof LegacyTranslatorInterface) {
+            throw new \TypeError(sprintf('Argument 1 passed to %s() must be an instance of %s, %s given.', __METHOD__, TranslatorInterface::class, \is_object($translator) ? \get_class($translator) : \gettype($translator)));
+        }
+
+        $this->translator = $translator ?? new IdentityTranslator();
     }
 
     /**
@@ -51,6 +57,10 @@ class MessageFormatter implements MessageFormatterInterface, ChoiceMessageFormat
             $locale = \substr($locale, 0, $position);
         }
 
-        return $this->format($this->selector->choose($message, (int) $number, $locale), $locale, $parameters);
+        if ($this->translator instanceof TranslatorInterface) {
+            return $this->format($message, $locale, $parameters);
+        }
+
+        return $this->format($this->translator->transChoice($message, $number, [], null, $locale), $locale, $parameters);
     }
 }

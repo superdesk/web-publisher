@@ -68,7 +68,7 @@ class WidgetController extends FOSRestController
      */
     public function listTemplatesAction(Request $request)
     {
-        $themeContext = $this->container->get('sylius.context.theme');
+        $themeContext = $this->container->get('swp_core.theme.context.tenant_aware');
         $path = $themeContext->getTheme()->getPath().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'widgets';
 
         if (!file_exists($path)) {

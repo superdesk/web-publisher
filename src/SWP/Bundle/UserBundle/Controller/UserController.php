@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Controller;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use SWP\Bundle\UserBundle\Form\Type\UserRolesType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
@@ -26,6 +24,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserController extends Controller
@@ -43,9 +42,8 @@ class UserController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\UserRolesType"
      * )
-     * @Route("/api/{version}/users/{id}/promote", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_promote_user")
-     * @Route("/api/{version}/users/{id}/demote", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_demote_user")
-     * @Method("PATCH")
+     * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_promote_user")
+     * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_demote_user")
      */
     public function modifyRolesAction(Request $request, $id)
     {

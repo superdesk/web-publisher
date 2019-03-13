@@ -25,18 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Hoa\Mime\Mime;
+use Symfony\Component\Routing\Annotation\Route;
 
 class MediaController extends Controller
 {
     /**
      * Send or render single media.
      *
-     * @Route("/author/media/{mediaId}.{extension}", options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_author_media_get")
-     * @Route("/media/{mediaId}.{extension}", options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_media_get")
-     * @Method("GET")
+     * @Route("/author/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_author_media_get")
+     * @Route("/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_media_get")
      */
     public function getAction(Request $request, string $mediaId, string $extension)
     {

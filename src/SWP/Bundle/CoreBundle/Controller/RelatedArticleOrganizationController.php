@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleList;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleListItem;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -26,6 +24,7 @@ use SWP\Component\Bridge\Model\GroupInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class RelatedArticleOrganizationController extends Controller
 {
@@ -37,10 +36,9 @@ class RelatedArticleOrganizationController extends Controller
      *         200="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/organization/articles/related/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_organization_related_articles")
-     * @Method("POST")
+     * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_organization_related_articles")
      */
-    public function getAction(Request $request)
+    public function postAction(Request $request)
     {
         $content = $request->getContent();
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);

@@ -20,8 +20,6 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use SWP\Bundle\UserBundle\Form\Type\ProfileFormType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
@@ -30,6 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use SWP\Component\Common\Response\ResponseContext;
 
@@ -46,8 +45,7 @@ class ProfileController extends Controller
      *         404="Returned on user not found."
      *     }
      * )
-     * @Route("/api/{version}/users/profile/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_get_user_profile")
-     * @Method("GET")
+     * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_get_user_profile")
      */
     public function getAction($id)
     {
@@ -74,8 +72,7 @@ class ProfileController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\ProfileFormType"
      * )
-     * @Route("/api/{version}/users/profile/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_edit_user_profile")
-     * @Method("PATCH")
+     * @Route("/api/{version}/users/profile/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_edit_user_profile")
      */
     public function editAction(Request $request, $id)
     {

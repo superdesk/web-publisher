@@ -16,12 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\FacebookInstantArticlesBundle\Model\PageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AutorizationController extends Controller
@@ -29,8 +28,7 @@ class AutorizationController extends Controller
     const INSTANT_ARTICLES_SCOPES = ['pages_manage_instant_articles', 'pages_show_list'];
 
     /**
-     * @Route("/facebook/instantarticles/authorize/{appId}/{pageId}", options={"expose"=true}, name="swp_fbia_authorize")
-     * @Method("GET")
+     * @Route("/facebook/instantarticles/authorize/{appId}/{pageId}", methods={"GET"}, options={"expose"=true}, name="swp_fbia_authorize")
      */
     public function authorizeAction($appId, $pageId)
     {
@@ -54,8 +52,7 @@ class AutorizationController extends Controller
     }
 
     /**
-     * @Route("/facebook/instantarticles/authorize/callback/{appId}/{pageId}", options={"expose"=true}, name="swp_fbia_authorize_callback")
-     * @Method("GET|POST")
+     * @Route("/facebook/instantarticles/authorize/callback/{appId}/{pageId}", methods={"GET", "POST"}, options={"expose"=true}, name="swp_fbia_authorize_callback")
      */
     public function authorizationCallbackAction($appId, $pageId)
     {

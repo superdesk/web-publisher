@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Hoa\File\Read;
 use Hoa\Mime\Mime;
+use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +37,8 @@ class StaticThemeAssetsController extends Controller
      */
     public function rootAction($fileName, $fileExtension)
     {
-        $themes = $this->get('sylius.theme.hierarchy_provider')->getThemeHierarchy(
-            $this->get('sylius.context.theme')->getTheme()
+        $themes = $this->get(ThemeHierarchyProviderInterface::class)->getThemeHierarchy(
+            $this->get('swp_core.theme.context.tenant_aware')->getTheme()
         );
 
         $fileName = (null === $fileExtension) ? basename($fileName) : $fileName.'.'.$fileExtension;

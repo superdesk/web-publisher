@@ -23,8 +23,6 @@ use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\UserBundle\Form\Type\RegistrationFormType;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -33,6 +31,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends Controller
 {
@@ -49,8 +48,7 @@ class RegistrationController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\RegistrationFormType"
      * )
-     * @Route("/api/{version}/users/register/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_register_user")
-     * @Method("POST")
+     * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_register_user")
      */
     public function registerAction(Request $request)
     {
