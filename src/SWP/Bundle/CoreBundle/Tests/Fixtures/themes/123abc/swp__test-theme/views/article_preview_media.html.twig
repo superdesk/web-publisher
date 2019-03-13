@@ -1,0 +1,12 @@
+{% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '16-9', 'fallback': 'original' } %}
+    <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+{% endgimme %}
+
+{{ gimme.article.body }}
+
+{% gimmelist media from articleMedia %} <!-- It will use article from context -->
+    {{ media.key }}
+    {% gimme rendition with { 'name': '16-9', 'fallback': 'original', 'media': media } %}
+        <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+    {% endgimme %}
+{% endgimmelist %}

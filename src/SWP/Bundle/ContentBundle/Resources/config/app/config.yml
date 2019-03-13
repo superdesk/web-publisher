@@ -35,6 +35,11 @@ stof_doctrine_extensions:
     orm:
         default:
             softdeleteable: true
+            sortable: true
+            tree: true
+            timestampable: true
+    class:
+        timestampable:  SWP\Bundle\ContentBundle\EventListener\TimestampableListener
 
 cmf_routing:
     chain:

@@ -71,6 +71,13 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
+    SWP\Bundle\ContentBundle\Loader\KeywordLoader:
+        arguments:
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp.repository.keyword"
+        tags:
+            - { name: swp.meta_loader.add }
+
     swp_content_bundle.factory.knp_paginator_representation:
         class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
         arguments:

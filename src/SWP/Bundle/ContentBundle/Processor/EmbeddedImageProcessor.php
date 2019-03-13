@@ -44,7 +44,7 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
         $body = $article->getBody();
-        $mediaId = $articleMedia->getKey();
+        $mediaId = str_replace('/', '\\/', $articleMedia->getKey());
         preg_match(
             "/(<!-- EMBED START Image {id: \"$mediaId\"} -->)(.+?)(<!-- EMBED END Image {id: \"$mediaId\"} -->)/im",
             str_replace(PHP_EOL, '', $body),
@@ -73,6 +73,11 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
                     }
 
                     $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
+
+                    if (null === $rendition->getImage()->getId()) {
+                        $imageElement->setAttribute('src', $rendition->getPreviewUrl());
+                    }
+
                     $imageElement->setAttribute('data-media-id', $mediaId);
                     $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
                     if (null !== $altAttribute) {

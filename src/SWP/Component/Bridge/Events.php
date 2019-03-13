@@ -64,7 +64,7 @@ final class Events
     const PACKAGE_POST_UPDATE = 'swp.bridge.package_post_update';
 
     /**
-     * The PACKAGE_PUSH_DONE event occurs after package processing.
+     * The PACKAGE_PROCESSED event occurs after package processing.
      *
      * @Event("Symfony\Component\EventDispatcher\GenericEvent")
      *

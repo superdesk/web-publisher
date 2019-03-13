@@ -377,6 +377,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'external' => [
                         'webcode' => '+jxuk9',
                     ],
+                    'commentsCount' => 20,
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -401,6 +402,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'webcode' => '+jxux6',
                         'extra data' => 'extra value',
                     ],
+                    'commentsCount' => 34,
                 ],
                 [
                     'title' => 'Test article',
@@ -465,7 +467,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $manager->flush();
 
             foreach ($articles[$env] as $articleData) {
-                /** @var ArticleInterface $article */
+                /** @var \SWP\Bundle\CoreBundle\Model\ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
@@ -484,12 +486,19 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     $article->setExtra($articleData['extra']);
                 }
 
+                if (isset($articleData['commentsCount'])) {
+                    $article->setCommentsCount($articleData['commentsCount']);
+                }
+
                 if (isset($articleData['authors'])) {
                     foreach ($articleData['authors'] as $authorName) {
                         $author = new ArticleAuthor();
                         $author->setBiography('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibu');
                         $author->setRole('Writer');
                         $author->setName($authorName);
+                        $author->setTwitter('@superdeskman');
+                        $author->setFacebook('superdeskman');
+                        $author->setInstagram('superdeskman');
                         $image = new Image();
                         $image->setAssetId($author->getSlug());
                         $image->setFileExtension('jpg');

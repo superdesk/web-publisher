@@ -75,6 +75,14 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     }
 
     /**
+     * @Then (I )wait :count second(s)
+     */
+    public function iWaitSeconds($count)
+    {
+        usleep($count * 1000000);
+    }
+
+    /**
      * Execute a command and return it's output. Either wait until the command exits or the timeout has expired.
      *
      * @param string $cmd     command to execute

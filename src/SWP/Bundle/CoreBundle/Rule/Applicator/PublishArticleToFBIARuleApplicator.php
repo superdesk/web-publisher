@@ -35,7 +35,7 @@ final class PublishArticleToFBIARuleApplicator extends AbstractRuleApplicator
     /**
      * @var array
      */
-    private $supportedKeys = ['fbia'];
+    private $supportedKeys = ['isPublishedFbia'];
 
     /**
      * ArticleRuleApplicator constructor.
@@ -58,7 +58,7 @@ final class PublishArticleToFBIARuleApplicator extends AbstractRuleApplicator
             return;
         }
 
-        if ($isPublishedFBIA = (bool) $configuration['fbia']) {
+        if ($isPublishedFBIA = (bool) $configuration['isPublishedFbia']) {
             $subject->setPublishedFBIA($isPublishedFBIA);
             $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($subject, null, ArticleEvents::PUBLISH));
 

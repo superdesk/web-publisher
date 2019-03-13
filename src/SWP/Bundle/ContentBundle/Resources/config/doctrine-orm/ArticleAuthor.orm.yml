@@ -24,6 +24,15 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
         slug:
             type: string
             nullable: true
+        twitter:
+            type: string
+            nullable: true
+        facebook:
+            type: string
+            nullable: true
+        instagram:
+            type: string
+            nullable: true
     oneToOne:
         avatar:
             targetEntity: SWP\Bundle\ContentBundle\Model\AuthorMediaInterface

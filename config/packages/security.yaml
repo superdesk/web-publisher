@@ -23,7 +23,11 @@ security:
             pattern: ^/api/(doc|[v0-9]{2}/(content/push|assets))
             security: false
         extra_data:
-            pattern: ^/api/(doc|[v0-9]{2}/packages/extra/*)
+            pattern: ^/api/([v0-9]{2}/packages/extra/*)
+            security: false
+        article_comments:
+            pattern: ^/api/([v0-9]{2}/content/articles)
+            methods: PATCH
             security: false
         authentication:
             pattern: ^/api/[v0-9]{2}/(auth|auth/superdesk)
@@ -71,4 +75,5 @@ security:
         - { path: "^/preview/article", roles: ROLE_EDITOR }
         - { path: "^/api/[v0-9]{2}/users/profile/*", roles: ROLE_USER }
         - { path: "^/api/[v0-9]{2}/token/refresh", roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/resetting", role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/api", roles: ROLE_INTERNAL_API }

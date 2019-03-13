@@ -18,4 +18,7 @@ namespace SWP\Component\ContentList\Model;
 
 interface ListContentInterface
 {
+    public function getContentLists(): array;
+
+    public function setContentLists(array $contentLists): void;
 }

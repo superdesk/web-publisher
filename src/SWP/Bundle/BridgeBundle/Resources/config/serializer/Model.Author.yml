@@ -14,3 +14,9 @@ SWP\Component\Bridge\Model\Author:
         jobTitle:
             serialized_name: jobtitle
             type: array
+        twitter:
+            type: string
+        facebook:
+            type: string
+        instagram:
+            type: string

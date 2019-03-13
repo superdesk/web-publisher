@@ -98,3 +98,11 @@ Feature: Checking if not authorized content push is rejected
     }
     """
     Then the response status code should be 401
+
+    Given I add "Content-Type" header equal to "application/json"
+    When I add "x-superdesk-signature" header equal to "sha1=6e4a429f0162fca02a6edd5c759f57014bfa6d90"
+    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+      | key          | value                 |
+      | media_id     | 1234567890987654321a  |
+      | media        | @image.jpg            |
+    Then the response status code should be 201

@@ -174,7 +174,7 @@ class ContentPushController extends Controller
     {
         $existingPackage = $this->getPackageRepository()->findOneBy(['guid' => $package->getGuid()]);
 
-        if (null === $existingPackage) {
+        if (null === $existingPackage && null !== $package->getEvolvedFrom()) {
             $existingPackage = $this->getPackageRepository()->findOneBy([
                 'guid' => $package->getEvolvedFrom(),
             ]);

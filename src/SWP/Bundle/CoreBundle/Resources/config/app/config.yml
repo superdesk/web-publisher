@@ -200,6 +200,8 @@ stof_doctrine_extensions:
             loggable: true
             sortable: true
             tree: true
+    class:
+        timestampable:  SWP\Bundle\ContentBundle\EventListener\TimestampableListener
 
 takeit_amp_html:
     theme:
@@ -317,7 +319,7 @@ old_sound_rabbit_mq:
             port:     '%env(RABBIT_MQ_PORT)%'
             user:     '%env(RABBIT_MQ_USER)%'
             password: '%env(RABBIT_MQ_PASSWORD)%'
-            vhost:    '/'
+            vhost:    '%env(RABBIT_MQ_VHOST)%'
             lazy:     true
             connection_timeout: 3
             read_write_timeout: 3

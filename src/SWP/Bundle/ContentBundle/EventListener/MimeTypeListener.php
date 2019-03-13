@@ -37,7 +37,7 @@ class MimeTypeListener
         /** @var RouteInterface $routeObject */
         $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
         if (null !== $routeObject) {
-            $extension = pathinfo($routeObject->getStaticPrefix(), PATHINFO_EXTENSION);
+            $extension = pathinfo($routeObject->getStaticPrefix().$routeObject->getVariablePattern(), PATHINFO_EXTENSION);
             $response = $event->getResponse();
             if ('' !== $extension && Response::HTTP_OK === $response->getStatusCode()) {
                 $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension).'; charset=UTF-8');

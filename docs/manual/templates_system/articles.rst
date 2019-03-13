@@ -75,3 +75,11 @@ The :code:`articles` loader parameters:
     {% gimmelist article from articles without {article:[gimme.article]} %} <!-- pass articles meta objects -->
         <img src="{{ url(article) }}" />
     {% endgimmelist %}
+
+* Ordering by article comments count (set by external system)
+
+.. code-block:: twig
+
+    {% gimmelist article from articles|order('commentsCount', 'desc') %}
+        <img src="{{ url(article) }}" />
+    {% endgimmelist %}

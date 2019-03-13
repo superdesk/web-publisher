@@ -78,7 +78,7 @@ final class PublishArticleToFBIARuleApplicatorSpec extends ObjectBehavior
         EventDispatcherInterface $eventDispatcher
     ) {
         $rule->getConfiguration()->willReturn([
-            'fbia' => true,
+            'isPublishedFbia' => true,
         ]);
         $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
 
@@ -96,7 +96,7 @@ final class PublishArticleToFBIARuleApplicatorSpec extends ObjectBehavior
         EventDispatcherInterface $eventDispatcher
     ) {
         $rule->getConfiguration()->willReturn([
-            'fbia' => false,
+            'isPublishedFbia' => false,
         ]);
         $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
 

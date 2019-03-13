@@ -46,12 +46,12 @@ interface PublishDestinationInterface extends TimestampableInterface, Persistabl
     /**
      * @return bool
      */
-    public function isFbia(): bool;
+    public function isPublishedFbia(): bool;
 
     /**
-     * @param bool $fbia
+     * @param bool $isPublishedFbia
      */
-    public function setFbia(bool $fbia);
+    public function setIsPublishedFbia(bool $isPublishedFbia): void;
 
     /**
      * @return bool

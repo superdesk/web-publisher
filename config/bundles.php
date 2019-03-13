@@ -63,4 +63,6 @@ return [
     SWP\Bundle\FixturesBundle\SWPFixturesBundle::class => ['dev' => true, 'test' => true],
     Pixers\DoctrineProfilerBundle\PixersDoctrineProfilerBundle::class => ['dev' => true, 'test' => true],
     Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => ['test' => true],
+    FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
+    Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle::class => ['dev' => true, 'test' => true],
 ];
