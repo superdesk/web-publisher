@@ -19,37 +19,24 @@ namespace SWP\Component\ContentList\Repository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface ContentListItemRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * @param ContentListInterface $contentList
-     */
     public function removeItems(ContentListInterface $contentList);
 
     /**
-     * @param Criteria $criteria
-     * @param array    $sorting
-     * @param array    $groupValues
-     *
      * @return mixed
      */
     public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = []);
 
     /**
-     * @param Criteria            $criteria
-     * @param array               $sorting
-     * @param PaginationData|null $paginationData
-     *
      * @return mixed
      */
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
 
-    /**
-     * @param Criteria $criteria
-     *
-     * @return int
-     */
     public function getCountByCriteria(Criteria $criteria): int;
+
+    public function getOneOrNullByPosition(Criteria $criteria, int $position): ?ContentListItemInterface;
 }

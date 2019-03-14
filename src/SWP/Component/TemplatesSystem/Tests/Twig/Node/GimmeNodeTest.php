@@ -22,14 +22,22 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeNode;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Twig\Node\Expression\ArrayExpression;
+use Twig\Test\NodeTestCase;
+use Twig\Loader\ArrayLoader;
+use Twig\Environment;
+use Twig\Node\Node;
+use Twig\Node\TextNode;
+use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\AssignNameExpression;
 
-class GimmeNodeTest extends \Twig_Test_NodeTestCase
+class GimmeNodeTest extends NodeTestCase
 {
     public function testConstructor()
     {
-        $annotation = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 1)]);
-        $parameters = new \Twig_Node_Expression_Array([], 1);
-        $body = new \Twig_Node_Text('', 1);
+        $annotation = new Node([new AssignNameExpression('article', 1)]);
+        $parameters = new ArrayExpression([], 1);
+        $body = new TextNode('', 1);
         $node = new GimmeNode($annotation, $parameters, null, $body, 1, 'gimme');
         $this->assertEquals($annotation, $node->getNode('annotation'));
         $this->assertEquals($parameters, $node->getNode('parameters'));
@@ -38,31 +46,31 @@ class GimmeNodeTest extends \Twig_Test_NodeTestCase
 
     public function getTests()
     {
-        $annotation1 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 1)]);
-        $parameters1 = new \Twig_Node_Expression_Array([], 1);
-        $body1 = new \Twig_Node_Text('Test body', 1);
+        $annotation1 = new Node([new AssignNameExpression('article', 1)]);
+        $parameters1 = new ArrayExpression([], 1);
+        $body1 = new TextNode('Test body', 1);
         $node1 = new GimmeNode($annotation1, $parameters1, null, $body1, 1, 'gimme');
 
-        $annotation2 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 2)]);
-        $body2 = new \Twig_Node_Text('Test body', 2);
+        $annotation2 = new Node([new AssignNameExpression('article', 2)]);
+        $body2 = new TextNode('Test body', 2);
         $node2 = new GimmeNode($annotation2, null, null, $body2, 2, 'gimme');
 
-        $annotation3 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 3)]);
-        $parameters3 = new \Twig_Node_Expression_Array([new \Twig_Node_Expression_Constant('foo', 1), new \Twig_Node_Expression_Constant(true, 1)], 1);
-        $body3 = new \Twig_Node_Text('Test body', 3);
+        $annotation3 = new Node([new AssignNameExpression('article', 3)]);
+        $parameters3 = new ArrayExpression([new ConstantExpression('foo', 1), new ConstantExpression(true, 1)], 1);
+        $body3 = new TextNode('Test body', 3);
         $node3 = new GimmeNode($annotation3, $parameters3, null, $body3, 3, 'gimme');
 
-        $annotation4 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 3)]);
-        $parameters4 = new \Twig_Node_Expression_Array([new \Twig_Node_Expression_Constant('foo', 1), new \Twig_Node_Expression_Constant(true, 1)], 1);
-        $ignoreContext4 = new \Twig_Node_Expression_Array([], 1);
-        $body4 = new \Twig_Node_Text('Test body', 4);
+        $annotation4 = new Node([new AssignNameExpression('article', 3)]);
+        $parameters4 = new ArrayExpression([new ConstantExpression('foo', 1), new ConstantExpression(true, 1)], 1);
+        $ignoreContext4 = new ArrayExpression([], 1);
+        $body4 = new TextNode('Test body', 4);
         $node4 = new GimmeNode($annotation4, $parameters4, $ignoreContext4, $body4, 4, 'gimme');
 
         return [
             [$node1, <<<'EOF'
 // line 1
 $swpMetaLoader3 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
-$context["article"] = $swpMetaLoader3->load("article", array());
+$context["article"] = $swpMetaLoader3->load("article", []);
 if ($context["article"] !== false) {
     echo "Test body";
 }
@@ -82,7 +90,7 @@ EOF
             [$node3, <<<'EOF'
 // line 3
 $swpMetaLoader5 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
-$context["article"] = $swpMetaLoader5->load("article", array("foo" => true));
+$context["article"] = $swpMetaLoader5->load("article", ["foo" => true]);
 if ($context["article"] !== false) {
     echo "Test body";
 }
@@ -93,8 +101,8 @@ EOF
 // line 4
 $swpMetaLoader6 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 $swpContext6Gimme = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();
-$swpIgnoreContext6Gimme = $swpContext6Gimme->temporaryUnset(array());
-$context["article"] = $swpMetaLoader6->load("article", array("foo" => true));
+$swpIgnoreContext6Gimme = $swpContext6Gimme->temporaryUnset([]);
+$context["article"] = $swpMetaLoader6->load("article", ["foo" => true]);
 if ($context["article"] !== false) {
     echo "Test body";
 }
@@ -107,14 +115,14 @@ EOF
 
     public function testTemplateString()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new ArrayLoader([
             'clear_gimme' => '{% gimme article %}{{ article.title }}{% endgimme %}',
             'gimme_with_parameters' => '{% gimme article with {id: 1} %}{{ article.title }}{% endgimme %}',
         ]);
         $metaLoader = new ChainLoader();
         $context = new Context(new EventDispatcher(), new ArrayCache());
         $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
-        $twig = new \Twig_Environment($loader);
+        $twig = new Environment($loader);
         $twig->addExtension(new GimmeExtension($context, $metaLoader));
 
         $this->assertEquals($twig->render('clear_gimme'), 'New article');
@@ -123,13 +131,13 @@ EOF
 
     public function testBrokenTemplate()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new ArrayLoader([
             'error_gimme' => '{% gimme article {id: 1} %}{{ article.title }}{% endgimme %}',
         ]);
         $metaLoader = new ChainLoader();
         $context = new Context(new EventDispatcher(), new ArrayCache());
         $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
-        $twig = new \Twig_Environment($loader);
+        $twig = new Environment($loader);
         $twig->addExtension(new GimmeExtension($context, $metaLoader));
 
         $this->expectException(\Twig_Error_Syntax::class);
