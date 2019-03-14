@@ -66,6 +66,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: array
         slideshows:
             expose: true
+            type: array<SWP\Bundle\ContentBundle\Model\SlideshowInterface>
     relations:
         -
             rel: self

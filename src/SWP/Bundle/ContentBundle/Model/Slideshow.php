@@ -85,4 +85,17 @@ class Slideshow implements SlideshowInterface
     {
         $this->items = $items;
     }
+
+    public function addItem(SlideshowItemInterface $item): void
+    {
+        if (!$this->hasItem($item)) {
+            $item->setSlideshow($this);
+            $this->items->add($item);
+        }
+    }
+
+    public function hasItem(SlideshowItemInterface $item): bool
+    {
+        return $this->items->contains($item);
+    }
 }
