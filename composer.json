@@ -71,7 +71,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "php-http/guzzle6-adapter": "^v1.1",
         "twig/extensions": "~1.0",
-        "twig/twig": "~2.4 <2.6.1",
+        "twig/twig": "~2.7",
         "emanueleminotto/twig-cache-bundle": "dev-master",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache": "^2.3",
