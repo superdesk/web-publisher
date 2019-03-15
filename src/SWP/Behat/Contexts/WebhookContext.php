@@ -24,7 +24,7 @@ class WebhookContext implements Context
         $expected = $this->convertToJson($expected);
         $actual = $this->convertToJson($actual);
 
-        if ((string) $expected !== (string) $actual) {
+        if ($expected !== $actual) {
             throw new \Exception("The body $actual is not equal to $expected");
         }
     }
@@ -37,6 +37,6 @@ class WebhookContext implements Context
             throw new \Exception('The expected JSON is not a valid');
         }
 
-        return $value;
+        return (string) $value;
     }
 }
