@@ -129,7 +129,6 @@ class Article implements ArticleInterface
 
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTime());
         $this->setPublishable(false);
         $this->setMedia(new ArrayCollection());
         $this->sources = new ArrayCollection();

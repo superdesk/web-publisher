@@ -47,7 +47,6 @@ class Slideshow implements SlideshowInterface
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
         $this->items = new ArrayCollection();
     }
 
