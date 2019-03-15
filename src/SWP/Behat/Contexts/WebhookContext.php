@@ -29,7 +29,7 @@ class WebhookContext implements Context
         }
     }
 
-    private function convertToJson(string $value): Json
+    private function convertToJson(string $value): string
     {
         try {
             $value = new Json($value);
