@@ -20,6 +20,7 @@ use SWP\Bundle\CoreBundle\Pagination\Paginator;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -90,5 +91,15 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
             ->setMaxResults(null)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function getOneOrNullByPosition(Criteria $criteria, int $position): ?ContentListItemInterface
+    {
+        return $this->getQueryByCriteria($criteria, [], 'n')
+            ->orderBy('n.position', 'DESC')
+            ->andWhere('n.position = :position')->setParameter('position', $position)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
     }
 }

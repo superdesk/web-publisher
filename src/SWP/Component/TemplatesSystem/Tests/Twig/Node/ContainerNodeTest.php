@@ -49,7 +49,7 @@ class ContainerNodeTest extends \Twig_Test_NodeTestCase
             [$node1, <<<'EOF'
 // line 1
 $rendererService = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\ContainerExtension')->getContainerService();
-$container = $rendererService->getContainerRenderer("container_name", array());
+$container = $rendererService->getContainerRenderer("container_name", []);
 if ($container->isVisible()) {
     echo $container->renderOpenTag();
     if ($container->hasWidgets()) {
@@ -81,7 +81,7 @@ EOF
             [$node3, <<<'EOF'
 // line 3
 $rendererService = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\ContainerExtension')->getContainerService();
-$container = $rendererService->getContainerRenderer("container_name", array("foo" => true));
+$container = $rendererService->getContainerRenderer("container_name", ["foo" => true]);
 if ($container->isVisible()) {
     echo $container->renderOpenTag();
     if ($container->hasWidgets()) {

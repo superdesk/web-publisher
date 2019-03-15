@@ -161,8 +161,8 @@ EOF
             [$node2, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context["articles"], 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
-\$withParameters = array_merge(array(), \$context['_collection_type_filters']);
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [\$context["articles"], 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader2 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 \$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader2->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
@@ -175,7 +175,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", array(), null) == "New article")) {
+    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], null) == "New article")) {
         // line 1
         echo "";
         \$context['_iterated'] = true;
@@ -196,7 +196,7 @@ EOF
             [$node3, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = \$context['_collection_type_filters'];
 \$withoutParameters = [];
 \$swpCollectionMetaLoader3 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -240,9 +240,9 @@ EOF
             [$node4, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
-\$withParameters = array_merge(array(), \$context['_collection_type_filters']);
-\$withoutParameters = array();
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$withParameters = array_merge([], \$context['_collection_type_filters']);
+\$withoutParameters = [];
 \$swpCollectionMetaLoader4 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 \$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader4->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
@@ -284,9 +284,9 @@ EOF
             [$node5, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
-\$withParameters = array_merge(array(), \$context['_collection_type_filters']);
-\$withoutParameters = array();
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$withParameters = array_merge([], \$context['_collection_type_filters']);
+\$withoutParameters = [];
 \$swpCollectionMetaLoader5 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 \$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader5->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
@@ -297,7 +297,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", array(), null) == "New article")) {
+    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], null) == "New article")) {
         // line 1
         echo "";
         ++\$context['loop']['index0'];
@@ -314,12 +314,12 @@ EOF
             [$node6, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
-\$withParameters = array_merge(array(), \$context['_collection_type_filters']);
-\$withoutParameters = array();
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$withParameters = array_merge([], \$context['_collection_type_filters']);
+\$withoutParameters = [];
 \$swpCollectionMetaLoader6 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 \$swpContext6GimmeList = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();
-\$swpIgnoreContext6GimmeList = \$swpContext6GimmeList->temporaryUnset(array());
+\$swpIgnoreContext6GimmeList = \$swpContext6GimmeList->temporaryUnset([]);
 \$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader6->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
 \$context['loop'] = array(
@@ -329,7 +329,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", array(), null) == "New article")) {
+    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], null) == "New article")) {
         // line 1
         echo "";
         ++\$context['loop']['index0'];
