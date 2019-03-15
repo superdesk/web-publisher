@@ -19,10 +19,10 @@ class TimestampableListenerStub extends TimestampableListener
 
     protected function getFieldValue($meta, $field, $eventAdapter): \DateTimeInterface
     {
-        if (null === $this->dateTimeService->getCurrentDateTime()) {
+        if (null === ($dateTime = $this->dateTimeService->getCurrentDateTime())) {
             return parent::getFieldValue($meta, $field, $eventAdapter);
         }
 
-        return $this->dateTimeService->getCurrentDateTime();
+        return $dateTime;
     }
 }
