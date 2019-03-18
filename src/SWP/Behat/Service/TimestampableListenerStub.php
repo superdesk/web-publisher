@@ -5,24 +5,12 @@ declare(strict_types=1);
 namespace SWP\Behat\Service;
 
 use SWP\Bundle\ContentBundle\EventListener\TimestampableListener;
+use SWP\Component\Common\Model\DateTime;
 
 class TimestampableListenerStub extends TimestampableListener
 {
-    private $dateTimeService;
-
-    public function __construct(DateTimeService $dateTimeService)
-    {
-        parent::__construct();
-
-        $this->dateTimeService = $dateTimeService;
-    }
-
     protected function getFieldValue($meta, $field, $eventAdapter): \DateTimeInterface
     {
-        if (null === ($dateTime = $this->dateTimeService->getCurrentDateTime())) {
-            return parent::getFieldValue($meta, $field, $eventAdapter);
-        }
-
-        return $dateTime;
+        return DateTime::getCurrentDateTime();
     }
 }

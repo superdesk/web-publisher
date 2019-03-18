@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\Bridge\Model\AuthorsAwareTrait;
+use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
@@ -129,6 +130,7 @@ class Article implements ArticleInterface
 
     public function __construct()
     {
+        $this->createdAt = DateTime::getCurrentDateTime();
         $this->setPublishable(false);
         $this->setMedia(new ArrayCollection());
         $this->sources = new ArrayCollection();

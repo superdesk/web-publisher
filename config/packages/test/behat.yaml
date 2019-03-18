@@ -22,12 +22,6 @@ services:
 
     SWP\Behat\Service\TimestampableListenerStub:
         decorates: 'stof_doctrine_extensions.listener.timestampable'
-        arguments: ['@SWP\Behat\Service\DateTimeService']
 
-    SWP\Behat\Service\DateTimeService: ~
-
-    swp.service.article:
-        class: SWP\Behat\Service\ArticleService
-        arguments:
-            - '@event_dispatcher'
-            - '@SWP\Behat\Service\DateTimeService'
+    SWP\Behat\Service\ArticleService:
+        decorates: 'swp.service.article'

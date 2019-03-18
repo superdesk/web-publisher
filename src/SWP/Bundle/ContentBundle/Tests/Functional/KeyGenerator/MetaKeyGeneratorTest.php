@@ -34,7 +34,6 @@ class MetaKeyGeneratorTest extends WebTestCase
         self::assertEquals(sha1(serialize('some string')), $key);
 
         $article = $this->getContainer()->get('swp.factory.article')->create();
-        $article->setCreatedAt(new \DateTime());
         $articleMeta = $metaFactory->create($article);
         $key = $keyGenerator->generateKey($articleMeta);
         $date = $article->getUpdatedAt() ?? $article->getCreatedAt();

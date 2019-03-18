@@ -33,10 +33,7 @@ class MetaKeyGenerator implements KeyGeneratorInterface
 
             if ($value instanceof TimestampableInterface) {
                 $date = $value->getUpdatedAt() ?? $value->getCreatedAt();
-
-                if (null !== $date) {
-                    $keyElements[] = $date->getTimestamp();
-                }
+                $keyElements[] = $date->getTimestamp();
             }
 
             if ($value instanceof ArticlesUpdatedTimeAwareInterface && null !== $value->getArticlesUpdatedAt()) {

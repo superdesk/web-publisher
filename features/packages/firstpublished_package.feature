@@ -6,6 +6,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
   Scenario: Publish content with firstpublished property set
     Given I am authenticated as "test.user"
+    And the current date time is "2019-03-10 09:00"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
