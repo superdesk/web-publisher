@@ -29,7 +29,7 @@ final class DateTime
         return new \DateTime();
     }
 
-    public static function setCurrentDateTime($dateTime): void
+    public static function setCurrentDateTime(\DateTimeInterface $dateTime): void
     {
         static::$dateTime = $dateTime;
     }
