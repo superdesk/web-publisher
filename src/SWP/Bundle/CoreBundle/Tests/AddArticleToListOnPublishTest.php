@@ -122,6 +122,54 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         self::assertEquals($content['total'], 0);
     }
 
+    public function testAddArticleToListOnPublishWhenWithPublishedAfter()
+    {
+        $this->prepareArticle();
+
+        $now = new \DateTime('-1 day');
+        $now = $now->format('Y-m-d');
+
+        $client = static::createClient();
+        $client->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
+                'content_list' => [
+                    'filters' => "{\"publishedAfter\":\"$now\"}",
+                ],
+            ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals($content['total'], 1);
+    }
+
+    public function testAddArticleToListOnPublishWhenWithPublishedBefore()
+    {
+        $this->prepareArticle();
+
+        $now = new \DateTime('-1 day');
+        $now = $now->format('Y-m-d');
+
+        $client = static::createClient();
+        $client->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
+                'content_list' => [
+                    'filters' => "{\"publishedBefore\":\"$now\"}",
+                ],
+            ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals($content['total'], 0);
+    }
+
     public function testAddArticleToContentListOnPublishWhenNoCriteriaMet()
     {
         $this->prepareArticle();
