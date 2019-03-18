@@ -10,7 +10,9 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles from content list items
  
 ### 1.6.0
+<<<<<<< HEAD
  * bug [#754] Always cast publishedBefore and publishedAfter parameters to object of type DateTime
+ * feature [#758] Get next and previous article from content list (in template)
  * feature [#740] Related articles
  * feature [#732] Set image byline/credit metadata field in the HTML output
  * improvement [#730] Allow to filter articles by data stored in extra
