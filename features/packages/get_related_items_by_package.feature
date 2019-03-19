@@ -254,4 +254,4 @@ Feature: Get related articles by package id
       | relatedArticleItems[0].tenants[0].code | 123abc        |
       | relatedArticleItems[0].title           | hello world 1 |
       | relatedArticleItems[1].title           | hello world 2 |
-    And the JSON node "relatedArticleItems[1].tenants[1]" should not exist
+    And the JSON node "relatedArticleItems[1].tenants[0]" should not exist
