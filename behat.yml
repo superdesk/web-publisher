@@ -15,8 +15,12 @@ default:
                 - SWP\Behat\Contexts\TenantContext
                 - SWP\Behat\Contexts\ContentListContext
                 - SWP\Behat\Contexts\ContentListItemContext
+                - SWP\Behat\Contexts\RouteContext
                 - SWP\Behat\Contexts\ArticleContext
                 - SWP\Behat\Contexts\TemplatingContext
+                - SWP\Behat\Contexts\CommandContext
+                - SWP\Behat\Contexts\PackageContext
+                - SWP\Behat\Contexts\RuleContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~
