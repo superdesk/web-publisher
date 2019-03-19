@@ -34,4 +34,8 @@ interface SlideshowInterface extends PersistableInterface, TimestampableInterfac
     public function getItems(): Collection;
 
     public function setItems(Collection $items): void;
+
+    public function addItem(SlideshowItemInterface $item): void;
+
+    public function hasItem(SlideshowItemInterface $item): bool;
 }

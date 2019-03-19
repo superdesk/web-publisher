@@ -19,3 +19,9 @@ services:
         resource: '../../../src/SWP/Behat/Contexts/*'
 
     SWP\Component\MultiTenancy\Context\TenantContextInterface: '@swp_multi_tenancy.tenant_context'
+
+    SWP\Behat\Service\TimestampableListenerStub:
+        decorates: 'stof_doctrine_extensions.listener.timestampable'
+
+    SWP\Behat\Service\ArticleService:
+        decorates: 'swp.service.article'

@@ -47,7 +47,6 @@ class Slideshow implements SlideshowInterface
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
         $this->items = new ArrayCollection();
     }
 
@@ -84,5 +83,18 @@ class Slideshow implements SlideshowInterface
     public function setItems(Collection $items): void
     {
         $this->items = $items;
+    }
+
+    public function addItem(SlideshowItemInterface $item): void
+    {
+        if (!$this->hasItem($item)) {
+            $item->setSlideshow($this);
+            $this->items->add($item);
+        }
+    }
+
+    public function hasItem(SlideshowItemInterface $item): bool
+    {
+        return $this->items->contains($item);
     }
 }

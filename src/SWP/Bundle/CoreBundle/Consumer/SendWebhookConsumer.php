@@ -56,7 +56,7 @@ class SendWebhookConsumer implements ConsumerInterface
             return ConsumerInterface::MSG_REJECT;
         }
 
-        $headers = [];
+        $headers = ['content-type' => 'application/json'];
         if (\array_key_exists('metadata', $decodedMessage)) {
             foreach ($decodedMessage['metadata'] as $header => $value) {
                 $headers['X-WEBHOOK-'.\strtoupper($header)] = $value;

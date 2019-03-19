@@ -36,7 +36,7 @@ class MetaKeyGeneratorTest extends WebTestCase
         $article = $this->getContainer()->get('swp.factory.article')->create();
         $articleMeta = $metaFactory->create($article);
         $key = $keyGenerator->generateKey($articleMeta);
-        $date = null !== $article->getUpdatedAt() ? $article->getUpdatedAt() : $article->getCreatedAt();
+        $date = $article->getUpdatedAt() ?? $article->getCreatedAt();
         self::assertEquals(sha1(implode('', [$date->getTimestamp(), $article->getId()])), $key);
 
         $route = $this->getContainer()->get('swp.factory.route')->create();
