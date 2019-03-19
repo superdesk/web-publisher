@@ -23,3 +23,9 @@ services:
 
     SWP\Component\MultiTenancy\Context\TenantContextInterface: '@swp_multi_tenancy.tenant_context'
     SWP\Component\Bridge\Transformer\JsonToPackageTransformer: '@swp_bridge.transformer.json_to_package'
+
+    SWP\Behat\Service\TimestampableListenerStub:
+        decorates: 'stof_doctrine_extensions.listener.timestampable'
+
+    SWP\Behat\Service\ArticleService:
+        decorates: 'swp.service.article'

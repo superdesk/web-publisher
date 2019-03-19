@@ -21,6 +21,8 @@ default:
                 - SWP\Behat\Contexts\CommandContext
                 - SWP\Behat\Contexts\PackageContext
                 - SWP\Behat\Contexts\RuleContext
+                - SWP\Behat\Contexts\WebhookContext
+                - SWP\Behat\Contexts\DateTimeContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~
