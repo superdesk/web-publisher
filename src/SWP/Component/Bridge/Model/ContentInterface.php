@@ -260,4 +260,12 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
     public function getSubjectsSchemes(): array;
 
     public function getSubjectsNames(): array;
+
+    public function getCopyrightNotice(): ?string;
+
+    public function setCopyrightNotice(?string $copyrightNotice): void;
+
+    public function getCopyrightHolder(): ?string;
+
+    public function setCopyrightHolder(?string $copyrightHolder): void;
 }

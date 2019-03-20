@@ -19,6 +19,14 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             expose: true
         usageTerms:
             expose: true
+        headline:
+            expose: true
+        copyrightNotice:
+            expose: true
+            type: string
+        copyrightHolder:
+            expose: true
+            type: string
     relations:
         -
             rel: download

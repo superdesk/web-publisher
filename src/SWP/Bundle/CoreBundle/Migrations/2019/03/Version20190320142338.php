@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190320132523 extends AbstractMigration
+final class Version20190320142338 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -19,6 +19,11 @@ final class Version20190320132523 extends AbstractMigration
 
         $this->addSql('ALTER TABLE swp_item ADD body_text TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_item ADD usage_terms VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_item ADD copyright_notice VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_item ADD copyright_holder VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_article_media ADD headline TEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_article_media ADD copyright_notice VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_article_media ADD copyright_holder VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -28,5 +33,10 @@ final class Version20190320132523 extends AbstractMigration
 
         $this->addSql('ALTER TABLE swp_item DROP body_text');
         $this->addSql('ALTER TABLE swp_item DROP usage_terms');
+        $this->addSql('ALTER TABLE swp_item DROP copyright_notice');
+        $this->addSql('ALTER TABLE swp_item DROP copyright_holder');
+        $this->addSql('ALTER TABLE swp_article_media DROP headline');
+        $this->addSql('ALTER TABLE swp_article_media DROP copyright_notice');
+        $this->addSql('ALTER TABLE swp_article_media DROP copyright_holder');
     }
 }

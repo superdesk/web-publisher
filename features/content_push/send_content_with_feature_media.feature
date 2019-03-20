@@ -67,7 +67,9 @@ Feature: Check if the featuremedia metadata are set properly
           "description_text":"Smoke on the water on River Gradac\u00a0",
           "guid":"tag:localhost:2017:4bea4f26-d5a1-446b-8953-3096c0ad0f09",
           "body_text":"Gradac alt text",
-          "version":"5"
+          "version":"5",
+          "copyrightnotice": "Notice",
+          "copyrightholder": "Holder"
         }
       },
       "place":[
@@ -114,3 +116,6 @@ Feature: Check if the featuremedia metadata are set properly
     And the JSON node "featureMedia.altText" should be equal to "Gradac alt text"
     And the JSON node "featureMedia.description" should contain "Smoke on the water on River Gradac"
     And the JSON node "featureMedia.usageTerms" should be equal to "indefinite-usage"
+    And the JSON node "featureMedia.headline" should be equal to "Smoke on the water"
+    And the JSON node "featureMedia.copyrightNotice" should be equal to "Notice"
+    And the JSON node "featureMedia.copyrightHolder" should be equal to "Holder"

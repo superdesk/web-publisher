@@ -825,6 +825,7 @@ Feature: Handling the custom media fields
               "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
             }
           ],
+          "headline":"test image",
           "_links":{
             "download":{
               "href":"/media/1234567890987654321c.jpeg"
@@ -880,6 +881,7 @@ Feature: Handling the custom media fields
               "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
             }
           ],
+          "headline":"test image",
           "_links":{
             "download":{
               "href":"/media/2234567890987654321c.jpeg"
@@ -950,6 +952,7 @@ Feature: Handling the custom media fields
                     "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
                   }
                 ],
+                "headline":"test image",
                 "_links":{
                   "download":{
                     "href":"/media/1234567890987654321c.jpeg"
@@ -1007,6 +1010,7 @@ Feature: Handling the custom media fields
                     "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
                   }
                 ],
+                "headline":"test image",
                 "_links":{
                   "download":{
                     "href":"/media/2234567890987654321c.jpeg"
