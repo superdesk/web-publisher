@@ -45,6 +45,15 @@ SWP\Bundle\CoreBundle\Model\Package:
         urgency: 1
         priority: 2
         version: 1
+    package{2..6}:
+        headline: "headline<current()>"
+        guid: "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf<current()>"
+        slugline: "abstract-html-test<current()>"
+        language: "en"
+        type: "text"
+        urgency: 1
+        priority: 2
+        version: 1
 
 SWP\Bundle\CoreBundle\Model\Article:
     listContent{1..2}:
@@ -57,7 +66,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: '@newsRoute'
         publishable: true
         authors: ['@author1']
-        package: '@package1'
+        package: '@package<current()>'
         metadata:
             byline: "John Smith"
             located: "Berlin"
@@ -71,32 +80,35 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: '@sportRoute'
         publishable: true
         authors: ['@author2']
+        package: '@package<current()>'
         metadata:
             byline: "Adam Hide"
             located: "Sydney"
-    listContent{5..5}:
-        title: "article<current()>"
-        body: "art<current()>"
-        slug: "article-<current()>"
+    listContent5:
+        title: "article5"
+        body: "art5"
+        slug: "article-5"
         locale: "en"
         status: "published"
         code: "<uuid()>"
         route: '@politicsRoute'
         publishable: true
         authors: ['@author3']
+        package: '@package5'
         metadata:
             byline: "Fake Doe"
             located: "Warsaw"
-    listContent{6..6}:
-        title: "article<current()>"
-        body: "art<current()>"
-        slug: "article-<current()>"
+    listContent{6}:
+        title: "article6"
+        body: "art6"
+        slug: "article-6"
         locale: "en"
         status: "unpublished"
         code: "<uuid()>"
         route: '@sportRoute'
         publishable: false
         authors: ['@author3']
+        package: '@package6'
         metadata:
             byline: "Fake Doe"
             located: "Warsaw"

@@ -210,7 +210,7 @@ class ContentListItemController extends Controller
             foreach ($updatedArticles as $updatedArticle) {
                 $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
                     $updatedArticle,
-                    null,
+                    $updatedArticle->getPackage(),
                     ArticleEvents::POST_UPDATE
                 ));
             }
