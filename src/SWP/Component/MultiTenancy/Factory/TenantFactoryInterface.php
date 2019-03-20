@@ -22,12 +22,7 @@ use SWP\Component\Storage\Factory\FactoryInterface;
  */
 interface TenantFactoryInterface extends FactoryInterface
 {
-    /**
-     * Creates a new tenant for given organization code.
-     *
-     * @param string $code
-     *
-     * @return TenantInterface
-     */
-    public function createForOrganization($code);
+    public function createForOrganization(string $code): TenantInterface;
+
+    public function createWithoutCode(): TenantInterface;
 }

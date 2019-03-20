@@ -26,11 +26,6 @@ class ProcessArticleBodyCommand extends ContainerAwareCommand
 {
     protected static $defaultName = 'swp:article:process:body';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     protected function configure(): void
     {
         $this

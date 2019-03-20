@@ -39,13 +39,6 @@ class TenantFactory implements TenantFactoryInterface
      */
     protected $organizationRepository;
 
-    /**
-     * TenantFactory constructor.
-     *
-     * @param FactoryInterface                $decoratedFactory
-     * @param GeneratorInterface              $generator
-     * @param OrganizationRepositoryInterface $organizationRepository
-     */
     public function __construct(
         FactoryInterface $decoratedFactory,
         GeneratorInterface $generator,
@@ -56,10 +49,7 @@ class TenantFactory implements TenantFactoryInterface
         $this->organizationRepository = $organizationRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
+    public function create(): TenantInterface
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->decoratedFactory->create();
@@ -68,10 +58,12 @@ class TenantFactory implements TenantFactoryInterface
         return $tenant;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createForOrganization($code)
+    public function createWithoutCode(): TenantInterface
+    {
+        return $this->decoratedFactory->create();
+    }
+
+    public function createForOrganization(string $code): TenantInterface
     {
         if (null === $organization = $this->organizationRepository->findOneByCode($code)) {
             throw new \InvalidArgumentException(sprintf('Organization does not exist with code "%s".', $code));

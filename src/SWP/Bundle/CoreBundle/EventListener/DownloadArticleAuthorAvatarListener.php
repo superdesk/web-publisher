@@ -74,10 +74,9 @@ final class DownloadArticleAuthorAvatarListener
 
         $authors = [];
         /** @var ArticleAuthorInterface $packageAuthor */
-        foreach ($package->getAuthors()->toArray() as $packageAuthor) {
+        foreach ($package->getAuthors() as $packageAuthor) {
             $authors[] = $this->handle($packageAuthor);
         }
-
         $package->setAuthors(new ArrayCollection($authors));
     }
 
