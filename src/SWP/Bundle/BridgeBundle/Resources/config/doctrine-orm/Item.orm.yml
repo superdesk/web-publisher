@@ -62,6 +62,12 @@ SWP\Component\Bridge\Model\Item:
         body:
             type: text
             nullable: true
+        bodyText:
+            type: text
+            nullable: true
+        usageTerms:
+            type: string
+            nullable: true
         extra:
             type: array
             nullable: true
