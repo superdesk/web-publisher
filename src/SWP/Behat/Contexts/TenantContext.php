@@ -47,7 +47,20 @@ final class TenantContext extends AbstractContext implements Context
         $currentTenant = null;
 
         foreach ($table as $row => $columns) {
-            $tenant = $this->tenantFactory->create();
+            if (array_key_exists('code', $columns)) {
+                $existingTenant = $this->tenantRepository->findOneByCode($columns['code']);
+                if (null !== $existingTenant) {
+                    $currentTenant = $this->setCurrentTenant($columns, $existingTenant);
+
+                    continue;
+                }
+            }
+
+            if (array_key_exists('code', $columns)) {
+                $tenant = $this->tenantFactory->createWithoutCode();
+            } else {
+                $tenant = $this->tenantFactory->create();
+            }
             $this->entityManager->persist($tenant);
 
             /** @var OrganizationInterface $organization */
@@ -62,15 +75,36 @@ final class TenantContext extends AbstractContext implements Context
             }
             $columns['enabled'] = (bool) $columns['enabled'];
 
-            if (true === (bool) $columns['default']) {
-                $currentTenant = $tenant;
-            }
-            unset($columns['default']);
+            $currentTenant = $this->setCurrentTenant($columns, $tenant);
 
             $this->fillObject($tenant, $columns);
         }
 
         $this->entityManager->flush();
         $this->tenantContext->setTenant($currentTenant);
+    }
+
+    /**
+     * @Given default tenant with code :code
+     */
+    public function defaultTenantWithCode($code)
+    {
+        $tenant = $this->tenantRepository->findOneByCode($code);
+        if (null === $tenant) {
+            throw new \Exception('Tenant was not found');
+        }
+
+        $this->tenantContext->setTenant($tenant);
+    }
+
+    private function setCurrentTenant(&$columns, $tenant)
+    {
+        $currentTenant = null;
+        if (true === (bool) $columns['default']) {
+            $currentTenant = $tenant;
+        }
+        unset($columns['default']);
+
+        return $currentTenant;
     }
 }

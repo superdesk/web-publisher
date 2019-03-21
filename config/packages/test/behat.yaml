@@ -5,6 +5,9 @@ services:
         bind:
             $contentListFactory: '@swp.factory.content_list'
             $contentListItemFactory: '@swp.factory.content_list_item'
+            $contentPushProducer: '@old_sound_rabbit_mq.content_push_producer'
+            $ruleFactory: '@swp.factory.rule'
+            $routeService: '@swp.service.route'
 
     swp.random_string_generator:
         class: SWP\Behat\Service\RandomStringGeneratorStub
@@ -19,6 +22,7 @@ services:
         resource: '../../../src/SWP/Behat/Contexts/*'
 
     SWP\Component\MultiTenancy\Context\TenantContextInterface: '@swp_multi_tenancy.tenant_context'
+    SWP\Component\Bridge\Transformer\JsonToPackageTransformer: '@swp_bridge.transformer.json_to_package'
 
     SWP\Behat\Service\TimestampableListenerStub:
         decorates: 'stof_doctrine_extensions.listener.timestampable'

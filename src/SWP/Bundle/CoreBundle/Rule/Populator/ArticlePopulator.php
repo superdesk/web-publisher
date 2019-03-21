@@ -76,7 +76,7 @@ final class ArticlePopulator implements ArticlePopulatorInterface
      */
     public function populate(PackageInterface $package, array $tenants): void
     {
-        $originalTenantContext = $this->tenantContext->getTenant();
+        $originalTenant = $this->tenantContext->getTenant();
         /** @var TenantInterface $tenant */
         foreach ($tenants as $tenant) {
             $this->tenantContext->setTenant($tenant);
@@ -103,7 +103,7 @@ final class ArticlePopulator implements ArticlePopulatorInterface
             $this->eventDispatcher->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article, $package, ArticleEvents::POST_CREATE));
             $this->articleRepository->flush();
         }
-        $this->tenantContext->setTenant($originalTenantContext);
+        $this->tenantContext->setTenant($originalTenant);
     }
 
     /**
