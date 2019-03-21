@@ -9,7 +9,6 @@ use Behat\Gherkin\Node\PyStringNode;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
-use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -23,8 +22,6 @@ use Symfony\Component\Form\FormInterface;
 
 final class PackageContext extends AbstractContext implements Context
 {
-    private $submittedPackage;
-
     private $tenantContext;
 
     private $jsonToPackageTransformer;
@@ -103,19 +100,5 @@ final class PackageContext extends AbstractContext implements Context
         $form->submit(\json_decode($string->getRaw(), true), true);
 
         return $form;
-    }
-
-    public function getSubmittedPackage(): PackageInterface
-    {
-        if (null === $this->submittedPackage) {
-            throw new \Exception('Package is not set!');
-        }
-
-        return $this->submittedPackage;
-    }
-
-    public function setSubmittedPackage(PackageInterface $submittedPackage): void
-    {
-        $this->submittedPackage = $submittedPackage;
     }
 }
