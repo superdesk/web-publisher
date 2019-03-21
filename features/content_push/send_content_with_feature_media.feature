@@ -1,16 +1,17 @@
 @preview
+@disable-fixtures
 Feature: Check if the featuremedia metadata are set properly
 
   Scenario: Preview article with media
-    Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
-      | key          | value                                                                                |
-      | media_id     | 20170111140132/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.jpg  |
-      | media        | @image.jpg                                                                           |
-    Then the response status code should be 201
+    Given the following Tenants:
+      | organization | name | code   | subdomain | domain_name | enabled | default |
+      | Default      | test | 123abc |           | localhost   | true    | true    |
 
-    Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    Given the following Users:
+      | username   | email                      | token      | plainPassword | role                | enabled |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+
+    Given the following Package ninjs:
     """
     {
       "located":"Warsaw",
@@ -91,24 +92,18 @@ Feature: Check if the featuremedia metadata are set properly
       "versioncreated":"2017-02-07T07:49:48+0000"
     }
     """
-    Then the response status code should be 201
 
-    And I am authenticated as "test.user"
-    And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    And I publish the submitted package "urn:newsml:localhost:2017-02-07T07:46:48.027116:2cde1d3f-302f-4cf9-a4b9-809d2320cc00":
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
-    Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"

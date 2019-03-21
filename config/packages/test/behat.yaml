@@ -29,3 +29,6 @@ services:
 
     SWP\Behat\Service\ArticleService:
         decorates: 'swp.service.article'
+
+    SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface: '@swp_core.article.publisher'
+    SWP\Bundle\CoreBundle\Factory\ApiKeyFactory: '@swp.factory.api_key'
