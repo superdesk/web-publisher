@@ -56,7 +56,6 @@ final class RuleProcessor implements RuleProcessorInterface
     public function process(RuleSubjectInterface $subject)
     {
         $rules = $this->ruleRepository->findBy([], ['priority' => 'desc']);
-
         foreach ($rules as $rule) {
             if ($this->ruleEvaluator->evaluate($rule, $subject)) {
                 $this->ruleApplicator->apply($rule, $subject);
