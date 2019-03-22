@@ -85,3 +85,11 @@ SWP\Component\Bridge\Model\BaseContent:
         extra:
             expose: true
             type: array
+        copyrightNotice:
+            expose: true
+            type: string
+            serialized_name: copyrightnotice
+        copyrightHolder:
+            expose: true
+            type: string
+            serialized_name: copyrightholder

@@ -26,6 +26,15 @@ properties:
     usageTerms:
         description: "Usage terms category"
         type: text
+    headline:
+        description: "Media headline"
+        type: text
+    copyrightHolder:
+        description: "Copyright Holder"
+        type: text
+    copyrightNotice:
+        description: "Copyright Notice"
+        type: text
     renditions:
         description: "Array with renditions (if file is image)"
         type: array

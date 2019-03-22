@@ -89,6 +89,21 @@ class ArticleMedia implements ArticleMediaInterface
     protected $renditions;
 
     /**
+     * @var string|null
+     */
+    protected $headline;
+
+    /**
+     * @var string|null
+     */
+    protected $copyrightHolder;
+
+    /**
+     * @var string/null
+     */
+    protected $copyrightNotice;
+
+    /**
      * ArticleMedia constructor.
      */
     public function __construct()
@@ -321,6 +336,36 @@ class ArticleMedia implements ArticleMediaInterface
         $this->key = $key;
     }
 
+    public function getHeadline(): ?string
+    {
+        return $this->headline;
+    }
+
+    public function setHeadline(?string $headline): void
+    {
+        $this->headline = $headline;
+    }
+
+    public function getCopyrightNotice(): ?string
+    {
+        return $this->copyrightNotice;
+    }
+
+    public function setCopyrightNotice(?string $copyrightNotice): void
+    {
+        $this->copyrightNotice = $copyrightNotice;
+    }
+
+    public function getCopyrightHolder(): ?string
+    {
+        return $this->copyrightHolder;
+    }
+
+    public function setCopyrightHolder(?string $copyrightHolder): void
+    {
+        $this->copyrightHolder = $copyrightHolder;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -331,6 +376,9 @@ class ArticleMedia implements ArticleMediaInterface
         $this->setLocated($item->getLocated());
         $this->setDescription($item->getDescription());
         $this->setUsageTerms($item->getUsageTerms());
+        $this->setHeadline($item->getHeadline());
+        $this->setCopyrightHolder($item->getCopyrightHolder());
+        $this->setCopyrightNotice($item->getCopyrightNotice());
     }
 
     /**

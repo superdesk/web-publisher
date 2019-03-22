@@ -783,7 +783,10 @@ Feature: Handling the custom media fields
             "fileExtension":"jpeg",
             "assetId":"1234567890987654321c"
           },
+          "description":"test image",
           "byLine":"Paweł Mikołajczuk",
+          "altText":"test image",
+          "usageTerms":"indefinite-usage",
           "renditions":[
             {
               "width":1079,
@@ -822,6 +825,7 @@ Feature: Handling the custom media fields
               "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
             }
           ],
+          "headline":"test image",
           "_links":{
             "download":{
               "href":"/media/1234567890987654321c.jpeg"
@@ -835,7 +839,10 @@ Feature: Handling the custom media fields
             "fileExtension":"jpeg",
             "assetId":"2234567890987654321c"
           },
+          "description":"test image 2",
           "byLine":"Paweł Mikołajczuk",
+          "altText":"test image",
+          "usageTerms":"indefinite-usage",
           "renditions":[
             {
               "width":1079,
@@ -874,6 +881,7 @@ Feature: Handling the custom media fields
               "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
             }
           ],
+          "headline":"test image",
           "_links":{
             "download":{
               "href":"/media/2234567890987654321c.jpeg"
@@ -902,7 +910,10 @@ Feature: Handling the custom media fields
                   "fileExtension":"jpeg",
                   "assetId":"1234567890987654321c"
                 },
+                "description":"test image",
                 "byLine":"Paweł Mikołajczuk",
+                "altText":"test image",
+                "usageTerms":"indefinite-usage",
                 "renditions":[
                   {
                     "width":1079,
@@ -941,6 +952,7 @@ Feature: Handling the custom media fields
                     "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
                   }
                 ],
+                "headline":"test image",
                 "_links":{
                   "download":{
                     "href":"/media/1234567890987654321c.jpeg"
@@ -956,7 +968,10 @@ Feature: Handling the custom media fields
                   "fileExtension":"jpeg",
                   "assetId":"2234567890987654321c"
                 },
+                "description":"test image 2",
                 "byLine":"Paweł Mikołajczuk",
+                "altText":"test image",
+                "usageTerms":"indefinite-usage",
                 "renditions":[
                   {
                     "width":1079,
@@ -995,6 +1010,7 @@ Feature: Handling the custom media fields
                     "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
                   }
                 ],
+                "headline":"test image",
                 "_links":{
                   "download":{
                     "href":"/media/2234567890987654321c.jpeg"
@@ -1067,4 +1083,4 @@ Feature: Handling the custom media fields
         }
       }
     }
-    """
+  """
