@@ -87,6 +87,11 @@ class TenantRevisionListener
         $currentRevision = null;
         /* @var RevisionInterface $workingRevision */
         $publishedRevision = $this->revisionRepository->getPublishedRevision()->getQuery()->getOneOrNullResult();
+
+        if (null === $publishedRevision) {
+            return;
+        }
+
         $this->revisionContext->setPublishedRevision($publishedRevision);
         /** @var RevisionInterface $workingRevision */
         $workingRevision = $this->revisionRepository->getWorkingRevision()->getQuery()->getOneOrNullResult();

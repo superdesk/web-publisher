@@ -32,6 +32,15 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
         usageTerms:
             type: text
             nullable: true
+        headline:
+            type: text
+            nullable: true
+        copyrightNotice:
+            type: string
+            nullable: true
+        copyrightHolder:
+            type: string
+            nullable: true
         createdAt:
             type: date
         updatedAt:

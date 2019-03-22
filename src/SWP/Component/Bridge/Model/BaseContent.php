@@ -135,6 +135,16 @@ class BaseContent implements ContentInterface
      */
     protected $firstPublishedAt;
 
+    /**
+     * @var string|null
+     */
+    protected $copyrightNotice;
+
+    /**
+     * @var string|null
+     */
+    protected $copyrightHolder;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -584,5 +594,25 @@ class BaseContent implements ContentInterface
     public function setFirstPublishedAt(?\DateTimeInterface $firstPublishedAt): void
     {
         $this->firstPublishedAt = $firstPublishedAt;
+    }
+
+    public function getCopyrightNotice(): ?string
+    {
+        return $this->copyrightNotice;
+    }
+
+    public function setCopyrightNotice(?string $copyrightNotice): void
+    {
+        $this->copyrightNotice = $copyrightNotice;
+    }
+
+    public function getCopyrightHolder(): ?string
+    {
+        return $this->copyrightHolder;
+    }
+
+    public function setCopyrightHolder(?string $copyrightHolder): void
+    {
+        $this->copyrightHolder = $copyrightHolder;
     }
 }
