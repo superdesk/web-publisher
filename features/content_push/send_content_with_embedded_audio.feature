@@ -5,17 +5,6 @@ Feature: Handling embedded audio
   I want to able to receive and parse the request payload with audio inside the body
 
   Scenario: Saving the data with embedded audio
-    Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
-      | key          | value                                                                                |
-      | media_id     | 20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3  |
-      | media        | @audio.mp3                                                                           |
-    Then the response status code should be 201
-    And the JSON node "media_id" should be equal to "20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
-    And the JSON node "mime_type" should be equal to "audio/mpeg"
-    And the JSON node "URL" should be equal to "http://localhost/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
-    And the JSON node "media" should not be null
-
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/push" with body:
     """
@@ -37,7 +26,7 @@ Feature: Handling embedded audio
           "renditions":{
             "original":{
               "media":"20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3",
-              "href":"https://sdaws.com/sd-sp/20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3",
+              "href":"http://localhost:3000/api/upload/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3/audio/raw",
               "mimetype":"audio/mpeg"
             }
           },
@@ -61,9 +50,9 @@ Feature: Handling embedded audio
           "priority":6,
           "headline":"inline audio",
           "language":"en",
-          "mimetype":"video/mp4",
+          "mimetype":"audio/mpeg",
           "versioncreated":"2018-09-04T11:33:01+0000",
-          "type":"video"
+          "type":"audio"
         }
       },
       "profile":"news",

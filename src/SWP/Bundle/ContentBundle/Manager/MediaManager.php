@@ -106,7 +106,7 @@ class MediaManager implements MediaManagerInterface
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName)
     {
-        $extension = $this->guessExtension($uploadedFile);
+        $extension = $this->guessExtension($uploadedFile, $fileName);
         $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$extension;
 
         if ($this->filesystem->has($filePath)) {
@@ -155,38 +155,14 @@ class MediaManager implements MediaManagerInterface
         ], $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
     {
-        $extension = $this->guessExtension($uploadedFile);
+        $extension = $this->guessExtension($uploadedFile, $assetId);
 
         return $this->fileFactory->createWith($assetId, $extension);
     }
 
-    /**
-     * @return string
-     */
-    protected function getMediaBasePath(): string
-    {
-        $pathElements = ['swp', 'media'];
-
-        return implode('/', $pathElements);
-    }
-
-    private function guessExtension(UploadedFile $uploadedFile): string
-    {
-        $extension = $uploadedFile->guessExtension();
-
-        if ('mpga' === $extension && 'mp3' === $uploadedFile->getExtension()) {
-            $extension = 'mp3';
-        }
-
-        return $extension;
-    }
-
-    public function retryDecider()
+    protected function retryDecider()
     {
         return function (
             $retries,
@@ -227,10 +203,27 @@ class MediaManager implements MediaManagerInterface
         };
     }
 
-    public function retryDelay()
+    protected function retryDelay()
     {
         return function ($numberOfRetries): int {
             return 1000 * $numberOfRetries;
         };
+    }
+
+    protected function getMediaBasePath(): string
+    {
+        $pathElements = ['swp', 'media'];
+
+        return implode('/', $pathElements);
+    }
+
+    private function guessExtension(UploadedFile $uploadedFile, string $assetId): string
+    {
+        $extension = $uploadedFile->guessExtension();
+        if ('mpga' === $extension && 'mp3' === $uploadedFile->getClientOriginalExtension()) {
+            $extension = 'mp3';
+        }
+
+        return $extension;
     }
 }
