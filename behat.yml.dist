@@ -12,6 +12,18 @@ default:
                     apiKeyRepository: '@swp.repository.api_key'
                     apiKeyFactory: '@swp.factory.api_key'
                 - Behat\MinkExtension\Context\MinkContext
+                - SWP\Behat\Contexts\TenantContext
+                - SWP\Behat\Contexts\ContentListContext
+                - SWP\Behat\Contexts\ContentListItemContext
+                - SWP\Behat\Contexts\RouteContext
+                - SWP\Behat\Contexts\ArticleContext
+                - SWP\Behat\Contexts\TemplatingContext
+                - SWP\Behat\Contexts\CommandContext
+                - SWP\Behat\Contexts\PackageContext
+                - SWP\Behat\Contexts\RuleContext
+                - SWP\Behat\Contexts\WebhookContext
+                - SWP\Behat\Contexts\DateTimeContext
+                - SWP\Behat\Contexts\UserContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~
@@ -36,3 +48,7 @@ default:
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
+        FriendsOfBehat\ServiceContainerExtension:
+            imports:
+                - "features/bootstrap/config/services.php"
+        FriendsOfBehat\SymfonyExtension: ~

@@ -80,8 +80,8 @@ class ArticleController extends Controller
             ->getPaginatedByCriteria(new Criteria([
                 'status' => $request->query->get('status', ''),
                 'route' => $request->query->get('route', ''),
-                'publishedBefore' => $request->query->has('publishedBefore') ? new \DateTime($request->query->get('publishedBefore')) : '',
-                'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : '',
+                'publishedBefore' => $request->query->has('publishedBefore') ? new \DateTime($request->query->get('publishedBefore')) : null,
+                'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : null,
                 'author' => $authors,
                 'query' => $request->query->get('query', ''),
                 'source' => $request->query->get('source', []),

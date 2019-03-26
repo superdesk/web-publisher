@@ -5,7 +5,24 @@ Feature: Handling the custom media fields
   I want to able to receive and parse the request with custom media fields payload
 
   Scenario: Correct existing article with sideshow with new article and the same slideshows
-    Given I add "Content-Type" header equal to "application/json"
+    Given I am authenticated as "test.user"
+    And the current date time is "2019-03-10 09:00"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v1/webhooks/" with body:
+     """
+      {
+        "webhook": {
+          "url": "http://localhost:3000/article-update",
+          "events": [
+              "article[updated]"
+          ],
+          "enabled": "1"
+        }
+      }
+    """
+    Then  the response status code should be 201
+
+    And I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
@@ -661,3 +678,409 @@ Feature: Handling the custom media fields
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v1/content/slideshows/6/1/items/"
     Then the response status code should be 404
+
+    And The payload received by "http://localhost:3000/article-update-check" webhook should be equal to:
+    """
+    {
+      "id":6,
+      "title":"Article with added slideshow",
+      "body":"<p>some html body</p> ",
+      "slug":"abstract-html-test-without-slideshow",
+      "publishedAt":"2019-03-10T09:00:00+00:00",
+      "status":"published",
+      "route":{
+        "requirements":{
+          "slug":"[a-zA-Z0-9*\\-_]+"
+        },
+        "id":3,
+        "staticPrefix":"/news",
+        "variablePattern":"/{slug}",
+        "children":[
+          {
+            "requirements":{
+              "slug":"[a-zA-Z0-9*\\-_]+"
+            },
+            "id":6,
+            "staticPrefix":"/news/sports",
+            "variablePattern":"/{slug}",
+            "parent":3,
+            "children":[
+
+            ],
+            "lft":4,
+            "rgt":5,
+            "level":1,
+            "type":"collection",
+            "cacheTimeInSeconds":0,
+            "name":"sports",
+            "slug":"sports",
+            "position":0,
+            "articlesCount":0,
+            "paywallSecured":false,
+            "_links":{
+              "self":{
+                "href":"/api/v1/content/routes/6"
+              },
+              "parent":{
+                "href":"/api/v1/content/routes/3"
+              }
+            }
+          }
+        ],
+        "lft":3,
+        "rgt":6,
+        "level":0,
+        "type":"collection",
+        "cacheTimeInSeconds":0,
+        "name":"news",
+        "slug":"news",
+        "position":1,
+        "articlesCount":0,
+        "paywallSecured":false,
+        "_links":{
+          "self":{
+            "href":"/api/v1/content/routes/3"
+          }
+        }
+      },
+      "isPublishable":true,
+      "metadata":{
+        "subject":[
+          {
+            "name":"lawyer",
+            "code":"02002001"
+          }
+        ],
+        "urgency":3,
+        "priority":6,
+        "located":"Warsaw",
+        "place":[
+          {
+            "country":"Australia",
+            "world_region":"Oceania",
+            "state":"Australian Capital Territory",
+            "qcode":"ACT",
+            "name":"ACT",
+            "group":"Australia"
+          }
+        ],
+        "service":[
+          {
+            "name":"Australian General News",
+            "code":"a"
+          }
+        ],
+        "type":"text",
+        "byline":"ADmin",
+        "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
+        "language":"en"
+      },
+      "media":[
+        {
+          "id":"3",
+          "image":{
+            "id":"8",
+            "fileExtension":"jpeg",
+            "assetId":"1234567890987654321c"
+          },
+          "description":"test image",
+          "byLine":"Paweł Mikołajczuk",
+          "altText":"test image",
+          "usageTerms":"indefinite-usage",
+          "renditions":[
+            {
+              "width":1079,
+              "height":720,
+              "name":"16-9",
+              "id":7,
+              "image":{
+                "id":"6",
+                "fileExtension":"jpeg",
+                "assetId":"1234567890987654321a"
+              },
+              "previewUrl":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+            },
+            {
+              "width":800,
+              "height":533,
+              "name":"4-3",
+              "id":8,
+              "image":{
+                "id":"7",
+                "fileExtension":"jpeg",
+                "assetId":"1234567890987654321b"
+              },
+              "previewUrl":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+            },
+            {
+              "width":4000,
+              "height":2667,
+              "name":"original",
+              "id":9,
+              "image":{
+                "id":"8",
+                "fileExtension":"jpeg",
+                "assetId":"1234567890987654321c"
+              },
+              "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+            }
+          ],
+          "headline":"test image",
+          "_links":{
+            "download":{
+              "href":"/media/1234567890987654321c.jpeg"
+            }
+          }
+        },
+        {
+          "id":"4",
+          "image":{
+            "id":"11",
+            "fileExtension":"jpeg",
+            "assetId":"2234567890987654321c"
+          },
+          "description":"test image 2",
+          "byLine":"Paweł Mikołajczuk",
+          "altText":"test image",
+          "usageTerms":"indefinite-usage",
+          "renditions":[
+            {
+              "width":1079,
+              "height":720,
+              "name":"16-9",
+              "id":10,
+              "image":{
+                "id":"9",
+                "fileExtension":"jpeg",
+                "assetId":"2234567890987654321a"
+              },
+              "previewUrl":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+            },
+            {
+              "width":800,
+              "height":533,
+              "name":"4-3",
+              "id":11,
+              "image":{
+                "id":"10",
+                "fileExtension":"jpeg",
+                "assetId":"2234567890987654321b"
+              },
+              "previewUrl":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+            },
+            {
+              "width":4000,
+              "height":2667,
+              "name":"original",
+              "id":12,
+              "image":{
+                "id":"11",
+                "fileExtension":"jpeg",
+                "assetId":"2234567890987654321c"
+              },
+              "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+            }
+          ],
+          "headline":"test image",
+          "_links":{
+            "download":{
+              "href":"/media/2234567890987654321c.jpeg"
+            }
+          }
+        }
+      ],
+      "lead":"some abstract text",
+      "code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
+      "sources":[
+
+      ],
+      "extra":[
+
+      ],
+      "slideshows":[
+        {
+          "id":2,
+          "code":"slideshow1",
+          "items":[
+            {
+              "articleMedia":{
+                "id":"3",
+                "image":{
+                  "id":"8",
+                  "fileExtension":"jpeg",
+                  "assetId":"1234567890987654321c"
+                },
+                "description":"test image",
+                "byLine":"Paweł Mikołajczuk",
+                "altText":"test image",
+                "usageTerms":"indefinite-usage",
+                "renditions":[
+                  {
+                    "width":1079,
+                    "height":720,
+                    "name":"16-9",
+                    "id":7,
+                    "image":{
+                      "id":"6",
+                      "fileExtension":"jpeg",
+                      "assetId":"1234567890987654321a"
+                    },
+                    "previewUrl":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+                  },
+                  {
+                    "width":800,
+                    "height":533,
+                    "name":"4-3",
+                    "id":8,
+                    "image":{
+                      "id":"7",
+                      "fileExtension":"jpeg",
+                      "assetId":"1234567890987654321b"
+                    },
+                    "previewUrl":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+                  },
+                  {
+                    "width":4000,
+                    "height":2667,
+                    "name":"original",
+                    "id":9,
+                    "image":{
+                      "id":"8",
+                      "fileExtension":"jpeg",
+                      "assetId":"1234567890987654321c"
+                    },
+                    "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+                  }
+                ],
+                "headline":"test image",
+                "_links":{
+                  "download":{
+                    "href":"/media/1234567890987654321c.jpeg"
+                  }
+                }
+              }
+            },
+            {
+              "articleMedia":{
+                "id":"4",
+                "image":{
+                  "id":"11",
+                  "fileExtension":"jpeg",
+                  "assetId":"2234567890987654321c"
+                },
+                "description":"test image 2",
+                "byLine":"Paweł Mikołajczuk",
+                "altText":"test image",
+                "usageTerms":"indefinite-usage",
+                "renditions":[
+                  {
+                    "width":1079,
+                    "height":720,
+                    "name":"16-9",
+                    "id":10,
+                    "image":{
+                      "id":"9",
+                      "fileExtension":"jpeg",
+                      "assetId":"2234567890987654321a"
+                    },
+                    "previewUrl":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+                  },
+                  {
+                    "width":800,
+                    "height":533,
+                    "name":"4-3",
+                    "id":11,
+                    "image":{
+                      "id":"10",
+                      "fileExtension":"jpeg",
+                      "assetId":"2234567890987654321b"
+                    },
+                    "previewUrl":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+                  },
+                  {
+                    "width":4000,
+                    "height":2667,
+                    "name":"original",
+                    "id":12,
+                    "image":{
+                      "id":"11",
+                      "fileExtension":"jpeg",
+                      "assetId":"2234567890987654321c"
+                    },
+                    "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+                  }
+                ],
+                "headline":"test image",
+                "_links":{
+                  "download":{
+                    "href":"/media/2234567890987654321c.jpeg"
+                  }
+                }
+              }
+            }
+          ],
+          "createdAt":"2019-03-10T09:00:00+00:00",
+          "updatedAt":"2019-03-10T09:00:00+00:00",
+          "_links":{
+            "items":{
+              "href":"/api/v1/content/slideshows/6/2/items/"
+            }
+          }
+        }
+      ],
+      "createdAt":"2019-03-10T09:00:00+00:00",
+      "updatedAt":"2019-03-10T09:00:00+00:00",
+      "authors":[
+
+      ],
+      "keywords":[
+        {
+          "slug":"keyword1",
+          "name":"keyword1"
+        },
+        {
+          "slug":"keyword2",
+          "name":"keyword2"
+        }
+      ],
+      "isPublishedFBIA":false,
+      "articleStatistics":{
+        "impressionsNumber":0,
+        "pageViewsNumber":0,
+        "internalClickRate":0,
+        "createdAt":"2019-03-10T09:00:00+00:00",
+        "updatedAt":"2019-03-10T09:00:00+00:00"
+      },
+      "commentsCount":0,
+      "tenant":{
+        "id":1,
+        "domainName":"localhost",
+        "code":"123abc",
+        "name":"Default tenant",
+        "ampEnabled":true,
+        "_links":{
+          "self":{
+            "href":"/api/v1/tenants/123abc"
+          }
+        }
+      },
+      "paywallSecured":false,
+      "contentLists":[
+
+      ],
+      "_links":{
+        "self":{
+          "href":"/api/v1/content/articles/abstract-html-test-without-slideshow"
+        },
+        "online":{
+          "href":"/news/abstract-html-test-without-slideshow"
+        },
+        "related":{
+          "href":"/api/v1/content/articles/6/related/"
+        },
+        "slideshows":{
+          "href":"/api/v1/content/slideshows/6"
+        }
+      }
+    }
+  """

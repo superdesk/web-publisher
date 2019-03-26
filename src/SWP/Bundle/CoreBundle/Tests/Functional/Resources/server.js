@@ -48,6 +48,19 @@ server.post('/return-preview-url', (req, res) => {
     });
 });
 
+let webhookResult = {};
+
+// article update webhook
+server.post('/article-update', (req, res) => {
+    webhookResult = req.body;
+
+    res.status(200).json({});
+});
+
+server.get('/article-update-check', (req, res) => {
+    res.status(200).json(webhookResult);
+});
+
 server.get('/my-preview-url', (req, res) => {
     res.status(200).json({});
 });

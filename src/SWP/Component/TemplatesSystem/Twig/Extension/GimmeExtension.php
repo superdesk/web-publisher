@@ -18,8 +18,9 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeListTokenParser;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
+use Twig\Extension\GlobalsInterface;
 
-class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class GimmeExtension extends \Twig_Extension implements GlobalsInterface
 {
     /**
      * @var LoaderInterface

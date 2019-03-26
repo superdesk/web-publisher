@@ -18,6 +18,6 @@ namespace SWP\Component\Bridge\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface PackageAuthorInterface extends PersistableInterface, PackageAwareInterface
+interface PackageAuthorInterface extends PersistableInterface, PackageAwareInterface, AuthorInterface
 {
 }

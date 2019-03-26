@@ -26,11 +26,6 @@ class SlideshowItem implements SlideshowItemInterface
      */
     protected $slideshow;
 
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime();
-    }
-
     public function getId()
     {
         return $this->id;

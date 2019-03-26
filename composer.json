@@ -148,7 +148,9 @@
         "symfony/debug-bundle": "^4.2",
         "phpstan/phpstan": "^0.11.1",
         "symfony/web-profiler-bundle": "^4.2",
-        "symfony/web-server-bundle": "^4.2"
+        "symfony/web-server-bundle": "^4.2",
+        "friends-of-behat/service-container-extension": "^1.0",
+        "friends-of-behat/symfony-extension": "^2.0"
     },
     "replace": {
         "swp/common": "self.version",

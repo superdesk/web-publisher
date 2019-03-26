@@ -63,4 +63,5 @@ return [
     SWP\Bundle\FixturesBundle\SWPFixturesBundle::class => ['dev' => true, 'test' => true],
     Pixers\DoctrineProfilerBundle\PixersDoctrineProfilerBundle::class => ['dev' => true, 'test' => true],
     Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => ['test' => true],
+    FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['test' => true],
 ];

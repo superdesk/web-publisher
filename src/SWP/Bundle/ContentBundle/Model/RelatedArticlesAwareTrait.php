@@ -46,7 +46,7 @@ trait RelatedArticlesAwareTrait
         return $this->relatedArticles->contains($relatedArticle);
     }
 
-    public function getRelatedArticles(): Collection
+    public function getRelatedArticles(): ?Collection
     {
         return $this->relatedArticles;
     }

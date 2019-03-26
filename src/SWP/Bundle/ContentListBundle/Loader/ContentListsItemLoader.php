@@ -18,8 +18,10 @@ namespace SWP\Bundle\ContentListBundle\Loader;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
@@ -115,6 +117,41 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
 
                 return $metaCollection;
             }
+        } elseif (LoaderInterface::SINGLE === $responseType) {
+            if (array_key_exists('contentListName', $parameters) && is_string($parameters['contentListName'])) {
+                $contentList = $this->contentListRepository->findOneBy(['name' => $parameters['contentListName']]);
+                $criteria->set('contentList', $contentList);
+            } elseif (
+                array_key_exists('contentList', $parameters) &&
+                $parameters['contentList'] instanceof Meta &&
+                $parameters['contentList']->getValues() instanceof ContentListInterface
+            ) {
+                $criteria->set('contentList', $parameters['contentList']->getValues());
+            }
+
+            if (
+                isset($contentList)
+                && array_key_exists('article', $parameters)
+                && $parameters['article'] instanceof Meta
+                && $parameters['article']->getValues() instanceof ArticleInterface
+            ) {
+                /** @var ContentListItemInterface $currentContentListItem */
+                $currentContentListItem = $this->contentListItemsRepository->getQueryByCriteria(new Criteria([
+                    'contentList' => $contentList,
+                    'content' => $parameters['article']->getValues(),
+                ]), [], 'n')->getQuery()->getOneOrNullResult();
+                $position = $currentContentListItem->getPosition();
+            }
+
+            if (isset($position) && array_key_exists('prev', $parameters) && true === $parameters['prev']) {
+                ++$position;
+            } elseif (isset($position) && array_key_exists('next', $parameters) && true === $parameters['next']) {
+                --$position;
+            } else {
+                return null;
+            }
+
+            return $this->getItemMeta($this->contentListItemsRepository->getOneOrNullByPosition($criteria, $position));
         }
     }
 
@@ -127,7 +164,7 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
      */
     public function isSupported(string $type): bool
     {
-        return 'contentListItems' === $type;
+        return in_array($type, ['contentListItems', 'contentListItem']);
     }
 
     /**
