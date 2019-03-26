@@ -114,6 +114,10 @@ server.get('/api/upload/:fileName/raw', (req, res) => {
   res.sendfile('test_file.png', {root: './'});
 });
 
+server.get('/api/upload/:fileName/audio/raw', (req, res) => {
+  res.sendfile('test_audio.mp3', {root: './'});
+});
+
 server.use('/api', router);
 server.listen(3000, () => {
   console.log('JSON Server is running');

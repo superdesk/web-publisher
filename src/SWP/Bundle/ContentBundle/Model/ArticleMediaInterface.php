@@ -33,10 +33,7 @@ interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInter
      */
     public function getRenditions();
 
-    /**
-     * @param ImageRendition $rendition
-     */
-    public function addRendition(ImageRendition $rendition);
+    public function addRendition(ImageRenditionInterface $rendition);
 
     /**
      * @param ArrayCollection $renditions
