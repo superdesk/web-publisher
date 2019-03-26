@@ -15,6 +15,7 @@
 namespace SWP\Bundle\RuleBundle\Form\Type;
 
 use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
+use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,7 +42,7 @@ class RuleType extends AbstractType
                 ],
             ])
             ->add('configuration', KeyValueType::class, [
-                'value_type' => TextType::class,
+                'value_type' => UnstructuredType::class,
             ])
             ->add('description', TextType::class)
             ->add('name', TextType::class)
