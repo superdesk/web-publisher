@@ -123,7 +123,7 @@ class ArticleMedia implements ArticleMediaInterface
     /**
      * {@inheritdoc}
      */
-    public function addRendition(ImageRendition $rendition)
+    public function addRendition(ImageRenditionInterface $rendition)
     {
         $this->renditions->add($rendition);
     }
