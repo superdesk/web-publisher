@@ -28,12 +28,12 @@ class MemoryCachedLoader implements LoaderInterface
     public function load($metaType, $withParameters = [], $withoutParameters = [], $responseType = self::SINGLE)
     {
         $cacheKey = $this->getCacheKey($metaType, $withParameters, $withoutParameters, $responseType);
-        if (array_key_exists($cacheKey, $this->loadedData[$cacheKey])) {
+        if (array_key_exists($cacheKey, $this->loadedData)) {
             return $this->loadedData[$cacheKey];
         }
 
         $loadedData = $this->decoratedLoader->load($metaType, $withParameters, $withoutParameters, $responseType);
-        $this->loadedData[] = $loadedData;
+        $this->loadedData[$cacheKey] = $loadedData;
 
         return $loadedData;
     }
@@ -45,8 +45,9 @@ class MemoryCachedLoader implements LoaderInterface
 
     private function getCacheKey(string $metaType, array $withParameters, array $withoutParameters, int $responseType): string
     {
-        $keys = [\serialize($metaType), \serialize($withParameters), \serialize($withoutParameters), \serialize($responseType)];
+        $keys = [\json_encode($metaType), \json_encode($withParameters), \json_encode($withoutParameters), \json_encode($responseType)];
+        dump($keys);
 
-        return base64_decode(\implode('::', $keys));
+        return base64_encode(\implode('::', $keys));
     }
 }
