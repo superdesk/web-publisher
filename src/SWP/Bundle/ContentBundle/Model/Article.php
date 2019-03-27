@@ -197,7 +197,7 @@ class Article implements ArticleInterface
 
     public function setBody($body)
     {
-        $this->body = $body;
+        $this->body = \trim($body);
     }
 
     public function getMedia()

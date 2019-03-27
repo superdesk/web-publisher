@@ -17,6 +17,7 @@ namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 class MemoryCachedLoader implements LoaderInterface
 {
     private $decoratedLoader;
+
     private $loadedData = [];
 
     public function __construct(LoaderInterface $decoratedLoader)
