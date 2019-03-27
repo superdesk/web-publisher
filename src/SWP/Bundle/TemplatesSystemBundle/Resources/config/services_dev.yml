@@ -1,0 +1,4 @@
+services:
+    swp_template_engine_loader_chain:
+        public: true
+        class: SWP\Bundle\TemplatesSystemBundle\Loader\TraceableChainLoader

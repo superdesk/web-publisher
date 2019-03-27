@@ -46,7 +46,6 @@ class MemoryCachedLoader implements LoaderInterface
     private function getCacheKey(string $metaType, array $withParameters, array $withoutParameters, int $responseType): string
     {
         $keys = [\json_encode($metaType), \json_encode($withParameters), \json_encode($withoutParameters), \json_encode($responseType)];
-        dump($keys);
 
         return base64_encode(\implode('::', $keys));
     }
