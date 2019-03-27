@@ -184,7 +184,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
     {
         $pageViewReferer = $request->query->get('ref', null);
         if (null !== $pageViewReferer) {
-            $refererHost = \str_replace('www.', '', $this->getFragmentFromUrl($pageViewReferer, 'host'));
+            $refererHost = $this->getFragmentFromUrl($pageViewReferer, 'host');
             if ($refererHost && $this->isHostMatchingTenant($refererHost)) {
                 return ArticleEventInterface::PAGEVIEW_SOURCE_INTERNAL;
             }
