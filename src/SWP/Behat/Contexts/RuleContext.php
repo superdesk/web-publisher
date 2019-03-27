@@ -58,7 +58,6 @@ final class RuleContext extends AbstractContext implements Context
             $rule->setTenantCode(null);
             $this->ruleRepository->flush();
         } else {
-            dump($form->getErrors(false, true));die;
             throw new \Exception('Rule configuration is invalid');
         }
     }

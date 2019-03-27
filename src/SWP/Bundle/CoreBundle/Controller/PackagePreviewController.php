@@ -87,29 +87,27 @@ class PackagePreviewController extends Controller
     public function generateTokenAction(Request $request, int $routeId)
     {
         $route = $this->findRouteOr404($routeId);
-try {
-    /** @var string $content */
-    $content = (string)$request->getContent();
-    $dispatcher = $this->get('event_dispatcher');
-    $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-    $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-    $tokenRepository = $this->get('swp.repository.package_preview_token');
-    $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
+        /** @var string $content */
+        $content = (string) $request->getContent();
+        $dispatcher = $this->get('event_dispatcher');
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-    if (null === $existingPreviewToken) {
-        $packagePreviewToken = $this->get('swp.factory.package_preview_token')->createTokenizedWith($route, $content);
+        $tokenRepository = $this->get('swp.repository.package_preview_token');
+        $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
 
-        $tokenRepository->persist($packagePreviewToken);
-        $tokenRepository->flush();
+        if (null === $existingPreviewToken) {
+            $packagePreviewToken = $this->get('swp.factory.package_preview_token')->createTokenizedWith($route, $content);
 
-        return $this->returnResponseWithPreviewUrl($packagePreviewToken);
-    }
+            $tokenRepository->persist($packagePreviewToken);
+            $tokenRepository->flush();
 
-    $this->updatePackagePreviewTokenBody($content, $existingPreviewToken);
-} catch (\Exception $e) {
-    dump($e);die;
-}
+            return $this->returnResponseWithPreviewUrl($packagePreviewToken);
+        }
+
+        $this->updatePackagePreviewTokenBody($content, $existingPreviewToken);
+
         return $this->returnResponseWithPreviewUrl($existingPreviewToken);
     }
 
@@ -202,7 +200,7 @@ try {
     /**
      * @param int $id
      *
-     * @return null|object
+     * @return object|null
      */
     private function findRouteOr404(int $id)
     {
@@ -216,7 +214,7 @@ try {
     /**
      * @param string $id
      *
-     * @return null|object
+     * @return object|null
      */
     private function findPackageOr404(string $id)
     {
