@@ -295,6 +295,14 @@ swp_settings:
             type: string
             scope: tenant
             value: "(Photo: {{ author }})"
+        fbia_enabled:
+            type: boolean
+            scope: tenant
+            value: false
+        paywall_enabled:
+            type: boolean
+            scope: tenant
+            value: false
 
 swp_analytics:
     persistence:
