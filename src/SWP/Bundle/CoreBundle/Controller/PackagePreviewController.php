@@ -87,27 +87,29 @@ class PackagePreviewController extends Controller
     public function generateTokenAction(Request $request, int $routeId)
     {
         $route = $this->findRouteOr404($routeId);
+try {
+    /** @var string $content */
+    $content = (string)$request->getContent();
+    $dispatcher = $this->get('event_dispatcher');
+    $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+    $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-        /** @var string $content */
-        $content = (string) $request->getContent();
-        $dispatcher = $this->get('event_dispatcher');
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+    $tokenRepository = $this->get('swp.repository.package_preview_token');
+    $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
 
-        $tokenRepository = $this->get('swp.repository.package_preview_token');
-        $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
+    if (null === $existingPreviewToken) {
+        $packagePreviewToken = $this->get('swp.factory.package_preview_token')->createTokenizedWith($route, $content);
 
-        if (null === $existingPreviewToken) {
-            $packagePreviewToken = $this->get('swp.factory.package_preview_token')->createTokenizedWith($route, $content);
+        $tokenRepository->persist($packagePreviewToken);
+        $tokenRepository->flush();
 
-            $tokenRepository->persist($packagePreviewToken);
-            $tokenRepository->flush();
+        return $this->returnResponseWithPreviewUrl($packagePreviewToken);
+    }
 
-            return $this->returnResponseWithPreviewUrl($packagePreviewToken);
-        }
-
-        $this->updatePackagePreviewTokenBody($content, $existingPreviewToken);
-
+    $this->updatePackagePreviewTokenBody($content, $existingPreviewToken);
+} catch (\Exception $e) {
+    dump($e);die;
+}
         return $this->returnResponseWithPreviewUrl($existingPreviewToken);
     }
 

@@ -155,7 +155,7 @@ class MediaFactory implements MediaFactoryInterface
         /** @var Image $image */
         $image = $this->mediaManager->handleUploadedFile($uploadedFile, $rendition->getMedia());
 
-        list($width, $height) = \getimagesize($uploadedFile->getRealPath());
+        [$width, $height] = \getimagesize($uploadedFile->getRealPath());
         $image->setWidth($width);
         $image->setHeight($height);
 

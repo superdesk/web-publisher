@@ -48,7 +48,7 @@ class Rendition implements RenditionInterface
     protected $height;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $mimetype;
 
@@ -145,7 +145,7 @@ class Rendition implements RenditionInterface
     /**
      * {@inheritdoc}
      */
-    public function getMimetype(): string
+    public function getMimetype(): ?string
     {
         return $this->mimetype;
     }
@@ -153,7 +153,7 @@ class Rendition implements RenditionInterface
     /**
      * {@inheritdoc}
      */
-    public function setMimetype(string $mimetype)
+    public function setMimetype(?string $mimetype)
     {
         $this->mimetype = $mimetype;
     }

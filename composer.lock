@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38f85e59c8e48f4606bdffe9e9365667",
+    "content-hash": "44a8a76b6349f5eb512f826e792172d2",
     "packages": [
         {
             "name": "apache/log4php",
@@ -645,15 +645,15 @@
         },
         {
             "name": "danielstjules/stringy",
-            "version": "3.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/danielstjules/Stringy.git",
+                "url": "https://github.com/takeit/Stringy.git",
                 "reference": "df24ab62d2d8213bbbe88cc36fc35a4503b4bd7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danielstjules/Stringy/zipball/df24ab62d2d8213bbbe88cc36fc35a4503b4bd7e",
+                "url": "https://api.github.com/repos/takeit/Stringy/zipball/df24ab62d2d8213bbbe88cc36fc35a4503b4bd7e",
                 "reference": "df24ab62d2d8213bbbe88cc36fc35a4503b4bd7e",
                 "shasum": ""
             },
@@ -673,7 +673,11 @@
                     "src/Create.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "classmap": [
+                    "tests"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -687,16 +691,20 @@
             "description": "A string manipulation library with multibyte support",
             "homepage": "https://github.com/danielstjules/Stringy",
             "keywords": [
-                "UTF",
                 "helpers",
                 "manipulation",
                 "methods",
                 "multibyte",
                 "string",
+                "utf",
                 "utf-8",
                 "utility",
                 "utils"
             ],
+            "support": {
+                "issues": "https://github.com/danielstjules/Stringy/issues",
+                "source": "https://github.com/danielstjules/Stringy"
+            },
             "time": "2017-06-12T01:10:27+00:00"
         },
         {
@@ -11193,16 +11201,16 @@
         },
         {
             "name": "takeit/amp-html-bundle",
-            "version": "v1.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/AmpHtmlBundle.git",
-                "reference": "664934b98c2aa05f30e94aa0d10f0be3170dc478"
+                "reference": "335df4373fd3516e3fce96c90a211511ee5d8fbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/AmpHtmlBundle/zipball/664934b98c2aa05f30e94aa0d10f0be3170dc478",
-                "reference": "664934b98c2aa05f30e94aa0d10f0be3170dc478",
+                "url": "https://api.github.com/repos/takeit/AmpHtmlBundle/zipball/335df4373fd3516e3fce96c90a211511ee5d8fbf",
+                "reference": "335df4373fd3516e3fce96c90a211511ee5d8fbf",
                 "shasum": ""
             },
             "require": {
@@ -11247,7 +11255,7 @@
                 "google",
                 "html"
             ],
-            "time": "2019-01-17T12:46:56+00:00"
+            "time": "2019-03-26T07:28:23+00:00"
         },
         {
             "name": "true/punycode",
@@ -16432,11 +16440,19 @@
             "time": "2018-12-25T11:19:39+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "3.1.0",
+            "alias_normalized": "3.1.0.0",
+            "version": "9999999-dev",
+            "package": "danielstjules/stringy"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "emanueleminotto/twig-cache-bundle": 20,
         "friendsofsymfony/user-bundle": 20,
+        "danielstjules/stringy": 20,
         "react/zmq": 20,
         "roave/security-advisories": 20,
         "behat-extension/doctrine-data-fixtures-extension": 20
@@ -16453,7 +16469,6 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.3",
-        "ext-zmq": "dev-master"
+        "php": "7.1.12"
     }
 }

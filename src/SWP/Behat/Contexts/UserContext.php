@@ -32,6 +32,10 @@ final class UserContext extends AbstractContext implements Context
     public function theFollowingUsers(TableNode $table): void
     {
         foreach ($table as $row => $columns) {
+            if (isset($columns['email']) && null !== $this->userManager->findUserByEmail($columns['email'])) {
+                continue;
+            }
+
             /** @var UserInterface $user */
             $user = $this->userManager->createUser();
 

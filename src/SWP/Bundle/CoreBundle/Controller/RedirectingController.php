@@ -51,7 +51,7 @@ class RedirectingController extends Controller
 
     private function generateArticleUrl(ArticleInterface $article): string
     {
-        $urlGenerator = $this->container->get('cmf_routing.generator');
+        $urlGenerator = $this->container->get('router');
 
         return $urlGenerator->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
     }

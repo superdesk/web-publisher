@@ -58,8 +58,7 @@ class RelatedArticleOrganizationController extends Controller
      *         200="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/packages/{id}/related/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
-     * @Method("GET")
+     * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
      */
     public function getRelatedAction(string $id)
     {

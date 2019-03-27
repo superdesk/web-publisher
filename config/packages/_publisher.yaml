@@ -14,3 +14,11 @@ imports:
 
 parameters:
   data_collector.config.class: "Symfony\\Component\\Translation\\DataCollector\\TranslationDataCollector"
+  sylius_core.public_dir: '%kernel.project_dir%/public'
+  env(SUPERDESK_SERVERS): '["https://superdesk.dev"]'
+  superdesk_servers: '%env(json:resolve:SUPERDESK_SERVERS)%'
+  env(SWP_DOMAIN): '%env(SWP_DOMAIN)%'
+
+swp_core:
+  device_listener:
+    enabled: true

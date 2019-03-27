@@ -68,7 +68,7 @@ class MediaController extends Controller
         $response->setPublic();
         $response->setMaxAge(63072000);
         $response->setSharedMaxAge(63072000);
-        $response->setLastModified($media->getUpdatedAt() ? $media->getUpdatedAt() : $media->getCreatedAt());
+        $response->setLastModified($media->getUpdatedAt() ?: $media->getCreatedAt());
 
         if ('swp_author_media_get' === $request->attributes->get('_route')) {
             $mediaManager = $this->get('swp_core_bundle.manager.author_media');
