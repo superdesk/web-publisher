@@ -125,6 +125,18 @@ Feature: Settings bulk update
         "name": "embedded_image_author_template"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"fbia_enabled"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"paywall_enabled"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -307,6 +319,18 @@ Feature: Settings bulk update
         "name": "embedded_image_author_template"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"fbia_enabled"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"paywall_enabled"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -405,14 +429,14 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [15].name               | primary_font_family                 |
-      | [15].value              | Lato                                |
-      | [16].name               | secondary_font_family               |
-      | [16].value              | Oswald                              |
-      | [9].name                | theme_logo                          |
-      | [9].value               | .png                                |
-      | [17].name               | body_font_size                      |
-      | [17].value              | 16                                  |
+      | [17].name               | primary_font_family                 |
+      | [17].value              | Lato                                |
+      | [18].name               | secondary_font_family               |
+      | [18].value              | Oswald                              |
+      | [9].name               | theme_logo                          |
+      | [9].value              | .png                                |
+      | [19].name               | body_font_size                      |
+      | [19].value              | 16                                  |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/bulk/" with body:
@@ -434,5 +458,5 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [18].name                | switch   |
-    And the JSON node "[18].value" should be false
+      | [20].name                | switch   |
+    And the JSON node "[20].value" should be false
