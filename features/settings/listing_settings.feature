@@ -107,6 +107,18 @@ Feature: Checking if settings work correctly
         "name": "embedded_image_author_template"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"fbia_enabled"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"paywall_enabled"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",
