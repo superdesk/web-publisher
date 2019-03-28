@@ -31,13 +31,17 @@ class TraceableChainLoader extends ChainLoader
     {
         foreach ($this->loaders as $priority => $loader) {
             $loaderClass = \get_class($loader);
-            $stopwatch = new Stopwatch();
             if (!\array_key_exists($loaderClass, $this->data['loaders'])) {
                 $this->data['loaders'][$loaderClass] = [
                     'priority' => $priority,
                     'calls' => [],
                 ];
             }
+        }
+
+        foreach ($this->loaders as $priority => $loader) {
+            $loaderClass = \get_class($loader);
+            $stopwatch = new Stopwatch();
             if ($loader->isSupported($type)) {
                 if (!\array_key_exists($loaderClass, $this->data['calledLoaders'])) {
                     $this->data['calledLoaders'][$loaderClass] = [

@@ -14,8 +14,9 @@
 {% endblock %}
 
 {% block menu %}
-    <span class="label">
+    <span class="label{% if collector.data.totalDuration > 100 %} label-status-error{% endif %}">
         <strong>Meta Loaders</strong>
+        <span class="count"><span>{{ collector.data.calledLoaders|length }}</span></span>
     </span>
 {% endblock %}
 
