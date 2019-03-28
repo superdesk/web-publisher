@@ -18,9 +18,11 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeListTokenParser;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
+use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
 
-class GimmeExtension extends \Twig_Extension implements GlobalsInterface
+class GimmeExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * @var LoaderInterface
@@ -77,22 +79,22 @@ class GimmeExtension extends \Twig_Extension implements GlobalsInterface
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('start', function ($node, $value) {
+            new TwigFilter('start', function ($node, $value) {
                 $node['_collection_type_filters']['start'] = $value;
 
                 return $node;
             }, ['needs_context' => false]),
-            new \Twig_SimpleFilter('limit', function ($node, $value) {
+            new TwigFilter('limit', function ($node, $value) {
                 $node['_collection_type_filters']['limit'] = $value;
 
                 return $node;
             }, ['needs_context' => false]),
-            new \Twig_SimpleFilter('order', function ($node, $value1, $value2) {
+            new TwigFilter('order', function ($node, $value1, $value2) {
                 $node['_collection_type_filters']['order'][] = [$value1, $value2];
 
                 return $node;
             }, ['needs_context' => false]),
-            new \Twig_SimpleFilter('dateRange', function ($node, $value1, $value2) {
+            new TwigFilter('dateRange', function ($node, $value1, $value2) {
                 $node['_collection_type_filters']['date_range'] = [$value1, $value2];
 
                 return $node;

@@ -14,10 +14,14 @@
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
+
 /**
  * Class StringyExtension.
  */
-class StringyExtension extends \Twig_Extension
+class StringyExtension extends AbstractExtension
 {
     const EXCLUDE_FUNCTIONS = ['__construct', 'create'];
 
@@ -105,7 +109,7 @@ class StringyExtension extends \Twig_Extension
                 if (array_key_exists($name, $this->environment->getFunctions())) {
                     continue;
                 }
-                $this->functions[$name] = new \Twig_SimpleFunction($name, function () use ($name) {
+                $this->functions[$name] = new TwigFunction($name, function () use ($name) {
                     return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
                 });
             } else {
@@ -113,7 +117,7 @@ class StringyExtension extends \Twig_Extension
                 if (array_key_exists($name, $this->environment->getFilters())) {
                     continue;
                 }
-                $this->filters[$name] = new \Twig_SimpleFilter($name, function () use ($name) {
+                $this->filters[$name] = new TwigFilter($name, function () use ($name) {
                     return (string) call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
                 });
             }

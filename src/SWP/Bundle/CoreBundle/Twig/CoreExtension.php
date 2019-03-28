@@ -15,9 +15,10 @@
 namespace SWP\Bundle\CoreBundle\Twig;
 
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
+use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
-class CoreExtension extends \Twig_Extension implements GlobalsInterface
+class CoreExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * @var ThemeContextInterface

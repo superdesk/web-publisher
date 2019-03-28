@@ -19,8 +19,6 @@ use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
 
 class WebTestCase extends BaseWebTestCase
 {
-    protected $container;
-
     protected $manager;
 
     protected static function getKernelClass()

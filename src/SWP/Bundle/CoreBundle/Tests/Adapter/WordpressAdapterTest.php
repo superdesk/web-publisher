@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Adapter;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use SWP\Bundle\CoreBundle\Adapter\AdapterInterface;
+use SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter;
 use SWP\Bundle\CoreBundle\Adapter\WordpressAdapter;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ExternalArticleInterface;
@@ -67,7 +68,7 @@ final class WordpressAdapterTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         /** @var AdapterInterface $compositeOutputChannelAdapter */
-        $compositeOutputChannelAdapter = $this->getContainer()->get('SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter');
+        $compositeOutputChannelAdapter = $this->getContainer()->get(CompositeOutputChannelAdapter::class);
         /** @var OutputChannelInterface $outputChannel */
         $outputChannel = $this->getContainer()->get('swp.repository.tenant')
             ->findOneBySubdomainAndDomain('local_broken_wordpress', 'localhost')
@@ -102,7 +103,7 @@ final class WordpressAdapterTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         /** @var AdapterInterface $compositeOutputChannelAdapter */
-        $compositeOutputChannelAdapter = $this->getContainer()->get('SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter');
+        $compositeOutputChannelAdapter = $this->getContainer()->get(CompositeOutputChannelAdapter::class);
         /** @var OutputChannelInterface $outputChannel */
         $outputChannel = $this->getContainer()->get('swp.repository.tenant')
             ->findOneBySubdomainAndDomain('local_wordpress', 'localhost')

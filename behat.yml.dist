@@ -29,10 +29,9 @@ default:
         rdx\behatvars\BehatVariablesExtension: ~
         Behat\Symfony2Extension:
             kernel:
+                bootstrap: features/bootstrap/bootstrap.php
                 class: App\Kernel
                 path: src/Kernel.php
-                env: "test"
-                debug: "true"
 
         Behat\MinkExtension:
             base_url: "http://localhost/"

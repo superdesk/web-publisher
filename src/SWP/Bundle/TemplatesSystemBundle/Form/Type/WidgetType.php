@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Form\Type;
 
+use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Exception\TransformationFailedException;

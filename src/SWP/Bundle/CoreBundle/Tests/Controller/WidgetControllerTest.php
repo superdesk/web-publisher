@@ -149,10 +149,7 @@ class WidgetControllerTest extends WebTestCase
             'widget' => [
                 'name' => 'Simple Updated html widget',
                 'visible' => false,
-                'parameters' => [
-                    'html_body' => 'sample widget with <span style=\'color:red\'>html</span>',
-                    'extra_param' => 'extra value',
-                ],
+                'parameters' => '{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"}',
             ],
         ]);
 
@@ -167,10 +164,7 @@ class WidgetControllerTest extends WebTestCase
             'widget' => [
                 'name' => 'Simple Updated html widget',
                 'visible' => false,
-                'parameters' => [
-                    'html_body' => 'sample widget with <span style=\'color:red\'>html</span>',
-                    'extra_param' => 'extra value',
-                ],
+                'parameters' => '{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"}',
             ],
         ]);
 

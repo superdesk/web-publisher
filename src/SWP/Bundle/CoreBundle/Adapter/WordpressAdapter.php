@@ -149,11 +149,6 @@ final class WordpressAdapter implements AdapterInterface
         $this->handleExternalArticleUpdateOrCreate($article, $response, $article->getExternalArticle());
     }
 
-    /**
-     * @param OutputChannelInterface $outputChannel
-     * @param ArticleInterface       $article
-     * @param string                 $status
-     */
     private function handleArticleUpdate(OutputChannelInterface $outputChannel, ArticleInterface $article, string $status): void
     {
         $post = $this->createPost($outputChannel, $article);

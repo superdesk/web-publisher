@@ -16,8 +16,9 @@ namespace SWP\Component\TemplatesSystem\Twig\Extension;
 
 use SWP\Bundle\TemplatesSystemBundle\Service\RendererServiceInterface;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\ContainerTokenParser;
+use Twig\Extension\AbstractExtension;
 
-class ContainerExtension extends \Twig_Extension
+class ContainerExtension extends AbstractExtension
 {
     /**
      * @var RendererServiceInterface
