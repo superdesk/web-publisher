@@ -60,15 +60,16 @@
 
 
 {% macro parent_route_metrics(route) %}
+    <div class="metrics">
+        <div class="metric">
+            <span class="label">Variable Prefix</span>
+            <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
+        </div>
 
-    <div class="metric">
-        <span class="label">Variable Prefix</span>
-        <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
-    </div>
-
-    <div class="metric">
-        <span class="label">Static Template</span>
-        <span class="value">{% if route.staticPrefix != null %}{{ route.staticPrefix}}{% else %} - {% endif %}</span>
+        <div class="metric">
+            <span class="label">Static Template</span>
+            <span class="value">{% if route.staticPrefix != null %}{{ route.staticPrefix}}{% else %} - {% endif %}</span>
+        </div>
     </div>
 
     {% if route.parent != null %}
