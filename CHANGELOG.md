@@ -7,7 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 ### 2.0.0
- * feature [#643] Added support for Symfony 4.2 & Flex & PHP 7.3
+ * BC BREAK/feature [#643] Added support for Symfony 4.2 & Flex & PHP 7.3
  * improvement [#630] Add option to exclude articles from content list items
  
 ### 1.6.0
