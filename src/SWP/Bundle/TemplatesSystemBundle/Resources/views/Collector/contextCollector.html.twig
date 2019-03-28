@@ -1,5 +1,7 @@
 {% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
 
+{% import _self as helper %}
+
 {% block toolbar %}
     {# This toolbar item may appear along the top or bottom of the screen.#}
     {% set icon %}
@@ -32,9 +34,10 @@
     <h3>Current Page:</h3>
     <div>
         {{ dump(collector.data.currentPage) }}
-
-        {{ dump(collector.data.loaders) }}
     </div>
+
+    {{ helper.route_metrics(collector.data.currentPage) }}
+
     <h3>Registered Meta</h3>
     <table >
         <thead>
@@ -52,4 +55,58 @@
             {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
+
+
+{% macro route_metrics(route) %}
+    {% import _self as helper %}
+
+    <div class="metrics">
+        <div class="metric">
+            <span class="label">Title</span>
+            <span class="value">{{ route.title}}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Type</span>
+            <span class="value">{{ route.type}}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Cache time</span>
+            <span class="value{% if route.cacheTimeInSeconds < 1 %} status-error{% endif %}">{{ route.cacheTimeInSeconds}} s</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Slug</span>
+            <span class="value">{% if route.slug != null %}{{ route.slug}}{% else %} - {% endif %}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Template</span>
+            <span class="value">{% if route.templateName != null %}{{ route.templateName}}{% else %} - {% endif %}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Articles Template</span>
+            <span class="value">{% if route.articlesTemplateName != null %}{{ route.articlesTemplateName}}{% else %} - {% endif %}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Variable Prefix</span>
+            <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Static Template</span>
+            <span class="value">{% if route.staticPrefix != null %}{{ route.staticPrefix}}{% else %} - {% endif %}</span>
+        </div>
+    </div>
+
+    {% if route.parent != null %}
+        <h3>Parent Page (for {{ route.title}}):</h3>
+        {{ helper.route_metrics(route.parent) }}
+    {% endif %}
+{% endmacro %}
+
