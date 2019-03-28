@@ -62,6 +62,10 @@
 {% macro parent_route_metrics(route) %}
     <div class="metrics">
         <div class="metric">
+            <span class="label">Title</span>
+            <span class="value">{{ route.title}}</span>
+        </div>
+        <div class="metric">
             <span class="label">Variable Prefix</span>
             <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
         </div>
