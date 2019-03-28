@@ -4,6 +4,9 @@
     {% set icon %}
         <span class="sf-toolbar-value">Loaders</span>
         <span class="sf-toolbar-status sf-toolbar-status-grey">{{ collector.data.calledLoaders|length }}</span>
+        {% if collector.data.totalDuration > 100 %}
+        <span class="sf-toolbar-status sf-toolbar-status-red">{{ collector.data.totalDuration }} ms</span>
+        {% endif %}
     {% endset %}
 
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { 'link': true }) }}
@@ -29,6 +32,11 @@
             <span class="label">Loader calls</span>
             <span class="value">{{ collector.data.totalCalls}}</span>
         </div>
+
+        <div class="metric">
+            <span class="label">Total duration</span>
+            <span class="value{% if collector.data.totalDuration > 100 %} status-error{% endif %}">{{ collector.data.totalDuration}} ms</span>
+        </div>
     </div>
 
     <div class="sf-tabs">
@@ -49,8 +57,10 @@
                     {% for class, loader in collector.data.calledLoaders %}
                         <tbody>
                             <tr>
-                                <td colspan="4" style="background-color: #E0E0E0">Class: <span style="font-weight: bold; font-size: 16px;">{{ class }}</span></td>
-                                <td colspan="2" style="background-color: #E0E0E0">Total duration: <span style="font-weight: bold; font-size: 16px">{{ loader.totalDuration }}</span></td>
+                                <td colspan="6" style="background-color: #E0E0E0">
+                                    <span style="font-weight: bold; font-size: 16px; padding-right: 20px;">{{ class }}</span>
+                                    Total duration: <span style="font-weight: bold; font-size: 16px">{{ loader.totalDuration }} ms</span>
+                                </td>
                             </tr>
                             {% for call in loader.calls %}
                             <tr>
@@ -58,8 +68,8 @@
                                 <td>{{ dump(call.parameters) }}</td>
                                 <td>{{ dump(call.withoutParameters) }}</td>
                                 <td>{{ call.responseType == 0 ? "Single" : "Collection" }}</td>
-                                <td>{{ call.duration }}</td>
-                                <td>{{ call.responseType ? "YES" : "NO" }}</td>
+                                <td>{{ call.duration }} ms</td>
+                                <td>{{ call.found ? "YES" : "NO" }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

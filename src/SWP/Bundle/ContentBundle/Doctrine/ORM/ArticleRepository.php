@@ -155,10 +155,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         throw new \Exception('Not implemented');
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param Criteria     $criteria
-     */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
         foreach (['metadata', 'extra', 'exclude_metadata', 'exclude_extra'] as $name) {

@@ -24,6 +24,7 @@ class TraceableChainLoader extends ChainLoader
         'calledLoaders' => [],
         'loaders' => [],
         'totalCalls' => 0,
+        'totalDuration' => 0,
     ];
 
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
@@ -58,6 +59,7 @@ class TraceableChainLoader extends ChainLoader
                     'found' => false !== $meta,
                 ];
                 ++$this->data['totalCalls'];
+                $this->data['totalDuration'] = $this->data['totalDuration'] + $event->getDuration();
 
                 if (false !== $meta) {
                     return $meta;
