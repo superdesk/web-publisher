@@ -59,6 +59,27 @@
 {% endblock %}
 
 
+{% macro parent_route_metrics(route) %}
+
+    <div class="metric">
+        <span class="label">Variable Prefix</span>
+        <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
+    </div>
+
+    <div class="metric">
+        <span class="label">Static Template</span>
+        <span class="value">{% if route.staticPrefix != null %}{{ route.staticPrefix}}{% else %} - {% endif %}</span>
+    </div>
+
+    {% if route.parent != null %}
+        <h3>Parent Page (for {{ route.title}}):</h3>
+        {{ helper.parent_route_metrics(route.parent) }}
+    {% endif %}
+
+{% endmacro %}
+
+
+
 {% macro route_metrics(route) %}
     {% import _self as helper %}
 
@@ -106,7 +127,7 @@
 
     {% if route.parent != null %}
         <h3>Parent Page (for {{ route.title}}):</h3>
-        {{ helper.route_metrics(route.parent) }}
+        {{ helper.parent_route_metrics(route.parent) }}
     {% endif %}
 {% endmacro %}
 
