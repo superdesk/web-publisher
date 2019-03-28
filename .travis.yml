@@ -61,11 +61,11 @@ before_script:
 - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
 - cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing loading fixtures in dev env")"
-- php app/console doctrine:schema:update -f
-- FIXTURES_TYPE=dev php app/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
+- bin/console doctrine:schema:update -f
+- FIXTURES_TYPE=dev bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing migrations")"
-- DATABASE_URL="pgsql://postgres:''@127.0.0.1:5432/postgres" app/console doctrine:migrations:migrate --no-interaction --env=test --no-debug -vvv
-- app/console doctrine:cache:clear main_cache --env=test --no-debug -vvv
+- DATABASE_URL="pgsql://postgres:''@127.0.0.1:5432/postgres" bin/console doctrine:migrations:migrate --no-interaction --env=test --no-debug -vvv
+- bin/console doctrine:cache:clear main_cache --env=test --no-debug -vvv
 - sudo supervisord -c /etc/supervisor/supervisord.conf
 - sudo supervisorctl status
 
