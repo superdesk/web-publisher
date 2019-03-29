@@ -669,7 +669,7 @@ services:
 
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
-            - '@gos_web_socket.zmq.pusher'
+            - '@gos_web_socket.amqp.pusher'
             - '@swp.serializer'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onPostUpdate, priority: -10 }

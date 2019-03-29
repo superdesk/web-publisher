@@ -113,8 +113,7 @@
         "fzaninotto/faker": "^1.5",
         "cboden/ratchet": "^0.4.1",
         "evenement/evenement": "^3.0",
-        "react/zmq": "dev-master",
-        "gos/web-socket-bundle": "^1.9 !=1.9.0-rc2",
+        "gos/web-socket-bundle": "v1.9.0-rc2",
         "knplabs/knp-time-bundle": "^1.8",
         "lexik/jwt-authentication-bundle": "^2.5",
         "ramsey/uuid": "^3.8",
@@ -125,7 +124,9 @@
         "rdx/behat-variables": "^1.2",
         "apache/log4php": "^2.3",
         "takeit/amp-html-bundle": "^1.0",
-        "blackfire/php-sdk": "^1.17"
+        "blackfire/php-sdk": "^1.17",
+        "ocramius/proxy-manager": "<=2.1.1",
+        "gos/react-amqp": "^0.2.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

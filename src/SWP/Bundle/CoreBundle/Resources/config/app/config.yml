@@ -376,9 +376,9 @@ gos_web_socket:
             resources:
                 - '@SWPCoreBundle/Resources/config/pubsub/routing.yml'
     pushers:
-        zmq:
-            default: true
-            host: '%env(WEBSOCKET_HOST)%'
-            port: 5555
-            persistent: true
-            protocol: tcp
+        amqp:
+            host: '%env(RABBIT_MQ_HOST)%'
+            port: '%env(RABBIT_MQ_PORT)%'
+            login: '%env(RABBIT_MQ_USER)%'
+            password: '%env(RABBIT_MQ_PASSWORD)%'
+            vhost: '%env(RABBIT_MQ_VHOST)%'
