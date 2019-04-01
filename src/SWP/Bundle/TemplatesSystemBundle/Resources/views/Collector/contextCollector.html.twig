@@ -32,10 +32,6 @@
     {# Optional, for showing the most details. #}
     <h2>Template Context</h2>
     <h3>Current Page:</h3>
-    <div>
-        {{ dump(collector.data.currentPage) }}
-    </div>
-
     {{ helper.route_metrics(collector.data.currentPage) }}
 
     <h3>Registered Meta</h3>
@@ -65,14 +61,15 @@
             <span class="label">Title</span>
             <span class="value">{{ route.title}}</span>
         </div>
-        <div class="metric">
-            <span class="label">Variable Prefix</span>
-            <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
-        </div>
 
         <div class="metric">
             <span class="label">Static Template</span>
             <span class="value">{% if route.staticPrefix != null %}{{ route.staticPrefix}}{% else %} - {% endif %}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Variable Prefix</span>
+            <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
         </div>
     </div>
 
@@ -120,13 +117,13 @@
         </div>
 
         <div class="metric">
-            <span class="label">Variable Prefix</span>
-            <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
+            <span class="label">Static Template</span>
+            <span class="value">{% if route.staticPrefix != null %}{{ route.staticPrefix}}{% else %} - {% endif %}</span>
         </div>
 
         <div class="metric">
-            <span class="label">Static Template</span>
-            <span class="value">{% if route.staticPrefix != null %}{{ route.staticPrefix}}{% else %} - {% endif %}</span>
+            <span class="label">Variable Prefix</span>
+            <span class="value">{% if route.variablePattern != null %}{{ route.variablePattern}}{% else %} - {% endif %}</span>
         </div>
     </div>
 
