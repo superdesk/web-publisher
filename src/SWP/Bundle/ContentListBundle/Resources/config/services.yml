@@ -24,7 +24,7 @@ services:
             - { name: swp.meta_loader.add }
 
     SWP\Bundle\ContentListBundle\Loader\ContentListLoader:
-        private: true
+        public: false
         arguments:
             - "@swp.repository.content_list"
             - "@swp_template_engine_context.factory.meta_factory"

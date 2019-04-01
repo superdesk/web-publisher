@@ -21,7 +21,7 @@ class WebhookContext implements Context
         $expected = $this->normalizeJson($body->getRaw());
 
         if ($actual !== $expected) {
-            throw new \Exception("The actual body $actual is not equal to expected $expected");
+            throw new \Exception("The actual body: \n $actual \n\n is not equal to expected: \n $expected");
         }
     }
 
