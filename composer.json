@@ -49,10 +49,6 @@
             "type": "vcs",
             "url": "https://gitbox.apache.org/repos/asf/logging-log4php.git"
 
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/takeit/Stringy"
         }
     ],
     "require": {
@@ -95,7 +91,6 @@
         "hoa/mime": "3.17.01.10",
         "hoa/file": "1.17.07.11",
         "sentry/sentry-symfony": "^2.0",
-        "danielstjules/stringy": "dev-fix as 3.1.0",
         "burgov/key-value-form-bundle": "^1.4",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
@@ -123,7 +118,8 @@
         "blackfire/php-sdk": "^1.17",
         "ocramius/proxy-manager": "<=2.1.1",
         "gos/react-amqp": "^0.2.0",
-        "behat-extension/doctrine-data-fixtures-extension": "^6.0"
+        "behat-extension/doctrine-data-fixtures-extension": "^6.0",
+        "takeit/stringy": "dev-fix"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
