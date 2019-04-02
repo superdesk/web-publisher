@@ -8,6 +8,9 @@ services:
 
 addons:
   postgresql: "9.6"
+  apt:
+    packages:
+    - librabbitmq
 
 php:
 - 7.1
