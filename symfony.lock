@@ -1072,6 +1072,9 @@
     "takeit/amp-html-bundle": {
         "version": "v0.2"
     },
+    "takeit/stringy": {
+        "version": "dev-fix"
+    },
     "theofidry/alice-data-fixtures": {
         "version": "1.0",
         "recipe": {
