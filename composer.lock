@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "428aabcf41912da101db7f70d6eed3ac",
+    "content-hash": "ad77d0fde84607540de1fed257146239",
     "packages": [
         {
             "name": "apache/log4php",
@@ -645,16 +645,16 @@
         },
         {
             "name": "danielstjules/stringy",
-            "version": "dev-master",
+            "version": "dev-fix",
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/Stringy.git",
-                "reference": "df24ab62d2d8213bbbe88cc36fc35a4503b4bd7e"
+                "reference": "f9b84f5b266e3de19449263f868a28e3276810c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/Stringy/zipball/df24ab62d2d8213bbbe88cc36fc35a4503b4bd7e",
-                "reference": "df24ab62d2d8213bbbe88cc36fc35a4503b4bd7e",
+                "url": "https://api.github.com/repos/takeit/Stringy/zipball/f9b84f5b266e3de19449263f868a28e3276810c1",
+                "reference": "f9b84f5b266e3de19449263f868a28e3276810c1",
                 "shasum": ""
             },
             "require": {
@@ -705,7 +705,7 @@
                 "issues": "https://github.com/danielstjules/Stringy/issues",
                 "source": "https://github.com/danielstjules/Stringy"
             },
-            "time": "2017-06-12T01:10:27+00:00"
+            "time": "2019-04-02T08:07:14+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -16446,7 +16446,7 @@
         {
             "alias": "3.1.0",
             "alias_normalized": "3.1.0.0",
-            "version": "9999999-dev",
+            "version": "dev-fix",
             "package": "danielstjules/stringy"
         }
     ],
