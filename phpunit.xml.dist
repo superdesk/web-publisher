@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.5/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="config/bootstrap.php"
+>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_ENV" value="test" />
+        <env name="SHELL_VERBOSITY" value="-1" />
+        <!-- ###- symfony/framework-bundle ### -->
+    </php>
+
+    <testsuites>
+        <testsuite name="Superdesk Publisher Test Suite">
+            <directory>src/SWP/Component/*/Tests/</directory>
+            <directory>src/SWP/Bridge/*/Tests/</directory>
+            <directory>src/SWP/Bundle/*/Tests/</directory>
+            <exclude>src/SWP/Bundle/FixturesBundle/Tests/*</exclude>
+            <exclude>src/SWP/Bundle/BridgeBundle/Tests/*</exclude>
+            <exclude>src/SWP/Bundle/TemplatesSystemBundle/Tests/*</exclude>
+            <exclude>src/SWP/Bundle/ContentBundle/Tests/*</exclude>
+            <exclude>src/SWP/Bundle/SettingsBundle/Tests/*</exclude>
+            <exclude>src/SWP/Bundle/UserBundle/Tests/*</exclude>
+            <exclude>src/SWP/Bundle/CoreBundle/WordpressAdapterTestTests/Security/Storage/DynamicDomainSessionStorageTest.php</exclude>
+            <exclude>src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php</exclude>
+            <exclude>src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php</exclude>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>src/SWP/</directory>
+            <exclude>
+                <directory>src/SWP/Component/*/Tests</directory>
+                <directory>src/SWP/Bridge/*/Tests</directory>
+                <directory>src/SWP/Bundle/*Bundle/Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
