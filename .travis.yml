@@ -10,7 +10,7 @@ addons:
   postgresql: "9.6"
   apt:
     packages:
-    - librabbitmq
+    - librabbitmq-dev
 
 php:
 - 7.1
