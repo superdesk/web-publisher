@@ -52,7 +52,7 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/takeit/Stringy.git"
+            "url": "https://github.com/takeit/Stringy"
         }
     ],
     "require": {

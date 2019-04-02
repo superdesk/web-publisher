@@ -58,6 +58,7 @@ before_script:
 - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep memcached
 - phpenv config-rm xdebug.ini || echo "xdebug not available"
 - phpenv rehash
+- composer config -g github-oauth.github.com ${GITHUB_TOKEN}
 - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
 - cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing loading fixtures in dev env")"
