@@ -62,7 +62,7 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             joinColumn:
                 name: article_id
                 referencedColumnName: id
-                onDelete: "SET NULL"
+                onDelete: CASCADE
         file:
             targetEntity: SWP\Bundle\ContentBundle\Model\FileInterface
             inversedBy: media
