@@ -16,8 +16,8 @@ SWP\Component\Bridge\Model\Item:
         items:
             expose: true
             serialized_name: associations
-            type: ArrayCollection<string,SWP\Component\Bridge\Model\Item>
+            type: array<SWP\Component\Bridge\Model\Item>
         renditions:
             expose: true
             serialized_name: renditions
-            type: ArrayCollection<string,SWP\Component\Bridge\Model\Rendition>
+            type: array<SWP\Component\Bridge\Model\Rendition>

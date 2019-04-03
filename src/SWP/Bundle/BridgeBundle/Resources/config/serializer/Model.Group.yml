@@ -10,4 +10,4 @@ SWP\Component\Bridge\Model\Group:
             type: string
         items:
             expose: true
-            type: ArrayCollection<string, SWP\Component\Bridge\Model\Item>
+            type: array<SWP\Component\Bridge\Model\Item>
