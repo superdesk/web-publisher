@@ -24,6 +24,7 @@ default:
                 - SWP\Behat\Contexts\WebhookContext
                 - SWP\Behat\Contexts\DateTimeContext
                 - SWP\Behat\Contexts\UserContext
+                - SWP\Behat\Contexts\Hook\DoctrineORMContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~
@@ -47,7 +48,5 @@ default:
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
-        FriendsOfBehat\ServiceContainerExtension:
-            imports:
-                - "features/bootstrap/config/services.php"
+        FriendsOfBehat\ServiceContainerExtension: ~
         FriendsOfBehat\SymfonyExtension: ~
