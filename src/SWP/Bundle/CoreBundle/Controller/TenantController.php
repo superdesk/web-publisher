@@ -14,10 +14,13 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use function array_key_exists;
+use DateTime;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Model\RevisionInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -194,11 +197,21 @@ class TenantController extends FOSRestController
         $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $tenant->setUpdatedAt(new \DateTime('now'));
+            $formData = $request->request->get($form->getName());
+
+            $tenant->setUpdatedAt(new DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
 
             $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
             $tenantContext->setTenant($tenant);
+
+            $settingsManager = $this->get('swp_settings.manager.settings');
+            if (array_key_exists('fbiaEnabled', $formData)) {
+                $settingsManager->set('fbia_enabled', $formData['fbiaEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
+            }
+            if (array_key_exists('paywallEnabled', $formData)) {
+                $settingsManager->set('paywall_enabled', $formData['paywallEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
+            }
 
             return new SingleResourceResponse($tenant);
         }

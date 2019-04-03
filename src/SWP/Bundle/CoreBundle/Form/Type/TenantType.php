@@ -65,6 +65,16 @@ final class TenantType extends AbstractType
                 'required' => false,
                 'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
             ])
+            ->add('fbiaEnabled', BooleanType::class, [
+                'mapped' => false,
+                'required' => false,
+                'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
+            ])
+            ->add('paywallEnabled', BooleanType::class, [
+                'mapped' => false,
+                'required' => false,
+                'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
+            ])
             ->add('outputChannel', OutputChannelType::class, [
                 'required' => false,
                 'description' => 'Output Channel',
