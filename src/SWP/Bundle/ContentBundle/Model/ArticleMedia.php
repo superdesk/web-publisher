@@ -109,7 +109,6 @@ class ArticleMedia implements ArticleMediaInterface
     public function __construct()
     {
         $this->renditions = new ArrayCollection();
-        $this->setCreatedAt(new \DateTime());
     }
 
     /**

@@ -8,10 +8,6 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             id: true
             generator:
                 strategy: IDENTITY
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
     fields:
         key:
             type: string
@@ -42,13 +38,16 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             type: string
             nullable: true
         createdAt:
-            type: date
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
         updatedAt:
-            type: date
-            nullable: true
-        deletedAt:
             type: datetime
             nullable: true
+            gedmo:
+                timestampable:
+                    on: update
     oneToMany:
         renditions:
             targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface
@@ -63,7 +62,7 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             joinColumn:
                 name: article_id
                 referencedColumnName: id
-                onDelete: CASCADE
+                onDelete: "SET NULL"
         file:
             targetEntity: SWP\Bundle\ContentBundle\Model\FileInterface
             inversedBy: media
