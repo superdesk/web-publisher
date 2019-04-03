@@ -480,6 +480,9 @@
     "nette/robot-loader": {
         "version": "v3.1.1"
     },
+    "nette/schema": {
+        "version": "v1.0.0-rc"
+    },
     "nette/utils": {
         "version": "v2.5.3"
     },

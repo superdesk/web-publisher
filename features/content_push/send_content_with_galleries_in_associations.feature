@@ -684,7 +684,7 @@ Feature: Handling the custom media fields
     {
       "id":6,
       "title":"Article with added slideshow",
-      "body":"<p>some html body</p> ",
+      "body":"<p>some html body</p>",
       "slug":"abstract-html-test-without-slideshow",
       "publishedAt":"2019-03-10T09:00:00+00:00",
       "status":"published",

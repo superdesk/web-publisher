@@ -1,0 +1,103 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <span class="sf-toolbar-value">Loaders</span>
+        <span class="sf-toolbar-status sf-toolbar-status-grey">{{ collector.data.calledLoaders|length }}</span>
+        {% if collector.data.totalDuration > 100 %}
+        <span class="sf-toolbar-status sf-toolbar-status-red">{{ collector.data.totalDuration }} ms</span>
+        {% endif %}
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { 'link': true }) }}
+
+{% endblock %}
+
+{% block menu %}
+    <span class="label{% if collector.data.totalDuration > 100 %} label-status-error{% endif %}">
+        <strong>Meta Loaders</strong>
+        <span class="count"><span>{{ collector.data.calledLoaders|length }}</span></span>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Meta loaders</h2>
+    <h3>Used meta loaders</h3>
+    <div class="metrics">
+        <div class="metric">
+            <span class="label">Used loaders</span>
+            <span class="value">{{ collector.data.calledLoaders|length}}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Loader calls</span>
+            <span class="value">{{ collector.data.totalCalls}}</span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Total duration</span>
+            <span class="value{% if collector.data.totalDuration > 100 %} status-error{% endif %}">{{ collector.data.totalDuration}} ms</span>
+        </div>
+    </div>
+
+    <div class="sf-tabs">
+        <div class="tab">
+            <h3 class="tab-title">Called Loaders <span class="badge">{{ collector.data.calledLoaders|length }}</span></h3>
+            <div class="tab-content">
+                <table>
+                    <thead>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">With</th>
+                        <th scope="col">Exclude</th>
+                        <th scope="col">Response Type</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Got results?</th>
+                    </tr>
+                    </thead>
+                    {% for class, loader in collector.data.calledLoaders %}
+                        <tbody>
+                            <tr>
+                                <td colspan="6" style="background-color: #E0E0E0">
+                                    <span style="font-weight: bold; font-size: 16px; padding-right: 20px;">{{ class }}</span>
+                                    Total duration: <span style="font-weight: bold; font-size: 16px">{{ loader.totalDuration }} ms</span>
+                                </td>
+                            </tr>
+                            {% for call in loader.calls %}
+                            <tr>
+                                <td>{{ call.type }}</td>
+                                <td>{{ dump(call.parameters) }}</td>
+                                <td>{{ dump(call.withoutParameters) }}</td>
+                                <td>{{ call.responseType == 0 ? "Single" : "Collection" }}</td>
+                                <td>{{ call.duration }} ms</td>
+                                <td>{{ call.found ? "YES" : "NO" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="tab">
+            <h3 class="tab-title">All Loaders </h3>
+            <div class="tab-content">
+                <table>
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width: 40%">Class</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for class, loader in collector.data.loaders %}
+                        <tr>
+                            <td>{{ class }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

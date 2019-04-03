@@ -48,7 +48,10 @@
         {
             "type": "vcs",
             "url": "https://gitbox.apache.org/repos/asf/logging-log4php.git"
-
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/takeit/DoctrineDataFixturesExtension"
         }
     ],
     "require": {
@@ -118,7 +121,7 @@
         "blackfire/php-sdk": "^1.17",
         "ocramius/proxy-manager": "<=2.1.1",
         "gos/react-amqp": "^0.2.0",
-        "behat-extension/doctrine-data-fixtures-extension": "^6.0",
+        "behat-extension/doctrine-data-fixtures-extension": "dev-container_aware",
         "takeit/stringy": "dev-fix"
     },
     "require-dev": {

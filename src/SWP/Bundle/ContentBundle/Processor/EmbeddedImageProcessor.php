@@ -78,7 +78,9 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         }
 
         $figCaptionNode = $crawler->filter('figure figcaption')->getNode(0);
-        $this->appendImageByline($articleMedia, $figCaptionNode);
+        if (null !== $figCaptionNode) {
+            $this->appendImageByline($articleMedia, $figCaptionNode);
+        }
 
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
     }

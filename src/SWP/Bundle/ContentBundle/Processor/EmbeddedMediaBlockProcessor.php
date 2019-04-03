@@ -58,7 +58,7 @@ final class EmbeddedMediaBlockProcessor implements ArticleBodyProcessorInterface
         $editor3MediaBlock = $mediaBlockElement->ownerDocument->saveHTML($mediaBlockElement);
         $newNodeHtml = '<!-- EMBED START Image {id: "'.$mediaId.'"} --><figure><img src="'.$item->first()->attr('src').'" alt="'.$item->first()->attr('alt').'" /><figcaption>'.$captionText.'</figcaption></figure><!-- EMBED END Image {id: "'.$mediaId.'"} -->';
 
-        $article->setBody(str_replace($editor3MediaBlock, $newNodeHtml, $crawler->html()));
+        $article->setBody(str_replace($editor3MediaBlock, $newNodeHtml, $crawler->filter('body')->html()));
     }
 
     public function supports(string $type): bool

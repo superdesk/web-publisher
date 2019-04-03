@@ -6,7 +6,6 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
-use Behatch\Json\Json;
 use GuzzleHttp\Client;
 
 class WebhookContext implements Context
@@ -18,25 +17,21 @@ class WebhookContext implements Context
     {
         $client = new Client();
         $response = $client->request('GET', $url);
-        $expected = str_replace('\\"', '"', $body);
-        $actual = $response->getBody()->getContents();
+        $actual = $this->normalizeJson($response->getBody()->getContents());
+        $expected = $this->normalizeJson($body->getRaw());
 
-        $expected = $this->convertToJson($expected);
-        $actual = $this->convertToJson($actual);
-
-        if ($expected !== $actual) {
-            throw new \Exception("The body $actual is not equal to $expected");
+        if ($actual !== $expected) {
+            throw new \Exception("The actual body: \n $actual \n\n is not equal to expected: \n $expected");
         }
     }
 
-    private function convertToJson(string $value): string
+    private function normalizeJson(string $value): string
     {
-        try {
-            $value = new Json($value);
-        } catch (\Exception $e) {
-            throw new \Exception('The expected JSON is not a valid');
+        $value = \json_decode($value, true);
+        if (JSON_ERROR_NONE !== \json_last_error()) {
+            throw new \Exception("The string '$value' is not valid json");
         }
 
-        return (string) $value;
+        return \json_encode($value);
     }
 }

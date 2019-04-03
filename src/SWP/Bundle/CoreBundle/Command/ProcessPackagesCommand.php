@@ -46,7 +46,7 @@ class ProcessPackagesCommand extends Command
 
     private $requestStack;
 
-    private $contentPushProducer;
+    private $migrationContentPushProducer;
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
@@ -54,7 +54,7 @@ class ProcessPackagesCommand extends Command
         PackageRepositoryInterface $packageRepository,
         PaginatorInterface $paginator,
         RequestStack $requestStack,
-        ProducerInterface $contentPushProducer
+        ProducerInterface $migrationContentPushProducer
     ) {
         parent::__construct();
 
@@ -63,7 +63,7 @@ class ProcessPackagesCommand extends Command
         $this->packageRepository = $packageRepository;
         $this->paginator = $paginator;
         $this->requestStack = $requestStack;
-        $this->contentPushProducer = $contentPushProducer;
+        $this->migrationContentPushProducer = $migrationContentPushProducer;
     }
 
     protected function configure(): void
@@ -130,7 +130,7 @@ EOT
                 'package' => $package,
                 'tenant' => $currentTenant,
             ]);
-            $this->contentPushProducer->publish($payload);
+            $this->migrationContentPushProducer->publish($payload);
         }
     }
 }

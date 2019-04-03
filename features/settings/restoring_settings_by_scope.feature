@@ -106,6 +106,18 @@ Feature: Checking if restoring settings by scope works correctly
         "name": "embedded_image_author_template"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"fbia_enabled"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"paywall_enabled"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",
@@ -301,6 +313,18 @@ Feature: Checking if restoring settings by scope works correctly
         "name": "embedded_image_author_template"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"fbia_enabled"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"paywall_enabled"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Oswald",
         "type":"string",
@@ -461,6 +485,18 @@ Feature: Checking if restoring settings by scope works correctly
         "scope": "tenant",
         "value": "(Photo: {{ author }})",
         "name": "embedded_image_author_template"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"fbia_enabled"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"paywall_enabled"
       },
       {
         "label":"Primary Font Family",
