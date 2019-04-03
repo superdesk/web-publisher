@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Form\Type;
 
+use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -33,7 +34,7 @@ class WidgetType extends AbstractType
             ->add('visible', TextType::class, [
                 'description' => 'Defines whether widget is visible or not (true or false).',
             ])
-            ->add('parameters', TextType::class, [
+            ->add('parameters', UnstructuredType::class, [
                 'required' => false,
             ]);
 

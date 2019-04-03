@@ -121,7 +121,6 @@
         "blackfire/php-sdk": "^1.17",
         "ocramius/proxy-manager": "<=2.1.1",
         "gos/react-amqp": "^0.2.0",
-        "behat-extension/doctrine-data-fixtures-extension": "dev-container_aware",
         "takeit/stringy": "dev-fix"
     },
     "require-dev": {
@@ -150,7 +149,8 @@
         "symfony/web-profiler-bundle": "^4.2",
         "symfony/web-server-bundle": "^4.2",
         "friends-of-behat/service-container-extension": "^1.0",
-        "friends-of-behat/symfony-extension": "^2.0"
+        "friends-of-behat/symfony-extension": "^2.0",
+        "behat-extension/doctrine-data-fixtures-extension": "dev-container_aware"
     },
     "replace": {
         "swp/common": "self.version",
