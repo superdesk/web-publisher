@@ -17,6 +17,7 @@ namespace spec\SWP\Component\MultiTenancy\Resolver;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 
 class TenantResolverSpec extends ObjectBehavior
 {
@@ -46,7 +47,33 @@ class TenantResolverSpec extends ObjectBehavior
             ->willReturn($tenant);
 
         $this->resolve('example1.domain.com')->shouldReturn($tenant);
-        $this->resolve('www.example1.domain.com')->shouldReturn($tenant);
+
+        $tenantRepository->findOneBySubdomainAndDomain('www.example1', 'domain.com')
+            ->shouldBeCalled()
+            ->willReturn(null);
+        $this
+            ->shouldThrow(TenantNotFoundException::class)
+            ->duringResolve('www.example1.domain.com');
+    }
+
+    public function it_resolves_tenant_from_www_subdomain($tenantRepository, TenantInterface $tenant)
+    {
+        $tenant->getId()->willReturn(1);
+        $tenant->getSubdomain()->willReturn('www');
+        $tenant->getName()->willReturn('example1');
+
+        $tenantRepository->findOneBySubdomainAndDomain('www', 'domain.com')
+            ->shouldBeCalled()
+            ->willReturn($tenant);
+
+        $this->resolve('www.domain.com')->shouldReturn($tenant);
+
+        $tenantRepository->findOneByDomain('domain.com')
+            ->shouldBeCalled()
+            ->willReturn(null);
+        $this
+            ->shouldThrow(TenantNotFoundException::class)
+            ->duringResolve('domain.com');
     }
 
     public function it_resolves_tenant_from_default_root_host($tenantRepository, TenantInterface $tenant)
@@ -60,6 +87,12 @@ class TenantResolverSpec extends ObjectBehavior
             ->willReturn($tenant);
 
         $this->resolve('domain.com')->shouldReturn($tenant);
-        $this->resolve('www.domain.com')->shouldReturn($tenant);
+
+        $tenantRepository->findOneBySubdomainAndDomain('www', 'domain.com')
+            ->shouldBeCalled()
+            ->willReturn(null);
+        $this
+            ->shouldThrow(TenantNotFoundException::class)
+            ->duringResolve('www.domain.com');
     }
 }

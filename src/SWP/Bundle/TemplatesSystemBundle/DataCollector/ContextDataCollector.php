@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\DataCollector;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -44,7 +46,9 @@ class ContextDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = [
-            'currentPage' => null !== $this->context->getCurrentPage() ? $this->context->getCurrentPage() : [],
+            'currentPage' => $this->context->getCurrentPage() instanceof MetaInterface ?
+                $this->getRouteData($this->context->getCurrentPage()->getValues()) :
+                [],
             'registeredMeta' => $this->context->getRegisteredMeta(),
         ];
     }
@@ -71,5 +75,25 @@ class ContextDataCollector extends DataCollector
     public function reset()
     {
         return;
+    }
+
+    private function getRouteData(?RouteInterface $route)
+    {
+        if (null === $route) {
+            return null;
+        }
+
+        return [
+            'title' => $route->getName(),
+            'parent' => $this->getRouteData($route->getParent()),
+            'templateName' => $route->getTemplateName(),
+            'articlesTemplateName' => $route->getArticlesTemplateName(),
+            'type' => $route->getType(),
+            'cacheTimeInSeconds' => $route->getCacheTimeInSeconds(),
+            'slug' => $route->getSlug(),
+            'variablePattern' => $route->getVariablePattern(),
+            'staticPrefix' => $route->getStaticPrefix(),
+            'position' => $route->getPosition(),
+        ];
     }
 }

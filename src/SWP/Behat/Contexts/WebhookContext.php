@@ -17,13 +17,11 @@ class WebhookContext implements Context
     {
         $client = new Client();
         $response = $client->request('GET', $url);
-        $actual = $response->getBody()->getContents();
-
+        $actual = $this->normalizeJson($response->getBody()->getContents());
         $expected = $this->normalizeJson($body->getRaw());
-        $actual = $this->normalizeJson($actual);
 
-        if ($expected !== $actual) {
-            throw new \Exception("The body $actual is not equal to $expected");
+        if ($actual !== $expected) {
+            throw new \Exception("The actual body: \n $actual \n\n is not equal to expected: \n $expected");
         }
     }
 
