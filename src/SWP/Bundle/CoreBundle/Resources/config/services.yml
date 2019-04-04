@@ -408,13 +408,14 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    swp_core.jms_tenant_handler:
-        class: SWP\Bundle\CoreBundle\Serializer\TenantHandler
+    SWP\Bundle\CoreBundle\Serializer\TenantHandler:
         arguments:
           - '@swp.repository.tenant'
           - '@router.default'
+          - '@swp_settings.manager.settings'
         tags:
             - { name: jms_serializer.subscribing_handler }
+            - { name: jms_serializer.event_subscriber }
 
     swp_core.jms_theme_handler:
         class: SWP\Bundle\CoreBundle\Serializer\ThemeSerializationSubscriber

@@ -16,35 +16,32 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Serializer;
 
+use JMS\Serializer\EventDispatcher\Events;
+use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
+use JMS\Serializer\EventDispatcher\ObjectEvent;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
+use SWP\Bundle\CoreBundle\Context\ScopeContext;
+use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-final class TenantHandler implements SubscribingHandlerInterface
+final class TenantHandler implements SubscribingHandlerInterface, EventSubscriberInterface
 {
-    /**
-     * @var TenantRepositoryInterface
-     */
     private $tenantRepository;
 
-    /**
-     * @var RouterInterface
-     */
     private $router;
 
-    /**
-     * TenantHandler constructor.
-     *
-     * @param TenantRepositoryInterface $tenantRepository
-     * @param RouterInterface           $router
-     */
-    public function __construct(TenantRepositoryInterface $tenantRepository, RouterInterface $router)
+    private $settingsManager;
+
+    public function __construct(TenantRepositoryInterface $tenantRepository, RouterInterface $router, SettingsManagerInterface $settingsManager)
     {
         $this->tenantRepository = $tenantRepository;
         $this->router = $router;
+        $this->settingsManager = $settingsManager;
     }
 
     /**
@@ -60,6 +57,24 @@ final class TenantHandler implements SubscribingHandlerInterface
                 'method' => 'serializeToJson',
             ),
         );
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            [
+                'event' => Events::POST_SERIALIZE,
+                'class' => Tenant::class,
+                'method' => 'onPostSerialize',
+            ],
+        ];
+    }
+
+    public function onPostSerialize(ObjectEvent $event): void
+    {
+        $tenant = $event->getObject();
+        $event->getVisitor()->setData('fbiaEnabled', $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
+        $event->getVisitor()->setData('paywallEnabled', $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
     }
 
     public function serializeToJson(
@@ -80,11 +95,13 @@ final class TenantHandler implements SubscribingHandlerInterface
            'code' => $tenantCode,
            'name' => $tenant->getName(),
            'ampEnabled' => $tenant->isAmpEnabled(),
-            '_links' => [
-                'self' => [
-                    'href' => $this->router->generate('swp_api_core_get_tenant', ['code' => $tenantCode]),
-                ],
-            ],
+           'fbiaEnabled' => $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false),
+           'paywallEnabled' => $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false),
+           '_links' => [
+               'self' => [
+                   'href' => $this->router->generate('swp_api_core_get_tenant', ['code' => $tenantCode]),
+               ],
+           ],
        ];
     }
 }
