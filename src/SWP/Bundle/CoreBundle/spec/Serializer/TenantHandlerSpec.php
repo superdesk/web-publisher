@@ -19,16 +19,19 @@ namespace spec\SWP\Bundle\CoreBundle\Serializer;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Serializer\TenantHandler;
+use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 final class TenantHandlerSpec extends ObjectBehavior
 {
-    public function let(TenantRepositoryInterface $tenantRepository, RouterInterface $router)
+    public function let(TenantRepositoryInterface $tenantRepository, RouterInterface $router, SettingsManagerInterface $settingsManager)
     {
-        $this->beConstructedWith($tenantRepository, $router);
+        $settingsManager->get(Argument::cetera())->willReturn(false);
+        $this->beConstructedWith($tenantRepository, $router, $settingsManager);
     }
 
     public function it_is_initializable()
@@ -65,6 +68,8 @@ final class TenantHandlerSpec extends ObjectBehavior
             'code' => '123abc',
             'name' => 'Default',
             'ampEnabled' => true,
+            'fbiaEnabled' => false,
+            'paywallEnabled' => false,
             '_links' => [
                 'self' => [
                     'href' => 'url',

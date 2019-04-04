@@ -73,8 +73,8 @@ final class TenantHandler implements SubscribingHandlerInterface, EventSubscribe
     public function onPostSerialize(ObjectEvent $event): void
     {
         $tenant = $event->getObject();
-        $event->getVisitor()->setData('fbiaEnabled', $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant));
-        $event->getVisitor()->setData('paywallEnabled', $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant));
+        $event->getVisitor()->setData('fbiaEnabled', $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
+        $event->getVisitor()->setData('paywallEnabled', $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
     }
 
     public function serializeToJson(
@@ -95,8 +95,8 @@ final class TenantHandler implements SubscribingHandlerInterface, EventSubscribe
            'code' => $tenantCode,
            'name' => $tenant->getName(),
            'ampEnabled' => $tenant->isAmpEnabled(),
-           'fbiaEnabled' => $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant),
-           'paywallEnabled' => $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant),
+           'fbiaEnabled' => $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false),
+           'paywallEnabled' => $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false),
            '_links' => [
                'self' => [
                    'href' => $this->router->generate('swp_api_core_get_tenant', ['code' => $tenantCode]),
