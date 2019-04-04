@@ -15,26 +15,26 @@ composer install
 #### 3. Create database
 
 ```bash
-php app/console doctrine:database:create
+php bin/console doctrine:database:create
 ```
 
 #### 4. Populate database schema
 
 ```bash
-php app/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate
 ```
 
 #### 5. Populate database with test data
  
 
 ```bash
-php app/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load
 ```
 
 or 
 
 ```bash
-php -d memory_limit=-1 app/console doctrine:fixtures:load
+php -d memory_limit=-1 bin/console doctrine:fixtures:load
 ```
 
 
@@ -59,14 +59,14 @@ $ mv config/jwt/private2.pem config/jwt/private.pem
 #### 7. Install demo theme
 
 ```bash
-php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
+php bin/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
 ```
 
 
 #### 8. Install theme assets:
 
 ```bash
-php app/console sylius:theme:assets:install
+php bin/console sylius:theme:assets:install
 ```
 
 #### 9. Run RabbitMQ consumers
@@ -76,7 +76,7 @@ For supervisor setup (and consumers managed by it) read instructions in `supervi
 #### 10. Run WebSocket server:
 
 ```bash
-php app/console gos:websocket:server
+php bin/console gos:websocket:server
 ```
 
 or it can be started using [Supervisor](supervisor.md#running-websocket-server).
@@ -86,7 +86,7 @@ or it can be started using [Supervisor](supervisor.md#running-websocket-server).
 Run project with built in php server:
 
 ```bash
-php app/console server:start
+php bin/console server:start
 ```
 
 Access the Superdesk Publisher in your browser at `http://localhost:8000`.

@@ -99,7 +99,7 @@ Load assets from the theme's public directory (``app/themes/<theme-name>/public`
 
 
 1. Put the ``example.css`` asset file inside ``<theme-name>/public/css/`` directory.
-2. Install assets by running command: ``php app/console sylius:theme:assets:install``.
+2. Install assets by running command: ``php bin/console sylius:theme:assets:install``.
 3. Make use of the asset file in twig templates:
 
 .. code-block:: twig
@@ -148,7 +148,7 @@ Where {fileName} can be only :code:`sw`, :code:`manifest`, :code:`favicon` or :c
 Load bundles' assets
 ````````````````````
 
-1. Install Symfony assets by running command: ``php app/console assets:install``.
+1. Install Symfony assets by running command: ``php bin/console assets:install``.
 2. Make use of the asset file in twig templates:
 
 .. code-block:: twig
@@ -164,7 +164,7 @@ Let's assume there is a ``body.css`` file placed inside this bundle (``Resources
 To override ``body.css`` file from your theme, you need to place your new ``body.css`` file inside ``app/themes/<theme-name>/AcmeDemoBundle/public`` directory:
 
 1. Put the ``body.css`` asset file inside ``app/themes/<theme-name>/AcmeDemoBundle/public`` directory.
-2. Install assets by running command: ``php app/console sylius:theme:assets:install``.
+2. Install assets by running command: ``php bin/console sylius:theme:assets:install``.
 3. Make use of the asset file in twig templates:
 
 .. code-block:: twig
@@ -196,12 +196,12 @@ Here is an example of the preferred syntax in twig templates:
 
 	{{ 'index.welcome.title'|trans|desc('Welcome to Default Theme!') }}
 
-Translation labels added to Twig and php files can be extracted and added to XLIFF files using a `console command <http://jmsyst.com/bundles/JMSTranslationBundle/master/usage>`_ :code:`app/console translation:extract`.
+Translation labels added to Twig and php files can be extracted and added to XLIFF files using a `console command <http://jmsyst.com/bundles/JMSTranslationBundle/master/usage>`_ :code:`bin/console translation:extract`.
 This command can be used to create or update a XLIFF file in the locale :code:`en` for the :code:`DefaultTheme` of the FixturesBundle:
 
 .. code-block:: bash
 
-	app/console translation:extract en --dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ --output-dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/translations
+	bin/console translation:extract en --dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ --output-dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/translations
 
 This will create or update a XLIFF file in English called :code:`messages.en.xlf`, which can be used with a translation tool.
 
@@ -211,7 +211,7 @@ AMP HTML Integration
 `Google AMP HTML <https://www.ampproject.org/>`_ integration comes with Superdesk Publisher out of the box.
 This integration gives you a lot of features provided by Google. To name a few: fast loading time and accessibility via Google engines etc. There is no need to install any dependencies, all you need to do is to create AMP HTML compatible theme or use the `default one <https://github.com/superdesk/web-publisher/tree/master/src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/amp/amp-theme>`_ provided by us.
 
-Default AMP HTML theme is bundled in our main Demo Theme and can be installed using ``php app/console swp:theme:install`` command.
+Default AMP HTML theme is bundled in our main Demo Theme and can be installed using ``php bin/console swp:theme:install`` command.
 
 You could also copy it to your own main theme and adjust it in a way you wish.
 

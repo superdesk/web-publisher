@@ -14,7 +14,7 @@ created from request content and :code:`secret token` value with sha1 algorithm 
 
 .. code-block:: bash
 
-    php app/console swp:organization:update OrganizationName --secretToken secret_token
+    php bin/console swp:organization:update OrganizationName --secretToken secret_token
 
 Organization secret token is not visible in any API.
 

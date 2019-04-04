@@ -9,7 +9,7 @@ Load assets from the theme's public directory (``app/themes/<theme-name>/public`
 ``````````````````````````````````````````````````````````````````````````````````
 
 1. Put the ``example.css`` asset file inside ``<theme-name>/public/css/`` directory.
-2. Install assets by running command: ``php app/console sylius:theme:assets:install``.
+2. Install assets by running command: ``php bin/console sylius:theme:assets:install``.
 3. Make use of the asset file in twig templates:
 
 .. code-block:: twig
@@ -58,7 +58,7 @@ Where {fileName} can be only :code:`sw` or :code:`manifest`.
 Load bundles' assets
 ````````````````````
 
-1. Install Symfony assets by running command: ``php app/console assets:install``.
+1. Install Symfony assets by running command: ``php bin/console assets:install``.
 2. Make use of the asset file in twig templates:
 
 .. code-block:: twig
@@ -74,7 +74,7 @@ Let's assume there is a ``body.css`` file placed inside this bundle (``Resources
 To override ``body.css`` file from your theme, you need to place your new ``body.css`` file inside ``app/themes/<theme-name>/AcmeDemoBundle/public`` directory:
 
 1. Put the ``body.css`` asset file inside ``app/themes/<theme-name>/AcmeDemoBundle/public`` directory.
-2. Install assets by running command: ``php app/console sylius:theme:assets:install``.
+2. Install assets by running command: ``php bin/console sylius:theme:assets:install``.
 3. Make use of the asset file in twig templates:
 
 .. code-block:: twig

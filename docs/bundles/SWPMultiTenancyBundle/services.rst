@@ -97,7 +97,7 @@ You can execute this initializer, together with the generic one, by running the 
 
 .. code-block:: bash
 
-  php app/console doctrine:phpcr:repository:init
+  php bin/console doctrine:phpcr:repository:init
 
 Running this command will trigger the generic initializer which is provided by the DoctrinePHPCRBundle.
 The generic initializer will be fired before this one, and will create the root base path in the content

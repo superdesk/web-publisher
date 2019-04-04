@@ -108,7 +108,7 @@ Run the following command:
 
 .. code-block:: bash
 
-    $ php app/console doctrine:schema:update --force
+    $ php bin/console doctrine:schema:update --force
 
 That's it, the bundle is configured properly now!
 

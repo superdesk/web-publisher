@@ -119,11 +119,11 @@ Execute the following commands in the console:
 
 .. code-block:: bash
 
-    php app/console doctrine:schema:update --force
-    php app/console doctrine:phpcr:repository:init
-    php app/console swp:organization:create --default
-    php app/console swp:tenant:create --default
-    php app/console doctrine:phpcr:repository:init
+    php bin/console doctrine:schema:update --force
+    php bin/console doctrine:phpcr:repository:init
+    php bin/console swp:organization:create --default
+    php bin/console swp:tenant:create --default
+    php bin/console doctrine:phpcr:repository:init
 
 That's it, the bundle is configured properly now!
 
