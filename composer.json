@@ -117,7 +117,8 @@
         "blackfire/php-sdk": "^1.17",
         "ocramius/proxy-manager": "<=2.1.1",
         "gos/react-amqp": "^0.2.0",
-        "takeit/stringy": "dev-fix"
+        "takeit/stringy": "dev-fix",
+        "symfony/routing": "^4.3"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

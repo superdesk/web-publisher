@@ -17,13 +17,13 @@ declare(strict_types=1);
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Controller;
 
 use SWP\Bundle\FacebookInstantArticlesBundle\Model\PageInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class AutorizationController extends Controller
+class AutorizationController extends AbstractController
 {
     const INSTANT_ARTICLES_SCOPES = ['pages_manage_instant_articles', 'pages_show_list'];
 

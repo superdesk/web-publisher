@@ -15,6 +15,7 @@ use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class AutorizationControllerSpec extends ObjectBehavior
@@ -39,6 +40,7 @@ class AutorizationControllerSpec extends ObjectBehavior
         $container->get('swp.object_manager.facebook_page')->willReturn($objectManager);
         $container->get('swp_facebook.manager')->willReturn($facebookManager);
         $container->get('swp_facebook.instant_articles_manager')->willReturn($facebookInstantArticlesManager);
+        $router->generate(Argument::cetera(), Argument::cetera(), UrlGeneratorInterface::ABSOLUTE_URL)->willReturn('http://example.com/');
         $container->get('router')->willReturn($router);
         $redirectLoginHelper->getLoginUrl(Argument::cetera())->willReturn('http://example.com/');
         $facebook->getRedirectLoginHelper()->willReturn($redirectLoginHelper);
