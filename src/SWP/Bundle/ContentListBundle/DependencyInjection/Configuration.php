@@ -35,8 +35,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('swp_content_list')
+        $treeBuilder = new TreeBuilder('swp_content_list');
+        $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('persistence')
                     ->addDefaultsIfNotSet()
