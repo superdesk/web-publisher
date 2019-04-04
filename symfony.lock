@@ -1075,6 +1075,9 @@
     "takeit/amp-html-bundle": {
         "version": "v0.2"
     },
+    "takeit/doctrine-data-fixtures-extension": {
+        "version": "5.0.x-dev"
+    },
     "takeit/stringy": {
         "version": "dev-fix"
     },

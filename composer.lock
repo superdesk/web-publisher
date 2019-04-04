@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "962904b80a8e28b9ef3489cd186be057",
+    "content-hash": "e99182aa02994784d55142cb2e86796b",
     "packages": [
         {
             "name": "apache/log4php",
@@ -16310,6 +16310,74 @@
             "time": "2019-03-04T10:37:56+00:00"
         },
         {
+            "name": "takeit/doctrine-data-fixtures-extension",
+            "version": "dev-container_aware",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/takeit/DoctrineDataFixturesExtension.git",
+                "reference": "2f46cf829495881180ee19092fb874e853427ab7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/takeit/DoctrineDataFixturesExtension/zipball/2f46cf829495881180ee19092fb874e853427ab7",
+                "reference": "2f46cf829495881180ee19092fb874e853427ab7",
+                "shasum": ""
+            },
+            "require": {
+                "behat/behat": "^3.0",
+                "behat/symfony2-extension": "^2.0",
+                "doctrine/data-fixtures": "^1.0",
+                "doctrine/orm": "^2.6",
+                "php": "^7.1",
+                "symfony/dependency-injection": "^3.4|^4.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^1.8",
+                "doctrine/doctrine-fixtures-bundle": "^3.0",
+                "phpstan/phpstan": "^0.9.2",
+                "symfony/process": "^3.4|^4.0"
+            },
+            "suggest": {
+                "doctrine/migrations": "Uses DBAL to load versioned database schema and migration classes",
+                "symfony/process": "For backup support on pgsql or mysql platforms"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BehatExtension\\DoctrineDataFixturesExtension\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "role": "developer"
+                },
+                {
+                    "name": "Anthon Pang",
+                    "email": "apang@softwaredevelopment.ca",
+                    "role": "original developer"
+                }
+            ],
+            "description": "Doctrine data fixtures extension for Behat",
+            "homepage": "http://github.com/BehatExtension/",
+            "keywords": [
+                "BDD",
+                "Behat",
+                "Data fixtures",
+                "doctrine"
+            ],
+            "time": "2019-04-04T09:01:33+00:00"
+        },
+        {
             "name": "theofidry/alice-data-fixtures",
             "version": "v1.1.1",
             "source": {
@@ -16499,7 +16567,7 @@
         "friendsofsymfony/user-bundle": 20,
         "takeit/stringy": 20,
         "roave/security-advisories": 20,
-        "behat-extension/doctrine-data-fixtures-extension": 20
+        "takeit/doctrine-data-fixtures-extension": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

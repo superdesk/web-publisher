@@ -48,10 +48,6 @@
         {
             "type": "vcs",
             "url": "https://gitbox.apache.org/repos/asf/logging-log4php.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/takeit/DoctrineDataFixturesExtension"
         }
     ],
     "require": {
@@ -150,7 +146,7 @@
         "symfony/web-server-bundle": "^4.2",
         "friends-of-behat/service-container-extension": "^1.0",
         "friends-of-behat/symfony-extension": "^2.0",
-        "behat-extension/doctrine-data-fixtures-extension": "dev-container_aware"
+        "takeit/doctrine-data-fixtures-extension": "dev-container_aware"
     },
     "replace": {
         "swp/common": "self.version",

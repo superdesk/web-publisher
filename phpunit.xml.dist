@@ -29,6 +29,7 @@
             <exclude>src/SWP/Bundle/CoreBundle/WordpressAdapterTestTests/Security/Storage/DynamicDomainSessionStorageTest.php</exclude>
             <exclude>src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php</exclude>
             <exclude>src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php</exclude>
+            <exclude>src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php</exclude>
         </testsuite>
     </testsuites>
 
