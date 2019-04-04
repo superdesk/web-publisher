@@ -23,10 +23,15 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
-    swp_content_list.loader.content_list:
-        class: SWP\Bundle\ContentListBundle\Loader\ContentListLoader
+    SWP\Bundle\ContentListBundle\Loader\ContentListLoader:
+        public: false
         arguments:
             - "@swp.repository.content_list"
             - "@swp_template_engine_context.factory.meta_factory"
+
+    swp_content_list.loader.content_list:
+        class: SWP\Component\TemplatesSystem\Gimme\Loader\MemoryCachedLoader
+        arguments:
+            - '@SWP\Bundle\ContentListBundle\Loader\ContentListLoader'
         tags:
             - { name: swp.meta_loader.add }

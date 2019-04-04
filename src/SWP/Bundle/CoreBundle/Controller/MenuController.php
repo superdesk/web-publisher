@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\MenuBundle\MenuEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
@@ -42,8 +41,7 @@ class MenuController extends Controller
      *         404="No menus found."
      *     }
      * )
-     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_menu")
-     * @Method("GET")
+     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_menu")
      */
     public function listAction()
     {
@@ -63,8 +61,7 @@ class MenuController extends Controller
      *         404="No menus found."
      *     }
      * )
-     * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_children_menu")
-     * @Method("GET")
+     * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_children_menu")
      */
     public function listChildrenAction($id)
     {
@@ -93,8 +90,7 @@ class MenuController extends Controller
      *     },
      *     input="SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType"
      * )
-     * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
-     * @Method("PATCH")
+     * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
      */
     public function moveAction(Request $request, $id)
     {
@@ -126,8 +122,7 @@ class MenuController extends Controller
      *         422="Menu id is not number"
      *     }
      * )
-     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_menu")
-     * @Method("GET")
+     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_menu")
      */
     public function getAction($id)
     {
@@ -147,9 +142,7 @@ class MenuController extends Controller
      *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
      * )
      *
-     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_menu")
-     *
-     * @Method("POST")
+     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_create_menu")
      *
      * @param Request $request
      *
@@ -186,8 +179,7 @@ class MenuController extends Controller
      *         422="Menu id is not number"
      *     }
      * )
-     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_menu")
-     * @Method("DELETE")
+     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_core_delete_menu")
      */
     public function deleteAction(int $id)
     {
@@ -214,8 +206,7 @@ class MenuController extends Controller
      *     },
      *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
      * )
-     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_menu")
-     * @Method("PATCH")
+     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_menu")
      *
      * @param Request $request
      * @param int     $id

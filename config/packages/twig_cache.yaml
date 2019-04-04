@@ -1,0 +1,3 @@
+twig_cache:
+  service: "doctrine_cache.providers.main_cache"
+  key_generator: "swp_core.key_generator.meta_key_generator"

@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType;
 use SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProviderInterface;
@@ -40,10 +39,8 @@ class CurrentThemeController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType"
      * )
-     * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_upload_theme_logo_2")
-     * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_upload_theme_logo")
-     *
-     * @Method("POST")
+     * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
+     * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_upload_theme_logo")
      *
      * @param Request $request
      * @param string  $type
@@ -94,8 +91,7 @@ class CurrentThemeController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_theme_settings_list")
-     * @Method("GET")
+     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_theme_settings_list")
      *
      * @return SingleResourceResponse
      */

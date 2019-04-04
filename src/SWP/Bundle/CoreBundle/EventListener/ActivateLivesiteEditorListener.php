@@ -75,7 +75,7 @@ class ActivateLivesiteEditorListener
             }
 
             $response->headers->setCookie(new Cookie(self::ACTIVATION_KEY, $request->attributes->get(self::ACTIVATION_KEY), 0, '/', null, false, false));
-            $response->headers->setCookie(new Cookie(self::APPEND_SCRIPTS, true));
+            $response->headers->setCookie(new Cookie(self::APPEND_SCRIPTS, 'true'));
         }
 
         $this->injectScripts($response, $request);

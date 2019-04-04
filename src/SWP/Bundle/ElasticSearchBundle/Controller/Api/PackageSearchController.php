@@ -17,14 +17,13 @@ declare(strict_types=1);
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PackageSearchController extends Controller
 {
@@ -50,8 +49,7 @@ class PackageSearchController extends Controller
      *         {"name"="route", "dataType"="array", "description"="Routes ids"}
      *     }
      * )
-     * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_packages")
-     * @Method("GET")
+     * @Route("/api/{version}/packages/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_packages")
      */
     public function searchAction(Request $request)
     {

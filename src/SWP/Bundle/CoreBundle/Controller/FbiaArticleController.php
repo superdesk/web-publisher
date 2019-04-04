@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -38,8 +37,7 @@ class FbiaArticleController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_instant_articles_articles")
-     * @Method("GET")
+     * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_articles")
      */
     public function listAction(Request $request)
     {
@@ -63,8 +61,7 @@ class FbiaArticleController extends Controller
      *         500="Unexpected error."
      *     }
      * )
-     * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_facebook_instant_articles_articles_update")
-     * @Method("POST")
+     * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_facebook_instant_articles_articles_update")
      */
     public function updateSubmissionAction(string $submissionId)
     {

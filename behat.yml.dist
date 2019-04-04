@@ -1,0 +1,52 @@
+default:
+    calls:
+        error_reporting: 16383 # E_ALL & ~E_USER_DREPRECATED
+    suites:
+        default:
+            contexts:
+                - rdx\behatvars\BehatVariablesContext
+                - FeatureContext
+                - JsonContext
+                - AuthTokenContext:
+                    userProvider: '@swp.security.user_provider'
+                    apiKeyRepository: '@swp.repository.api_key'
+                    apiKeyFactory: '@swp.factory.api_key'
+                - Behat\MinkExtension\Context\MinkContext
+                - SWP\Behat\Contexts\TenantContext
+                - SWP\Behat\Contexts\ContentListContext
+                - SWP\Behat\Contexts\ContentListItemContext
+                - SWP\Behat\Contexts\RouteContext
+                - SWP\Behat\Contexts\ArticleContext
+                - SWP\Behat\Contexts\TemplatingContext
+                - SWP\Behat\Contexts\CommandContext
+                - SWP\Behat\Contexts\PackageContext
+                - SWP\Behat\Contexts\RuleContext
+                - SWP\Behat\Contexts\WebhookContext
+                - SWP\Behat\Contexts\DateTimeContext
+                - SWP\Behat\Contexts\UserContext
+                - SWP\Behat\Contexts\Hook\DoctrineORMContext
+
+    extensions:
+        rdx\behatvars\BehatVariablesExtension: ~
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: features/bootstrap/bootstrap.php
+                class: App\Kernel
+                path: src/Kernel.php
+
+        Behat\MinkExtension:
+            base_url: "http://localhost/"
+            files_path: 'features/fixtures'
+            sessions:
+                default:
+                    symfony2: ~
+        Behatch\Extension: ~
+        BehatExtension\DoctrineDataFixturesExtension\Extension:
+              lifetime: feature
+              autoload: false
+              fixtures:
+                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
+                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
+                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
+        FriendsOfBehat\ServiceContainerExtension: ~
+        FriendsOfBehat\SymfonyExtension: ~

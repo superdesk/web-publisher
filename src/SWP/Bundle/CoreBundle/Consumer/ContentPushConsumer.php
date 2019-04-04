@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Consumer;
 
-use Doctrine\DBAL\ConnectionException;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -24,6 +24,7 @@ use Psr\Log\LoggerInterface;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
@@ -83,7 +84,7 @@ class ContentPushConsumer implements ConsumerInterface
     {
         try {
             return $this->doExecute($msg);
-        } catch (ConnectionException $e) {
+        } catch (DBALException $e) {
             throw $e;
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
@@ -95,10 +96,12 @@ class ContentPushConsumer implements ConsumerInterface
     public function doExecute(AMQPMessage $message): int
     {
         $decodedMessage = \unserialize($message->body);
-        $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $decodedMessage['tenant']->getId()));
-
+        /** @var TenantInterface $tenant */
+        $tenant = $decodedMessage['tenant'];
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
+
+        $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $tenant->getId()));
 
         /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);

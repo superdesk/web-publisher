@@ -66,6 +66,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: array
         slideshows:
             expose: true
+            type: array<SWP\Bundle\ContentBundle\Model\SlideshowInterface>
     relations:
         -
             rel: self
@@ -93,3 +94,5 @@ SWP\Bundle\ContentBundle\Model\Article:
                 route: swp_api_content_list_related_articles
                 parameters:
                     id: "expr(object.getId())"
+            exclusion:
+                exclude_if: "expr(null === object.getId())"

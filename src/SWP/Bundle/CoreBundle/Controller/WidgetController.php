@@ -16,8 +16,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -44,8 +43,7 @@ class WidgetController extends FOSRestController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets")
-     * @Method("GET")
+     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_list_widgets")
      */
     public function listAction(Request $request)
     {
@@ -66,12 +64,11 @@ class WidgetController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/templates/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets_templates")
-     * @Method("GET")
+     * @Route("/api/{version}/templates/widgets/templates/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_list_widgets_templates")
      */
     public function listTemplatesAction(Request $request)
     {
-        $themeContext = $this->container->get('sylius.context.theme');
+        $themeContext = $this->container->get('swp_core.theme.context.tenant_aware');
         $path = $themeContext->getTheme()->getPath().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'widgets';
 
         if (!file_exists($path)) {
@@ -108,8 +105,7 @@ class WidgetController extends FOSRestController
      *         422="Widget id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget")
-     * @Method("GET")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_get_widget")
      */
     public function getAction($id)
     {
@@ -133,8 +129,7 @@ class WidgetController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
-     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
-     * @Method("POST")
+     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_templates_create_widget")
      */
     public function createAction(Request $request)
     {
@@ -163,8 +158,7 @@ class WidgetController extends FOSRestController
      *         422="Widget id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_widget")
-     * @Method("DELETE")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_templates_delete_widget")
      */
     public function deleteAction($id)
     {
@@ -194,8 +188,7 @@ class WidgetController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_widget")
-     * @Method("PATCH")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_templates_update_widget")
      */
     public function updateAction(Request $request, $id)
     {

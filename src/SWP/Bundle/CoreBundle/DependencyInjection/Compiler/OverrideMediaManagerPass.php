@@ -30,12 +30,14 @@ final class OverrideMediaManagerPass extends AbstractOverridePass
         $mediaManager = $this->getDefinitionIfExists($container, 'swp_content_bundle.manager.media');
         $mediaManager
             ->setClass(MediaManager::class)
+            ->setPublic(true)
             ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
         ;
 
         $authorMediaManager = new Definition(AuthorMediaManager::class);
         $authorMediaManager
             ->setArguments($mediaManager->getArguments())
+            ->setPublic(true)
             ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
         ;
         $container->setDefinition('swp_core_bundle.manager.author_media', $authorMediaManager);

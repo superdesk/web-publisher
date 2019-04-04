@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider;
 use SWP\Component\Common\Exception\NotFoundHttpException;
@@ -42,8 +41,7 @@ class SubscriptionController extends Controller
      *         {"name"="articleId", "dataType"="integer", "pattern"="\d+"},
      *     }
      * )
-     * @Route("/api/{version}/subscriptions/{userId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_paywall_list_subscriptions", requirements={"id"="\d+"})
-     * @Method("GET")
+     * @Route("/api/{version}/subscriptions/{userId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_paywall_list_subscriptions", requirements={"id"="\d+"})
      */
     public function getAction(Request $request, int $userId)
     {

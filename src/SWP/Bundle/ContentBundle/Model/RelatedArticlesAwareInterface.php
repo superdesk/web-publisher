@@ -26,5 +26,5 @@ interface RelatedArticlesAwareInterface
 
     public function hasRelatedArticle(RelatedArticleInterface $relatedArticle): bool;
 
-    public function getRelatedArticles(): Collection;
+    public function getRelatedArticles(): ?Collection;
 }

@@ -1,0 +1,24 @@
+imports:
+  - { resource: "@SWPAnalyticsBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPOutputChannelBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPPaywallBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPElasticSearchBundle/Resources/config/app/config.yml" }
+
+parameters:
+  data_collector.config.class: "Symfony\\Component\\Translation\\DataCollector\\TranslationDataCollector"
+  sylius_core.public_dir: '%kernel.project_dir%/public'
+  env(SUPERDESK_SERVERS): '["https://superdesk.dev"]'
+  superdesk_servers: '%env(json:resolve:SUPERDESK_SERVERS)%'
+  env(SWP_DOMAIN): '%env(SWP_DOMAIN)%'
+
+swp_core:
+  device_listener:
+    enabled: true

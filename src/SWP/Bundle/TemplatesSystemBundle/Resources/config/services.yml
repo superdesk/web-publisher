@@ -75,6 +75,14 @@ services:
         tags:
             - { name: data_collector, template: "SWPTemplatesSystemBundle:Collector:contextCollector", id: "context_collector" }
 
+
+    swp_template_engine.data_collector.meta_loader_collector:
+        class: SWP\Bundle\TemplatesSystemBundle\DataCollector\MetaLoaderCollector
+        arguments:
+            - "@swp_template_engine_loader_chain"
+        tags:
+            - { name: data_collector, template: "SWPTemplatesSystemBundle:Collector:loadersCollector", id: "meta_loader_collector" }
+
     swp.provider.container:
         class: SWP\Bundle\TemplatesSystemBundle\Provider\ContainerProvider
         arguments:

@@ -17,15 +17,16 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleList;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleListItem;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Model\GroupInterface;
+use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class RelatedArticleOrganizationController extends Controller
 {
@@ -37,26 +38,52 @@ class RelatedArticleOrganizationController extends Controller
      *         200="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/organization/articles/related/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_organization_related_articles")
-     * @Method("POST")
+     * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_organization_related_articles")
      */
-    public function getAction(Request $request)
+    public function postAction(Request $request)
     {
         $content = $request->getContent();
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
 
+        $relatedArticlesList = $this->getRelated($package);
+
+        return new SingleResourceResponse($relatedArticlesList);
+    }
+
+    /**
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Returns a list of related articles",
+     *     statusCodes={
+     *         200="Returned on success"
+     *     }
+     * )
+     * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
+     */
+    public function getRelatedAction(string $id)
+    {
+        $package = $this->findOr404((int) $id);
+
+        $relatedArticlesList = $this->getRelated($package);
+
+        return new SingleResourceResponse($relatedArticlesList);
+    }
+
+    private function getRelated(PackageInterface $package): RelatedArticleList
+    {
         $relatedItemsGroups = $package->getGroups()->filter(function ($group) {
             return GroupInterface::TYPE_RELATED === $group->getType();
         });
 
+        $relatedArticlesList = new RelatedArticleList();
+
         if (null === $package || (null !== $package && 0 === \count($relatedItemsGroups))) {
-            return;
+            return $relatedArticlesList;
         }
 
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $articleRepository = $this->get('swp.repository.article');
 
-        $relatedArticlesList = new RelatedArticleList();
         foreach ($relatedItemsGroups as $relatedItemsGroup) {
             foreach ($relatedItemsGroup->getItems() as $item) {
                 if (null === ($existingArticles = $articleRepository->findBy(['code' => $item->getGuid()]))) {
@@ -79,6 +106,17 @@ class RelatedArticleOrganizationController extends Controller
             }
         }
 
-        return new SingleResourceResponse($relatedArticlesList);
+        return $relatedArticlesList;
+    }
+
+    private function findOr404(int $id): PackageInterface
+    {
+        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+        if (null === $package = $this->get('swp.repository.package')->findOneBy(['id' => $id, 'organization' => $tenantContext->getTenant()->getOrganization()])) {
+            throw new NotFoundHttpException('Package was not found.');
+        }
+
+        return $package;
     }
 }

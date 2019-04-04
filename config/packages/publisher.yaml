@@ -1,8 +1,0 @@
-parameters:
-    env(SUPERDESK_SERVERS): '["https://superdesk.dev"]'
-    env(SWP_DOMAIN): '%env(SWP_DOMAIN)%'
-
-swp_core:
-    device_listener:
-        enabled: true
-    superdesk_servers: '%env(json:resolve:SUPERDESK_SERVERS)%'

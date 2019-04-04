@@ -7,7 +7,6 @@ return [
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
-
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Sylius\Bundle\ThemeBundle\SyliusThemeBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
@@ -32,7 +31,6 @@ return [
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class => ['all' => true],
-
     SWP\Bundle\StorageBundle\SWPStorageBundle::class => ['all' => true],
     SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle::class => ['all' => true],
     SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle::class => ['all' => true],
@@ -50,24 +48,20 @@ return [
     SWP\Bundle\OutputChannelBundle\SWPOutputChannelBundle::class => ['all' => true],
     SWP\Bundle\PaywallBundle\SWPPaywallBundle::class => ['all' => true],
     SWP\Bundle\CoreBundle\SWPCoreBundle::class => ['all' => true],
-
     FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
     SWP\Bundle\ElasticSearchBundle\SWPElasticSearchBundle::class => ['all' => true],
     OldSound\RabbitMqBundle\OldSoundRabbitMqBundle::class => ['all' => true],
     Gos\Bundle\WebSocketBundle\GosWebSocketBundle::class => ['all' => true],
     Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle::class => ['all' => true],
-
     Sentry\SentryBundle\SentryBundle::class => ['all' => true],
-
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true, 'test' => true],
-    Sensio\Bundle\DistributionBundle\SensioDistributionBundle::class => ['dev' => true, 'test' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle::class => ['dev' => true, 'test' => true],
     Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle::class => ['dev' => true, 'test' => true],
     SWP\Bundle\FixturesBundle\SWPFixturesBundle::class => ['dev' => true, 'test' => true],
     Pixers\DoctrineProfilerBundle\PixersDoctrineProfilerBundle::class => ['dev' => true, 'test' => true],
-
     Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => ['test' => true],
+    FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['test' => true],
 ];

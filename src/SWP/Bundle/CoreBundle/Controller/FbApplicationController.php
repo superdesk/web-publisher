@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookApplicationType;
 use SWP\Bundle\CoreBundle\Model\FacebookApplication;
 use SWP\Bundle\FacebookInstantArticlesBundle\Model\ApplicationInterface;
@@ -44,8 +43,7 @@ class FbApplicationController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_applications")
-     * @Method("GET")
+     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_applications")
      */
     public function listAction(Request $request)
     {
@@ -70,8 +68,7 @@ class FbApplicationController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookApplicationType"
      * )
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_create_facebook_applications")
-     * @Method("POST")
+     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_create_facebook_applications")
      */
     public function createAction(Request $request)
     {
@@ -101,8 +98,7 @@ class FbApplicationController extends Controller
      *         409="Application is used by page"
      *     }
      * )
-     * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_delete_facebook_applications")
-     * @Method("DELETE")
+     * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
      */
     public function deleteAction($id)
     {

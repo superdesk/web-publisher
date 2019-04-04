@@ -6,6 +6,7 @@
 /var/*
 !/var/.gitkeep
 /bin/
+!/bin/console
 !/bin/UpdateApplicationVersion.php
 /docs/_build/
 /docs/_extensions/sensio/sphinx/__pycache__/
@@ -16,15 +17,42 @@
 !/docker/pgsql/config/.gitkeep
 /docker/pgsql/data/*
 !/docker/pgsql/data/.gitkeep
-/vendor/
-/web/bundles/
-/web/uploads/*
-!/web/uploads/.gitkeep
+/pubic/bundles/
+/pubic/uploads/*
+!/pubic/uploads/.gitkeep
 logs/
 build/
 RMT
-.env
 .web-server-pid
 nohup.out
 /config/jwt/*.pem*
 !/config/jwt/
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> behat/symfony2-extension ###
+behat.yml
+###< behat/symfony2-extension ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###

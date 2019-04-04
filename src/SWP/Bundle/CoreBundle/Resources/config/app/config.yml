@@ -3,6 +3,7 @@ parameters:
     env(SESSION_MEMCACHED_PORT): 11211
     env(SESSION_MEMCACHED_PREFIX): sess
     env(SESSION_MEMCACHED_EXPIRE): 3600
+    env(ELASTICA_ARTICLE_EXTRA_FIELDS): '[]'
 
 services:
     session.memcached:
@@ -155,6 +156,7 @@ swp_bridge:
             classes:
                 package:
                     model: SWP\Bundle\CoreBundle\Model\Package
+                    repository: SWP\Bundle\CoreBundle\Repository\PackageRepository
 
 sylius_theme:
     context: "swp_core.theme.context.tenant_aware"
@@ -300,6 +302,14 @@ swp_settings:
             type: string
             scope: tenant
             value: "(Photo: {{ author }})"
+        fbia_enabled:
+            type: boolean
+            scope: tenant
+            value: false
+        paywall_enabled:
+            type: boolean
+            scope: tenant
+            value: false
 
 swp_analytics:
     persistence:
@@ -344,6 +354,9 @@ old_sound_rabbit_mq:
         content_push:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
+        migration_content_push:
+            connection:       default
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
     consumers:
         send_webhook:
             connection:       default
@@ -354,6 +367,11 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
             queue_options:    {name: '%kernel.environment%_%kernel.secret%_content_push'}
+            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
+        migration_content_push:
+            connection:       default
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
+            queue_options:    {name: '%kernel.environment%_%kernel.secret%_migration_content_push'}
             callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
         analytics_event:
             connection:       default
@@ -374,9 +392,9 @@ gos_web_socket:
             resources:
                 - '@SWPCoreBundle/Resources/config/pubsub/routing.yml'
     pushers:
-        zmq:
-            default: true
-            host: '%env(WEBSOCKET_HOST)%'
-            port: 5555
-            persistent: true
-            protocol: tcp
+        amqp:
+            host: '%env(RABBIT_MQ_HOST)%'
+            port: '%env(RABBIT_MQ_PORT)%'
+            login: '%env(RABBIT_MQ_USER)%'
+            password: '%env(RABBIT_MQ_PASSWORD)%'
+            vhost: '%env(RABBIT_MQ_VHOST)%'

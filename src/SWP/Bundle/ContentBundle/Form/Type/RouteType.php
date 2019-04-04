@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
 use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
+use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -88,7 +89,7 @@ class RouteType extends AbstractType
             ])
             ->add('requirements', KeyValueType::class, [
                 'required' => false,
-                'value_type' => TextType::class,
+                'value_type' => UnstructuredType::class,
             ])
             ->add('position', IntegerType::class, [
                 'required' => false,

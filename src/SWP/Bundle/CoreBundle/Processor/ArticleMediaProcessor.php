@@ -67,6 +67,10 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 
         $articleMedia = new ArrayCollection();
         foreach ($package->getItems() as $packageItem) {
+            if (in_array($packageItem->getType(), [ItemInterface::TYPE_TEXT, ItemInterface::TYPE_COMPOSITE], true)) {
+                continue;
+            }
+
             $key = $packageItem->getName();
             $articleMedia->add($this->handleMedia($article, $key, $packageItem));
 

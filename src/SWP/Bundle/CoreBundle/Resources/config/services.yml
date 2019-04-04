@@ -82,7 +82,7 @@ services:
             - '@twig'
             - '%swp.theme.configuration.default_directory%'
             - '@sylius.theme.asset.assets_installer'
-            - '%kernel.project_dir%/web'
+            - '%sylius_core.public_dir%'
 
     swp_core.generator.theme.fake_article:
         class: SWP\Bundle\CoreBundle\Theme\Generator\FakeArticlesGenerator
@@ -103,7 +103,7 @@ services:
             - '%kernel.cache_dir%'
             - '@swp_multi_tenancy.tenant_context'
             - '@sylius.repository.theme'
-            - '@sylius.context.theme'
+            - '@swp_core.theme.context.tenant_aware'
             - '@swp.repository.tenant'
 
     swp_core.generator.theme.routes:
@@ -669,7 +669,7 @@ services:
 
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
-            - '@gos_web_socket.zmq.pusher'
+            - '@gos_web_socket.amqp.pusher'
             - '@swp.serializer'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onPostUpdate, priority: -10 }
@@ -788,3 +788,5 @@ services:
             - '@swp.repository.article_events'
             - '@swp.factory.article_statistics'
             - '@swp.factory.article_events'
+
+    Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'

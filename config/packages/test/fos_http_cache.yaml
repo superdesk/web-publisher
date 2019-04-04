@@ -1,5 +1,4 @@
 fos_http_cache:
     proxy_client:
+        default: noop
         noop: ~
-    invalidation:
-        enabled: false

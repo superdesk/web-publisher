@@ -43,7 +43,7 @@ class ArticleMediaAssetProvider implements ArticleMediaAssetProviderInterface
 
     public function getImage(RenditionInterface $rendition): ?ImageInterface
     {
-        return  $this->imageRepository->findImageByAssetId($this->getArticleMediaId($rendition));
+        return $this->imageRepository->findImageByAssetId($this->getArticleMediaId($rendition));
     }
 
     public function getFile(RenditionInterface $rendition): ?FileInterface

@@ -21,7 +21,7 @@ RUN set -ex \
         libmemcached-dev \
         autoconf \
         build-base \
-        libzmq \
+        rabbitmq-c-dev \
         zeromq-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
@@ -31,8 +31,8 @@ RUN set -ex \
     && docker-php-ext-install sockets \
     && pecl install memcached \
     && docker-php-ext-enable memcached \
-    && pecl install zmq-beta \
-    && docker-php-ext-enable zmq \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \

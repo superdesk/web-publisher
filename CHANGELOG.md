@@ -7,9 +7,13 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 ### 2.0.0
+ * BC BREAK/feature [#643] Added support for Symfony 4.2 & Flex & PHP 7.3
  * improvement [#630] Add option to exclude articles from content list items
  
 ### 1.6.0
+ * bug [#763] Expose more metadata in article media
+ * bug [#754] Always cast publishedBefore and publishedAfter parameters to object of type DateTime
+ * feature [#758] Get next and previous article from content list (in template)
  * feature [#740] Related articles
  * feature [#732] Set image byline/credit metadata field in the HTML output
  * improvement [#730] Allow to filter articles by data stored in extra

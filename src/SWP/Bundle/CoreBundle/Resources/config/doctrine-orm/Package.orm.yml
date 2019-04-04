@@ -20,6 +20,7 @@ SWP\Bundle\CoreBundle\Model\Package:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
             cascade: ["all"]
+            fetch: "EAGER"
             joinTable:
                 name: swp_package_author
                 joinColumns:

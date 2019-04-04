@@ -48,6 +48,19 @@ server.post('/return-preview-url', (req, res) => {
     });
 });
 
+let webhookResult = {};
+
+// article update webhook
+server.post('/article-update', (req, res) => {
+    webhookResult = req.body;
+
+    res.status(200).json({});
+});
+
+server.get('/article-update-check', (req, res) => {
+    res.status(200).json(webhookResult);
+});
+
 server.get('/my-preview-url', (req, res) => {
     res.status(200).json({});
 });
@@ -99,6 +112,10 @@ server.get('/public-api/v1/subscriptions/', (req, res) => {
 
 server.get('/api/upload/:fileName/raw', (req, res) => {
   res.sendfile('test_file.png', {root: './'});
+});
+
+server.get('/api/upload/:fileName/audio/raw', (req, res) => {
+  res.sendfile('test_audio.mp3', {root: './'});
 });
 
 server.use('/api', router);

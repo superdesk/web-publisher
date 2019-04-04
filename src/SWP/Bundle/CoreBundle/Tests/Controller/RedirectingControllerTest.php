@@ -18,29 +18,6 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class RedirectingControllerTest extends WebTestCase
 {
-    public function testRouteWithTrailingSlash()
-    {
-        $this->loadCustomFixtures(['tenant']);
-        $client = static::createClient();
-        $router = $this->getContainer()->get('router');
-        $client->request('POST', $router->generate('swp_api_content_create_routes'), [
-            'route' => [
-                'name' => 'news',
-                'type' => 'content',
-            ],
-        ]);
-
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
-
-        $client->request('GET', '/news');
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-
-        $client->request('GET', '/news/');
-        self::assertEquals(301, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-    }
-
     public function testRedirectBasedOnExtraData()
     {
         $this->loadCustomFixtures(['tenant', 'article']);

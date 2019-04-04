@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Model\ContentListItem;
@@ -25,12 +23,12 @@ use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
 use SWP\Component\ContentList\ContentListEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ParsingPreviewController extends Controller
 {
     /**
-     * @Route("/facebook/instantarticles/preview/{articleId}/", options={"expose"=true}, name="swp_fbia_preview_parsing")
-     * @Method("GET")
+     * @Route("/facebook/instantarticles/preview/{articleId}/", methods={"GET"}, options={"expose"=true}, name="swp_fbia_preview_parsing")
      * @Template()
      */
     public function previewAction(Request $request, $articleId)

@@ -69,7 +69,6 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
         foreach ($groups as $packageGroup) {
             $slideshow = $this->slideshowFactory->create();
             $slideshow->setCode($packageGroup->getCode());
-            $slideshow->setArticle($article);
 
             foreach ($packageGroup->getItems() as $item) {
                 if ($this->isTypeAllowed($item->getType())) {
@@ -79,11 +78,11 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
                     $this->articleMediaRepository->persist($articleMedia);
 
                     $slideshowItem->setArticleMedia($articleMedia);
-                    $slideshowItem->setSlideshow($slideshow);
-
-                    $this->articleMediaRepository->persist($slideshowItem);
+                    $slideshow->addItem($slideshowItem);
                 }
             }
+
+            $article->addSlideshow($slideshow);
         }
     }
 

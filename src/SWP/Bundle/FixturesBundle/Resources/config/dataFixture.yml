@@ -1,7 +1,8 @@
 services:
     _defaults:
-        tags: ['doctrine.fixture.orm']
-        autowire: false
+        autowire: true
+        autoconfigure: true
+        public: false
 
     SWP\Bundle\FixturesBundle\DataFixtures\ORM\:
         resource: '../../DataFixtures/ORM/*'

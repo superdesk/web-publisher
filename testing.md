@@ -5,7 +5,7 @@ For unit tests use PHPSpec tests, for functional tests use PHPUnit and Behat for
 How to run tests?
 
 ```bash
-php bin/phpunit -c app/ # PHPUnit
+php bin/phpunit # PHPUnit
 php bin/phpspec run # PHPSpec
 ```
 
@@ -27,7 +27,7 @@ and re-run PHPSpec.
 For PHPUnit:
 
 ```
-php bin/phpunit -c app/ --coverage-text
+php bin/phpunit --coverage-text
 ```
 
 Send code coverage raport to [codecov.io](https://codecov.io/github/superdesk/web-publisher) with:

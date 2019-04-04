@@ -72,7 +72,7 @@ oneup_flysystem:
                 prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
         local_adapter:
             local:
-                directory: '%kernel.project_dir%/web/uploads/'
+                directory: '%kernel.project_dir%/public/uploads/'
     filesystems:
         swp_filesystem:
             adapter: fallback_adapter # fallback_adapter defined via extension class

@@ -17,8 +17,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
@@ -31,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class RouteController extends FOSRestController
 {
@@ -48,8 +47,7 @@ class RouteController extends FOSRestController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/routes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_routes")
-     * @Method("GET")
+     * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_routes")
      */
     public function listAction(Request $request)
     {
@@ -72,8 +70,7 @@ class RouteController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/routes/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
-     * @Method("GET")
+     * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
      */
     public function getAction($id)
     {
@@ -90,9 +87,7 @@ class RouteController extends FOSRestController
      *         204="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/routes/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
-     *
-     * @Method("DELETE")
+     * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
      *
      * @return Response
      */
@@ -131,8 +126,7 @@ class RouteController extends FOSRestController
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
-     * @Route("/api/{version}/content/routes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_create_routes")
-     * @Method("POST")
+     * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_create_routes")
      */
     public function createAction(Request $request)
     {
@@ -170,8 +164,7 @@ class RouteController extends FOSRestController
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
-     * @Route("/api/{version}/content/routes/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
-     * @Method("PATCH")
+     * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
      */
     public function updateAction(Request $request, $id)
     {

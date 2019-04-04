@@ -72,14 +72,14 @@ interface RenditionInterface extends PersistableInterface, SoftDeletableInterfac
     public function setHeight(?int $height);
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMimetype(): string;
+    public function getMimetype(): ?string;
 
     /**
-     * @param string $mimetype
+     * @param string|null $mimetype
      */
-    public function setMimetype(string $mimetype);
+    public function setMimetype(?string $mimetype);
 
     /**
      * @return string

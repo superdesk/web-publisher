@@ -16,8 +16,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Model\RevisionInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -47,8 +46,7 @@ class TenantController extends FOSRestController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_tenants")
-     * @Method("GET")
+     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_tenants")
      */
     public function listAction(Request $request)
     {
@@ -68,8 +66,7 @@ class TenantController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_tenant", requirements={"code"="[a-z0-9]+"})
-     * @Method("GET")
+     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_tenant", requirements={"code"="[a-z0-9]+"})
      */
     public function getAction($code)
     {
@@ -89,8 +86,7 @@ class TenantController extends FOSRestController
      *         {"name"="force", "dataType"="bool", "required"=false, "description"="Remove tenant ignoring attached articles"}
      *     }
      * )
-     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
-     * @Method("DELETE")
+     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
      */
     public function deleteAction(Request $request, $code)
     {
@@ -133,8 +129,7 @@ class TenantController extends FOSRestController
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\TenantType"
      * )
-     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_tenant")
-     * @Method("POST")
+     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_create_tenant")
      */
     public function createAction(Request $request)
     {
@@ -179,9 +174,7 @@ class TenantController extends FOSRestController
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\TenantType"
      * )
-     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
-     *
-     * @Method("PATCH")
+     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
      *
      * @param Request $request
      * @param string  $code

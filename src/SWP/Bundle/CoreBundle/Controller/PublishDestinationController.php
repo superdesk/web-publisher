@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType;
 use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
@@ -43,9 +42,14 @@ class PublishDestinationController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
      * )
      *
-     * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_publishing_destination_create")
+     * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
      *
-     * @Method("POST")
+     * @param Request $request
+     *
+     * @return SingleResourceResponse
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function createAction(Request $request): SingleResourceResponse
     {
@@ -88,9 +92,7 @@ class PublishDestinationController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
      * )
      *
-     * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
-     *
-     * @Method("PATCH")
+     * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
      * @ParamConverter("publishDestination", class="SWP\Bundle\CoreBundle\Model\PublishDestination")
      */
     public function updateAction(Request $request, PublishDestinationInterface $publishDestination): SingleResourceResponse

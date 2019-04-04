@@ -43,11 +43,11 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingNewOrganization()
     {
-        $this->question->setInputStream($this->getInputStream("Test\n"));
         $organization = new Organization();
         $organization->setCode('123456');
         $this->command->setContainer($this->getMockContainer(null, $organization, 'Test'));
         $this->commandTester = new CommandTester($this->command);
+        $this->commandTester->setInputs(['Test']);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $this->assertEquals(
@@ -99,11 +99,11 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteDisabledOrganization()
     {
-        $this->question->setInputStream($this->getInputStream("Example\n"));
         $organization = new Organization();
         $organization->setCode('123456');
         $this->command->setContainer($this->getMockContainer(null, $organization, 'Example'));
         $this->commandTester = new CommandTester($this->command);
+        $this->commandTester->setInputs(['Example']);
         $this->commandTester->execute([
             'command' => $this->command->getName(),
             '--disabled' => true,

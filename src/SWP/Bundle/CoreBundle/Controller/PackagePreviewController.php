@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Context\ArticlePreviewContext;
@@ -40,8 +39,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PackagePreviewController extends Controller
 {
     /**
-     * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"id"="\d+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview")
-     * @Method("GET")
+     * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"id"="\d+", "routeId"="\d+", "token"=".+"}, methods={"GET"}, name="swp_package_preview")
      */
     public function previewAction(int $routeId, $id)
     {
@@ -84,8 +82,7 @@ class PackagePreviewController extends Controller
      *         500="Returned when unexpected error."
      *     }
      * )
-     * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
-     * @Method("POST")
+     * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
      */
     public function generateTokenAction(Request $request, int $routeId)
     {
@@ -147,8 +144,7 @@ class PackagePreviewController extends Controller
     }
 
     /**
-     * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, name="swp_package_preview_publish")
-     * @Method("GET")
+     * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, methods={"GET"}, name="swp_package_preview_publish")
      */
     public function publishPreviewAction(string $token)
     {
@@ -204,7 +200,7 @@ class PackagePreviewController extends Controller
     /**
      * @param int $id
      *
-     * @return null|object
+     * @return object|null
      */
     private function findRouteOr404(int $id)
     {
@@ -218,7 +214,7 @@ class PackagePreviewController extends Controller
     /**
      * @param string $id
      *
-     * @return null|object
+     * @return object|null
      */
     private function findPackageOr404(string $id)
     {

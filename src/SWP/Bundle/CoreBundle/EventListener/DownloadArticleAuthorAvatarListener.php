@@ -74,10 +74,9 @@ final class DownloadArticleAuthorAvatarListener
 
         $authors = [];
         /** @var ArticleAuthorInterface $packageAuthor */
-        foreach ($package->getAuthors()->toArray() as $packageAuthor) {
+        foreach ($package->getAuthors() as $packageAuthor) {
             $authors[] = $this->handle($packageAuthor);
         }
-
         $package->setAuthors(new ArrayCollection($authors));
     }
 
@@ -104,6 +103,9 @@ final class DownloadArticleAuthorAvatarListener
 
             try {
                 $file = \file_get_contents($object->getAvatarUrl());
+                if (false === $file) {
+                    throw new \Exception('File can\'t be downloaded');
+                }
                 $tempDirectory = $this->cacheDirectory.\DIRECTORY_SEPARATOR.'downloaded_avatars';
                 $tempLocation = $tempDirectory.\DIRECTORY_SEPARATOR.\sha1($assetId.date('his'));
                 if (!$filesystem->exists($tempDirectory)) {

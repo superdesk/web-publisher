@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface;
 use SWP\Component\Rule\Processor\RuleProcessorInterface;
@@ -54,6 +55,7 @@ class ProcessArticleRulesSubscriber implements EventSubscriberInterface
     {
         return [
             ArticleEvents::POST_CREATE => 'processRules',
+            ArticleEvents::POST_UPDATE => 'processRules',
         ];
     }
 
@@ -64,12 +66,14 @@ class ProcessArticleRulesSubscriber implements EventSubscriberInterface
     {
         /** @var PackageInterface $package */
         $package = $event->getPackage();
+        /** @var ArticleInterface $article */
+        $article = $event->getArticle();
         $count = $this->publishDestinationProvider->countDestinations($package);
 
-        if (0 < $count) {
+        if (0 < $count || $article->isPublished()) {
             return;
         }
 
-        $this->ruleProcessor->process($event->getArticle());
+        $this->ruleProcessor->process($article);
     }
 }

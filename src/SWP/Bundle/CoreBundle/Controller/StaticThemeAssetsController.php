@@ -16,8 +16,8 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Hoa\File\Read;
 use Hoa\Mime\Mime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -31,16 +31,14 @@ class StaticThemeAssetsController extends Controller
     const ASSETS_DIRECTORY = 'public';
 
     /**
-     * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads"})
-     * @Route("/public-{fileName}.{fileExtension}", name="static_theme_assets_root_public", requirements={"fileName"=".+"})
-     * @Route("/public/{fileName}.{fileExtension}", name="static_theme_assets_public", requirements={"fileName"=".+"})
-     *
-     * @Method("GET")
+     * @Route("/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads"})
+     * @Route("/public-{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root_public", requirements={"fileName"=".+"})
+     * @Route("/public/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_public", requirements={"fileName"=".+"})
      */
     public function rootAction($fileName, $fileExtension)
     {
-        $themes = $this->get('sylius.theme.hierarchy_provider')->getThemeHierarchy(
-            $this->get('sylius.context.theme')->getTheme()
+        $themes = $this->get(ThemeHierarchyProviderInterface::class)->getThemeHierarchy(
+            $this->get('swp_core.theme.context.tenant_aware')->getTheme()
         );
 
         $fileName = (null === $fileExtension) ? basename($fileName) : $fileName.'.'.$fileExtension;
@@ -55,10 +53,9 @@ class StaticThemeAssetsController extends Controller
     }
 
     /**
-     * @Route("/themes/{type}/{themeName}/screenshots/{fileName}", name="static_theme_screenshots", requirements={
+     * @Route("/themes/{type}/{themeName}/screenshots/{fileName}", methods={"GET"}, name="static_theme_screenshots", requirements={
      *     "type": "organization|tenant"
      * })
-     * @Method("GET")
      */
     public function screenshotsAction(string $type, string $themeName, $fileName)
     {

@@ -12,6 +12,21 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             expose: true
         byLine:
             expose: true
+        body:
+            expose: true
+            serialized_name: altText
+        description:
+            expose: true
+        usageTerms:
+            expose: true
+        headline:
+            expose: true
+        copyrightNotice:
+            expose: true
+            type: string
+        copyrightHolder:
+            expose: true
+            type: string
     relations:
         -
             rel: download

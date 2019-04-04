@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -39,8 +38,7 @@ class SlideshowControler extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_slideshows_list")
-     * @Method("GET")
+     * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_slideshows_list")
      */
     public function listAction(Request $request, string $articleId)
     {
@@ -63,8 +61,7 @@ class SlideshowControler extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
-     * @Method("GET")
+     * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
      */
     public function getAction($id, string $articleId)
     {

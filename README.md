@@ -40,9 +40,9 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
  * ElasticSearch >= 5.4
  * RabbitMQ >= 3.5
     * php-bcmath
+    * php-amqp (`pecl install amqp`)
  * Supervisor
- * ZeroMQ
-    * php-zmq extension (`pecl install zmq-beta`)
+
 
 ## Installation
 

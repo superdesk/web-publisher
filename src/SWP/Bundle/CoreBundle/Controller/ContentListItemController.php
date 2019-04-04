@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
@@ -51,8 +50,7 @@ class ContentListItemController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
-     * @Method("GET")
+     * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
      */
     public function listAction(Request $request, $id)
     {
@@ -78,8 +76,7 @@ class ContentListItemController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
-     * @Method("GET")
+     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
      */
     public function getAction($listId, $id)
     {
@@ -97,8 +94,7 @@ class ContentListItemController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ContentListItemType"
      * )
-     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
-     * @Method("PATCH")
+     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
      */
     public function updateAction(Request $request, $listId, $id)
     {
@@ -139,8 +135,7 @@ class ContentListItemController extends Controller
      *     },
      *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType"
      * )
-     * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
-     * @Method("PATCH")
+     * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
      */
     public function batchUpdateAction(Request $request, $listId)
     {
@@ -210,7 +205,7 @@ class ContentListItemController extends Controller
             foreach ($updatedArticles as $updatedArticle) {
                 $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
                     $updatedArticle,
-                    null,
+                    $updatedArticle->getPackage(),
                     ArticleEvents::POST_UPDATE
                 ));
             }

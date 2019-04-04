@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Provider;
 
+use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
@@ -63,6 +64,7 @@ class ArticleMediaAssetProvider implements ArticleMediaAssetProviderInterface
         if ($this->articlePreviewContext->isPreview()) {
             $image = $this->imageFactory->create();
             $image->setAssetId($rendition->getMedia());
+            $this->setFileExtension($image, $rendition);
 
             return $image;
         }
@@ -76,10 +78,30 @@ class ArticleMediaAssetProvider implements ArticleMediaAssetProviderInterface
             $file = $this->fileFactory->createFile();
             $file->setAssetId($rendition->getMedia());
             $file->setPreviewUrl($rendition->getHref());
+            $this->setFileExtension($file, $rendition);
 
             return $file;
         }
 
         return $this->decoratedArticleMediaAssetProvider->getFile($rendition);
+    }
+
+    private function setFileExtension(FileInterface $file, RenditionInterface $rendition): FileInterface
+    {
+        if (null === $rendition->getMimetype()) {
+            return $file;
+        }
+
+        try {
+            $mimeTypes = Mime::getExtensionsFromMime($rendition->getMimetype());
+        } catch (\Exception $e) {
+            return $file;
+        }
+
+        if (!empty($mimeTypes) && null === $file->getFileExtension()) {
+            $file->setFileExtension($mimeTypes[0]);
+        }
+
+        return $file;
     }
 }

@@ -97,9 +97,7 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
     public function apply(Request $request, ParamConverter $configuration)
     {
         $name = $configuration->getName();
-        $options = $this->getOptions($configuration);
-        $id = $this->getIdentifier($request, $options, $name);
-        if (false === $id || null === $id) {
+        if (!$request->attributes->has('id')) {
             return false;
         }
 
@@ -107,6 +105,7 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
             $configuration->setIsOptional(true);
         }
 
+        $id = $request->attributes->get('id');
         /** @var PackageInterface $package */
         $package = $this->findPackageOr404((int) $id);
         /** @var ArticleInterface $article */
@@ -134,7 +133,7 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
     /**
      * @param int $id
      *
-     * @return null|object
+     * @return object|null
      */
     private function findPackageOr404(int $id)
     {

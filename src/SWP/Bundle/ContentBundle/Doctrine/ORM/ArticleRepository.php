@@ -155,10 +155,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         throw new \Exception('Not implemented');
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param Criteria     $criteria
-     */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
         foreach (['metadata', 'extra', 'exclude_metadata', 'exclude_extra'] as $name) {
@@ -214,15 +210,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove('keywords');
         }
 
-        if ($criteria->has('publishedBefore') && $criteria->get('publishedBefore') instanceof \DateTime) {
+        if ($criteria->has('publishedBefore') && null !== $criteria->get('publishedBefore')) {
+            $publishedBefore = $criteria->get('publishedBefore');
             $queryBuilder->andWhere('a.publishedAt < :before')
-                ->setParameter('before', $criteria->get('publishedBefore'));
+                ->setParameter('before', $publishedBefore instanceof \DateTimeInterface ? $publishedBefore : new \DateTime($publishedBefore));
             $criteria->remove('publishedBefore');
         }
 
-        if ($criteria->has('publishedAfter') && $criteria->get('publishedAfter') instanceof \DateTime) {
+        if ($criteria->has('publishedAfter') && null !== $criteria->get('publishedAfter')) {
+            $publishedAfter = $criteria->get('publishedAfter');
             $queryBuilder->andWhere('a.publishedAt > :after')
-                ->setParameter('after', $criteria->get('publishedAfter'));
+                ->setParameter('after', $publishedAfter instanceof \DateTimeInterface ? $publishedAfter : new \DateTime($publishedAfter));
             $criteria->remove('publishedAfter');
         }
 

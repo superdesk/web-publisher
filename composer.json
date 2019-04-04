@@ -57,11 +57,9 @@
         "ext-zip": "*",
         "ext-gd": "*",
         "ext-intl": "*",
-        "symfony/symfony": "3.4.20",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",
-        "sensio/distribution-bundle": "~v5.0",
-        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "sensio/framework-extra-bundle": "^5.2",
         "doctrine/common": "2.8.*",
         "doctrine/dbal": "2.7.*",
         "doctrine/orm": "^2.6",
@@ -75,8 +73,8 @@
         "emanueleminotto/twig-cache-bundle": "dev-master",
         "friendsofsymfony/http-cache": "^2.3",
         "friendsofsymfony/http-cache-bundle": "^2.4",
-        "friendsofsymfony/rest-bundle": "2.1.x-dev as 1.5",
-        "friendsofsymfony/user-bundle": "^2.0",
+        "friendsofsymfony/rest-bundle": "^2.4",
+        "friendsofsymfony/user-bundle": "dev-master",
         "oneup/flysystem-bundle": "^3.0",
         "behat/transliterator": "^1.1",
         "willdurand/hateoas-bundle": "^1.4",
@@ -92,11 +90,10 @@
         "hoa/mime": "3.17.01.10",
         "hoa/file": "1.17.07.11",
         "sentry/sentry-symfony": "^2.0",
-        "danielstjules/stringy": "~3.1",
-        "burgov/key-value-form-bundle": "@stable",
+        "burgov/key-value-form-bundle": "^1.4",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
-        "facebook/facebook-instant-articles-sdk-php": "v1.5.*",
+        "facebook/facebook-instant-articles-sdk-php": "^v1.10",
         "masterminds/html5": "2.3.*",
         "asm89/twig-cache-extension": "^1.3",
         "doctrine/doctrine-migrations-bundle": "^1.0",
@@ -106,22 +103,26 @@
         "fzaninotto/faker": "^1.5",
         "cboden/ratchet": "^0.4.1",
         "evenement/evenement": "^3.0",
-        "react/zmq": "dev-master",
-        "gos/web-socket-bundle": "^1.9 !=1.9.0-rc2",
+        "gos/web-socket-bundle": "v1.9.0-rc2",
         "knplabs/knp-time-bundle": "^1.8",
         "lexik/jwt-authentication-bundle": "^2.5",
         "ramsey/uuid": "^3.8",
         "league/flysystem-aws-s3-v3": "^1.0",
         "litipk/flysystem-fallback-adapter": "^0.1.2",
         "gesdinet/jwt-refresh-token-bundle": "^0.5.0",
+        "symfony/flex": "^1.1",
         "rdx/behat-variables": "^1.2",
         "apache/log4php": "^2.3",
         "takeit/amp-html-bundle": "^1.0",
-        "blackfire/php-sdk": "^1.17"
+        "blackfire/php-sdk": "^1.17",
+        "ocramius/proxy-manager": "<=2.1.1",
+        "gos/react-amqp": "^0.2.0",
+        "takeit/stringy": "dev-fix",
+        "symfony/routing": "^4.3"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpspec/phpspec": "^4.2",
+        "phpspec/phpspec": "^5.0",
         "phpunit/phpunit": "^5.4.0",
         "liip/functional-test-bundle": "^2.0",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
@@ -129,22 +130,24 @@
         "matthiasnoback/symfony-dependency-injection-test": "^v1.1",
         "johnkary/phpunit-speedtrap": "^1.0",
         "symfony/phpunit-bridge": "^3.1",
-        "symfony-cmf/testing": "2.0.x",
+        "symfony-cmf/testing": "^2.1",
         "liip/rmt": "^1.3",
         "pixers/doctrine-profiler-bundle": "v1.0.5",
         "behat/behat": "^3.4",
-        "behat/mink": "^1.7",
         "behat/mink-browserkit-driver": "^1.3",
         "behat/symfony2-extension": "^2.1",
         "behatch/contexts": "^3.0",
-        "behat-extension/doctrine-data-fixtures-extension": "^4.0",
         "theofidry/alice-data-fixtures": "^1.0",
         "doctrine/data-fixtures": "^1.3",
         "symfony/dotenv": "^4.1",
-        "phpstan/phpstan": "^0.11.1"
-    },
-    "conflict": {
-        "knplabs/knp-time-bundle": "1.9"
+        "rdx/behat-variables": "^1.2",
+        "symfony/debug-bundle": "^4.2",
+        "phpstan/phpstan": "^0.11.1",
+        "symfony/web-profiler-bundle": "^4.2",
+        "symfony/web-server-bundle": "^4.2",
+        "friends-of-behat/service-container-extension": "^1.0",
+        "friends-of-behat/symfony-extension": "^2.0",
+        "takeit/doctrine-data-fixtures-extension": "dev-container_aware"
     },
     "replace": {
         "swp/common": "self.version",
@@ -167,21 +170,9 @@
         "swp/paywall-bundle": "self.version",
         "swp/paywall": "self.version"
     },
-    "scripts": {
-        "post-install-cmd": [
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
-        ],
-        "post-update-cmd": [
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
-        ]
+    "conflict": {
+        "symfony/symfony": "*",
+        "knplabs/knp-time-bundle": "1.9"
     },
     "config": {
         "bin-dir": "bin",
@@ -193,10 +184,14 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1-dev"
-        },
-        "symfony-app-dir": "app",
-        "symfony-web-dir": "web",
-        "symfony-assets-install": "relative"
+            "dev-master": "1.5-dev"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "security-checker security:check": "script"
+        }
     }
 }

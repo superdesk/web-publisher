@@ -15,8 +15,6 @@
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -26,6 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleController extends Controller
 {
@@ -50,12 +49,13 @@ class ArticleController extends Controller
      *         {"name"="source", "dataType"="string"}
      *     }
      * )
-     * @Route("/api/{version}/content/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
-     * @Method("GET")
+     * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
      *
      * @param Request $request
      *
      * @return ResourcesListResponse
+     *
+     * @throws \Exception
      */
     public function listAction(Request $request)
     {
@@ -80,8 +80,8 @@ class ArticleController extends Controller
             ->getPaginatedByCriteria(new Criteria([
                 'status' => $request->query->get('status', ''),
                 'route' => $request->query->get('route', ''),
-                'publishedBefore' => $request->query->has('publishedBefore') ? new \DateTime($request->query->get('publishedBefore')) : '',
-                'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : '',
+                'publishedBefore' => $request->query->has('publishedBefore') ? new \DateTime($request->query->get('publishedBefore')) : null,
+                'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : null,
                 'author' => $authors,
                 'query' => $request->query->get('query', ''),
                 'source' => $request->query->get('source', []),
@@ -100,8 +100,7 @@ class ArticleController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/articles/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_articles", requirements={"id"=".+"})
-     * @Method("GET")
+     * @Route("/api/{version}/content/articles/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_articles", requirements={"id"=".+"})
      */
     public function getAction($id)
     {
@@ -138,8 +137,7 @@ class ArticleController extends Controller
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\ArticleType"
      * )
-     * @Route("/api/{version}/content/articles/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_articles", requirements={"id"=".+"})
-     * @Method("PATCH")
+     * @Route("/api/{version}/content/articles/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_articles", requirements={"id"=".+"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -173,8 +171,7 @@ class ArticleController extends Controller
      *         500="Returned when unexpected error."
      *     }
      * )
-     * @Route("/api/{version}/content/articles/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
-     * @Method("DELETE")
+     * @Route("/api/{version}/content/articles/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
      *
      * @param int $id
      *
