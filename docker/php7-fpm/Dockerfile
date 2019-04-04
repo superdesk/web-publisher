@@ -22,7 +22,6 @@ RUN set -ex \
         autoconf \
         build-base \
         rabbitmq-c-dev \
-        zeromq-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
