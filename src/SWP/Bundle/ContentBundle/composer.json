@@ -37,7 +37,7 @@
     "symfony/event-dispatcher": "^3.4|^4.2",
     "symfony/property-access": "^3.4|^4.2",
     "symfony/filesystem": "^3.4|^4.2",
-    "symfony/config": "^^3.4|^4.2",
+    "symfony/config": "^3.4|^4.2",
     "symfony/yaml": "^3.4|^4.2",
     "symfony/options-resolver": "^3.4|^4.2",
     "symfony-cmf/core-bundle": "2.0.*",
