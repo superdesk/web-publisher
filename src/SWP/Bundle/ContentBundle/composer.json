@@ -66,6 +66,7 @@
     "symfony/twig-bundle": "^3.4|^4.2",
     "symfony/monolog-bridge": "^3.4|^4.2",
     "symfony/stopwatch": "^3.4|^4.2",
+    "symfony/var-dumper": "^3.4|^4.2",
     "doctrine/doctrine-bundle": "^1.10",
     "doctrine/doctrine-fixtures-bundle": "2.3.*",
     "doctrine/data-fixtures": "1.3.*",

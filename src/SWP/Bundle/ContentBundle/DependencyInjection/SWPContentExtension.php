@@ -50,7 +50,7 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
                 'adapters' => [
                     'fallback_adapter' => [
                         'fallback' => [
-                            'mainAdapter' => '%env(resolve:FS_MAIN_ADAPTER)%',
+                            'mainAdapter' => '%env(FS_MAIN_ADAPTER)%',
                             'fallback' => 'local_adapter',
                             'forceCopyOnMain' => false,
                         ],
