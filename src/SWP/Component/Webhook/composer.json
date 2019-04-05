@@ -3,7 +3,7 @@
     "description": "Webhook implementation",
     "type": "library",
     "require": {
-        "swp/common": "^1.4"
+        "swp/common": "^1.4|^2.0"
     },
     "license": "AGPL-3.0",
     "authors": [

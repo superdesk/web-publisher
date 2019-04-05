@@ -11,9 +11,9 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": "^7.0",
-        "swp/common": "^1.4",
-        "swp/storage": "^1.4",
+        "php": "^7.1",
+        "swp/common": "^1.4|^2.0",
+        "swp/storage": "^1.4|^2.0",
         "doctrine/common": "^2.6",
         "layershifter/tld-extract": "^1.2"
     },

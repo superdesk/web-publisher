@@ -13,8 +13,8 @@
     "require": {
         "php": "^7.1",
         "justinrainbow/json-schema": "~5.0",
-        "swp/common": "^1.4",
-        "swp/storage": "^1.4",
+        "swp/common": "^1.4|^2.0",
+        "swp/storage": "^1.4|^2.0",
         "doctrine/common": "^2.6",
         "psr/log": "^1.0"
     },

@@ -11,11 +11,11 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": "^7.0",
-        "symfony/expression-language": "^3.1",
+        "php": "^7.1",
+        "symfony/expression-language": "^3.4|^4.2",
         "psr/log": "^1.0",
-        "swp/storage": "^1.4",
-        "symfony/options-resolver": "^3.1"
+        "swp/storage": "^1.4|^2.0",
+        "symfony/options-resolver": "^3.4|^4.2"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.0"
