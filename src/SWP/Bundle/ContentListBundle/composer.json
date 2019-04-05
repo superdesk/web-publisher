@@ -22,16 +22,16 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "swp/storage-bundle": "^1.4|^2.0",
-        "swp/content-list": "^1.4|^2.0",
-        "swp/content-bundle": "^1.4|^2.0",
-        "swp/common": "^1.4|^2.0",
+        "php": "^7.3",
+        "swp/storage-bundle": "^2.0",
+        "swp/content-list": "^2.0",
+        "swp/content-bundle": "^2.0",
+        "swp/common": "^2.0",
         "stof/doctrine-extensions-bundle": "1.2.x",
         "gedmo/doctrine-extensions": ">=2.4.26 <3.0",
-        "symfony/dependency-injection": "^3.4|^4.2",
-        "symfony/form": "^3.4|^4.2",
-        "symfony/validator": "^3.4|^4.2"
+        "symfony/dependency-injection": "^4.2",
+        "symfony/form": "^4.2",
+        "symfony/validator": "^4.2"
     },
     "require-dev": {
         "phpspec/phpspec": ">=3.2.3 <4.0",

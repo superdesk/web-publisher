@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "74139a7dc89492173263b4e6fd4b7f58",
+    "content-hash": "4a190a3e84bbc4707b878d5ff541eaf0",
     "packages": [
         {
             "name": "apache/log4php",
@@ -96,16 +96,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.91.1",
+            "version": "3.91.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "808a8cde13d5ba458d6365828385fead955c933e"
+                "reference": "89b07f24f4fab3ea00b1579037ff417ba61b17c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/808a8cde13d5ba458d6365828385fead955c933e",
-                "reference": "808a8cde13d5ba458d6365828385fead955c933e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/89b07f24f4fab3ea00b1579037ff417ba61b17c9",
+                "reference": "89b07f24f4fab3ea00b1579037ff417ba61b17c9",
                 "shasum": ""
             },
             "require": {
@@ -174,7 +174,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-04-02T18:07:41+00:00"
+            "time": "2019-04-04T18:38:33+00:00"
         },
         {
             "name": "behat/behat",
@@ -7783,21 +7783,21 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "v1.2.17",
+            "version": "v1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "3c4a312018e61cba82b201ea3534f061342064e4"
+                "reference": "1dd914d34315578966a15906863826e38f92db82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/3c4a312018e61cba82b201ea3534f061342064e4",
-                "reference": "3c4a312018e61cba82b201ea3534f061342064e4",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/1dd914d34315578966a15906863826e38f92db82",
+                "reference": "1dd914d34315578966a15906863826e38f92db82",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.5",
-                "php": "^7.1",
+                "php": "^7.2",
                 "symfony/asset": "^3.4|^4.1.1",
                 "symfony/config": "^3.4|^4.1.1",
                 "symfony/console": "^3.4|^4.1.1",
@@ -7817,12 +7817,16 @@
                 "twig/twig": "^1.0"
             },
             "require-dev": {
-                "matthiasnoback/symfony-config-test": "^3.0",
-                "matthiasnoback/symfony-dependency-injection-test": "^2.0",
+                "matthiasnoback/symfony-config-test": "^4.0",
+                "matthiasnoback/symfony-dependency-injection-test": "^3.0",
                 "mikey179/vfsstream": "^1.6",
-                "phpspec/phpspec": "^4.0",
-                "phpunit/phpunit": "^6.5",
-                "sylius/registry": "^1.1",
+                "phpspec/phpspec": "^5.0",
+                "phpstan/phpstan-phpunit": "^0.10",
+                "phpstan/phpstan-shim": "^0.10",
+                "phpstan/phpstan-webmozart-assert": "^0.10",
+                "phpunit/phpunit": "^7.0",
+                "proget-hq/phpstan-phpspec": "^0.1.1",
+                "sylius-labs/coding-standard": "^3.0",
                 "symfony/browser-kit": "^3.4|^4.1.1",
                 "symfony/security-csrf": "^3.4|^4.1.1",
                 "symfony/twig-bundle": "^3.4|^4.1.1",
@@ -7831,16 +7835,13 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Sylius\\Bundle\\ThemeBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Sylius\\Bundle\\ThemeBundle\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -7866,7 +7867,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2019-03-25T10:31:58+00:00"
+            "time": "2019-03-22T14:19:17+00:00"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -8936,16 +8937,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "7f04fb50c5da6d020e4df743b4c764c188bb24bf"
+                "reference": "305a6cd75a54992f47f46eb655245b6c9a06997a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/7f04fb50c5da6d020e4df743b4c764c188bb24bf",
-                "reference": "7f04fb50c5da6d020e4df743b4c764c188bb24bf",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/305a6cd75a54992f47f46eb655245b6c9a06997a",
+                "reference": "305a6cd75a54992f47f46eb655245b6c9a06997a",
                 "shasum": ""
             },
             "require": {
@@ -8981,7 +8982,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2019-02-21T11:31:25+00:00"
+            "time": "2019-04-03T17:16:03+00:00"
         },
         {
             "name": "symfony/form",
@@ -11857,81 +11858,6 @@
     ],
     "packages-dev": [
         {
-            "name": "behat-extension/doctrine-data-fixtures-extension",
-            "version": "dev-container_aware",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/takeit/DoctrineDataFixturesExtension.git",
-                "reference": "7ce66c6c04c24226794b16f8c5e9a88b13c2a39e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/takeit/DoctrineDataFixturesExtension/zipball/7ce66c6c04c24226794b16f8c5e9a88b13c2a39e",
-                "reference": "7ce66c6c04c24226794b16f8c5e9a88b13c2a39e",
-                "shasum": ""
-            },
-            "require": {
-                "behat/behat": "^3.0",
-                "behat/symfony2-extension": "^2.0",
-                "doctrine/data-fixtures": "^1.0",
-                "doctrine/orm": "^2.6",
-                "php": "^7.1",
-                "symfony/dependency-injection": "^3.4|^4.0"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "^1.8",
-                "doctrine/doctrine-fixtures-bundle": "^3.0",
-                "phpstan/phpstan": "^0.9.2",
-                "symfony/process": "^3.4|^4.0"
-            },
-            "suggest": {
-                "doctrine/migrations": "Uses DBAL to load versioned database schema and migration classes",
-                "symfony/process": "For backup support on pgsql or mysql platforms"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "BehatExtension\\DoctrineDataFixturesExtension\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "BehatExtension\\DoctrineDataFixturesExtension\\Tests\\": "tests/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Florent Morselli",
-                    "role": "developer"
-                },
-                {
-                    "name": "Anthon Pang",
-                    "email": "apang@softwaredevelopment.ca",
-                    "role": "original developer"
-                }
-            ],
-            "description": "Doctrine data fixtures extension for Behat",
-            "homepage": "http://github.com/BehatExtension/",
-            "keywords": [
-                "bdd",
-                "behat",
-                "data fixtures",
-                "doctrine"
-            ],
-            "support": {
-                "source": "https://github.com/takeit/DoctrineDataFixturesExtension/tree/v5.0"
-            },
-            "time": "2018-10-04T11:43:46+00:00"
-        },
-        {
             "name": "behat/mink",
             "version": "dev-master",
             "source": {
@@ -13335,16 +13261,16 @@
         },
         {
             "name": "nette/di",
-            "version": "v3.0.0-RC5",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/di.git",
-                "reference": "ea225222cdf8bf13ff046f8719a86d3cd5d6372d"
+                "reference": "19d83539245aaacb59470828919182411061841f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/di/zipball/ea225222cdf8bf13ff046f8719a86d3cd5d6372d",
-                "reference": "ea225222cdf8bf13ff046f8719a86d3cd5d6372d",
+                "url": "https://api.github.com/repos/nette/di/zipball/19d83539245aaacb59470828919182411061841f",
+                "reference": "19d83539245aaacb59470828919182411061841f",
                 "shasum": ""
             },
             "require": {
@@ -13360,7 +13286,7 @@
                 "nette/bootstrap": "<3.0"
             },
             "require-dev": {
-                "nette/tester": "^2.0",
+                "nette/tester": "^2.2",
                 "tracy/tracy": "^2.3"
             },
             "type": "library",
@@ -13404,7 +13330,7 @@
                 "nette",
                 "static"
             ],
-            "time": "2019-04-02T11:56:59+00:00"
+            "time": "2019-04-03T19:35:46+00:00"
         },
         {
             "name": "nette/finder",
@@ -13652,16 +13578,16 @@
         },
         {
             "name": "nette/schema",
-            "version": "v1.0.0-RC",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "9aee7347449a617c668291dbe9a1751092566eb5"
+                "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/9aee7347449a617c668291dbe9a1751092566eb5",
-                "reference": "9aee7347449a617c668291dbe9a1751092566eb5",
+                "url": "https://api.github.com/repos/nette/schema/zipball/6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
+                "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
                 "shasum": ""
             },
             "require": {
@@ -13669,7 +13595,6 @@
                 "php": ">=7.1"
             },
             "require-dev": {
-                "nette/php-generator": "^3.2.2",
                 "nette/tester": "^2.2",
                 "tracy/tracy": "^2.3"
             },
@@ -13706,7 +13631,7 @@
                 "config",
                 "nette"
             ],
-            "time": "2019-04-02T01:15:23+00:00"
+            "time": "2019-04-03T15:53:25+00:00"
         },
         {
             "name": "nette/utils",
@@ -16572,15 +16497,12 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1",
+        "php": "^7.3",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
         "ext-gd": "*",
         "ext-intl": "*"
     },
-    "platform-dev": [],
-    "platform-overrides": {
-        "php": "7.1.12"
-    }
+    "platform-dev": []
 }

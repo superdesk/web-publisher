@@ -11,7 +11,7 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "doctrine/common": "^2.6"
     },
     "require-dev": {

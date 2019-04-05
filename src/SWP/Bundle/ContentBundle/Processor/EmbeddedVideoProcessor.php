@@ -69,7 +69,7 @@ final class EmbeddedVideoProcessor implements ArticleBodyProcessorInterface
             }
         }
 
-        $article->setBody(trim(preg_replace('/\s++/', ' ', str_replace($videoString, $crawler->filter('body')->html(), $body))));
+        $article->setBody(str_replace($videoString, $crawler->filter('body')->html(), $body));
     }
 
     public function supports(string $type): bool

@@ -18,17 +18,17 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "swp/multi-tenancy": "^1.4|^2.0",
-        "swp/storage-bundle": "^1.4|^2.0",
+        "php": "^7.3",
+        "swp/multi-tenancy": "^2.0",
+        "swp/storage-bundle": "^2.0",
         "doctrine/doctrine-bundle": "^1.10",
         "twig/twig": "^2.7",
         "ocramius/proxy-manager": "^1.0",
-        "symfony/dependency-injection": "^3.4|^4.2",
-        "symfony/expression-language": "^3.4|^4.2",
+        "symfony/dependency-injection": "^4.2",
+        "symfony/expression-language": "^4.2",
         "symfony-cmf/routing-bundle": "2.0.*",
         "doctrine/orm": "^2.6",
-        "symfony/form": "^3.4|^4.2"
+        "symfony/form": "^4.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.6",

@@ -56,12 +56,9 @@ final class EmbeddedMediaBlockProcessor implements ArticleBodyProcessorInterface
         $mediaBlockElement = $imgElement->parentNode;
         $captionText = $mediaBlockElement->getElementsByTagName('span')[0]->textContent;
         $editor3MediaBlock = $mediaBlockElement->ownerDocument->saveHTML($mediaBlockElement);
-        $newNodeHtml = ' <!-- EMBED START Image {id: "'.$mediaId.'"} --><figure><img src="'.$item->first()->attr('src').'" alt="'.$item->first()->attr('alt').'" /><figcaption>'.$captionText.'</figcaption></figure><!-- EMBED END Image {id: "'.$mediaId.'"} --> ';
+        $newNodeHtml = '<!-- EMBED START Image {id: "'.$mediaId.'"} --><figure><img src="'.$item->first()->attr('src').'" alt="'.$item->first()->attr('alt').'" /><figcaption>'.$captionText.'</figcaption></figure><!-- EMBED END Image {id: "'.$mediaId.'"} -->';
 
-        $editor3MediaBlock = trim(preg_replace('/\s++/', ' ', $editor3MediaBlock));
-        $crawlerBody = trim(preg_replace('/\s++/', ' ', $crawler->filter('body')->html()));
-
-        $article->setBody(str_replace($editor3MediaBlock, $newNodeHtml, $crawlerBody));
+        $article->setBody(str_replace($editor3MediaBlock, $newNodeHtml, $crawler->filter('body')->html()));
     }
 
     public function supports(string $type): bool

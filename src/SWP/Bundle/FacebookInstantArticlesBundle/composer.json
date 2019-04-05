@@ -18,14 +18,14 @@
     }
   ],
   "require": {
-    "php": "^7.1",
+    "php": "^7.3",
     "facebook/facebook-instant-articles-sdk-php": ">=v1.5.5 <v2.0",
     "swp/common": "^0.5",
     "twig/twig": "^2.7",
-    "symfony/twig-bundle": "^3.4|^4.2",
-    "symfony/templating": "^3.4|^4.2",
+    "symfony/twig-bundle": "^4.2",
+    "symfony/templating": "^4.2",
     "stof/doctrine-extensions-bundle": "1.2.x",
-    "swp/storage-bundle": "^1.4|^2.0"
+    "swp/storage-bundle": "^2.0"
   },
   "require-dev": {
     "phpspec/phpspec": ">=3.2.3 <4.0",
