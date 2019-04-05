@@ -16,8 +16,8 @@
     }
   ],
   "require": {
-    "php": "^7.0",
-    "symfony/dependency-injection": "^3.1",
+    "php": "^7.1",
+    "symfony/dependency-injection": "^3.4|^4.2",
     "doctrine/common": "2.6.*",
     "nelmio/alice": "2.2.*",
     "liip/functional-test-bundle": "1.6.*"

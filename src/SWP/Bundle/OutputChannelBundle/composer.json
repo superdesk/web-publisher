@@ -19,12 +19,12 @@
   ],
   "require": {
     "php": "^7.1",
-    "symfony/dependency-injection": "^3.1",
-    "symfony/config": "^3.1",
-    "symfony/form": "^3.1",
-    "swp/storage-bundle": "^1.4",
-    "swp/output-channel": "^1.4",
-    "swp/common": "^1.4"
+    "symfony/dependency-injection": "^3.4|^4.2",
+    "symfony/config": "^3.4|^4.2",
+    "symfony/form": "^3.4|^4.2",
+    "swp/storage-bundle": "^1.4|^2.0",
+    "swp/output-channel": "^1.4|^2.0",
+    "swp/common": "^1.4|^2.0"
   },
   "require-dev": {
     "phpspec/phpspec": "^3.0"

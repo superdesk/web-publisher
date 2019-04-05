@@ -19,10 +19,10 @@
   ],
   "require": {
     "php": "^7.1",
-    "symfony/dependency-injection": "^3.1",
-    "symfony/config": "^3.1",
-    "swp/paywall": "^1.4",
-    "swp/common": "^1.4"
+    "symfony/dependency-injection": "^3.4|^4.2",
+    "symfony/config": "^3.4|^4.2",
+    "swp/paywall": "^1.4|^2.0",
+    "swp/common": "^1.4|^2.0"
   },
   "autoload": {
     "psr-4": { "SWP\\Bundle\\PaywallBundle\\": "" }

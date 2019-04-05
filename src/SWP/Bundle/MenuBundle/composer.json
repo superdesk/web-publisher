@@ -12,12 +12,12 @@
     }
   ],
   "require": {
-    "php": "^7.0",
+    "php": "^7.1",
     "knplabs/knp-menu-bundle": "^2.1",
-    "symfony/form": "^3.1",
-    "symfony/validator": "^3.1",
-    "swp/storage": "^1.4",
-    "swp/common": "^1.4"
+    "symfony/form": "^3.4|^4.2",
+    "symfony/validator": "^3.4|^4.2",
+    "swp/storage": "^1.4|^2.0",
+    "swp/common": "^1.4|^2.0"
   },
   "require-dev": {
     "phpspec/phpspec": ">=3.2.3 <4.0",
