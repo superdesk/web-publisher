@@ -47,4 +47,10 @@ RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN "date"
 
+COPY --from=composer:1.6 /usr/bin/composer /usr/bin/composer
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER 1
+# create composer cache directory
+RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
+
 WORKDIR /var/www/publisher
