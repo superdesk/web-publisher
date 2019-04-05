@@ -45,8 +45,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('swp_core')
+        $treeBuilder = new TreeBuilder('swp_core');
+        $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('device_listener')
                     ->canBeEnabled()

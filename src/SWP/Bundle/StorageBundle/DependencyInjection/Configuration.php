@@ -29,8 +29,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('swp_storage');
+        $treeBuilder = new TreeBuilder('swp_storage');
+        $treeBuilder->getRootNode();
 
         return $treeBuilder;
     }

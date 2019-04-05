@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine3.7
+FROM php:7.3-fpm-alpine3.7
 
 RUN apk update
 RUN apk add curl-dev
@@ -22,7 +22,6 @@ RUN set -ex \
         autoconf \
         build-base \
         rabbitmq-c-dev \
-        zeromq-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -47,5 +46,11 @@ RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer &
 RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN "date"
+
+COPY --from=composer:1.6 /usr/bin/composer /usr/bin/composer
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER 1
+# create composer cache directory
+RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
 WORKDIR /var/www/publisher

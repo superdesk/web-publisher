@@ -18,21 +18,21 @@ To create the default organization, execute the following console command:
 
 .. code-block:: bash
 
-    php app/console swp:organization:create --default
+    php bin/console swp:organization:create --default
 
 To create a custom organization which will be disabled by default, use the command:
 
 .. code-block:: bash
 
-    php app/console swp:organization:create --disabled
+    php bin/console swp:organization:create --disabled
 
 To create a custom organization, execute the following console command:
 
 .. code-block:: bash
 
-    php app/console swp:organization:create
+    php bin/console swp:organization:create
 
-Run ``php app/console swp:organization:create --help`` to see more details of how to use this command.
+Run ``php bin/console swp:organization:create --help`` to see more details of how to use this command.
 
 List available organizations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,9 +43,9 @@ Usage:
 
 .. code-block:: bash
 
-    php app/console swp:organization:list
+    php bin/console swp:organization:list
 
-Run ``php app/console swp:organization:list --help`` to see more details of how to use this command.
+Run ``php bin/console swp:organization:list --help`` to see more details of how to use this command.
 
 Create a new tenant
 ~~~~~~~~~~~~~~~~~~~
@@ -62,7 +62,7 @@ To create the default tenant, execute the following console command:
 
 .. code-block:: bash
 
-    php app/console swp:tenant:create --default
+    php bin/console swp:tenant:create --default
 
 .. note::
 
@@ -72,14 +72,14 @@ To create a custom tenant which will be disabled by default, use the command:
 
 .. code-block:: bash
 
-    php app/console swp:tenant:create --disabled
+    php bin/console swp:tenant:create --disabled
 
 To create a custom tenant, execute the following console command:
 
 .. code-block:: bash
 
-    php app/console swp:tenant:create
+    php bin/console swp:tenant:create
 
 You will need to specify organization unique code so tenant can be assigned to the organization.
 
-Run ``php app/console swp:tenant:create --help`` to see more details of how to use this command.
+Run ``php bin/console swp:tenant:create --help`` to see more details of how to use this command.

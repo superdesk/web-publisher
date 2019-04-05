@@ -1,7 +1,4 @@
 /app/bootstrap.php.cache
-/app/supervisor
-!app/supervisor/.gitkeep
-/app/phpunit.xml
 /app/themes/
 /var/*
 !/var/.gitkeep
@@ -12,14 +9,11 @@
 /docs/_extensions/sensio/sphinx/__pycache__/
 /docs/_extensions/sensio/__pycache__/
 /composer.phar
-/docker/pgsql/config/*
 /docker/.env
-!/docker/pgsql/config/.gitkeep
-/docker/pgsql/data/*
-!/docker/pgsql/data/.gitkeep
-/pubic/bundles/
-/pubic/uploads/*
-!/pubic/uploads/.gitkeep
+/docker/elasticsearch
+/public/bundles/
+/public/uploads/*
+!/public/uploads/.gitkeep
 logs/
 build/
 RMT
@@ -32,7 +26,6 @@ nohup.out
 /.env.local
 /.env.local.php
 /.env.*.local
-/public/bundles
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

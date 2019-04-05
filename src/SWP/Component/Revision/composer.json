@@ -13,9 +13,9 @@
     }
   ],
   "require": {
-    "php": "^7.0",
-    "swp/common": "^1.4",
-    "swp/storage": "^1.4"
+    "php": "^7.3",
+    "swp/common": "^2.0",
+    "swp/storage": "^2.0"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4",
@@ -34,7 +34,7 @@
   "minimum-stability": "dev",
   "extra": {
     "branch-alias": {
-      "dev-master": "1.5-dev"
+      "dev-master": "2.0-dev"
     }
   }
 }

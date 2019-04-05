@@ -84,7 +84,7 @@ Run the below command to index all documents:
 
 .. code-block:: bash
 
-    app/console fos:elastic:populate
+    bin/console fos:elastic:populate
 
 That's it, the bundle is configured properly now!
 

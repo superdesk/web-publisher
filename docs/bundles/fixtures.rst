@@ -126,7 +126,7 @@ fixtures! To do this, run in a console:
 
 .. code-block:: bash
 
-    php app/console doctrine:schema:update --force
+    php bin/console doctrine:schema:update --force
 
 Once you have your fixtures defined, we can simply load them. To do that
 you must execute console commands.
@@ -135,9 +135,9 @@ To load Doctrine ORM fixtures:
 
 .. code-block:: bash
 
-    php app/console doctrine:fixtures:load --append
+    php bin/console doctrine:fixtures:load --append
 
-See ``php app/console doctrine:fixtures:load --help`` for more details.
+See ``php bin/console doctrine:fixtures:load --help`` for more details.
 
 After executing the commands above, your database will be filled with the
 fake data, which can be used by themes.
@@ -153,11 +153,11 @@ following command in a console:
 
 .. code-block:: bash
 
-    php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
+    php bin/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
 
 This command will install default theme for the default tenant which was already created by loading fixtures (see above).
 
-See ``php app/console swp:theme:install --help`` for more details.
+See ``php bin/console swp:theme:install --help`` for more details.
 
 .. _formatters: https://github.com/fzaninotto/Faker#formatters
 .. _DoctrineFixturesBundle: https://github.com/doctrine/DoctrineFixturesBundle

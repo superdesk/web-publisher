@@ -18,13 +18,13 @@
         }
     ],
     "require": {
-        "php": "^7.0",
-        "symfony/dependency-injection": "^3.1",
-        "symfony/config": "^3.1",
-        "symfony/validator": "^3.1",
-        "symfony/form": "^3.1",
-        "swp/storage-bundle": "^1.4",
-        "swp/rule": "^1.4",
+        "php": "^7.3",
+        "symfony/dependency-injection": "^4.2",
+        "symfony/config": "^4.2",
+        "symfony/validator": "^4.2",
+        "symfony/form": "^4.2",
+        "swp/storage-bundle": "^2.0",
+        "swp/rule": "^2.0",
         "burgov/key-value-form-bundle": "@stable"
     },
     "require-dev": {
@@ -46,7 +46,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.5-dev"
+            "dev-master": "2.0-dev"
         }
     }
 }
