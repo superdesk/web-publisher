@@ -82,7 +82,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
             $this->appendImageByline($articleMedia, $figCaptionNode);
         }
 
-        $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
+        $article->setBody(trim(preg_replace('/\s++/', ' ', str_replace($figureString, $crawler->filter('body')->html(), $body))));
     }
 
     public function setDefaultImageRendition(string $renditionName): void
