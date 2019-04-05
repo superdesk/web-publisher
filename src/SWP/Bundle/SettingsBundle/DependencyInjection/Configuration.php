@@ -36,8 +36,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('swp_settings')
+        $treeBuilder = new TreeBuilder('swp_settings');
+        $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('cache_service')->defaultNull()->info('A service implementing Psr\Cache\CacheItemPoolInterface')->end()
                 ->integerNode('cache_lifetime')->defaultValue(3600)->end()

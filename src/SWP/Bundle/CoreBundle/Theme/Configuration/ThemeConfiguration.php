@@ -37,8 +37,8 @@ final class ThemeConfiguration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNodeDefinition = $treeBuilder->root('sylius_theme');
+        $treeBuilder = new TreeBuilder('sylius_theme');
+        $rootNodeDefinition = $treeBuilder->getRootNode();
 
         $rootNodeDefinition->ignoreExtraKeys();
 
