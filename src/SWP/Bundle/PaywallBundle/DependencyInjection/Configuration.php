@@ -27,8 +27,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('swp_paywall')
+        $treeBuilder = new TreeBuilder('swp_paywall');
+        $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('adapter')
                     ->defaultValue(PaymentsHubAdapter::class)

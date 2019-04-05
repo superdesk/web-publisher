@@ -26,8 +26,7 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('swp_elastic_search');
+        $treeBuilder = new TreeBuilder('swp_elastic_search');
 
         return $treeBuilder;
     }

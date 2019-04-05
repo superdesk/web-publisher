@@ -29,7 +29,7 @@ docker-compose up -d
 #### Install all dependencies using Composer:
 
 ```bash
-docker-compose run php php composer install
+docker-compose run php php /usr/bin/composer install
 ```
 
 #### Create database:
