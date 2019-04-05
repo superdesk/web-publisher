@@ -48,8 +48,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('swp_bridge', 'array');
+        $treeBuilder = new TreeBuilder('swp_bridge', 'array');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()

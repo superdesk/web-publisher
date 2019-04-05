@@ -76,8 +76,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('swp_content')
+        $treeBuilder = new TreeBuilder('swp_content');
+        $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('media_storage_adapter')
                     ->defaultValue('local_adapter')

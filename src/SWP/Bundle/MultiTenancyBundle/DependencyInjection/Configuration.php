@@ -40,8 +40,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('swp_multi_tenancy')
+        $treeBuilder = new TreeBuilder('swp_multi_tenancy');
+        $treeBuilder->getRootNode()
             ->children()
                 ->booleanNode('use_orm_listeners')
                     ->defaultFalse()
