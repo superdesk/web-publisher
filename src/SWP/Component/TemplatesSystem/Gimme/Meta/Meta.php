@@ -64,7 +64,7 @@ class Meta implements MetaInterface
             $toStringProperty = $this->configuration['to_string'];
             $this->__load($toStringProperty);
             if (isset($this->copiedValues[$toStringProperty])) {
-                return $this->copiedValues[$toStringProperty];
+                return (string) $this->copiedValues[$toStringProperty];
             }
         }
 
@@ -161,23 +161,14 @@ class Meta implements MetaInterface
      */
     public function __sleep()
     {
-        unset($this->values);
-        unset($this->context);
-        unset($this->configuration);
+        unset($this->values, $this->context, $this->configuration);
 
         return array_keys(get_object_vars($this));
     }
 
-    /**
-     * @param array  $values
-     * @param array  $configuration
-     * @param string $name
-     *
-     * @return bool
-     */
-    private function fillFromArray(array $values, array $configuration, string $name)
+    private function fillFromArray(array $values, array $configuration, string $name): bool
     {
-        if (count($values) > 0 && isset($configuration['properties'][$name]) && isset($values[$name])) {
+        if (isset($configuration['properties'][$name]) && isset($values[$name]) && count($values) > 0) {
             $this->$name = $values[$name];
         }
 

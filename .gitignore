@@ -9,8 +9,8 @@
 /docs/_extensions/sensio/sphinx/__pycache__/
 /docs/_extensions/sensio/__pycache__/
 /composer.phar
-/docker/.env
-/docker/elasticsearch
+/etc/docker/.env
+/etc/docker/elasticsearch
 /public/bundles/
 /public/uploads/*
 !/public/uploads/.gitkeep
