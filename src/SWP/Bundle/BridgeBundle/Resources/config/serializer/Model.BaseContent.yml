@@ -4,92 +4,119 @@ SWP\Component\Bridge\Model\BaseContent:
         id:
             expose: true
             type: integer
+            groups: [api]
         guid:
             expose: true
             type: string
+            groups: [api]
         headline:
             expose: true
             type: string
+            groups: [api]
         byline:
             expose: true
             type: string
+            groups: [api]
         slugline:
             expose: true
             type: string
+            groups: [api]
         createdAt:
             expose: true
             serialized_name: versioncreated
             type: DateTime<'Y-m-d\TH:i:sO'>
+            groups: [api]
         firstPublishedAt:
             expose: true
             serialized_name: firstpublished
             type: DateTime<'Y-m-d\TH:i:sO'>
+            groups: [api]
         language:
             expose: true
             type: string
+            groups: [api]
         subjects:
             expose: true
             serialized_name: subject
             type: array
+            groups: [api]
         type:
             expose: true
             type: string
+            groups: [api]
         places:
             expose: true
             serialized_name: place
             type: array
+            groups: [api]
         located:
             expose: true
             type: string
+            groups: [api]
         urgency:
             expose: true
             type: integer
+            groups: [api]
         priority:
             expose: true
             type: integer
+            groups: [api]
         version:
             expose: true
             type: integer
+            groups: [api]
         services:
             expose: true
             serialized_name: service
             type: array
+            groups: [api]
         genre:
             expose: true
             type: array
+            groups: [api]
         edNote:
             expose: true
             serialized_name: ednote
             type: string
+            groups: [api]
         description:
             expose: true
             serialized_name: description_text
             type: string
+            groups: [api]
         keywords:
             expose: true
             type: array
+            groups: [api]
         pubStatus:
             expose: true
             serialized_name: pubstatus
             type: string
+            groups: [api]
         evolvedFrom:
             expose: true
             type: string
             serialized_name: evolvedfrom
+            groups: [api]
         source:
             expose: true
             type: string
+            groups: [api]
         authors:
             expose: true
             type: ArrayCollection<SWP\Bundle\ContentBundle\Model\ArticleAuthor>
+            groups: [api]
         extra:
             expose: true
             type: array
+            groups: [api]
         copyrightNotice:
             expose: true
             type: string
             serialized_name: copyrightnotice
+            groups: [api]
         copyrightHolder:
             expose: true
             type: string
             serialized_name: copyrightholder
+            groups: [api]

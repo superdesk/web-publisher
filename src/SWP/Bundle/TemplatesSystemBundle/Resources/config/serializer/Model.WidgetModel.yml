@@ -3,16 +3,21 @@ SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         name:
             expose: true
+            groups: [api]
             type: string
         type:
             expose: true
+            groups: [api]
             type: string
         visible:
             expose: true
+            groups: [api]
             type: boolean
         parameters:
             expose: true
+            groups: [api]
             type: array

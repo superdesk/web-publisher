@@ -3,7 +3,9 @@ SWP\Component\OutputChannel\Model\OutputChannel:
     properties:
         config:
             expose: true
+            groups: [api]
             type: array
         type:
             expose: true
+            groups: [api]
             type: string

@@ -5,9 +5,12 @@ SWP\Component\Bridge\Model\Group:
             expose: true
             type: string
             serialized_name: id
+            groups: [api]
         type:
             expose: true
             type: string
+            groups: [api]
         items:
             expose: true
-            type: array<SWP\Component\Bridge\Model\Item>
+            type: ArrayCollection<SWP\Component\Bridge\Model\Item>
+            groups: [api]

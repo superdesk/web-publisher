@@ -3,4 +3,5 @@ Sylius\Bundle\ThemeBundle\Model\Theme:
     properties:
         screenshots:
             expose: true
+            groups: [api]
             type: array<Sylius\Bundle\ThemeBundle\Model\ThemeScreenshot>

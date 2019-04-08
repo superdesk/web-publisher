@@ -3,34 +3,46 @@ SWP\Bundle\ContentBundle\Model\Route:
     properties:
         templateName:
             expose: true
+            groups: [api]
         type:
             expose: true
+            groups: [api]
         name:
             expose: true
+            groups: [api]
         slug:
             expose: true
+            groups: [api]
         cacheTimeInSeconds:
             expose: true
+            groups: [api]
             type: integer
         articlesTemplateName:
             expose: true
+            groups: [api]
             type: string
         position:
             expose: true
+            groups: [api]
             type: integer
         lft:
           expose: true
+            groups: [api]
           type: integer
         rgt:
           expose: true
+            groups: [api]
           type: integer
         level:
             expose: true
+            groups: [api]
             type: integer
         children:
             expose: true
+            groups: [api]
         parent:
             expose: true
+            groups: [api]
             type: integer
             accessor:
                 getter: getParentId

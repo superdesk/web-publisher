@@ -3,28 +3,37 @@ SWP\Component\MultiTenancy\Model\Tenant:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         name:
             expose: true
+            groups: [api]
             type: string
         enabled:
             expose: true
+            groups: [api]
             type: boolean
         subdomain:
             expose: true
+            groups: [api]
             type: string
         domainName:
             expose: true
+            groups: [api]
             type: string
         code:
             expose: true
+            groups: [api]
             type: string
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime
         organization:
             expose: true
+            groups: [api]
             type: SWP\Component\MultiTenancy\Model\Organization

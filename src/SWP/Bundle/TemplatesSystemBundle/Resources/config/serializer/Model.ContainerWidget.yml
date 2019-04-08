@@ -3,10 +3,13 @@ SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         widget:
             expose: true
+            groups: [api]
             type: SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel
         position:
             expose: true
+            groups: [api]
             type: string

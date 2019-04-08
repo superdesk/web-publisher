@@ -3,17 +3,22 @@ SWP\Component\Revision\Model\Revision:
     properties:
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime
         isActive:
             expose: true
+            groups: [api]
             type: boolean
         status:
             expose: true
+            groups: [api]
         uniqueKey:
             expose: true
+            groups: [api]
     relations:
         -   rel: current
             href:

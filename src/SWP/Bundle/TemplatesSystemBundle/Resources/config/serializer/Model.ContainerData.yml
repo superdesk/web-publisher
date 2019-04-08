@@ -3,7 +3,9 @@ SWP\Bundle\TemplatesSystemBundle\Model\ContainerData:
     properties:
         key:
             expose: true
+            groups: [api]
             type: string
         value:
             expose: true
+            groups: [api]
             type: string

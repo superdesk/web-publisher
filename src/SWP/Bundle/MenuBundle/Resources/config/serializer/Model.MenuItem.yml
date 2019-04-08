@@ -3,31 +3,40 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         name:
             expose: true
+            groups: [api]
             type: string
         uri:
             expose: true
+            groups: [api]
             type: string
         label:
             expose: true
+            groups: [api]
             type: string
         children:
             expose: true
+            groups: [api]
         level:
             expose: true
+            groups: [api]
             type: integer
         position:
             expose: true
+            groups: [api]
             type: integer
         parent:
             expose: true
+            groups: [api]
             type: integer
             accessor:
                 getter: getParentId
         root:
             expose: true
+            groups: [api]
             type: integer
             accessor:
                 getter: getRootId

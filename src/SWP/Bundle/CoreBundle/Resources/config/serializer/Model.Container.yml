@@ -3,9 +3,11 @@ SWP\Bundle\CoreBundle\Model\Container:
     properties:
         uuid:
             expose: true
+            groups: [api]
             type: string
         revision:
             expose: true
+            groups: [api]
     relations:
         -
             rel: self

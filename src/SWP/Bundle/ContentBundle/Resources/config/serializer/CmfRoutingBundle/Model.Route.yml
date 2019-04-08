@@ -3,12 +3,16 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         content:
             expose: true
+            groups: [api]
         staticPrefix:
             expose: true
+            groups: [api]
             type: string
         variablePattern:
             expose: true
+            groups: [api]
             type: string

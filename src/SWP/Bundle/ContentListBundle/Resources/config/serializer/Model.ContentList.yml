@@ -3,34 +3,45 @@ SWP\Component\ContentList\Model\ContentList:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         name:
             expose: true
+            groups: [api]
             type: string
         type:
             expose: true
+            groups: [api]
             type: string
         limit:
             expose: true
+            groups: [api]
             type: integer
         cacheLifeTime:
             expose: true
+            groups: [api]
             type: integer
         description:
             expose: true
+            groups: [api]
             type: string
         filters:
             expose: true
+            groups: [api]
             type: array
         enabled:
             expose: true
+            groups: [api]
             type: boolean
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime
         contentListItemsUpdatedAt:
             expose: true
+            groups: [api]
             type: DateTime

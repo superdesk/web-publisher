@@ -265,6 +265,9 @@
     "guzzlehttp/streams": {
         "version": "3.0.0"
     },
+    "hoa/compiler": {
+        "version": "3.17.08.08"
+    },
     "hoa/consistency": {
         "version": "1.17.05.02"
     },
@@ -280,14 +283,26 @@
     "hoa/iterator": {
         "version": "2.17.01.10"
     },
+    "hoa/math": {
+        "version": "1.17.05.16"
+    },
     "hoa/mime": {
         "version": "3.17.01.10"
     },
     "hoa/protocol": {
         "version": "1.17.01.14"
     },
+    "hoa/regex": {
+        "version": "1.17.01.13"
+    },
     "hoa/stream": {
         "version": "1.17.02.21"
+    },
+    "hoa/ustring": {
+        "version": "4.17.01.16"
+    },
+    "hoa/visitor": {
+        "version": "2.17.01.16"
     },
     "hoa/zformat": {
         "version": "1.17.01.10"
@@ -306,9 +321,6 @@
     },
     "jms/metadata": {
         "version": "1.7.0"
-    },
-    "jms/parser-lib": {
-        "version": "1.0.0"
     },
     "jms/serializer": {
         "version": "1.13.0"
@@ -527,9 +539,6 @@
     "php-http/promise": {
         "version": "v1.0.0"
     },
-    "phpcollection/phpcollection": {
-        "version": "0.5.0"
-    },
     "phpcr/phpcr": {
         "version": "2.1.4"
     },
@@ -544,9 +553,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
-    },
-    "phpoption/phpoption": {
-        "version": "1.5.0"
     },
     "phpspec/php-diff": {
         "version": "v1.1.0"

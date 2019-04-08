@@ -3,3 +3,4 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
     properties:
         articleMedia:
             expose: true
+            groups: [api]

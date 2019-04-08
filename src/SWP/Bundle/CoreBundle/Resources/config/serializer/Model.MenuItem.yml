@@ -3,6 +3,7 @@ SWP\Bundle\CoreBundle\Model\MenuItem:
     properties:
         route:
             expose: true
+            groups: [api]
             type: integer
             accessor:
                 getter: getRouteId

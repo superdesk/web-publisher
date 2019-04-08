@@ -3,11 +3,16 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
     properties:
         impressionsNumber:
             expose: true
+            groups: [api]
         pageViewsNumber:
             expose: true
+            groups: [api]
         internalClickRate:
             expose: true
+            groups: [api]
         createdAt:
             expose: true
+            groups: [api]
         updatedAt:
             expose: true
+            groups: [api]

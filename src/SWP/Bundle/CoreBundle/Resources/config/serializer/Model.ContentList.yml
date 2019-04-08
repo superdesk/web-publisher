@@ -4,6 +4,7 @@ SWP\Bundle\CoreBundle\Model\ContentList:
         contentListItemsCount:
             serialized_name: contentListItemsCount
             expose: true
+            groups: [api]
             type: SWP\Bundle\CoreBundle\Model\ContentListItemsCountInterface
     relations:
         -   rel: self

@@ -3,4 +3,5 @@ SWP\Bundle\RevisionBundle\Model\Revision:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer

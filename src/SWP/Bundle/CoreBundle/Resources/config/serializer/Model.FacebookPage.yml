@@ -3,24 +3,31 @@ SWP\Bundle\CoreBundle\Model\FacebookPage:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         pageId:
             expose: true
+            groups: [api]
             type: integer
         name:
             expose: true
+            groups: [api]
             type: string
         accessToken:
             expose: true
+            groups: [api]
             type: string
         application:
             expose: true
+            groups: [api]
             type: string
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime
     relations:
         -   rel: list

@@ -3,16 +3,21 @@ SWP\Bundle\UserBundle\Model\User:
     properties:
         firstName:
             expose: true
+            groups: [api]
             type: string
         lastName:
             expose: true
+            groups: [api]
             type: string
         about:
             expose: true
+            groups: [api]
             type: string
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime<'Y-m-d\TH:i:sO'>
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime<'Y-m-d\TH:i:sO'>

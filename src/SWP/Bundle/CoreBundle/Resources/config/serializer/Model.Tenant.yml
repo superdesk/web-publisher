@@ -3,17 +3,22 @@ SWP\Bundle\CoreBundle\Model\Tenant:
     properties:
         themeName:
             expose: true
+            groups: [api]
             type: string
         organization:
             expose: true
+            groups: [api]
             type: SWP\Bundle\CoreBundle\Model\Organization
         outputChannel:
             expose: true
+            groups: [api]
         ampEnabled:
             expose: true
+            groups: [api]
         articlesCount:
             serialized_name: articlesCount
             expose: true
+            groups: [api]
             type: SWP\Bundle\CoreBundle\Model\ArticlesCountInterface
     relations:
         - rel: self

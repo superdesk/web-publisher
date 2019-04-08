@@ -3,11 +3,14 @@ SWP\Bundle\ContentBundle\Model\File:
     properties:
         id:
             expose: true
+            groups: [api]
             type: string
         fileExtension:
             expose: true
+            groups: [api]
         assetId:
             expose: true
+            groups: [api]
     relations:
         -
             rel: download

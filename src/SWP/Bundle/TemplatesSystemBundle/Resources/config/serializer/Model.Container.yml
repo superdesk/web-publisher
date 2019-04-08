@@ -3,23 +3,31 @@ SWP\Bundle\TemplatesSystemBundle\Model\Container:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         name:
             expose: true
+            groups: [api]
             type: string
         type:
             expose: true
+            groups: [api]
             type: integer
         visible:
             expose: true
+            groups: [api]
             type: boolean
         styles:
             expose: true
+            groups: [api]
             type: string
         cssClass:
             expose: true
+            groups: [api]
             type: string
         data:
             expose: true
+            groups: [api]
         widgets:
             expose: true
+            groups: [api]

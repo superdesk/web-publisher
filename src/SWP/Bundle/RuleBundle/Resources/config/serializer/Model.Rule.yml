@@ -3,19 +3,25 @@ SWP\Component\Rule\Model\Rule:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         expression:
             expose: true
+            groups: [api]
             type: string
         priority:
             expose: true
+            groups: [api]
             type: integer
         configuration:
             expose: true
+            groups: [api]
             type: array
         description:
             expose: true
+            groups: [api]
             type: string
         name:
             expose: true
+            groups: [api]
             type: string

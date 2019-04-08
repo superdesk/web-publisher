@@ -4,18 +4,31 @@ SWP\Component\Bridge\Model\Package:
         items:
             expose: true
             serialized_name: associations
-            type: array<SWP\Component\Bridge\Model\Item>
+            type: ArrayCollection<string,SWP\Component\Bridge\Model\Item>
         body:
             expose: true
             serialized_name: body_html
             type: string
+            groups: [api]
         createdAt:
             expose: true
             type: DateTime
+            groups: [api]
         updatedAt:
             expose: true
             type: DateTime
+            groups: [api]
         groups:
             expose: true
             serialized_name: extra_items
-            type: array<SWP\Component\Bridge\Model\Group>
+            type: ArrayCollection<string,SWP\Component\Bridge\Model\Group>
+
+    virtual_properties:
+        getItemsArray:
+            serialized_name: associations
+            type: array
+            groups: [api]
+        getGroupsArray:
+            serialized_name: extra_items
+            type: array
+            groups: [api]

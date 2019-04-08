@@ -3,4 +3,5 @@ Symfony\Component\Routing\Route:
     properties:
         requirements:
             expose: true
+            groups: [api]
             type: array

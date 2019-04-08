@@ -3,21 +3,28 @@ SWP\Bundle\CoreBundle\Model\Article:
     properties:
         isPublishedFBIA:
             expose: true
+            groups: [api]
         tenantCode:
             serialized_name: tenant
             expose: true
+            groups: [api]
             type: SWP\Bundle\CoreBundle\Model\TenantInterface
         articleStatistics:
             expose: true
+            groups: [api]
         externalArticle:
             expose: true
+            groups: [api]
         paywallSecured:
             expose: true
+            groups: [api]
             type: boolean
         contentLists:
             expose: true
+            groups: [api]
         commentsCount:
             expose: true
+            groups: [api]
             access_type: public_method
     relations:
         -

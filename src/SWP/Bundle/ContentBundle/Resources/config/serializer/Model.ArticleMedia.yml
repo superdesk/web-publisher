@@ -3,29 +3,40 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
     properties:
         id:
             expose: true
+            groups: [api]
             type: string
         file:
             expose: true
+            groups: [api]
         image:
             expose: true
+            groups: [api]
         renditions:
             expose: true
+            groups: [api]
         byLine:
             expose: true
+            groups: [api]
         body:
             expose: true
+            groups: [api]
             serialized_name: altText
         description:
             expose: true
+            groups: [api]
         usageTerms:
             expose: true
+            groups: [api]
         headline:
             expose: true
+            groups: [api]
         copyrightNotice:
             expose: true
+            groups: [api]
             type: string
         copyrightHolder:
             expose: true
+            groups: [api]
             type: string
     relations:
         -

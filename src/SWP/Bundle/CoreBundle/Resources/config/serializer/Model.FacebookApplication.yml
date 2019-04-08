@@ -4,17 +4,22 @@ SWP\Bundle\CoreBundle\Model\FacebookApplication:
         id:
             expose: true
             type: integer
+            groups: [api]
         appId:
             expose: true
+            groups: [api]
             type: integer
         appSecret:
             expose: true
+            groups: [api]
             type: string
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime
     relations:
         -   rel: list

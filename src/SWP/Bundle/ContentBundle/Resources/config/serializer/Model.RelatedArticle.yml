@@ -3,7 +3,10 @@ SWP\Bundle\ContentBundle\Model\RelatedArticle:
   properties:
     article:
       expose: true
+            groups: [api]
     createdAt:
       expose: true
+            groups: [api]
     updatedAt:
       expose: true
+            groups: [api]
