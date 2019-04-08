@@ -26,13 +26,13 @@ SWP\Bundle\ContentBundle\Model\Route:
             groups: [api]
             type: integer
         lft:
-          expose: true
+            expose: true
             groups: [api]
-          type: integer
+            type: integer
         rgt:
-          expose: true
+            expose: true
             groups: [api]
-          type: integer
+            type: integer
         level:
             expose: true
             groups: [api]

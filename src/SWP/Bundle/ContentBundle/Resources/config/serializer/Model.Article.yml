@@ -74,7 +74,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         keywords:
             expose: true
             groups: [api]
-            type: array
+            type: ArrayCollection
         code:
             expose: true
             groups: [api]
@@ -89,7 +89,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         slideshows:
             expose: true
             groups: [api]
-            type: array<SWP\Bundle\ContentBundle\Model\SlideshowInterface>
+            type: ArrayCollection
     relations:
         -
             rel: self

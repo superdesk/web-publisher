@@ -19,4 +19,4 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
         items:
             expose: true
             groups: [api]
-            type: array<SWP\Bundle\ContentBundle\Model\SlideshowItemInterface>
+            type: ArrayCollection<SWP\Bundle\ContentBundle\Model\SlideshowItemInterface>
