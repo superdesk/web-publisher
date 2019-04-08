@@ -145,16 +145,16 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
           "slug":"[a-zA-Z0-9*\\-_]+"
         },
         "id":3,
-        "staticPrefix":"/news",
-        "variablePattern":"/{slug}",
+        "staticPrefix":"\/news",
+        "variablePattern":"\/{slug}",
         "children":[
           {
             "requirements":{
               "slug":"[a-zA-Z0-9*\\-_]+"
             },
             "id":6,
-            "staticPrefix":"/news/sports",
-            "variablePattern":"/{slug}",
+            "staticPrefix":"\/news\/sports",
+            "variablePattern":"\/{slug}",
             "parent":3,
             "children":[
 
@@ -171,10 +171,10 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
             "paywallSecured":false,
             "_links":{
               "self":{
-                "href":"/api/v1/content/routes/6"
+                "href":"\/api\/v1\/content\/routes\/6"
               },
               "parent":{
-                "href":"/api/v1/content/routes/3"
+                "href":"\/api\/v1\/content\/routes\/3"
               }
             }
           }
@@ -191,7 +191,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         "paywallSecured":false,
         "_links":{
           "self":{
-            "href":"/api/v1/content/routes/3"
+            "href":"\/api\/v1\/content\/routes\/3"
           }
         }
       },
@@ -264,7 +264,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         "ampEnabled":true,
         "_links":{
           "self":{
-            "href":"/api/v1/tenants/123abc"
+            "href":"\/api\/v1\/tenants\/123abc"
           }
         }
       },
@@ -274,16 +274,16 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
       ],
       "_links":{
         "self":{
-          "href":"/api/v1/content/articles/test-image-in-body"
+          "href":"\/api\/v1\/content\/articles\/test-image-in-body"
         },
         "online":{
-          "href":"/news/test-image-in-body"
+          "href":"\/news\/test-image-in-body"
         },
         "related":{
-          "href":"/api/v1/content/articles/6/related/"
+          "href":"\/api\/v1\/content\/articles\/6\/related\/"
         },
         "slideshows":{
-          "href":"/api/v1/content/slideshows/6"
+          "href":"\/api\/v1\/content\/slideshows\/6"
         }
       }
     }

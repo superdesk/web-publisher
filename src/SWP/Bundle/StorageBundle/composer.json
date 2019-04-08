@@ -18,11 +18,11 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "swp/storage": "^1.4|^2.0",
-        "symfony/framework-bundle": "^3.4|^4.2",
-        "symfony/doctrine-bridge": "^3.4|^4.2",
-        "symfony/property-info": "^3.4|^4.2",
+        "php": "^7.3",
+        "swp/storage": "^2.0",
+        "symfony/framework-bundle": "^4.2",
+        "symfony/doctrine-bridge": "^4.2",
+        "symfony/property-info": "^4.2",
         "doctrine/orm": "^2.6",
         "doctrine/doctrine-bundle": "^1.10"
     },
