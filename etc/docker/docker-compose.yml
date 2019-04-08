@@ -30,7 +30,7 @@ services:
             - elasticsearch
             - rabbitmq
         volumes:
-            - ../:/var/www/publisher:cached
+            - ../../:/var/www/publisher:cached
             - ./logs/publisher:/var/www/publisher/var/log:cached
         env_file:
             - .env

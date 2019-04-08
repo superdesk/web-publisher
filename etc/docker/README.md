@@ -2,7 +2,7 @@
 
 #### Setup
 
-Execute below commands inside `docker` folder of that repository.
+Execute below commands inside `etc/docker` folder of that repository.
 
 #### Prerequisite
 
@@ -76,8 +76,8 @@ change the values of `SWP_DOMAIN` and `CACHE_SERVERS` env vars from `localhost` 
 
 #### Where to see nginx logs?
 
-`logs` dir will be created inside `docker/` dir. Nginx logs will be visible in `logs/nginx/` dir.
+`logs` dir will be created inside `etc/docker/` dir. Nginx logs will be visible in `logs/nginx/` dir.
 
 #### Where to see Publisher logs?
 
-`logs` dir will be created inside `docker/` dir. Publisher logs will be visible in `logs/publisher/` dir.
+`logs` dir will be created inside `etc/docker/` dir. Publisher logs will be visible in `logs/publisher/` dir.
