@@ -87,12 +87,12 @@ class ContentListController extends Controller
     {
         /* @var ContentListInterface $contentList */
         $contentList = $this->get('swp.factory.content_list')->create();
-        $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', ContentListType::class, $contentList, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         $this->ensureContentListExists($contentList->getName());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp.repository.content_list')->add($contentList);
 
             return new SingleResourceResponse($contentList, new ResponseContext(201));
@@ -122,10 +122,10 @@ class ContentListController extends Controller
         $contentList = $this->findOr404($id);
         $filters = $contentList->getFilters();
 
-        $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('event_dispatcher')->dispatch(
                 ContentListEvents::LIST_CRITERIA_CHANGE,
                 new GenericEvent($contentList, ['filters' => $filters])

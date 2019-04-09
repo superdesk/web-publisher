@@ -55,10 +55,10 @@ class CurrentThemeController extends Controller
             throw new \LogicException('Theme is not set!');
         }
 
-        $form = $this->createForm(ThemeLogoUploadType::class, $theme);
+        $form = $this->get('form.factory')->createNamed('', ThemeLogoUploadType::class, $theme);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
             $currentTenant = $tenantContext->getTenant();
 

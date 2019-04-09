@@ -74,10 +74,10 @@ class FbPageController extends Controller
     {
         /* @var FacebookPage $feed */
         $page = $this->get('swp.factory.facebook_page')->create();
-        $form = $this->createForm(FacebookPageType::class, $page, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', FacebookPageType::class, $page, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->checkIfPageExists($page);
             $this->get('swp.repository.facebook_page')->add($page);
 

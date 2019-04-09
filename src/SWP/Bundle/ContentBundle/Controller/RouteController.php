@@ -130,22 +130,26 @@ class RouteController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        /** @var RouteInterface $route */
-        $route = $this->get('swp.factory.route')->create();
-        $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
+        try {
+            /** @var RouteInterface $route */
+            $route = $this->get('swp.factory.route')->create();
+            $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
 
-        $form->handleRequest($request);
-        $this->ensureRouteExists($route->getName());
+            $form->handleRequest($request);
+            $this->ensureRouteExists($route->getName());
 
-        if ($form->isValid()) {
-            $route = $this->get('swp.service.route')->createRoute($form->getData());
+            if ($form->isSubmitted() && $form->isValid()) {
+                $route = $this->get('swp.service.route')->createRoute($form->getData());
 
-            $this->get('swp.repository.route')->add($route);
+                $this->get('swp.repository.route')->add($route);
 
-            return new SingleResourceResponse($route, new ResponseContext(201));
+                return new SingleResourceResponse($route, new ResponseContext(201));
+            }
+
+            return new SingleResourceResponse($form, new ResponseContext(400));
+        } catch (\Throwable $e) {
+            dump($e);die;
         }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -171,10 +175,10 @@ class RouteController extends FOSRestController
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);
         $previousRoute = clone  $route;
-        $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $route = $this->get('swp.service.route')->updateRoute($previousRoute, $form->getData());
 
             $objectManager->flush();

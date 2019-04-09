@@ -23,11 +23,11 @@ use SWP\Bundle\ContentBundle\Form\Type\ArticleCommentsType;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArticleCommentsController extends Controller
+class ArticleCommentsController extends AbstractController
 {
     /**
      * @ApiDoc(
@@ -44,10 +44,11 @@ class ArticleCommentsController extends Controller
     {
         $repository = $this->get('swp.repository.article');
         $articleResolver = $this->container->get('swp.resolver.article');
+        $form = $this->get('form.factory')->createNamed('', ArticleCommentsType::class, [], ['method' => $request->getMethod()]);
 
-        $form = $this->createForm(ArticleCommentsType::class, [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $article = null;
             if (null !== $data['url']) {

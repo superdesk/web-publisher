@@ -72,10 +72,10 @@ class FbiaFeedController extends Controller
     {
         /* @var FacebookInstantArticlesFeedInterface $feed */
         $feed = $this->get('swp.factory.facebook_instant_articles_feed')->create();
-        $form = $this->createForm(FacebookInstantArticlesFeedType::class, $feed, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', FacebookInstantArticlesFeedType::class, $feed, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->checkIfFeedExists($feed->getContentBucket(), $feed->getFacebookPage());
             $this->get('swp.repository.facebook_instant_articles_feed')->add($feed);
 

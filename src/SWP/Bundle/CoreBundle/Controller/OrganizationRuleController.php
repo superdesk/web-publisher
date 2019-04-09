@@ -111,10 +111,10 @@ class OrganizationRuleController extends Controller
         $ruleRepository = $this->getRuleRepository();
 
         $rule = $this->get('swp.factory.rule')->create();
-        $form = $this->createForm(RuleType::class, $rule);
+        $form = $form = $this->get('form.factory')->createNamed('', RuleType::class, $rule);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $ruleRepository->add($rule);
             $rule->setTenantCode(null);
             $ruleRepository->flush();
@@ -161,10 +161,10 @@ class OrganizationRuleController extends Controller
     {
         $objectManager = $this->get('swp.object_manager.rule');
         $rule = $this->findOr404($id);
-        $form = $this->createForm(RuleType::class, $rule, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', RuleType::class, $rule, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->flush();
             $objectManager->refresh($rule);
 

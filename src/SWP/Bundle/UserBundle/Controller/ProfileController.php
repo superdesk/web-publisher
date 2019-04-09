@@ -92,7 +92,7 @@ class ProfileController extends Controller
             return $event->getResponse();
         }
 
-        $form = $this->createForm(ProfileFormType::class, $requestedUser, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', ProfileFormType::class, $requestedUser, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */

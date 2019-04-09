@@ -75,7 +75,7 @@ class ContentPushController extends Controller
      */
     public function pushAssetsAction(Request $request)
     {
-        $form = $this->createForm(MediaFileType::class);
+        $form = $this->get('form.factory')->createNamed('', MediaFileType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

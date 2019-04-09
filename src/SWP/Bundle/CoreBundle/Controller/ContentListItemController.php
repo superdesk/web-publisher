@@ -100,7 +100,7 @@ class ContentListItemController extends Controller
     {
         $objectManager = $this->get('swp.object_manager.content_list_item');
         $contentListItem = $this->findOr404($listId, $id);
-        $form = $this->createForm(
+        $form = $this->get('form.factory')->createNamed('', 
             ContentListItemType::class,
             $contentListItem,
             ['method' => $request->getMethod()]
@@ -108,7 +108,7 @@ class ContentListItemController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $contentListItem->getContentList()->setUpdatedAt(new \DateTime());
             $objectManager->flush();
 
@@ -149,10 +149,10 @@ class ContentListItemController extends Controller
         }
 
         $objectManager = $this->get('swp.object_manager.content_list_item');
-        $form = $this->createForm(ContentListItemsType::class, [], ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', ContentListItemsType::class, [], ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $updatedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $data['updated_at'], new \DateTimeZone('UTC'));
             $updatedAt->setTimezone(new \DateTimeZone('UTC'));

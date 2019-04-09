@@ -56,7 +56,7 @@ class UserController extends Controller
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $form = $this->createForm(UserRolesType::class, [], ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', UserRolesType::class, [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */

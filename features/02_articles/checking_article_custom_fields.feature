@@ -182,7 +182,7 @@ Feature: Validate custom fields
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
         "route":{
@@ -194,7 +194,7 @@ Feature: Validate custom fields
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
         "publish":{
@@ -211,7 +211,7 @@ Feature: Validate custom fields
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
+    Then I send a "GET" request to "/api/v1/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | slug                          | testing-authors                                                                 |
@@ -220,4 +220,4 @@ Feature: Validate custom fields
       | extra.limit-test              | <p>limit test field</p>                                                         |
       | extra.rafal-embed.description | Shakin' Stevens                                                                 |
       | extra.rafal-embed.embed       | embed link                                                                      |
-      | media[0].image.assetId        | 20180131130152_f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b |
+      | media[0].image.asset_id        | 20180131130152_f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b |

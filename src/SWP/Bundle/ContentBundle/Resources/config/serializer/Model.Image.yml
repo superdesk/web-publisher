@@ -4,7 +4,7 @@ SWP\Bundle\ContentBundle\Model\Image:
         id:
             expose: true
             groups: [api]
-            type: string
+            type: integer
         width:
             expose: true
             groups: [api]
@@ -17,3 +17,4 @@ SWP\Bundle\ContentBundle\Model\Image:
         assetId:
             expose: true
             groups: [api]
+            type: string

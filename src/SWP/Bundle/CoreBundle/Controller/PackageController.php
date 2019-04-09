@@ -106,10 +106,10 @@ class PackageController extends Controller
         /** @var PackageInterface $package */
         $package = $this->findOr404($id);
 
-        $form = $this->createForm(CompositePublishActionType::class, new CompositePublishAction(), ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', CompositePublishActionType::class, new CompositePublishAction(), ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_core.article.publisher')->publish($package, $form->getData());
             $this->get('fos_elastica.object_persister.swp.package')->replaceOne($package);
 
@@ -138,10 +138,10 @@ class PackageController extends Controller
     {
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $package = $this->findOr404($id);
-        $form = $this->createForm(UnpublishFromTenantsType::class, null, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', UnpublishFromTenantsType::class, null, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             /** @var Collection $tenants */
             $tenants = $formData['tenants'];
@@ -178,10 +178,10 @@ class PackageController extends Controller
     {
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $package = $this->findOr404($id);
-        $form = $this->createForm(PackageType::class, $package, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', PackageType::class, $package, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
                 $package->setStatus(ContentInterface::STATUS_CANCELED);
             }

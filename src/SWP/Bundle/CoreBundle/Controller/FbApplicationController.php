@@ -74,10 +74,10 @@ class FbApplicationController extends Controller
     {
         /* @var FacebookApplication $feed */
         $application = $this->get('swp.factory.facebook_application')->create();
-        $form = $this->createForm(FacebookApplicationType::class, $application, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', FacebookApplicationType::class, $application, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->checkIfApplicationExists($application);
             $this->get('swp.repository.facebook_application')->add($application);
 

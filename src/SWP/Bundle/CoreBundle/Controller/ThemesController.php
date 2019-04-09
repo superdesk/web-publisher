@@ -114,9 +114,9 @@ class ThemesController extends Controller
      */
     public function uploadThemeAction(Request $request)
     {
-        $form = $this->createForm(ThemeUploadType::class, []);
+        $form = $form = $this->get('form.factory')->createNamed('', ThemeUploadType::class, []);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $themeUploader = $this->container->get('swp_core.uploader.theme');
 
@@ -152,9 +152,9 @@ class ThemesController extends Controller
      */
     public function installThemeAction(Request $request)
     {
-        $form = $this->createForm(ThemeInstallType::class, []);
+        $form = $form = $this->get('form.factory')->createNamed('', ThemeInstallType::class, []);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $themeService = $this->container->get('swp_core.service.theme');
             list($sourceDir, $themeDir) = $themeService->getDirectoriesForTheme($formData['name']);

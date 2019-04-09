@@ -18,6 +18,7 @@ fos_rest:
     body_listener:
         decoders:
             json: fos_rest.decoder.jsontoform
+        array_normalizer: fos_rest.normalizer.camel_keys
     disable_csrf_role: ROLE_API
     exception:
         enabled: true

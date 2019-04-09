@@ -67,9 +67,9 @@ class RegistrationController extends Controller
             return $event->getResponse();
         }
 
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->get('form.factory')->createNamed('', RegistrationFormType::class, $user);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserInterface $formData */
             $formData = $form->getData();
 

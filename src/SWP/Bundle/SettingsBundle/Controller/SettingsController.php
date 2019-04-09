@@ -94,12 +94,12 @@ class SettingsController extends Controller
      */
     public function updateAction(Request $request)
     {
-        $form = $this->createForm(SettingType::class, [], [
+        $form = $this->get('form.factory')->createNamed('', SettingType::class, [], [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $settingsManager = $this->get('swp_settings.manager.settings');
             $scopeContext = $this->get('swp_settings.context.scope');
             $data = $form->getData();
@@ -147,12 +147,12 @@ class SettingsController extends Controller
      */
     public function bulkAction(Request $request)
     {
-        $form = $this->createForm(BulkSettingsUpdateType::class, [], [
+        $form = $this->get('form.factory')->createNamed('', BulkSettingsUpdateType::class, [], [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $settingsManager = $this->get('swp_settings.manager.settings');
             $scopeContext = $this->get('swp_settings.context.scope');
             $data = $form->getData();

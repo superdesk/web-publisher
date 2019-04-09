@@ -58,11 +58,11 @@ class PublishDestinationController extends Controller
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destination = $this->get('swp.factory.publish_destination')->create();
-        $form = $this->createForm(PublishDestinationType::class, $destination, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', PublishDestinationType::class, $destination, ['method' => $request->getMethod()]);
         $currentOrganization = $tenantContext->getTenant()->getOrganization();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $repository = $this->get('swp.repository.publish_destination');
             /** @var PublishDestinationInterface $publishDestination */
             $publishDestination = $repository->findOneByTenant($destination->getTenant());
@@ -99,12 +99,12 @@ class PublishDestinationController extends Controller
     {
         $objectManager = $this->get('swp.object_manager.publish_destination');
 
-        $form = $this->createForm(PublishDestinationType::class, $publishDestination, [
+        $form = $form = $this->get('form.factory')->createNamed('', PublishDestinationType::class, $publishDestination, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->flush();
             $objectManager->refresh($publishDestination);
 

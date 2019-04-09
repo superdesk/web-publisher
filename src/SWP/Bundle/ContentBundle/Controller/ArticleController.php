@@ -145,10 +145,10 @@ class ArticleController extends Controller
         $article = $this->findOr404($id);
         $originalArticleStatus = $article->getStatus();
 
-        $form = $this->createForm(ArticleType::class, $article, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', ArticleType::class, $article, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp.service.article')->reactOnStatusChange($originalArticleStatus, $article);
             $objectManager->flush();
             $objectManager->refresh($article);

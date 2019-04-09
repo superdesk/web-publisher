@@ -50,9 +50,9 @@ class AuthController extends Controller
      */
     public function authenticateAction(Request $request)
     {
-        $form = $this->createForm(UserAuthenticationType::class, []);
+        $form = $this->get('form.factory')->createNamed('', UserAuthenticationType::class, []);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
 
             try {
@@ -90,9 +90,9 @@ class AuthController extends Controller
      */
     public function authenticateWithSuperdeskAction(Request $request)
     {
-        $form = $this->createForm(SuperdeskCredentialAuthenticationType::class, []);
+        $form = $this->get('form.factory')->createNamed('', SuperdeskCredentialAuthenticationType::class, []);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $authorizedSuperdeskHosts = (array) $this->container->getParameter('superdesk_servers');
             $superdeskUser = null;

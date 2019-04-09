@@ -122,7 +122,7 @@ class ThemeRoutesGenerator implements GeneratorInterface
         $form = $this->formFactory->create(RouteType::class, $route);
         $form->submit($routeData, false);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->routeService->createRoute($route);
         } else {
             throw new \Exception('Invalid route definition');

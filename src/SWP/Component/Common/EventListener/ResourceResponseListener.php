@@ -57,9 +57,9 @@ final class ResourceResponseListener
             if (ResponseContextInterface::INTENTION_API === $responseContext->getIntention()) {
                 $factory = new KnpPaginatorRepresentationFactory();
                 $representation = $factory->createRepresentation($controllerResult->getResources(), $event->getRequest());
+
                 $view = View::create($representation, $responseContext->getStatusCode());
                 $view = $this->setSerializationGroups($view);
-
                 $event->setResponse($this->viewHandler->handle(
                     $view
                 ));
@@ -113,8 +113,9 @@ final class ResourceResponseListener
 
     private function setSerializationGroups(View $view): View
     {
+
         $context = new Context();
-        $context->setGroups(['api']);
+        $context->setGroups(['Default', 'api']);
         $view->setContext($context);
 
         return $view;

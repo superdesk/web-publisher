@@ -16,10 +16,10 @@ namespace SWP\Component\Common\Factory;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Hateoas\Configuration\Route;
-use Hateoas\Representation\CollectionRepresentation;
 use Hateoas\Representation\PaginatedRepresentation;
 use Knp\Component\Pager\Pagination\AbstractPagination;
 use SWP\Component\Common\Pagination\PaginationInterface;
+use SWP\Component\Common\Representation\CollectionRepresentation;
 use Symfony\Component\HttpFoundation\Request;
 
 class KnpPaginatorRepresentationFactory
@@ -47,11 +47,10 @@ class KnpPaginatorRepresentationFactory
     /**
      * @param AbstractPagination $pagination
      * @param Request            $request
-     * @param string             $collectionName
      *
      * @return PaginatedRepresentation
      */
-    public function createRepresentation(AbstractPagination $pagination, Request $request, $collectionName = '_items')
+    public function createRepresentation(AbstractPagination $pagination, Request $request)
     {
         $route = new Route($request->get('_route', 'homepage'), array_merge($request->get('_route_params', []), $request->query->all()));
 
@@ -59,7 +58,7 @@ class KnpPaginatorRepresentationFactory
 
         $numberOfPages = 1;
         if ($pagination->getTotalItemCount() > 0 && $pagination->getItemNumberPerPage() > 0) {
-            $numberOfPages = intval(ceil($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage()));
+            $numberOfPages = (int) ceil($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage());
         }
 
         $items = $pagination->getItems();
@@ -75,7 +74,7 @@ class KnpPaginatorRepresentationFactory
         }
 
         return new PaginatedRepresentation(
-            new CollectionRepresentation(array_values($items), $collectionName),
+            new CollectionRepresentation(array_values($items)),
             $route->getName(),
             $routeParameters,
             $pagination->getCurrentPageNumber(),

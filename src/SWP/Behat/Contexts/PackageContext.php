@@ -85,7 +85,7 @@ final class PackageContext extends AbstractContext implements Context
 
         $form = $this->submitForm($string);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->articlePublisher->publish($package, $form->getData());
         } else {
             throw new \Exception('Invalid form data');

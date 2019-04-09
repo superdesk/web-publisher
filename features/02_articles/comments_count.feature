@@ -13,13 +13,11 @@ Feature: Setting comments count in articles
     Then I send a "PATCH" request to "/api/v1/content/articles" with body:
      """
       {
-        "article_comments":{
           "url": "http://localhost/news/test-news-article",
-          "commentsCount": "31"
-        }
+          "comments_count": 31
       }
      """
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | commentsCount | 31 |
-    And the JSON node "createdAt" should be equal to "updatedAt" node
+      | comments_count | 31 |
+    And the JSON node "created_at" should be equal to "updated_at" node

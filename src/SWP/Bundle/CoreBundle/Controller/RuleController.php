@@ -98,10 +98,10 @@ class RuleController extends FOSRestController
         $ruleRepository = $this->get('swp.repository.rule');
 
         $rule = $this->get('swp.factory.rule')->create();
-        $form = $this->createForm(RuleType::class, $rule);
+        $form = $form = $this->get('form.factory')->createNamed('', RuleType::class, $rule);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $ruleRepository->add($rule);
 
             return new SingleResourceResponse($rule, new ResponseContext(201));
@@ -154,12 +154,12 @@ class RuleController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.rule');
 
-        $form = $this->createForm(RuleType::class, $rule, [
+        $form = $form = $this->get('form.factory')->createNamed('', RuleType::class, $rule, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->flush();
             $objectManager->refresh($rule);
 

@@ -95,10 +95,10 @@ class MenuController extends Controller
     public function moveAction(Request $request, $id)
     {
         $menuItem = $this->findOr404($id);
-        $form = $this->createForm(MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $menuItemManager = $this->get('swp_menu.manager.menu_item');
             $formData = $form->getData();
 
@@ -152,11 +152,11 @@ class MenuController extends Controller
     {
         /* @var MenuItemInterface $menu */
         $menu = $this->get('swp.factory.menu')->create();
-        $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', MenuType::class, $menu, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_menu.manager.menu_item')->update($menu);
             $this->get('swp.repository.menu')->add($menu);
             $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_CREATED, new GenericEvent($menu));
@@ -218,10 +218,10 @@ class MenuController extends Controller
         $objectManager = $this->get('swp.object_manager.menu');
         $menu = $this->findOr404($id);
 
-        $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', MenuType::class, $menu, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_menu.manager.menu_item')->update($menu);
             $objectManager->flush();
 

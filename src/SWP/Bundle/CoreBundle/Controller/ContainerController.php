@@ -150,12 +150,12 @@ class ContainerController extends Controller
             throw new NotFoundHttpException('Container with this uuid was not found.');
         }
 
-        $form = $this->createForm(ContainerType::class, $container, [
+        $form = $form = $this->get('form.factory')->createNamed('', ContainerType::class, $container, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $container = $this->get('swp_template_engine.container.service')
                 ->updateContainer($container, $form->get('data')->getExtraData());
 

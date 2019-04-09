@@ -33,6 +33,6 @@ Feature: Collect article statistics
     Then I send a "GET" request to "/api/v1/content/articles/test-news-article"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | slug                                | test-news-article |
-      | articleStatistics.pageViewsNumber   | 22                |
-      | articleStatistics.internalClickRate | 1                 |
+      | slug                                  | test-news-article |
+      | article_statistics.page_views_number   | 22                |
+      | article_statistics.internal_click_rate | 1                 |

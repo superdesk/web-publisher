@@ -134,9 +134,9 @@ class WidgetController extends FOSRestController
     public function createAction(Request $request)
     {
         $widget = new WidgetModel();
-        $form = $this->createForm(WidgetType::class, $widget);
+        $form = $form = $this->get('form.factory')->createNamed('', WidgetType::class, $widget);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->ensureWidgetDontExists($widget->getName());
             $this->getWidgetRepository()->add($widget);
 
@@ -193,12 +193,12 @@ class WidgetController extends FOSRestController
     public function updateAction(Request $request, $id)
     {
         $widget = $this->findOr404($id);
-        $form = $this->createForm(WidgetType::class, $widget, [
+        $form = $form = $this->get('form.factory')->createNamed('', WidgetType::class, $widget, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getWidgetRepository()->add($widget);
 
             return new SingleResourceResponse($widget, new ResponseContext(201));

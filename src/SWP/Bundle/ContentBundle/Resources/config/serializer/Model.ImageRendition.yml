@@ -1,0 +1,25 @@
+SWP\Bundle\ContentBundle\Model\ImageRendition:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+      groups: [api]
+      type: integer
+    width:
+      expose: true
+      groups: [api]
+      type: integer
+    height:
+      expose: true
+      groups: [api]
+      type: integer
+    name:
+      expose: true
+      groups: [api]
+    previewUrl:
+      expose: true
+      groups: [api]
+      type: string
+    image:
+      expose: true
+      groups: [api]
