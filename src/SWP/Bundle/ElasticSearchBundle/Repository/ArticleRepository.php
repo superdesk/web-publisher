@@ -41,8 +41,6 @@ class ArticleRepository extends Repository
                 $searchBy[] = 'extra.'.$extraField;
             }
 
-            $searchBy[] = 'body';
-
             $priority = 1;
             foreach (array_reverse($searchBy) as $key => $field) {
                 $searchBy[$key] = $field.'^'.$priority;
