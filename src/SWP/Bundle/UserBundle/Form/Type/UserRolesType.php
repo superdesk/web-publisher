@@ -48,6 +48,6 @@ class UserRolesType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'swp_api_user_promote_user';
+        return '';
     }
 }

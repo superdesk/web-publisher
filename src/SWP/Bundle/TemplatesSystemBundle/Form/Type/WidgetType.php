@@ -82,6 +82,6 @@ class WidgetType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'widget';
+        return '';
     }
 }

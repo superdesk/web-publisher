@@ -43,6 +43,6 @@ class ContainerType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'container';
+        return '';
     }
 }

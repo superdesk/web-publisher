@@ -56,6 +56,6 @@ final class ThemeInstallType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'theme_install';
+        return '';
     }
 }

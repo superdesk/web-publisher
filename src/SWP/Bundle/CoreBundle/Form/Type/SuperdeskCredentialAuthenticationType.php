@@ -58,6 +58,6 @@ final class SuperdeskCredentialAuthenticationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'auth_superdesk';
+        return '';
     }
 }

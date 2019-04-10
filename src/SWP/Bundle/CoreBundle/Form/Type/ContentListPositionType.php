@@ -45,6 +45,6 @@ final class ContentListPositionType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'content_list_position';
+        return '';
     }
 }

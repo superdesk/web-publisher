@@ -78,6 +78,6 @@ final class TenantChoiceType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'swp_tenant';
+        return '';
     }
 }

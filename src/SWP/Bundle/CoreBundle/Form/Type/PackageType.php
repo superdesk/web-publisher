@@ -43,6 +43,6 @@ final class PackageType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'update';
+        return '';
     }
 }

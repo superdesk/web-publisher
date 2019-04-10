@@ -49,6 +49,6 @@ class ArticleType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'article';
+        return '';
     }
 }

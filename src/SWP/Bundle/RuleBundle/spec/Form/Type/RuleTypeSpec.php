@@ -92,6 +92,6 @@ final class RuleTypeSpec extends ObjectBehavior
 
     public function it_should_have_a_name()
     {
-        $this->getBlockPrefix()->shouldReturn('rule');
+        $this->getBlockPrefix()->shouldReturn('');
     }
 }

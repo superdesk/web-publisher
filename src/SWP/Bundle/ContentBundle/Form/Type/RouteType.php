@@ -124,6 +124,6 @@ class RouteType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'route';
+        return '';
     }
 }

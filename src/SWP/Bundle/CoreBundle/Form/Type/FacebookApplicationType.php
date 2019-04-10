@@ -48,6 +48,6 @@ class FacebookApplicationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'facebook_application';
+        return '';
     }
 }

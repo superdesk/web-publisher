@@ -57,6 +57,6 @@ class ArticleCommentsType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'article_comments';
+        return '';
     }
 }
