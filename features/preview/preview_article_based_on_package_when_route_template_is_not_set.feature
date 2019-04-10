@@ -6,11 +6,9 @@ Feature: Preview article based on package when route template is not set.
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route 3",
           "slug": "simple-test-route-3",
           "type": "collection"
-        }
       }
     """
     Then the response status code should be 201

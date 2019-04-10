@@ -185,10 +185,8 @@ Feature: Validate custom fields
     Then I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
@@ -197,15 +195,13 @@ Feature: Validate custom fields
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

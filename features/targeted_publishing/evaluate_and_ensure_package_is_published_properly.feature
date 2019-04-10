@@ -8,7 +8,6 @@ Feature: Evaluate and ensure the package has been published under specific tenan
     Then I send a "POST" request to "/api/v1/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -23,7 +22,6 @@ Feature: Evaluate and ensure the package has been published under specific tenan
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -32,7 +30,6 @@ Feature: Evaluate and ensure the package has been published under specific tenan
     Then I send a "POST" request to "/api/v1/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -47,7 +44,6 @@ Feature: Evaluate and ensure the package has been published under specific tenan
               "value":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -56,10 +52,8 @@ Feature: Evaluate and ensure the package has been published under specific tenan
     And I send a "POST" request to "http://client2.localhost/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "My route",
           "type": "collection"
-        }
       }
     """
     Then the response status code should be 201
@@ -76,20 +70,18 @@ Feature: Evaluate and ensure the package has been published under specific tenan
       | tenants[0].tenant.code  | 123abc |
       | tenants[0].route.id     | 6      |
     And the JSON node "tenants[0].published" should be true
-    And the JSON node "tenants[0].isPublishedFbia" should be false
+    And the JSON node "tenants[0].is_published_fbia" should be false
     And the JSON node "tenants[1]" should not exist
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
           "tenant":"678iop",
           "route":7,
-          "isPublishedFbia":false,
+          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-        }
       }
     """
     Then the response status code should be 200
@@ -107,9 +99,9 @@ Feature: Evaluate and ensure the package has been published under specific tenan
       | tenants[0].route.id     | 7      |
       | tenants[1].route.id     | 6      |
     And the JSON node "tenants[0].published" should be true
-    And the JSON node "tenants[0].isPublishedFbia" should be false
+    And the JSON node "tenants[0].is_published_fbia" should be false
     And the JSON node "tenants[1].published" should be true
-    And the JSON node "tenants[1].isPublishedFbia" should be false
+    And the JSON node "tenants[1].is_published_fbia" should be false
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/push" with body:

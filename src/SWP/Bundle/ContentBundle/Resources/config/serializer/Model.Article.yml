@@ -104,13 +104,13 @@ SWP\Bundle\ContentBundle\Model\Article:
                 parameters:
                     slug: "expr(object.getSlug())"
             exclusion:
-                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'collection')"
+                exclude_if: "expr(object.getRoute() !== null && object.getRoute().getType() !== 'collection')"
         -
             rel: online
             href:
                 route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles' )"
             exclusion:
-                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"
+                exclude_if: "expr(object.getRoute() !== null && object.getRoute().getType() !== 'content')"
         -
             rel: related
             href:

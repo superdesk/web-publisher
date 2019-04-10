@@ -56,10 +56,8 @@ Feature: Article un-publishing
     Then I send a "POST" request to "/api/{version}/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
@@ -68,16 +66,14 @@ Feature: Article un-publishing
     Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -93,9 +89,7 @@ Feature: Article un-publishing
     Then I send a "PATCH" request to "/api/v1/content/articles/6" with body:
      """
       {
-        "article":{
           "status": "unpublished"
-        }
       }
      """
     Then the response status code should be 200

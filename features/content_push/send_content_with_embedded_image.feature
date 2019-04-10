@@ -108,12 +108,10 @@ Feature: Use original image URL when an image can not be downloaded
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "technews",
           "slug": "technews",
           "type": "collection",
           "articlesTemplateName": "embedded_image.html.twig"
-        }
       }
     """
     Then the response status code should be 201
@@ -123,7 +121,6 @@ Feature: Use original image URL when an image can not be downloaded
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
@@ -131,7 +128,6 @@ Feature: Use original image URL when an image can not be downloaded
               "route": 7
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -141,7 +137,7 @@ Feature: Use original image URL when an image can not be downloaded
     Then I send a "GET" request to "/api/v1/content/articles/item-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[0].byLine  | Ljub. Z. Ranković |
+      | media[0].by_line  | Ljub. Z. Ranković |
     And the JSON node "media[0].image" should be null
 
     When I go to "http://localhost/technews/item-test"

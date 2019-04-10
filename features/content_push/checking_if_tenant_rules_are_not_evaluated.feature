@@ -8,7 +8,6 @@ Feature: Making sure that the tenant rules are ignored
     Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -23,7 +22,6 @@ Feature: Making sure that the tenant rules are ignored
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -32,7 +30,6 @@ Feature: Making sure that the tenant rules are ignored
     Then I send a "POST" request to "/api/{version}/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -43,7 +40,6 @@ Feature: Making sure that the tenant rules are ignored
               "value":5
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -52,13 +48,12 @@ Feature: Making sure that the tenant rules are ignored
     And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
+
           "tenant":"123abc",
           "route":3,
-          "isPublishedFbia":false,
+          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-        }
       }
     """
     Then the response status code should be 200
@@ -126,7 +121,6 @@ Feature: Making sure that the tenant rules are ignored
     Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -141,7 +135,6 @@ Feature: Making sure that the tenant rules are ignored
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -150,7 +143,6 @@ Feature: Making sure that the tenant rules are ignored
     Then I send a "POST" request to "/api/{version}/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -161,7 +153,6 @@ Feature: Making sure that the tenant rules are ignored
               "value":5
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -170,13 +161,11 @@ Feature: Making sure that the tenant rules are ignored
     And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
            "tenant":"123abc",
            "route":3,
-           "isPublishedFbia":false,
+           "is_published_fbia":false,
            "published":false,
            "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf1"
-        }
       }
     """
     Then the response status code should be 200

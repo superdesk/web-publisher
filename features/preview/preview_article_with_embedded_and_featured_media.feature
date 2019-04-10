@@ -7,12 +7,10 @@ Feature: Preview article with embedded media and feature media
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route",
           "slug": "simple-test-route",
           "type": "collection",
           "articlesTemplateName": "article_preview_media.html.twig"
-        }
       }
     """
     Then the response status code should be 201

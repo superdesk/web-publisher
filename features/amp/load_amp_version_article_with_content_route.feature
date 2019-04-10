@@ -10,11 +10,9 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Contact",
           "slug": "contact",
           "type": "content"
-        }
       }
     """
     Then the response status code should be 201
@@ -25,9 +23,7 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
     And I send a "PATCH" request to "/api/v1/tenants/123abc" with body:
      """
       {
-        "tenant": {
           "ampEnabled": true
-        }
       }
     """
     Then the response status code should be 200
@@ -86,14 +82,12 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -103,9 +97,7 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
     Then I send a "PATCH" request to "/api/v1/content/routes/7" with body:
      """
       {
-        "route":{
           "content": 6
-        }
       }
      """
     Then the response status code should be 200

@@ -67,16 +67,14 @@ Feature: Checking if package corrections work fine
     Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

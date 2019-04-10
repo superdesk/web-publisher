@@ -7,7 +7,6 @@ Feature: Send package with slug ending with -{numbers} and make sure that it's p
     Then I send a "POST" request to "/api/v1/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -22,7 +21,6 @@ Feature: Send package with slug ending with -{numbers} and make sure that it's p
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

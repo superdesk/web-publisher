@@ -10,7 +10,6 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -25,7 +24,6 @@ Feature: Set article's published at datetime from package's firstpublished prope
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -35,10 +33,8 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
@@ -48,7 +44,6 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "POST" request to "/api/{version}/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -59,7 +54,6 @@ Feature: Set article's published at datetime from package's firstpublished prope
               "value":7
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

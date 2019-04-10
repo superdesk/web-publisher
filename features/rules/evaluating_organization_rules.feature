@@ -7,7 +7,6 @@ Feature: Evaluating organization rules
     Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -22,7 +21,6 @@ Feature: Evaluating organization rules
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

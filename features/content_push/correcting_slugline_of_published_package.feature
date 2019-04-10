@@ -58,16 +58,14 @@ Feature: Allow to change the article's slug based on settings.
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

@@ -105,10 +105,8 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
 
@@ -118,16 +116,14 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published": true
             }
           ]
-        }
       }
      """
 

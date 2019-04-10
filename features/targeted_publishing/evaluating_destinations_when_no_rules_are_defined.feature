@@ -7,10 +7,8 @@ Feature: Evaluate when there are no rules but destinations only
     And I send a "POST" request to "http://client2.localhost/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "My route",
           "type": "collection"
-        }
       }
     """
     Then the response status code should be 201
@@ -20,13 +18,11 @@ Feature: Evaluate when there are no rules but destinations only
     And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
           "tenant":"123abc",
           "route":5,
-          "isPublishedFbia":false,
+          "is_published_fbia":false,
           "published":false,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-        }
       }
     """
     Then the response status code should be 200
@@ -35,13 +31,11 @@ Feature: Evaluate when there are no rules but destinations only
     And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
           "tenant":"678iop",
           "route":7,
-          "isPublishedFbia":false,
+          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-        }
       }
     """
     Then the response status code should be 200
@@ -59,6 +53,6 @@ Feature: Evaluate when there are no rules but destinations only
       | tenants[0].route.id     | 5      |
       | tenants[1].route.id     | 7      |
     And the JSON node "tenants[0].published" should be false
-    And the JSON node "tenants[0].isPublishedFbia" should be false
+    And the JSON node "tenants[0].is_published_fbia" should be false
     And the JSON node "tenants[1].published" should be true
-    And the JSON node "tenants[1].isPublishedFbia" should be false
+    And the JSON node "tenants[1].is_published_fbia" should be false

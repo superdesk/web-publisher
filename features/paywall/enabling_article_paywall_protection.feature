@@ -17,9 +17,7 @@ Feature: Enabling paywall-protection for articles
     Then I send a "PATCH" request to "/api/v1/content/articles/features" with body:
      """
       {
-        "article":{
           "paywallSecured": true
-        }
       }
      """
     Then the response status code should be 200

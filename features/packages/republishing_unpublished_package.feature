@@ -81,16 +81,14 @@ Feature: As a user I want to be able to re-publish un-published package to one o
     Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

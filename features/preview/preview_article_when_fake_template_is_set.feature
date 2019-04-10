@@ -6,12 +6,10 @@ Feature: Preview article based on package when fake template is set.
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route 2",
           "slug": "simple-test-route-2",
           "type": "collection",
           "articlesTemplateName": "fake.html.twig"
-        }
       }
     """
     Then the response status code should be 201

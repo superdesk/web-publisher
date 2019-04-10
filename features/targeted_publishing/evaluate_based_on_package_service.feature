@@ -7,7 +7,6 @@ Feature: Evaluate on package services
     Then I send a "POST" request to "/api/v1/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -22,7 +21,6 @@ Feature: Evaluate on package services
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -32,7 +30,6 @@ Feature: Evaluate on package services
     Then I send a "POST" request to "/api/v1/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -47,7 +44,6 @@ Feature: Evaluate on package services
               "value":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

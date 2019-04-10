@@ -63,14 +63,12 @@ Feature: Checking if pushed package will be published on tenant with output chan
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -90,9 +88,7 @@ Feature: Checking if pushed package will be published on tenant with output chan
     Then I send a "PATCH" request to "/api/v1/content/articles/6" with body:
      """
       {
-        "article":{
           "status": "new"
-        }
       }
      """
     Then the response status code should be 200

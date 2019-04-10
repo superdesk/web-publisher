@@ -9,12 +9,10 @@ Feature: Listing single route by slug or name
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Authors",
           "slug": "authors",
           "type": "collection",
           "templateName": "route_by_slug.html.twig"
-        }
       }
     """
     Then the response status code should be 201
@@ -27,11 +25,9 @@ Feature: Listing single route by slug or name
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Test route",
           "type": "content",
           "parent": 7
-        }
       }
     """
     Then the response status code should be 201

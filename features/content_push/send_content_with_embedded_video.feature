@@ -102,14 +102,12 @@ Feature: Handling embedded video
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -120,7 +118,7 @@ Feature: Handling embedded video
     Then the response status code should be 200
     And the JSON node "body" should contain "/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
     And the JSON nodes should contain:
-      | media[0].file.assetId         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
+      | media[0].file.asset_id         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
       | media[0].file.fileExtension   | mp4                                                                                        |
       | media[0]._links.download.href | /media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4 |
     And the JSON node "media[0].image" should be null

@@ -9,7 +9,6 @@ Feature: Make article paywall secured when publishing package when there
     Then I send a "POST" request to "/api/v1/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -24,7 +23,6 @@ Feature: Make article paywall secured when publishing package when there
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -33,7 +31,6 @@ Feature: Make article paywall secured when publishing package when there
     Then I send a "POST" request to "/api/v1/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -48,7 +45,6 @@ Feature: Make article paywall secured when publishing package when there
               "value":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -64,7 +60,7 @@ Feature: Make article paywall secured when publishing package when there
       | tenants[0].tenant.code  | 123abc |
       | tenants[0].route.id     | 6      |
     And the JSON node "tenants[0].published" should be true
-    And the JSON node "tenants[0].isPublishedFbia" should be false
+    And the JSON node "tenants[0].is_published_fbia" should be false
     And the JSON node "tenants[1]" should not exist
 
     And I am authenticated as "test.user"
@@ -72,14 +68,12 @@ Feature: Make article paywall secured when publishing package when there
     And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
           "tenant":"123abc",
           "route":6,
-          "isPublishedFbia":false,
+          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0",
           "paywallSecured":true
-        }
       }
     """
     Then the response status code should be 200
@@ -96,7 +90,7 @@ Feature: Make article paywall secured when publishing package when there
       | tenants[0].tenant.code  | 123abc |
       | tenants[0].route.id     | 6      |
     And the JSON node "tenants[0].published" should be true
-    And the JSON node "tenants[0].isPublishedFbia" should be false
+    And the JSON node "tenants[0].is_published_fbia" should be false
     And the JSON node "tenants[0].paywallSecured" should be true
     And the JSON node "tenants[1]" should not exist
 

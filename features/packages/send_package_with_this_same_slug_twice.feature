@@ -7,7 +7,6 @@ Feature: Send package with this same slug (but different guid) assigned to tenan
     Then I send a "POST" request to "/api/v1/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -22,7 +21,6 @@ Feature: Send package with this same slug (but different guid) assigned to tenan
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

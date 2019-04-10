@@ -97,10 +97,8 @@ Feature: Assigning already existing author to another package
     Then I send a "POST" request to "/api/{version}/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
@@ -109,15 +107,13 @@ Feature: Assigning already existing author to another package
     Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -218,10 +214,8 @@ Feature: Assigning already existing author to another package
     Then I send a "POST" request to "/api/{version}/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article2",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
@@ -230,15 +224,13 @@ Feature: Assigning already existing author to another package
     Then I send a "POST" request to "/api/{version}/packages/7/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":7,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

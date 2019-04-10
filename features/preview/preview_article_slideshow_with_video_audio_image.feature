@@ -7,12 +7,10 @@ Feature: Preview article with video, audio and image in slideshows
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route",
           "slug": "simple-test-route",
           "type": "collection",
           "articlesTemplateName": "article_with_slideshow.html.twig"
-        }
       }
     """
     Then the response status code should be 201

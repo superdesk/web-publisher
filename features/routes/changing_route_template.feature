@@ -10,11 +10,9 @@ Feature: Changing route template
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Politics",
           "slug": "politics",
           "type": "collection"
-        }
       }
     """
     Then the response status code should be 201
@@ -26,9 +24,7 @@ Feature: Changing route template
     Then I send a "PATCH" request to "/api/v1/content/routes/7" with body:
      """
       {
-        "route":{
           "templateName": "masterCategory.html.twig"
-        }
       }
      """
     Then the response status code should be 200

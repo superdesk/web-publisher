@@ -6,7 +6,6 @@ Feature: Listing evaluated rules which match the package's metadata
     Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -21,7 +20,6 @@ Feature: Listing evaluated rules which match the package's metadata
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -30,7 +28,6 @@ Feature: Listing evaluated rules which match the package's metadata
     Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -45,7 +42,6 @@ Feature: Listing evaluated rules which match the package's metadata
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -54,7 +50,6 @@ Feature: Listing evaluated rules which match the package's metadata
     Then I send a "POST" request to "/api/{version}/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -65,7 +60,6 @@ Feature: Listing evaluated rules which match the package's metadata
               "value":3
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

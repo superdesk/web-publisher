@@ -6,10 +6,8 @@ Feature: Managing targeted publishing destinations with content lists
     And I send a "POST" request to "/api/v1/content/lists/" with body:
      """
       {
-        "content_list": {
           "name": "Example manual list",
           "type": "manual"
-        }
       }
     """
     Then the response status code should be 201
@@ -22,16 +20,14 @@ Feature: Managing targeted publishing destinations with content lists
     And I send a "POST" request to "/api/v1/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
             "tenant":"123abc",
             "route":5,
-            "isPublishedFbia":false,
+            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
             ],
             "packageGuid": "urn:newsml:sd-master.test.superdesk.org:2022-09-19T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
-        }
       }
     """
     Then the response status code should be 200
@@ -76,16 +72,15 @@ Feature: Managing targeted publishing destinations with content lists
     And I send a "POST" request to "/api/v1/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
             "tenant":"123abc",
             "route":5,
-            "isPublishedFbia":false,
+            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
             ],
             "packageGuid": "urn:newsml:sd-master.test.superdesk.org:2022-09-19T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
-        }
+
       }
     """
     Then the response status code should be 200
@@ -95,17 +90,15 @@ Feature: Managing targeted publishing destinations with content lists
     And I send a "POST" request to "/api/v1/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
             "tenant":"123abc",
             "route":5,
-            "isPublishedFbia":false,
+            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 2, "position": 0},
               {"id": 3, "position": 0}
             ],
             "packageGuid": "urn:newsml:sd-master.test.superdesk.org:2022-09-19T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
-        }
       }
     """
     Then the response status code should be 200

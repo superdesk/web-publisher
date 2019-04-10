@@ -118,12 +118,10 @@ Feature: Set width and height of embedded images
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "technews",
           "slug": "technews",
           "type": "collection",
           "articlesTemplateName": "embedded_image.html.twig"
-        }
       }
     """
     Then the response status code should be 201
@@ -133,7 +131,6 @@ Feature: Set width and height of embedded images
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
@@ -141,7 +138,6 @@ Feature: Set width and height of embedded images
               "route": 7
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -151,10 +147,10 @@ Feature: Set width and height of embedded images
     Then I send a "GET" request to "/api/v1/content/articles/item-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[0].image.assetId                 | 20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a   |
+      | media[0].image.asset_id                 | 20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a   |
       | media[0].renditions[0].name            | original                                                                           |
-      | media[0].renditions[0].image.assetId   | 20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a   |
-      | media[0].byLine                        | Ljub. Z. Ranković                                                                  |
+      | media[0].renditions[0].image.asset_id   | 20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a   |
+      | media[0].by_line                        | Ljub. Z. Ranković                                                                  |
     When I go to "http://localhost/technews/item-test"
     Then the response status code should be 200
 

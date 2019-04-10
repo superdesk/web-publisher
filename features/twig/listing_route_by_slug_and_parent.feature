@@ -9,11 +9,9 @@ Feature: Listing single route by slug and parent
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Politics",
           "type": "collection",
           "templateName": "route_by_slug_and_parent.html.twig"
-        }
       }
     """
     Then the response status code should be 201
@@ -26,11 +24,9 @@ Feature: Listing single route by slug and parent
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Test route",
           "type": "content",
           "parent": 7
-        }
       }
     """
     Then the response status code should be 201
@@ -43,11 +39,9 @@ Feature: Listing single route by slug and parent
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Test route 2",
           "type": "content",
           "slug": "test-route"
-        }
       }
     """
     Then the response status code should be 201

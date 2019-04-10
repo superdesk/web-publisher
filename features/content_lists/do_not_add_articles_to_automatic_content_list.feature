@@ -10,10 +10,8 @@ Feature: Do not add articles to automatic content lists
     And I send a "POST" request to "/api/{version}/content/lists/" with body:
      """
       {
-        "content_list": {
           "name": "Example automatic list",
           "type": "automatic"
-        }
       }
     """
     Then the response status code should be 201
@@ -24,7 +22,6 @@ Feature: Do not add articles to automatic content lists
     Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -39,7 +36,6 @@ Feature: Do not add articles to automatic content lists
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -48,10 +44,8 @@ Feature: Do not add articles to automatic content lists
     Then I send a "POST" request to "/api/{version}/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
@@ -61,7 +55,6 @@ Feature: Do not add articles to automatic content lists
     Then I send a "POST" request to "/api/{version}/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -76,7 +69,6 @@ Feature: Do not add articles to automatic content lists
               "value":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -135,8 +127,8 @@ Feature: Do not add articles to automatic content lists
     Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
 
     Then the response status code should be 200
-    And the Json node "isPublishable" should be true
-    And the Json node "isPublishedFBIA" should be false
+    And the Json node "is_publishable" should be true
+    And the Json node "is_published_fbia" should be false
     And the Json node "publishedAt" should not be null
     And the Json node "route.id" should be equal to "6"
     And the Json node "status" should be equal to "published"

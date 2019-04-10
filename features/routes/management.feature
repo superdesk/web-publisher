@@ -17,12 +17,10 @@ Feature: Manage Routes
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route",
           "slug": "simple-test-route",
           "type": "collection",
           "content": null
-        }
       }
     """
     Then the response status code should be 201
@@ -36,11 +34,9 @@ Feature: Manage Routes
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route number 2",
           "type": "collection",
           "content": null
-        }
       }
     """
     Then the response status code should be 201
@@ -55,10 +51,8 @@ Feature: Manage Routes
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test root route",
           "type": "content"
-        }
       }
     """
     Then the response status code should be 201
@@ -70,11 +64,9 @@ Feature: Manage Routes
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test child route",
           "type": "content",
           "parent": 9
-        }
       }
     """
     Then the response status code should be 201
@@ -86,9 +78,7 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/10" with body:
      """
       {
-        "route": {
           "parent": null
-        }
       }
     """
     Then the response status code should be 200
@@ -108,7 +98,6 @@ Feature: Manage Routes
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Custom route",
           "slug": "custom-route",
           "type": "custom",
@@ -119,7 +108,6 @@ Feature: Manage Routes
               "value": "[a-zA-Z]+"
             }
           ]
-        }
       }
     """
     Then the response status code should be 201
@@ -136,9 +124,7 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 6
-        }
       }
     """
     Then the response status code should be 200
@@ -151,9 +137,7 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 0
-        }
       }
     """
     Then the response status code should be 200
@@ -166,9 +150,7 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 9
-        }
       }
     """
     Then the response status code should be 200
@@ -182,10 +164,8 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
      """
       {
-        "route": {
           "parent": 3,
           "position": 1
-        }
       }
     """
     Then the response status code should be 200
@@ -200,10 +180,8 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
      """
       {
-        "route": {
           "parent": 3,
           "position": 4
-        }
       }
     """
     Then the response status code should be 200
@@ -217,9 +195,7 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 0
-        }
       }
     """
     Then the response status code should be 200
@@ -234,9 +210,7 @@ Feature: Manage Routes
     And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
      """
       {
-        "route": {
           "position": -1
-        }
       }
     """
     Then the response status code should be 400

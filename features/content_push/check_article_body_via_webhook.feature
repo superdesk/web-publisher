@@ -119,7 +119,6 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
@@ -127,7 +126,6 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
               "route": 3
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -195,7 +193,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
           }
         }
       },
-      "isPublishable":false,
+      "is_publishable":false,
       "metadata":{
         "subject":[
 
@@ -247,7 +245,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
       "keywords":[
 
       ],
-      "isPublishedFBIA":false,
+      "is_published_fbia":false,
       "articleStatistics":{
         "impressionsNumber":0,
         "pageViewsNumber":0,

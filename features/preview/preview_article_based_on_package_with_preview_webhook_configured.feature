@@ -7,12 +7,10 @@ Feature: Preview article under route based on package data with article preview 
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route",
           "slug": "simple-test-route",
           "type": "collection",
           "articlesTemplateName": "article.html.twig"
-        }
       }
     """
     Then the response status code should be 201

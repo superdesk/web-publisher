@@ -7,7 +7,6 @@ Feature: Evaluating tenant rules
     Then I send a "POST" request to "/api/{version}/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -18,7 +17,6 @@ Feature: Evaluating tenant rules
               "value":3
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

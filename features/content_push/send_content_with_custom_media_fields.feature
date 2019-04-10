@@ -295,14 +295,12 @@ Feature: Handling the custom media fields
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -312,20 +310,20 @@ Feature: Handling the custom media fields
     Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[0].image.assetId                 | 1234567890987654321c                   |
+      | media[0].image.asset_id                 | 1234567890987654321c                   |
       | media[0].renditions[0].name            | 16-9                                   |
-      | media[0].renditions[0].image.assetId   | 1234567890987654321a                   |
+      | media[0].renditions[0].image.asset_id   | 1234567890987654321a                   |
       | media[0].renditions[1].name            | 4-3                                    |
-      | media[0].renditions[1].image.assetId   | 1234567890987654321b                   |
+      | media[0].renditions[1].image.asset_id   | 1234567890987654321b                   |
       | media[0].renditions[2].name            | original                               |
-      | media[0].renditions[2].image.assetId   | 1234567890987654321c                   |
-      | media[1].image.assetId                 | 2234567890987654321c                   |
+      | media[0].renditions[2].image.asset_id   | 1234567890987654321c                   |
+      | media[1].image.asset_id                 | 2234567890987654321c                   |
       | media[1].renditions[0].name            | 16-9                                   |
-      | media[1].renditions[0].image.assetId   | 2234567890987654321a                   |
+      | media[1].renditions[0].image.asset_id   | 2234567890987654321a                   |
       | media[1].renditions[1].name            | 4-3                                    |
-      | media[1].renditions[1].image.assetId   | 2234567890987654321b                   |
+      | media[1].renditions[1].image.asset_id   | 2234567890987654321b                   |
       | media[1].renditions[2].name            | original                               |
-      | media[1].renditions[2].image.assetId   | 2234567890987654321c                   |
+      | media[1].renditions[2].image.asset_id   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
 
@@ -345,8 +343,8 @@ Feature: Handling the custom media fields
     Then the response status code should be 200
     And the JSON node "total" should be equal to 2
     And the JSON nodes should contain:
-      | _embedded._items[0].articleMedia.image.assetId   | 1234567890987654321c |
-      | _embedded._items[1].articleMedia.image.assetId   | 2234567890987654321c |
+      | _embedded._items[0].articleMedia.image.asset_id   | 1234567890987654321c |
+      | _embedded._items[1].articleMedia.image.asset_id   | 2234567890987654321c |
 
 
   Scenario: Article correction with slideshow
@@ -405,7 +403,6 @@ Feature: Handling the custom media fields
     Then I send a "POST" request to "/api/v1/packages/7/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
@@ -413,7 +410,6 @@ Feature: Handling the custom media fields
               "route": 3
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -613,20 +609,20 @@ Feature: Handling the custom media fields
     Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-without-slideshow"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[0].image.assetId                 | 1234567890987654321c                   |
+      | media[0].image.asset_id                 | 1234567890987654321c                   |
       | media[0].renditions[0].name            | 16-9                                   |
-      | media[0].renditions[0].image.assetId   | 1234567890987654321a                   |
+      | media[0].renditions[0].image.asset_id   | 1234567890987654321a                   |
       | media[0].renditions[1].name            | 4-3                                    |
-      | media[0].renditions[1].image.assetId   | 1234567890987654321b                   |
+      | media[0].renditions[1].image.asset_id   | 1234567890987654321b                   |
       | media[0].renditions[2].name            | original                               |
-      | media[0].renditions[2].image.assetId   | 1234567890987654321c                   |
-      | media[1].image.assetId                 | 2234567890987654321c                   |
+      | media[0].renditions[2].image.asset_id   | 1234567890987654321c                   |
+      | media[1].image.asset_id                 | 2234567890987654321c                   |
       | media[1].renditions[0].name            | 16-9                                   |
-      | media[1].renditions[0].image.assetId   | 2234567890987654321a                   |
+      | media[1].renditions[0].image.asset_id   | 2234567890987654321a                   |
       | media[1].renditions[1].name            | 4-3                                    |
-      | media[1].renditions[1].image.assetId   | 2234567890987654321b                   |
+      | media[1].renditions[1].image.asset_id   | 2234567890987654321b                   |
       | media[1].renditions[2].name            | original                               |
-      | media[1].renditions[2].image.assetId   | 2234567890987654321c                   |
+      | media[1].renditions[2].image.asset_id   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | _links.slideshows.href                 | /api/v1/content/slideshows/7           |
 
@@ -646,5 +642,5 @@ Feature: Handling the custom media fields
     Then the response status code should be 200
     And the JSON node "total" should be equal to 2
     And the JSON nodes should contain:
-      | _embedded._items[0].articleMedia.image.assetId   | 1234567890987654321c |
-      | _embedded._items[1].articleMedia.image.assetId   | 2234567890987654321c |
+      | _embedded._items[0].articleMedia.image.asset_id   | 1234567890987654321c |
+      | _embedded._items[1].articleMedia.image.asset_id   | 2234567890987654321c |

@@ -79,16 +79,14 @@ Feature: As a user I want to be able to publish package to one of the tenants
     Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
@@ -176,16 +174,14 @@ Feature: As a user I want to be able to publish package to one of the tenants
     Then I send a "POST" request to "/api/{version}/packages/7/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

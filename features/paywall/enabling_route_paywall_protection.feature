@@ -10,11 +10,9 @@ Feature: Enabling paywall-protection for routes
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Politics",
           "slug": "politics",
           "type": "collection"
-        }
       }
     """
     Then the response status code should be 201
@@ -26,9 +24,7 @@ Feature: Enabling paywall-protection for routes
     Then I send a "PATCH" request to "/api/v1/content/routes/7" with body:
      """
       {
-        "route":{
           "paywallSecured": true
-        }
       }
      """
     Then the response status code should be 200
