@@ -1,6 +1,6 @@
 @packages
-Feature: Checking if created package is returned properly by api
-  In order to package
+Feature: Getting package
+  In order to get a package
   As a HTTP Client
   I want to be able to push JSON content with package and see it in the system
 
