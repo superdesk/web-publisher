@@ -162,8 +162,6 @@
         "swp/rule-bundle": "self.version",
         "swp/rule": "self.version",
         "swp/facebook-instant-articles-bundle": "self.version",
-        "swp/revision-bundle": "self.version",
-        "swp/revision": "self.version",
         "swp/elastic-search-bundle": "self.version",
         "swp/output-channel-bundle": "self.version",
         "swp/output-channel": "self.version",

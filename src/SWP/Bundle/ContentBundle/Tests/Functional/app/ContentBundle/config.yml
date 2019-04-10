@@ -125,10 +125,6 @@ swp_bridge:
     persistence:
         orm: true
 
-swp_templates_system:
-    persistence:
-        orm: true
-
 oneup_flysystem:
     adapters:
         filesystem_adapter:
