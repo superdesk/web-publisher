@@ -72,7 +72,7 @@ abstract class AbstractAPIController extends Controller
     public function createWebhook(RepositoryInterface $ruleRepository, FactoryInterface $ruleFactory, Request $request, FormFactoryInterface $formFactory)
     {
         $webhook = $ruleFactory->create();
-        $form = $formFactory->create(WebhookType::class, $webhook);
+        $form = $formFactory->createNamed('', WebhookType::class, $webhook);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -107,7 +107,7 @@ abstract class AbstractAPIController extends Controller
      */
     public function updateWebhook(ObjectManager $objectManager, Request $request, WebhookInterface $webhook, FormFactoryInterface $formFactory)
     {
-        $form = $formFactory->create(WebhookType::class, $webhook, ['method' => $request->getMethod()]);
+        $form = $formFactory->createNamed('', WebhookType::class, $webhook, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
