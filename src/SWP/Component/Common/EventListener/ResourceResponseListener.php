@@ -113,7 +113,6 @@ final class ResourceResponseListener
 
     private function setSerializationGroups(View $view): View
     {
-
         $context = new Context();
         $context->setGroups(['Default', 'api']);
         $view->setContext($context);

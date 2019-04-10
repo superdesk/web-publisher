@@ -130,26 +130,22 @@ class RouteController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        try {
-            /** @var RouteInterface $route */
-            $route = $this->get('swp.factory.route')->create();
-            $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
+        /** @var RouteInterface $route */
+        $route = $this->get('swp.factory.route')->create();
+        $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
 
-            $form->handleRequest($request);
-            $this->ensureRouteExists($route->getName());
+        $form->handleRequest($request);
+        $this->ensureRouteExists($route->getName());
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $route = $this->get('swp.service.route')->createRoute($form->getData());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $route = $this->get('swp.service.route')->createRoute($form->getData());
 
-                $this->get('swp.repository.route')->add($route);
+            $this->get('swp.repository.route')->add($route);
 
-                return new SingleResourceResponse($route, new ResponseContext(201));
-            }
-
-            return new SingleResourceResponse($form, new ResponseContext(400));
-        } catch (\Throwable $e) {
-            dump($e);die;
+            return new SingleResourceResponse($route, new ResponseContext(201));
         }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**

@@ -100,7 +100,7 @@ class ContentListItemController extends Controller
     {
         $objectManager = $this->get('swp.object_manager.content_list_item');
         $contentListItem = $this->findOr404($listId, $id);
-        $form = $this->get('form.factory')->createNamed('', 
+        $form = $this->get('form.factory')->createNamed('',
             ContentListItemType::class,
             $contentListItem,
             ['method' => $request->getMethod()]
