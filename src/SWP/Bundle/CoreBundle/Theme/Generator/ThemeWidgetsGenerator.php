@@ -103,7 +103,7 @@ class ThemeWidgetsGenerator implements GeneratorInterface
     protected function createWidget(array $widgetData)
     {
         $widget = $this->widgetModelFactory->create();
-        $form = $this->formFactory->create(WidgetType::class, $widget);
+        $form = $this->formFactory->createNamed('', WidgetType::class, $widget);
         $form->submit($widgetData, false);
         if (!$form->isValid()) {
             throw new \Exception('Invalid widget definition');

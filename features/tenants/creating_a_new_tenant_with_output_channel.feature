@@ -9,7 +9,6 @@ Feature: Adding a new tenant with output channel
     And I send a "POST" request to "/api/v1/tenants/" with body:
      """
       {
-        "tenant": {
           "domainName": "example.com",
           "name": "Example tenant",
           "subdomain": "tenant1",
@@ -20,7 +19,6 @@ Feature: Adding a new tenant with output channel
               "authorization_key": "private key"
             }
           }
-        }
       }
     """
     Then the response status code should be 201
@@ -34,7 +32,6 @@ Feature: Adding a new tenant with output channel
     And I send a "POST" request to "/api/v1/tenants/" with body:
      """
       {
-        "tenant": {
           "domainName": "example.com",
           "name": "Example tenant",
           "subdomain": "tenant1",
@@ -45,7 +42,6 @@ Feature: Adding a new tenant with output channel
               "authorization_key": "private key"
             }
           }
-        }
       }
     """
     Then the response status code should be 400
@@ -56,10 +52,8 @@ Feature: Adding a new tenant with output channel
     And I send a "POST" request to "/api/v1/tenants/" with body:
      """
       {
-        "tenant": {
           "domainName": "example2.com",
           "name": "Example tenant2"
-        }
       }
     """
     Then the response status code should be 201

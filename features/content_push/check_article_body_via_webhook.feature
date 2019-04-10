@@ -11,13 +11,11 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
     And I send a "POST" request to "/api/v1/webhooks/" with body:
      """
       {
-        "webhook": {
           "url": "http://localhost:3000/article-update",
           "events": [
               "article[created]"
           ],
           "enabled": "1"
-        }
       }
     """
     Then  the response status code should be 201
@@ -143,16 +141,16 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
           "slug":"[a-zA-Z0-9*\\-_]+"
         },
         "id":3,
-        "staticPrefix":"\/news",
-        "variablePattern":"\/{slug}",
+        "static_prefix":"\/news",
+        "variable_pattern":"\/{slug}",
         "children":[
           {
             "requirements":{
               "slug":"[a-zA-Z0-9*\\-_]+"
             },
             "id":6,
-            "staticPrefix":"\/news\/sports",
-            "variablePattern":"\/{slug}",
+            "static_prefix":"\/news\/sports",
+            "variable_pattern":"\/{slug}",
             "parent":3,
             "children":[
 
@@ -161,12 +159,12 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
             "rgt":5,
             "level":1,
             "type":"collection",
-            "cacheTimeInSeconds":0,
+            "cache_time_in_seconds":0,
             "name":"sports",
             "slug":"sports",
             "position":0,
             "articlesCount":0,
-            "paywallSecured":false,
+            "paywall_secured":false,
             "_links":{
               "self":{
                 "href":"\/api\/v1\/content\/routes\/6"
@@ -181,12 +179,12 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         "rgt":6,
         "level":0,
         "type":"collection",
-        "cacheTimeInSeconds":0,
+        "cache_time_in_seconds":0,
         "name":"news",
         "slug":"news",
         "position":1,
         "articlesCount":0,
-        "paywallSecured":false,
+        "paywall_secured":false,
         "_links":{
           "self":{
             "href":"\/api\/v1\/content\/routes\/3"
@@ -228,8 +226,8 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
       "slideshows":[
 
       ],
-      "createdAt":"2019-03-10T09:00:00+00:00",
-      "updatedAt":"2019-03-10T09:00:00+00:00",
+      "created_at":"2019-03-10T09:00:00+00:00",
+      "updated_at":"2019-03-10T09:00:00+00:00",
       "authors":[
         {
           "name":"Admin Person",
@@ -246,28 +244,28 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
 
       ],
       "is_published_fbia":false,
-      "articleStatistics":{
-        "impressionsNumber":0,
-        "pageViewsNumber":0,
-        "internalClickRate":0,
-        "createdAt":"2019-03-10T09:00:00+00:00",
-        "updatedAt":"2019-03-10T09:00:00+00:00"
+      "article_statistics":{
+        "impressions_number":0,
+        "page_views_number":0,
+        "internal_click_rate":0,
+        "created_at":"2019-03-10T09:00:00+00:00",
+        "updated_at":"2019-03-10T09:00:00+00:00"
       },
-      "commentsCount":0,
+      "comments_count":0,
       "tenant":{
         "id":1,
-        "domainName":"localhost",
+        "domain_name":"localhost",
         "code":"123abc",
         "name":"Default tenant",
-        "ampEnabled":true,
+        "amp_enabled":true,
         "_links":{
           "self":{
             "href":"\/api\/v1\/tenants\/123abc"
           }
         }
       },
-      "paywallSecured":false,
-      "contentLists":[
+      "paywall_secured":false,
+      "content_lists":[
 
       ],
       "_links":{

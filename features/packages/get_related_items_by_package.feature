@@ -247,7 +247,7 @@ Feature: Get related articles by package id
     Then I send a "GET" request to "/api/v1/packages/7/related/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | relatedArticleItems[0].tenants[0].code | 123abc        |
-      | relatedArticleItems[0].title           | hello world 1 |
-      | relatedArticleItems[1].title           | hello world 2 |
-    And the JSON node "relatedArticleItems[1].tenants[0]" should not exist
+      | related_article_items[0].tenants[0].code | 123abc        |
+      | related_article_items[0].title           | hello world 1 |
+      | related_article_items[1].title           | hello world 2 |
+    And the JSON node "related_article_items[1].tenants[0]" should not exist

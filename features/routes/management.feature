@@ -26,7 +26,7 @@ Feature: Manage Routes
     Then the response status code should be 201
     And the JSON node name should be equal to "Simple test route"
     And the JSON node slug should be equal to "simple-test-route"
-    And the JSON node staticPrefix should be equal to "/simple-test-route"
+    And the JSON node static_prefix should be equal to "/simple-test-route"
 
   Scenario: Creating new route without custom slug
     Given I am authenticated as "test.user"
@@ -42,7 +42,7 @@ Feature: Manage Routes
     Then the response status code should be 201
     And the JSON node name should be equal to "Simple test route number 2"
     And the JSON node slug should be equal to "simple-test-route-number-2"
-    And the JSON node staticPrefix should be equal to "/simple-test-route-number-2"
+    And the JSON node static_prefix should be equal to "/simple-test-route-number-2"
 
 
   Scenario: Creating new route with parent and un-setting parent
@@ -91,7 +91,7 @@ Feature: Manage Routes
     Then the response status code should be 200
     And the JSON node name should be equal to "Simple test child route"
     And the JSON node level should be equal to 0
-#
+
   Scenario: Creating new route without type custom
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"

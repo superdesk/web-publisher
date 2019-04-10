@@ -120,4 +120,4 @@ Feature: Checking if the package with published date in past will be published
     Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | publishedAt | 2018-06-05T14:39:33+00:00 |
+      | published_at | 2018-06-05T14:39:33+00:00 |

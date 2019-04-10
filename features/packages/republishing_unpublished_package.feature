@@ -102,9 +102,7 @@ Feature: As a user I want to be able to re-publish un-published package to one o
     Then I send a "POST" request to "/api/{version}/packages/6/unpublish/" with body:
      """
       {
-          "unpublish":{
-              "tenants":["123abc"]
-          }
+          "tenants":["123abc"]
       }
      """
     Then the response status code should be 200

@@ -11,9 +11,9 @@ Feature: Managing targeted publishing destinations with content lists
       }
     """
     Then the response status code should be 201
-    And the JSON node "contentListItemsUpdatedAt" should be null
-    And the JSON node "updatedAt" should exist
-    And we save it into "updatedAt"
+    And the JSON node "content_list_items_updated_at" should be null
+    And the JSON node "updated_at" should exist
+    And we save it into "updated_at"
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -57,8 +57,8 @@ Feature: Managing targeted publishing destinations with content lists
     When I add "Content-Type" header equal to "application/json"
     And I send a "GET" request to "/api/v1/content/lists/1"
     Then the response status code should be 200
-    And the JSON node "contentListItemsUpdatedAt" should not be null
-    And the JSON node "updatedAt" should be equal to "<<updatedAt>>"
+    And the JSON node "content_list_items_updated_at" should not be null
+    And the JSON node "updated_at" should be equal to "<<updated_at>>"
 
   Scenario: Creating a new targeted publishing destinations with multiple content lists
     Given default tenant with code "123abc"

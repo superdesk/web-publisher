@@ -10,21 +10,19 @@ Feature: Checking if pushed package will be published on tenant with output chan
     And I send a "PATCH" request to "/api/v1/tenants/123abc" with body:
      """
       {
-        "tenant": {
-          "outputChannel": {
+          "output_channel": {
             "type": "wordpress",
             "config": {
               "url": "http://localhost:3000",
               "authorization_key": "Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c="
             }
           }
-        }
       }
     """
     Then the response status code should be 200
-    And the JSON node "outputChannel.type" should be equal to "wordpress"
-    And the JSON node "outputChannel.config.url" should be equal to "http://localhost:3000"
-    And the JSON node "outputChannel.config.authorization_key" should be equal to "Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c="
+    And the JSON node "output_channel.type" should be equal to "wordpress"
+    And the JSON node "output_channel.config.url" should be equal to "http://localhost:3000"
+    And the JSON node "output_channel.config.authorizationKey" should be equal to "Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c="
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/push" with body:
@@ -79,9 +77,9 @@ Feature: Checking if pushed package will be published on tenant with output chan
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status                              | published                          |
-      | articles[0].externalArticle.id      | 1                                  |
-      | articles[0].externalArticle.liveUrl | localhost:3000/wordpress/test_post |
-      | articles[0].externalArticle.status  | publish                            |
+      | articles[0].external_article.id      | 1                                  |
+      | articles[0].external_article.live_url | localhost:3000/wordpress/test_post |
+      | articles[0].external_article.status  | publish                            |
 
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
@@ -99,6 +97,6 @@ Feature: Checking if pushed package will be published on tenant with output chan
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status                  | new                                |
-      | externalArticle.id      | 1                                  |
-      | externalArticle.liveUrl | localhost:3000/wordpress/test_post |
-      | externalArticle.status  | draft                              |
+      | external_article.id      | 1                                  |
+      | external_article.live_url | localhost:3000/wordpress/test_post |
+      | external_article.status  | draft                              |

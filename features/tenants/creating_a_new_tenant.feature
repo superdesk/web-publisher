@@ -13,11 +13,9 @@ Feature: Adding a new tenant
     And I send a "POST" request to "/api/v1/tenants/" with body:
      """
       {
-        "tenant": {
           "domainName": "example2.com",
           "name": "Example tenant2",
           "subdomain": "tenant2"
-        }
       }
     """
     Then the response status code should be 201

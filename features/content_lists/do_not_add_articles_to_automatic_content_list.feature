@@ -129,7 +129,7 @@ Feature: Do not add articles to automatic content lists
     Then the response status code should be 200
     And the Json node "is_publishable" should be true
     And the Json node "is_published_fbia" should be false
-    And the Json node "publishedAt" should not be null
+    And the Json node "published_at" should not be null
     And the Json node "route.id" should be equal to "6"
     And the Json node "status" should be equal to "published"
 

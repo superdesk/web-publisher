@@ -28,7 +28,7 @@ final class SuperdeskCredentialAuthenticationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('session_id', TextType::class, [
+            ->add('sessionId', TextType::class, [
                 'required' => true,
                 'description' => 'Superdesk user session id',
                 'constraints' => [

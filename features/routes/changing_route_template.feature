@@ -13,10 +13,10 @@ Feature: Changing route template
           "name": "Politics",
           "slug": "politics",
           "type": "collection"
-      }
+      }ContentListType
     """
     Then the response status code should be 201
-    And the JSON node "paywallSecured" should be false
+    And the JSON node "paywall_secured" should be false
     And the JSON node "id" should be equal to "7"
 
     Then I am authenticated as "test.user"
@@ -28,10 +28,10 @@ Feature: Changing route template
       }
      """
     Then the response status code should be 200
-    And the JSON node "templateName" should be equal to "masterCategory.html.twig"
+    And the JSON node "template_name" should be equal to "masterCategory.html.twig"
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v1/content/routes/7"
     Then the response status code should be 200
-    And the JSON node "templateName" should be equal to "masterCategory.html.twig"
+    And the JSON node "template_name" should be equal to "masterCategory.html.twig"

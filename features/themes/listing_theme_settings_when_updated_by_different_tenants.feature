@@ -7,10 +7,8 @@ Feature: Listing updated theme settings for two different tenants
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
     {
-      "settings": {
         "name":"primary_font_family",
         "value":"Oswald"
-      }
     }
     """
     Then the response status code should be 200
@@ -102,10 +100,8 @@ Feature: Listing updated theme settings for two different tenants
     And I send a "PATCH" request to "http://client2.localhost/api/{version}/settings/" with body:
     """
     {
-      "settings": {
         "name":"body_font_size",
         "value":"16px"
-      }
     }
     """
     Then the response status code should be 200

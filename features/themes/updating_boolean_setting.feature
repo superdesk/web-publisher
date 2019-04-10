@@ -91,10 +91,8 @@ Feature: Updating setting of type boolean
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
     {
-      "settings": {
         "name":"switch",
         "value":true
-      }
     }
     """
     Then the response status code should be 200

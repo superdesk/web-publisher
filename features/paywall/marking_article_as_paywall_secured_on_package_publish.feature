@@ -99,4 +99,4 @@ Feature: Marking article as paywall-secured using direct package publish
     Then I send a "GET" request to "/api/{version}/content/articles/lorem-ipsum-package"
     Then the response status code should be 200
     And the JSON node "status" should be equal to "published"
-    And the JSON node "paywallSecured" should be true
+    And the JSON node "paywall_secured" should be true

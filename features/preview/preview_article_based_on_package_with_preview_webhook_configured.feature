@@ -20,13 +20,11 @@ Feature: Preview article under route based on package data with article preview 
     And I send a "POST" request to "/api/v1/webhooks/" with body:
      """
       {
-        "webhook": {
           "url": "http://localhost:3000/return-preview-url",
           "events": [
             "article[preview]"
           ],
           "enabled": "1"
-        }
       }
     """
     Then the response status code should be 201

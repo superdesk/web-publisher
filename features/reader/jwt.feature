@@ -9,14 +9,12 @@ Feature: Registering and login as new publisher reader
     And I send a "POST" request to "/api/v1/users/register/" with body:
     """
     {
-      "user_registration": {
         "email": "null@sourcefabric.org",
         "username": "null_user",
         "plainPassword": {
           "first": "superSecret",
           "second": "superSecret"
         }
-      }
     }
     """
     Then the response status code should be 302

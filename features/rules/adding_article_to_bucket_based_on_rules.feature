@@ -98,7 +98,7 @@ Feature: Adding article to bucket based on organization and tenant rules
     Then the response status code should be 200
     And the JSON node "is_publishable" should be true
     And the JSON node "is_published_fbia" should be true
-    And the JSON node "publishedAt" should not be null
+    And the JSON node "published_at" should not be null
     And the JSON node "route.id" should be equal to "6"
     And the JSON node "status" should be equal to "published"
     And I am authenticated as "test.user"

@@ -125,7 +125,7 @@ Feature: Handling video groups
     Then the response status code should be 200
     And the JSON nodes should contain:
       | media[0].file.asset_id         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
-      | media[0].file.fileExtension   | mp4                                                                                        |
+      | media[0].file.file_extension   | mp4                                                                                        |
       | media[0]._links.download.href | /media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4 |
       | slideshows[0].code            | slideshow1                                                                                 |
       | _links.slideshows.href        | /api/v1/content/slideshows/6                                                               |
@@ -145,7 +145,7 @@ Feature: Handling video groups
     Then I send a "GET" request to "/api/v1/content/slideshows/6/1/items/"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 1
-    And the JSON node "_embedded._items[0].articleMedia.file.fileExtension" should be equal to "mp4"
-    And the JSON node "_embedded._items[0].articleMedia.file.asset_id" should be equal to "20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9"
-    And the JSON node "_embedded._items[0].articleMedia._links.download.href" should be equal to "/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
-    And the JSON node "_embedded._items[0].articleMedia.image" should be null
+    And the JSON node "_embedded._items[0].article_media.file.file_extension" should be equal to "mp4"
+    And the JSON node "_embedded._items[0].article_media.file.asset_id" should be equal to "20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9"
+    And the JSON node "_embedded._items[0].article_media._links.download.href" should be equal to "/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
+    And the JSON node "_embedded._items[0].article_media.image" should be null

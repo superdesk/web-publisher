@@ -108,6 +108,6 @@ Feature: Handling embedded audio
     And the JSON node "body" should contain "/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
     And the JSON nodes should contain:
       | media[0].file.asset_id         | 20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6            |
-      | media[0].file.fileExtension   | mp3                                                                                        |
-      | media[0]._links.download.href | /media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3 |
+      | media[0].file.file_extension   | mp3                                                                                        |
+      | media[0]._links.download.href  | /media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3 |
     And the JSON node "media[0].image" should be null

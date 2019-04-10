@@ -181,10 +181,8 @@ Feature: Checking if restoring settings by scope works correctly
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
     {
-      "settings": {
         "name":"instance_name",
         "value":"Publisher edited"
-      }
     }
     """
     Then the response status code should be 200
@@ -193,10 +191,8 @@ Feature: Checking if restoring settings by scope works correctly
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
     {
-      "settings": {
         "name":"primary_font_family",
         "value":"Oswald"
-      }
     }
     """
     Then the response status code should be 200
@@ -205,10 +201,8 @@ Feature: Checking if restoring settings by scope works correctly
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
       {
-        "settings": {
           "name":"secondary_font_family",
           "value":"Lato"
-        }
       }
     """
     Then the response status code should be 200

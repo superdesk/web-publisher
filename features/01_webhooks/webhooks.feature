@@ -17,13 +17,11 @@ Feature: Manage Webhooks
     And I send a "POST" request to "/api/v1/webhooks/" with body:
      """
       {
-        "webhook": {
           "url": "https://example.com",
           "events": [
             "article[published]"
           ],
           "enabled": "1"
-        }
       }
     """
     Then the response status code should be 201
@@ -44,13 +42,11 @@ Feature: Manage Webhooks
     And I send a "PATCH" request to "/api/v1/webhooks/1" with body:
      """
       {
-        "webhook": {
           "url": "https://example2.com",
           "events": [
               "article[updated]"
           ],
           "enabled": "0"
-        }
       }
     """
     Then  the response status code should be 200

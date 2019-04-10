@@ -76,10 +76,10 @@ final class TenantHandler implements SubscribingHandlerInterface
         return [
            'id' => $tenant->getId(),
            'subdomain' => $tenant->getSubdomain(),
-           'domainName' => $tenant->getDomainName(),
+           'domain_name' => $tenant->getDomainName(),
            'code' => $tenantCode,
            'name' => $tenant->getName(),
-           'ampEnabled' => $tenant->isAmpEnabled(),
+           'amp_enabled' => $tenant->isAmpEnabled(),
             '_links' => [
                 'self' => [
                     'href' => $this->router->generate('swp_api_core_get_tenant', ['code' => $tenantCode]),

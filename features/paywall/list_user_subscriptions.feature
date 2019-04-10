@@ -13,8 +13,8 @@ Feature: List subscriptions by user
     And the JSON node "[0].type" should be equal to "recurring"
     And the JSON node "[0].details.intention" should be equal to "bottom_box"
     And the JSON node "[0].details.source" should be equal to "web_version"
-    And the JSON node "[0].updatedAt" should be null
-    And the JSON node "[0].createdAt" should not be null
+    And the JSON node "[0].updated_at" should be null
+    And the JSON node "[0].created_at" should not be null
 
   Scenario: List subscriptions by user and article id
     Given I am authenticated as "test.user"
@@ -26,8 +26,8 @@ Feature: List subscriptions by user
     And the JSON node "[0].details.intention" should be equal to "bottom_box"
     And the JSON node "[0].details.source" should be equal to "web_version"
     And the JSON node "[0].details.articleId" should be equal to "20"
-    And the JSON node "[0].updatedAt" should be null
-    And the JSON node "[0].createdAt" should not be null
+    And the JSON node "[0].updated_at" should be null
+    And the JSON node "[0].created_at" should not be null
 
   Scenario: List subscriptions by user and article id and route id
     Given I am authenticated as "test.user"
@@ -40,5 +40,5 @@ Feature: List subscriptions by user
     And the JSON node "[0].details.source" should be equal to "web_version"
     And the JSON node "[0].details.articleId" should be equal to "20"
     And the JSON node "[0].details.routeId" should be equal to "10"
-    And the JSON node "[0].updatedAt" should be null
-    And the JSON node "[0].createdAt" should not be null
+    And the JSON node "[0].updated_at" should be null
+    And the JSON node "[0].created_at" should not be null

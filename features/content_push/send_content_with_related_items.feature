@@ -248,11 +248,11 @@ Feature: Related items support
     Then the response status code should be 200
     And the JSON node "total" should be equal to 1
     And the JSON node "_embedded._items[0].id" should not exist
-    And the JSON node "_embedded._items[0].relatesTo" should not exist
+    And the JSON node "_embedded._items[0].relates_to" should not exist
     And the JSON node "_embedded._items[0].article.title" should be equal to "hello world 1"
     And the JSON node "_embedded._items[0].article.id" should be equal to 6
-    And the JSON node "_embedded._items[0].updatedAt" should exist
-    And the JSON node "_embedded._items[0].createdAt" should exist
+    And the JSON node "_embedded._items[0].updated_at" should exist
+    And the JSON node "_embedded._items[0].created_at" should exist
 
     Then I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/push" with body:

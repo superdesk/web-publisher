@@ -343,8 +343,8 @@ Feature: Handling the custom media fields
     Then the response status code should be 200
     And the JSON node "total" should be equal to 2
     And the JSON nodes should contain:
-      | _embedded._items[0].articleMedia.image.asset_id   | 1234567890987654321c |
-      | _embedded._items[1].articleMedia.image.asset_id   | 2234567890987654321c |
+      | _embedded._items[0].article_media.image.asset_id   | 1234567890987654321c |
+      | _embedded._items[1].article_media.image.asset_id   | 2234567890987654321c |
 
 
   Scenario: Article correction with slideshow
@@ -642,5 +642,5 @@ Feature: Handling the custom media fields
     Then the response status code should be 200
     And the JSON node "total" should be equal to 2
     And the JSON nodes should contain:
-      | _embedded._items[0].articleMedia.image.asset_id   | 1234567890987654321c |
-      | _embedded._items[1].articleMedia.image.asset_id   | 2234567890987654321c |
+      | _embedded._items[0].article_media.image.asset_id   | 1234567890987654321c |
+      | _embedded._items[1].article_media.image.asset_id   | 2234567890987654321c |

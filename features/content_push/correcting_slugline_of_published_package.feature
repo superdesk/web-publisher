@@ -62,7 +62,7 @@ Feature: Allow to change the article's slug based on settings.
             {
               "tenant":"123abc",
               "route":6,
-              "is_published_fbia":false,
+              "isPublishedFbia":false,
               "published":true
             }
           ]
@@ -143,10 +143,8 @@ Feature: Allow to change the article's slug based on settings.
     And I send a "PATCH" request to "/api/v1/settings/" with body:
     """
     {
-      "settings": {
         "name":"override_slug_on_correction",
         "value":true
-      }
     }
     """
     And I am authenticated as "test.user"

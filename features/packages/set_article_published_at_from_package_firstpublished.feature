@@ -145,17 +145,15 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | publishedAt | 2018-06-05T14:39:33+00:00 |
+      | published_at | 2018-06-05T14:39:33+00:00 |
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
     {
-      "settings": {
         "name":"use_first_published_as_publish_date",
         "value":true
-      }
     }
     """
     Then the response status code should be 200
@@ -239,17 +237,15 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | publishedAt | 2017-08-09T10:31:58+00:00 |
+      | published_at | 2017-08-09T10:31:58+00:00 |
 
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/" with body:
     """
     {
-      "settings": {
         "name":"use_first_published_as_publish_date",
         "value":false
-      }
     }
     """
     Then the response status code should be 200
@@ -341,4 +337,4 @@ Feature: Set article's published at datetime from package's firstpublished prope
     Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | publishedAt | 2017-08-09T10:31:58+00:00 |
+      | published_at | 2017-08-09T10:31:58+00:00 |

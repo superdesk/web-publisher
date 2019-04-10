@@ -11,13 +11,11 @@ Feature: Handling the custom media fields
     And I send a "POST" request to "/api/v1/webhooks/" with body:
      """
       {
-        "webhook": {
           "url": "http://localhost:3000/article-update",
           "events": [
               "article[updated]"
           ],
           "enabled": "1"
-        }
       }
     """
     Then  the response status code should be 201
@@ -669,8 +667,8 @@ Feature: Handling the custom media fields
     Then the response status code should be 200
     And the JSON node "total" should be equal to 2
     And the JSON nodes should contain:
-      | _embedded._items[0].articleMedia.image.asset_id   | 1234567890987654321c |
-      | _embedded._items[1].articleMedia.image.asset_id   | 2234567890987654321c |
+      | _embedded._items[0].article_media.image.asset_id   | 1234567890987654321c |
+      | _embedded._items[1].article_media.image.asset_id   | 2234567890987654321c |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
@@ -682,25 +680,25 @@ Feature: Handling the custom media fields
     {
       "id":6,
       "title":"Article with added slideshow",
-      "body":"<p>some html body</p>",
+      "body":"<p>some html body<\/p>",
       "slug":"abstract-html-test-without-slideshow",
-      "publishedAt":"2019-03-10T09:00:00+00:00",
+      "published_at":"2019-03-10T09:00:00+00:00",
       "status":"published",
       "route":{
         "requirements":{
           "slug":"[a-zA-Z0-9*\\-_]+"
         },
         "id":3,
-        "staticPrefix":"/news",
-        "variablePattern":"/{slug}",
+        "static_prefix":"\/news",
+        "variable_pattern":"\/{slug}",
         "children":[
           {
             "requirements":{
               "slug":"[a-zA-Z0-9*\\-_]+"
             },
             "id":6,
-            "staticPrefix":"/news/sports",
-            "variablePattern":"/{slug}",
+            "static_prefix":"\/news\/sports",
+            "variable_pattern":"\/{slug}",
             "parent":3,
             "children":[
 
@@ -709,18 +707,18 @@ Feature: Handling the custom media fields
             "rgt":5,
             "level":1,
             "type":"collection",
-            "cacheTimeInSeconds":0,
+            "cache_time_in_seconds":0,
             "name":"sports",
             "slug":"sports",
             "position":0,
             "articlesCount":0,
-            "paywallSecured":false,
+            "paywall_secured":false,
             "_links":{
               "self":{
-                "href":"/api/v1/content/routes/6"
+                "href":"\/api\/v1\/content\/routes\/6"
               },
               "parent":{
-                "href":"/api/v1/content/routes/3"
+                "href":"\/api\/v1\/content\/routes\/3"
               }
             }
           }
@@ -729,15 +727,15 @@ Feature: Handling the custom media fields
         "rgt":6,
         "level":0,
         "type":"collection",
-        "cacheTimeInSeconds":0,
+        "cache_time_in_seconds":0,
         "name":"news",
         "slug":"news",
         "position":1,
         "articlesCount":0,
-        "paywallSecured":false,
+        "paywall_secured":false,
         "_links":{
           "self":{
-            "href":"/api/v1/content/routes/3"
+            "href":"\/api\/v1\/content\/routes\/3"
           }
         }
       },
@@ -775,16 +773,16 @@ Feature: Handling the custom media fields
       },
       "media":[
         {
-          "id":"3",
+          "id":3,
           "image":{
-            "id":"8",
-            "fileExtension":"jpeg",
+            "id":8,
+            "file_extension":"jpeg",
             "asset_id":"1234567890987654321c"
           },
           "description":"test image",
-          "byLine":"Paweł Mikołajczuk",
-          "altText":"test image",
-          "usageTerms":"indefinite-usage",
+          "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+          "alt_text":"test image",
+          "usage_terms":"indefinite-usage",
           "renditions":[
             {
               "width":1079,
@@ -792,11 +790,11 @@ Feature: Handling the custom media fields
               "name":"16-9",
               "id":7,
               "image":{
-                "id":"6",
-                "fileExtension":"jpeg",
+                "id":6,
+                "file_extension":"jpeg",
                 "asset_id":"1234567890987654321a"
               },
-              "previewUrl":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321a\/raw?_schema=http"
             },
             {
               "width":800,
@@ -804,11 +802,11 @@ Feature: Handling the custom media fields
               "name":"4-3",
               "id":8,
               "image":{
-                "id":"7",
-                "fileExtension":"jpeg",
+                "id":7,
+                "file_extension":"jpeg",
                 "asset_id":"1234567890987654321b"
               },
-              "previewUrl":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321b\/raw?_schema=http"
             },
             {
               "width":4000,
@@ -816,31 +814,31 @@ Feature: Handling the custom media fields
               "name":"original",
               "id":9,
               "image":{
-                "id":"8",
-                "fileExtension":"jpeg",
+                "id":8,
+                "file_extension":"jpeg",
                 "asset_id":"1234567890987654321c"
               },
-              "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321c\/raw?_schema=http"
             }
           ],
           "headline":"test image",
           "_links":{
             "download":{
-              "href":"/media/1234567890987654321c.jpeg"
+              "href":"\/media\/1234567890987654321c.jpeg"
             }
           }
         },
         {
-          "id":"4",
+          "id":4,
           "image":{
-            "id":"11",
-            "fileExtension":"jpeg",
+            "id":11,
+            "file_extension":"jpeg",
             "asset_id":"2234567890987654321c"
           },
           "description":"test image 2",
-          "byLine":"Paweł Mikołajczuk",
-          "altText":"test image",
-          "usageTerms":"indefinite-usage",
+          "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+          "alt_text":"test image",
+          "usage_terms":"indefinite-usage",
           "renditions":[
             {
               "width":1079,
@@ -848,11 +846,11 @@ Feature: Handling the custom media fields
               "name":"16-9",
               "id":10,
               "image":{
-                "id":"9",
-                "fileExtension":"jpeg",
+                "id":9,
+                "file_extension":"jpeg",
                 "asset_id":"2234567890987654321a"
               },
-              "previewUrl":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321a\/raw?_schema=http"
             },
             {
               "width":800,
@@ -860,11 +858,11 @@ Feature: Handling the custom media fields
               "name":"4-3",
               "id":11,
               "image":{
-                "id":"10",
-                "fileExtension":"jpeg",
+                "id":10,
+                "file_extension":"jpeg",
                 "asset_id":"2234567890987654321b"
               },
-              "previewUrl":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321b\/raw?_schema=http"
             },
             {
               "width":4000,
@@ -872,17 +870,17 @@ Feature: Handling the custom media fields
               "name":"original",
               "id":12,
               "image":{
-                "id":"11",
-                "fileExtension":"jpeg",
+                "id":11,
+                "file_extension":"jpeg",
                 "asset_id":"2234567890987654321c"
               },
-              "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321c\/raw?_schema=http"
             }
           ],
           "headline":"test image",
           "_links":{
             "download":{
-              "href":"/media/2234567890987654321c.jpeg"
+              "href":"\/media\/2234567890987654321c.jpeg"
             }
           }
         }
@@ -895,23 +893,23 @@ Feature: Handling the custom media fields
       "extra":[
 
       ],
-      "slideshows":[
-        {
+      "slideshows":{
+        "1":{
           "id":2,
           "code":"slideshow1",
           "items":[
             {
-              "articleMedia":{
-                "id":"3",
+              "article_media":{
+                "id":3,
                 "image":{
-                  "id":"8",
-                  "fileExtension":"jpeg",
+                  "id":8,
+                  "file_extension":"jpeg",
                   "asset_id":"1234567890987654321c"
                 },
                 "description":"test image",
-                "byLine":"Paweł Mikołajczuk",
-                "altText":"test image",
-                "usageTerms":"indefinite-usage",
+                "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+                "alt_text":"test image",
+                "usage_terms":"indefinite-usage",
                 "renditions":[
                   {
                     "width":1079,
@@ -919,11 +917,11 @@ Feature: Handling the custom media fields
                     "name":"16-9",
                     "id":7,
                     "image":{
-                      "id":"6",
-                      "fileExtension":"jpeg",
+                      "id":6,
+                      "file_extension":"jpeg",
                       "asset_id":"1234567890987654321a"
                     },
-                    "previewUrl":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321a\/raw?_schema=http"
                   },
                   {
                     "width":800,
@@ -931,11 +929,11 @@ Feature: Handling the custom media fields
                     "name":"4-3",
                     "id":8,
                     "image":{
-                      "id":"7",
-                      "fileExtension":"jpeg",
+                      "id":7,
+                      "file_extension":"jpeg",
                       "asset_id":"1234567890987654321b"
                     },
-                    "previewUrl":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321b\/raw?_schema=http"
                   },
                   {
                     "width":4000,
@@ -943,33 +941,33 @@ Feature: Handling the custom media fields
                     "name":"original",
                     "id":9,
                     "image":{
-                      "id":"8",
-                      "fileExtension":"jpeg",
+                      "id":8,
+                      "file_extension":"jpeg",
                       "asset_id":"1234567890987654321c"
                     },
-                    "previewUrl":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321c\/raw?_schema=http"
                   }
                 ],
                 "headline":"test image",
                 "_links":{
                   "download":{
-                    "href":"/media/1234567890987654321c.jpeg"
+                    "href":"\/media\/1234567890987654321c.jpeg"
                   }
                 }
               }
             },
             {
-              "articleMedia":{
-                "id":"4",
+              "article_media":{
+                "id":4,
                 "image":{
-                  "id":"11",
-                  "fileExtension":"jpeg",
+                  "id":11,
+                  "file_extension":"jpeg",
                   "asset_id":"2234567890987654321c"
                 },
                 "description":"test image 2",
-                "byLine":"Paweł Mikołajczuk",
-                "altText":"test image",
-                "usageTerms":"indefinite-usage",
+                "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+                "alt_text":"test image",
+                "usage_terms":"indefinite-usage",
                 "renditions":[
                   {
                     "width":1079,
@@ -977,11 +975,11 @@ Feature: Handling the custom media fields
                     "name":"16-9",
                     "id":10,
                     "image":{
-                      "id":"9",
-                      "fileExtension":"jpeg",
+                      "id":9,
+                      "file_extension":"jpeg",
                       "asset_id":"2234567890987654321a"
                     },
-                    "previewUrl":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321a\/raw?_schema=http"
                   },
                   {
                     "width":800,
@@ -989,11 +987,11 @@ Feature: Handling the custom media fields
                     "name":"4-3",
                     "id":11,
                     "image":{
-                      "id":"10",
-                      "fileExtension":"jpeg",
+                      "id":10,
+                      "file_extension":"jpeg",
                       "asset_id":"2234567890987654321b"
                     },
-                    "previewUrl":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321b\/raw?_schema=http"
                   },
                   {
                     "width":4000,
@@ -1001,33 +999,33 @@ Feature: Handling the custom media fields
                     "name":"original",
                     "id":12,
                     "image":{
-                      "id":"11",
-                      "fileExtension":"jpeg",
+                      "id":11,
+                      "file_extension":"jpeg",
                       "asset_id":"2234567890987654321c"
                     },
-                    "previewUrl":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321c\/raw?_schema=http"
                   }
                 ],
                 "headline":"test image",
                 "_links":{
                   "download":{
-                    "href":"/media/2234567890987654321c.jpeg"
+                    "href":"\/media\/2234567890987654321c.jpeg"
                   }
                 }
               }
             }
           ],
-          "createdAt":"2019-03-10T09:00:00+00:00",
-          "updatedAt":"2019-03-10T09:00:00+00:00",
+          "created_at":"2019-03-10T09:00:00+00:00",
+          "updated_at":"2019-03-10T09:00:00+00:00",
           "_links":{
             "items":{
-              "href":"/api/v1/content/slideshows/6/2/items/"
+              "href":"\/api\/v1\/content\/slideshows\/6\/2\/items\/"
             }
           }
         }
-      ],
-      "createdAt":"2019-03-10T09:00:00+00:00",
-      "updatedAt":"2019-03-10T09:00:00+00:00",
+      },
+      "created_at":"2019-03-10T09:00:00+00:00",
+      "updated_at":"2019-03-10T09:00:00+00:00",
       "authors":[
 
       ],
@@ -1042,42 +1040,42 @@ Feature: Handling the custom media fields
         }
       ],
       "is_published_fbia":false,
-      "articleStatistics":{
-        "impressionsNumber":0,
-        "pageViewsNumber":0,
-        "internalClickRate":0,
-        "createdAt":"2019-03-10T09:00:00+00:00",
-        "updatedAt":"2019-03-10T09:00:00+00:00"
+      "article_statistics":{
+        "impressions_number":0,
+        "page_views_number":0,
+        "internal_click_rate":0,
+        "created_at":"2019-03-10T09:00:00+00:00",
+        "updated_at":"2019-03-10T09:00:00+00:00"
       },
-      "commentsCount":0,
+      "comments_count":0,
       "tenant":{
         "id":1,
-        "domainName":"localhost",
+        "domain_name":"localhost",
         "code":"123abc",
         "name":"Default tenant",
-        "ampEnabled":true,
+        "amp_enabled":true,
         "_links":{
           "self":{
-            "href":"/api/v1/tenants/123abc"
+            "href":"\/api\/v1\/tenants\/123abc"
           }
         }
       },
-      "paywallSecured":false,
-      "contentLists":[
+      "paywall_secured":false,
+      "content_lists":[
 
       ],
       "_links":{
         "self":{
-          "href":"/api/v1/content/articles/abstract-html-test-without-slideshow"
+          "href":"\/api\/v1\/content\/articles\/abstract-html-test-without-slideshow"
         },
         "online":{
-          "href":"/news/abstract-html-test-without-slideshow"
+          "href":"\/news\/abstract-html-test-without-slideshow"
         },
         "related":{
-          "href":"/api/v1/content/articles/6/related/"
+          "href":"\/api\/v1\/content\/articles\/6\/related\/"
         },
         "slideshows":{
-          "href":"/api/v1/content/slideshows/6"
+          "href":"\/api\/v1\/content\/slideshows\/6"
         }
       }
     }

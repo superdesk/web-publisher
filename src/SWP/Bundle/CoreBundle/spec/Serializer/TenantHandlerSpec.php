@@ -42,7 +42,6 @@ final class TenantHandlerSpec extends ObjectBehavior
     }
 
     public function it_serializes_to_json(
-        JsonSerializationVisitor $visitor,
         TenantRepositoryInterface $tenantRepository,
         TenantInterface $tenant,
         RouterInterface $router
@@ -58,13 +57,13 @@ final class TenantHandlerSpec extends ObjectBehavior
 
         $router->generate('swp_api_core_get_tenant', ['code' => '123abc'])->willReturn('url');
 
-        $this->serializeToJson($visitor, '123abc')->shouldReturn([
+        $this->serializeToJson(new JsonSerializationVisitor(), '123abc')->shouldReturn([
             'id' => 1,
             'subdomain' => 'subdomain',
-            'domainName' => 'domain.com',
+            'domain_name' => 'domain.com',
             'code' => '123abc',
             'name' => 'Default',
-            'ampEnabled' => true,
+            'amp_enabled' => true,
             '_links' => [
                 'self' => [
                     'href' => 'url',
