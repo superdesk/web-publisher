@@ -103,6 +103,24 @@ class TenantTypeSpec extends ObjectBehavior
         ;
 
         $builder
+            ->add('fbiaEnabled', BooleanType::class, [
+                'mapped' => false,
+                'required' => false,
+                'description' => 'Defines whether Facebook Instant Articles support is enabled or not (true or false).',
+            ])
+            ->willReturn($builder)
+        ;
+
+        $builder
+            ->add('paywallEnabled', BooleanType::class, [
+                'mapped' => false,
+                'required' => false,
+                'description' => 'Defines whether Paywall support is enabled or not (true or false).',
+            ])
+            ->willReturn($builder)
+        ;
+
+        $builder
             ->add('outputChannel', OutputChannelType::class, [
                 'required' => false,
                 'description' => 'Output Channel',

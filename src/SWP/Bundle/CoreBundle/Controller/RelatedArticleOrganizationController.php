@@ -71,7 +71,7 @@ class RelatedArticleOrganizationController extends Controller
 
     private function getRelated(PackageInterface $package): RelatedArticleList
     {
-        $relatedItemsGroups = $package->getGroups()->filter(function ($group) {
+        $relatedItemsGroups = $package->getGroups()->filter(static function ($group) {
             return GroupInterface::TYPE_RELATED === $group->getType();
         });
 

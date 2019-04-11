@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use function array_key_exists;
+use function parse_url;
+use function str_replace;
+use function strpos;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
@@ -52,7 +56,9 @@ class ArticleCommentsController extends AbstractController
             $data = $form->getData();
             $article = null;
             if (null !== $data['url']) {
-                $article = $articleResolver->resolve($data['url']);
+                $article = strpos($data['url'], '/r/') ? $repository->findOneBySlug(
+                    str_replace('/r/', '', $this->getFragmentFromUrl($data['url'], 'path'))
+                ) : $articleResolver->resolve($data['url']);
             } elseif (null !== $data['id']) {
                 $article = $repository->findOneBy(['id' => $data['id']]);
             }
@@ -75,5 +81,15 @@ class ArticleCommentsController extends AbstractController
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
+    }
+
+    private function getFragmentFromUrl(string $url, string $fragment): ?string
+    {
+        $fragments = parse_url($url);
+        if (!array_key_exists($fragment, $fragments)) {
+            return null;
+        }
+
+        return $fragments[$fragment];
     }
 }

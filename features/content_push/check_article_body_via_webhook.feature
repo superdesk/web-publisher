@@ -258,6 +258,8 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         "code":"123abc",
         "name":"Default tenant",
         "amp_enabled":true,
+        "fbia_enabled":false,
+        "paywall_enabled":false,
         "_links":{
           "self":{
             "href":"\/api\/v1\/tenants\/123abc"
@@ -283,4 +285,3 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         }
       }
     }
-    """
