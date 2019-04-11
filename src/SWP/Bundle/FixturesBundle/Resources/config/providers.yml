@@ -15,3 +15,9 @@ services:
                 - '@swp.provider.route'
         tags:
             - { name: nelmio_alice.faker.provider }
+
+    SWP\Bundle\FixturesBundle\Faker\Provider\ContainerProvider:
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: nelmio_alice.faker.provider }

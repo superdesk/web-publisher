@@ -14,35 +14,30 @@
 
 namespace SWP\Component\TemplatesSystem\Twig\Node;
 
+use Twig\Compiler;
+use Twig\Node\Node;
+
 /**
  * @deprecated since 2.0, will be removed in 3.0
  * Container twig node.
  */
-class ContainerNode extends \Twig_Node
+class ContainerNode extends Node
 {
-    /**
-     * ContainerNode constructor.
-     *
-     * @param \Twig_Node                 $name
-     * @param \Twig_Node_Expression|null $parameters
-     * @param \Twig_Node                 $body
-     * @param string|null                $lineno
-     * @param null                       $tag
-     */
-    public function __construct(\Twig_Node $name, \Twig_Node_Expression $parameters = null, \Twig_Node $body, $lineno, $tag = null)
+    public function __construct(Node $name, \Twig_Node_Expression $parameters = null, Node $body, $lineno, $tag = null)
     {
         $nodes = [
             'name' => $name,
             'body' => $body,
         ];
 
+        if (!\is_null($parameters)) {
+            $nodes['parameters'] = $parameters;
+        }
+
         parent::__construct($nodes, [], $lineno, $tag);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $compiler
             ->addDebugInfo($this)

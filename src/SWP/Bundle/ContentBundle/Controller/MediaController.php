@@ -76,9 +76,9 @@ class MediaController extends Controller
             $mediaManager = $this->get('swp_content_bundle.manager.media');
         }
         $response->setContent($mediaManager->getFile($media));
-        dump($response);
+        //dump($response);
 
-        //$cacheProvider->save($cacheKey, $response, 63072000);
+        $cacheProvider->save($cacheKey, $response, 63072000);
 
         return $response;
     }
