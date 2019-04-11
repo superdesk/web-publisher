@@ -107,7 +107,7 @@ Feature: Check if the featuremedia metadata are set properly
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/feature-media-item"
+    Then I send a "GET" request to "/api/v2/content/articles/feature-media-item"
     And the JSON node "feature_media.alt_text" should be equal to "Gradac alt text"
     And the JSON node "feature_media.description" should contain "Smoke on the water on River Gradac"
     And the JSON node "feature_media.usage_terms" should be equal to "indefinite-usage"

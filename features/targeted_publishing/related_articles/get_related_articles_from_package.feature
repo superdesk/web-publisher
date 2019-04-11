@@ -4,7 +4,7 @@ Feature: Find related articles which were already published based on package dat
   Scenario: Find related articles based on package data
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
           "name":"Test rule",
@@ -30,7 +30,7 @@ Feature: Find related articles which were already published based on package dat
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
           "name":"Test tenant rule",
@@ -49,7 +49,7 @@ Feature: Find related articles which were already published based on package dat
 
     Given I am authenticated as "test.client2"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "http://client2.localhost/api/v1/content/routes/" with body:
+    And I send a "POST" request to "http://client2.localhost/api/v2/content/routes/" with body:
      """
       {
           "name": "My route",
@@ -61,7 +61,7 @@ Feature: Find related articles which were already published based on package dat
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "POST" request to "/api/v2/organization/destinations/" with body:
      """
       {
           "tenant":"678iop",
@@ -74,7 +74,7 @@ Feature: Find related articles which were already published based on package dat
     Then the response status code should be 200
 
     Then I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "type":"text",
@@ -133,17 +133,17 @@ Feature: Find related articles which were already published based on package dat
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/related-1-0123456789abc"
+    Then I send a "GET" request to "/api/v2/content/articles/related-1-0123456789abc"
     Then the response status code should be 200
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "http://client2.localhost/api/v1/content/articles/related-1-0123456789abc"
+    Then I send a "GET" request to "http://client2.localhost/api/v2/content/articles/related-1-0123456789abc"
     Then the response status code should be 200
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/organization/articles/related/" with body:
+    Then I send a "POST" request to "/api/v2/organization/articles/related/" with body:
     """
     {
       "type":"text",

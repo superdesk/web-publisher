@@ -7,7 +7,7 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
   Scenario: Change route template
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Contact",
@@ -20,7 +20,7 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/tenants/123abc" with body:
+    And I send a "PATCH" request to "/api/v2/tenants/123abc" with body:
      """
       {
           "ampEnabled": true
@@ -30,7 +30,7 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -79,7 +79,7 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -94,7 +94,7 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
 
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PATCH" request to "/api/v1/content/routes/7" with body:
+    Then I send a "PATCH" request to "/api/v2/content/routes/7" with body:
      """
       {
           "content": 6

@@ -6,7 +6,7 @@ Feature: Registering and login as new user publisher
 
   Scenario: Registering new user
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/users/register/" with body:
+    And I send a "POST" request to "/api/v2/users/register/" with body:
     """
     {
       "user_registration": {
@@ -33,7 +33,7 @@ Feature: Registering and login as new user publisher
     And the response should contain "Congrats null_user, your account is now activated."
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/auth/" with body:
+    And I send a "POST" request to "/api/v2/auth/" with body:
     """
     {
       "auth": {
@@ -47,5 +47,5 @@ Feature: Registering and login as new user publisher
 
     When I add "Content-Type" header equal to "application/json"
     Given I am authenticated as "null_user"
-    And I send a "GET" request to "/api/v1/content/lists/"
+    And I send a "GET" request to "/api/v2/content/lists/"
     Then the response status code should be 403

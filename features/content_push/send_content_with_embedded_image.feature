@@ -3,7 +3,7 @@ Feature: Use original image URL when an image can not be downloaded
   Scenario: Fallback to the original image url when it can not be downloaded
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "located":"Warsaw",
@@ -105,7 +105,7 @@ Feature: Use original image URL when an image can not be downloaded
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "technews",
@@ -118,7 +118,7 @@ Feature: Use original image URL when an image can not be downloaded
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -134,7 +134,7 @@ Feature: Use original image URL when an image can not be downloaded
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/item-test"
+    Then I send a "GET" request to "/api/v2/content/articles/item-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | media[0].by_line  | Ljub. Z. Ranković |

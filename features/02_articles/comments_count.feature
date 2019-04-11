@@ -10,7 +10,7 @@ Feature: Setting comments count in articles
     When I add "Content-Type" header equal to "application/json"
     And I add "x-publisher-signature" header equal to "sha1=0dcd1953d72dda47f4a4acedfd638a3c58def7bc"
     And I wait 3 seconds
-    Then I send a "PATCH" request to "/api/v1/content/articles" with body:
+    Then I send a "PATCH" request to "/api/v2/content/articles" with body:
      """
       {
           "url": "http://localhost/news/test-news-article",

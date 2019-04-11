@@ -6,7 +6,7 @@ Feature: Handling video groups
 
   Scenario: Saving the data with video groups
     Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                                                                                |
       | media_id     | 20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4  |
       | media        | @video.mp4                                                                           |
@@ -17,7 +17,7 @@ Feature: Handling video groups
     And the JSON node "media" should not be null
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -106,7 +106,7 @@ Feature: Handling video groups
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -121,28 +121,28 @@ Feature: Handling video groups
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | media[0].file.asset_id         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
       | media[0].file.file_extension   | mp4                                                                                        |
       | media[0]._links.download.href | /media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4 |
       | slideshows[0].code            | slideshow1                                                                                 |
-      | _links.slideshows.href        | /api/v1/content/slideshows/6                                                               |
+      | _links.slideshows.href        | /api/v2/content/slideshows/6                                                               |
     And the JSON node "media[0].image" should be null
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 1
     And the JSON node "_embedded._items[0].code" should be equal to "slideshow1"
     And the JSON node "_embedded._items[0].article.title" should be equal to "testing correction"
-    And the JSON node "_embedded._items[0]._links.items.href" should be equal to "/api/v1/content/slideshows/6/1/items/"
+    And the JSON node "_embedded._items[0]._links.items.href" should be equal to "/api/v2/content/slideshows/6/1/items/"
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6/1/items/"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/1/items/"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 1
     And the JSON node "_embedded._items[0].article_media.file.file_extension" should be equal to "mp4"

@@ -7,7 +7,7 @@ Feature: Checking if created package is returned properly by api
   Scenario: Submitting request payload in ninjs format
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -74,7 +74,7 @@ Feature: Checking if created package is returned properly by api
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "updated_at" should exist
     And the JSON node "createdAt" should exist

@@ -5,7 +5,7 @@ Feature: Set width and height of embedded images
 
   Scenario: Set width and height of embedded images
     Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a |
       | media        | @image.jpg            |
@@ -13,7 +13,7 @@ Feature: Set width and height of embedded images
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "located":"Warsaw",
@@ -115,7 +115,7 @@ Feature: Set width and height of embedded images
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "technews",
@@ -128,7 +128,7 @@ Feature: Set width and height of embedded images
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -144,7 +144,7 @@ Feature: Set width and height of embedded images
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/item-test"
+    Then I send a "GET" request to "/api/v2/content/articles/item-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | media[0].image.asset_id                 | 20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a   |

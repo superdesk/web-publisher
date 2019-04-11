@@ -7,7 +7,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
   Scenario: Publish content with firstpublished property set
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
           "name":"Test rule",
@@ -30,7 +30,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name":"article",
@@ -41,7 +41,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
           "name":"Test tenant rule",
@@ -60,7 +60,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -134,7 +134,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "extra" should exist
     And the JSON nodes should contain:
@@ -142,14 +142,14 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | published_at | 2018-06-05T14:39:33+00:00 |
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
     """
     {
         "name":"use_first_published_as_publish_date",
@@ -160,7 +160,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -234,14 +234,14 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | published_at | 2017-08-09T10:31:58+00:00 |
 
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
     """
     {
         "name":"use_first_published_as_publish_date",
@@ -252,7 +252,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -326,7 +326,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "extra" should exist
     And the JSON nodes should contain:
@@ -334,7 +334,7 @@ Feature: Set article's published at datetime from package's firstpublished prope
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | published_at | 2017-08-09T10:31:58+00:00 |

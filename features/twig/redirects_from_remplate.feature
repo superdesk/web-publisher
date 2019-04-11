@@ -6,7 +6,7 @@ Feature: Opening pages with redirection functions used in template
   Scenario: Redirecting request to homepage
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "301 Redirect",
@@ -23,7 +23,7 @@ Feature: Opening pages with redirection functions used in template
   Scenario: Redirecting request to 404 error page
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "404 Redirect",

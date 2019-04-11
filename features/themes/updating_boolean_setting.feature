@@ -4,7 +4,7 @@ Feature: Updating setting of type boolean
   Scenario: Updating boolean setting
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/{version}/theme/settings/"
+    And I send a "GET" request to "/api/v2/theme/settings/"
     Then the response status code should be 200
     And the JSON should be equal to:
     """
@@ -88,7 +88,7 @@ Feature: Updating setting of type boolean
     Then the response status code should be 200
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
     """
     {
         "name":"switch",
@@ -99,7 +99,7 @@ Feature: Updating setting of type boolean
     And the JSON node "value" should be true
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/{version}/theme/settings/"
+    And I send a "GET" request to "/api/v2/theme/settings/"
     Then the response status code should be 200
     And the JSON should be equal to:
     """

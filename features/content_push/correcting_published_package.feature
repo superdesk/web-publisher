@@ -7,7 +7,7 @@ Feature: Checking if package corrections work fine
   Scenario: Package status is not updated after the correction
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -57,14 +57,14 @@ Feature: Checking if package corrections work fine
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | headline                | testing correction              |
       | status                  | new                             |
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -80,14 +80,14 @@ Feature: Checking if package corrections work fine
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | headline                | testing correction              |
       | status                  | published                       |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
         {
       "language":"en",
@@ -138,7 +138,7 @@ Feature: Checking if package corrections work fine
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | headline                | testing correction corrected    |

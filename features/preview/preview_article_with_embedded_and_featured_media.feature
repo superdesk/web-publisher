@@ -4,7 +4,7 @@ Feature: Preview article with embedded media and feature media
   Scenario: Preview article with media
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Simple test route",
@@ -16,7 +16,7 @@ Feature: Preview article with embedded media and feature media
     Then the response status code should be 201
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/preview/package/generate_token/7" with body:
+    And I send a "POST" request to "/api/v2/preview/package/generate_token/7" with body:
     """
     {
       "located":"Warsaw",

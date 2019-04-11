@@ -4,7 +4,7 @@ Feature: Listing updated theme settings for two different tenants
   Scenario: Listing updated theme settings
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
     """
     {
         "name":"primary_font_family",
@@ -14,7 +14,7 @@ Feature: Listing updated theme settings for two different tenants
     Then the response status code should be 200
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/{version}/theme/settings/"
+    And I send a "GET" request to "/api/v2/theme/settings/"
     Then the response status code should be 200
     And the JSON should be equal to:
     """
@@ -97,7 +97,7 @@ Feature: Listing updated theme settings for two different tenants
     """
     And I am authenticated as "test.client2"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "http://client2.localhost/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "http://client2.localhost/api/v2/settings/" with body:
     """
     {
         "name":"body_font_size",
@@ -107,7 +107,7 @@ Feature: Listing updated theme settings for two different tenants
     Then the response status code should be 200
     And I am authenticated as "test.client2"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "http://client2.localhost/api/{version}/theme/settings/"
+    And I send a "GET" request to "http://client2.localhost/api/v2/theme/settings/"
     Then the response status code should be 200
     And the JSON should be equal to:
     """

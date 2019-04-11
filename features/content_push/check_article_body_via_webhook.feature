@@ -8,7 +8,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
     Given I am authenticated as "test.user"
     And the current date time is "2019-03-10 09:00"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/webhooks/" with body:
+    And I send a "POST" request to "/api/v2/webhooks/" with body:
      """
       {
           "url": "http://localhost:3000/article-update",
@@ -21,14 +21,14 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
     Then  the response status code should be 201
 
     Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                                                                                |
       | media_id     | 20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpg |
       | media        | @image.jpg                                                                           |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "version":"3",
@@ -114,7 +114,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[

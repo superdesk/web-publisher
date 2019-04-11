@@ -6,7 +6,7 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant with Wordpress output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/tenants/" with body:
+    And I send a "POST" request to "/api/v2/tenants/" with body:
      """
       {
           "domainName": "example.com",
@@ -29,7 +29,7 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant with fake type of output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/tenants/" with body:
+    And I send a "POST" request to "/api/v2/tenants/" with body:
      """
       {
           "domainName": "example.com",
@@ -49,7 +49,7 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant without output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/tenants/" with body:
+    And I send a "POST" request to "/api/v2/tenants/" with body:
      """
       {
           "domainName": "example2.com",

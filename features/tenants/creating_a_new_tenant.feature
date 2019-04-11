@@ -5,12 +5,12 @@ Feature: Adding a new tenant
 
   Scenario: Adding a new tenant
     Given I am authenticated as "test.user"
-    When I send a "GET" request to "api/v1/tenants/"
+    When I send a "GET" request to "api/v2/tenants/"
     Then the response status code should be 200
     And the JSON node "_embedded._items" should have "3" elements
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/tenants/" with body:
+    And I send a "POST" request to "/api/v2/tenants/" with body:
      """
       {
           "domainName": "example2.com",
@@ -20,7 +20,7 @@ Feature: Adding a new tenant
     """
     Then the response status code should be 201
     Given I am authenticated as "test.user"
-    When I send a "GET" request to "api/v1/tenants/"
+    When I send a "GET" request to "api/v2/tenants/"
     Then the response status code should be 200
     And the JSON node "_embedded._items" should have "4" elements
 

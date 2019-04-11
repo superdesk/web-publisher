@@ -6,7 +6,7 @@ Feature: Get related articles by package id
 
   Scenario: Pushing the content with related items data
     And I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -57,7 +57,7 @@ Feature: Get related articles by package id
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -72,11 +72,11 @@ Feature: Get related articles by package id
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-1-0123456789abc"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-1-0123456789abc"
     Then the response status code should be 200
 
     Then I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -222,7 +222,7 @@ Feature: Get related articles by package id
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/7/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/7/publish/" with body:
      """
       {
           "destinations":[
@@ -237,14 +237,14 @@ Feature: Get related articles by package id
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | _links.related.href  | /api/v1/content/articles/7/related/  |
+      | _links.related.href  | /api/v2/content/articles/7/related/  |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/7/related/"
+    Then I send a "GET" request to "/api/v2/packages/7/related/"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | related_article_items[0].tenants[0].code | 123abc        |

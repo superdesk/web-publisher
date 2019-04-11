@@ -7,7 +7,7 @@ Feature: Checking if pushed package will be published on tenant with output chan
   Scenario: Publishing content to tenant with wordpress configured as a output channel.
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/tenants/123abc" with body:
+    And I send a "PATCH" request to "/api/v2/tenants/123abc" with body:
      """
       {
           "output_channel": {
@@ -25,7 +25,7 @@ Feature: Checking if pushed package will be published on tenant with output chan
     And the JSON node "output_channel.config.authorizationKey" should be equal to "Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c="
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -51,14 +51,14 @@ Feature: Checking if pushed package will be published on tenant with output chan
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status | new |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -73,7 +73,7 @@ Feature: Checking if pushed package will be published on tenant with output chan
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status                              | published                          |
@@ -83,7 +83,7 @@ Feature: Checking if pushed package will be published on tenant with output chan
 
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PATCH" request to "/api/v1/content/articles/6" with body:
+    Then I send a "PATCH" request to "/api/v2/content/articles/6" with body:
      """
       {
           "status": "new"
@@ -93,7 +93,7 @@ Feature: Checking if pushed package will be published on tenant with output chan
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/6"
+    Then I send a "GET" request to "/api/v2/content/articles/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status                  | new                                |

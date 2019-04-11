@@ -4,7 +4,7 @@ Feature: Creating a new publishing destination
   Scenario: Creating a new targeted publishing destinations
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/organization/destinations/" with body:
+    And I send a "POST" request to "/api/v2/organization/destinations/" with body:
      """
       {
           "tenant":"123abc",

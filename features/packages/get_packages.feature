@@ -8,7 +8,7 @@ Feature: Getting package
     Given I am authenticated as "test.user"
     And the current date time is "2019-03-10 09:00"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -252,7 +252,7 @@ Feature: Getting package
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON should be equal to:
     """

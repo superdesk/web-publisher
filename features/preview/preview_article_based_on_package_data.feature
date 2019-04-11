@@ -4,7 +4,7 @@ Feature: Preview article under route based on package data
   Scenario: Preview article based on package under selected route
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Simple test route",
@@ -16,7 +16,7 @@ Feature: Preview article under route based on package data
     Then the response status code should be 201
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/preview/package/generate_token/7" with body:
+    And I send a "POST" request to "/api/v2/preview/package/generate_token/7" with body:
     """
     {
       "language": "en",
@@ -95,7 +95,7 @@ Feature: Preview article under route based on package data
     And the response should contain "Biography: bioquil edit"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/preview/package/generate_token/7" with body:
+    And I send a "POST" request to "/api/v2/preview/package/generate_token/7" with body:
     """
     {
       "language": "en",

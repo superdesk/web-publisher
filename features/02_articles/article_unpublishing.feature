@@ -7,7 +7,7 @@ Feature: Article un-publishing
   Scenario: Check if an article has been un-published successfully
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -53,7 +53,7 @@ Feature: Article un-publishing
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name":"article",
@@ -63,7 +63,7 @@ Feature: Article un-publishing
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -79,14 +79,14 @@ Feature: Article un-publishing
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON node "slug" should be equal to "abstract-html-test"
     And the JSON node "status" should be equal to "published"
     And the JSON node "id" should be equal to "6"
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PATCH" request to "/api/v1/content/articles/6" with body:
+    Then I send a "PATCH" request to "/api/v2/content/articles/6" with body:
      """
       {
           "status": "unpublished"
@@ -95,7 +95,7 @@ Feature: Article un-publishing
     Then the response status code should be 200
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON node "slug" should be equal to "abstract-html-test"
     And the JSON node "status" should be equal to "unpublished"

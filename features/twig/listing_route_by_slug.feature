@@ -6,7 +6,7 @@ Feature: Listing single route by slug or name
   Scenario: Listing single route's url by slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Authors",
@@ -22,7 +22,7 @@ Feature: Listing single route by slug or name
     And the JSON node id should be equal to "7"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Test route",

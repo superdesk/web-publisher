@@ -7,14 +7,14 @@ Feature: Manage Routes
   Scenario: Listing existing routes
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/content/routes/"
+    And I send a GET request to "/api/v2/content/routes/"
     Then the response status code should be 200
     And the JSON node total should be equal to 5
 
   Scenario: Creating new route with custom slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Simple test route",
@@ -31,7 +31,7 @@ Feature: Manage Routes
   Scenario: Creating new route without custom slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Simple test route number 2",
@@ -48,7 +48,7 @@ Feature: Manage Routes
   Scenario: Creating new route with parent and un-setting parent
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Simple test root route",
@@ -61,7 +61,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Simple test child route",
@@ -75,7 +75,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/10" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/10" with body:
      """
       {
           "parent": null
@@ -87,7 +87,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/v1/content/routes/10"
+    And I send a "GET" request to "/api/v2/content/routes/10"
     Then the response status code should be 200
     And the JSON node name should be equal to "Simple test child route"
     And the JSON node level should be equal to 0
@@ -95,7 +95,7 @@ Feature: Manage Routes
   Scenario: Creating new route without type custom
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Custom route",
@@ -121,7 +121,7 @@ Feature: Manage Routes
   Scenario: Changing route position (order)
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
           "position": 6
@@ -134,7 +134,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
           "position": 0
@@ -147,7 +147,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
           "position": 9
@@ -161,7 +161,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
           "parent": 3,
@@ -177,7 +177,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
           "parent": 3,
@@ -192,7 +192,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
           "position": 0
@@ -207,7 +207,7 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
           "position": -1

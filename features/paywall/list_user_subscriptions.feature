@@ -7,7 +7,7 @@ Feature: List subscriptions by user
   Scenario: List subscriptions by user
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/v1/subscriptions/1"
+    And I send a "GET" request to "/api/v2/subscriptions/1"
     Then the response status code should be 200
     And the JSON node "[0].id" should be equal to "79"
     And the JSON node "[0].type" should be equal to "recurring"
@@ -19,7 +19,7 @@ Feature: List subscriptions by user
   Scenario: List subscriptions by user and article id
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/v1/subscriptions/1?articleId=20"
+    And I send a "GET" request to "/api/v2/subscriptions/1?articleId=20"
     Then the response status code should be 200
     And the JSON node "[0].id" should be equal to "12"
     And the JSON node "[0].type" should be equal to "recurring"
@@ -32,7 +32,7 @@ Feature: List subscriptions by user
   Scenario: List subscriptions by user and article id and route id
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/v1/subscriptions/1?articleId=20&routeId=10"
+    And I send a "GET" request to "/api/v2/subscriptions/1?articleId=20&routeId=10"
     Then the response status code should be 200
     And the JSON node "[0].id" should be equal to "14"
     And the JSON node "[0].type" should be equal to "recurring"

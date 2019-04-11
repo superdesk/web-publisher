@@ -4,7 +4,7 @@ Feature: Evaluate on package services
   Scenario: Evaluate package services
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
           "name":"Test rule",
@@ -27,7 +27,7 @@ Feature: Evaluate on package services
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
           "name":"Test tenant rule",
@@ -50,7 +50,7 @@ Feature: Evaluate on package services
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/organization/rules/evaluate" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/evaluate" with body:
      """
      {
         "guid":"urn:newsml:handelsblatt-api.superdesk.pro:2018-06-15T12:57:20.174037:e8cacf9e-e0ca-4b95-b915-84f274935df5",

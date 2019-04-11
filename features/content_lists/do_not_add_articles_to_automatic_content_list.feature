@@ -7,7 +7,7 @@ Feature: Do not add articles to automatic content lists
   Scenario: Push new article and do not add it to automatic content list
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/lists/" with body:
+    And I send a "POST" request to "/api/v2/content/lists/" with body:
      """
       {
           "name": "Example automatic list",
@@ -19,7 +19,7 @@ Feature: Do not add articles to automatic content lists
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
           "name":"Test rule",
@@ -41,7 +41,7 @@ Feature: Do not add articles to automatic content lists
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name":"article",
@@ -52,7 +52,7 @@ Feature: Do not add articles to automatic content lists
     And the Json node "id" should be equal to "7"
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
           "name":"Test tenant rule",
@@ -75,7 +75,7 @@ Feature: Do not add articles to automatic content lists
     
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/push" with body:
+    Then I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -124,7 +124,7 @@ Feature: Do not add articles to automatic content lists
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
 
     Then the response status code should be 200
     And the Json node "is_publishable" should be true
@@ -135,5 +135,5 @@ Feature: Do not add articles to automatic content lists
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/lists/1/items/"
+    Then I send a "GET" request to "/api/v2/content/lists/1/items/"
     And the Json node "total" should be equal to "0"

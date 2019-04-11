@@ -7,7 +7,7 @@ Feature: Marking article as paywall-secured using rules
   Scenario: Marking an article as paywall-secured
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
           "name":"Test rule",
@@ -30,7 +30,7 @@ Feature: Marking article as paywall-secured using rules
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
           "name":"Mark articles as paywall-secured",
@@ -49,7 +49,7 @@ Feature: Marking article as paywall-secured using rules
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
           "name":"Publish articles",
@@ -72,7 +72,7 @@ Feature: Marking article as paywall-secured using rules
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name":"article",
@@ -84,7 +84,7 @@ Feature: Marking article as paywall-secured using rules
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/push" with body:
+    Then I send a "POST" request to "/api/v2/content/push" with body:
      """
      {
         "language":"en",
@@ -134,7 +134,7 @@ Feature: Marking article as paywall-secured using rules
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the Json node "is_publishable" should be true
     And the Json node "is_published_fbia" should be false

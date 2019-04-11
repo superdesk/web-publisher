@@ -3,7 +3,7 @@ Feature: Preview article based on package when fake template is set.
   Scenario: Preview article based on package under selected route when route's template is is set and does not exist
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Simple test route 2",
@@ -15,7 +15,7 @@ Feature: Preview article based on package when fake template is set.
     Then the response status code should be 201
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/preview/package/generate_token/7" with body:
+    And I send a "POST" request to "/api/v2/preview/package/generate_token/7" with body:
     """
     {
       "language": "en",

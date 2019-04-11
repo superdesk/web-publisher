@@ -4,7 +4,7 @@ Feature: As a user I want to be able to publish package to one of the tenants
   Scenario: Publishing package with a "published" flag set to false should set article status to "new"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -76,7 +76,7 @@ Feature: As a user I want to be able to publish package to one of the tenants
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -92,14 +92,14 @@ Feature: As a user I want to be able to publish package to one of the tenants
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON node "status" should be equal to "new"
 
   Scenario: Publishing package without "published" flag set should set article "status" to "published"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -171,7 +171,7 @@ Feature: As a user I want to be able to publish package to one of the tenants
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/7/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/7/publish/" with body:
      """
       {
           "destinations":[
@@ -187,6 +187,6 @@ Feature: As a user I want to be able to publish package to one of the tenants
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/lorem-ipsum-package"
+    Then I send a "GET" request to "/api/v2/content/articles/lorem-ipsum-package"
     Then the response status code should be 200
     And the JSON node "status" should be equal to "published"

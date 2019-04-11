@@ -7,7 +7,7 @@ Feature: Validating an incoming request payload when the slugline metadata is no
   Scenario: Submitting request payload in ninjs format
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",

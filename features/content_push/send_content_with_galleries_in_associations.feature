@@ -8,7 +8,7 @@ Feature: Handling the custom media fields
     Given I am authenticated as "test.user"
     And the current date time is "2019-03-10 09:00"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/webhooks/" with body:
+    And I send a "POST" request to "/api/v2/webhooks/" with body:
      """
       {
           "url": "http://localhost:3000/article-update",
@@ -21,49 +21,49 @@ Feature: Handling the custom media fields
     Then  the response status code should be 201
 
     And I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -306,7 +306,7 @@ Feature: Handling the custom media fields
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
           "destinations":[
@@ -322,7 +322,7 @@ Feature: Handling the custom media fields
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-without-slideshow"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-without-slideshow"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | media[0].image.asset_id                 | 1234567890987654321c                   |
@@ -341,52 +341,52 @@ Feature: Handling the custom media fields
       | media[1].renditions[2].image.asset_id   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | slideshows[0].id                       | 1                                      |
-      | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
+      | _links.slideshows.href                 | /api/v2/content/slideshows/6           |
 
     Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -630,7 +630,7 @@ Feature: Handling the custom media fields
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-without-slideshow"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-without-slideshow"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | media[0].image.asset_id                 | 1234567890987654321c                   |
@@ -649,21 +649,21 @@ Feature: Handling the custom media fields
       | media[1].renditions[2].image.asset_id   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | slideshows[0].id                       | 2                                      |
-      | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
+      | _links.slideshows.href                 | /api/v2/content/slideshows/6           |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6/2"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/2"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | code                   | slideshow1                              |
       | article.id             | 6                                       |
       | id                     | 2                                       |
-      | _links.items.href      | /api/v1/content/slideshows/6/2/items/   |
+      | _links.items.href      | /api/v2/content/slideshows/6/2/items/   |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6/2/items/"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/2/items/"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 2
     And the JSON nodes should contain:
@@ -672,7 +672,7 @@ Feature: Handling the custom media fields
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6/1/items/"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/1/items/"
     Then the response status code should be 404
 
     And The payload received by "http://localhost:3000/article-update-check" webhook should be equal to:

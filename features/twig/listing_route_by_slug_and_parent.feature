@@ -6,7 +6,7 @@ Feature: Listing single route by slug and parent
   Scenario: Listing single route's url by slug and parent
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Politics",
@@ -21,7 +21,7 @@ Feature: Listing single route by slug and parent
     And the JSON node id should be equal to "7"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Test route",
@@ -36,7 +36,7 @@ Feature: Listing single route by slug and parent
     And the JSON node staticPrefix should be equal to "/politics/test-route"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
           "name": "Test route 2",
