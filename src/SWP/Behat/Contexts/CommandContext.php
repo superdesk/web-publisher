@@ -6,6 +6,8 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Exception;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
@@ -79,7 +81,7 @@ final class CommandContext implements Context
             $this->eventDispatcher->dispatch(ConsoleEvents::COMMAND, new ConsoleCommandEvent($this->command, $input, new ConsoleOutput()));
 
             $this->getTester($this->command)->execute($this->options);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $path = explode('\\', get_class($exception));
             $this->commandException = array_pop($path);
             $this->commandExceptionMessage = $exception->getMessage();
@@ -93,10 +95,16 @@ final class CommandContext implements Context
      */
     public function theCommandOutputShouldBe($expectedOutput): void
     {
-        $current = trim($this->commandTester->getDisplay());
-        if (false === strpos($current, $expectedOutput)) {
-            throw new \LogicException(sprintf('Current output is: [%s]', $current));
+        if ($this->commandTester) {
+            $current = trim($this->commandTester->getDisplay());
+            if (false === strpos($current, $expectedOutput)) {
+                throw new LogicException(sprintf('Current output is: [%s]', $current));
+            }
+
+            return;
         }
+
+        throw new LogicException(sprintf('Command wasn\'t executed. Exception: [%s]', $this->commandExceptionMessage));
     }
 
     /**
@@ -107,11 +115,11 @@ final class CommandContext implements Context
     public function theCommandExceptionShouldBe(string  $expectedException)
     {
         if (null === $this->commandException) {
-            throw new \LogicException('Exception was not registered');
+            throw new LogicException('Exception was not registered');
         }
 
         if ($this->commandException != $expectedException) {
-            throw new \LogicException(sprintf('Current exception is: [%s]', $this->commandException));
+            throw new LogicException(sprintf('Current exception is: [%s]', $this->commandException));
         }
     }
 
@@ -121,7 +129,7 @@ final class CommandContext implements Context
     public function theCommandExceptionMessageShouldBe(string $result)
     {
         if (false === strpos($this->commandExceptionMessage, $result)) {
-            throw new \Exception(sprintf('Could not see "%s" in exception message "%s"', $result, $this->commandExceptionMessage));
+            throw new Exception(sprintf('Could not see "%s" in exception message "%s"', $result, $this->commandExceptionMessage));
         }
     }
 

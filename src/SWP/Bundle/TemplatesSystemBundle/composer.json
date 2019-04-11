@@ -27,7 +27,8 @@
     "stof/doctrine-extensions-bundle": "^1.2",
     "knplabs/knp-paginator-bundle": "2.5.*",
     "symfony/http-foundation": "^4.2",
-    "symfony/routing": "^4.2"
+    "symfony/routing": "^4.2",
+    "symfony/stopwatch": "^4.1"
   },
   "suggest": {
     "jms/serializer-bundle": "Useful if you want to serialize bundle models. Config for them already exists in bundle"

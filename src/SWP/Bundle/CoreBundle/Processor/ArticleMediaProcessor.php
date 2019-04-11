@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -84,6 +84,17 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
         $article->setMedia($articleMedia);
     }
 
+    private function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
+    {
+        $articleMedia = $this->mediaFactory->create($article, $key, $item);
+        $this->articleBodyProcessor->process($article, $articleMedia);
+        if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
+            $article->setFeatureMedia($articleMedia);
+        }
+
+        return $articleMedia;
+    }
+
     private function handleSlideshows(PackageInterface $package, ArticleInterface $article): void
     {
         foreach ($package->getGroups()->toArray() as $packageSlideshow) {
@@ -101,18 +112,5 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 
             $article->addSlideshow($slideshow);
         }
-    }
-
-    private function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
-    {
-        $articleMedia = $this->mediaFactory->create($article, $key, $item);
-
-        $this->articleBodyProcessor->process($article, $articleMedia);
-
-        if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
-            $article->setFeatureMedia($articleMedia);
-        }
-
-        return $articleMedia;
     }
 }

@@ -240,6 +240,34 @@ class TenantControllerTest extends WebTestCase
         $this->assertArraySubset(json_decode(
             '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":1,"name":"Organization1"},"enabled":true,"themeName":"swp\/test-theme","domainName":"test.com"}', true),
             json_decode($client->getResponse()->getContent(), true));
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
+            'code' => '123abc',
+        ]), [
+            'tenant' => [
+                'ampEnabled' => true,
+                'fbiaEnabled' => true,
+                'paywallEnabled' => true,
+            ],
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertArraySubset(json_decode(
+            '{"ampEnabled":true, "fbiaEnabled": true, "paywallEnabled": true}', true),
+            json_decode($client->getResponse()->getContent(), true));
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
+            'code' => '123abc',
+        ]), [
+            'tenant' => [
+                'paywallEnabled' => false,
+            ],
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertArraySubset(json_decode(
+            '{"ampEnabled":true, "fbiaEnabled": true, "paywallEnabled": false}', true),
+            json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testCreateTwoNewTenantsWithCustomOrganization()
