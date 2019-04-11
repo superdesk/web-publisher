@@ -187,28 +187,6 @@ class MenuControllerTest extends WebTestCase
         self::assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    public function testDeleteMenuAndMenuWidgetApi()
-    {
-        $client = static::createClient();
-        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
-            'menu' => [
-                'name' => 'main-menu',
-                'label' => 'Main menu',
-            ],
-        ]);
-
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
-        $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"main-menu"', $content);
-        self::assertContains('"label":"Main menu"', $content);
-
-        $content = json_decode($content, true);
-        $client->request('DELETE', $this->router->generate('swp_api_core_delete_menu', ['id' => $content['id']]));
-
-        self::assertEquals(204, $client->getResponse()->getStatusCode());
-        self::assertEquals($client->getResponse()->getContent(), '');
-    }
-
     public function testNestedMenus()
     {
         $client = static::createClient();

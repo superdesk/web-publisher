@@ -190,14 +190,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    swp_core.listener.activate_livesite_editor:
-        class: SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener
-        arguments:
-            - '@security.token_storage'
-            - '%kernel.environment%'
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
     swp_core.listener.tenant_not_found:
         class: SWP\Bundle\CoreBundle\EventListener\TenantNotFoundExceptionListener
         tags:

@@ -21,7 +21,6 @@ class FixtureRegistry
                 'menu' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenusData',
                 'menu_node' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenuNodesData',
                 'user' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData',
-                'container_widget' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadContainerWidgetsData',
                 'amp_html' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadAmpHtmlData',
                 'metadata_articles' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesWithMetadata',
                 'package' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadPackagesData',

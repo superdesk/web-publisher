@@ -24,7 +24,6 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverridePackagePreviewTokenFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideSerializerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideSettingsManagerPass;
-use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideTemplatesSystemPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeAssetsInstallerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeLoaderPass;
@@ -56,7 +55,6 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideThemeAssetsInstallerPass());
         $container->addCompilerPass(new OverrideDynamicRouterPass());
         $container->addCompilerPass(new OverrideMediaManagerPass());
-        $container->addCompilerPass(new OverrideTemplatesSystemPass());
         $container->addCompilerPass(new OverrideThemeLoaderPass());
         $container->addCompilerPass(new OverrideThemeTranslatorPass());
         $container->addCompilerPass(new OverrideSettingsManagerPass());

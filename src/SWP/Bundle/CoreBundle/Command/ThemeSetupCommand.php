@@ -87,8 +87,7 @@ To activate this theme in tenant, you need to add and option <info>--activate</i
   <info>%command.full_name% <tenant> <theme_dir> --activate</info>
   
 If option <info>--processGeneratedData</info> will be passed theme installator will 
-generate declared in theme config elements like: routes, articles, menus, widgets, 
-content lists and containers
+generate declared in theme config elements like: routes, articles, menus andcontent lists
 EOT
             );
     }

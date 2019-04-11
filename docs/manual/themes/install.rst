@@ -25,5 +25,4 @@ To install theme assets you need to run ``swp:theme:install`` command.
         bin/console swp:theme:install <tenant> <theme_dir> --activate
 
     If option --processGeneratedData will be passed theme installator will
-    generate declared in theme config elements like: routes, articles, menus, widgets,
-    content lists and containers
+    generate declared in theme config elements like: routes, articles, menus and content lists
