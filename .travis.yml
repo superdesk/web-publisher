@@ -13,8 +13,8 @@ addons:
     - librabbitmq-dev
 
 php:
-- 7.3
-- nightly
+- "7.3"
+- "7.4snapshot"
 
 env:
   global:

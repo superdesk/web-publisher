@@ -18,6 +18,7 @@ use function array_key_exists;
 use DateTime;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
