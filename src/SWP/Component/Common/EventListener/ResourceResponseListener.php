@@ -76,7 +76,7 @@ final class ResourceResponseListener
      * @param GetResponseForControllerResultEvent $event
      * @param ResponseContext                     $responseContext
      */
-    protected function setHeaders(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
+    private function setHeaders(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
     {
         if (count($responseContext->getHeaders()) > 0) {
             $response = $event->getResponse();
@@ -92,7 +92,7 @@ final class ResourceResponseListener
      * @param GetResponseForControllerResultEvent $event
      * @param ResponseContext                     $responseContext
      */
-    protected function clearCookies(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
+    private function clearCookies(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
     {
         if (count($responseContext->getClearedCookies()) > 0) {
             $response = $event->getResponse();

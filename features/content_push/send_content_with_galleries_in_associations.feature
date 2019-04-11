@@ -94,21 +94,21 @@ Feature: Handling the custom media fields
                   "mimetype":"image/jpeg",
                   "width":1079,
                   "media":"1234567890987654321a",
-                  "href":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/1234567890987654321a/raw?_schema=http"
                 },
                 "4-3":{
                   "height":533,
                   "mimetype":"image/jpeg",
                   "width":800,
                   "media":"1234567890987654321b",
-                  "href":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/1234567890987654321b/raw?_schema=http"
                 },
                 "original":{
                   "height":2667,
                   "mimetype":"image/jpeg",
                   "width":4000,
                   "media":"1234567890987654321c",
-                  "href":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/1234567890987654321c/raw?_schema=http"
                 }
               },
               "urgency":3,
@@ -140,21 +140,21 @@ Feature: Handling the custom media fields
                   "mimetype":"image/jpeg",
                   "width":1079,
                   "media":"2234567890987654321a",
-                  "href":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/2234567890987654321a/raw?_schema=http"
                 },
                 "4-3":{
                   "height":533,
                   "mimetype":"image/jpeg",
                   "width":800,
                   "media":"2234567890987654321b",
-                  "href":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/2234567890987654321b/raw?_schema=http"
                 },
                 "original":{
                   "height":2667,
                   "mimetype":"image/jpeg",
                   "width":4000,
                   "media":"2234567890987654321c",
-                  "href":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/2234567890987654321c/raw?_schema=http"
                 }
               },
               "urgency":3,
@@ -216,21 +216,21 @@ Feature: Handling the custom media fields
               "mimetype":"image/jpeg",
               "width":1079,
               "media":"1234567890987654321a",
-              "href":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/1234567890987654321a/raw?_schema=http"
             },
             "4-3":{
               "height":533,
               "mimetype":"image/jpeg",
               "width":800,
               "media":"1234567890987654321b",
-              "href":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/1234567890987654321b/raw?_schema=http"
             },
             "original":{
               "height":2667,
               "mimetype":"image/jpeg",
               "width":4000,
               "media":"1234567890987654321c",
-              "href":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/1234567890987654321c/raw?_schema=http"
             }
           },
           "urgency":3,
@@ -262,21 +262,21 @@ Feature: Handling the custom media fields
               "mimetype":"image/jpeg",
               "width":1079,
               "media":"2234567890987654321a",
-              "href":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/2234567890987654321a/raw?_schema=http"
             },
             "4-3":{
               "height":533,
               "mimetype":"image/jpeg",
               "width":800,
               "media":"2234567890987654321b",
-              "href":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/2234567890987654321b/raw?_schema=http"
             },
             "original":{
               "height":2667,
               "mimetype":"image/jpeg",
               "width":4000,
               "media":"2234567890987654321c",
-              "href":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/2234567890987654321c/raw?_schema=http"
             }
           },
           "urgency":3,
@@ -419,21 +419,21 @@ Feature: Handling the custom media fields
                   "mimetype":"image/jpeg",
                   "width":1079,
                   "media":"1234567890987654321a",
-                  "href":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/1234567890987654321a/raw?_schema=http"
                 },
                 "4-3":{
                   "height":533,
                   "mimetype":"image/jpeg",
                   "width":800,
                   "media":"1234567890987654321b",
-                  "href":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/1234567890987654321b/raw?_schema=http"
                 },
                 "original":{
                   "height":2667,
                   "mimetype":"image/jpeg",
                   "width":4000,
                   "media":"1234567890987654321c",
-                  "href":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/1234567890987654321c/raw?_schema=http"
                 }
               },
               "urgency":3,
@@ -465,21 +465,21 @@ Feature: Handling the custom media fields
                   "mimetype":"image/jpeg",
                   "width":1079,
                   "media":"2234567890987654321a",
-                  "href":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/2234567890987654321a/raw?_schema=http"
                 },
                 "4-3":{
                   "height":533,
                   "mimetype":"image/jpeg",
                   "width":800,
                   "media":"2234567890987654321b",
-                  "href":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/2234567890987654321b/raw?_schema=http"
                 },
                 "original":{
                   "height":2667,
                   "mimetype":"image/jpeg",
                   "width":4000,
                   "media":"2234567890987654321c",
-                  "href":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+                  "href":"http://localhost:3000/api/upload/2234567890987654321c/raw?_schema=http"
                 }
               },
               "urgency":3,
@@ -542,21 +542,21 @@ Feature: Handling the custom media fields
               "mimetype":"image/jpeg",
               "width":1079,
               "media":"1234567890987654321a",
-              "href":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/1234567890987654321a/raw?_schema=http"
             },
             "4-3":{
               "height":533,
               "mimetype":"image/jpeg",
               "width":800,
               "media":"1234567890987654321b",
-              "href":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/1234567890987654321b/raw?_schema=http"
             },
             "original":{
               "height":2667,
               "mimetype":"image/jpeg",
               "width":4000,
               "media":"1234567890987654321c",
-              "href":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/1234567890987654321c/raw?_schema=http"
             }
           },
           "urgency":3,
@@ -588,21 +588,21 @@ Feature: Handling the custom media fields
               "mimetype":"image/jpeg",
               "width":1079,
               "media":"2234567890987654321a",
-              "href":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/2234567890987654321a/raw?_schema=http"
             },
             "4-3":{
               "height":533,
               "mimetype":"image/jpeg",
               "width":800,
               "media":"2234567890987654321b",
-              "href":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/2234567890987654321b/raw?_schema=http"
             },
             "original":{
               "height":2667,
               "mimetype":"image/jpeg",
               "width":4000,
               "media":"2234567890987654321c",
-              "href":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+              "href":"http://localhost:3000/api/upload/2234567890987654321c/raw?_schema=http"
             }
           },
           "urgency":3,
@@ -626,6 +626,54 @@ Feature: Handling the custom media fields
           "mimetype":"image/jpeg",
           "headline":"test image",
           "located":"Porto"
+        },
+        "featuremedia":{
+          "subject":[
+            {
+              "code":"05004000",
+              "name":"preschool"
+            }
+          ],
+          "type":"picture",
+          "usageterms":"indefinite-usage",
+          "priority":6,
+          "renditions":{
+            "original":{
+              "width":2048,
+              "mimetype":"image/jpeg",
+              "poi":{
+                "x":1228,
+                "y":586
+              },
+              "media":"20170111140132/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.jpg",
+              "height":1365,
+              "href":"http://localhost:3000/api/upload/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea/raw"
+            }
+          },
+          "place":[
+
+          ],
+          "pubstatus":"usable",
+          "slugline":"gradac",
+          "firstcreated":"2017-01-11T14:32:58+0000",
+          "mimetype":"image/jpeg",
+          "service":[
+            {
+              "code":"news",
+              "name":"News"
+            }
+          ],
+          "byline":"Ljub. Z. Rankovi\u0107",
+          "urgency":3,
+          "language":"en",
+          "headline":"Smoke on the water",
+          "versioncreated":"2017-01-11T14:52:05+0000",
+          "description_text":"Smoke on the water on River Gradac\u00a0",
+          "guid":"tag:localhost:2017:4bea4f26-d5a1-446b-8953-3096c0ad0f09",
+          "body_text":"Gradac alt text",
+          "version":"5",
+          "copyrightnotice": "Notice",
+          "copyrightholder": "Holder"
         }
       }
     }
@@ -637,20 +685,20 @@ Feature: Handling the custom media fields
     Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-without-slideshow"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[0].image.assetId                 | 1234567890987654321c                   |
-      | media[0].renditions[0].name            | 16-9                                   |
-      | media[0].renditions[0].image.assetId   | 1234567890987654321a                   |
-      | media[0].renditions[1].name            | 4-3                                    |
-      | media[0].renditions[1].image.assetId   | 1234567890987654321b                   |
-      | media[0].renditions[2].name            | original                               |
-      | media[0].renditions[2].image.assetId   | 1234567890987654321c                   |
-      | media[1].image.assetId                 | 2234567890987654321c                   |
+      | media[1].image.assetId                 | 1234567890987654321c                   |
       | media[1].renditions[0].name            | 16-9                                   |
-      | media[1].renditions[0].image.assetId   | 2234567890987654321a                   |
+      | media[1].renditions[0].image.assetId   | 1234567890987654321a                   |
       | media[1].renditions[1].name            | 4-3                                    |
-      | media[1].renditions[1].image.assetId   | 2234567890987654321b                   |
+      | media[1].renditions[1].image.assetId   | 1234567890987654321b                   |
       | media[1].renditions[2].name            | original                               |
-      | media[1].renditions[2].image.assetId   | 2234567890987654321c                   |
+      | media[1].renditions[2].image.assetId   | 1234567890987654321c                   |
+      | media[2].image.assetId                 | 2234567890987654321c                   |
+      | media[2].renditions[0].name            | 16-9                                   |
+      | media[2].renditions[0].image.assetId   | 2234567890987654321a                   |
+      | media[2].renditions[1].name            | 4-3                                    |
+      | media[2].renditions[1].image.assetId   | 2234567890987654321b                   |
+      | media[2].renditions[2].name            | original                               |
+      | media[2].renditions[2].image.assetId   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | slideshows[0].id                       | 2                                      |
       | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
