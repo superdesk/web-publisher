@@ -34,7 +34,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         if (null === $item = $this->getItem($name)) {
-            return;
+            return '';
         }
 
         $routeName = 'swp_media_get';
@@ -85,7 +85,9 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
 
         if (($image = $values->getImage()) instanceof ImageInterface) {
             return $image;
-        } elseif (($file = $values->getFile()) instanceof FileInterface) {
+        }
+
+        if (($file = $values->getFile()) instanceof FileInterface) {
             return $file;
         }
     }
