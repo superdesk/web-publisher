@@ -33,7 +33,9 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
      */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        if (null === $item = $this->getItem($name)) {
+        /** @var FileInterface $item */
+        $item = $this->getItem($name);
+        if (null === $item) {
             return '';
         }
 
@@ -56,10 +58,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         return parent::generate($routeName, $parameters, $referenceType);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($name)
+    public function supports($name): bool
     {
         return $name instanceof Meta && (
             $name->getValues() instanceof ArticleMedia ||
@@ -68,10 +67,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouteDebugMessage($name, array $parameters = array())
+    public function getRouteDebugMessage($name, array $parameters = array()): string
     {
         return 'Route for media '.$name->getValues()->getId().' not found';
     }
