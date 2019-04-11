@@ -58,12 +58,7 @@ class RelatedArticleOrganizationController extends Controller
      *         200="Returned on success"
      *     }
      * )
-<<<<<<< HEAD
      * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
-=======
-     * @Route("/api/{version}/packages/{id}/related/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
-     * @Method("GET")
->>>>>>> 1.5
      */
     public function getRelatedAction(string $id)
     {
@@ -76,7 +71,7 @@ class RelatedArticleOrganizationController extends Controller
 
     private function getRelated(PackageInterface $package): RelatedArticleList
     {
-        $relatedItemsGroups = $package->getGroups()->filter(function ($group) {
+        $relatedItemsGroups = $package->getGroups()->filter(static function ($group) {
             return GroupInterface::TYPE_RELATED === $group->getType();
         });
 
