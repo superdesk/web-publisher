@@ -25,7 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class SlideshowControler extends Controller
+class SlideshowController extends Controller
 {
     /**
      * @ApiDoc(
@@ -38,7 +38,7 @@ class SlideshowControler extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_slideshows_list")
+     * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_slideshows_list")
      */
     public function listAction(Request $request, string $articleId)
     {
@@ -61,7 +61,7 @@ class SlideshowControler extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
+     * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
      */
     public function getAction($id, string $articleId)
     {

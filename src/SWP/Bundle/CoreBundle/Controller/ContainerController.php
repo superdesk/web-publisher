@@ -43,7 +43,7 @@ class ContainerController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_list_containers")
+     * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_list_containers")
      *
      * @param Request $request
      *
@@ -68,7 +68,7 @@ class ContainerController extends Controller
      *         404="Container not found"
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_get_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_get_container")
      *
      * @param string $uuid
      *
@@ -98,7 +98,7 @@ class ContainerController extends Controller
      *         {"name"="onlyWidgets", "dataType"="bool", "required"=false, "description"="Render only container widgets (without container wrapper)"}
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_render_container")
+     * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_render_container")
      */
     public function renderAction(Request $request, $uuid)
     {
@@ -133,7 +133,7 @@ class ContainerController extends Controller
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType"
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_templates_update_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_templates_update_container")
      *
      * @param Request $request
      * @param string  $uuid
@@ -188,7 +188,7 @@ class ContainerController extends Controller
      *     }
      * )
      *
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, defaults={"version"="v1"}, methods={"LINK","UNLINK"}, name="swp_api_templates_link_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, defaults={"version"="v2"}, methods={"LINK","UNLINK"}, name="swp_api_templates_link_container")
      *
      * @param Request $request
      * @param string  $uuid

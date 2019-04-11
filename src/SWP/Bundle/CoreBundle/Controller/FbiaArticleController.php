@@ -37,7 +37,7 @@ class FbiaArticleController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_articles")
+     * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_articles")
      */
     public function listAction(Request $request)
     {
@@ -61,7 +61,7 @@ class FbiaArticleController extends Controller
      *         500="Unexpected error."
      *     }
      * )
-     * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_facebook_instant_articles_articles_update")
+     * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_facebook_instant_articles_articles_update")
      */
     public function updateSubmissionAction(string $submissionId)
     {

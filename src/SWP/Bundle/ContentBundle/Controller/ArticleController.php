@@ -49,7 +49,7 @@ class ArticleController extends Controller
      *         {"name"="source", "dataType"="string"}
      *     }
      * )
-     * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
+     * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_articles")
      *
      * @param Request $request
      *
@@ -100,7 +100,7 @@ class ArticleController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/articles/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_articles", requirements={"id"=".+"})
+     * @Route("/api/{version}/content/articles/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_articles", requirements={"id"=".+"})
      */
     public function getAction($id)
     {
@@ -137,7 +137,7 @@ class ArticleController extends Controller
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\ArticleType"
      * )
-     * @Route("/api/{version}/content/articles/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_articles", requirements={"id"=".+"})
+     * @Route("/api/{version}/content/articles/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_articles", requirements={"id"=".+"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -171,7 +171,7 @@ class ArticleController extends Controller
      *         500="Returned when unexpected error."
      *     }
      * )
-     * @Route("/api/{version}/content/articles/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
+     * @Route("/api/{version}/content/articles/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
      *
      * @param int $id
      *

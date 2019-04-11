@@ -37,7 +37,7 @@ class ArticleSourceController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_article_sources")
+     * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_article_sources")
      */
     public function listAction(Request $request)
     {

@@ -40,7 +40,7 @@ class SettingsController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/settings/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_list")
+     * @Route("/api/{version}/settings/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_list")
      *
      * @return SingleResourceResponse
      */
@@ -61,7 +61,7 @@ class SettingsController extends Controller
      *         204="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/settings/revert/{scope}", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_revert")
+     * @Route("/api/{version}/settings/revert/{scope}", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_revert")
      *
      * @return SingleResourceResponse
      */
@@ -86,7 +86,7 @@ class SettingsController extends Controller
      *     },
      *     input="SWP\Bundle\SettingsBundle\Form\Type\SettingType"
      * )
-     * @Route("/api/{version}/settings/", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_update")
+     * @Route("/api/{version}/settings/", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_update")
      *
      * @param Request $request
      *
@@ -139,7 +139,7 @@ class SettingsController extends Controller
      *     },
      *     input="SWP\Bundle\SettingsBundle\Form\Type\BulkSettingsUpdateType"
      * )
-     * @Route("/api/{version}/settings/bulk/", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_bulk_update")
+     * @Route("/api/{version}/settings/bulk/", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_bulk_update")
      *
      * @param Request $request
      *

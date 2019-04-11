@@ -40,7 +40,7 @@ class ThemesController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_available_themes")
+     * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_available_themes")
      *
      * @param Request $request
      *
@@ -67,7 +67,7 @@ class ThemesController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_tenant_themes")
+     * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_tenant_themes")
      *
      * @param Request $request
      *
@@ -106,7 +106,7 @@ class ThemesController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType"
      * )
-     * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_upload_theme")
+     * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme")
      *
      * @param Request $request
      *
@@ -144,7 +144,7 @@ class ThemesController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeInstallType"
      * )
-     * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_install_theme")
+     * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_install_theme")
      *
      * @param Request $request
      *

@@ -48,7 +48,7 @@ class RegistrationController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\RegistrationFormType"
      * )
-     * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_register_user")
+     * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
      */
     public function registerAction(Request $request)
     {

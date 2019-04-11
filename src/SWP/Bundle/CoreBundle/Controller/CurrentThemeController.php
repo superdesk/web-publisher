@@ -39,8 +39,8 @@ class CurrentThemeController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType"
      * )
-     * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
-     * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_upload_theme_logo")
+     * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
+     * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo")
      *
      * @param Request $request
      * @param string  $type
@@ -91,7 +91,7 @@ class CurrentThemeController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_theme_settings_list")
+     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
      *
      * @return SingleResourceResponse
      */

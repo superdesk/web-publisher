@@ -42,7 +42,7 @@ class OrganizationRuleController extends Controller
      *         200="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/organization/rules/evaluate", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_organization_rules_evaluate")
+     * @Route("/api/{version}/organization/rules/evaluate", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_organization_rules_evaluate")
      */
     public function rulesEvaluationAction(Request $request)
     {
@@ -70,7 +70,7 @@ class OrganizationRuleController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_organization_rules")
+     * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_organization_rules")
      */
     public function rulesAction(Request $request)
     {
@@ -104,7 +104,7 @@ class OrganizationRuleController extends Controller
      *     },
      *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
-     * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_create_organization_rule")
+     * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_organization_rule")
      */
     public function createAction(Request $request)
     {
@@ -135,7 +135,7 @@ class OrganizationRuleController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_show_organization_rule", requirements={"id"="\d+"})
+     * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_organization_rule", requirements={"id"="\d+"})
      */
     public function getAction(int $id)
     {
@@ -155,7 +155,7 @@ class OrganizationRuleController extends Controller
      *     },
      *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
-     * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_organization_rule", requirements={"id"="\d+"})
+     * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_organization_rule", requirements={"id"="\d+"})
      */
     public function updateRuleAction(Request $request, int $id)
     {
@@ -186,7 +186,7 @@ class OrganizationRuleController extends Controller
      *         405="Returned when method not allowed."
      *     }
      * )
-     * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_core_delete_organization_rule", requirements={"id"="\d+"})
+     * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_organization_rule", requirements={"id"="\d+"})
      */
     public function deleteAction(int $id)
     {

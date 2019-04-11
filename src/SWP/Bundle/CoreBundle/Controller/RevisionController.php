@@ -34,7 +34,7 @@ class RevisionController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/revision/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_revision_single", requirements={"id"="\d+"})
+     * @Route("/api/{version}/templates/revision/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_revision_single", requirements={"id"="\d+"})
      *
      * @param int $id
      *
@@ -53,7 +53,7 @@ class RevisionController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/revision/current/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_revision_current")
+     * @Route("/api/{version}/templates/revision/current/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_revision_current")
      *
      * @return SingleResourceResponse
      */
@@ -72,7 +72,7 @@ class RevisionController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/revision/all/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_revision_all")
+     * @Route("/api/{version}/templates/revision/all/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_revision_all")
      *
      * @return SingleResourceResponse
      */
@@ -89,7 +89,7 @@ class RevisionController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/revision/lock/working/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_templates_revision_lock_working")
+     * @Route("/api/{version}/templates/revision/lock/working/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_templates_revision_lock_working")
      *
      * @return Response
      */
@@ -110,7 +110,7 @@ class RevisionController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/revision/publish/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_templates_revision_publish")
+     * @Route("/api/{version}/templates/revision/publish/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_templates_revision_publish")
      *
      * @return SingleResourceResponse
      */
@@ -134,7 +134,7 @@ class RevisionController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/revision/unlock/working/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_templates_revision_unlock_working")
+     * @Route("/api/{version}/templates/revision/unlock/working/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_templates_revision_unlock_working")
      *
      * @return Response
      */

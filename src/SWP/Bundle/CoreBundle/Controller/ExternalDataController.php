@@ -38,7 +38,7 @@ class ExternalDataController extends Controller
      *         405="Method Not Allowed."
      *     }
      * )
-     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PUT"}, name="swp_api_core_add_extra_data")
+     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_add_extra_data")
      */
     public function setAction(Request $request, string $slug)
     {
@@ -88,7 +88,7 @@ class ExternalDataController extends Controller
      *         405="Method Not Allowed."
      *     },
      * )
-     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_extra_data")
+     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_extra_data")
      */
     public function getAction(string $slug)
     {

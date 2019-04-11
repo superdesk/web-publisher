@@ -50,7 +50,7 @@ class ContentListItemController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
+     * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
      */
     public function listAction(Request $request, $id)
     {
@@ -76,7 +76,7 @@ class ContentListItemController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
+     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
      */
     public function getAction($listId, $id)
     {
@@ -94,7 +94,7 @@ class ContentListItemController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ContentListItemType"
      * )
-     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
+     * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
      */
     public function updateAction(Request $request, $listId, $id)
     {
@@ -135,7 +135,7 @@ class ContentListItemController extends Controller
      *     },
      *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType"
      * )
-     * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
+     * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
      */
     public function batchUpdateAction(Request $request, $listId)
     {

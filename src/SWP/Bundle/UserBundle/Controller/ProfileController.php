@@ -45,7 +45,7 @@ class ProfileController extends Controller
      *         404="Returned on user not found."
      *     }
      * )
-     * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_get_user_profile")
+     * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
      */
     public function getAction($id)
     {
@@ -72,7 +72,7 @@ class ProfileController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\ProfileFormType"
      * )
-     * @Route("/api/{version}/users/profile/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_edit_user_profile")
+     * @Route("/api/{version}/users/profile/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_edit_user_profile")
      */
     public function editAction(Request $request, $id)
     {

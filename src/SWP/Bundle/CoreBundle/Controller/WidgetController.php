@@ -43,7 +43,7 @@ class WidgetController extends FOSRestController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_list_widgets")
+     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_list_widgets")
      */
     public function listAction(Request $request)
     {
@@ -64,7 +64,7 @@ class WidgetController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/templates/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_list_widgets_templates")
+     * @Route("/api/{version}/templates/widgets/templates/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_list_widgets_templates")
      */
     public function listTemplatesAction(Request $request)
     {
@@ -105,7 +105,7 @@ class WidgetController extends FOSRestController
      *         422="Widget id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_get_widget")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_templates_get_widget")
      */
     public function getAction($id)
     {
@@ -129,7 +129,7 @@ class WidgetController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
-     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_templates_create_widget")
+     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_templates_create_widget")
      */
     public function createAction(Request $request)
     {
@@ -158,7 +158,7 @@ class WidgetController extends FOSRestController
      *         422="Widget id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_templates_delete_widget")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_templates_delete_widget")
      */
     public function deleteAction($id)
     {
@@ -188,7 +188,7 @@ class WidgetController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_templates_update_widget")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_templates_update_widget")
      */
     public function updateAction(Request $request, $id)
     {

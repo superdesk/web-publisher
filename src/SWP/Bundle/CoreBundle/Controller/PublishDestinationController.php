@@ -42,7 +42,7 @@ class PublishDestinationController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
      * )
      *
-     * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
+     * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
      *
      * @param Request $request
      *
@@ -92,7 +92,7 @@ class PublishDestinationController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
      * )
      *
-     * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
+     * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
      * @ParamConverter("publishDestination", class="SWP\Bundle\CoreBundle\Model\PublishDestination")
      */
     public function updateAction(Request $request, PublishDestinationInterface $publishDestination): SingleResourceResponse

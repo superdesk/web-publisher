@@ -43,7 +43,7 @@ class FbApplicationController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_applications")
+     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_applications")
      */
     public function listAction(Request $request)
     {
@@ -68,7 +68,7 @@ class FbApplicationController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookApplicationType"
      * )
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_create_facebook_applications")
+     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_applications")
      */
     public function createAction(Request $request)
     {
@@ -98,7 +98,7 @@ class FbApplicationController extends Controller
      *         409="Application is used by page"
      *     }
      * )
-     * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
+     * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
      */
     public function deleteAction($id)
     {

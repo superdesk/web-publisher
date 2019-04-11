@@ -42,7 +42,7 @@ class ContentPushController extends Controller
      *         201="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/content/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
+     * @Route("/api/{version}/content/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_push")
      */
     public function pushContentAction(Request $request)
     {
@@ -71,7 +71,7 @@ class ContentPushController extends Controller
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\MediaFileType"
      * )
-     * @Route("/api/{version}/assets/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_push")
+     * @Route("/api/{version}/assets/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_assets_push")
      */
     public function pushAssetsAction(Request $request)
     {
@@ -120,8 +120,8 @@ class ContentPushController extends Controller
      *         200="Returned on form errors"
      *     }
      * )
-     * @Route("/api/{version}/assets/push/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
-     * @Route("/api/{version}/assets/get/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
+     * @Route("/api/{version}/assets/push/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
+     * @Route("/api/{version}/assets/get/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
      */
     public function getAssetsAction(string $mediaId, string $extension)
     {

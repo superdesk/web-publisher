@@ -42,8 +42,8 @@ class UserController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\UserRolesType"
      * )
-     * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_promote_user")
-     * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_demote_user")
+     * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_promote_user")
+     * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_demote_user")
      */
     public function modifyRolesAction(Request $request, $id)
     {

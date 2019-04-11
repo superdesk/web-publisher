@@ -49,7 +49,7 @@ class PackageSearchController extends Controller
      *         {"name"="route", "dataType"="array", "description"="Routes ids"}
      *     }
      * )
-     * @Route("/api/{version}/packages/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_packages")
+     * @Route("/api/{version}/packages/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_packages")
      */
     public function searchAction(Request $request)
     {
