@@ -20,10 +20,12 @@ SWP\Component\Bridge\Model\Item:
             expose: true
             serialized_name: associations
             type: ArrayCollection<string,SWP\Component\Bridge\Model\Item>
+            groups: [deserialization]
         renditions:
             expose: true
             serialized_name: renditions
             type: ArrayCollection<string,SWP\Component\Bridge\Model\Rendition>
+            groups: [deserialization]
 
     virtual_properties:
         getItemsArray:

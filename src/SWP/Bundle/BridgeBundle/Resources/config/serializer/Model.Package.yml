@@ -5,6 +5,7 @@ SWP\Component\Bridge\Model\Package:
             expose: true
             serialized_name: associations
             type: ArrayCollection<string,SWP\Component\Bridge\Model\Item>
+            groups: [deserialization]
         body:
             expose: true
             serialized_name: body_html
@@ -22,6 +23,7 @@ SWP\Component\Bridge\Model\Package:
             expose: true
             serialized_name: extra_items
             type: ArrayCollection<string,SWP\Component\Bridge\Model\Group>
+            groups: [deserialization]
 
     virtual_properties:
         getItemsArray:
