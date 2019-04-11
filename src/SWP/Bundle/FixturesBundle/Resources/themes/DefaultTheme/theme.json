@@ -185,41 +185,6 @@
                 ]
             }
         ],
-        "containers": [
-            {
-                "name": "mainNav",
-                "styles": "border: 1px ",
-                "visible": true,
-                "cssClass": "col-md-12",
-                "data": {
-                    "some_extra_data": true
-                }
-            },
-            {
-                "name": "frontArticles"
-            }
-        ],
-        "widgets": [
-            {
-                "name": "NavigationMain",
-                "type": "SWP\\Bundle\\TemplatesSystemBundle\\Widget\\MenuWidgetHandler",
-                "visible": true,
-                "parameters": {
-                    "menu_name": "mainNavigation",
-                    "template_name": "menu1.html.twig"
-                },
-                "containers": ["mainNav"]
-            },
-            {
-                "name": "Automatic list widget",
-                "type": "SWP\\Bundle\\CoreBundle\\Widget\\ContentListWidget",
-                "visible": true,
-                "parameters": {
-                    "list_name": "Example automatic list"
-                },
-                "containers": ["frontArticles"]
-            }
-        ],
         "contentLists": [
             {
                 "name": "Example automatic list",

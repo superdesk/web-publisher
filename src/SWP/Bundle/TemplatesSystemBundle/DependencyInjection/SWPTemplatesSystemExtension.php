@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\DependencyInjection;
 
-use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -32,16 +31,11 @@ class SWPTemplatesSystemExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
         if ($container->getParameter('kernel.debug')) {
             $loader->load('services_dev.yml');
-        }
-
-        if ($config['persistence']['orm']['enabled']) {
-            $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
         }
     }
 }

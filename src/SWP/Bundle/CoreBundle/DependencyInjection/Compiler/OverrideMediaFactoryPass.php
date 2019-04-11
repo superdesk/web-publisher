@@ -28,8 +28,8 @@ final class OverrideMediaFactoryPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container): void
     {
-        $containerProvider = $this->getDefinitionIfExists($container, 'swp.factory.media');
-        $containerProvider
+        $mediaDefinition = $this->getDefinitionIfExists($container, 'swp.factory.media');
+        $mediaDefinition
             ->setClass(MediaFactory::class)
             ->setArgument(0, new Reference(ArticleMediaAssetProvider::class))
         ;

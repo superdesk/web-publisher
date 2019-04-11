@@ -159,11 +159,6 @@ class ThemeSetupCommandTest extends WebTestCase
         self::assertNotNull(1, $content['route']);
         self::assertNotNull(1, $content['articleStatistics']);
 
-        $client->request('GET', $router->generate('swp_api_templates_list_containers'));
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-        $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertCount(2, $content['_embedded']['_items']);
-
         $client->request('GET', $router->generate('swp_api_content_list_lists'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -180,11 +175,6 @@ class ThemeSetupCommandTest extends WebTestCase
         self::assertCount(2, $content['_embedded']['_items']);
         self::assertCount(2, $content['_embedded']['_items'][0]['children']);
         self::assertCount(2, $content['_embedded']['_items'][1]['children']);
-
-        $client->request('GET', $router->generate('swp_api_templates_list_widgets'));
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-        $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertCount(2, $content['_embedded']['_items']);
     }
 
     /**

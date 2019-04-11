@@ -13,8 +13,8 @@ addons:
     - librabbitmq-dev
 
 php:
-- 7.3
-- nightly
+- "7.3"
+- "7.4snapshot"
 
 env:
   global:
@@ -28,7 +28,7 @@ env:
 
 matrix:
   allow_failures:
-  - php: nightly
+  - php: 7.4snapshot
   fast_finish: true
 
 before_install:

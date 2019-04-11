@@ -42,8 +42,6 @@ class Theme extends BaseTheme implements ThemeInterface
     protected $generatedData = [
         'routes' => [],
         'menus' => [],
-        'containers' => [],
-        'widgets' => [],
         'contentLists' => [],
     ];
 
@@ -97,22 +95,6 @@ class Theme extends BaseTheme implements ThemeInterface
     public function getMenus(): array
     {
         return $this->generatedData['menus'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainers(): array
-    {
-        return $this->generatedData['containers'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getWidgets(): array
-    {
-        return $this->generatedData['widgets'];
     }
 
     /**

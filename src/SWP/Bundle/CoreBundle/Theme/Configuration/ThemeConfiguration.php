@@ -125,8 +125,6 @@ final class ThemeConfiguration implements ConfigurationInterface
         $generatedDataNodeDefinition = $rootNodeDefinition->children()->arrayNode('generatedData');
         $this->addOptionalGeneratedRoutesData($generatedDataNodeDefinition);
         $this->addOptionalGeneratedMenusData($generatedDataNodeDefinition);
-        $this->addOptionalGeneratedContainersData($generatedDataNodeDefinition);
-        $this->addOptionalGeneratedWidgetsData($generatedDataNodeDefinition);
         $this->addOptionalGenerateContentListsData($generatedDataNodeDefinition);
     }
 
@@ -219,77 +217,28 @@ final class ThemeConfiguration implements ConfigurationInterface
         $childrenNodeBuilder->scalarNode('route')->cannotBeEmpty()->defaultNull()->end();
     }
 
-    /**
-     * @param ArrayNodeDefinition $generatedDataNodeDefinition
-     */
-    private function addOptionalGeneratedContainersData(ArrayNodeDefinition $generatedDataNodeDefinition)
-    {
-        $containersNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('containers');
-        $containersNodeDefinition->requiresAtLeastOneElement();
-
-        /** @var ArrayNodeDefinition $containerNodeDefinition */
-        $containerNodeDefinition = $containersNodeDefinition->prototype('array');
-        $containerNodeDefinition
-            ->validate()
-            ->ifTrue(function ($widget) {
-                return [] === $widget;
-            })
-            ->thenInvalid('Widget cannot be empty!')
-        ;
-
-        $widgetNodeBuilder = $containerNodeDefinition->children();
-        $widgetNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->scalarNode('styles')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->booleanNode('visible')->defaultTrue()->end();
-        $widgetNodeBuilder->variableNode('data')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->scalarNode('cssClass')->cannotBeEmpty()->end();
-    }
-
     private function addOptionalGenerateContentListsData(ArrayNodeDefinition $generatedDataNodeDefinition)
     {
-        $containersNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('contentLists');
-        $containersNodeDefinition->requiresAtLeastOneElement();
+        $contentListsNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('contentLists');
+        $contentListsNodeDefinition->requiresAtLeastOneElement();
 
-        /** @var ArrayNodeDefinition $containerNodeDefinition */
-        $containerNodeDefinition = $containersNodeDefinition->prototype('array');
-        $containerNodeDefinition
+        /** @var ArrayNodeDefinition $contentListNodeDefinition */
+        $contentListNodeDefinition = $contentListsNodeDefinition->prototype('array');
+        $contentListNodeDefinition
             ->validate()
-            ->ifTrue(function ($widget) {
-                return [] === $widget;
+            ->ifTrue(function ($list) {
+                return [] === $list;
             })
             ->thenInvalid('Content List cannot be empty!')
         ;
 
-        $widgetNodeBuilder = $containerNodeDefinition->children();
-        $widgetNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->scalarNode('type')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->scalarNode('description')->defaultNull()->end();
-        $widgetNodeBuilder->scalarNode('limit')->defaultNull()->end();
-        $widgetNodeBuilder->scalarNode('cacheLifeTime')->defaultNull()->end();
-        $widgetNodeBuilder->scalarNode('filters')->defaultNull()->end();
-    }
-
-    private function addOptionalGeneratedWidgetsData(ArrayNodeDefinition $generatedDataNodeDefinition)
-    {
-        $widgetsNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('widgets');
-        $widgetsNodeDefinition->requiresAtLeastOneElement();
-
-        /** @var ArrayNodeDefinition $menuNodeDefinition */
-        $widgetNodeDefinition = $widgetsNodeDefinition->prototype('array');
-        $widgetNodeDefinition
-            ->validate()
-            ->ifTrue(function ($widget) {
-                return [] === $widget;
-            })
-            ->thenInvalid('Widget cannot be empty!')
-        ;
-
-        $widgetNodeBuilder = $widgetNodeDefinition->children();
-        $widgetNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->scalarNode('type')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->booleanNode('visible')->defaultTrue()->end();
-        $widgetNodeBuilder->variableNode('parameters')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->arrayNode('containers')->requiresAtLeastOneElement()->prototype('scalar')->end();
+        $listNodeBuilder = $contentListNodeDefinition->children();
+        $listNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
+        $listNodeBuilder->scalarNode('type')->cannotBeEmpty()->end();
+        $listNodeBuilder->scalarNode('description')->defaultNull()->end();
+        $listNodeBuilder->scalarNode('limit')->defaultNull()->end();
+        $listNodeBuilder->scalarNode('cacheLifeTime')->defaultNull()->end();
+        $listNodeBuilder->scalarNode('filters')->defaultNull()->end();
     }
 
     /**

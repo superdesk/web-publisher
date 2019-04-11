@@ -67,46 +67,6 @@ Example menus block
                     },
         ...
 
-Example containers block
-````````````````````````
-
-.. code-block:: json
-
-    "generatedData": {
-        "containers": [
-            {
-                "name": "mainNav",                      # required
-                "styles": "border: 1px ",               # optional
-                "visible": true,                        # optional (default true)
-                "cssClass": "col-md-12",                # optional
-                "data": {                               # optional
-                    "some_extra_data": true
-                }
-            },
-            {
-                "name": "frontArticles"                 # required
-            }
-        ...
-
-Example widgets block
-`````````````````````
-
-.. code-block:: json
-
-    "generatedData": {
-        "widgets": [
-            {
-                "name": "NavigationMain",               # required
-                "type": "SWP\\Bundle\\TemplatesSystemBundle\\Widget\\MenuWidgetHandler", # required
-                "visible": true,                        # required
-                "parameters": {                         # optional
-                    "menu_name": "mainNavigation",
-                    "template_name": "menu1.html.twig"
-                },
-                "containers": ["mainNav"]               # optional
-            },
-        ...
-
 Example contentLists block
 ``````````````````````````
 

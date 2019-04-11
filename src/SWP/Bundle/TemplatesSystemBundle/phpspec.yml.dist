@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: SWP\Bundle\TemplatesSystemBundle
-        psr4_prefix: SWP\Bundle\TemplatesSystemBundle
-        src_path: .

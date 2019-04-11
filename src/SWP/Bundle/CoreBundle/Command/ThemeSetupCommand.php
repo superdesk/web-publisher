@@ -87,8 +87,7 @@ To activate this theme in tenant, you need to add and option <info>--activate</i
   <info>%command.full_name% <tenant> <theme_dir> --activate</info>
   
 If option <info>--processGeneratedData</info> will be passed theme installator will 
-generate declared in theme config elements like: routes, articles, menus, widgets, 
-content lists and containers
+generate declared in theme config elements like: routes, articles, menus andcontent lists
 EOT
             );
     }
@@ -116,12 +115,10 @@ EOT
         $tenantRepository = $container->get('swp.repository.tenant');
         $tenantContext = $container->get('swp_multi_tenancy.tenant_context');
         $eventDispatcher = $container->get('event_dispatcher');
-        $revisionListener = $container->get('swp_core.listener.tenant_revision');
 
         $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
         $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
         $tenantContext->setTenant($tenant);
-        $revisionListener->setRevisions();
         $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
         $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
         $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);

@@ -125,22 +125,6 @@ services:
             - '@swp.repository.menu'
             - '@swp_menu.manager.menu_item'
 
-    swp_core.generator.theme.containers:
-        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeContainersGenerator
-        arguments:
-            - '@form.factory'
-            - '@swp.factory.container'
-            - '@swp.repository.container'
-            - '@swp_template_engine.container.service'
-
-    swp_core.generator.theme.widgets:
-        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeWidgetsGenerator
-        arguments:
-            - '@form.factory'
-            - '@swp.factory.widget_model'
-            - '@swp.repository.widget_model'
-            - '@swp.factory.container_widget'
-            - '@swp.provider.container'
 
     swp_core.generator.theme.content_lists:
         class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeContentListsGenerator
@@ -156,8 +140,6 @@ services:
         arguments:
             - '@swp_core.generator.theme.routes'
             - '@swp_core.generator.theme.menus'
-            - '@swp_core.generator.theme.containers'
-            - '@swp_core.generator.theme.widgets'
             - '@swp_core.generator.theme.content_lists'
 
     swp_core.loader.organization.theme:
@@ -207,22 +189,6 @@ services:
             - "@swp.repository.content_list_item"
         tags:
             - { name: kernel.event_subscriber }
-
-    swp_core.listener.revision_subscriber:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber
-        arguments:
-            - "@swp.repository.container"
-            - "@swp.factory.revision_log"
-        tags:
-            - { name: kernel.event_subscriber }
-
-    swp_core.listener.activate_livesite_editor:
-        class: SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener
-        arguments:
-            - '@security.token_storage'
-            - '%kernel.environment%'
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     swp_core.listener.tenant_not_found:
         class: SWP\Bundle\CoreBundle\EventListener\TenantNotFoundExceptionListener
@@ -307,15 +273,6 @@ services:
             - { name: kernel.event_listener, event: swp.article.post_create, method: resendUpdatedArticleToFacebook }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: removeArticleFromFacebook }
 
-    swp_core.listener.tenant_revision:
-        class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
-        lazy: true
-        arguments:
-            - "@swp.repository.revision"
-            - "@swp_revision.context.revision"
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
     swp_core.listener.preview_mode:
         class: SWP\Bundle\CoreBundle\EventListener\PreviewModeListener
         arguments:
@@ -350,18 +307,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
 
-    swp.manager.revision:
-        class: SWP\Bundle\RevisionBundle\Manager\RevisionManager
-        arguments: ["@swp.factory.revision", "@swp_revision.context.revision", "@event_dispatcher", "@swp.object_manager.revision"]
-
-    swp.listener.menu.widget_create:
-        class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetCreateListener
-        arguments:
-            - '@swp.factory.widget_model'
-            - '@swp.repository.widget_model'
-        tags:
-            - { name: kernel.event_listener, event: swp.menu.created, method: onMenuCreated }
-
     swp.listener.menu.menu_update:
         class: SWP\Bundle\CoreBundle\EventListener\MenuUpdateListener
         arguments:
@@ -370,13 +315,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.route.post_update, method: onRouteUpdate }
 
-
-    swp.listener.menu.widget_delete:
-        class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetDeleteListener
-        arguments:
-            - '@swp.repository.widget_model'
-        tags:
-            - { name: kernel.event_listener, event: swp.menu.deleted, method: onMenuDeleted }
 
     swp_core.decorating_manager.menu_item:
         class: SWP\Bundle\CoreBundle\Manager\MenuItemManager

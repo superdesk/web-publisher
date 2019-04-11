@@ -38,8 +38,6 @@ class MenuControllerTest extends WebTestCase
     public function testCreateMenuApi()
     {
         $client = static::createClient();
-        $client->request('GET', $this->router->generate('swp_api_templates_get_widget', ['id' => 1]));
-        self::assertEquals(404, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
             'menu' => [
@@ -53,11 +51,6 @@ class MenuControllerTest extends WebTestCase
 
         self::assertContains('"name":"main-menu"', $content);
         self::assertContains('"label":"Main menu"', $content);
-
-        $client->request('GET', $this->router->generate('swp_api_templates_get_widget', ['id' => 1]));
-
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"SWP\\\\Bundle\\\\TemplatesSystemBundle\\\\Widget\\\\MenuWidgetHandler","name":"main-menu","visible":true,"parameters":{"menu_name":"main-menu"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
     }
 
     public function testCreateMenuAndModifyRoute()
@@ -191,36 +184,6 @@ class MenuControllerTest extends WebTestCase
         self::assertEquals($client->getResponse()->getContent(), '');
 
         $client->request('GET', $this->router->generate('swp_api_core_get_menu', ['id' => 1]));
-        self::assertEquals(404, $client->getResponse()->getStatusCode());
-    }
-
-    public function testDeleteMenuAndMenuWidgetApi()
-    {
-        $client = static::createClient();
-        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
-            'menu' => [
-                'name' => 'main-menu',
-                'label' => 'Main menu',
-            ],
-        ]);
-
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
-        $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"main-menu"', $content);
-        self::assertContains('"label":"Main menu"', $content);
-
-        $client->request('GET', $this->router->generate('swp_api_templates_get_widget', ['id' => 1]));
-
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"SWP\\\\Bundle\\\\TemplatesSystemBundle\\\\Widget\\\\MenuWidgetHandler","name":"main-menu","visible":true,"parameters":{"menu_name":"main-menu"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
-
-        $content = json_decode($content, true);
-        $client->request('DELETE', $this->router->generate('swp_api_core_delete_menu', ['id' => $content['id']]));
-
-        self::assertEquals(204, $client->getResponse()->getStatusCode());
-        self::assertEquals($client->getResponse()->getContent(), '');
-
-        $client->request('GET', $this->router->generate('swp_api_templates_get_widget', ['id' => 1]));
         self::assertEquals(404, $client->getResponse()->getStatusCode());
     }
 

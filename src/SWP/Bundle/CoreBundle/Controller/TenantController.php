@@ -18,9 +18,8 @@ use function array_key_exists;
 use DateTime;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
-use SWP\Bundle\CoreBundle\Model\RevisionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
@@ -29,7 +28,6 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use SWP\Component\Revision\Manager\RevisionManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -149,13 +147,6 @@ class TenantController extends FOSRestController
                 $tenant->setOrganization($organization);
             }
             $this->getTenantRepository()->add($tenant);
-
-            /** @var RevisionManagerInterface $revisionManager */
-            $revisionManager = $this->get('swp.manager.revision');
-            /** @var RevisionInterface $revision */
-            $revision = $revisionManager->create();
-            $revision->setTenantCode($tenant->getCode());
-            $revisionManager->publish($revision);
 
             return new SingleResourceResponse($tenant, new ResponseContext(201));
         }

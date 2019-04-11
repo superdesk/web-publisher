@@ -28,8 +28,8 @@ final class OverrideEmbeddedImageProcessorPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container): void
     {
-        $containerProvider = $this->getDefinitionIfExists($container, EmbeddedImageProcessor::class);
-        $containerProvider
+        $embeddedImageProcessor = $this->getDefinitionIfExists($container, EmbeddedImageProcessor::class);
+        $embeddedImageProcessor
             ->setClass(\SWP\Bundle\CoreBundle\Processor\EmbeddedImageProcessor::class)
             ->setArgument(2, new Reference(ArticlePreviewContext::class))
             ->setArgument(3, new Reference('swp_settings.manager.settings'))

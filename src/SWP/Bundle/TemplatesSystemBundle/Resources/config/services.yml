@@ -19,24 +19,6 @@ services:
         arguments:
             - '@swp_template_engine_context'
 
-    swp_template_engine.container.renderer:
-        class: SWP\Bundle\TemplatesSystemBundle\Service\RendererService
-        lazy: true
-        arguments:
-            - "@service_container"
-            - "%kernel.cache_dir%"
-            - "%kernel.debug%"
-            - "@swp_template_engine.container.service"
-            - "@swp.provider.container"
-            - "@swp.factory.container_renderer"
-
-    swp_template_engine.container.service:
-        class: SWP\Bundle\TemplatesSystemBundle\Service\ContainerService
-        arguments:
-            - "@swp.object_manager.container"
-            - "@event_dispatcher"
-            - "@service_container"
-
     swp_template_engine_twig_extension.gimme:
         class: SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension
         public: false
@@ -49,8 +31,6 @@ services:
     swp_template_engine_twig_extension.container:
         class: SWP\Component\TemplatesSystem\Twig\Extension\ContainerExtension
         public: false
-        arguments:
-            - "@swp_template_engine.container.renderer"
         tags:
             - { name: twig.extension }
 
@@ -82,19 +62,3 @@ services:
             - "@swp_template_engine_loader_chain"
         tags:
             - { name: data_collector, template: "SWPTemplatesSystemBundle:Collector:loadersCollector", id: "meta_loader_collector" }
-
-    swp.provider.container:
-        class: SWP\Bundle\TemplatesSystemBundle\Provider\ContainerProvider
-        arguments:
-            - "@swp.repository.container"
-            - "@swp.repository.container_widget"
-
-    swp.provider.widget:
-        class: SWP\Bundle\TemplatesSystemBundle\Provider\WidgetProvider
-        arguments:
-            - "@swp.repository.widget_model"
-
-    swp.factory.container_renderer:
-        class:  SWP\Bundle\TemplatesSystemBundle\Factory\ContainerRendererFactory
-        arguments:
-          - SWP\Bundle\TemplatesSystemBundle\Container\ContainerRenderer

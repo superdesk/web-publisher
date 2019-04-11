@@ -33,8 +33,10 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
      */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        if (null === $item = $this->getItem($name)) {
-            return;
+        /** @var FileInterface $item */
+        $item = $this->getItem($name);
+        if (null === $item) {
+            return '';
         }
 
         $routeName = 'swp_media_get';
@@ -56,10 +58,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         return parent::generate($routeName, $parameters, $referenceType);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($name)
+    public function supports($name): bool
     {
         return $name instanceof Meta && (
             $name->getValues() instanceof ArticleMedia ||
@@ -68,10 +67,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouteDebugMessage($name, array $parameters = array())
+    public function getRouteDebugMessage($name, array $parameters = array()): string
     {
         return 'Route for media '.$name->getValues()->getId().' not found';
     }
@@ -85,7 +81,9 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
 
         if (($image = $values->getImage()) instanceof ImageInterface) {
             return $image;
-        } elseif (($file = $values->getFile()) instanceof FileInterface) {
+        }
+
+        if (($file = $values->getFile()) instanceof FileInterface) {
             return $file;
         }
     }

@@ -60,17 +60,6 @@ jms_serializer:
                 namespace_prefix: "Sylius\\Bundle\\ThemeBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer/sylius-theme"
 
-swp_templates_system:
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                container:
-                    model: SWP\Bundle\CoreBundle\Model\Container
-                    repository: SWP\Bundle\CoreBundle\Repository\RevisionAwareContainerRepository
-                widget_model:
-                    model: SWP\Bundle\CoreBundle\Model\WidgetModel
-
 swp_rule:
     persistence:
         orm:
@@ -108,16 +97,6 @@ swp_content:
                     repository: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleAuthorRepository
                 slideshow:
                     model: SWP\Bundle\CoreBundle\Model\Slideshow
-
-swp_revision:
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                revision:
-                    model: SWP\Bundle\CoreBundle\Model\Revision
-                revision_log:
-                    model: SWP\Bundle\CoreBundle\Model\RevisionLog
 
 cmf_routing:
     dynamic:

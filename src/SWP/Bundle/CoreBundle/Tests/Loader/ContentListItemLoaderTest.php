@@ -53,8 +53,6 @@ class ContentListItemLoaderTest extends WebTestCase
         $this->getContainer()->get('swp_multi_tenancy.tenant_context')
             ->setTenant($this->getContainer()->get('swp.repository.tenant')->findOneByCode('123abc'));
         $this->getContainer()->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $this->getContainer()->get('swp_revision.context.revision')
-            ->setCurrentRevision($this->getContainer()->get('swp.repository.revision')->getPublishedRevision()->getQuery()->getOneOrNullResult());
     }
 
     public function testFetchingContentListItems()

@@ -46,20 +46,6 @@ fos_http_cache:
             -
                 match:
                     attributes:
-                        _route: "swp_api_templates_update_widget|swp_api_templates_delete_widget"
-                routes:
-                    swp_api_templates_list_widgets: ~
-                    swp_api_templates_get_widget: ~
-            -
-                match:
-                    attributes:
-                        _route: "swp_api_templates_update_widget|swp_api_templates_delete_widget"
-                routes:
-                    swp_api_templates_list_widgets: ~
-                    swp_api_templates_get_widget: ~
-            -
-                match:
-                    attributes:
                         _route: "swp_api_templates_update_container|swp_api_templates_delete_container|swp_api_templates_link_container"
                 routes:
                     swp_api_templates_list_containers: ~

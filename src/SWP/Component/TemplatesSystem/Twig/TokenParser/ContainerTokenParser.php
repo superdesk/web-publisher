@@ -17,6 +17,7 @@ namespace SWP\Component\TemplatesSystem\Twig\TokenParser;
 use SWP\Component\TemplatesSystem\Twig\Node\ContainerNode;
 
 /**
+ * @deprecated since 2.0, will be removed in 3.0
  * Parser for container/endcontainer blocks.
  */
 class ContainerTokenParser extends \Twig_TokenParser

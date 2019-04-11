@@ -47,7 +47,6 @@ services:
         class: SWP\Bundle\CoreBundle\Twig\Cache\KeyGenerator\TenantAwareMetaKeyGenerator
         arguments:
             - '@swp_multi_tenancy.tenant_context'
-            - '@swp_revision.context.revision'
 
     swp_core.theme_twig_extension:
         class: SWP\Bundle\CoreBundle\Twig\ThemeExtension
