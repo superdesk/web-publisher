@@ -160,62 +160,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Generate url with authentication code for authorization.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Generate url with authentication code for authorization",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         401="No user found or not authorized."
-     *     }
-     * )
-     * @Route("/api/{version}/livesite/auth/{intention}/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2", "intention"="api"}, name="swp_api_auth_url")
-     *
-     * @return SingleResourceResponse
-     */
-    public function generateAuthenticationUrl($intention)
-    {
-        /** @var ApiKeyInterface $apiKey */
-        $apiKey = $this->generateOrGetApiKey($this->getUser(), null);
-        $parameters = [
-            'auth_token' => $apiKey->getApiKey(),
-        ];
-
-        if (TokenAuthenticator::INTENTION_LIVESITE_EDITOR === $intention) {
-            $parameters['intention'] = $intention;
-        }
-
-        $url = $this->generateUrl('swp_api_auth_redirect', $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
-
-        return new SingleResourceResponse([
-            'token' => [
-                'api_key' => $apiKey->getApiKey(),
-                'valid_to' => $apiKey->getValidTo(),
-            ],
-            'url' => $url,
-        ]);
-    }
-
-    /**
-     * Redirect authorized user to homepage.
-     *
-     * @Route("/api/{version}/livesite/redirect/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2", "intention"="api"}, name="swp_api_auth_redirect")
-     *
-     * @return RedirectResponse
-     */
-    public function redirectAuthenticated()
-    {
-        $user = $this->getUser();
-
-        if ($user instanceof UserInterface) {
-            return new RedirectResponse($this->generateUrl('homepage'));
-        }
-
-        throw new AccessDeniedException('This user does not have access to this page.');
-    }
-
-    /**
      * @param UserInterface $user
      * @param string        $token
      *
