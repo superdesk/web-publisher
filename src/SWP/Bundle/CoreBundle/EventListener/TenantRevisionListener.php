@@ -56,7 +56,12 @@ class TenantRevisionListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if ($event->getRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
+        $request = $event->getRequest();
+        if ($request->attributes->get('exception') instanceof TenantNotFoundException) {
+            return;
+        }
+
+        if ('swp_media_get' === $request->attributes->get('_route')) {
             return;
         }
 

@@ -29,7 +29,7 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     {
         return $this
             ->createQueryBuilder('t')
-            ->select('t', 'o')
+            ->select('t', 'o', 'oc')
             ->leftJoin('t.organization', 'o')
             ->leftJoin('t.outputChannel', 'oc')
             ->where('t.subdomain = :subdomain')
@@ -49,7 +49,7 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     {
         return $this
             ->createQueryBuilder('t')
-            ->select('t', 'o')
+            ->select('t', 'o', 'oc')
             ->leftJoin('t.organization', 'o')
             ->leftJoin('t.outputChannel', 'oc')
             ->where('t.domainName = :domainName')

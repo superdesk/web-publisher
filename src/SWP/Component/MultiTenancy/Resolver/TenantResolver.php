@@ -14,6 +14,7 @@
 
 namespace SWP\Component\MultiTenancy\Resolver;
 
+use LayerShifter\TLDExtract\Extract;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -97,7 +98,7 @@ class TenantResolver implements TenantResolverInterface
 
     private function extractHost($host)
     {
-        $extract = new \LayerShifter\TLDExtract\Extract();
+        $extract = new Extract();
 
         return $extract->parse($host);
     }

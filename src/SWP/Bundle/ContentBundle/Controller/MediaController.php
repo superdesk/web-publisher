@@ -41,13 +41,14 @@ class MediaController extends Controller
     public function getAction(Request $request, string $mediaId, string $extension)
     {
         $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
-        $cacheKey = md5(serialize(['media', $mediaId]));
-        if ($cacheProvider->contains($cacheKey)) {
-            return $cacheProvider->fetch($cacheKey);
+        $cacheKey = md5(serialize(['media_file', $mediaId]));
+        if (!$cacheProvider->contains($cacheKey)) {
+            $fileProvider = $this->container->get(FileProvider::class);
+            $media = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);
+            $cacheProvider->save($cacheKey, $media, 63072000);
+        } else {
+            $media = $cacheProvider->fetch($cacheKey);
         }
-
-        $fileProvider = $this->container->get(FileProvider::class);
-        $media = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);
 
         if (null === $media) {
             throw new NotFoundHttpException('Media was not found.');
@@ -77,8 +78,8 @@ class MediaController extends Controller
         } else {
             $mediaManager = $this->get('swp_content_bundle.manager.media');
         }
+
         $response->setContent($mediaManager->getFile($media));
-        $cacheProvider->save($cacheKey, $response, 63072000);
 
         return $response;
     }

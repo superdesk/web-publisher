@@ -16,56 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Context;
 
-use Doctrine\Common\Cache\Cache;
-use Doctrine\ORM\EntityManager;
-use SWP\Bundle\CoreBundle\Model\OutputChannel;
-use SWP\Bundle\CoreBundle\Model\Route;
+use function array_key_exists;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
-use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class CachedTenantContext extends TenantContext implements CachedTenantContextInterface
 {
-    /**
-     * @var Cache
-     */
-    protected $cacheProvider;
+    private $resolvedTenants = [];
 
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
-    /**
-     * @var array
-     */
-    private $cacheKeys = [];
-
-    /**
-     * CachedTenantContext constructor.
-     *
-     * @param TenantResolverInterface  $tenantResolver
-     * @param RequestStack             $requestStack
-     * @param EventDispatcherInterface $dispatcher
-     * @param Cache                    $cacheProvider
-     * @param EntityManager            $entityManager
-     */
-    public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher, Cache $cacheProvider, EntityManager $entityManager)
-    {
-        $this->cacheProvider = $cacheProvider;
-        $this->entityManager = $entityManager;
-
-        parent::__construct($tenantResolver, $requestStack, $dispatcher);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getTenant(): ?TenantInterface
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
@@ -73,69 +33,35 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
             return null;
         }
 
-        if (null === $this->tenant) {
-            if (null !== $currentRequest) {
-                $cacheKey = self::getCacheKey($currentRequest->getHost());
-
-                if ($this->cacheProvider->contains($cacheKey) && ($tenant = $this->cacheProvider->fetch($cacheKey)) instanceof TenantInterface) {
-                    // solution for serialization
-                    if (null !== $tenant->getHomepage()) {
-                        $tenant->setHomepage($this->entityManager->find(Route::class, $tenant->getHomepage()->getId()));
-                    }
-                    if (null !== $tenant->getOutputChannel()) {
-                        $tenant->setOutputChannel($this->entityManager->find(OutputChannel::class, $tenant->getOutputChannel()->getId()));
-                    }
-                    parent::setTenant($this->attachToEntityManager($tenant));
-                } else {
-                    $this->cacheProvider->save($cacheKey, parent::getTenant());
-                }
+        if (null === $this->tenant && null !== $currentRequest) {
+            $cacheKey = self::getCacheKey($currentRequest->getHost());
+            if (!array_key_exists($cacheKey, $this->resolvedTenants) || $this->resolvedTenants[$cacheKey] instanceof TenantInterface) {
+                $this->resolvedTenants[$cacheKey] = parent::getTenant();
+            } else {
+                $this->tenant = $this->resolvedTenants[$cacheKey];
             }
         }
 
         return $this->tenant;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setTenant(TenantInterface $tenant): void
     {
-        parent::setTenant($this->attachToEntityManager($tenant));
-
-        $host = $tenant->getDomainName();
-        if ($subdomain = $tenant->getSubdomain()) {
-            $host = $subdomain.'.'.$host;
-        }
-
+        parent::setTenant($tenant);
         $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $cacheKey = self::getCacheKey($host);
-        $this->cacheKeys[] = $cacheKey;
-        $this->cacheProvider->save($cacheKey, $tenant);
+
+        $host = $tenant->getSubdomain() ? $tenant->getSubdomain().'.'.$tenant->getDomainName() : $tenant->getDomainName();
+        $this->resolvedTenants[self::getCacheKey($host)] = $tenant;
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->tenant = null;
-        foreach ($this->cacheKeys as $cacheKey) {
-            $this->cacheProvider->delete($cacheKey);
-        }
+        $this->resolvedTenants = [];
     }
 
     private static function getCacheKey(string $host): string
     {
         return md5('tenant_cache__'.$host);
-    }
-
-    private function attachToEntityManager(TenantInterface $tenant): TenantInterface
-    {
-        if ($this->entityManager->contains($tenant)) {
-            return $tenant;
-        }
-
-        /** @var OrganizationInterface $organization */
-        $organization = $this->entityManager->merge($tenant->getOrganization());
-        $tenant->setOrganization($organization);
-
-        return  $this->entityManager->merge($tenant);
     }
 }
