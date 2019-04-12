@@ -14,35 +14,14 @@
 
 namespace SWP\Component\TemplatesSystem\Twig\Extension;
 
-use SWP\Bundle\TemplatesSystemBundle\Service\RendererServiceInterface;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\ContainerTokenParser;
 use Twig\Extension\AbstractExtension;
 
+/**
+ * @deprecated since 2.0, will be removed in 3.0
+ */
 class ContainerExtension extends AbstractExtension
 {
-    /**
-     * @var RendererServiceInterface
-     */
-    protected $rendererService;
-
-    /**
-     * ContainerExtension constructor.
-     *
-     * @param RendererServiceInterface $rendererService
-     */
-    public function __construct($rendererService)
-    {
-        $this->rendererService = $rendererService;
-    }
-
-    /**
-     * @return RendererServiceInterface
-     */
-    public function getContainerService()
-    {
-        return $this->rendererService;
-    }
-
     /**
      * @return array|\Twig_TokenParserInterface[]
      */

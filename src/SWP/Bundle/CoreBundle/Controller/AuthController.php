@@ -22,15 +22,11 @@ use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
 use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
-use SWP\Bundle\CoreBundle\Security\Authenticator\TokenAuthenticator;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AuthController extends Controller
 {
@@ -239,14 +235,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * @param UserInterface $user
-     * @param string        $token
-     *
-     * @return mixed|null
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
     private function generateOrGetApiKey(UserInterface $user, $token)
     {
         $apiKey = null;

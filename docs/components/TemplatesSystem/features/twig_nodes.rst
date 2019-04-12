@@ -3,40 +3,6 @@ Custom Twig tags
 
 Gimme allows you to fetch the Meta object you need in any place of your template. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimmelist`).
 
-container
-`````````
-
-The :code:`container` tag has one required parameter and one optional parameter:
-
- * (required) container unique name, for example: *frontpage_sidebar*
- * (optional) keyword :code:`with` and default parameters for containers (used to create the container on theme installation).
-
-Here is an example of a container tag:
-
-.. code-block:: twig
-
-     {% container 'frontpage_sidebar' with {
-         'width': 400,
-         'height': 500,
-         'styles': 'border: solid 1px red',
-         'cssClass': 'css_class_name',
-         'data': {'custom-key': value}
-     }%}
-     {% endcontainer %}
-
-This container tag will render the HTML code:
-
-.. code-block:: html
-
-    <div id="frontpage_sidebar" class="swp_container css_class_name" style="width: 400px; height: 500px; border: solid 1px red;" data-custom-key="value"></div>
-
-The available container parameters are:
-
- * [integer] width - container width
- * [integer] height - container height
- * [string] styles - container inline styles
- * [string] cssClass - container class string
- * [string] data - JSON object string with html-data properties (keys and values)
 
 .. include:: /components/TemplatesSystem/features/customTags/gimme.rst
 .. include:: /components/TemplatesSystem/features/customTags/gimmelist.rst

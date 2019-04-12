@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\Twig\Cache\KeyGenerator;
 
 use SWP\Bundle\ContentBundle\KeyGenerator\MetaKeyGenerator;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\Revision\Context\RevisionContextInterface;
 
 class TenantAwareMetaKeyGenerator extends MetaKeyGenerator
 {
@@ -25,24 +24,13 @@ class TenantAwareMetaKeyGenerator extends MetaKeyGenerator
      */
     protected $tenantContext;
 
-    /**
-     * @var RevisionContextInterface
-     */
-    protected $revisionContext;
-
-    public function __construct(TenantContextInterface $tenantContext, RevisionContextInterface $revisionContext)
+    public function __construct(TenantContextInterface $tenantContext)
     {
         $this->tenantContext = $tenantContext;
-        $this->revisionContext = $revisionContext;
     }
 
     public function generateKey($meta): string
     {
-        $revisionKey = '';
-        if (null !== $revision = $this->revisionContext->getCurrentRevision()) {
-            $revisionKey = $revision->getUniqueKey().'__';
-        }
-
-        return $revisionKey.$this->tenantContext->getTenant()->getCode().'_'.parent::generateKey($meta);
+        return $this->tenantContext->getTenant()->getCode().'_'.parent::generateKey($meta);
     }
 }

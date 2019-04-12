@@ -35,33 +35,12 @@ class RequiredDataProcessor implements RequiredDataProcessorInterface
     /**
      * @var GeneratorInterface
      */
-    protected $themeContainersGenerator;
-
-    /**
-     * @var GeneratorInterface
-     */
-    protected $themeWidgetsGenerator;
-
-    /**
-     * @var GeneratorInterface
-     */
     protected $themeContentListsGenerator;
 
-    /**
-     * RequiredDataProcessor constructor.
-     *
-     * @param GeneratorInterface $themeRoutesGenerator
-     * @param GeneratorInterface $themeMenusGenerator
-     * @param GeneratorInterface $themeContainersGenerator
-     * @param GeneratorInterface $themeWidgetsGenerator
-     * @param GeneratorInterface $themeContentListsGenerator
-     */
-    public function __construct(GeneratorInterface $themeRoutesGenerator, GeneratorInterface $themeMenusGenerator, GeneratorInterface $themeContainersGenerator, GeneratorInterface $themeWidgetsGenerator, GeneratorInterface $themeContentListsGenerator)
+    public function __construct(GeneratorInterface $themeRoutesGenerator, GeneratorInterface $themeMenusGenerator, GeneratorInterface $themeContentListsGenerator)
     {
         $this->themeRoutesGenerator = $themeRoutesGenerator;
         $this->themeMenusGenerator = $themeMenusGenerator;
-        $this->themeContainersGenerator = $themeContainersGenerator;
-        $this->themeWidgetsGenerator = $themeWidgetsGenerator;
         $this->themeContentListsGenerator = $themeContentListsGenerator;
     }
 
@@ -72,8 +51,6 @@ class RequiredDataProcessor implements RequiredDataProcessorInterface
     {
         $this->themeRoutesGenerator->generate($theme->getRoutes(), $applyOptionalData);
         $this->themeMenusGenerator->generate($theme->getMenus(), $applyOptionalData);
-        $this->themeContainersGenerator->generate($theme->getContainers(), $applyOptionalData);
         $this->themeContentListsGenerator->generate($theme->getContentLists(), $applyOptionalData);
-        $this->themeWidgetsGenerator->generate($theme->getWidgets(), $applyOptionalData);
     }
 }

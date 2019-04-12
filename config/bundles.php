@@ -41,7 +41,6 @@ return [
     SWP\Bundle\MenuBundle\SWPMenuBundle::class => ['all' => true],
     SWP\Bundle\ContentListBundle\SWPContentListBundle::class => ['all' => true],
     SWP\Bundle\FacebookInstantArticlesBundle\SWPFacebookInstantArticlesBundle::class => ['all' => true],
-    SWP\Bundle\RevisionBundle\SWPRevisionBundle::class => ['all' => true],
     SWP\Bundle\UserBundle\SWPUserBundle::class => ['all' => true],
     SWP\Bundle\SettingsBundle\SWPSettingsBundle::class => ['all' => true],
     SWP\Bundle\WebhookBundle\SWPWebhookBundle::class => ['all' => true],

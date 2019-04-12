@@ -19,9 +19,6 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\Revision\Manager\RevisionManagerInterface;
-use SWP\Component\Revision\Model\RevisionInterface;
 
 class LoadTenantsData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -41,39 +38,12 @@ class LoadTenantsData extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
 
-        $this->loadRevisions();
-    }
-
-    private function loadRevisions(): void
-    {
-        /** @var RevisionManagerInterface $revisionManager */
-        $revisionManager = $this->container->get('swp.manager.revision');
         $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
-
         if (null === $tenantContext->getTenant()) {
             $tenantContext->setTenant(
                 $this->container->get('swp.repository.tenant')->findOneByCode('123abc')
             );
         }
-
-        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
-        $firstTenantPublishedRevision = $revisionManager->create();
-        $firstTenantPublishedRevision->setTenantCode('123abc');
-        $firstTenantWorkingRevision = $revisionManager->create($firstTenantPublishedRevision);
-        $revisionManager->publish($firstTenantPublishedRevision, $firstTenantWorkingRevision);
-        $this->addReference('default_tenant_revision', $firstTenantPublishedRevision);
-
-        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
-        $secondTenantPublishedRevision = $revisionManager->create();
-        $secondTenantPublishedRevision->setTenantCode('456def');
-        $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
-        $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
-
-        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
-        $secondTenantPublishedRevision = $revisionManager->create();
-        $secondTenantPublishedRevision->setTenantCode('678iop');
-        $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
-        $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
     }
 
     public function getOrder(): int

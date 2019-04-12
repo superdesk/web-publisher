@@ -41,16 +41,6 @@ interface ThemeInterface extends BaseThemeInterface, \Serializable
     /**
      * @return array
      */
-    public function getContainers(): array;
-
-    /**
-     * @return array
-     */
-    public function getWidgets(): array;
-
-    /**
-     * @return array
-     */
     public function getContentLists(): array;
 
     /**

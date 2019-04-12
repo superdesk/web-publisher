@@ -25,47 +25,12 @@ class Version20170221091231 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-
-        $revisionRepository = $this->container->get('swp.repository.revision');
-        $revisionFactory = $this->container->get('swp.factory.revision');
-        $query = $this->container->get('doctrine.orm.default_entity_manager')
-            ->createQuery('SELECT t FROM SWP\Bundle\CoreBundle\Model\Tenant t');
-        $tenants = $query->getResult();
-        $revisionManager = $this->container->get('swp.manager.revision');
-        foreach ($tenants as $tenant) {
-            $existingRevision = $this->container->get('swp.repository.revision')
-                ->getWorkingRevision()
-                ->andWhere('r.tenantCode = :tenantCode')
-                ->setParameter('tenantCode', $tenant->getCode())
-                ->getQuery()
-                ->getOneOrNullResult();
-
-            if (null !== $existingRevision) {
-                continue;
-            }
-
-            $publishedRevision = $revisionFactory->create();
-            $publishedRevision->setTenantCode($tenant->getCode());
-            $revisionRepository->add($publishedRevision);
-
-            $workingRevision = $revisionFactory->create();
-            $workingRevision->setTenantCode($tenant->getCode());
-            $revisionRepository->add($workingRevision);
-            $workingRevision->setPrevious($publishedRevision);
-            $revisionManager->publish($publishedRevision, $workingRevision);
-        }
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs

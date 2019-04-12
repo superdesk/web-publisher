@@ -1,9 +1,0 @@
-SWP\Bundle\CoreBundle\Model\WidgetModel:
-    exclusion_policy: ALL
-    relations:
-        -
-            rel: self
-            href:
-                route: swp_api_templates_get_widget
-                parameters:
-                    id: expr(object.getId())

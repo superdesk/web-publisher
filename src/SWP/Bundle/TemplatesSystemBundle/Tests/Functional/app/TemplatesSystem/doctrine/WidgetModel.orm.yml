@@ -1,7 +1,0 @@
-SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\Model\WidgetModel:
-    type: entity
-    table: swp_widget
-    oneToMany:
-        containers:
-            targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface
-            mappedBy: widget

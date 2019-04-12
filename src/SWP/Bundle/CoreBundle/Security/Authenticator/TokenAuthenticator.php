@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
@@ -35,8 +34,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    const INTENTION_LIVESITE_EDITOR = 'livesite_editor';
-
     /**
      * @var ApiKeyRepository
      */
@@ -84,16 +81,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $data = [
+        return [
             'token' => $this->getToken($request),
         ];
-
-        if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
-            $data['intention'] = self::INTENTION_LIVESITE_EDITOR;
-        }
-
-        // What you return here will be passed to getUser() as $credentials
-        return $data;
     }
 
     /**
@@ -121,10 +111,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         /** @var CoreUserInterface $user */
         $user = $apiKey->getUser();
 
-        if (array_key_exists('intention', $credentials) && self::INTENTION_LIVESITE_EDITOR === $credentials['intention']) {
-            $user->addRole('ROLE_LIVESITE_EDITOR');
-        }
-
         return $user;
     }
 
@@ -150,12 +136,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
-            $request->attributes->set(ActivateLivesiteEditorListener::ACTIVATION_KEY, $this->getToken($request));
-        }
-
-        // on success, let the request continue
-        return;
     }
 
     /**

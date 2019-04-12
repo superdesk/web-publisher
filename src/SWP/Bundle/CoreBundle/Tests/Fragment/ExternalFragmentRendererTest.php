@@ -75,7 +75,7 @@ final class ExternalFragmentRendererTest extends WebTestCase
     public function testRenderingFakeUrl()
     {
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant', 'container', 'container_widget']);
+        $this->loadCustomFixtures(['tenant']);
         $content = json_decode($this->renderer->render('fake_localhost:3000/esi_fragment', new Request(), [
             'ignore_errors' => true,
         ])->getContent(), true);

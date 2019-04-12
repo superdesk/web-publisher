@@ -16,20 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\TemplatesSystemBundle\DependencyInjection;
 
-use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerDataFactory;
-use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerWidgetFactory;
-use SWP\Bundle\TemplatesSystemBundle\Model\Container;
-use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
-use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
-use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel;
-use SWP\Bundle\TemplatesSystemBundle\Repository\ContainerRepository;
-use SWP\Bundle\TemplatesSystemBundle\Repository\ContainerWidgetRepository;
-use SWP\Bundle\TemplatesSystemBundle\Repository\WidgetModelRepository;
-use SWP\Component\Storage\Factory\Factory;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -46,65 +32,6 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('swp_templates_system');
-        $treeBuilder->getRootNode()
-            ->children()
-                ->arrayNode('persistence')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('orm')
-                            ->addDefaultsIfNotSet()
-                            ->canBeEnabled()
-                            ->children()
-                                ->arrayNode('classes')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->arrayNode('container')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Container::class)->end()
-                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ContainerInterface::class)->end()
-                                                ->scalarNode('repository')->defaultValue(ContainerRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                        ->arrayNode('container_data')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ContainerData::class)->end()
-                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ContainerDataInterface::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
-                                                ->scalarNode('factory')->defaultValue(ContainerDataFactory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                        ->arrayNode('widget_model')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(WidgetModel::class)->end()
-                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(WidgetModelInterface::class)->end()
-                                                ->scalarNode('repository')->defaultValue(WidgetModelRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                        ->arrayNode('container_widget')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ContainerWidget::class)->end()
-                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ContainerWidgetInterface::class)->end()
-                                                ->scalarNode('repository')->defaultValue(ContainerWidgetRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(ContainerWidgetFactory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                    ->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
 
         return $treeBuilder;
     }
