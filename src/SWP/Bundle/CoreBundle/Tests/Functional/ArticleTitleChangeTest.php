@@ -53,11 +53,9 @@ final class ArticleTitleChangeTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -75,7 +73,6 @@ final class ArticleTitleChangeTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -84,7 +81,6 @@ final class ArticleTitleChangeTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -135,11 +131,9 @@ final class ArticleTitleChangeTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -158,7 +152,6 @@ final class ArticleTitleChangeTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -167,7 +160,6 @@ final class ArticleTitleChangeTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -218,11 +210,9 @@ final class ArticleTitleChangeTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -241,7 +231,6 @@ final class ArticleTitleChangeTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -250,7 +239,6 @@ final class ArticleTitleChangeTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 

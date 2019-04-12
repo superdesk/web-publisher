@@ -67,7 +67,6 @@ class RuleControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_rule', [
             'id' => 1,
         ]), [
-            'rule' => [
                 'priority' => 22,
                 'description' => 'my rule desc',
                 'name' => 'my rule name',
@@ -77,7 +76,6 @@ class RuleControllerTest extends WebTestCase
                         'value' => 'test.html.twig',
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -94,7 +92,6 @@ class RuleControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_rule', [
             'id' => 1,
         ]), [
-            'rule' => [
                 'priority' => 22,
                 'configuration' => [
                     [
@@ -106,7 +103,6 @@ class RuleControllerTest extends WebTestCase
                         'value' => 3,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -129,7 +125,6 @@ class RuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
                 'priority' => 2,
                 'description' => 'my rule desc',
@@ -144,7 +139,6 @@ class RuleControllerTest extends WebTestCase
                         'value' => 3,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -159,7 +153,6 @@ class RuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Porto/"',
                 'priority' => 1,
                 'configuration' => [
@@ -168,27 +161,22 @@ class RuleControllerTest extends WebTestCase
                         'value' => 4,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles/assign-article-automatically-here',
                 'type' => 'content',
                 'content' => null,
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -225,7 +213,6 @@ class RuleControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant']);
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Fake/"',
                 'priority' => 1,
                 'configuration' => [
@@ -234,17 +221,14 @@ class RuleControllerTest extends WebTestCase
                         'value' => 2,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -278,7 +262,6 @@ class RuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Porto/"',
                 'priority' => 1,
                 'configuration' => [
@@ -291,27 +274,22 @@ class RuleControllerTest extends WebTestCase
                         'value' => 'test.html.twig',
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles/assign-article-automatically-here',
                 'type' => 'content',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -352,7 +330,6 @@ class RuleControllerTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -361,7 +338,6 @@ class RuleControllerTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 

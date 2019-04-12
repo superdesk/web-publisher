@@ -88,11 +88,9 @@ final class MultipleWebsitesPublish extends WebTestCase
         $client = static::createClient();
         // create route for tenant1
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -135,11 +133,9 @@ final class MultipleWebsitesPublish extends WebTestCase
         ]);
 
         $client2->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client2->getResponse()->getStatusCode());
@@ -204,7 +200,6 @@ final class MultipleWebsitesPublish extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -219,7 +214,6 @@ final class MultipleWebsitesPublish extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -266,9 +260,9 @@ final class MultipleWebsitesPublish extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArrayHasKey('isPublishable', $content);
-        self::assertEquals($content['isPublishable'], true);
-        self::assertNotNull($content['publishedAt']);
+        self::assertArrayHasKey('is_publishable', $content);
+        self::assertEquals($content['is_publishable'], true);
+        self::assertNotNull($content['published_at']);
         self::assertEquals($content['status'], 'published');
         self::assertEquals($content['route']['id'], 3);
 
@@ -281,9 +275,9 @@ final class MultipleWebsitesPublish extends WebTestCase
         self::assertEquals(200, $client2->getResponse()->getStatusCode());
         $content = json_decode($client2->getResponse()->getContent(), true);
 
-        self::assertArrayHasKey('isPublishable', $content);
-        self::assertEquals($content['isPublishable'], true);
-        self::assertNotNull($content['publishedAt']);
+        self::assertArrayHasKey('is_publishable', $content);
+        self::assertEquals($content['is_publishable'], true);
+        self::assertNotNull($content['published_at']);
         self::assertEquals($content['status'], 'published');
         self::assertEquals($content['route']['id'], 4);
 
@@ -308,7 +302,6 @@ final class MultipleWebsitesPublish extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -323,7 +316,6 @@ final class MultipleWebsitesPublish extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -331,9 +323,7 @@ final class MultipleWebsitesPublish extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_unpublish_package', ['id' => 1]), [
-                'unpublish' => [
                     'tenants' => ['123abc', '678iop'],
-                ],
             ]
         );
 
@@ -359,8 +349,8 @@ final class MultipleWebsitesPublish extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertEquals($content['isPublishable'], false);
-        self::assertNotNull($content['publishedAt']);
+        self::assertEquals($content['is_publishable'], false);
+        self::assertNotNull($content['published_at']);
         self::assertEquals($content['status'], 'unpublished');
         self::assertEquals($content['route']['id'], 3);
 
@@ -373,8 +363,8 @@ final class MultipleWebsitesPublish extends WebTestCase
         self::assertEquals(200, $client2->getResponse()->getStatusCode());
         $content = json_decode($client2->getResponse()->getContent(), true);
 
-        self::assertEquals($content['isPublishable'], false);
-        self::assertNotNull($content['publishedAt']);
+        self::assertEquals($content['is_publishable'], false);
+        self::assertNotNull($content['published_at']);
         self::assertEquals($content['status'], 'unpublished');
         self::assertEquals($content['route']['id'], 4);
     }
@@ -421,11 +411,9 @@ final class MultipleWebsitesPublish extends WebTestCase
         ]);
 
         $client2->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
         self::assertEquals(201, $client2->getResponse()->getStatusCode());
 

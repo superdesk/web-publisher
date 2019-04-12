@@ -38,11 +38,9 @@ class TemplateMenuTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'menutest',
                 'type' => 'content',
                 'templateName' => 'menu_template.html.twig',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

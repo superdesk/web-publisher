@@ -72,7 +72,6 @@ class OrganizationRuleControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_rule', ['id' => 1]), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 11,
                 'description' => 'desc',
@@ -87,7 +86,6 @@ class OrganizationRuleControllerTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -111,7 +109,6 @@ class OrganizationRuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -124,7 +121,6 @@ class OrganizationRuleControllerTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

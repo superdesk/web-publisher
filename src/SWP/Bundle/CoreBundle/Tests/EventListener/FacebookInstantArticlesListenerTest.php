@@ -41,15 +41,12 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getLocale() == "en"',
                 'priority' => 1,
                 'configuration' => [
@@ -62,7 +59,6 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
                         'value' => 3,
                     ],
                 ],
-            ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -109,7 +105,6 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -118,7 +113,6 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 

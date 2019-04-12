@@ -228,7 +228,7 @@ class ContentListItemControllerTest extends WebTestCase
         ]));
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
-        $listUpdatedAt = $listData['updatedAt'];
+        $listUpdatedAt = $listData['updated_at'];
 
         $this->client->request('GET', $listData['_links']['items']['href']);
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
@@ -253,7 +253,7 @@ class ContentListItemControllerTest extends WebTestCase
         ]);
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
-        $listUpdatedAt = $listData['updatedAt'];
+        $listUpdatedAt = $listData['updated_at'];
         $this->client->request('GET', $listData['_links']['items']['href']);
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
         self::assertCount(3, $listItems['_embedded']['_items']);
@@ -275,7 +275,7 @@ class ContentListItemControllerTest extends WebTestCase
         ]);
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
-        $listUpdatedAt = $listData['updatedAt'];
+        $listUpdatedAt = $listData['updated_at'];
         $this->client->request('GET', $listData['_links']['items']['href']);
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
         self::assertCount(4, $listItems['_embedded']['_items']);
@@ -317,7 +317,7 @@ class ContentListItemControllerTest extends WebTestCase
         );
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
-        $listUpdatedAt = $listData['updatedAt'];
+        $listUpdatedAt = $listData['updated_at'];
 
         $this->client->request('GET', $listData['_links']['items']['href']);
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
@@ -359,7 +359,7 @@ class ContentListItemControllerTest extends WebTestCase
         );
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
-        $listUpdatedAt = $listData['updatedAt'];
+        $listUpdatedAt = $listData['updated_at'];
 
         $this->client->request('GET', $listData['_links']['items']['href']);
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
@@ -400,7 +400,7 @@ class ContentListItemControllerTest extends WebTestCase
         );
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
-        $listUpdatedAt = $listData['updatedAt'];
+        $listUpdatedAt = $listData['updated_at'];
         $this->client->request('GET', $listData['_links']['items']['href']);
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
         self::assertCount(1, $listItems['_embedded']['_items']);

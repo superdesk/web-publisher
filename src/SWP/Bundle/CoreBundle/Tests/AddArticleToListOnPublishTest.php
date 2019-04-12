@@ -49,13 +49,11 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => sprintf(
                         '{"route":[%d],"author":["ADmin"],"metadata":{"located":"Sydney"},"publishedAt":"%s"}',
                         3,
                         $now
                     ),
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -71,7 +69,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         self::assertContains('Abstract html test', $client->getResponse()->getContent());
         $client->request('GET', $this->router->generate('swp_api_content_show_lists', ['id' => 1]));
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertNotEquals($content['updatedAt'], $contentUpdated['updatedAt']);
+        self::assertNotEquals($content['updated_at'], $contentUpdated['updated_at']);
     }
 
     public function testAddArticleToListOnPublishWhenRouteCriteriaNotMet()
@@ -81,9 +79,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"route":[99,22]}',
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -105,12 +101,10 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => sprintf(
                         '{"publishedAt":"%s"}',
                         $now
                     ),
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -132,9 +126,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => "{\"publishedAfter\":\"$now\"}",
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -156,9 +148,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => "{\"publishedBefore\":\"$now\"}",
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -180,12 +170,10 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => sprintf(
                         '{"author":["fake"],"metadata":{"located":"Sydney"},"publishedAt":"%s"}',
                         $now
                     ),
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -203,11 +191,9 @@ final class AddArticleToListOnPublishTest extends WebTestCase
 
         // create route
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -235,7 +221,6 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -244,7 +229,6 @@ final class AddArticleToListOnPublishTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 

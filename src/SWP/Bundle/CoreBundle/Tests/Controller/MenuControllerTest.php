@@ -57,12 +57,10 @@ class MenuControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'simple-test-route',
                 'type' => 'content',
                 'content' => null,
                 'templateName' => 'test.html.twig',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -83,9 +81,7 @@ class MenuControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
-            'route' => [
                 'name' => 'simple-edited-test-route',
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
@@ -507,10 +503,8 @@ class MenuControllerTest extends WebTestCase
         self::assertContains('"route":null', $content);
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'my-menu-route',
                 'type' => 'collection',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

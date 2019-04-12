@@ -47,7 +47,6 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -60,7 +59,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -76,10 +74,10 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArrayHasKey('isPublishable', $content);
-        self::assertEquals($content['isPublishable'], false);
+        self::assertArrayHasKey('is_publishable', $content);
+        self::assertEquals($content['is_publishable'], false);
         self::assertEquals($content['isPublishedFBIA'], false);
-        self::assertNull($content['publishedAt']);
+        self::assertNull($content['published_at']);
         self::assertNull($content['route']);
         self::assertEquals($content['status'], 'new');
     }
@@ -88,7 +86,6 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -101,7 +98,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -123,10 +119,10 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArrayHasKey('isPublishable', $content);
-        self::assertEquals($content['isPublishable'], false);
+        self::assertArrayHasKey('is_publishable', $content);
+        self::assertEquals($content['is_publishable'], false);
         self::assertEquals($content['isPublishedFBIA'], false);
-        self::assertNull($content['publishedAt']);
+        self::assertNull($content['published_at']);
         self::assertNull($content['route']);
         self::assertEquals($content['status'], 'new');
     }
@@ -135,7 +131,6 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -148,16 +143,13 @@ final class ArticleAutoPublishTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'article',
                 'type' => RouteInterface::TYPE_CONTENT,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -165,7 +157,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $route = json_decode($client->getResponse()->getContent(), true);
 
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -178,7 +169,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         'value' => $route['id'],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -196,10 +186,10 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArrayHasKey('isPublishable', $content);
-        self::assertEquals($content['isPublishable'], true);
+        self::assertArrayHasKey('is_publishable', $content);
+        self::assertEquals($content['is_publishable'], true);
         self::assertEquals($content['isPublishedFBIA'], false);
-        self::assertNotNull($content['publishedAt']);
+        self::assertNotNull($content['published_at']);
         self::assertEquals($content['route']['id'], $route['id']);
         self::assertEquals($content['status'], 'published');
     }
@@ -208,7 +198,6 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/fake/"',
                 'priority' => 1,
                 'configuration' => [
@@ -222,7 +211,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -241,7 +229,6 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -252,7 +239,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -284,10 +270,8 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'article',
                 'type' => RouteInterface::TYPE_CONTENT,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -295,7 +279,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $route = json_decode($client->getResponse()->getContent(), true);
 
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -308,7 +291,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         'value' => $route['id'],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -322,11 +304,9 @@ final class ArticleAutoPublishTest extends WebTestCase
         ]);
 
         $client2->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client2->getResponse()->getStatusCode());
@@ -334,7 +314,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -349,7 +328,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -393,7 +371,6 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -409,20 +386,16 @@ final class ArticleAutoPublishTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'article',
                 'type' => RouteInterface::TYPE_CONTENT,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $route = json_decode($client->getResponse()->getContent(), true);
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -435,7 +408,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         'value' => $route['id'],
                     ],
                 ],
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -446,17 +418,14 @@ final class ArticleAutoPublishTest extends WebTestCase
         ]);
 
         $client1->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $route2 = json_decode($client1->getResponse()->getContent(), true);
 
         $client1->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -469,7 +438,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         'value' => $route2['id'],
                     ],
                 ],
-            ],
         ]);
         self::assertEquals(201, $client1->getResponse()->getStatusCode());
         $response = $this->pushContent();
@@ -483,7 +451,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -492,7 +459,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         'value' => true,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -502,7 +468,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -511,7 +476,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -546,7 +510,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -555,7 +518,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -585,7 +547,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -594,7 +555,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -609,7 +569,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -618,7 +577,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -648,7 +606,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -657,7 +614,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -674,11 +630,9 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

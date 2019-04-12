@@ -38,11 +38,9 @@ class TemplateRouteTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'myroute',
                 'type' => 'content',
                 'templateName' => 'route_not_found.html.twig',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

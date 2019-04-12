@@ -128,12 +128,10 @@ class ContentControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'simple-test-route',
                 'type' => 'content',
                 'content' => null,
                 'templateName' => 'test.html.twig',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -153,9 +151,7 @@ class ContentControllerTest extends WebTestCase
         $router = $this->getContainer()->get('router');
         $client = static::createClient();
         $client->request('PATCH', $router->generate('swp_api_content_update_routes', ['id' => 3]), [
-            'route' => [
                 'templateName' => 'articles_by_pageviews.html.twig',
-            ],
         ]);
 
         $expected = <<<'EOT'
@@ -182,9 +178,7 @@ EOT;
         $router = $this->getContainer()->get('router');
         $client = static::createClient();
         $client->request('PATCH', $router->generate('swp_api_content_update_routes', ['id' => 3]), [
-            'route' => [
                 'templateName' => 'articles_by_pageviews_in_date_range.html.twig',
-            ],
         ]);
 
         $expected = <<<'EOT'
@@ -232,11 +226,9 @@ EOT;
         $client = static::createClient();
         $router = $this->getContainer()->get('router');
         $client->request('POST', $router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'Sitemap',
                 'slug' => 'feed/sitemap.rss',
                 'type' => 'content',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

@@ -50,12 +50,10 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant for theme installation',
                 'subdomain' => 'newtheme',
                 'domainName' => 'localhost',
                 'organization' => '123456',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -110,9 +108,7 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
         self::assertEquals('published', $content['status']);
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 1]), [
-            'article' => [
                 'status' => 'unpublished',
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());

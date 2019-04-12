@@ -132,12 +132,10 @@ class ThemesControllerTest extends WebTestCase
     {
         $defaultClient = static::createClient();
         $defaultClient->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant for theme installation',
                 'subdomain' => 'newtheme',
                 'domainName' => 'localhost',
                 'organization' => '123456',
-            ],
         ]);
 
         $this->assertEquals(201, $defaultClient->getResponse()->getStatusCode());

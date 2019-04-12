@@ -182,9 +182,8 @@ class TenantController extends FOSRestController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $request->request->get($form->getName());
+            $formData = $request->request->all();
             $tenant->setUpdatedAt(new DateTime('now'));
-
             $this->get('swp.object_manager.tenant')->flush();
 
             $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
