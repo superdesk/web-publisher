@@ -511,9 +511,7 @@ class ContentListControllerTest extends WebTestCase
 
     private function createNewContentList(array $params)
     {
-        $this->client->request('POST', $this->router->generate('swp_api_content_create_lists'),
-            $params,
-        );
+        $this->client->request('POST', $this->router->generate('swp_api_content_create_lists'), $params);
 
         return $this->client->getResponse();
     }
