@@ -25,9 +25,9 @@ use SWP\Component\Paywall\Model\SubscriptionInterface;
 
 final class PaymentsHubAdapter extends AbstractPaywallAdapter
 {
-    public const API_ENDPOINT = '/public-api/v1/';
+    public const API_ENDPOINT = '/public-api/v2/';
 
-    public const API_AUTH_ENDPOINT = '/api/v1/login_check';
+    public const API_AUTH_ENDPOINT = '/api/v2/login_check';
 
     public const ENDPOINT_SUBSCRIPTIONS = self::API_ENDPOINT.'subscriptions/';
 

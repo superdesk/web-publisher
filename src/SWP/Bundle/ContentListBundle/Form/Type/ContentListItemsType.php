@@ -34,7 +34,7 @@ class ContentListItemsType extends AbstractType
                 'entry_type' => ContentListItemPositionType::class,
                 'allow_add' => true,
             ))
-            ->add('updated_at', TextType::class)
+            ->add('updatedAt', TextType::class)
         ;
     }
 

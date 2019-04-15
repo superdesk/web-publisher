@@ -190,11 +190,12 @@ class TenantController extends FOSRestController
             $tenantContext->setTenant($tenant);
 
             $settingsManager = $this->get('swp_settings.manager.settings');
+
             if (array_key_exists('fbiaEnabled', $formData)) {
-                $settingsManager->set('fbia_enabled', $formData['fbiaEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
+                $settingsManager->set('fbia_enabled', (bool) $formData['fbiaEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
             }
             if (array_key_exists('paywallEnabled', $formData)) {
-                $settingsManager->set('paywall_enabled', $formData['paywallEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
+                $settingsManager->set('paywall_enabled', (bool) $formData['paywallEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
             }
 
             return new SingleResourceResponse($tenant);

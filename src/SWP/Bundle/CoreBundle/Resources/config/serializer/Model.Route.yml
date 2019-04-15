@@ -2,7 +2,7 @@ SWP\Bundle\CoreBundle\Model\Route:
     exclusion_policy: ALL
     properties:
         articlesCount:
-            serialized_name: articlesCount
+            serialized_name: articles_count
             expose: true
             groups: [api]
             type: SWP\Bundle\CoreBundle\Model\ArticlesCountInterface

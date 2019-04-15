@@ -16,7 +16,6 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             expose: true
             groups: [api]
         articlesCount:
-            serialized_name: articlesCount
             expose: true
             groups: [api]
             type: SWP\Bundle\CoreBundle\Model\ArticlesCountInterface

@@ -65,9 +65,7 @@ class ContentListItemLoaderTest extends WebTestCase
             'id' => 2,
             'listId' => 1,
         ]), [
-            'content_list_item' => [
                 'sticky' => true,
-            ],
         ]);
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->getContainer()->get('doctrine')->getManager()->clear();
@@ -89,9 +87,7 @@ class ContentListItemLoaderTest extends WebTestCase
             'id' => 2,
             'listId' => 1,
         ]), [
-            'content_list_item' => [
                 'sticky' => true,
-            ],
         ]);
         $this->getContainer()->get('doctrine')->getManager()->clear();
 

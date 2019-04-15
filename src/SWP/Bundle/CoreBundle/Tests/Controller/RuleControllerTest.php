@@ -44,7 +44,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}]}}';
+        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}]}}';
 
         self::assertEquals($expected, $data);
     }
@@ -56,7 +56,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -81,7 +81,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"template_name":"test.html.twig"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -108,7 +108,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig","route":"3"},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"template_name":"test.html.twig","route":"3"},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -144,7 +144,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"templateName":"sydney.html.twig","route":"3"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v1\/rules\/2"}}}';
+        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"template_name":"sydney.html.twig","route":"3"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/2"}}}';
 
         self::assertEquals($expected, $data);
     }

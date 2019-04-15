@@ -58,14 +58,15 @@ class ContentListItemControllerTest extends WebTestCase
 
         self::assertCount(4, $content['_embedded']['_items']);
         self::assertEquals(0, $content['_embedded']['_items'][0]['position']);
+
         self::assertArraySubset(json_decode('
         {
             "_links": {
                 "item": {
-                    "href": "/api/v1/content/lists/1/items/1"
+                    "href": "/api/v2/content/lists/1/items/1"
                 },
                 "list": {
-                    "href": "/api/v1/content/lists/1"
+                    "href": "/api/v2/content/lists/1"
                 }
             },
             "content": {
@@ -74,13 +75,13 @@ class ContentListItemControllerTest extends WebTestCase
                         "href": "/article-1"
                     },
                     "self": {
-                        "href": "/api/v1/content/articles/article-1"
+                        "href": "/api/v2/content/articles/article-1"
                     }
                 },
                 "body": "art1",
-                "featureMedia": null,
+                "feature_media": null,
                 "id": 1,
-                "isPublishable": true,
+                "is_publishable": true,
                 "keywords": [
                 ],
                 "lead": null,
@@ -90,17 +91,17 @@ class ContentListItemControllerTest extends WebTestCase
                     "byline": "John Smith",
                     "located": "Berlin"
                 },
-                "publishedAt": null,
-                "publishEndDate": null,
-                "publishStartDate": null,
+                "published_at": null,
+                "publish_end_date": null,
+                "publish_start_date": null,
                 "route": {
                     "_links": {
                         "self": {
-                            "href": "/api/v1/content/routes/3"
+                            "href": "/api/v2/content/routes/3"
                         }
                     },
-                    "articlesTemplateName": null,
-                    "cacheTimeInSeconds": 0,
+                    "articles_template_name": null,
+                    "cache_time_in_seconds": 0,
                     "children": [
                     ],
                     "content": null,
@@ -111,14 +112,14 @@ class ContentListItemControllerTest extends WebTestCase
                     "name": "news",
                     "parent": null,
                     "position": 1,
-                    "staticPrefix": null,
-                    "templateName": null,
+                    "static_prefix": null,
+                    "template_name": null,
                     "type": "collection",
-                    "variablePattern": "/{slug}"
+                    "variable_pattern": "/{slug}"
                 },
                 "slug": "article-1",
                 "status": "published",
-                "templateName": null,
+                "template_name": null,
                 "title": "article1"
             },
             "enabled": true,
@@ -141,7 +142,7 @@ class ContentListItemControllerTest extends WebTestCase
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        self::assertArraySubset(json_decode('{"id":1,"content":{"id":1,"title":"article1","body":"art1","slug":"article-1","publishedAt":null,"status":"published","route":{"id":3,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","parent":null,"children":[],"lft":3,"rgt": 4,"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"news","position":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"featureMedia":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/article-1"},"online":{"href":"\/article-1"}}},"position":0,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v1\/content\/lists\/1"},"item":{"href":"\/api\/v1\/content\/lists\/1\/items\/1"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"content":{"id":1,"title":"article1","body":"art1","slug":"article-1","published_at":null,"status":"published","route":{"id":3,"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","parent":null,"children":[],"lft":3,"rgt": 4,"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","position":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/3"}}},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"feature_media":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v2\/content\/articles\/article-1"},"online":{"href":"\/article-1"}}},"position":0,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v2\/content\/lists\/1"},"item":{"href":"\/api\/v2\/content\/lists\/1\/items\/1"}}}', true), $content);
     }
 
     public function testGetSingleArticleAndItsContentLists()
@@ -152,8 +153,8 @@ class ContentListItemControllerTest extends WebTestCase
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        self::assertCount(1, $content['contentLists']);
-        self::assertEquals(1, $content['contentLists'][0]['id']);
+        self::assertCount(1, $content['content_lists']);
+        self::assertEquals(1, $content['content_lists'][0]['id']);
     }
 
     public function testGetSingleListItemWhenItemDoesntExist()
@@ -182,9 +183,7 @@ class ContentListItemControllerTest extends WebTestCase
             'id' => 2,
             'listId' => 1,
         ]), [
-            'content_list_item' => [
                 'sticky' => true,
-            ],
         ]);
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -203,9 +202,7 @@ class ContentListItemControllerTest extends WebTestCase
             'id' => 2,
             'listId' => 1,
         ]), [
-            'content_list_item' => [
                 'sticky' => false,
-            ],
         ]);
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -241,15 +238,13 @@ class ContentListItemControllerTest extends WebTestCase
         $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
             'listId' => 1,
         ]), [
-            'content_list' => [
-                'updated_at' => $listUpdatedAt,
+                'updatedAt' => $listUpdatedAt,
                 'items' => [
                     [
-                        'content_id' => 3,
+                        'contentId' => 3,
                         'action' => 'delete',
                     ],
                 ],
-            ],
         ]);
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
@@ -262,16 +257,14 @@ class ContentListItemControllerTest extends WebTestCase
         $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
             'listId' => 1,
         ]), [
-            'content_list' => [
-                'updated_at' => $listUpdatedAt,
+                'updatedAt' => $listUpdatedAt,
                 'items' => [
                     [
-                        'content_id' => 3,
+                        'contentId' => 3,
                         'action' => 'add',
                         'position' => '-1',
                     ],
                 ],
-            ],
         ]);
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
@@ -284,16 +277,14 @@ class ContentListItemControllerTest extends WebTestCase
         $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
             'listId' => 1,
         ]), [
-            'content_list' => [
-                'updated_at' => $listUpdatedAt,
+                'updatedAt' => $listUpdatedAt,
                 'items' => [
                     [
-                        'content_id' => 3,
+                        'contentId' => 3,
                         'action' => 'move',
                         'position' => 2,
                     ],
                 ],
-            ],
         ]);
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
         $listData = json_decode($this->client->getResponse()->getContent(), true);
@@ -336,25 +327,23 @@ class ContentListItemControllerTest extends WebTestCase
                 ]
             ),
             [
-                'content_list' => [
-                    'updated_at' => $listUpdatedAt,
+                    'updatedAt' => $listUpdatedAt,
                     'items' => [
                         [
-                            'content_id' => 3,
+                            'contentId' => 3,
                             'action' => 'delete',
                         ],
                         [
-                            'content_id' => 3,
+                            'contentId' => 3,
                             'action' => 'add',
                             'position' => '-1',
                         ],
                         [
-                            'content_id' => 3,
+                            'contentId' => 3,
                             'action' => 'move',
                             'position' => 2,
                         ],
                     ],
-                ],
             ]
         );
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
@@ -379,23 +368,21 @@ class ContentListItemControllerTest extends WebTestCase
                 ]
             ),
             [
-                'content_list' => [
-                    'updated_at' => $listUpdatedAt,
+                    'updatedAt' => $listUpdatedAt,
                     'items' => [
                         [
-                            'content_id' => 3,
+                            'contentId' => 3,
                             'action' => 'delete',
                         ],
                         [
-                            'content_id' => 2,
+                            'contentId' => 2,
                             'action' => 'delete',
                         ],
                         [
-                            'content_id' => 1,
+                            'contentId' => 1,
                             'action' => 'delete',
                         ],
                     ],
-                ],
             ]
         );
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());
@@ -414,23 +401,21 @@ class ContentListItemControllerTest extends WebTestCase
                 ]
             ),
             [
-                'content_list' => [
-                    'updated_at' => $listUpdatedAt,
+                    'updatedAt' => $listUpdatedAt,
                     'items' => [
                         [
-                            'content_id' => 3,
+                            'contentId' => 3,
                             'action' => 'add',
                         ],
                         [
-                            'content_id' => 2,
+                            'contentId' => 2,
                             'action' => 'add',
                         ],
                         [
-                            'content_id' => 1,
+                            'contentId' => 1,
                             'action' => 'add',
                         ],
                     ],
-                ],
             ]
         );
         self::assertEquals(201, $this->client->getResponse()->getStatusCode());

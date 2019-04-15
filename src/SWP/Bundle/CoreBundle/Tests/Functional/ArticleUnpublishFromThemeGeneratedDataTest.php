@@ -74,9 +74,7 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
 
         $fileName = $this->createZipArchive($tempThemeDir);
         $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
-            'theme_upload' => [
                 'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -87,10 +85,8 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
         self::assertCount(0, $data['_embedded']['_items']);
 
         $client->request('POST', $this->router->generate('swp_api_install_theme'), [
-            'theme_install' => [
                 'name' => 'swp/test-theme-install-generated-data',
                 'processGeneratedData' => true,
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 

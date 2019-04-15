@@ -37,7 +37,7 @@ class ContentListItemPositionType extends AbstractType
             ->add('action', TextType::class, [
                 'description' => 'Defines content action (add, move or delete).',
             ])
-            ->add('content_id', IntegerType::class, [
+            ->add('contentId', IntegerType::class, [
                 'description' => 'Content identifier.',
             ])
         ;

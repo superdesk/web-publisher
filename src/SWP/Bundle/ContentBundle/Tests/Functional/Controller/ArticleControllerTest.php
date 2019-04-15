@@ -18,6 +18,7 @@ use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
+use SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData;
 
 class ArticleControllerTest extends WebTestCase
 {
@@ -34,7 +35,7 @@ class ArticleControllerTest extends WebTestCase
         $this->initDatabase();
         $this->loadFixtures(
             [
-                'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData',
+                LoadArticlesData::class,
             ], 'default'
         );
 
@@ -55,15 +56,13 @@ class ArticleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'template_name' => 'test.html.twig',
-            ],
         ]);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         $this->assertArraySubset(['templateName' => 'test.html.twig'], $responseArray);
-        $this->assertTrue(null != $responseArray['updatedAt']);
-        $this->assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
+        $this->assertTrue(null != $responseArray['updated_at']);
+        $this->assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['createdAt']));
     }
 
     public function testPublishingArticle()
@@ -71,43 +70,35 @@ class ArticleControllerTest extends WebTestCase
         $client = static::createClient();
         // unpublish article from fixtures
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'status' => 'new',
-            ],
         ]);
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         self::assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
-        $publishedAt = $responseArray['publishedAt'];
+        $publishedAt = $responseArray['published_at'];
         sleep(1);
         //publish unpublished article
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'status' => 'published',
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         self::assertArraySubset(['status' => 'published'], $responseArray);
-        self::assertTrue(null != $responseArray['updatedAt']);
-        self::assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
-        self::assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
+        self::assertTrue(null != $responseArray['updated_at']);
+        self::assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['createdAt']));
+        self::assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['createdAt']));
     }
 
     public function testIfRouteChangedWhenRouteParentWasSwitched()
     {
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'route' => null,
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'route' => 3,
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -117,9 +108,7 @@ class ArticleControllerTest extends WebTestCase
         );
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
-            'route' => [
                 'name' => 'features',
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -141,17 +130,13 @@ class ArticleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'route' => null,
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(['route' => null], json_decode($client->getResponse()->getContent(), true));
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'route' => 1,
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
@@ -169,9 +154,7 @@ class ArticleControllerTest extends WebTestCase
         self::assertArraySubset(['route' => ['id' => 1]], json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'test-news-article']), [
-            'article' => [
                 'route' => 2,
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -186,9 +169,7 @@ class ArticleControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
-            'article' => [
                 'route' => 999,
-            ],
         ]);
 
         self::assertEquals(400, $client->getResponse()->getStatusCode());
@@ -200,24 +181,24 @@ class ArticleControllerTest extends WebTestCase
 
         self::assertEquals('new', $content['_embedded']['_items'][0]['status']);
         self::assertEquals(1, $content['total']);
-        self::assertFalse($content['_embedded']['_items'][0]['isPublishable']);
-        self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
+        self::assertFalse($content['_embedded']['_items'][0]['is_publishable']);
+        self::assertNull($content['_embedded']['_items'][0]['published_at']);
         self::assertEquals('Article 1', $content['_embedded']['_items'][0]['title']);
 
         $content = $this->getArticlesByStatus('unpublished');
 
         self::assertEquals(1, $content['total']);
         self::assertEquals('unpublished', $content['_embedded']['_items'][0]['status']);
-        self::assertFalse($content['_embedded']['_items'][0]['isPublishable']);
-        self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
+        self::assertFalse($content['_embedded']['_items'][0]['is_publishable']);
+        self::assertNull($content['_embedded']['_items'][0]['published_at']);
         self::assertEquals('Article 2', $content['_embedded']['_items'][0]['title']);
 
         $content = $this->getArticlesByStatus('canceled');
 
         self::assertEquals(1, $content['total']);
         self::assertEquals('canceled', $content['_embedded']['_items'][0]['status']);
-        self::assertFalse($content['_embedded']['_items'][0]['isPublishable']);
-        self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
+        self::assertFalse($content['_embedded']['_items'][0]['is_publishable']);
+        self::assertNull($content['_embedded']['_items'][0]['published_at']);
         self::assertEquals('Article 3', $content['_embedded']['_items'][0]['title']);
 
         $client = static::createClient();

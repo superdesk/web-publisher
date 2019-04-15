@@ -73,8 +73,8 @@ final class TenantHandler implements SubscribingHandlerInterface, EventSubscribe
     public function onPostSerialize(ObjectEvent $event): void
     {
         $tenant = $event->getObject();
-        $event->getVisitor()->setData('fbiaEnabled', $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
-        $event->getVisitor()->setData('paywallEnabled', $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
+        $event->getVisitor()->setData('fbia_enabled', $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
+        $event->getVisitor()->setData('paywall_enabled', $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
     }
 
     public function serializeToJson(

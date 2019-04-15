@@ -43,18 +43,16 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'simple-test-route',
                     'type' => 'content',
                     'content' => null,
-                ],
             ]
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertEquals(
             json_decode(
-                '{"id":1,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":0,"name":"simple-test-route","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2}',
+                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -73,12 +71,10 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'simple-test-route',
                     'type' => 'content',
                     'content' => 2,
                     'cacheTimeInSeconds' => 1,
-                ],
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -86,7 +82,7 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertArraySubset(
             json_decode(
-                '{"id":2,"content":{"id":2,"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"id":1,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"news","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":null,"media":[],"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/test-content-article"},"online":{"href":"\/test-content-article"}}},"staticPrefix":"\/simple-test-route","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"simple-test-route","position":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}}}',
+                '{"id":2,"content":{"id":2,"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"id":1,"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":null,"media":[],"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v2\/content\/articles\/test-content-article"},"online":{"href":"\/test-content-article"}}},"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}}}',
                 true
             ),
             $content
@@ -100,19 +96,17 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'simple-test-route',
                     'type' => 'content',
                     'content' => null,
                     'cacheTimeInSeconds' => 1,
-                ],
             ]
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
             json_decode(
-                '{"id":1,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"simple-test-route","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}}',
+                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -122,9 +116,7 @@ class RouteControllerTest extends WebTestCase
             'PATCH',
             $this->router->generate('swp_api_content_update_routes', ['id' => 1]),
             [
-                'route' => [
                     'name' => 'simple-test-route-new-name',
-                ],
             ]
         );
 
@@ -149,12 +141,10 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'simple-test-route',
                     'type' => 'content',
                     'content' => null,
                     'cacheTimeInSeconds' => 1,
-                ],
             ]
         );
 
@@ -165,19 +155,17 @@ class RouteControllerTest extends WebTestCase
             'PATCH',
             $this->router->generate('swp_api_content_update_routes', ['id' => $content['id']]),
             [
-                'route' => [
                     'name' => 'simple-edited-test-route',
                     'type' => 'collection',
                     'content' => 2,
                     'cacheTimeInSeconds' => 50,
-                ],
             ]
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
             json_decode(
-                '{"content":{"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"news","position":0},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":null,"media":[],"lead":null},"staticPrefix":"\/simple-test-route","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":50,"name":"simple-edited-test-route","position":1}',
+                '{"content":{"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","position":0},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":null,"media":[],"lead":null},"static_prefix":"\/simple-test-route","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":50,"name":"simple-edited-test-route","position":1}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -190,9 +178,7 @@ class RouteControllerTest extends WebTestCase
             'PATCH',
             $this->router->generate('swp_api_content_update_routes', ['id' => $content['id']]),
             [
-                'route' => [
                     'content' => null,
-                ],
             ]
         );
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -208,18 +194,16 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'simple-test-route',
                     'type' => 'content',
                     'templateName' => 'test.html.twig',
                     'cacheTimeInSeconds' => 1,
-                ],
             ]
         );
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
             json_decode(
-                '{"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"children":[],"level":0,"templateName":"test.html.twig","articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"simple-test-route","position":0}',
+                '{"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":0}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -233,12 +217,10 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'testing-route-type',
                     'type' => 'fake-type',
                     'templateName' => 'test.html.twig',
                     'cacheTimeInSeconds' => 1,
-                ],
             ]
         );
         self::assertEquals(400, $client->getResponse()->getStatusCode());
@@ -258,10 +240,8 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'root',
                     'type' => 'collection',
-                ],
             ]
         );
 
@@ -272,11 +252,9 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'root-child1',
                     'type' => 'collection',
                     'parent' => $rootContent['id'],
-                ],
             ]
         );
 
@@ -288,9 +266,7 @@ class RouteControllerTest extends WebTestCase
             'PATCH',
             $this->router->generate('swp_api_content_update_routes', ['id' => $content['id']]),
             [
-                'route' => [
                     'parent' => null,
-                ],
             ]
         );
 
@@ -306,10 +282,8 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'root',
                     'type' => 'collection',
-                ],
             ]
         );
 
@@ -320,11 +294,9 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'root-child1',
                     'type' => 'collection',
                     'parent' => $rootContent['id'],
-                ],
             ]
         );
 
@@ -336,11 +308,9 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'child1-root-child1',
                     'type' => 'collection',
                     'parent' => $content['id'],
-                ],
             ]
         );
 
@@ -352,7 +322,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertArraySubset(
             json_decode(
-                '{"id":1,"content":null,"staticPrefix":"\/root","variablePattern":"\/{slug}","parent":null,"children":[{"id":2,"content":null,"staticPrefix":"\/root\/root-child1","variablePattern":"\/{slug}","parent":1,"children":[{"id":3,"content":null,"staticPrefix":"\/root\/root-child1\/child1-root-child1","variablePattern":"\/{slug}","parent":2,"children":[],"level":2,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"child1-root-child1","slug":"child1-root-child1","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"},"parent":{"href":"\/api\/v1\/content\/routes\/2"}}}],"level":1,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"root-child1","slug":"root-child1","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"},"parent":{"href":"\/api\/v1\/content\/routes\/1"}}}],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"root","slug":"root","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}}',
+                '{"id":1,"content":null,"static_prefix":"\/root","variable_pattern":"\/{slug}","parent":null,"children":[{"id":2,"content":null,"static_prefix":"\/root\/root-child1","variable_pattern":"\/{slug}","parent":1,"children":[{"id":3,"content":null,"static_prefix":"\/root\/root-child1\/child1-root-child1","variable_pattern":"\/{slug}","parent":2,"children":[],"level":2,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"child1-root-child1","slug":"child1-root-child1","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/3"},"parent":{"href":"\/api\/v2\/content\/routes\/2"}}}],"level":1,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"root-child1","slug":"root-child1","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"},"parent":{"href":"\/api\/v2\/content\/routes\/1"}}}],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"root","slug":"root","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}}',
                 true
             ),
             $content
@@ -372,11 +342,9 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'root',
                     'type' => 'collection',
                     'parent' => 99999,
-                ],
             ]
         );
 
@@ -399,11 +367,9 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'route1',
                     'type' => 'content',
                     'cacheTimeInSeconds' => 1,
-                ],
             ]
         );
 
@@ -413,11 +379,9 @@ class RouteControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_content_create_routes'),
             [
-                'route' => [
                     'name' => 'route2',
                     'type' => 'collection',
                     'cacheTimeInSeconds' => 2,
-                ],
             ]
         );
 
@@ -430,7 +394,7 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[], "lft":1, "rgt": 2},{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt": 4}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[], "lft":1, "rgt": 2},{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt": 4}]}}',
                 true
             ),
             $content
@@ -451,7 +415,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[],"lft":1,"rgt":2}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[],"lft":1,"rgt":2}]}}',
                 true
             ),
             $content
@@ -472,7 +436,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt":4}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt":4}]}}',
                 true
             ),
             $content
@@ -493,7 +457,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=fake&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=fake&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=fake&page=1&limit=10"}},"_embedded":{"_items":[]}}',
+                '{"page":1,"limit":10,"pages":1,"total":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=fake&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=fake&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=fake&page=1&limit=10"}},"_embedded":{"_items":[]}}',
                 true
             ),
             $content

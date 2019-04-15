@@ -76,7 +76,7 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertArrayHasKey('is_publishable', $content);
         self::assertEquals($content['is_publishable'], false);
-        self::assertEquals($content['isPublishedFBIA'], false);
+        self::assertEquals($content['is_published_fbia'], false);
         self::assertNull($content['published_at']);
         self::assertNull($content['route']);
         self::assertEquals($content['status'], 'new');
@@ -121,7 +121,7 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertArrayHasKey('is_publishable', $content);
         self::assertEquals($content['is_publishable'], false);
-        self::assertEquals($content['isPublishedFBIA'], false);
+        self::assertEquals($content['is_published_fbia'], false);
         self::assertNull($content['published_at']);
         self::assertNull($content['route']);
         self::assertEquals($content['status'], 'new');
@@ -188,7 +188,7 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertArrayHasKey('is_publishable', $content);
         self::assertEquals($content['is_publishable'], true);
-        self::assertEquals($content['isPublishedFBIA'], false);
+        self::assertEquals($content['is_published_fbia'], false);
         self::assertNotNull($content['published_at']);
         self::assertEquals($content['route']['id'], $route['id']);
         self::assertEquals($content['status'], 'published');
@@ -496,10 +496,8 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
-            'content_list' => [
                 'name' => 'Example bucket',
                 'type' => 'bucket',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -533,10 +531,8 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
-            'content_list' => [
                 'name' => 'Example bucket',
                 'type' => 'bucket',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -563,7 +559,7 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => $bucket['id']]));
 
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertTrue($content['_embedded']['_items'][0]['content']['isPublishedFBIA']);
+        self::assertTrue($content['_embedded']['_items'][0]['content']['is_published_fbia']);
         self::assertEquals(1, $content['total']);
 
         $client->request(
@@ -592,10 +588,8 @@ final class ArticleAutoPublishTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
-            'content_list' => [
                 'name' => 'Example bucket',
                 'type' => 'bucket',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

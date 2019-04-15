@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Bridge Bundle.
  *
@@ -16,23 +18,23 @@ namespace SWP\Bundle\ContentBundle\Tests\Functional;
 
 use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
+use SWP\Bundle\ContentBundle\Tests\Functional\app\AppKernel;
 
 class WebTestCase extends BaseWebTestCase
 {
     protected $manager;
 
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         require_once __DIR__.'/app/AppKernel.php';
 
-        return 'SWP\Bundle\ContentBundle\Tests\Functional\app\AppKernel';
+        return AppKernel::class;
     }
 
-    protected function initDatabase()
+    protected function initDatabase(): void
     {
         $kernel = $this->createKernel();
         $kernel->boot();
-        $this->container = $kernel->getContainer();
         $this->manager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
         $schemaTool = new SchemaTool($this->manager);
         $metadata = $this->manager->getMetadataFactory()->getAllMetadata();

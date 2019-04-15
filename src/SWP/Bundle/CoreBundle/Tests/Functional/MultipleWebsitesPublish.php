@@ -100,24 +100,20 @@ final class MultipleWebsitesPublish extends WebTestCase
         // update content list filters for tenant2
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => sprintf(
                         '{"route":[%d],"author":["ADmin"],"metadata":{"located":"Sydney"}}',
                         $clientContent['id']
                     ),
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 2]), [
-                'content_list' => [
                     'filters' => sprintf(
                         '{"route":[%d],"author":["fakeeeee"],"metadata":{"located":"Sydney"}}',
                         $clientContent['id']
                     ),
-                ],
             ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -148,12 +144,10 @@ final class MultipleWebsitesPublish extends WebTestCase
         // update content list filters for tenant2
         $client2->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 4]), [
-                'content_list' => [
                     'filters' => sprintf(
                         '{"route":[%d],"author":["ADmin"],"metadata":{"located":"Sydney"}}',
                         $client2Content['id']
                     ),
-                ],
             ]);
 
         self::assertEquals(200, $client2->getResponse()->getStatusCode());

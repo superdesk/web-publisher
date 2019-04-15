@@ -53,7 +53,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"id":4,"subdomain":"test","name":"Test Tenant","organization":{"id":1,"name":"Organization1","code":"123456"},"enabled":true,"themeName":"swp\/test-theme","domainName":"localhost"}', true
+            '{"id":4,"subdomain":"test","name":"Test Tenant","organization":{"id":1,"name":"Organization1","code":"123456"},"enabled":true,"theme_name":"swp\/test-theme","domain_name":"localhost"}', true
         ), json_decode(
             $client->getResponse()->getContent(),
             true
@@ -216,7 +216,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":1,"name":"Organization1"},"enabled":true,"themeName":"swp\/test-theme","domainName":"test.com"}', true),
+            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":1,"name":"Organization1"},"enabled":true,"theme_name":"swp\/test-theme","domain_name":"test.com"}', true),
             json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
@@ -229,7 +229,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"ampEnabled":true, "fbiaEnabled": true, "paywallEnabled": true}', true),
+            '{"amp_enabled":true, "fbia_enabled": true, "paywall_enabled": true}', true),
             json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
@@ -240,7 +240,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"ampEnabled":true, "fbiaEnabled": true, "paywallEnabled": false}', true),
+            '{"amp_enabled":true, "fbia_enabled": true, "paywall_enabled": false}', true),
             json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -300,11 +300,11 @@ class TenantControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
         $response = \json_decode($client->getResponse()->getContent(), true);
 
-        self::assertTrue(5 === $response['articlesCount']);
+        self::assertSame(5, $response['articles_count']);
 
         $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '456def']));
         $response = \json_decode($client->getResponse()->getContent(), true);
 
-        self::assertTrue(0 === $response['articlesCount']);
+        self::assertSame(0, $response['articles_count']);
     }
 }

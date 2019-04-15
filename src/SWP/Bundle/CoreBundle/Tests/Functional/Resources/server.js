@@ -66,13 +66,13 @@ server.get('/my-preview-url', (req, res) => {
 });
 
 // Payments Hub mock
-server.post('/api/v1/login_check', (req, res) => {
+server.post('/api/v2/login_check', (req, res) => {
     res.status(200).json({
         token: '12345678',
     });
 });
 
-server.get('/public-api/v1/subscriptions/', (req, res) => {
+server.get('/public-api/v2/subscriptions/', (req, res) => {
     let id = 79;
     let articleId = 20;
     let routeId = 10;

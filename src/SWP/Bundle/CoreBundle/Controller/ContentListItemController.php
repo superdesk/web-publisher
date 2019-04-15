@@ -154,7 +154,7 @@ class ContentListItemController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $updatedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $data['updated_at'], new \DateTimeZone('UTC'));
+            $updatedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $data['updatedAt'], new \DateTimeZone('UTC'));
             $updatedAt->setTimezone(new \DateTimeZone('UTC'));
             $listUpdatedAt = $list->getUpdatedAt();
             $listUpdatedAt->setTimezone(new \DateTimeZone('UTC'));
@@ -174,29 +174,29 @@ class ContentListItemController extends Controller
 
                 switch ($item['action']) {
                     case 'move':
-                        $contentListItem = $this->findByContentOr404($list, $item['content_id']);
+                        $contentListItem = $this->findByContentOr404($list, $item['contentId']);
                         $contentListItem->setPosition($item['position']);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
-                        $updatedArticles[$item['content_id']] = $contentListItem->getContent();
+                        $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
                     case 'add':
-                        $object = $this->get('swp.repository.article')->findOneById($item['content_id']);
+                        $object = $this->get('swp.repository.article')->findOneById($item['contentId']);
                         $contentListItem = $this->get('swp.service.content_list')
                             ->addArticleToContentList($list, $object, $item['position']);
                         $objectManager->persist($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
-                        $updatedArticles[$item['content_id']] = $contentListItem->getContent();
+                        $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
                     case 'delete':
-                        $contentListItem = $this->findByContentOr404($list, $item['content_id']);
+                        $contentListItem = $this->findByContentOr404($list, $item['contentId']);
                         $objectManager->remove($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
-                        $updatedArticles[$item['content_id']] = $contentListItem->getContent();
+                        $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
                 }

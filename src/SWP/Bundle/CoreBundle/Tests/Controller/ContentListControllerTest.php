@@ -57,7 +57,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(201, $response->getStatusCode());
         $content = json_decode($response->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":"New list","type":"automatic","cacheLifeTime":30,"limit":5,"filters":{"metadata":{"located":"Sydney"}},"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":"New list","type":"automatic","cache_life_time":30,"limit":5,"filters":{"metadata":{"located":"Sydney"}},"enabled":true,"_links":{"self":{"href":"\/api\/v2\/content\/lists\/1"},"items":{"href":"\/api\/v2\/content\/lists\/1\/items\/"}}}', true), $content);
     }
 
     public function testCreateAndGetSingleContentListApi()
@@ -72,7 +72,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('GET', $this->router->generate('swp_api_content_show_lists', ['id' => $content['id']]));
 
-        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cacheLifeTime":null,"limit":null,"filters":[],"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cache_life_time":null,"limit":null,"filters":[],"enabled":true,"_links":{"self":{"href":"\/api\/v2\/content\/lists\/1"},"items":{"href":"\/api\/v2\/content\/lists\/1\/items\/"}}}', true), $content);
     }
 
     public function testCreateSingleContentListApiWithWrongType()
@@ -110,7 +110,7 @@ class ContentListControllerTest extends WebTestCase
 
         $content = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cacheLifeTime":null,"limit":null,"filters":[],"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}},{"id":2,"name":"Manual list","description":null,"type":"manual","cacheLifeTime":null,"limit":null,"filters":[],"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/2"},"items":{"href":"\/api\/v1\/content\/lists\/2\/items\/"}}}]}}', true), $content);
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v2\/content\/lists\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/lists\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/lists\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cache_life_time":null,"limit":null,"filters":[],"enabled":true,"_links":{"self":{"href":"\/api\/v2\/content\/lists\/1"},"items":{"href":"\/api\/v2\/content\/lists\/1\/items\/"}}},{"id":2,"name":"Manual list","description":null,"type":"manual","cache_life_time":null,"limit":null,"filters":[],"enabled":true,"_links":{"self":{"href":"\/api\/v2\/content\/lists\/2"},"items":{"href":"\/api\/v2\/content\/lists\/2\/items\/"}}}]}}', true), $content);
     }
 
     public function testDeleteContentList()
@@ -149,20 +149,18 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => $content['id']]), [
-            'content_list' => [
                 'name' => 'Example automatic list edited',
                 'type' => 'automatic',
                 'description' => 'New list edited',
                 'limit' => 2,
                 'cacheLifeTime' => 60,
                 'filters' => '{"metadata":{"located":"Sydney"},"route":[1,2]}',
-            ],
         ]);
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list edited","description":"New list edited","type":"automatic","cacheLifeTime":60,"limit":2,"filters":{"metadata":{"located":"Sydney"},"route":[1,2]},"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list edited","description":"New list edited","type":"automatic","cache_life_time":60,"limit":2,"filters":{"metadata":{"located":"Sydney"},"route":[1,2]},"enabled":true,"_links":{"self":{"href":"\/api\/v2\/content\/lists\/1"},"items":{"href":"\/api\/v2\/content\/lists\/1\/items\/"}}}', true), $content);
     }
 
     public function testContentListItemsByRouteFiltersApi()
@@ -175,9 +173,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"route":[3,4]}',
-                ],
             ]);
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -192,9 +188,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"route":[3]}',
-                ],
             ]
         );
 
@@ -210,9 +204,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"route":[4]}',
-                ],
             ]
         );
 
@@ -237,9 +229,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Test Persona"]}',
-                ],
             ]
         );
 
@@ -255,9 +245,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Adam Hide"]}',
-                ],
             ]
         );
 
@@ -273,9 +261,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Adam Hide","John Smith"]}',
-                ],
             ]
         );
 
@@ -291,9 +277,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Fake Doe","John Smith"]}',
-                ],
             ]
         );
 
@@ -318,9 +302,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"route":"politics"}',
-                ],
             ]
         );
 
@@ -345,9 +327,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"route":["5"]}',
-                ],
             ]
         );
 
@@ -372,9 +352,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Adam Hide"],"route":[5]}',
-                ],
             ]
         );
 
@@ -390,9 +368,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Adam Hide"],"route":[4]}',
-                ],
             ]
         );
 
@@ -408,9 +384,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Adam Hide"],"route":[4],"metadata":{"located":"Warsaw"}}',
-                ],
             ]
         );
 
@@ -426,9 +400,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["John Smith"],"route":[3],"metadata":{"located":"Berlin"}}',
-                ],
             ]
         );
 
@@ -444,9 +416,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                'content_list' => [
                     'filters' => '{"author":["Fake Doe"],"route":[5],"metadata":{"located":"Warsaw"}}',
-                ],
             ]
         );
 
@@ -475,7 +445,7 @@ class ContentListControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
-            'HTTP_LINK' => '</api/v1/content/articles/1; rel="article">',
+            'HTTP_LINK' => '</api/v2/content/articles/1; rel="article">',
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
@@ -484,7 +454,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertCount(1, json_decode($client->getResponse()->getContent(), true)['_embedded']['_items']);
 
         $client->request('UNLINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
-            'HTTP_LINK' => '</api/v1/content/articles/1; rel="article">',
+            'HTTP_LINK' => '</api/v2/content/articles/1; rel="article">',
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
@@ -507,7 +477,7 @@ class ContentListControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
-            'HTTP_LINK' => '</api/v1/content/articles/1; rel="widget">',
+            'HTTP_LINK' => '</api/v2/content/articles/1; rel="widget">',
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -517,7 +487,7 @@ class ContentListControllerTest extends WebTestCase
 
         // Move article 2 on position 1
         $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
-            'HTTP_LINK' => '</api/v1/content/articles/2; rel="widget">,<1; rel="position">',
+            'HTTP_LINK' => '</api/v2/content/articles/2; rel="widget">,<1; rel="position">',
         ]);
         $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -528,7 +498,7 @@ class ContentListControllerTest extends WebTestCase
 
         // Move article 2 on position 0
         $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
-            'HTTP_LINK' => '</api/v1/content/articles/2; rel="widget">,<0; rel="position">',
+            'HTTP_LINK' => '</api/v2/content/articles/2; rel="widget">,<0; rel="position">',
         ]);
 
         $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
@@ -541,9 +511,9 @@ class ContentListControllerTest extends WebTestCase
 
     private function createNewContentList(array $params)
     {
-        $this->client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
-            'content_list' => $params,
-        ]);
+        $this->client->request('POST', $this->router->generate('swp_api_content_create_lists'),
+            $params,
+        );
 
         return $this->client->getResponse();
     }
