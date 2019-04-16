@@ -26,6 +26,7 @@ use Elastica\Query\Term;
 use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use FOS\ElasticaBundle\Repository;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
+use SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader;
 
 class ArticleRepository extends Repository
 {
