@@ -81,7 +81,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"template_name":"test.html.twig"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -108,7 +108,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"template_name":"test.html.twig","route":"3"},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig","route":"3"},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -144,7 +144,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"template_name":"sydney.html.twig","route":"3"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/2"}}}';
+        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"templateName":"sydney.html.twig","route":"3"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/2"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -180,7 +180,7 @@ class RuleControllerTest extends WebTestCase
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals(0, $data['articlesCount']);
+        self::assertEquals(0, $data['articles_count']);
 
         $client->request(
             'POST',
@@ -319,7 +319,7 @@ class RuleControllerTest extends WebTestCase
         );
 
         self::assertArraySubset(
-            ['templateName' => 'test.html.twig'],
+            ['template_name' => 'test.html.twig'],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
