@@ -26,10 +26,11 @@ use Elastica\Query\Term;
 use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use FOS\ElasticaBundle\Repository;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
+use SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader;
 
 class ArticleRepository extends Repository
 {
-    public function findByCriteria(Criteria $criteria, array $extraFields): PaginatorAdapterInterface
+    public function findByCriteria(Criteria $criteria, array $extraFields = [], bool $searchByBody = false): PaginatorAdapterInterface
     {
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
@@ -39,6 +40,10 @@ class ArticleRepository extends Repository
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
+            }
+
+            if ($searchByBody) {
+                $searchBy[] = 'body';
             }
 
             $priority = 1;
@@ -117,6 +122,8 @@ class ArticleRepository extends Repository
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
+
+        $query->setSize(SearchResultLoader::MAX_RESULTS);
 
         return $this->createPaginatorAdapter($query);
     }
