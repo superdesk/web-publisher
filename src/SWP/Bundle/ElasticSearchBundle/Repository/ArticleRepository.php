@@ -118,6 +118,8 @@ class ArticleRepository extends Repository
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 
+        $query->setSize(SearchResultLoader::MAX_RESULTS);
+
         return $this->createPaginatorAdapter($query);
     }
 }
