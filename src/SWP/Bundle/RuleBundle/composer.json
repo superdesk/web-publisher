@@ -28,7 +28,7 @@
         "burgov/key-value-form-bundle": "@stable"
     },
     "require-dev": {
-        "phpspec/phpspec": "^3.0"
+        "phpspec/phpspec": "^5.1"
     },
     "autoload": {
         "exclude-from-classmap": [

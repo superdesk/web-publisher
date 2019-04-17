@@ -27,7 +27,7 @@
     "swp/common": "^2.0"
   },
   "require-dev": {
-    "phpspec/phpspec": "^3.0"
+    "phpspec/phpspec": "^5.1"
   },
   "autoload": {
     "exclude-from-classmap": [

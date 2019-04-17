@@ -20,7 +20,7 @@
     "symfony/dependency-injection": "^4.2",
     "doctrine/common": "2.6.*",
     "nelmio/alice": "2.2.*",
-    "liip/functional-test-bundle": "1.6.*"
+    "liip/functional-test-bundle": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "5.*"

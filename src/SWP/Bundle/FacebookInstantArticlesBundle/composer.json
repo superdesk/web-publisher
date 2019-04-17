@@ -28,7 +28,7 @@
     "swp/storage-bundle": "^2.0"
   },
   "require-dev": {
-    "phpspec/phpspec": ">=3.2.3 <4.0",
+    "phpspec/phpspec": "^5.1",
     "phpspec/prophecy": "1.7.*"
   },
   "autoload": {
