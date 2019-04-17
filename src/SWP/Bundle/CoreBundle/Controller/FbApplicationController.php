@@ -43,7 +43,7 @@ class FbApplicationController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_applications")
+     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_applications")
      */
     public function listAction(Request $request)
     {
@@ -68,16 +68,16 @@ class FbApplicationController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookApplicationType"
      * )
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_create_facebook_applications")
+     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_applications")
      */
     public function createAction(Request $request)
     {
         /* @var FacebookApplication $feed */
         $application = $this->get('swp.factory.facebook_application')->create();
-        $form = $this->createForm(FacebookApplicationType::class, $application, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', FacebookApplicationType::class, $application, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->checkIfApplicationExists($application);
             $this->get('swp.repository.facebook_application')->add($application);
 
@@ -98,7 +98,7 @@ class FbApplicationController extends Controller
      *         409="Application is used by page"
      *     }
      * )
-     * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
+     * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
      */
     public function deleteAction($id)
     {

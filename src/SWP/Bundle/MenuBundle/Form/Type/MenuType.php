@@ -60,6 +60,6 @@ class MenuType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'menu';
+        return '';
     }
 }

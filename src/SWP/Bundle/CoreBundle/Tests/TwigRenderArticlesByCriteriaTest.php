@@ -44,9 +44,7 @@ class TwigRenderArticlesByCriteriaTest extends WebTestCase
         self::assertEquals(0, $crawler->filter('html:contains("Article 1")')->count());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
-            'route' => [
                 'templateName' => 'articles_by_metadata_v2.html.twig',
-            ],
         ]);
 
         $crawler = $client->request('GET', '/news');
@@ -56,9 +54,7 @@ class TwigRenderArticlesByCriteriaTest extends WebTestCase
         self::assertGreaterThan(0, $crawler->filter('html:contains("Article 2")')->count());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
-            'route' => [
                 'templateName' => 'articles_by_metadata_v3.html.twig',
-            ],
         ]);
 
         $crawler = $client->request('GET', '/news');

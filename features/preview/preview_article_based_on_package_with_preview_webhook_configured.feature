@@ -4,38 +4,34 @@ Feature: Preview article under route based on package data with article preview 
   Scenario: Preview article based on package with preview webhook.
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route",
           "slug": "simple-test-route",
           "type": "collection",
           "articlesTemplateName": "article.html.twig"
-        }
       }
     """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/webhooks/" with body:
+    And I send a "POST" request to "/api/v2/webhooks/" with body:
      """
       {
-        "webhook": {
           "url": "http://localhost:3000/return-preview-url",
           "events": [
             "article[preview]"
           ],
           "enabled": "1"
-        }
       }
     """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/preview/package/generate_token/7" with body:
+    And I send a "POST" request to "/api/v2/preview/package/generate_token/7" with body:
     """
     {
       "language": "en",

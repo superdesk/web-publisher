@@ -41,7 +41,7 @@ class SubscriptionController extends Controller
      *         {"name"="articleId", "dataType"="integer", "pattern"="\d+"},
      *     }
      * )
-     * @Route("/api/{version}/subscriptions/{userId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_paywall_list_subscriptions", requirements={"id"="\d+"})
+     * @Route("/api/{version}/subscriptions/{userId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_paywall_list_subscriptions", requirements={"id"="\d+"})
      */
     public function getAction(Request $request, int $userId)
     {

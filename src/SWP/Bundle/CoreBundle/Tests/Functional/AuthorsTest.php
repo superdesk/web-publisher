@@ -46,7 +46,7 @@ final class AuthorsTest extends WebTestCase
         $content = $this->pushAndGetArticle(self::TEST_CONTENT);
 
         self::assertEquals('published', $content['status']);
-        self::assertTrue($content['isPublishable']);
+        self::assertTrue($content['is_publishable']);
         self::assertEquals($content['metadata']['byline'], 'Item 1 Author, Item 2 author, Item 3 author');
     }
 
@@ -55,7 +55,7 @@ final class AuthorsTest extends WebTestCase
         $content = $this->pushAndGetArticle();
 
         self::assertEquals('published', $content['status']);
-        self::assertTrue($content['isPublishable']);
+        self::assertTrue($content['is_publishable']);
         self::assertEquals($content['metadata']['byline'], 'Package Author');
     }
 
@@ -63,11 +63,9 @@ final class AuthorsTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         $client->request(
@@ -84,7 +82,6 @@ final class AuthorsTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -93,7 +90,6 @@ final class AuthorsTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 

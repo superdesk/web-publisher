@@ -50,17 +50,15 @@ final class WordpressAdapterTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
-                'name' => 'Local Broken Wordpress',
-                'subdomain' => 'local_broken_wordpress',
-                'domainName' => 'localhost',
-                'organization' => '123456',
-                'outputChannel' => [
-                    'type' => 'wordpress',
-                    'config' => [
-                        'url' => 'http://brokenhost:3000',
-                        'authorization_key' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=broken',
-                    ],
+            'name' => 'Local Broken Wordpress',
+            'subdomain' => 'local_broken_wordpress',
+            'domainName' => 'localhost',
+            'organization' => '123456',
+            'outputChannel' => [
+                'type' => 'wordpress',
+                'config' => [
+                    'url' => 'http://brokenhost:3000',
+                    'authorizationKey' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=broken',
                 ],
             ],
         ]);
@@ -85,17 +83,15 @@ final class WordpressAdapterTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
-                'name' => 'Local Wordpress',
-                'subdomain' => 'local_wordpress',
-                'domainName' => 'localhost',
-                'organization' => '123456',
-                'outputChannel' => [
-                    'type' => 'wordpress',
-                    'config' => [
-                        'url' => 'http://localhost:3000',
-                        'authorization_key' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=',
-                    ],
+            'name' => 'Local Wordpress',
+            'subdomain' => 'local_wordpress',
+            'domainName' => 'localhost',
+            'organization' => '123456',
+            'outputChannel' => [
+                'type' => 'wordpress',
+                'config' => [
+                    'url' => 'http://localhost:3000',
+                    'authorizationKey' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=',
                 ],
             ],
         ]);

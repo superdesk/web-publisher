@@ -254,7 +254,7 @@ final class WordpressAdapter implements AdapterInterface
     private function send(OutputChannelInterface $outputChannel, string $endpoint, Post $post, array $requestOptions = null): GuzzleResponse
     {
         $url = $outputChannel->getConfig()['url'];
-        $authorizationKey = $outputChannel->getConfig()['authorization_key'];
+        $authorizationKey = $outputChannel->getConfig()['authorizationKey'];
 
         if (null === $requestOptions) {
             $requestOptions = [

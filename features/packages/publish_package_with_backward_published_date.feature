@@ -7,7 +7,7 @@ Feature: Checking if the package with published date in past will be published
   Scenario: Submitting request payload containing authors data in ninjs format
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -81,7 +81,7 @@ Feature: Checking if the package with published date in past will be published
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "extra" should exist
     And the JSON nodes should contain:
@@ -89,39 +89,35 @@ Feature: Checking if the package with published date in past will be published
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
 
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published": true
             }
           ]
-        }
       }
      """
 
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/testing-publishing-date"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-publishing-date"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | publishedAt | 2018-06-05T14:39:33+00:00 |
+      | published_at | 2018-06-05T14:39:33+00:00 |

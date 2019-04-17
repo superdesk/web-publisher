@@ -54,6 +54,6 @@ class MenuItemMoveType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'menu_move';
+        return '';
     }
 }

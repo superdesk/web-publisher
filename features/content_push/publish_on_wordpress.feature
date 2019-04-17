@@ -7,27 +7,25 @@ Feature: Checking if pushed package will be published on tenant with output chan
   Scenario: Publishing content to tenant with wordpress configured as a output channel.
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/tenants/123abc" with body:
+    And I send a "PATCH" request to "/api/v2/tenants/123abc" with body:
      """
       {
-        "tenant": {
-          "outputChannel": {
+          "output_channel": {
             "type": "wordpress",
             "config": {
               "url": "http://localhost:3000",
               "authorization_key": "Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c="
             }
           }
-        }
       }
     """
     Then the response status code should be 200
-    And the JSON node "outputChannel.type" should be equal to "wordpress"
-    And the JSON node "outputChannel.config.url" should be equal to "http://localhost:3000"
-    And the JSON node "outputChannel.config.authorization_key" should be equal to "Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c="
+    And the JSON node "output_channel.type" should be equal to "wordpress"
+    And the JSON node "output_channel.config.url" should be equal to "http://localhost:3000"
+    And the JSON node "output_channel.config.authorizationKey" should be equal to "Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c="
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -53,56 +51,52 @@ Feature: Checking if pushed package will be published on tenant with output chan
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status | new |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status                              | published                          |
-      | articles[0].externalArticle.id      | 1                                  |
-      | articles[0].externalArticle.liveUrl | localhost:3000/wordpress/test_post |
-      | articles[0].externalArticle.status  | publish                            |
+      | articles[0].external_article.id      | 1                                  |
+      | articles[0].external_article.live_url | localhost:3000/wordpress/test_post |
+      | articles[0].external_article.status  | publish                            |
 
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PATCH" request to "/api/v1/content/articles/6" with body:
+    Then I send a "PATCH" request to "/api/v2/content/articles/6" with body:
      """
       {
-        "article":{
           "status": "new"
-        }
       }
      """
     Then the response status code should be 200
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/6"
+    Then I send a "GET" request to "/api/v2/content/articles/6"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | status                  | new                                |
-      | externalArticle.id      | 1                                  |
-      | externalArticle.liveUrl | localhost:3000/wordpress/test_post |
-      | externalArticle.status  | draft                              |
+      | external_article.id      | 1                                  |
+      | external_article.live_url | localhost:3000/wordpress/test_post |
+      | external_article.status  | draft                              |

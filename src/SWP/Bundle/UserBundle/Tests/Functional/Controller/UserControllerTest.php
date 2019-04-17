@@ -31,14 +31,12 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
-            'user_registration' => [
                 'email' => 'contact@example.com',
                 'username' => 'sofab.contact',
                 'plainPassword' => [
                     'first' => 'testPass',
                     'second' => 'testPass',
                 ],
-            ],
         ]);
         self::assertEquals(302, $client->getResponse()->getStatusCode());
 

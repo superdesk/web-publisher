@@ -3,10 +3,13 @@ SWP\Component\MultiTenancy\Model\Organization:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         name:
             expose: true
+            groups: [api]
             type: string
         code:
             expose: true
+            groups: [api]
             type: string

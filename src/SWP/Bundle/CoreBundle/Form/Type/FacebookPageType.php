@@ -48,6 +48,6 @@ class FacebookPageType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'facebook_page';
+        return '';
     }
 }

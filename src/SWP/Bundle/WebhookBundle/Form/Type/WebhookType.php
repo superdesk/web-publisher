@@ -62,6 +62,6 @@ class WebhookType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'webhook';
+        return '';
     }
 }

@@ -10,7 +10,7 @@ Feature: Checking if not authorized content push is rejected
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     When I add "x-superdesk-signature" header equal to "sha1=04ed4c6f9227b55dead294034c08a7a30d3cbc99"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -65,7 +65,7 @@ Feature: Checking if not authorized content push is rejected
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     When I add "x-superdesk-signature" header equal to "sha1=04ed4c6f9227b55dead294034c08a7a30d3cbc99"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -101,7 +101,7 @@ Feature: Checking if not authorized content push is rejected
 
     Given I add "Content-Type" header equal to "application/json"
     When I add "x-superdesk-signature" header equal to "sha1=6e4a429f0162fca02a6edd5c759f57014bfa6d90"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |

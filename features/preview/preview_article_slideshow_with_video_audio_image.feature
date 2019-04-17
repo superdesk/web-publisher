@@ -4,21 +4,19 @@ Feature: Preview article with video, audio and image in slideshows
   Scenario: Preview article with video, audio and image in slideshows
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route",
           "slug": "simple-test-route",
           "type": "collection",
           "articlesTemplateName": "article_with_slideshow.html.twig"
-        }
       }
     """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/preview/package/generate_token/7" with body:
+    And I send a "POST" request to "/api/v2/preview/package/generate_token/7" with body:
     """
     {
       "pubstatus":"usable",

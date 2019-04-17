@@ -7,7 +7,7 @@ Feature: Checking if settings work correctly
   Scenario: Listing all settings by different scopes
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/{version}/settings/"
+    And I send a "GET" request to "/api/v2/settings/"
     Then the response status code should be 200
     And the JSON should be equal to:
     """

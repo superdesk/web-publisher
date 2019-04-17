@@ -51,6 +51,6 @@ final class CompositePublishActionType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'publish';
+        return '';
     }
 }

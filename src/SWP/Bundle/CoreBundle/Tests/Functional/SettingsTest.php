@@ -47,10 +47,8 @@ final class SettingsTest extends WebTestCase
         self::assertEquals('filtering_prefrences', $data[6]['name']);
         self::assertEquals('{}', $data[6]['value']);
         $client->request('PATCH', $this->router->generate('swp_api_settings_update'), [
-            'settings' => [
                 'name' => 'filtering_prefrences',
                 'value' => '{"a": "b", "c": "d"}',
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $client->request('GET', $this->router->generate('swp_api_settings_list'));

@@ -65,9 +65,7 @@ final class AmpHtmlTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
             'code' => '123abc',
         ]), [
-            'tenant' => [
-                'ampEnabled' => false,
-            ],
+            'ampEnabled' => false,
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -82,9 +80,7 @@ final class AmpHtmlTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
             'code' => '123abc',
         ]), [
-            'tenant' => [
-                'ampEnabled' => true,
-            ],
+            'ampEnabled' => true,
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());

@@ -42,8 +42,8 @@ class UserController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\UserRolesType"
      * )
-     * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_promote_user")
-     * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_demote_user")
+     * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_promote_user")
+     * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_demote_user")
      */
     public function modifyRolesAction(Request $request, $id)
     {
@@ -56,7 +56,7 @@ class UserController extends Controller
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $form = $this->createForm(UserRolesType::class, [], ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', UserRolesType::class, [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */

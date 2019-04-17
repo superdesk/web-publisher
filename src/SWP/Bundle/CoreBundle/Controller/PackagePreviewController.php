@@ -82,7 +82,7 @@ class PackagePreviewController extends Controller
      *         500="Returned when unexpected error."
      *     }
      * )
-     * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
+     * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
      */
     public function generateTokenAction(Request $request, int $routeId)
     {

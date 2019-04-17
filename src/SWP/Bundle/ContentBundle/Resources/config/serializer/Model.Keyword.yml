@@ -3,5 +3,7 @@ SWP\Bundle\ContentBundle\Model\Keyword:
     properties:
         name:
             expose: true
+            groups: [api]
         slug:
             expose: true
+            groups: [api]

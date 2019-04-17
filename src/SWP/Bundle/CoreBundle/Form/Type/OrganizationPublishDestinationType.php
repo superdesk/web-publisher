@@ -55,6 +55,6 @@ final class OrganizationPublishDestinationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'publish_destination';
+        return '';
     }
 }

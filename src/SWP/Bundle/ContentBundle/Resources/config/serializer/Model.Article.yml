@@ -3,70 +3,93 @@ SWP\Bundle\ContentBundle\Model\Article:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         title:
             expose: true
+            groups: [api]
             type: string
         lead:
             expose: true
+            groups: [api]
             type: string
         body:
             expose: true
+            groups: [api]
             type: string
         slug:
             expose: true
+            groups: [api]
             type: string
         route:
             expose: true
+            groups: [api]
         publishedAt:
             expose: true
+            groups: [api]
             type: DateTime
         status:
             expose: true
+            groups: [api]
             type: string
         sources:
             expose: true
+            groups: [api]
         templateName:
             expose: true
+            groups: [api]
             type: string
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime
         publishStartDate:
             expose: true
+            groups: [api]
             type: DateTime
         publishEndDate:
             expose: true
+            groups: [api]
             type: DateTime
         isPublishable:
             expose: true
+            groups: [api]
             type: boolean
         media:
             expose: true
+            groups: [api]
         featureMedia:
             expose: true
+            groups: [api]
         metadata:
             expose: true
+            groups: [api]
             type: array
             accessor:
                 getter: getMetadata
         keywords:
             expose: true
-            type: array
+            groups: [api]
+            type: ArrayCollection
         code:
             expose: true
+            groups: [api]
             type: string
         authors:
             expose: true
+            groups: [api]
         extra:
             expose: true
+            groups: [api]
             type: array
         slideshows:
             expose: true
-            type: array<SWP\Bundle\ContentBundle\Model\SlideshowInterface>
+            groups: [api]
+            type: ArrayCollection
     relations:
         -
             rel: self
@@ -81,13 +104,13 @@ SWP\Bundle\ContentBundle\Model\Article:
                 parameters:
                     slug: "expr(object.getSlug())"
             exclusion:
-                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'collection')"
+                exclude_if: "expr(object.getRoute() !== null && object.getRoute().getType() !== 'collection')"
         -
             rel: online
             href:
                 route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles' )"
             exclusion:
-                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"
+                exclude_if: "expr(object.getRoute() !== null && object.getRoute().getType() !== 'content')"
         -
             rel: related
             href:

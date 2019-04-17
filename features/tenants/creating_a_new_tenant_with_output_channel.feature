@@ -6,10 +6,9 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant with Wordpress output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/tenants/" with body:
+    And I send a "POST" request to "/api/v2/tenants/" with body:
      """
       {
-        "tenant": {
           "domainName": "example.com",
           "name": "Example tenant",
           "subdomain": "tenant1",
@@ -20,7 +19,6 @@ Feature: Adding a new tenant with output channel
               "authorization_key": "private key"
             }
           }
-        }
       }
     """
     Then the response status code should be 201
@@ -31,10 +29,9 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant with fake type of output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/tenants/" with body:
+    And I send a "POST" request to "/api/v2/tenants/" with body:
      """
       {
-        "tenant": {
           "domainName": "example.com",
           "name": "Example tenant",
           "subdomain": "tenant1",
@@ -45,7 +42,6 @@ Feature: Adding a new tenant with output channel
               "authorization_key": "private key"
             }
           }
-        }
       }
     """
     Then the response status code should be 400
@@ -53,13 +49,11 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant without output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/tenants/" with body:
+    And I send a "POST" request to "/api/v2/tenants/" with body:
      """
       {
-        "tenant": {
           "domainName": "example2.com",
           "name": "Example tenant2"
-        }
       }
     """
     Then the response status code should be 201

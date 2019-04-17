@@ -3,12 +3,18 @@ SWP\Bundle\ContentBundle\Model\Image:
     properties:
         id:
             expose: true
-            type: string
+            groups: [api]
+            type: integer
         width:
             expose: true
+            groups: [api]
         height:
             expose: true
+            groups: [api]
         fileExtension:
             expose: true
+            groups: [api]
         assetId:
             expose: true
+            groups: [api]
+            type: string

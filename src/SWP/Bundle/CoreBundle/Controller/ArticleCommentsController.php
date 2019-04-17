@@ -27,11 +27,11 @@ use SWP\Bundle\ContentBundle\Form\Type\ArticleCommentsType;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArticleCommentsController extends Controller
+class ArticleCommentsController extends AbstractController
 {
     /**
      * @ApiDoc(
@@ -42,16 +42,17 @@ class ArticleCommentsController extends Controller
      *         404="Return when article was not found"
      *     },
      * )
-     * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_article_comments")
+     * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_article_comments")
      */
     public function updateAction(Request $request)
     {
         $repository = $this->get('swp.repository.article');
         $articleResolver = $this->container->get('swp.resolver.article');
+        $form = $this->get('form.factory')->createNamed('', ArticleCommentsType::class, [], ['method' => $request->getMethod()]);
 
-        $form = $this->createForm(ArticleCommentsType::class, [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $article = null;
             if (null !== $data['url']) {

@@ -4,10 +4,9 @@ Feature: Find related articles which were already published based on package dat
   Scenario: Find related articles based on package data
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -25,17 +24,15 @@ Feature: Find related articles which were already published based on package dat
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -46,20 +43,17 @@ Feature: Find related articles which were already published based on package dat
               "value":6
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     Given I am authenticated as "test.client2"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "http://client2.localhost/api/v1/content/routes/" with body:
+    And I send a "POST" request to "http://client2.localhost/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "My route",
           "type": "collection"
-        }
       }
     """
     Then the response status code should be 201
@@ -67,22 +61,20 @@ Feature: Find related articles which were already published based on package dat
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "POST" request to "/api/v2/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
           "tenant":"678iop",
           "route":7,
-          "isPublishedFbia":false,
+          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:sd-master.test.superdesk.org:2019-02-28T12:17:59.728688:e51c6cef-2c23-4a15-abdc-fb9f37141d55"
-        }
       }
     """
     Then the response status code should be 200
 
     Then I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "type":"text",
@@ -141,17 +133,17 @@ Feature: Find related articles which were already published based on package dat
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/related-1-0123456789abc"
+    Then I send a "GET" request to "/api/v2/content/articles/related-1-0123456789abc"
     Then the response status code should be 200
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "http://client2.localhost/api/v1/content/articles/related-1-0123456789abc"
+    Then I send a "GET" request to "http://client2.localhost/api/v2/content/articles/related-1-0123456789abc"
     Then the response status code should be 200
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/organization/articles/related/" with body:
+    Then I send a "POST" request to "/api/v2/organization/articles/related/" with body:
     """
     {
       "type":"text",

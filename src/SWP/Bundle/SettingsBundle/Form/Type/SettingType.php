@@ -75,6 +75,6 @@ class SettingType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'settings';
+        return '';
     }
 }

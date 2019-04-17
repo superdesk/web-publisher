@@ -55,7 +55,7 @@ final class TenantChoiceTypeSpec extends ObjectBehavior
 
     public function it_has_block_prefix()
     {
-        $this->getBlockPrefix()->shouldReturn('swp_tenant');
+        $this->getBlockPrefix()->shouldReturn('');
     }
 
     public function it_should_have_a_parent()

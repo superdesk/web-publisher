@@ -94,6 +94,6 @@ final class TenantType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'tenant';
+        return '';
     }
 }

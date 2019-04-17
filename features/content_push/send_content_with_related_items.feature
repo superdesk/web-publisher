@@ -6,7 +6,7 @@ Feature: Related items support
 
   Scenario: Pushing the content with related items data
     Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -57,28 +57,26 @@ Feature: Related items support
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-1-0123456789abc"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-1-0123456789abc"
     Then the response status code should be 200
 
     Then I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -224,42 +222,40 @@ Feature: Related items support
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/7/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/7/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | _links.related.href  | /api/v1/content/articles/7/related/  |
+      | _links.related.href  | /api/v2/content/articles/7/related/  |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/7/related/"
+    Then I send a "GET" request to "/api/v2/content/articles/7/related/"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 1
     And the JSON node "_embedded._items[0].id" should not exist
-    And the JSON node "_embedded._items[0].relatesTo" should not exist
+    And the JSON node "_embedded._items[0].relates_to" should not exist
     And the JSON node "_embedded._items[0].article.title" should be equal to "hello world 1"
     And the JSON node "_embedded._items[0].article.id" should be equal to 6
-    And the JSON node "_embedded._items[0].updatedAt" should exist
-    And the JSON node "_embedded._items[0].createdAt" should exist
+    And the JSON node "_embedded._items[0].updated_at" should exist
+    And the JSON node "_embedded._items[0].created_at" should exist
 
     Then I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -311,6 +307,6 @@ Feature: Related items support
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/7/related/"
+    Then I send a "GET" request to "/api/v2/content/articles/7/related/"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 0

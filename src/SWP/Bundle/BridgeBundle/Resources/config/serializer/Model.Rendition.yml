@@ -4,21 +4,28 @@ SWP\Component\Bridge\Model\Rendition:
         id:
             expose: true
             type: integer
+            groups: [api]
         href:
             expose: true
             type: string
+            groups: [api]
         width:
             expose: true
             type: integer
+            groups: [api]
         height:
             expose: true
             type: integer
+            groups: [api]
         mimetype:
             expose: true
             type: string
+            groups: [api]
         media:
             expose: true
             type: string
+            groups: [api]
         name:
             expose: true
             type: string
+            groups: [api]

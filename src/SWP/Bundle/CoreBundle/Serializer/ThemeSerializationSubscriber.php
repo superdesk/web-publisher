@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use SWP\Bundle\CoreBundle\Theme\Model\Theme;
-use SWP\Component\Common\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -30,21 +29,9 @@ final class ThemeSerializationSubscriber implements EventSubscriberInterface
      */
     private $router;
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
-     * ThemeHandler constructor.
-     *
-     * @param RouterInterface     $router
-     * @param SerializerInterface $serializer
-     */
-    public function __construct(RouterInterface $router, SerializerInterface $serializer)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
-        $this->serializer = $serializer;
     }
 
     /**

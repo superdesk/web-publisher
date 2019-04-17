@@ -59,6 +59,16 @@ class Package extends BaseContent implements PackageInterface
         $this->relatedItems = new ArrayCollection();
     }
 
+    public function getItemsArray(): array
+    {
+        return $this->items->toArray();
+    }
+
+    public function getGroupsArray(): array
+    {
+        return $this->groups->toArray();
+    }
+
     public function getItems(): Collection
     {
         return $this->items;

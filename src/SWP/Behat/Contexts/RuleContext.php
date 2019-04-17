@@ -37,7 +37,7 @@ final class RuleContext extends AbstractContext implements Context
     public function theFollowingTenantPublishingRule(PyStringNode $string)
     {
         $form = $this->submitForm($string);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->ruleRepository->add($form->getData());
             $this->ruleRepository->flush();
         } else {
@@ -51,7 +51,7 @@ final class RuleContext extends AbstractContext implements Context
     public function theFollowingOrganizationPublishingRule(PyStringNode $string)
     {
         $form = $this->submitForm($string);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var RuleInterface $rule */
             $rule = $form->getData();
             $this->ruleRepository->add($rule);

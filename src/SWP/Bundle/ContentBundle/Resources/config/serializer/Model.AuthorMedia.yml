@@ -3,13 +3,17 @@ SWP\Bundle\ContentBundle\Model\AuthorMedia:
     properties:
         id:
             expose: true
+            groups: [api]
             type: string
         key:
             expose: true
+            groups: [api]
         file:
             expose: true
+            groups: [api]
         image:
             expose: true
+            groups: [api]
     relations:
         -
             rel: download

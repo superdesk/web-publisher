@@ -49,6 +49,6 @@ final class UnpublishFromTenantsType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'unpublish';
+        return '';
     }
 }

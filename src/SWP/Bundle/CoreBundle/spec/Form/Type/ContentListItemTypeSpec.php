@@ -39,7 +39,7 @@ final class ContentListItemTypeSpec extends ObjectBehavior
 
     public function it_has_a_block_prefix()
     {
-        $this->getBlockPrefix()->shouldReturn('content_list_item');
+        $this->getBlockPrefix()->shouldReturn('');
     }
 
     public function it_configures_options(OptionsResolver $resolver)

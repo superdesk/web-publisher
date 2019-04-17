@@ -7,13 +7,11 @@ Feature: Do not add articles to automatic content lists
   Scenario: Push new article and do not add it to automatic content list
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/lists/" with body:
+    And I send a "POST" request to "/api/v2/content/lists/" with body:
      """
       {
-        "content_list": {
           "name": "Example automatic list",
           "type": "automatic"
-        }
       }
     """
     Then the response status code should be 201
@@ -21,10 +19,9 @@ Feature: Do not add articles to automatic content lists
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -39,29 +36,25 @@ Feature: Do not add articles to automatic content lists
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
     And the Json node "id" should be equal to "7"
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -76,14 +69,13 @@ Feature: Do not add articles to automatic content lists
               "value":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/push" with body:
+    Then I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -132,16 +124,16 @@ Feature: Do not add articles to automatic content lists
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
 
     Then the response status code should be 200
-    And the Json node "isPublishable" should be true
-    And the Json node "isPublishedFBIA" should be false
-    And the Json node "publishedAt" should not be null
+    And the Json node "is_publishable" should be true
+    And the Json node "is_published_fbia" should be false
+    And the Json node "published_at" should not be null
     And the Json node "route.id" should be equal to "6"
     And the Json node "status" should be equal to "published"
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/lists/1/items/"
+    Then I send a "GET" request to "/api/v2/content/lists/1/items/"
     And the Json node "total" should be equal to "0"

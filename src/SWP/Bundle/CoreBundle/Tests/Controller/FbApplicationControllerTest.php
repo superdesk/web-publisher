@@ -39,35 +39,29 @@ class FbApplicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_applications'), [
-            'facebook_application' => [
                 'appId' => '1234567890987654321',
                 'appSecret' => 'ge56g3wegsysd56h6d76z47sugy56hts6gyd',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"appId":"1234567890987654321"', $content);
-        self::assertContains('"appSecret":"ge56g3wegsysd56h6d76z47sugy56hts6gyd"', $content);
+        self::assertContains('"app_id":"1234567890987654321"', $content);
+        self::assertContains('"app_secret":"ge56g3wegsysd56h6d76z47sugy56hts6gyd"', $content);
     }
 
     public function testCreateDumplicateApplication()
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_applications'), [
-            'facebook_application' => [
                 'appId' => '1234567890987654321',
                 'appSecret' => 'ge56g3wegsysd56h6d76z47sugy56hts6gyd',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_create_facebook_applications'), [
-            'facebook_application' => [
                 'appId' => '1234567890987654321',
                 'appSecret' => 'ge56g3wegsysd56h6d76z47sugy56hts6gyd',
-            ],
         ]);
         self::assertEquals(409, $client->getResponse()->getStatusCode());
     }
@@ -76,10 +70,8 @@ class FbApplicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_applications'), [
-            'facebook_application' => [
                 'appId' => '1234567890987654321',
                 'appSecret' => 'ge56g3wegsysd56h6d76z47sugy56hts6gyd',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -94,10 +86,8 @@ class FbApplicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_applications'), [
-            'facebook_application' => [
                 'appId' => '1234567890987654321',
                 'appSecret' => 'ge56g3wegsysd56h6d76z47sugy56hts6gyd',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

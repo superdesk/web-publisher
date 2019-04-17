@@ -3,27 +3,35 @@ SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle:
     properties:
         id:
             expose: true
+            groups: [api]
             type: string
         submissionId:
             expose: true
+            groups: [api]
             type: string
         article:
             expose: true
+            groups: [api]
             type: SWP\Bundle\CoreBundle\Model\Article
         status:
             expose: true
+            groups: [api]
             type: string
         errors:
             expose: true
+            groups: [api]
             type: string
         feed:
             expose: true
+            groups: [api]
             type: SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime
     relations:
         -   rel: list

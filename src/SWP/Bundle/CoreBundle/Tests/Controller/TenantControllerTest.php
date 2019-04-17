@@ -44,18 +44,16 @@ class TenantControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
                 'organization' => '123456',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"id":4,"subdomain":"test","name":"Test Tenant","organization":{"id":1,"name":"Organization1","code":"123456"},"enabled":true,"themeName":"swp\/test-theme","domainName":"localhost"}', true
+            '{"id":4,"subdomain":"test","name":"Test Tenant","organization":{"id":1,"name":"Organization1","code":"123456"},"enabled":true,"theme_name":"swp\/test-theme","domain_name":"localhost"}', true
         ), json_decode(
             $client->getResponse()->getContent(),
             true
@@ -66,12 +64,10 @@ class TenantControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'localhost',
                 'themeName' => 'fake/theme-name',
-            ],
         ]);
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
@@ -81,23 +77,19 @@ class TenantControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
-            ],
         ]);
 
         $this->assertEquals(409, $client->getResponse()->getStatusCode());
@@ -107,12 +99,10 @@ class TenantControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test1',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -126,12 +116,10 @@ class TenantControllerTest extends WebTestCase
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -150,11 +138,9 @@ class TenantControllerTest extends WebTestCase
         );
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $routeContent = json_decode($client->getResponse()->getContent(), true);
@@ -162,7 +148,6 @@ class TenantControllerTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => $content['code'],
@@ -171,7 +156,6 @@ class TenantControllerTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -193,12 +177,10 @@ class TenantControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'article']);
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'google.com',
                 'themeName' => 'swp/test-theme',
-            ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $content = \json_decode($client->getResponse()->getContent(), true);
@@ -213,12 +195,10 @@ class TenantControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -228,45 +208,39 @@ class TenantControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
             'code' => $content['code'],
         ]), [
-            'tenant' => [
                 'name' => 'Updated tenant name',
                 'subdomain' => 'updated test subdomain',
                 'themeName' => 'swp/test-theme',
                 'domainName' => 'test.com',
-            ],
         ]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":1,"name":"Organization1"},"enabled":true,"themeName":"swp\/test-theme","domainName":"test.com"}', true),
+            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":1,"name":"Organization1"},"enabled":true,"theme_name":"swp\/test-theme","domain_name":"test.com"}', true),
             json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
             'code' => '123abc',
         ]), [
-            'tenant' => [
                 'ampEnabled' => true,
                 'fbiaEnabled' => true,
                 'paywallEnabled' => true,
-            ],
         ]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"ampEnabled":true, "fbiaEnabled": true, "paywallEnabled": true}', true),
+            '{"amp_enabled":true, "fbia_enabled": true, "paywall_enabled": true}', true),
             json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
             'code' => '123abc',
         ]), [
-            'tenant' => [
                 'paywallEnabled' => false,
-            ],
         ]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"ampEnabled":true, "fbiaEnabled": true, "paywallEnabled": false}', true),
+            '{"amp_enabled":true, "fbia_enabled": true, "paywall_enabled": false}', true),
             json_decode($client->getResponse()->getContent(), true));
     }
 
@@ -274,36 +248,30 @@ class TenantControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
                 'organization' => '123456',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Second Tenant',
                 'subdomain' => 'test2',
                 'domainName' => 'localhost2',
                 'themeName' => 'swp/test-theme',
                 'organization' => '123456',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
                 'name' => 'Test Third Tenant',
                 'subdomain' => 'test3',
                 'domainName' => 'localhost3',
                 'themeName' => 'swp/test-theme',
-            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -332,11 +300,11 @@ class TenantControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
         $response = \json_decode($client->getResponse()->getContent(), true);
 
-        self::assertTrue(5 === $response['articlesCount']);
+        self::assertSame(5, $response['articles_count']);
 
         $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '456def']));
         $response = \json_decode($client->getResponse()->getContent(), true);
 
-        self::assertTrue(0 === $response['articlesCount']);
+        self::assertSame(0, $response['articles_count']);
     }
 }

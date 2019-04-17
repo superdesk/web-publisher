@@ -64,6 +64,6 @@ class RuleType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'rule';
+        return '';
     }
 }

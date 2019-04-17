@@ -45,7 +45,7 @@ class ContentListController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_content_list_lists")
+     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_list_lists")
      */
     public function listAction(Request $request)
     {
@@ -64,7 +64,7 @@ class ContentListController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
      */
     public function getAction($id)
     {
@@ -81,18 +81,18 @@ class ContentListController extends Controller
      *     },
      *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
      * )
-     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_content_create_lists")
+     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_content_create_lists")
      */
     public function createAction(Request $request)
     {
         /* @var ContentListInterface $contentList */
         $contentList = $this->get('swp.factory.content_list')->create();
-        $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', ContentListType::class, $contentList, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         $this->ensureContentListExists($contentList->getName());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp.repository.content_list')->add($contentList);
 
             return new SingleResourceResponse($contentList, new ResponseContext(201));
@@ -113,7 +113,7 @@ class ContentListController extends Controller
      *     },
      *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
      * )
-     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -122,10 +122,10 @@ class ContentListController extends Controller
         $contentList = $this->findOr404($id);
         $filters = $contentList->getFilters();
 
-        $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('event_dispatcher')->dispatch(
                 ContentListEvents::LIST_CRITERIA_CHANGE,
                 new GenericEvent($contentList, ['filters' => $filters])
@@ -147,7 +147,7 @@ class ContentListController extends Controller
      *         204="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
      */
     public function deleteAction($id)
     {
@@ -182,7 +182,7 @@ class ContentListController extends Controller
      *     }
      * )
      *
-     * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v1"}, methods={"LINK","UNLINK"}, name="swp_api_content_list_link_unlink")
+     * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v2"}, methods={"LINK","UNLINK"}, name="swp_api_content_list_link_unlink")
      *
      * @param Request $request
      * @param string  $id

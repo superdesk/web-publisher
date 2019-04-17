@@ -65,6 +65,6 @@ final class MenuItemMoveTypeSpec extends ObjectBehavior
 
     public function it_should_have_a_name()
     {
-        $this->getBlockPrefix()->shouldReturn('menu_move');
+        $this->getBlockPrefix()->shouldReturn('');
     }
 }

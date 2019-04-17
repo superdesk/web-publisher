@@ -7,10 +7,9 @@ Feature: Marking article as paywall-secured using rules
   Scenario: Marking an article as paywall-secured
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -25,17 +24,15 @@ Feature: Marking article as paywall-secured using rules
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
-        "rule":{
           "name":"Mark articles as paywall-secured",
           "description":"Mark articles as paywall-secured description",
           "priority":1,
@@ -46,17 +43,15 @@ Feature: Marking article as paywall-secured using rules
               "value":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
-        "rule":{
           "name":"Publish articles",
           "description":"Publish articles description",
           "priority":1,
@@ -71,20 +66,17 @@ Feature: Marking article as paywall-secured using rules
               "value":7
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
@@ -92,7 +84,7 @@ Feature: Marking article as paywall-secured using rules
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/push" with body:
+    Then I send a "POST" request to "/api/v2/content/push" with body:
      """
      {
         "language":"en",
@@ -142,11 +134,11 @@ Feature: Marking article as paywall-secured using rules
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
-    And the Json node "isPublishable" should be true
-    And the Json node "isPublishedFBIA" should be false
-    And the Json node "publishedAt" should not be null
+    And the Json node "is_publishable" should be true
+    And the Json node "is_published_fbia" should be false
+    And the Json node "published_at" should not be null
     And the Json node "route.id" should be equal to "7"
     And the Json node "status" should be equal to "published"
-    And the Json node "paywallSecured" should be true
+    And the Json node "paywall_secured" should be true

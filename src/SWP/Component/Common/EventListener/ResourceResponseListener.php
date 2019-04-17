@@ -14,6 +14,7 @@
 
 namespace SWP\Component\Common\EventListener;
 
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory;
@@ -56,14 +57,20 @@ final class ResourceResponseListener
             if (ResponseContextInterface::INTENTION_API === $responseContext->getIntention()) {
                 $factory = new KnpPaginatorRepresentationFactory();
                 $representation = $factory->createRepresentation($controllerResult->getResources(), $event->getRequest());
+
+                $view = View::create($representation, $responseContext->getStatusCode());
+                $view = $this->setSerializationGroups($view);
                 $event->setResponse($this->viewHandler->handle(
-                    View::create($representation, $responseContext->getStatusCode())
+                    $view
                 ));
             }
         } elseif ($controllerResult instanceof SingleResourceResponseInterface) {
             if (ResponseContextInterface::INTENTION_API === $responseContext->getIntention()) {
+                $view = View::create($controllerResult->getResource(), $responseContext->getStatusCode());
+                $view = $this->setSerializationGroups($view);
+
                 $event->setResponse($this->viewHandler->handle(
-                    View::create($controllerResult->getResource(), $responseContext->getStatusCode())
+                    $view
                 ));
             }
         }
@@ -102,5 +109,14 @@ final class ResourceResponseListener
 
             $event->setResponse($response);
         }
+    }
+
+    private function setSerializationGroups(View $view): View
+    {
+        $context = new Context();
+        $context->setGroups(['Default', 'api']);
+        $view->setContext($context);
+
+        return $view;
     }
 }

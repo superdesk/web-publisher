@@ -36,7 +36,7 @@ final class WordpressOutputChannelConfigType extends AbstractType
                     new Url(),
                 ],
             ])
-            ->add('authorization_key', TextType::class, [
+            ->add('authorizationKey', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
                 ],

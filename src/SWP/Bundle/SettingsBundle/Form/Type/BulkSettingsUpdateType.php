@@ -54,6 +54,6 @@ class BulkSettingsUpdateType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'settings';
+        return '';
     }
 }

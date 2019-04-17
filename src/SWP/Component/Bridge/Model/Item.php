@@ -196,4 +196,23 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     {
         return $this->group;
     }
+
+    public function getItemsArray(): array
+    {
+        if (null !== $this->items) {
+            return $this->items->toArray();
+        }
+
+        return [];
+    }
+
+    public function getGroupsArray(): array
+    {
+        return $this->groups->toArray();
+    }
+
+    public function getRenditionsArray(): array
+    {
+        return $this->renditions->toArray();
+    }
 }

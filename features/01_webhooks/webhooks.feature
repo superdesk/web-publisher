@@ -7,23 +7,21 @@ Feature: Manage Webhooks
   Scenario: Listing existing webhooks
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/webhooks/"
+    And I send a GET request to "/api/v2/webhooks/"
     Then the response status code should be 200
     And the JSON node total should be equal to 0
 
   Scenario: Creating new webhook
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/webhooks/" with body:
+    And I send a "POST" request to "/api/v2/webhooks/" with body:
      """
       {
-        "webhook": {
           "url": "https://example.com",
           "events": [
             "article[published]"
           ],
           "enabled": "1"
-        }
       }
     """
     Then the response status code should be 201
@@ -31,7 +29,7 @@ Feature: Manage Webhooks
   Scenario: Listing existing webhooks after creating one
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/webhooks/"
+    And I send a GET request to "/api/v2/webhooks/"
     Then the response status code should be 200
     And the JSON node total should be equal to 1
     And the JSON node "_embedded._items[0].url" should be equal to "https://example.com"
@@ -41,16 +39,14 @@ Feature: Manage Webhooks
   Scenario: Updating existing webhook:
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/webhooks/1" with body:
+    And I send a "PATCH" request to "/api/v2/webhooks/1" with body:
      """
       {
-        "webhook": {
           "url": "https://example2.com",
           "events": [
               "article[updated]"
           ],
           "enabled": "0"
-        }
       }
     """
     Then  the response status code should be 200
@@ -58,7 +54,7 @@ Feature: Manage Webhooks
   Scenario: Fetching single webhook after update
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/webhooks/1"
+    And I send a GET request to "/api/v2/webhooks/1"
     Then the response status code should be 200
     And the JSON node "url" should be equal to "https://example2.com"
     And the JSON node "events[0]" should be equal to "article[updated]"
@@ -68,12 +64,12 @@ Feature: Manage Webhooks
   Scenario: Deleting webhook
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a DELETE request to "/api/v1/webhooks/1"
+    And I send a DELETE request to "/api/v2/webhooks/1"
     Then the response status code should be 204
 
   Scenario: Listing existing webhooks after deleting one
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/webhooks/"
+    And I send a GET request to "/api/v2/webhooks/"
     Then the response status code should be 200
     And the JSON node total should be equal to 0

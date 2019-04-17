@@ -7,7 +7,7 @@ Feature: Checking if the package authors are saved properly
   Scenario: Submitting request payload containing authors data in ninjs format
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -82,7 +82,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
     And the JSON nodes should contain:
@@ -100,37 +100,33 @@ Feature: Checking if the package authors are saved properly
     And the JSON node "authors[1].jobtitle.name" should not exist
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | authors[0].name                | Nareg Asmarian              |
@@ -151,7 +147,7 @@ Feature: Checking if the package authors are saved properly
   Scenario: Submitting request payload containing authors data in ninjs format - updating
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -225,24 +221,22 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON node "authors[0].avatar" should not be null
     And the JSON node "authors[1].avatar" should not be null
@@ -261,7 +255,7 @@ Feature: Checking if the package authors are saved properly
       | authors[1].slug                | vincer-vincer                                    |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -324,7 +318,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
     And the JSON nodes should contain:
@@ -336,7 +330,7 @@ Feature: Checking if the package authors are saved properly
     And the JSON node "authors[1]" should not exist
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | authors[0].name                | ed              |
@@ -347,7 +341,7 @@ Feature: Checking if the package authors are saved properly
     And the JSON node "authors[1]" should not exist
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -416,7 +410,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
     And the JSON node "authors[0].avatar" should not be null
@@ -433,7 +427,7 @@ Feature: Checking if the package authors are saved properly
     And the JSON node "authors[1].avatar_url" should be null
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | authors[1].name                | ed                                              |

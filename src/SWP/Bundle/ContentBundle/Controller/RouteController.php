@@ -47,7 +47,7 @@ class RouteController extends FOSRestController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_routes")
+     * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_routes")
      */
     public function listAction(Request $request)
     {
@@ -70,7 +70,7 @@ class RouteController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
+     * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
      */
     public function getAction($id)
     {
@@ -87,7 +87,7 @@ class RouteController extends FOSRestController
      *         204="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
+     * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
      *
      * @return Response
      */
@@ -126,18 +126,18 @@ class RouteController extends FOSRestController
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
-     * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_create_routes")
+     * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_create_routes")
      */
     public function createAction(Request $request)
     {
         /** @var RouteInterface $route */
         $route = $this->get('swp.factory.route')->create();
-        $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         $this->ensureRouteExists($route->getName());
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $route = $this->get('swp.service.route')->createRoute($form->getData());
 
             $this->get('swp.repository.route')->add($route);
@@ -164,17 +164,17 @@ class RouteController extends FOSRestController
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
-     * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
+     * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
      */
     public function updateAction(Request $request, $id)
     {
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);
         $previousRoute = clone  $route;
-        $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $route = $this->get('swp.service.route')->updateRoute($previousRoute, $form->getData());
 
             $objectManager->flush();

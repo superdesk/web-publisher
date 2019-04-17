@@ -6,7 +6,7 @@ Feature: As a user I want to be able to re-publish un-published package to one o
   Scenario: Re-publishing published package
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -78,46 +78,42 @@ Feature: As a user I want to be able to re-publish un-published package to one o
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/lorem-ipsum-package"
+    Then I send a "GET" request to "/api/v2/content/articles/lorem-ipsum-package"
     Then the response status code should be 200
     And the JSON node "status" should be equal to "published"
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/unpublish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/unpublish/" with body:
      """
       {
-          "unpublish":{
-              "tenants":["123abc"]
-          }
+          "tenants":["123abc"]
       }
      """
     Then the response status code should be 200
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/lorem-ipsum-package"
+    Then I send a "GET" request to "/api/v2/content/articles/lorem-ipsum-package"
     Then the response status code should be 200
     And the JSON node "status" should be equal to "unpublished"
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -189,6 +185,6 @@ Feature: As a user I want to be able to re-publish un-published package to one o
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/lorem-ipsum-package"
+    Then I send a "GET" request to "/api/v2/content/articles/lorem-ipsum-package"
     Then the response status code should be 200
     And the JSON node "status" should be equal to "unpublished

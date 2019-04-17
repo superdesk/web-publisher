@@ -6,15 +6,13 @@ Feature: Listing single route by slug or name
   Scenario: Listing single route's url by slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Test route with Articles",
           "slug": "test-route-with-articles",
           "type": "collection",
           "templateName": "route_articles.html.twig"
-        }
       }
     """
     Then the response status code should be 201
@@ -26,7 +24,7 @@ Feature: Listing single route by slug or name
     And I should not see "Abstract html test"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -71,19 +69,17 @@ Feature: Listing single route by slug or name
     """
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":7,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201

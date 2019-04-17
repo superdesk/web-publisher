@@ -47,7 +47,7 @@ class OrganizationRuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/organization\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/organization\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/organization\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"package.getLocated() matches \"\/Sydney\/\"","priority":1,"configuration":{"destinations":[{"tenant":"123abc"}]},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}]}}';
+        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/organization\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/organization\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/organization\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"package.getLocated() matches \"\/Sydney\/\"","priority":1,"configuration":{"destinations":[{"tenant":"123abc"}]},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}]}}';
 
         self::assertEquals($expected, $data);
     }
@@ -61,7 +61,7 @@ class OrganizationRuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"package.getLocated() matches \"\/Sydney\/\"","priority":1,"configuration":{"destinations":[{"tenant":"123abc"}]},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"package.getLocated() matches \"\/Sydney\/\"","priority":1,"configuration":{"destinations":[{"tenant":"123abc"}]},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -72,7 +72,6 @@ class OrganizationRuleControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_rule', ['id' => 1]), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 11,
                 'description' => 'desc',
@@ -87,13 +86,12 @@ class OrganizationRuleControllerTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"package.getLocated() matches \"\/Sydney\/\"","priority":11,"configuration":{"destinations":[{"tenant":"123abc"}]},"description":"desc","name":"name","_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"package.getLocated() matches \"\/Sydney\/\"","priority":11,"configuration":{"destinations":[{"tenant":"123abc"}]},"description":"desc","name":"name","_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -111,7 +109,6 @@ class OrganizationRuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-            'rule' => [
                 'expression' => 'package.getLocated() matches "/Sydney/"',
                 'priority' => 1,
                 'configuration' => [
@@ -124,7 +121,6 @@ class OrganizationRuleControllerTest extends WebTestCase
                         ],
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

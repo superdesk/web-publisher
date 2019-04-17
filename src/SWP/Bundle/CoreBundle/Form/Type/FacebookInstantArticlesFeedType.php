@@ -59,6 +59,6 @@ class FacebookInstantArticlesFeedType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'facebook_instant_articles_feed';
+        return '';
     }
 }

@@ -116,7 +116,7 @@ class ThemeSetupCommandTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals('swp/test-theme-install', $content['themeName']);
+        self::assertEquals('swp/test-theme-install', $content['theme_name']);
     }
 
     public function testExecuteWithBrokenThemeConfiguration()
@@ -153,11 +153,11 @@ class ThemeSetupCommandTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertNotNull(1, $content['featureMedia']);
+        self::assertNotNull(1, $content['feature_media']);
         self::assertCount(1, $content['media']);
         self::assertCount(1, $content['media'][0]['renditions']);
         self::assertNotNull(1, $content['route']);
-        self::assertNotNull(1, $content['articleStatistics']);
+        self::assertNotNull(1, $content['article_statistics']);
 
         $client->request('GET', $router->generate('swp_api_content_list_lists'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

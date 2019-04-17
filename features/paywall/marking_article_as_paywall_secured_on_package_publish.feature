@@ -7,7 +7,7 @@ Feature: Marking article as paywall-secured using direct package publish
   Scenario: Mark article as paywall-secured on package publish
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -79,26 +79,24 @@ Feature: Marking article as paywall-secured using direct package publish
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
+              "is_published_fbia":false,
               "published":true,
               "paywallSecured":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/lorem-ipsum-package"
+    Then I send a "GET" request to "/api/v2/content/articles/lorem-ipsum-package"
     Then the response status code should be 200
     And the JSON node "status" should be equal to "published"
-    And the JSON node "paywallSecured" should be true
+    And the JSON node "paywall_secured" should be true

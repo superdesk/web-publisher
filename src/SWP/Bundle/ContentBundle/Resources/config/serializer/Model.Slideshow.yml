@@ -3,14 +3,20 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
     properties:
         id:
             expose: true
+            groups: [api]
         code:
             expose: true
+            groups: [api]
         article:
             expose: true
+            groups: [api]
         createdAt:
             expose: true
+            groups: [api]
         updatedAt:
             expose: true
+            groups: [api]
         items:
             expose: true
-            type: array<SWP\Bundle\ContentBundle\Model\SlideshowItemInterface>
+            groups: [api]
+            type: ArrayCollection<SWP\Bundle\ContentBundle\Model\SlideshowItemInterface>

@@ -39,17 +39,15 @@ class FbPageControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_pages'), [
-            'facebook_page' => [
                 'pageId' => '1234567890987654321',
                 'name' => 'Test Page',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"pageId":"1234567890987654321"', $content);
+        self::assertContains('"page_id":"1234567890987654321"', $content);
         self::assertContains('"name":"Test Page"', $content);
-        self::assertContains('"accessToken":null', $content);
+        self::assertContains('"access_token":null', $content);
         self::assertContains('"application":null', $content);
     }
 
@@ -57,19 +55,15 @@ class FbPageControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_pages'), [
-            'facebook_page' => [
                 'pageId' => '1234567890987654321',
                 'name' => 'Test Page',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_create_facebook_pages'), [
-            'facebook_page' => [
                 'pageId' => '1234567890987654321',
                 'name' => 'Test Page',
-            ],
         ]);
         self::assertEquals(409, $client->getResponse()->getStatusCode());
     }
@@ -78,10 +72,8 @@ class FbPageControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_pages'), [
-            'facebook_page' => [
                 'pageId' => '1234567890987654321',
                 'name' => 'Test Page',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -92,10 +84,8 @@ class FbPageControllerTest extends WebTestCase
         self::assertCount(1, $content['_embedded']['_items']);
 
         $client->request('POST', $this->router->generate('swp_api_create_facebook_pages'), [
-            'facebook_page' => [
                 'pageId' => '1234567890987654000',
                 'name' => 'Test Page 2',
-            ],
         ]);
 
         $client->request('GET', $this->router->generate('swp_api_list_facebook_pages'));
@@ -108,10 +98,8 @@ class FbPageControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_create_facebook_pages'), [
-            'facebook_page' => [
                 'pageId' => '1234567890987654321',
                 'name' => 'Test Page',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

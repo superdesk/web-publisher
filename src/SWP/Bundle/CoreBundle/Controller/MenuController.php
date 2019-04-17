@@ -41,7 +41,7 @@ class MenuController extends Controller
      *         404="No menus found."
      *     }
      * )
-     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_menu")
+     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_menu")
      */
     public function listAction()
     {
@@ -61,7 +61,7 @@ class MenuController extends Controller
      *         404="No menus found."
      *     }
      * )
-     * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_children_menu")
+     * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_children_menu")
      */
     public function listChildrenAction($id)
     {
@@ -90,15 +90,15 @@ class MenuController extends Controller
      *     },
      *     input="SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType"
      * )
-     * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
+     * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
      */
     public function moveAction(Request $request, $id)
     {
         $menuItem = $this->findOr404($id);
-        $form = $this->createForm(MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $menuItemManager = $this->get('swp_menu.manager.menu_item');
             $formData = $form->getData();
 
@@ -122,7 +122,7 @@ class MenuController extends Controller
      *         422="Menu id is not number"
      *     }
      * )
-     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_menu")
+     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_menu")
      */
     public function getAction($id)
     {
@@ -142,7 +142,7 @@ class MenuController extends Controller
      *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
      * )
      *
-     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_create_menu")
+     * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_menu")
      *
      * @param Request $request
      *
@@ -152,11 +152,11 @@ class MenuController extends Controller
     {
         /* @var MenuItemInterface $menu */
         $menu = $this->get('swp.factory.menu')->create();
-        $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', MenuType::class, $menu, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_menu.manager.menu_item')->update($menu);
             $this->get('swp.repository.menu')->add($menu);
             $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_CREATED, new GenericEvent($menu));
@@ -179,7 +179,7 @@ class MenuController extends Controller
      *         422="Menu id is not number"
      *     }
      * )
-     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_core_delete_menu")
+     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_menu")
      */
     public function deleteAction(int $id)
     {
@@ -206,7 +206,7 @@ class MenuController extends Controller
      *     },
      *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
      * )
-     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_menu")
+     * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_menu")
      *
      * @param Request $request
      * @param int     $id
@@ -218,10 +218,10 @@ class MenuController extends Controller
         $objectManager = $this->get('swp.object_manager.menu');
         $menu = $this->findOr404($id);
 
-        $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', MenuType::class, $menu, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_menu.manager.menu_item')->update($menu);
             $objectManager->flush();
 

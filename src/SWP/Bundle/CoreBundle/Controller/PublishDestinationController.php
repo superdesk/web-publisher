@@ -42,7 +42,7 @@ class PublishDestinationController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
      * )
      *
-     * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
+     * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
      *
      * @param Request $request
      *
@@ -58,11 +58,11 @@ class PublishDestinationController extends Controller
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destination = $this->get('swp.factory.publish_destination')->create();
-        $form = $this->createForm(PublishDestinationType::class, $destination, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', PublishDestinationType::class, $destination, ['method' => $request->getMethod()]);
         $currentOrganization = $tenantContext->getTenant()->getOrganization();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $repository = $this->get('swp.repository.publish_destination');
             /** @var PublishDestinationInterface $publishDestination */
             $publishDestination = $repository->findOneByTenant($destination->getTenant());
@@ -92,19 +92,19 @@ class PublishDestinationController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
      * )
      *
-     * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
+     * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
      * @ParamConverter("publishDestination", class="SWP\Bundle\CoreBundle\Model\PublishDestination")
      */
     public function updateAction(Request $request, PublishDestinationInterface $publishDestination): SingleResourceResponse
     {
         $objectManager = $this->get('swp.object_manager.publish_destination');
 
-        $form = $this->createForm(PublishDestinationType::class, $publishDestination, [
+        $form = $form = $this->get('form.factory')->createNamed('', PublishDestinationType::class, $publishDestination, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectManager->flush();
             $objectManager->refresh($publishDestination);
 

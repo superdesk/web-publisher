@@ -7,14 +7,14 @@ Feature: Validate custom fields
   Scenario: Submitting and publishing a package with extra custom fields
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key      | value      |
       | media    | @image.jpg |
       | media_id | 20180131130152/f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b.jpg |
     Then the response status code should be 201
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language": "en",
@@ -182,36 +182,32 @@ Feature: Validate custom fields
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
+    Then I send a "GET" request to "/api/v2/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | slug                          | testing-authors                                                                 |
@@ -220,4 +216,4 @@ Feature: Validate custom fields
       | extra.limit-test              | <p>limit test field</p>                                                         |
       | extra.rafal-embed.description | Shakin' Stevens                                                                 |
       | extra.rafal-embed.embed       | embed link                                                                      |
-      | media[0].image.assetId        | 20180131130152_f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b |
+      | media[0].image.asset_id        | 20180131130152_f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b |

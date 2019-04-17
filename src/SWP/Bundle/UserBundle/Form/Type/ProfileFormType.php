@@ -59,6 +59,6 @@ class ProfileFormType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'user_profile';
+        return '';
     }
 }

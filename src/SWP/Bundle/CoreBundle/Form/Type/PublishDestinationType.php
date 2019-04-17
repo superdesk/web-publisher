@@ -62,6 +62,6 @@ final class PublishDestinationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'publish_destination';
+        return '';
     }
 }

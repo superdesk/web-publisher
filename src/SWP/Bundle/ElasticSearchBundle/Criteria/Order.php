@@ -62,10 +62,15 @@ final class Order
 
         $field = self::DEFAULT_FIELD;
         if (self::DEFAULT_FIELD !== array_keys($sort)[0]) {
-            $field = array_keys($sort)[0];
+            $field = self::camelize(array_keys($sort)[0]);
         }
 
         return new self($field, $direction);
+    }
+
+    private static function camelize(string $value): string
+    {
+        return lcfirst(str_replace('_', '', ucwords($value, '_')));
     }
 
     /**

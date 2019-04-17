@@ -3,23 +3,32 @@ SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route:
     properties:
         templateName:
             expose: true
+            groups: [api]
         type:
             expose: true
+            groups: [api]
         name:
             expose: true
+            groups: [api]
         cacheTimeInSeconds:
             expose: true
+            groups: [api]
             type: integer
         articlesTemplateName:
-            expose: true
+            expose: truesrc/SWP/Bundle/ContentBundle/Resources/config/serializer/Model.RelatedArticle.yml
+            groups: [api]
             type: string
         position:
             expose: true
+            groups: [api]
             type: integer
         level:
             expose: true
+            groups: [api]
             type: integer
         children:
             expose: true
+            groups: [api]
         parent:
             expose: true
+            groups: [api]

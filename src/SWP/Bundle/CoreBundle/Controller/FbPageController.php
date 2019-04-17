@@ -43,7 +43,7 @@ class FbPageController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_pages")
+     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_pages")
      */
     public function listAction(Request $request)
     {
@@ -68,16 +68,16 @@ class FbPageController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookPageType"
      * )
-     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_create_facebook_pages")
+     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_pages")
      */
     public function createAction(Request $request)
     {
         /* @var FacebookPage $feed */
         $page = $this->get('swp.factory.facebook_page')->create();
-        $form = $this->createForm(FacebookPageType::class, $page, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', FacebookPageType::class, $page, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->checkIfPageExists($page);
             $this->get('swp.repository.facebook_page')->add($page);
 
@@ -98,7 +98,7 @@ class FbPageController extends Controller
      *         409="Page is used by Instant Articles Feed"
      *     }
      * )
-     * @Route("/api/{version}/facebook/pages/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_delete_facebook_pages")
+     * @Route("/api/{version}/facebook/pages/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_pages")
      */
     public function deleteAction($id)
     {

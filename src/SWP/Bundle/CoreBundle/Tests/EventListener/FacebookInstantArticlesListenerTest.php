@@ -41,15 +41,12 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getLocale() == "en"',
                 'priority' => 1,
                 'configuration' => [
@@ -62,36 +59,29 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
                         'value' => 3,
                     ],
                 ],
-            ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
-            'content_list' => [
                 'name' => 'Example bucket',
                 'type' => 'bucket',
                 'description' => 'New FBIA list',
                 'limit' => 0,
                 'cacheLifeTime' => 0,
                 'filters' => '{"metadata":{"language":"en"}}',
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_create_facebook_pages'), [
-            'facebook_page' => [
                 'pageId' => '1234567890987654321',
                 'name' => 'Test Page',
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_create_facebook_instant_articles_feed'), [
-            'facebook_instant_articles_feed' => [
                 'contentBucket' => 1,
                 'facebookPage' => 1,
                 'mode' => 0,
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -109,7 +99,6 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -118,7 +107,6 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 

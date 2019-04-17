@@ -6,14 +6,12 @@ Feature: Listing single route by slug and parent
   Scenario: Listing single route's url by slug and parent
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Politics",
           "type": "collection",
           "templateName": "route_by_slug_and_parent.html.twig"
-        }
       }
     """
     Then the response status code should be 201
@@ -23,14 +21,12 @@ Feature: Listing single route by slug and parent
     And the JSON node id should be equal to "7"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Test route",
           "type": "content",
           "parent": 7
-        }
       }
     """
     Then the response status code should be 201
@@ -40,14 +36,12 @@ Feature: Listing single route by slug and parent
     And the JSON node staticPrefix should be equal to "/politics/test-route"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Test route 2",
           "type": "content",
           "slug": "test-route"
-        }
       }
     """
     Then the response status code should be 201

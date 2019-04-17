@@ -1,5 +1,4 @@
 parameters:
-    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
     env(FS_MAIN_ADAPTER): local_adapter
     env(FS_AWS_S3_BUCKET): ''
     env(FS_AWS_S3_PREFIX): ~

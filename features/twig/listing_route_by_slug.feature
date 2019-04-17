@@ -6,15 +6,13 @@ Feature: Listing single route by slug or name
   Scenario: Listing single route's url by slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Authors",
           "slug": "authors",
           "type": "collection",
           "templateName": "route_by_slug.html.twig"
-        }
       }
     """
     Then the response status code should be 201
@@ -24,14 +22,12 @@ Feature: Listing single route by slug or name
     And the JSON node id should be equal to "7"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Test route",
           "type": "content",
           "parent": 7
-        }
       }
     """
     Then the response status code should be 201

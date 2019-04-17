@@ -50,6 +50,6 @@ class ContentListItemType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'content_list_item';
+        return '';
     }
 }

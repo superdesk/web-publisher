@@ -7,58 +7,52 @@ Feature: Manage Routes
   Scenario: Listing existing routes
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/content/routes/"
+    And I send a GET request to "/api/v2/content/routes/"
     Then the response status code should be 200
     And the JSON node total should be equal to 5
 
   Scenario: Creating new route with custom slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route",
           "slug": "simple-test-route",
           "type": "collection",
           "content": null
-        }
       }
     """
     Then the response status code should be 201
     And the JSON node name should be equal to "Simple test route"
     And the JSON node slug should be equal to "simple-test-route"
-    And the JSON node staticPrefix should be equal to "/simple-test-route"
+    And the JSON node static_prefix should be equal to "/simple-test-route"
 
   Scenario: Creating new route without custom slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test route number 2",
           "type": "collection",
           "content": null
-        }
       }
     """
     Then the response status code should be 201
     And the JSON node name should be equal to "Simple test route number 2"
     And the JSON node slug should be equal to "simple-test-route-number-2"
-    And the JSON node staticPrefix should be equal to "/simple-test-route-number-2"
+    And the JSON node static_prefix should be equal to "/simple-test-route-number-2"
 
 
   Scenario: Creating new route with parent and un-setting parent
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test root route",
           "type": "content"
-        }
       }
     """
     Then the response status code should be 201
@@ -67,14 +61,12 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Simple test child route",
           "type": "content",
           "parent": 9
-        }
       }
     """
     Then the response status code should be 201
@@ -83,12 +75,10 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/10" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/10" with body:
      """
       {
-        "route": {
           "parent": null
-        }
       }
     """
     Then the response status code should be 200
@@ -97,18 +87,17 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/v1/content/routes/10"
+    And I send a "GET" request to "/api/v2/content/routes/10"
     Then the response status code should be 200
     And the JSON node name should be equal to "Simple test child route"
     And the JSON node level should be equal to 0
-#
+
   Scenario: Creating new route without type custom
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/routes/" with body:
+    And I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route": {
           "name": "Custom route",
           "slug": "custom-route",
           "type": "custom",
@@ -119,7 +108,6 @@ Feature: Manage Routes
               "value": "[a-zA-Z]+"
             }
           ]
-        }
       }
     """
     Then the response status code should be 201
@@ -133,12 +121,10 @@ Feature: Manage Routes
   Scenario: Changing route position (order)
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 6
-        }
       }
     """
     Then the response status code should be 200
@@ -148,12 +134,10 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 0
-        }
       }
     """
     Then the response status code should be 200
@@ -163,12 +147,10 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 9
-        }
       }
     """
     Then the response status code should be 200
@@ -179,13 +161,11 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
-        "route": {
           "parent": 3,
           "position": 1
-        }
       }
     """
     Then the response status code should be 200
@@ -197,13 +177,11 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
-        "route": {
           "parent": 3,
           "position": 4
-        }
       }
     """
     Then the response status code should be 200
@@ -214,12 +192,10 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
-        "route": {
           "position": 0
-        }
       }
     """
     Then the response status code should be 200
@@ -231,12 +207,10 @@ Feature: Manage Routes
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+    And I send a "PATCH" request to "/api/v2/content/routes/11" with body:
      """
       {
-        "route": {
           "position": -1
-        }
       }
     """
     Then the response status code should be 400

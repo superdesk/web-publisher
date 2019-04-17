@@ -38,7 +38,7 @@ class RelatedArticleOrganizationController extends Controller
      *         200="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_organization_related_articles")
+     * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_organization_related_articles")
      */
     public function postAction(Request $request)
     {
@@ -58,7 +58,7 @@ class RelatedArticleOrganizationController extends Controller
      *         200="Returned on success"
      *     }
      * )
-     * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
+     * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
      */
     public function getRelatedAction(string $id)
     {

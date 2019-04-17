@@ -3,19 +3,25 @@ SWP\Component\Paywall\Model\Subscription:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         code:
             expose: true
+            groups: [api]
             type: string
         type:
             expose: true
+            groups: [api]
             type: string
         details:
             expose: true
+            groups: [api]
             type: array
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime

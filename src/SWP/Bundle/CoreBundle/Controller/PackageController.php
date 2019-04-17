@@ -52,7 +52,7 @@ class PackageController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_packages")
+     * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_packages")
      */
     public function listAction(Request $request)
     {
@@ -78,7 +78,7 @@ class PackageController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/packages/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_show_package", requirements={"id"="\d+"})
+     * @Route("/api/{version}/packages/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_package", requirements={"id"="\d+"})
      */
     public function getAction(int $id)
     {
@@ -98,7 +98,7 @@ class PackageController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType"
      * )
-     * @Route("/api/{version}/packages/{id}/publish/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_publish_package", requirements={"id"="\d+"})
+     * @Route("/api/{version}/packages/{id}/publish/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publish_package", requirements={"id"="\d+"})
      */
     public function publishAction(Request $request, int $id)
     {
@@ -106,10 +106,10 @@ class PackageController extends Controller
         /** @var PackageInterface $package */
         $package = $this->findOr404($id);
 
-        $form = $this->createForm(CompositePublishActionType::class, new CompositePublishAction(), ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', CompositePublishActionType::class, new CompositePublishAction(), ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_core.article.publisher')->publish($package, $form->getData());
             $this->get('fos_elastica.object_persister.swp.package')->replaceOne($package);
 
@@ -132,16 +132,16 @@ class PackageController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType"
      * )
-     * @Route("/api/{version}/packages/{id}/unpublish/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_unpublish_package", requirements={"id"="\d+"})
+     * @Route("/api/{version}/packages/{id}/unpublish/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_unpublish_package", requirements={"id"="\d+"})
      */
     public function unpublishAction(Request $request, int $id)
     {
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $package = $this->findOr404($id);
-        $form = $this->createForm(UnpublishFromTenantsType::class, null, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', UnpublishFromTenantsType::class, null, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             /** @var Collection $tenants */
             $tenants = $formData['tenants'];
@@ -170,7 +170,7 @@ class PackageController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PackageType"
      * )
      *
-     * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
+     * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
      *
      * @return SingleResourceResponse
      */
@@ -178,10 +178,10 @@ class PackageController extends Controller
     {
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $package = $this->findOr404($id);
-        $form = $this->createForm(PackageType::class, $package, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', PackageType::class, $package, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
                 $package->setStatus(ContentInterface::STATUS_CANCELED);
             }

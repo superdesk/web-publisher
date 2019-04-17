@@ -7,7 +7,7 @@ Feature: Checking if restoring settings by scope works correctly
   Scenario: Restoring settings to defaults by scope
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/{version}/settings/"
+    And I send a "GET" request to "/api/v2/settings/"
     And the JSON should be equal to:
     """
     [
@@ -178,43 +178,37 @@ Feature: Checking if restoring settings by scope works correctly
     Then the response status code should be 200
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
     """
     {
-      "settings": {
         "name":"instance_name",
         "value":"Publisher edited"
-      }
     }
     """
     Then the response status code should be 200
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
     """
     {
-      "settings": {
         "name":"primary_font_family",
         "value":"Oswald"
-      }
     }
     """
     Then the response status code should be 200
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PATCH" request to "/api/{version}/settings/" with body:
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
     """
       {
-        "settings": {
           "name":"secondary_font_family",
           "value":"Lato"
-        }
       }
     """
     Then the response status code should be 200
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/{version}/settings/"
+    And I send a "GET" request to "/api/v2/settings/"
     And the JSON should be equal to:
     """
     [
@@ -384,11 +378,11 @@ Feature: Checking if restoring settings by scope works correctly
     """
     Then I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/settings/revert/theme"
+    And I send a "POST" request to "/api/v2/settings/revert/theme"
     Then the response status code should be 204
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "GET" request to "/api/{version}/settings/"
+    And I send a "GET" request to "/api/v2/settings/"
     And the JSON should be equal to:
     """
     [

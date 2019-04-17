@@ -5,10 +5,9 @@ Feature: Making sure that the tenant rules are ignored
   Scenario: Checking if tenant rules are not evaluated when overridden by destinations
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -23,16 +22,14 @@ Feature: Making sure that the tenant rules are ignored
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -43,28 +40,26 @@ Feature: Making sure that the tenant rules are ignored
               "value":5
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "POST" request to "/api/v2/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
+
           "tenant":"123abc",
           "route":3,
-          "isPublishedFbia":false,
+          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-        }
       }
     """
     Then the response status code should be 200
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -112,7 +107,7 @@ Feature: Making sure that the tenant rules are ignored
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | slug                          | abstract-html-test |
@@ -123,10 +118,9 @@ Feature: Making sure that the tenant rules are ignored
     by destinations and that the article is not published
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v2/organization/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test rule",
           "description":"Test rule description",
           "priority":1,
@@ -141,16 +135,14 @@ Feature: Making sure that the tenant rules are ignored
               ]
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/rules/" with body:
+    Then I send a "POST" request to "/api/v2/rules/" with body:
      """
       {
-        "rule":{
           "name":"Test tenant rule",
           "description":"Test tenant rule description",
           "priority":1,
@@ -161,28 +153,25 @@ Feature: Making sure that the tenant rules are ignored
               "value":5
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "POST" request to "/api/v2/organization/destinations/" with body:
      """
       {
-        "publish_destination":{
            "tenant":"123abc",
            "route":3,
-           "isPublishedFbia":false,
+           "is_published_fbia":false,
            "published":false,
            "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf1"
-        }
       }
     """
     Then the response status code should be 200
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -230,7 +219,7 @@ Feature: Making sure that the tenant rules are ignored
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test-2-0123456789abc"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-2-0123456789abc"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | slug                          | abstract-html-test |

@@ -175,9 +175,7 @@ final class PackageControllerTest extends WebTestCase
             'PATCH',
             $this->router->generate('swp_api_core_update_package', ['id' => 1]),
             [
-                'update' => [
                     'pubStatus' => ContentInterface::STATUS_CANCELED,
-                ],
             ]
         );
 
@@ -197,7 +195,6 @@ final class PackageControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
             [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -206,7 +203,6 @@ final class PackageControllerTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -220,9 +216,7 @@ final class PackageControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_core_unpublish_package', ['id' => 1]),
             [
-                'unpublish' => [
                     'tenants' => ['123abc'],
-                ],
             ]
         );
 

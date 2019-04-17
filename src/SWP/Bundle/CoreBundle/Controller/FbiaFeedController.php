@@ -41,7 +41,7 @@ class FbiaFeedController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_feed")
+     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_feed")
      */
     public function listAction(Request $request)
     {
@@ -66,16 +66,16 @@ class FbiaFeedController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookInstantArticlesFeedType"
      * )
-     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_create_facebook_instant_articles_feed")
+     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_instant_articles_feed")
      */
     public function createAction(Request $request)
     {
         /* @var FacebookInstantArticlesFeedInterface $feed */
         $feed = $this->get('swp.factory.facebook_instant_articles_feed')->create();
-        $form = $this->createForm(FacebookInstantArticlesFeedType::class, $feed, ['method' => $request->getMethod()]);
+        $form = $form = $this->get('form.factory')->createNamed('', FacebookInstantArticlesFeedType::class, $feed, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->checkIfFeedExists($feed->getContentBucket(), $feed->getFacebookPage());
             $this->get('swp.repository.facebook_instant_articles_feed')->add($feed);
 

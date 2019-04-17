@@ -44,6 +44,6 @@ class RegistrationFormType extends BaseRegistrationFormType
      */
     public function getBlockPrefix()
     {
-        return 'user_registration';
+        return '';
     }
 }

@@ -48,7 +48,7 @@ class RegistrationController extends Controller
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\RegistrationFormType"
      * )
-     * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_register_user")
+     * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
      */
     public function registerAction(Request $request)
     {
@@ -67,9 +67,9 @@ class RegistrationController extends Controller
             return $event->getResponse();
         }
 
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->get('form.factory')->createNamed('', RegistrationFormType::class, $user);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserInterface $formData */
             $formData = $form->getData();
 

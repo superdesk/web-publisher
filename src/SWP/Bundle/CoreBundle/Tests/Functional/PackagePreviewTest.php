@@ -210,12 +210,10 @@ EOD;
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'news',
                 'type' => 'collection',
                 'content' => null,
                 'articlesTemplateName' => 'fake.html.twig',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -286,13 +284,11 @@ EOD;
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'news',
                 'type' => 'collection',
                 'content' => null,
                 'templateName' => 'news.html.twig',
                 'articlesTemplateName' => 'article.html.twig',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -313,12 +309,10 @@ EOD;
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'news',
                 'type' => 'collection',
                 'content' => null,
                 'templateName' => 'news.html.twig',
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

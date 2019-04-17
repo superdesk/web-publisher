@@ -6,7 +6,7 @@ Feature: Handling embedded audio
 
   Scenario: Saving the data with embedded audio
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "version":"3",
@@ -88,28 +88,26 @@ Feature: Handling embedded audio
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/test-audio-in-body"
+    Then I send a "GET" request to "/api/v2/content/articles/test-audio-in-body"
     Then the response status code should be 200
     And the JSON node "body" should contain "/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
     And the JSON nodes should contain:
-      | media[0].file.assetId         | 20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6            |
-      | media[0].file.fileExtension   | mp3                                                                                        |
-      | media[0]._links.download.href | /media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3 |
+      | media[0].file.asset_id         | 20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6            |
+      | media[0].file.file_extension   | mp3                                                                                        |
+      | media[0]._links.download.href  | /media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3 |
     And the JSON node "media[0].image" should be null

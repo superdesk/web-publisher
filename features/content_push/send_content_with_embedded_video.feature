@@ -6,7 +6,7 @@ Feature: Handling embedded video
 
   Scenario: Saving the data with embedded video
     Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                                                                                |
       | media_id     | 20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4  |
       | media        | @video.mp4                                                                           |
@@ -17,7 +17,7 @@ Feature: Handling embedded video
     And the JSON node "media" should not be null
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "version":"3",
@@ -99,28 +99,26 @@ Feature: Handling embedded video
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "published":true
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/test-video-in-body"
+    Then I send a "GET" request to "/api/v2/content/articles/test-video-in-body"
     Then the response status code should be 200
     And the JSON node "body" should contain "/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
     And the JSON nodes should contain:
-      | media[0].file.assetId         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
-      | media[0].file.fileExtension   | mp4                                                                                        |
+      | media[0].file.asset_id         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
+      | media[0].file.file_extension   | mp4                                                                                        |
       | media[0]._links.download.href | /media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4 |
     And the JSON node "media[0].image" should be null

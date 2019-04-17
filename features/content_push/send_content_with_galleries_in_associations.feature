@@ -8,64 +8,62 @@ Feature: Handling the custom media fields
     Given I am authenticated as "test.user"
     And the current date time is "2019-03-10 09:00"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/webhooks/" with body:
+    And I send a "POST" request to "/api/v2/webhooks/" with body:
      """
       {
-        "webhook": {
           "url": "http://localhost:3000/article-update",
           "events": [
               "article[updated]"
           ],
           "enabled": "1"
-        }
       }
     """
     Then  the response status code should be 201
 
     And I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -308,10 +306,9 @@ Feature: Handling the custom media fields
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
@@ -319,78 +316,77 @@ Feature: Handling the custom media fields
               "route": 3
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-without-slideshow"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-without-slideshow"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[0].image.assetId                 | 1234567890987654321c                   |
+      | media[0].image.asset_id                 | 1234567890987654321c                   |
       | media[0].renditions[0].name            | 16-9                                   |
-      | media[0].renditions[0].image.assetId   | 1234567890987654321a                   |
+      | media[0].renditions[0].image.asset_id   | 1234567890987654321a                   |
       | media[0].renditions[1].name            | 4-3                                    |
-      | media[0].renditions[1].image.assetId   | 1234567890987654321b                   |
+      | media[0].renditions[1].image.asset_id   | 1234567890987654321b                   |
       | media[0].renditions[2].name            | original                               |
-      | media[0].renditions[2].image.assetId   | 1234567890987654321c                   |
-      | media[1].image.assetId                 | 2234567890987654321c                   |
+      | media[0].renditions[2].image.asset_id   | 1234567890987654321c                   |
+      | media[1].image.asset_id                 | 2234567890987654321c                   |
       | media[1].renditions[0].name            | 16-9                                   |
-      | media[1].renditions[0].image.assetId   | 2234567890987654321a                   |
+      | media[1].renditions[0].image.asset_id   | 2234567890987654321a                   |
       | media[1].renditions[1].name            | 4-3                                    |
-      | media[1].renditions[1].image.assetId   | 2234567890987654321b                   |
+      | media[1].renditions[1].image.asset_id   | 2234567890987654321b                   |
       | media[1].renditions[2].name            | original                               |
-      | media[1].renditions[2].image.assetId   | 2234567890987654321c                   |
+      | media[1].renditions[2].image.asset_id   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | slideshows[0].id                       | 1                                      |
-      | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
+      | _links.slideshows.href                 | /api/v2/content/slideshows/6           |
 
     Given I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/assets/push" with parameters:
+    And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v1/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -682,52 +678,455 @@ Feature: Handling the custom media fields
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-without-slideshow"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-without-slideshow"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[1].image.assetId                 | 1234567890987654321c                   |
+      | media[0].image.asset_id                 | 1234567890987654321c                   |
+      | media[0].renditions[0].name            | 16-9                                   |
+      | media[0].renditions[0].image.asset_id   | 1234567890987654321a                   |
+      | media[0].renditions[1].name            | 4-3                                    |
+      | media[0].renditions[1].image.asset_id   | 1234567890987654321b                   |
+      | media[0].renditions[2].name            | original                               |
+      | media[0].renditions[2].image.asset_id   | 1234567890987654321c                   |
+      | media[1].image.asset_id                 | 2234567890987654321c                   |
       | media[1].renditions[0].name            | 16-9                                   |
-      | media[1].renditions[0].image.assetId   | 1234567890987654321a                   |
+      | media[1].renditions[0].image.asset_id   | 2234567890987654321a                   |
       | media[1].renditions[1].name            | 4-3                                    |
-      | media[1].renditions[1].image.assetId   | 1234567890987654321b                   |
+      | media[1].renditions[1].image.asset_id   | 2234567890987654321b                   |
       | media[1].renditions[2].name            | original                               |
-      | media[1].renditions[2].image.assetId   | 1234567890987654321c                   |
-      | media[2].image.assetId                 | 2234567890987654321c                   |
-      | media[2].renditions[0].name            | 16-9                                   |
-      | media[2].renditions[0].image.assetId   | 2234567890987654321a                   |
-      | media[2].renditions[1].name            | 4-3                                    |
-      | media[2].renditions[1].image.assetId   | 2234567890987654321b                   |
-      | media[2].renditions[2].name            | original                               |
-      | media[2].renditions[2].image.assetId   | 2234567890987654321c                   |
+      | media[1].renditions[2].image.asset_id   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | slideshows[0].id                       | 2                                      |
-      | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
+      | _links.slideshows.href                 | /api/v2/content/slideshows/6           |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6/2"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/2"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | code                   | slideshow1                              |
       | article.id             | 6                                       |
       | id                     | 2                                       |
-      | _links.items.href      | /api/v1/content/slideshows/6/2/items/   |
+      | _links.items.href      | /api/v2/content/slideshows/6/2/items/   |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6/2/items/"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/2/items/"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 2
     And the JSON nodes should contain:
-      | _embedded._items[0].articleMedia.image.assetId   | 1234567890987654321c |
-      | _embedded._items[1].articleMedia.image.assetId   | 2234567890987654321c |
+      | _embedded._items[0].article_media.image.asset_id   | 1234567890987654321c |
+      | _embedded._items[1].article_media.image.asset_id   | 2234567890987654321c |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/slideshows/6/1/items/"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/1/items/"
     Then the response status code should be 404
 
     And The payload received by "http://localhost:3000/article-update-check" webhook should be equal to:
     """
-    {"id":6,"title":"Article with added slideshow","body":"<p>some html body<\/p>","slug":"abstract-html-test-without-slideshow","publishedAt":"2019-03-10T09:00:00+00:00","status":"published","route":{"requirements":{"slug":"[a-zA-Z0-9*\\-_]+"},"id":3,"staticPrefix":"\/news","variablePattern":"\/{slug}","children":[{"requirements":{"slug":"[a-zA-Z0-9*\\-_]+"},"id":6,"staticPrefix":"\/news\/sports","variablePattern":"\/{slug}","parent":3,"children":[],"lft":4,"rgt":5,"level":1,"type":"collection","cacheTimeInSeconds":0,"name":"sports","slug":"sports","position":0,"articlesCount":0,"paywallSecured":false,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/6"},"parent":{"href":"\/api\/v1\/content\/routes\/3"}}}],"lft":3,"rgt":6,"level":0,"type":"collection","cacheTimeInSeconds":0,"name":"news","slug":"news","position":1,"articlesCount":0,"paywallSecured":false,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}},"isPublishable":true,"metadata":{"subject":[{"name":"lawyer","code":"02002001"}],"urgency":3,"priority":6,"located":"Warsaw","place":[{"country":"Australia","world_region":"Oceania","state":"Australian Capital Territory","qcode":"ACT","name":"ACT","group":"Australia"}],"service":[{"name":"Australian General News","code":"a"}],"type":"text","byline":"ADmin","guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2","language":"en"},"media":[{"id":"1","image":{"id":"12","fileExtension":"png","assetId":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea","width":255,"height":76},"description":"Smoke on the water on River Gradac\u00a0","byLine":"Ljub. Z. Rankovi\u0107","altText":"Gradac alt text","usageTerms":"indefinite-usage","renditions":[{"width":2048,"height":1365,"name":"original","id":1,"image":{"id":"13","fileExtension":"png","assetId":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea","width":255,"height":76},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw"}],"headline":"Smoke on the water","copyrightHolder":"Holder","copyrightNotice":"Notice","_links":{"download":{"href":"\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"}}},{"id":"2","image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"description":"test image","byLine":"Pawe\u0142 Miko\u0142ajczuk","altText":"test image","usageTerms":"indefinite-usage","renditions":[{"width":1079,"height":720,"name":"16-9","id":2,"image":{"id":"6","fileExtension":"jpeg","assetId":"1234567890987654321a"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http"},{"width":800,"height":533,"name":"4-3","id":3,"image":{"id":"7","fileExtension":"jpeg","assetId":"1234567890987654321b"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http"},{"width":4000,"height":2667,"name":"original","id":4,"image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http"}],"headline":"test image","_links":{"download":{"href":"\/media\/1234567890987654321c.jpeg"}}},{"id":"3","image":{"id":"11","fileExtension":"jpeg","assetId":"2234567890987654321c"},"description":"test image 2","byLine":"Pawe\u0142 Miko\u0142ajczuk","altText":"test image","usageTerms":"indefinite-usage","renditions":[{"width":1079,"height":720,"name":"16-9","id":5,"image":{"id":"9","fileExtension":"jpeg","assetId":"2234567890987654321a"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http"},{"width":800,"height":533,"name":"4-3","id":6,"image":{"id":"10","fileExtension":"jpeg","assetId":"2234567890987654321b"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http"},{"width":4000,"height":2667,"name":"original","id":7,"image":{"id":"11","fileExtension":"jpeg","assetId":"2234567890987654321c"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http"}],"headline":"test image","_links":{"download":{"href":"\/media\/2234567890987654321c.jpeg"}}}],"featureMedia":{"id":"1","image":{"id":"12","fileExtension":"png","assetId":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea","width":255,"height":76},"description":"Smoke on the water on River Gradac\u00a0","byLine":"Ljub. Z. Rankovi\u0107","altText":"Gradac alt text","usageTerms":"indefinite-usage","renditions":[{"width":2048,"height":1365,"name":"original","id":1,"image":{"id":"13","fileExtension":"png","assetId":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea","width":255,"height":76},"media":{"id":"1","image":{"id":"12","fileExtension":"png","assetId":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea","width":255,"height":76},"description":"Smoke on the water on River Gradac\u00a0","byLine":"Ljub. Z. Rankovi\u0107","altText":"Gradac alt text","usageTerms":"indefinite-usage","renditions":[],"headline":"Smoke on the water","copyrightHolder":"Holder","copyrightNotice":"Notice","_links":{"download":{"href":"\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"}}},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw"}],"headline":"Smoke on the water","copyrightHolder":"Holder","copyrightNotice":"Notice","_links":{"download":{"href":"\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"}}},"lead":"some abstract text","code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2","sources":[],"extra":[],"slideshows":[{"id":2,"code":"slideshow1","items":[{"articleMedia":{"id":"2","image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"description":"test image","byLine":"Pawe\u0142 Miko\u0142ajczuk","altText":"test image","usageTerms":"indefinite-usage","renditions":[{"width":1079,"height":720,"name":"16-9","id":2,"image":{"id":"6","fileExtension":"jpeg","assetId":"1234567890987654321a"},"media":{"id":"2","image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"description":"test image","byLine":"Pawe\u0142 Miko\u0142ajczuk","altText":"test image","usageTerms":"indefinite-usage","renditions":{"1":{"width":800,"height":533,"name":"4-3","id":3,"image":{"id":"7","fileExtension":"jpeg","assetId":"1234567890987654321b"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http"},"2":{"width":4000,"height":2667,"name":"original","id":4,"image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http"}},"headline":"test image","_links":{"download":{"href":"\/media\/1234567890987654321c.jpeg"}}},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http"},{"width":800,"height":533,"name":"4-3","id":3,"image":{"id":"7","fileExtension":"jpeg","assetId":"1234567890987654321b"},"media":{"id":"2","image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"description":"test image","byLine":"Pawe\u0142 Miko\u0142ajczuk","altText":"test image","usageTerms":"indefinite-usage","renditions":{"0":{"width":1079,"height":720,"name":"16-9","id":2,"image":{"id":"6","fileExtension":"jpeg","assetId":"1234567890987654321a"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http"},"2":{"width":4000,"height":2667,"name":"original","id":4,"image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http"}},"headline":"test image","_links":{"download":{"href":"\/media\/1234567890987654321c.jpeg"}}},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http"},{"width":4000,"height":2667,"name":"original","id":4,"image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"media":{"id":"2","image":{"id":"8","fileExtension":"jpeg","assetId":"1234567890987654321c"},"description":"test image","byLine":"Pawe\u0142 Miko\u0142ajczuk","altText":"test image","usageTerms":"indefinite-usage","renditions":[{"width":1079,"height":720,"name":"16-9","id":2,"image":{"id":"6","fileExtension":"jpeg","assetId":"1234567890987654321a"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http"},{"width":800,"height":533,"name":"4-3","id":3,"image":{"id":"7","fileExtension":"jpeg","assetId":"1234567890987654321b"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http"}],"headline":"test image","_links":{"download":{"href":"\/media\/1234567890987654321c.jpeg"}}},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http"}],"headline":"test image","_links":{"download":{"href":"\/media\/1234567890987654321c.jpeg"}}}},{"articleMedia":{"id":"3","image":{"id":"11","fileExtension":"jpeg","assetId":"2234567890987654321c"},"description":"test image 2","byLine":"Pawe\u0142 Miko\u0142ajczuk","altText":"test image","usageTerms":"indefinite-usage","renditions":[{"width":1079,"height":720,"name":"16-9","id":5,"image":{"id":"9","fileExtension":"jpeg","assetId":"2234567890987654321a"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http"},{"width":800,"height":533,"name":"4-3","id":6,"image":{"id":"10","fileExtension":"jpeg","assetId":"2234567890987654321b"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http"},{"width":4000,"height":2667,"name":"original","id":7,"image":{"id":"11","fileExtension":"jpeg","assetId":"2234567890987654321c"},"previewUrl":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http"}],"headline":"test image","_links":{"download":{"href":"\/media\/2234567890987654321c.jpeg"}}}}],"createdAt":"2019-03-10T09:00:00+00:00","updatedAt":"2019-03-10T09:00:00+00:00","_links":{"items":{"href":"\/api\/v1\/content\/slideshows\/6\/2\/items\/"}}}],"createdAt":"2019-03-10T09:00:00+00:00","updatedAt":"2019-03-10T09:00:00+00:00","authors":[],"keywords":[{"slug":"keyword1","name":"keyword1"},{"slug":"keyword2","name":"keyword2"}],"isPublishedFBIA":false,"articleStatistics":{"impressionsNumber":0,"pageViewsNumber":0,"internalClickRate":0,"createdAt":"2019-03-10T09:00:00+00:00","updatedAt":"2019-03-10T09:00:00+00:00"},"commentsCount":0,"tenant":{"id":1,"domainName":"localhost","code":"123abc","name":"Default tenant","ampEnabled":true,"fbiaEnabled":false,"paywallEnabled":false,"_links":{"self":{"href":"\/api\/v1\/tenants\/123abc"}}},"paywallSecured":false,"contentLists":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/abstract-html-test-without-slideshow"},"online":{"href":"\/news\/abstract-html-test-without-slideshow"},"related":{"href":"\/api\/v1\/content\/articles\/6\/related\/"},"slideshows":{"href":"\/api\/v1\/content\/slideshows\/6"}}}
-    """
+    {
+      "id":6,
+      "title":"Article with added slideshow",
+      "body":"<p>some html body<\/p>",
+      "slug":"abstract-html-test-without-slideshow",
+      "published_at":"2019-03-10T09:00:00+00:00",
+      "status":"published",
+      "route":{
+        "requirements":{
+          "slug":"[a-zA-Z0-9*\\-_]+"
+        },
+        "id":3,
+        "static_prefix":"\/news",
+        "variable_pattern":"\/{slug}",
+        "children":[
+          {
+            "requirements":{
+              "slug":"[a-zA-Z0-9*\\-_]+"
+            },
+            "id":6,
+            "static_prefix":"\/news\/sports",
+            "variable_pattern":"\/{slug}",
+            "parent":3,
+            "children":[
+
+            ],
+            "lft":4,
+            "rgt":5,
+            "level":1,
+            "type":"collection",
+            "cache_time_in_seconds":0,
+            "name":"sports",
+            "slug":"sports",
+            "position":0,
+            "articlesCount":0,
+            "paywall_secured":false,
+            "_links":{
+              "self":{
+                "href":"\/api\/v1\/content\/routes\/6"
+              },
+              "parent":{
+                "href":"\/api\/v1\/content\/routes\/3"
+              }
+            }
+          }
+        ],
+        "lft":3,
+        "rgt":6,
+        "level":0,
+        "type":"collection",
+        "cache_time_in_seconds":0,
+        "name":"news",
+        "slug":"news",
+        "position":1,
+        "articlesCount":0,
+        "paywall_secured":false,
+        "_links":{
+          "self":{
+            "href":"\/api\/v1\/content\/routes\/3"
+          }
+        }
+      },
+      "is_publishable":true,
+      "metadata":{
+        "subject":[
+          {
+            "name":"lawyer",
+            "code":"02002001"
+          }
+        ],
+        "urgency":3,
+        "priority":6,
+        "located":"Warsaw",
+        "place":[
+          {
+            "country":"Australia",
+            "world_region":"Oceania",
+            "state":"Australian Capital Territory",
+            "qcode":"ACT",
+            "name":"ACT",
+            "group":"Australia"
+          }
+        ],
+        "service":[
+          {
+            "name":"Australian General News",
+            "code":"a"
+          }
+        ],
+        "type":"text",
+        "byline":"ADmin",
+        "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
+        "language":"en"
+      },
+      "media":[
+        {
+          "id":3,
+          "image":{
+            "id":8,
+            "file_extension":"jpeg",
+            "asset_id":"1234567890987654321c"
+          },
+          "description":"test image",
+          "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+          "alt_text":"test image",
+          "usage_terms":"indefinite-usage",
+          "renditions":[
+            {
+              "width":1079,
+              "height":720,
+              "name":"16-9",
+              "id":7,
+              "image":{
+                "id":6,
+                "file_extension":"jpeg",
+                "asset_id":"1234567890987654321a"
+              },
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321a\/raw?_schema=http"
+            },
+            {
+              "width":800,
+              "height":533,
+              "name":"4-3",
+              "id":8,
+              "image":{
+                "id":7,
+                "file_extension":"jpeg",
+                "asset_id":"1234567890987654321b"
+              },
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321b\/raw?_schema=http"
+            },
+            {
+              "width":4000,
+              "height":2667,
+              "name":"original",
+              "id":9,
+              "image":{
+                "id":8,
+                "file_extension":"jpeg",
+                "asset_id":"1234567890987654321c"
+              },
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321c\/raw?_schema=http"
+            }
+          ],
+          "headline":"test image",
+          "_links":{
+            "download":{
+              "href":"\/media\/1234567890987654321c.jpeg"
+            }
+          }
+        },
+        {
+          "id":4,
+          "image":{
+            "id":11,
+            "file_extension":"jpeg",
+            "asset_id":"2234567890987654321c"
+          },
+          "description":"test image 2",
+          "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+          "alt_text":"test image",
+          "usage_terms":"indefinite-usage",
+          "renditions":[
+            {
+              "width":1079,
+              "height":720,
+              "name":"16-9",
+              "id":10,
+              "image":{
+                "id":9,
+                "file_extension":"jpeg",
+                "asset_id":"2234567890987654321a"
+              },
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321a\/raw?_schema=http"
+            },
+            {
+              "width":800,
+              "height":533,
+              "name":"4-3",
+              "id":11,
+              "image":{
+                "id":10,
+                "file_extension":"jpeg",
+                "asset_id":"2234567890987654321b"
+              },
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321b\/raw?_schema=http"
+            },
+            {
+              "width":4000,
+              "height":2667,
+              "name":"original",
+              "id":12,
+              "image":{
+                "id":11,
+                "file_extension":"jpeg",
+                "asset_id":"2234567890987654321c"
+              },
+              "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321c\/raw?_schema=http"
+            }
+          ],
+          "headline":"test image",
+          "_links":{
+            "download":{
+              "href":"\/media\/2234567890987654321c.jpeg"
+            }
+          }
+        }
+      ],
+      "lead":"some abstract text",
+      "code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
+      "sources":[
+
+      ],
+      "extra":[
+
+      ],
+      "slideshows":{
+        "1":{
+          "id":2,
+          "code":"slideshow1",
+          "items":[
+            {
+              "article_media":{
+                "id":3,
+                "image":{
+                  "id":8,
+                  "file_extension":"jpeg",
+                  "asset_id":"1234567890987654321c"
+                },
+                "description":"test image",
+                "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+                "alt_text":"test image",
+                "usage_terms":"indefinite-usage",
+                "renditions":[
+                  {
+                    "width":1079,
+                    "height":720,
+                    "name":"16-9",
+                    "id":7,
+                    "image":{
+                      "id":6,
+                      "file_extension":"jpeg",
+                      "asset_id":"1234567890987654321a"
+                    },
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321a\/raw?_schema=http"
+                  },
+                  {
+                    "width":800,
+                    "height":533,
+                    "name":"4-3",
+                    "id":8,
+                    "image":{
+                      "id":7,
+                      "file_extension":"jpeg",
+                      "asset_id":"1234567890987654321b"
+                    },
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321b\/raw?_schema=http"
+                  },
+                  {
+                    "width":4000,
+                    "height":2667,
+                    "name":"original",
+                    "id":9,
+                    "image":{
+                      "id":8,
+                      "file_extension":"jpeg",
+                      "asset_id":"1234567890987654321c"
+                    },
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/1234567890987654321c\/raw?_schema=http"
+                  }
+                ],
+                "headline":"test image",
+                "_links":{
+                  "download":{
+                    "href":"\/media\/1234567890987654321c.jpeg"
+                  }
+                }
+              }
+            },
+            {
+              "article_media":{
+                "id":4,
+                "image":{
+                  "id":11,
+                  "file_extension":"jpeg",
+                  "asset_id":"2234567890987654321c"
+                },
+                "description":"test image 2",
+                "by_line":"Pawe\u0142 Miko\u0142ajczuk",
+                "alt_text":"test image",
+                "usage_terms":"indefinite-usage",
+                "renditions":[
+                  {
+                    "width":1079,
+                    "height":720,
+                    "name":"16-9",
+                    "id":10,
+                    "image":{
+                      "id":9,
+                      "file_extension":"jpeg",
+                      "asset_id":"2234567890987654321a"
+                    },
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321a\/raw?_schema=http"
+                  },
+                  {
+                    "width":800,
+                    "height":533,
+                    "name":"4-3",
+                    "id":11,
+                    "image":{
+                      "id":10,
+                      "file_extension":"jpeg",
+                      "asset_id":"2234567890987654321b"
+                    },
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321b\/raw?_schema=http"
+                  },
+                  {
+                    "width":4000,
+                    "height":2667,
+                    "name":"original",
+                    "id":12,
+                    "image":{
+                      "id":11,
+                      "file_extension":"jpeg",
+                      "asset_id":"2234567890987654321c"
+                    },
+                    "preview_url":"http:\/\/localhost:5000\/api\/upload\/2234567890987654321c\/raw?_schema=http"
+                  }
+                ],
+                "headline":"test image",
+                "_links":{
+                  "download":{
+                    "href":"\/media\/2234567890987654321c.jpeg"
+                  }
+                }
+              }
+            }
+          ],
+          "created_at":"2019-03-10T09:00:00+00:00",
+          "updated_at":"2019-03-10T09:00:00+00:00",
+          "_links":{
+            "items":{
+              "href":"\/api\/v1\/content\/slideshows\/6\/2\/items\/"
+            }
+          }
+        }
+      },
+      "created_at":"2019-03-10T09:00:00+00:00",
+      "updated_at":"2019-03-10T09:00:00+00:00",
+      "authors":[
+
+      ],
+      "keywords":[
+        {
+          "slug":"keyword1",
+          "name":"keyword1"
+        },
+        {
+          "slug":"keyword2",
+          "name":"keyword2"
+        }
+      ],
+      "is_published_fbia":false,
+      "article_statistics":{
+        "impressions_number":0,
+        "page_views_number":0,
+        "internal_click_rate":0,
+        "created_at":"2019-03-10T09:00:00+00:00",
+        "updated_at":"2019-03-10T09:00:00+00:00"
+      },
+      "comments_count":0,
+      "tenant":{
+        "id":1,
+        "domain_name":"localhost",
+        "code":"123abc",
+        "name":"Default tenant",
+        "amp_enabled":true,
+        "fbia_enabled":false,
+        "paywall_enabled":false,
+        "_links":{
+          "self":{
+            "href":"\/api\/v1\/tenants\/123abc"
+          }
+        }
+      },
+      "paywall_secured":false,
+      "content_lists":[
+
+      ],
+      "_links":{
+        "self":{
+          "href":"\/api\/v1\/content\/articles\/abstract-html-test-without-slideshow"
+        },
+        "online":{
+          "href":"\/news\/abstract-html-test-without-slideshow"
+        },
+        "related":{
+          "href":"\/api\/v1\/content\/articles\/6\/related\/"
+        },
+        "slideshows":{
+          "href":"\/api\/v1\/content\/slideshows\/6"
+        }
+      }
+    }
+  """

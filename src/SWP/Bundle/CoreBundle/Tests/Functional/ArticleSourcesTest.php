@@ -63,7 +63,6 @@ final class ArticleSourcesTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -72,7 +71,6 @@ final class ArticleSourcesTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -87,8 +85,8 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
+        self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
+        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['article_source']);
 
         $client->request(
             'GET',
@@ -122,7 +120,6 @@ final class ArticleSourcesTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -131,7 +128,6 @@ final class ArticleSourcesTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -151,7 +147,6 @@ final class ArticleSourcesTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 2]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -160,7 +155,6 @@ final class ArticleSourcesTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -175,8 +169,8 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
+        self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
+        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['article_source']);
 
         $client->request(
             'GET',
@@ -214,11 +208,9 @@ final class ArticleSourcesTest extends WebTestCase
         ]);
 
         $client2->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'business',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client2->getResponse()->getStatusCode());
@@ -226,7 +218,6 @@ final class ArticleSourcesTest extends WebTestCase
         $client2->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -241,7 +232,6 @@ final class ArticleSourcesTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 
@@ -256,8 +246,8 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
+        self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
+        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['article_source']);
 
         $client2->request(
             'GET',
@@ -268,8 +258,8 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client2->getResponse()->getContent(), true);
 
-        self::assertArraySubset(['id' => 3, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 4, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
+        self::assertArraySubset(['id' => 3, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
+        self::assertArraySubset(['id' => 4, 'name' => 'CNN'], $content['sources'][1]['article_source']);
 
         $client->request(
             'GET',
@@ -298,11 +288,9 @@ final class ArticleSourcesTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

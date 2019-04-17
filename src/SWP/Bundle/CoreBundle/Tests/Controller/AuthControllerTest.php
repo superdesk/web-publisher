@@ -38,10 +38,8 @@ class AuthControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_auth'), [
-            'auth' => [
                 'username' => 'some.fake.username',
                 'password' => 'wrongPassword',
-            ],
         ]);
 
         self::assertEquals(401, $client->getResponse()->getStatusCode());
@@ -56,10 +54,8 @@ class AuthControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_auth'), [
-            'auth' => [
                 'username' => 'test.user',
                 'password' => 'testPassword',
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -75,10 +71,8 @@ class AuthControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_auth'), [
-            'auth' => [
                 'username' => 'test.user',
                 'password' => 'testPassword',
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -87,10 +81,8 @@ class AuthControllerTest extends WebTestCase
         self::assertArrayHasKey('token', $content);
 
         $client->request('POST', $this->router->generate('swp_api_auth'), [
-            'auth' => [
                 'username' => 'test.user',
                 'password' => 'testPassword',
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -103,10 +95,8 @@ class AuthControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_auth'), [
-            'auth' => [
                 'username' => 'test.user',
                 'password' => 'testPassword',
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $domain = $client->getContainer()->getParameter('env(SWP_DOMAIN)');
@@ -143,23 +133,19 @@ class AuthControllerTest extends WebTestCase
         $client = static::createClient();
         $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
-            'user_registration' => [
                 'email' => 'contact@example.com',
                 'username' => 'sofab.contact',
                 'plainPassword' => [
                     'first' => 'testPass',
                     'second' => 'testPass',
                 ],
-            ],
         ]);
 
         $this->activateUser($client);
 
         $client->request('POST', $this->router->generate('swp_api_auth'), [
-            'auth' => [
                 'username' => 'sofab.contact',
                 'password' => 'testPass',
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -174,19 +160,17 @@ class AuthControllerTest extends WebTestCase
         self::assertEquals('sofab.contact', $content['username']);
 
         $client->request('PATCH', $this->router->generate('swp_api_user_edit_user_profile', ['id' => 4]), [
-            'user_profile' => [
                 'email' => 'contact2@example.com',
                 'username' => 'sofab.contact2',
                 'firstName' => 'Test',
                 'lastName' => 'User',
                 'about' => 'About content',
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals('sofab.contact2', $content['username']);
-        self::assertEquals('Test', $content['firstName']);
-        self::assertEquals('User', $content['lastName']);
+        self::assertEquals('Test', $content['first_name']);
+        self::assertEquals('User', $content['last_name']);
         self::assertEquals('About content', $content['about']);
     }
 
@@ -218,18 +202,14 @@ class AuthControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_auth_superdesk'), [
-            'auth_superdesk' => [
-                'session_id' => '4f5gwe4f5w45as4fd',
+                'sessionId' => '4f5gwe4f5w45as4fd',
                 'token' => 'test_token',
-            ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_auth_superdesk'), [
-            'auth_superdesk' => [
-                'session_id' => '123456789',
+                'sessionId' => '123456789',
                 'token' => 'test_token',
-            ],
         ]);
         self::assertEquals(401, $client->getResponse()->getStatusCode());
     }

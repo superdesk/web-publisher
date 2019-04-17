@@ -47,7 +47,7 @@ class TenantController extends FOSRestController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_tenants")
+     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_tenants")
      */
     public function listAction(Request $request)
     {
@@ -67,7 +67,7 @@ class TenantController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_tenant", requirements={"code"="[a-z0-9]+"})
+     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_tenant", requirements={"code"="[a-z0-9]+"})
      */
     public function getAction($code)
     {
@@ -87,7 +87,7 @@ class TenantController extends FOSRestController
      *         {"name"="force", "dataType"="bool", "required"=false, "description"="Remove tenant ignoring attached articles"}
      *     }
      * )
-     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
+     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
      */
     public function deleteAction(Request $request, $code)
     {
@@ -130,17 +130,17 @@ class TenantController extends FOSRestController
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\TenantType"
      * )
-     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_create_tenant")
+     * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_tenant")
      */
     public function createAction(Request $request)
     {
         $tenant = $this->get('swp.factory.tenant')->create();
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
         $tenantObjectManager = $this->get('swp.object_manager.tenant');
-        $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', TenantType::class, $tenant, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->ensureTenantDontExists($tenant->getDomainName(), $tenant->getSubdomain());
             if (null === $tenant->getOrganization()) {
                 $organization = $tenantObjectManager->merge($tenantContext->getTenant()->getOrganization());
@@ -168,7 +168,7 @@ class TenantController extends FOSRestController
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\TenantType"
      * )
-     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
+     * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
      *
      * @param Request $request
      * @param string  $code
@@ -178,11 +178,11 @@ class TenantController extends FOSRestController
     public function updateAction(Request $request, $code)
     {
         $tenant = $this->findOr404($code);
-        $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', TenantType::class, $tenant, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
-        if ($form->isValid()) {
-            $formData = $request->request->get($form->getName());
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $formData = $request->request->all();
             $tenant->setUpdatedAt(new DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
 
@@ -190,11 +190,12 @@ class TenantController extends FOSRestController
             $tenantContext->setTenant($tenant);
 
             $settingsManager = $this->get('swp_settings.manager.settings');
+
             if (array_key_exists('fbiaEnabled', $formData)) {
-                $settingsManager->set('fbia_enabled', $formData['fbiaEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
+                $settingsManager->set('fbia_enabled', (bool) $formData['fbiaEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
             }
             if (array_key_exists('paywallEnabled', $formData)) {
-                $settingsManager->set('paywall_enabled', $formData['paywallEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
+                $settingsManager->set('paywall_enabled', (bool) $formData['paywallEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
             }
 
             return new SingleResourceResponse($tenant);

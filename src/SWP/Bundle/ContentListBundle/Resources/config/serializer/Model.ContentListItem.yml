@@ -3,21 +3,28 @@ SWP\Component\ContentList\Model\ContentListItem:
     properties:
         id:
             expose: true
+            groups: [api]
             type: integer
         position:
             expose: true
+            groups: [api]
             type: integer
         content:
             expose: true
+            groups: [api]
         enabled:
             expose: true
+            groups: [api]
             type: boolean
         sticky:
             expose: true
+            groups: [api]
             type: boolean
         createdAt:
             expose: true
+            groups: [api]
             type: DateTime
         updatedAt:
             expose: true
+            groups: [api]
             type: DateTime

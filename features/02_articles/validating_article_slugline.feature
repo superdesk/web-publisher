@@ -8,7 +8,7 @@ Feature: Validating if article slugline is created out of the package headline
   Scenario: Submitting request payload in ninjs format and publishing a package
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -54,43 +54,39 @@ Feature: Validating if article slugline is created out of the package headline
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"article",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON node "slug" should be equal to "abstract-html-test"
 
   Scenario: Validate article's slugline with chinese chars
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -137,43 +133,39 @@ Feature: Validating if article slugline is created out of the package headline
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"world",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/7/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/7/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":7,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/hu-zong-zhi-shou-die-zhong"
+    Then I send a "GET" request to "/api/v2/content/articles/hu-zong-zhi-shou-die-zhong"
     Then the response status code should be 200
     And the JSON node "slug" should be equal to "hu-zong-zhi-shou-die-zhong"
 
   Scenario: Validate article's headline with chinese chars without slug
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v2/content/push" with body:
     """
     {
       "language":"en",
@@ -219,35 +211,31 @@ Feature: Validating if article slugline is created out of the package headline
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+    Then I send a "POST" request to "/api/v2/content/routes/" with body:
      """
       {
-        "route":{
           "name":"japan",
           "type":"content"
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/8/publish/" with body:
+    Then I send a "POST" request to "/api/v2/packages/8/publish/" with body:
      """
       {
-        "publish":{
           "destinations":[
             {
               "tenant":"123abc",
               "route":8,
-              "isPublishedFbia":false
+              "is_published_fbia":false
             }
           ]
-        }
       }
      """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/hu-zong-zhi-shou-die-zhong-zhi-san-lian-zhang-shang-gong-dong-li-bu-zu-cheng-jiao-liang-zai-xian-wei-suo"
+    Then I send a "GET" request to "/api/v2/content/articles/hu-zong-zhi-shou-die-zhong-zhi-san-lian-zhang-shang-gong-dong-li-bu-zu-cheng-jiao-liang-zai-xian-wei-suo"
     Then the response status code should be 200
     And the JSON node "slug" should be equal to "hu-zong-zhi-shou-die-zhong-zhi-san-lian-zhang-shang-gong-dong-li-bu-zu-cheng-jiao-liang-zai-xian-wei-suo"

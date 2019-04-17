@@ -44,7 +44,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}]}}';
+        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}]}}';
 
         self::assertEquals($expected, $data);
     }
@@ -56,7 +56,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -67,7 +67,6 @@ class RuleControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_rule', [
             'id' => 1,
         ]), [
-            'rule' => [
                 'priority' => 22,
                 'description' => 'my rule desc',
                 'name' => 'my rule name',
@@ -77,13 +76,12 @@ class RuleControllerTest extends WebTestCase
                         'value' => 'test.html.twig',
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -94,7 +92,6 @@ class RuleControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_rule', [
             'id' => 1,
         ]), [
-            'rule' => [
                 'priority' => 22,
                 'configuration' => [
                     [
@@ -106,13 +103,12 @@ class RuleControllerTest extends WebTestCase
                         'value' => 3,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig","route":"3"},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig","route":"3"},"description":null,"name":null,"_links":{"self":{"href":"\/api\/v2\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -129,7 +125,6 @@ class RuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
                 'priority' => 2,
                 'description' => 'my rule desc',
@@ -144,13 +139,12 @@ class RuleControllerTest extends WebTestCase
                         'value' => 3,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"templateName":"sydney.html.twig","route":"3"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v1\/rules\/2"}}}';
+        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"templateName":"sydney.html.twig","route":"3"},"description":"my rule desc","name":"my rule name","_links":{"self":{"href":"\/api\/v2\/rules\/2"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -159,7 +153,6 @@ class RuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Porto/"',
                 'priority' => 1,
                 'configuration' => [
@@ -168,31 +161,26 @@ class RuleControllerTest extends WebTestCase
                         'value' => 4,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles/assign-article-automatically-here',
                 'type' => 'content',
                 'content' => null,
-            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals(0, $data['articlesCount']);
+        self::assertEquals(0, $data['articles_count']);
 
         $client->request(
             'POST',
@@ -225,7 +213,6 @@ class RuleControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant']);
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Fake/"',
                 'priority' => 1,
                 'configuration' => [
@@ -234,17 +221,14 @@ class RuleControllerTest extends WebTestCase
                         'value' => 2,
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -278,7 +262,6 @@ class RuleControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-            'rule' => [
                 'expression' => 'article.getMetadataByKey("located") matches "/Porto/"',
                 'priority' => 1,
                 'configuration' => [
@@ -291,27 +274,22 @@ class RuleControllerTest extends WebTestCase
                         'value' => 'test.html.twig',
                     ],
                 ],
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
                 'name' => 'articles/assign-article-automatically-here',
                 'type' => 'content',
                 'content' => null,
-            ],
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -341,7 +319,7 @@ class RuleControllerTest extends WebTestCase
         );
 
         self::assertArraySubset(
-            ['templateName' => 'test.html.twig'],
+            ['template_name' => 'test.html.twig'],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
@@ -352,7 +330,6 @@ class RuleControllerTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                'publish' => [
                     'destinations' => [
                         [
                             'tenant' => '123abc',
@@ -361,7 +338,6 @@ class RuleControllerTest extends WebTestCase
                             'published' => true,
                         ],
                     ],
-                ],
             ]
         );
 

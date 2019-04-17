@@ -42,13 +42,13 @@ class AuthController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType"
      * )
-     * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_auth")
+     * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_auth")
      */
     public function authenticateAction(Request $request)
     {
-        $form = $this->createForm(UserAuthenticationType::class, []);
+        $form = $this->get('form.factory')->createNamed('', UserAuthenticationType::class, []);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
 
             try {
@@ -82,13 +82,13 @@ class AuthController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType"
      * )
-     * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, methods={"POST"}, defaults={"version"="v1"}, name="swp_api_auth_superdesk")
+     * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, methods={"POST"}, defaults={"version"="v2"}, name="swp_api_auth_superdesk")
      */
     public function authenticateWithSuperdeskAction(Request $request)
     {
-        $form = $this->createForm(SuperdeskCredentialAuthenticationType::class, []);
+        $form = $this->get('form.factory')->createNamed('', SuperdeskCredentialAuthenticationType::class, []);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $authorizedSuperdeskHosts = (array) $this->container->getParameter('superdesk_servers');
             $superdeskUser = null;
@@ -96,7 +96,7 @@ class AuthController extends Controller
 
             foreach ($authorizedSuperdeskHosts as $baseUrl) {
                 try {
-                    $apiRequest = new GuzzleHttp\Psr7\Request('GET', sprintf('%s/api/sessions/%s', $baseUrl, $formData['session_id']), [
+                    $apiRequest = new GuzzleHttp\Psr7\Request('GET', sprintf('%s/api/sessions/%s', $baseUrl, $formData['sessionId']), [
                         'Authorization' => $formData['token'],
                     ]);
                     $apiResponse = $client->send($apiRequest);
@@ -159,6 +159,12 @@ class AuthController extends Controller
         ], new ResponseContext(401));
     }
 
+    /**
+     * @param UserInterface $user
+     * @param string        $token
+     *
+     * @return SingleResourceResponse
+     */
     private function returnApiTokenResponse(UserInterface $user, $token)
     {
         /** @var ApiKeyInterface $apiKey */
