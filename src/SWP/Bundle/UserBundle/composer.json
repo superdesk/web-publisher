@@ -23,7 +23,7 @@
     "swp/settings-bundle": "^2.0",
     "friendsofsymfony/user-bundle": "^2.0.0",
     "nelmio/api-doc-bundle": "^2.13",
-    "symfony/swiftmailer-bundle": "~2.3",
+    "symfony/swiftmailer-bundle": "~3.2",
     "symfony/serializer": "^4.2"
   },
   "require-dev": {

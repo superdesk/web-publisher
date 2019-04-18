@@ -19,7 +19,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
 
 class WebTestCase extends BaseWebTestCase
 {
-    protected $container;
+    protected static $container;
 
     protected $manager;
 
@@ -38,9 +38,9 @@ class WebTestCase extends BaseWebTestCase
 
     protected function initDatabase()
     {
-        $kernel = $this->createKernel();
+        $kernel = self::createKernel();
         $kernel->boot();
-        $this->container = $kernel->getContainer();
+        self::$container = $kernel->getContainer();
         $this->manager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
         $schemaTool = new SchemaTool($this->manager);
         $metadata = $this->manager->getMetadataFactory()->getAllMetadata();
