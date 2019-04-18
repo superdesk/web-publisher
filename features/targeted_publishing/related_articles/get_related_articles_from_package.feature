@@ -320,6 +320,6 @@ Feature: Find related articles which were already published based on package dat
     """
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | relatedArticleItems[0].tenants[0].code  | 678iop    |
-      | relatedArticleItems[0].tenants[1].code  | 123abc    |
-      | relatedArticleItems[0].title            | related 1 |
+      | related_article_items[0].tenants[0].code  | 678iop    |
+      | related_article_items[0].tenants[1].code  | 123abc    |
+      | related_article_items[0].title            | related 1 |

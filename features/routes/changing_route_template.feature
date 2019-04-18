@@ -13,7 +13,7 @@ Feature: Changing route template
           "name": "Politics",
           "slug": "politics",
           "type": "collection"
-      }ContentListType
+      }
     """
     Then the response status code should be 201
     And the JSON node "paywall_secured" should be false

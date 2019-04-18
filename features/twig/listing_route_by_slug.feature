@@ -18,7 +18,7 @@ Feature: Listing single route by slug or name
     Then the response status code should be 201
     And the JSON node name should be equal to "Authors"
     And the JSON node slug should be equal to "authors"
-    And the JSON node staticPrefix should be equal to "/authors"
+    And the JSON node static_prefix should be equal to "/authors"
     And the JSON node id should be equal to "7"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -33,7 +33,7 @@ Feature: Listing single route by slug or name
     Then the response status code should be 201
     And the JSON node name should be equal to "Test route"
     And the JSON node slug should be equal to "test-route"
-    And the JSON node staticPrefix should be equal to "/authors/test-route"
+    And the JSON node static_prefix should be equal to "/authors/test-route"
     When I go to "/authors"
     Then the response status code should be 200
     And I should see "http://localhost/authors/test-route"

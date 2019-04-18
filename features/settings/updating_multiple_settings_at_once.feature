@@ -7,19 +7,17 @@ Feature: Settings bulk update
     And I send a "PATCH" request to "/api/v2/settings/bulk/" with body:
     """
     {
-      "settings":{
-        "bulk":[
-          {
-            "name":"primary_font_family",
-            "value":"Lato"
-          },
-          {
-            "name":"secondary_font_family",
-            "value":"Oswald",
-            "scope":"scope"
-          }
-        ]
-      }
+      "bulk":[
+        {
+          "name":"primary_font_family",
+          "value":"Lato"
+        },
+        {
+          "name":"secondary_font_family",
+          "value":"Oswald",
+          "scope":"scope"
+        }
+      ]
     }
     """
     Then the response status code should be 200
@@ -201,19 +199,17 @@ Feature: Settings bulk update
     And I send a "PATCH" request to "/api/v2/settings/bulk/" with body:
     """
     {
-      "settings":{
-        "bulk":[
-          {
-            "name":"primary_font_family",
-            "value":"Lato"
-          },
-          {
-            "name":"secondary_font_family",
-            "value":"Oswald",
-            "scope":"fake"
-          }
-        ]
-      }
+      "bulk":[
+        {
+          "name":"primary_font_family",
+          "value":"Lato"
+        },
+        {
+          "name":"secondary_font_family",
+          "value":"Oswald",
+          "scope":"fake"
+        }
+      ]
     }
     """
     Then the response status code should be 200
@@ -401,26 +397,24 @@ Feature: Settings bulk update
     And I send a "PATCH" request to "/api/v2/settings/bulk/" with body:
     """
     {
-      "settings":{
-        "bulk":[
-          {
-            "name":"primary_font_family",
-            "value":"Lato"
-          },
-          {
-            "name":"secondary_font_family",
-            "value":"Oswald"
-          },
-          {
-            "name":"switch",
-            "value":true
-          },
-          {
-            "name":"body_font_size",
-            "value":16
-          }
-        ]
-      }
+      "bulk":[
+        {
+          "name":"primary_font_family",
+          "value":"Lato"
+        },
+        {
+          "name":"secondary_font_family",
+          "value":"Oswald"
+        },
+        {
+          "name":"switch",
+          "value":true
+        },
+        {
+          "name":"body_font_size",
+          "value":16
+        }
+      ]
     }
     """
     Then the response status code should be 200
@@ -442,14 +436,12 @@ Feature: Settings bulk update
     And I send a "PATCH" request to "/api/v2/settings/bulk/" with body:
     """
     {
-      "settings":{
-        "bulk":[
-          {
-            "name":"switch",
-            "value":false
-          }
-        ]
-      }
+      "bulk":[
+        {
+          "name":"switch",
+          "value":false
+        }
+      ]
     }
     """
     Then the response status code should be 200

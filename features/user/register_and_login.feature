@@ -9,13 +9,11 @@ Feature: Registering and login as new user publisher
     And I send a "POST" request to "/api/v2/users/register/" with body:
     """
     {
-      "user_registration": {
-        "email": "null@sourcefabric.org",
-        "username": "null_user",
-        "plainPassword": {
-          "first": "superSecret",
-          "second": "superSecret"
-        }
+      "email": "null@sourcefabric.org",
+      "username": "null_user",
+      "plainPassword": {
+        "first": "superSecret",
+        "second": "superSecret"
       }
     }
     """
@@ -36,10 +34,8 @@ Feature: Registering and login as new user publisher
     And I send a "POST" request to "/api/v2/auth/" with body:
     """
     {
-      "auth": {
-        "username": "null_user",
-        "password": "superSecret"
-      }
+      "username": "null_user",
+      "password": "superSecret"
     }
     """
     Then the response status code should be 200
