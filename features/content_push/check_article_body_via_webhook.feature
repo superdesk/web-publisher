@@ -285,3 +285,4 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         }
       }
     }
+    """
