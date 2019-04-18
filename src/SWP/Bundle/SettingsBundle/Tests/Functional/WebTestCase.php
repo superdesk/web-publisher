@@ -19,7 +19,6 @@ namespace SWP\Bundle\SettingsBundle\Tests\Functional;
 use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
 use SWP\Bundle\SettingsBundle\Tests\Functional\app\AppKernel;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class WebTestCase extends BaseWebTestCase
 {
