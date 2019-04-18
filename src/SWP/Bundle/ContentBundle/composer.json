@@ -3,7 +3,7 @@
   "type": "symfony-bundle",
   "description": "Articles, media and routes handing in Superdesk Publisher.",
   "keywords": ["content", "articles", "superdesk", "gimme", "gimmelist", "webpublisher", "twig"],
-  "license":"AGPL-3.0",
+  "license":"AGPL-3.0-only",
   "minimum-stability": "dev",
   "authors": [
     {
