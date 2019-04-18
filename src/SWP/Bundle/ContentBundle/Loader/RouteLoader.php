@@ -62,7 +62,7 @@ class RouteLoader extends PaginatedLoader implements LoaderInterface
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         if (LoaderInterface::SINGLE === $responseType) {
-            $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
+            $route = $parameters['route_object'] ?? null;
             if (null === $route) {
                 if (empty($parameters)) {
                     return false;

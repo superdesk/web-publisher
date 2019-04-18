@@ -17,7 +17,7 @@ use SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class KnpPaginatorRepresentationFactoryTest extends \PHPUnit_Framework_TestCase
+class KnpPaginatorRepresentationFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testRepresentation()
     {
