@@ -161,6 +161,7 @@
         "swp/bridge": "self.version",
         "swp/storage-bundle": "self.version",
         "swp/storage": "self.version",
+        "swp/templates-system-bundle": "self.version",
         "swp/templates-system": "self.version",
         "swp/rule-bundle": "self.version",
         "swp/rule": "self.version",
@@ -169,7 +170,14 @@
         "swp/output-channel-bundle": "self.version",
         "swp/output-channel": "self.version",
         "swp/paywall-bundle": "self.version",
-        "swp/paywall": "self.version"
+        "swp/paywall": "self.version",
+        "swp/menu-bundle": "self.version",
+        "swp/webhook-bundle": "self.version",
+        "swp/webhook": "self.version",
+        "swp/user-bundle": "self.version",
+        "swp/settings-bundle": "self.version",
+        "swp/content-list-bundle": "self.version",
+        "swp/content-list": "self.version"
     },
     "conflict": {
         "symfony/symfony": "*",

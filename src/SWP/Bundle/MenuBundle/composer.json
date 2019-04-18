@@ -11,9 +11,15 @@
       "email": "rafal.muszynski@sourcefabric.org"
     }
   ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../*/*"
+    }
+  ],
   "require": {
     "php": "^7.3",
-    "knplabs/knp-menu-bundle": "^3.0",
+    "knplabs/knp-menu-bundle": "^2.0",
     "symfony/form": "^4.2",
     "symfony/validator": "^4.2",
     "swp/storage": "^2.0",

@@ -18,30 +18,23 @@ namespace SWP\Bundle\SettingsBundle\Tests\Functional;
 
 use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use SWP\Bundle\SettingsBundle\Tests\Functional\app\AppKernel;
 
 class WebTestCase extends BaseWebTestCase
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     protected $manager;
 
     protected static function getKernelClass()
     {
         require_once __DIR__.'/app/AppKernel.php';
 
-        return 'SWP\Bundle\SettingsBundle\Tests\Functional\app\AppKernel';
+        return AppKernel::class;
     }
 
     protected function initDatabase()
     {
         $kernel = $this->createKernel();
         $kernel->boot();
-        /* @var ContainerInterface container */
-        $this->container = $kernel->getContainer();
         $this->manager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
         $schemaTool = new SchemaTool($this->manager);
         $metadata = $this->manager->getMetadataFactory()->getAllMetadata();

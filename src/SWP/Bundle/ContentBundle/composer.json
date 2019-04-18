@@ -3,7 +3,7 @@
   "type": "symfony-bundle",
   "description": "Articles, media and routes handing in Superdesk Publisher.",
   "keywords": ["content", "articles", "superdesk", "gimme", "gimmelist", "webpublisher", "twig"],
-  "license":"AGPL-3.0",
+  "license":"AGPL-3.0-only",
   "minimum-stability": "dev",
   "authors": [
     {
@@ -53,7 +53,8 @@
     "phpoption/phpoption": "1.5.*",
     "burgov/key-value-form-bundle": "@stable",
     "litipk/flysystem-fallback-adapter": "dev-master",
-    "zendframework/zend-stdlib": "^3.2@dev"
+    "zendframework/zend-stdlib": "^3.2@dev",
+    "symfony/translation": "^4.2"
   },
   "require-dev": {
     "phpspec/phpspec": "^5.1",
