@@ -26,7 +26,7 @@
         "superdesk/contentapi-sdk-php": "dev-master",
         "swp/storage-bundle": "^2.0",
         "swp/bridge": "^2.0",
-        "symfony/monolog-bundle": "^3.4",
+        "symfony/monolog-bundle": "^3.3",
         "symfony/monolog-bridge": "^4.2",
         "symfony/translation": "^4.2",
         "symfony/framework-bundle": "^4.2",
@@ -42,7 +42,7 @@
         "symfony/doctrine-bridge": "^4.2",
         "symfony/stopwatch": "^4.2",
         "sensio/framework-extra-bundle": "^5.0",
-        "doctrine/doctrine-bundle": "^3.0",
+        "doctrine/doctrine-bundle": "^1.10",
         "doctrine/orm": "^2.6",
         "swp/jms-serializer-bridge": "^2.0"
     },
