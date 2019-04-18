@@ -25,13 +25,14 @@ use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
+use SWP\Component\Seo\Model\SeoAwareTrait;
 
 /**
  * Class Article.
  */
 class Article implements ArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait, RelatedArticlesAwareTrait, TimestampableCancelTrait;
+    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait, RelatedArticlesAwareTrait, TimestampableCancelTrait, SeoAwareTrait;
 
     /**
      * @var mixed

@@ -1,0 +1,38 @@
+SWP\Component\Seo\Model\SeoMetadata:
+    type: mappedSuperclass
+    table: swp_seo_metadata
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+        description:
+            type: string
+            nullable: true
+        authors:
+            type: array
+        tags:
+            type: array
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+#    oneToOne:
+#        article:
+#            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+#            inversedBy: articleStatistics
+#            joinColumn:
+#                name: article_id
+#                referencedColumnName: id
+#                nullable: false

@@ -46,6 +46,7 @@ return [
     SWP\Bundle\WebhookBundle\SWPWebhookBundle::class => ['all' => true],
     SWP\Bundle\OutputChannelBundle\SWPOutputChannelBundle::class => ['all' => true],
     SWP\Bundle\PaywallBundle\SWPPaywallBundle::class => ['all' => true],
+    SWP\Bundle\RuleBundle\SWPSeoBundle::class => ['all' => true],
     SWP\Bundle\CoreBundle\SWPCoreBundle::class => ['all' => true],
     FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
     SWP\Bundle\ElasticSearchBundle\SWPElasticSearchBundle::class => ['all' => true],

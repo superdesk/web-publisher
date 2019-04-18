@@ -177,7 +177,9 @@
         "swp/user-bundle": "self.version",
         "swp/settings-bundle": "self.version",
         "swp/content-list-bundle": "self.version",
-        "swp/content-list": "self.version"
+        "swp/content-list": "self.version",
+        "swp/seo": "self.version",
+        "swp/seo-bundle": "self.version"
     },
     "conflict": {
         "symfony/symfony": "*",
