@@ -14,9 +14,11 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
+use SWP\Bundle\ContentBundle\DependencyInjection\SWPContentExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class SWPContentExtensionTest extends \PHPUnit_Framework_TestCase
+class SWPContentExtensionTest extends TestCase
 {
     private $extension;
 
@@ -24,7 +26,7 @@ class SWPContentExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->extension = new \SWP\Bundle\ContentBundle\DependencyInjection\SWPContentExtension();
+        $this->extension = new SWPContentExtension();
 
         $this->container = new ContainerBuilder();
         $this->container->registerExtension($this->extension);

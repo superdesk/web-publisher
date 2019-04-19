@@ -17,7 +17,7 @@ Feature: Listing single route by slug and parent
     Then the response status code should be 201
     And the JSON node name should be equal to "Politics"
     And the JSON node slug should be equal to "politics"
-    And the JSON node staticPrefix should be equal to "/politics"
+    And the JSON node static_prefix should be equal to "/politics"
     And the JSON node id should be equal to "7"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -33,7 +33,7 @@ Feature: Listing single route by slug and parent
     And the JSON node name should be equal to "Test route"
     And the JSON node parent should be equal to "7"
     And the JSON node slug should be equal to "test-route"
-    And the JSON node staticPrefix should be equal to "/politics/test-route"
+    And the JSON node static_prefix should be equal to "/politics/test-route"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/content/routes/" with body:
@@ -47,7 +47,7 @@ Feature: Listing single route by slug and parent
     Then the response status code should be 201
     And the JSON node name should be equal to "Test route 2"
     And the JSON node slug should be equal to "test-route"
-    And the JSON node staticPrefix should be equal to "/test-route"
+    And the JSON node static_prefix should be equal to "/test-route"
     When I go to "/politics"
     Then the response status code should be 200
     And I should see "http://localhost/politics/test-route"

@@ -60,9 +60,9 @@ class ArticleControllerTest extends WebTestCase
         ]);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $responseArray = json_decode($client->getResponse()->getContent(), true);
-        $this->assertArraySubset(['templateName' => 'test.html.twig'], $responseArray);
+        $this->assertArraySubset(['template_name' => 'test.html.twig'], $responseArray);
         $this->assertTrue(null != $responseArray['updated_at']);
-        $this->assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['createdAt']));
+        $this->assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['created_at']));
     }
 
     public function testPublishingArticle()
@@ -84,8 +84,8 @@ class ArticleControllerTest extends WebTestCase
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         self::assertArraySubset(['status' => 'published'], $responseArray);
         self::assertTrue(null != $responseArray['updated_at']);
-        self::assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['createdAt']));
-        self::assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['createdAt']));
+        self::assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['created_at']));
+        self::assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['created_at']));
     }
 
     public function testIfRouteChangedWhenRouteParentWasSwitched()

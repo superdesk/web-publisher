@@ -124,8 +124,8 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
             }
 
             $destination->setPublished($tenant['published'] ?? false);
-            $destination->setPaywallSecured($tenant['paywallSecured'] ?? false);
-            $destination->setIsPublishedFbia($tenant['isPublishedFbia'] ?? false);
+            $destination->setPaywallSecured($tenant['paywall_secured'] ?? false);
+            $destination->setIsPublishedFbia($tenant['is_published_fbia'] ?? false);
             $destination->setContentLists($tenant['content_lists'] ?? []);
 
             $destinations[] = $destination;
@@ -134,3 +134,7 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
         return $destinations;
     }
 }
+
+/*
+features/user/register_and_login.feature:7
+ */

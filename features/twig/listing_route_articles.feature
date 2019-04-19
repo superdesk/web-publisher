@@ -18,7 +18,7 @@ Feature: Listing single route by slug or name
     Then the response status code should be 201
     And the JSON node name should be equal to "Test route with Articles"
     And the JSON node slug should be equal to "test-route-with-articles"
-    And the JSON node staticPrefix should be equal to "/test-route-with-articles"
+    And the JSON node static_prefix should be equal to "/test-route-with-articles"
     When I go to "/test-route-with-articles"
     Then the response status code should be 200
     And I should not see "Abstract html test"

@@ -35,8 +35,6 @@ class AppKernel extends Kernel
 
     protected function getKernelParameters()
     {
-        $parameters = parent::getKernelParameters();
-
-        return $parameters;
+        return parent::getKernelParameters();
     }
 }

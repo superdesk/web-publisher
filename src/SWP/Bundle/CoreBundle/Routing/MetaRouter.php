@@ -25,15 +25,6 @@ class MetaRouter extends DynamicRouter
 {
     protected $internalRoutesCache = [];
 
-    /**
-     * @param string|Meta     $name
-     * @param array           $parameters
-     * @param bool|int|string $referenceType
-     *
-     * @return mixed|string
-     *
-     * @throws RouteNotFoundException
-     */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $cacheKey = $this->getCacheKey($name, $parameters, $referenceType);
@@ -41,21 +32,22 @@ class MetaRouter extends DynamicRouter
             return $this->internalRoutesCache[$cacheKey];
         }
 
-        if ($name instanceof Meta && $name->getValues() instanceof ArticleInterface) {
-            $parameters['slug'] = $name->getValues()->getSlug();
-            $route = $name->getValues()->getRoute();
+        $route = $name;
+        if ($name instanceof Meta) {
+            if ($name->getValues() instanceof ArticleInterface) {
+                $parameters['slug'] = $name->getValues()->getSlug();
+                $route = $name->getValues()->getRoute();
 
-            if (null === $route && $name->getContext()->getCurrentPage()) {
-                $parameters['slug'] = null;
-                $route = $name->getContext()->getCurrentPage()->getValues();
+                if (null === $route && $name->getContext()->getCurrentPage()) {
+                    $parameters['slug'] = null;
+                    $route = $name->getContext()->getCurrentPage()->getValues();
+                }
+            } elseif ($name->getValues() instanceof RouteInterface) {
+                $route = $name->getValues();
             }
         } elseif ($name instanceof ArticleInterface) {
             $route = $name->getRoute();
             $parameters['slug'] = $name->getSlug();
-        } elseif ($name instanceof Meta && $name->getValues() instanceof RouteInterface) {
-            $route = $name->getValues();
-        } else {
-            $route = $name;
         }
 
         if (null === $route || is_array($route)) {
@@ -64,23 +56,24 @@ class MetaRouter extends DynamicRouter
 
         $result = parent::generate($route, $parameters, $referenceType);
         $this->internalRoutesCache[$cacheKey] = $result;
-        unset($route, $name, $parameters);
+        unset($route);
 
         return $result;
     }
 
     private function getCacheKey($route, $parameters, $type)
     {
-        if ($route instanceof Meta && $route->getValues() instanceof ArticleInterface) {
-            $name = $route->getValues()->getId();
-        } elseif ($route instanceof Meta && $route->getValues() instanceof RouteInterface) {
-            $name = $route->getValues()->getName();
+        $name = $route;
+        if ($route instanceof Meta) {
+            if ($route->getValues() instanceof ArticleInterface) {
+                $name = $route->getValues()->getId();
+            } elseif ($route->getValues() instanceof RouteInterface) {
+                $name = $route->getValues()->getName();
+            }
         } elseif ($route instanceof RouteInterface) {
             $name = $route->getName();
         } elseif ($route instanceof ArticleInterface) {
             $name = $route->getId();
-        } else {
-            $name = $route;
         }
 
         return md5($name.serialize($parameters).$type);

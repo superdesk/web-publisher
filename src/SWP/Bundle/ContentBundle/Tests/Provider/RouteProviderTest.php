@@ -16,12 +16,13 @@ namespace SWP\Bundle\ContentBundle\Tests\Provider;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
 use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Provider\ORM\RouteProvider;
 use Symfony\Cmf\Component\Routing\Candidates\Candidates;
 
-class RouteProviderTest extends \PHPUnit_Framework_TestCase
+class RouteProviderTest extends TestCase
 {
     public function testGetWithChildrenByStaticPrefix()
     {

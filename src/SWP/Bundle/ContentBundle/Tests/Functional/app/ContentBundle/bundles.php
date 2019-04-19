@@ -20,6 +20,7 @@ return [
     new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
     new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
     new Symfony\Bundle\MonologBundle\MonologBundle(),
+    new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
     new Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
     new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
     new JMS\SerializerBundle\JMSSerializerBundle(),
@@ -31,6 +32,8 @@ return [
     new Knp\Bundle\MenuBundle\KnpMenuBundle(),
     new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
     new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+    new Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle(),
+    new Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle(),
     new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
 
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),

@@ -16,7 +16,7 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
 
 ## Requirements
 
- * PHP >= 7.1.12
+ * PHP >= 7.3
    * iconv needs to be enabled
    * Intl needs to be installed with ICU 4+
    * pdo needs to be enabled

@@ -11,7 +11,7 @@ Feature: Creating a new publishing destination
           "route":5,
           "is_published_fbia":false,
           "published":false,
-          "paywallSecured":true,
+          "paywall_secured":true,
           "packageGuid": "urn:newsml:sd-master.test.superdesk.org:2022-09-19T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
       }
     """
@@ -21,5 +21,5 @@ Feature: Creating a new publishing destination
       | tenant.code             | 123abc |
       | route.id                | 5      |
     And the JSON node "published" should be false
-    And the JSON node "paywallSecured" should be true
+    And the JSON node "paywall_secured" should be true
     And the JSON node "is_published_fbia" should be false

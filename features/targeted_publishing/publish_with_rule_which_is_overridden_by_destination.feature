@@ -70,7 +70,7 @@ Feature: Make article paywall secured when publishing package when there
       {
           "tenant":"123abc",
           "route":6,
-          "is_published_fbia":false,
+          "isPublishedFbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0",
           "paywallSecured":true
@@ -91,7 +91,7 @@ Feature: Make article paywall secured when publishing package when there
       | tenants[0].route.id     | 6      |
     And the JSON node "tenants[0].published" should be true
     And the JSON node "tenants[0].is_published_fbia" should be false
-    And the JSON node "tenants[0].paywallSecured" should be true
+    And the JSON node "tenants[0].paywall_secured" should be true
     And the JSON node "tenants[1]" should not exist
 
     And I am authenticated as "test.user"
@@ -151,5 +151,5 @@ Feature: Make article paywall secured when publishing package when there
       | slug                          | abstract-html-test  |
       | route.id                      | 6                   |
       | status                        | published           |
-      | sources[0].articleSource.name | superdesk publisher |
-    And the JSON node "paywallSecured" should be true
+      | sources[0].article_source.name | superdesk publisher |
+    And the JSON node "paywall_secured" should be true
