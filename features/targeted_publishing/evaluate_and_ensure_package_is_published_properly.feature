@@ -159,7 +159,7 @@ Feature: Evaluate and ensure the package has been published under specific tenan
       | slug                          | abstract-html-test  |
       | route.id                      | 6                   |
       | status                        | published           |
-      | sources[0].articleSource.name | superdesk publisher |
+      | sources[0].article_source.name | superdesk publisher |
     And I am authenticated as "test.client2"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "http://client2.localhost/api/v2/content/articles/abstract-html-test"
@@ -168,4 +168,4 @@ Feature: Evaluate and ensure the package has been published under specific tenan
       | slug                          | abstract-html-test  |
       | route.id                      | 7                   |
       | status                        | published           |
-      | sources[0].articleSource.name | superdesk publisher |
+      | sources[0].article_source.name | superdesk publisher |

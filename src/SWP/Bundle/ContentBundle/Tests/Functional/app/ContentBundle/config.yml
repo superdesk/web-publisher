@@ -132,6 +132,15 @@ oneup_flysystem:
                 directory: "%kernel.cache_dir%/uploads/"
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\:
+        resource: '../Resources/fixtures/*'
+        tags: ['doctrine.fixture.orm']
+
     swp_content_bundle.resources_list_response_listener:
         class: SWP\Component\Common\EventListener\ResourceResponseListener
         arguments:

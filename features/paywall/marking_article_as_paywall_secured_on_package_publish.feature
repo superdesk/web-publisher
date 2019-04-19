@@ -88,7 +88,7 @@ Feature: Marking article as paywall-secured using direct package publish
               "route":6,
               "is_published_fbia":false,
               "published":true,
-              "paywallSecured":true
+              "paywall_secured":true
             }
           ]
       }

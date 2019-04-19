@@ -2,8 +2,9 @@ vendor/
 bin/
 composer.phar
 composer.lock
-Tests/Functional/app/cache/*
-!Tests/Functional/app/cache
-Tests/Functional/app/logs/*
-!Tests/Functional/app/logs
-Tests/Functional/web
+Tests/Functional/var/cache/*
+!Tests/Functional/var/cache
+Tests/Functional/var/log/*
+!Tests/Functional/var/log
+Tests/Functional/public/uploads
+

@@ -77,7 +77,7 @@ Feature: Checking if created package is returned properly by api
     Then I send a "GET" request to "/api/v2/packages/6"
     Then the response status code should be 200
     And the JSON node "updated_at" should exist
-    And the JSON node "createdAt" should exist
+    And the JSON node "created_at" should exist
     And the JSON node "extra" should exist
     And the JSON node "extra.custom-date" should be equal to "2018-01-18T00:00:00+0000"
     And the JSON node "extra.ID" should be equal to "<p>custom botttom field text</p>"

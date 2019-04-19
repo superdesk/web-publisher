@@ -15,11 +15,9 @@
 namespace SWP\Bundle\CoreBundle\Twig\Cache;
 
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
+use Twig\Cache\FilesystemCache;
 
-/**
- * Implements tenant aware Twig cache.
- */
-class TenantAwareCache extends \Twig_Cache_Filesystem implements TenantAwareCacheInterface
+class TenantAwareCache extends FilesystemCache implements TenantAwareCacheInterface
 {
     /**
      * @var string
@@ -31,12 +29,6 @@ class TenantAwareCache extends \Twig_Cache_Filesystem implements TenantAwareCach
      */
     private $tenantContext;
 
-    /**
-     * TenantAwareCache constructor.
-     *
-     * @param string        $directory
-     * @param TenantContext $tenantContext
-     */
     public function __construct(string $directory, TenantContext $tenantContext)
     {
         $this->directory = $directory;
@@ -45,9 +37,6 @@ class TenantAwareCache extends \Twig_Cache_Filesystem implements TenantAwareCach
         parent::__construct($this->directory);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generateKey($name, $className)
     {
         if (null === $this->tenantContext->getTenant()) {
@@ -59,9 +48,6 @@ class TenantAwareCache extends \Twig_Cache_Filesystem implements TenantAwareCach
         return $this->generateCacheDir().$hash.'.php';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generateCacheDir()
     {
         $tenantCode = $this->tenantContext->getTenant()->getCode();

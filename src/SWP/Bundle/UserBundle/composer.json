@@ -23,7 +23,7 @@
     "swp/settings-bundle": "^2.0",
     "friendsofsymfony/user-bundle": "^2.0.0",
     "nelmio/api-doc-bundle": "^2.13",
-    "symfony/swiftmailer-bundle": "~2.3",
+    "symfony/swiftmailer-bundle": "~3.2",
     "symfony/serializer": "^4.2"
   },
   "require-dev": {
@@ -40,6 +40,7 @@
     "symfony/asset": "^4.2",
     "symfony/property-access": "^4.2",
     "symfony/security": "^4.2",
+    "symfony/doctrine-bridge": "<4.2.5",
     "doctrine/orm": "^2.6",
     "doctrine/doctrine-bundle": "^1.10",
     "doctrine/doctrine-fixtures-bundle": "^3.0",

@@ -78,7 +78,7 @@ Feature: Adding article to bucket based on organization and tenant rules
           "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
           "configuration":[
             {
-              "key":"is_published_fbia",
+              "key":"isPublishedFbia",
               "value":true
             }
           ]
@@ -111,4 +111,4 @@ Feature: Adding article to bucket based on organization and tenant rules
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/lists/"
     And the response should be in JSON
-    And the JSON node "_embedded._items[0].contentListItemsCount" should be equal to "1"
+    And the JSON node "_embedded._items[0].content_list_items_count" should be equal to "1"
