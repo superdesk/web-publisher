@@ -1,0 +1,11 @@
+SWP\Component\Seo\Model\SeoMetadata:
+  exclusion_policy: ALL
+  properties:
+    metaTitle:
+      expose: true
+      groups: [api]
+      type: string
+    metaDescription:
+      expose: true
+      groups: [api]
+      type: string

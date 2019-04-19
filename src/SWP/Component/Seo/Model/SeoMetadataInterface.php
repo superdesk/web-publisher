@@ -9,19 +9,27 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface SeoMetadataInterface extends PersistableInterface, TimestampableInterface
 {
-    public function getTitle(): string;
+    public function getMetaTitle(): ?string;
 
-    public function setTitle(string $title): void;
+    public function setMetaTitle(?string $metaTitle): void;
 
-    public function getDescription(): string;
+    public function getMetaDescription(): ?string;
 
-    public function setDescription(string $description): void;
+    public function setMetaDescription(?string $metaDescription): void;
 
-    public function getTags(): array;
+    public function getOgTitle(): ?string;
 
-    public function setTags(array $tags): void;
+    public function setOgTitle(?string $ogTitle): void;
 
-    public function getAuthors(): array;
+    public function getOgDescription(): ?string;
 
-    public function setAuthors(array $authors): void;
+    public function setOgDescription(?string $ogDescription): void;
+
+    public function getTwitterTitle(): ?string;
+
+    public function setTwitterTitle(?string $twitterTitle): void;
+
+    public function getTwitterDescription(): ?string;
+
+    public function setTwitterDescription(?string $twitterDescription): void;
 }

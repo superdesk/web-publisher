@@ -727,3 +727,10 @@ services:
             - '@swp.factory.article_events'
 
     Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
+
+    swp_content_bundle.form.type.seo_metadata:
+        class: SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType
+        arguments:
+            - '%swp.model.seo_metadata.class%'
+        tags:
+            - { name: form.type }

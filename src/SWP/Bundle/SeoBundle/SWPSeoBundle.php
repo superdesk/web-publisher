@@ -6,7 +6,6 @@ namespace SWP\Bundle\SeoBundle;
 
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPSeoBundle extends Bundle
 {
@@ -20,10 +19,5 @@ class SWPSeoBundle extends Bundle
     public function getModelClassNamespace(): string
     {
         return 'SWP\Component\Seo\Model';
-    }
-
-    public function build(ContainerBuilder $container): void
-    {
-        parent::build($container);
     }
 }

@@ -76,3 +76,12 @@ oneup_flysystem:
         swp_filesystem:
             adapter: fallback_adapter # fallback_adapter defined via extension class
             alias: swp_filesystem
+
+swp_seo:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                seo_metadata:
+                    model: SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata
+                    interface: SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface

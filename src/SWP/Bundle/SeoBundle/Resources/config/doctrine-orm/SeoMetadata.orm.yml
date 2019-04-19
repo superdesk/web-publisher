@@ -1,6 +1,6 @@
 SWP\Component\Seo\Model\SeoMetadata:
     type: mappedSuperclass
-    table: swp_seo_metadata
+    table: swp_article_seo_metadata
     id:
         id:
             type: integer
@@ -8,15 +8,21 @@ SWP\Component\Seo\Model\SeoMetadata:
             generator:
                 strategy: AUTO
     fields:
-        title:
+        metaTitle:
             type: string
-        description:
+        metaDescription:
             type: string
             nullable: true
-        authors:
-            type: array
-        tags:
-            type: array
+        ogTitle:
+            type: string
+        ogDescription:
+            type: string
+            nullable: true
+        twitterTitle:
+            type: string
+        twitterDescription:
+            type: string
+            nullable: true
         createdAt:
             type: datetime
             gedmo:
@@ -28,11 +34,3 @@ SWP\Component\Seo\Model\SeoMetadata:
             gedmo:
                 timestampable:
                     on: update
-#    oneToOne:
-#        article:
-#            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
-#            inversedBy: articleStatistics
-#            joinColumn:
-#                name: article_id
-#                referencedColumnName: id
-#                nullable: false
