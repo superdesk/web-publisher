@@ -32,7 +32,7 @@
     "symfony/css-selector": "^4.2",
     "symfony/security-bundle": "^4.2",
     "symfony/dependency-injection": "^4.2",
-    "symfony/doctrine-bridge": "^4.2",
+    "symfony/doctrine-bridge": "<4.2.5",
     "symfony/dom-crawler": "^4.2",
     "symfony/event-dispatcher": "^4.2",
     "symfony/property-access": "^4.2",
