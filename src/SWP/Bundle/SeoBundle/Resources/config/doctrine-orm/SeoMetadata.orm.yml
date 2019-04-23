@@ -10,16 +10,19 @@ SWP\Component\Seo\Model\SeoMetadata:
     fields:
         metaTitle:
             type: string
+            nullable: true
         metaDescription:
             type: string
             nullable: true
         ogTitle:
             type: string
+            nullable: true
         ogDescription:
             type: string
             nullable: true
         twitterTitle:
             type: string
+            nullable: true
         twitterDescription:
             type: string
             nullable: true

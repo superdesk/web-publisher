@@ -126,4 +126,7 @@ SWP\Bundle\ContentBundle\Model\Article:
     oneToOne:
         seoMetadata:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface
-            mappedBy: article
+            joinColumn:
+                name: seo_metadata_id
+                referencedColumnName: id
+            cascade: ['all']

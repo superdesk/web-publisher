@@ -9,3 +9,19 @@ SWP\Component\Seo\Model\SeoMetadata:
       expose: true
       groups: [api]
       type: string
+    ogTitle:
+      expose: true
+      groups: [api]
+      type: string
+    ogDescription:
+      expose: true
+      groups: [api]
+      type: string
+    twitterTitle:
+      expose: true
+      groups: [api]
+      type: string
+    twitterDescription:
+      expose: true
+      groups: [api]
+      type: string

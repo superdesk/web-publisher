@@ -5,7 +5,7 @@ Feature: Adding article SEO metadata
   As a HTTP Client
   I want to be able to define custom article SEO metadata for social media platform
 
-  Scenario: Submitting and publishing a package with extra custom fields
+  Scenario: Adding SEO metadata to the article
     Given the following Tenants:
       | organization | name | subdomain | domain_name | enabled | default |
       | Default      | test |           | localhost   | true    | true    |
@@ -29,9 +29,18 @@ Feature: Adding article SEO metadata
       {
           "seo_metadata": {
               "meta_title": "This is my meta title",
-              "meta_description": "This is my meta description"
+              "meta_description": "This is my meta description",
+              "og_title": "This is my og title",
+              "og_description": "This is my og description",
+              "twitter_title": "This is my twitter title",
+              "twitter_description": "This is my twitter description"
           }
       }
      """
     Then the response status code should be 200
     And the JSON node "seo_metadata.meta_title" should be equal to "This is my meta title"
+    And the JSON node "seo_metadata.meta_description" should be equal to "This is my meta description"
+    And the JSON node "seo_metadata.og_title" should be equal to "This is my og title"
+    And the JSON node "seo_metadata.og_description" should be equal to "This is my og description"
+    And the JSON node "seo_metadata.twitter_title" should be equal to "This is my twitter title"
+    And the JSON node "seo_metadata.twitter_description" should be equal to "This is my twitter description"

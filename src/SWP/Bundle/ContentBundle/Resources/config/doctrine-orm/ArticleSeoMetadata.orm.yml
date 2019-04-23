@@ -1,11 +1,3 @@
 SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata:
   type: mappedSuperclass
   table: swp_article_seo_metadata
-  oneToOne:
-    article:
-      targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
-      inversedBy: seoMetadata
-      joinColumn:
-        name: article_id
-        referencedColumnName: id
-        nullable: false
