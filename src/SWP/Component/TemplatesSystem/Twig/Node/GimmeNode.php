@@ -17,25 +17,25 @@ namespace SWP\Component\TemplatesSystem\Twig\Node;
 /**
  * Gimme twig node.
  */
-class GimmeNode extends \Twig_Node
+class GimmeNode extends \Twig\Node\Node
 {
     private static $count = 1;
 
     /**
      * GimmeNode constructor.
      *
-     * @param \Twig_Node                 $annotation
-     * @param \Twig_Node_Expression|null $parameters
-     * @param \Twig_Node_Expression|null $ignoreContext
-     * @param \Twig_Node                 $body
+     * @param \Twig\Node\Node                 $annotation
+     * @param \Twig\Node\Node|null $parameters
+     * @param \Twig\Node\Node|null $ignoreContext
+     * @param \Twig\Node\Node                 $body
      * @param int                        $lineno
      * @param null                       $tag
      */
     public function __construct(
-        \Twig_Node $annotation,
-        \Twig_Node_Expression $parameters = null,
-        \Twig_Node_Expression $ignoreContext = null,
-        \Twig_Node $body,
+        \Twig\Node\Node $annotation,
+        \Twig\Node\Expression\AbstractExpression $parameters = null,
+        \Twig\Node\Expression\AbstractExpression $ignoreContext = null,
+        \Twig\Node\Node $body,
         $lineno,
         $tag = null
     ) {
@@ -58,7 +58,7 @@ class GimmeNode extends \Twig_Node
     /**
      * {@inheritdoc}
      */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(\Twig\Compiler $compiler)
     {
         $i = self::$count++;
 

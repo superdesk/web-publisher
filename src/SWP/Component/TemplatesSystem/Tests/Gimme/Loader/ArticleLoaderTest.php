@@ -21,7 +21,7 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class ArticleLoaderTest extends \PHPUnit_Framework_TestCase
+class ArticleLoaderTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoadingCollection()
     {

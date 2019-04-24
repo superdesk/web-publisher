@@ -20,7 +20,7 @@ use Twig\Node\IfNode;
 /**
  * Gimme twig node.
  */
-class GimmeListNode extends \Twig_Node
+class GimmeListNode extends \Twig\Node\Node
 {
     protected static $count = 1;
 
@@ -29,35 +29,35 @@ class GimmeListNode extends \Twig_Node
     /**
      * GimmeListNode constructor.
      *
-     * @param \Twig_Node                        $variable
-     * @param \Twig_Node                        $collectionType
-     * @param \Twig_Node_Expression_Filter|null $collectionFilters
-     * @param \Twig_Node_Expression|null        $withParameters
-     * @param \Twig_Node_Expression|null        $withoutParameters
-     * @param \Twig_Node_Expression|null        $ignoreContext
-     * @param \Twig_Node_Expression|null        $ifExpression
-     * @param \Twig_Node|null                   $else
-     * @param \Twig_Node                        $body
+     * @param \Twig\Node\Node                        $variable
+     * @param \Twig\Node\Node                        $collectionType
+     * @param \Twig\Node\Node|null $collectionFilters
+     * @param \Twig\Node\Node|null        $withParameters
+     * @param \Twig\Node\Node|null        $withoutParameters
+     * @param \Twig\Node\Node|null        $ignoreContext
+     * @param \Twig\Node\Node|null        $ifExpression
+     * @param \Twig\Node\Node|null                   $else
+     * @param \Twig\Node\Node                        $body
      * @param int                               $lineno
      * @param null                              $tag
      */
     public function __construct(
-        \Twig_Node $variable,
-        \Twig_Node $collectionType,
-        \Twig_Node_Expression_Filter $collectionFilters = null,
-        \Twig_Node_Expression $withParameters = null,
-        \Twig_Node_Expression $withoutParameters = null,
-        \Twig_Node_Expression $ignoreContext = null,
-        \Twig_Node_Expression $ifExpression = null,
-        \Twig_Node $else = null,
-        \Twig_Node $body,
+        \Twig\Node\Node $variable,
+        \Twig\Node\Node $collectionType,
+        \Twig\Node\Expression\FilterExpression $collectionFilters = null,
+        \Twig\Node\Expression\AbstractExpression $withParameters = null,
+        \Twig\Node\Expression\AbstractExpression $withoutParameters = null,
+        \Twig\Node\Expression\AbstractExpression $ignoreContext = null,
+        \Twig\Node\Expression\AbstractExpression $ifExpression = null,
+        \Twig\Node\Node $else = null,
+        \Twig\Node\Node $body,
         $lineno,
         $tag = null
     ) {
-        $body = new \Twig_Node([$body, $this->loop = new ForLoopNode($lineno, $tag)]);
+        $body = new \Twig\Node\Node([$body, $this->loop = new ForLoopNode($lineno, $tag)]);
 
         if (null !== $ifExpression) {
-            $body = new IfNode(new \Twig_Node([$ifExpression, $body]), null, $lineno, $tag);
+            $body = new IfNode(new \Twig\Node\Node([$ifExpression, $body]), null, $lineno, $tag);
         }
 
         $nodes = [
@@ -96,7 +96,7 @@ class GimmeListNode extends \Twig_Node
     /**
      * {@inheritdoc}
      */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(\Twig\Compiler $compiler)
     {
         $i = self::$count++;
 

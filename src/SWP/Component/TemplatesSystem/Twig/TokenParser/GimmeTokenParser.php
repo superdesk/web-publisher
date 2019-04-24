@@ -19,14 +19,14 @@ use SWP\Component\TemplatesSystem\Twig\Node\GimmeNode;
 /**
  * Parser for gimme/endgimme blocks.
  */
-class GimmeTokenParser extends \Twig_TokenParser
+class GimmeTokenParser extends \Twig\TokenParser\AbstractTokenParser
 {
     /**
-     * @param \Twig_Token $token
+     * @param \Twig\Token $token
      *
      * @return bool
      */
-    public function decideCacheEnd(\Twig_Token $token)
+    public function decideCacheEnd(\Twig\Token $token)
     {
         return $token->test('endgimme');
     }
@@ -42,29 +42,29 @@ class GimmeTokenParser extends \Twig_TokenParser
     /**
      * {@inheritdoc}
      */
-    public function parse(\Twig_Token $token)
+    public function parse(\Twig\Token $token)
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
 
         $annotation = $this->parser->getExpressionParser()->parseAssignmentExpression();
         $parameters = null;
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'with')) {
+        if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'with')) {
             $parameters = $this->parser->getExpressionParser()->parseExpression();
         }
 
         $ignoreContext = null;
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'ignoreContext')) {
-            if ($stream->test(\Twig_Token::PUNCTUATION_TYPE, '[')) {
+        if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'ignoreContext')) {
+            if ($stream->test(\Twig\Token::PUNCTUATION_TYPE, '[')) {
                 $ignoreContext = $this->parser->getExpressionParser()->parseExpression();
             } else {
-                $ignoreContext = new \Twig_Node_Expression_Array([], $token->getLine());
+                $ignoreContext = new \Twig\Node\Expression\ArrayExpression([], $token->getLine());
             }
         }
 
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig\Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideCacheEnd'], true);
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig\Token::BLOCK_END_TYPE);
 
         return new GimmeNode($annotation, $parameters, $ignoreContext, $body, $lineno, $this->getTag());
     }

@@ -73,7 +73,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         // try to match interface with class
         $classNameArray = \explode('\\', $repositoryClass);
         foreach (class_implements($repositoryClass) as $interface) {
-            if (false !== strpos($interface, '\\'.$classNameArray[count($classNameArray) - 1].'Interface')) {
+            if (false !== strpos($interface, '\\'.$classNameArray[array_key_last($classNameArray)].'Interface')) {
                 $container->setAlias($interface, 'swp.repository.'.$config['name']);
 
                 break;
@@ -96,7 +96,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         // try to match interface with class
         $classNameArray = \explode('\\', $factoryClass);
         foreach (class_implements($factoryClass) as $interface) {
-            if (false !== strpos($interface, '\\'.$classNameArray[count($classNameArray) - 1].'Interface')) {
+            if (false !== strpos($interface, '\\'.$classNameArray[array_key_last($classNameArray)].'Interface')) {
                 $container->setAlias($interface, 'swp.factory.'.$config['name']);
 
                 break;
