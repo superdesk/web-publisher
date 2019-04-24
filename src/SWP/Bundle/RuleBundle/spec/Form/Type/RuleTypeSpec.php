@@ -17,6 +17,7 @@ namespace spec\SWP\Bundle\RuleBundle\Form\Type;
 use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -61,7 +62,7 @@ final class RuleTypeSpec extends ObjectBehavior
 
         $builder
             ->add('configuration', KeyValueType::class, [
-                'value_type' => TextType::class,
+                'value_type' => UnstructuredType::class,
             ])
             ->willReturn($builder)
         ;
