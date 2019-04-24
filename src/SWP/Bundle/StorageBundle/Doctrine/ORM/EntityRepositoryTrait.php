@@ -86,15 +86,15 @@ trait EntityRepositoryTrait
         return $queryBuilder;
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param Criteria     $criteria
-     */
-    public function applyLimiting(QueryBuilder $queryBuilder, Criteria $criteria)
+    public function applyLimiting(QueryBuilder $queryBuilder, Criteria $criteria): void
     {
-        $queryBuilder->setFirstResult($criteria->get('firstResult', 0));
-        if ($criteria->has('maxResults')) {
-            $queryBuilder->setMaxResults($criteria->get('maxResults'));
+        if (!is_numeric($firstResult = $criteria->get('firstResult', 0))) {
+            $firstResult = 0;
+        }
+        $queryBuilder->setFirstResult(abs($firstResult));
+
+        if ($criteria->has('maxResults') && is_numeric($criteria->get('maxResults'))) {
+            $queryBuilder->setMaxResults(abs($criteria->get('maxResults')));
         } else {
             $queryBuilder->setMaxResults(self::MAX_RESULTS);
         }

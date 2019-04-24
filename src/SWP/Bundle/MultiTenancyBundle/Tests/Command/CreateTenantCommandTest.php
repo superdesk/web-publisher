@@ -48,11 +48,11 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingNewTenant()
     {
-        $this->question->setInputStream($this->getInputStream("domain.dev\nTest\n123456\n"));
         $tenant = new Tenant();
         $tenant->setCode('123abc');
         $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'subdomain', 'domain.dev'));
         $this->commandTester = new CommandTester($this->command);
+        $this->commandTester->setInputs(['domain.dev', 'Test', '123456']);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $this->assertContains(
@@ -122,11 +122,11 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteDisabledTenant()
     {
-        $this->question->setInputStream($this->getInputStream("example.com\nExample\n123456\n"));
         $tenant = new Tenant();
         $tenant->setCode('123abc');
         $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'example', 'example.com'));
         $this->commandTester = new CommandTester($this->command);
+        $this->commandTester->setInputs(['example.com', 'Example', '123456']);
         $this->commandTester->execute([
             'command' => $this->command->getName(),
             '--disabled' => true,
