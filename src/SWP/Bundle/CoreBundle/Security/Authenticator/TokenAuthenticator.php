@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
+use function stripslashes;
 use SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
@@ -105,7 +106,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->apiKeyRepository
-            ->getValidToken(str_replace('Basic ', '', $credentials['token']))
+            ->getValidToken(str_replace('Basic ', '', stripslashes($credentials['token'])))
             ->getQuery()
             ->getOneOrNullResult();
 
