@@ -24,12 +24,12 @@ class GimmeNode extends \Twig\Node\Node
     /**
      * GimmeNode constructor.
      *
-     * @param \Twig\Node\Node                 $annotation
+     * @param \Twig\Node\Node      $annotation
      * @param \Twig\Node\Node|null $parameters
      * @param \Twig\Node\Node|null $ignoreContext
-     * @param \Twig\Node\Node                 $body
-     * @param int                        $lineno
-     * @param null                       $tag
+     * @param \Twig\Node\Node      $body
+     * @param int                  $lineno
+     * @param null                 $tag
      */
     public function __construct(
         \Twig\Node\Node $annotation,

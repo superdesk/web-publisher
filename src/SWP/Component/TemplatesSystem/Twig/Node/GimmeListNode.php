@@ -29,17 +29,17 @@ class GimmeListNode extends \Twig\Node\Node
     /**
      * GimmeListNode constructor.
      *
-     * @param \Twig\Node\Node                        $variable
-     * @param \Twig\Node\Node                        $collectionType
+     * @param \Twig\Node\Node      $variable
+     * @param \Twig\Node\Node      $collectionType
      * @param \Twig\Node\Node|null $collectionFilters
-     * @param \Twig\Node\Node|null        $withParameters
-     * @param \Twig\Node\Node|null        $withoutParameters
-     * @param \Twig\Node\Node|null        $ignoreContext
-     * @param \Twig\Node\Node|null        $ifExpression
-     * @param \Twig\Node\Node|null                   $else
-     * @param \Twig\Node\Node                        $body
-     * @param int                               $lineno
-     * @param null                              $tag
+     * @param \Twig\Node\Node|null $withParameters
+     * @param \Twig\Node\Node|null $withoutParameters
+     * @param \Twig\Node\Node|null $ignoreContext
+     * @param \Twig\Node\Node|null $ifExpression
+     * @param \Twig\Node\Node|null $else
+     * @param \Twig\Node\Node      $body
+     * @param int                  $lineno
+     * @param null                 $tag
      */
     public function __construct(
         \Twig\Node\Node $variable,
