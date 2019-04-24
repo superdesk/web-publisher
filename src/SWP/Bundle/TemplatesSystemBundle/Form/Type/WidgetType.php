@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Form\Type;
 
+use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -23,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WidgetType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
@@ -33,17 +34,17 @@ class WidgetType extends AbstractType
             ->add('visible', TextType::class, [
                 'description' => 'Defines whether widget is visible or not (true or false).',
             ])
-            ->add('parameters', TextType::class, [
+            ->add('parameters', UnstructuredType::class, [
                 'required' => false,
             ]);
 
         $builder->get('visible')
             ->addModelTransformer(new CallbackTransformer(
-                function ($value) {
+                static function ($value) {
                     return $value;
                 },
-                function ($value) {
-                    if (is_bool($value) || in_array($value, ['true', 'false', '1', '0', null])) {
+                static function ($value) {
+                    if (is_bool($value) || in_array($value, ['true', 'false', '1', '0', null], true)) {
                         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
                     }
 
@@ -53,14 +54,14 @@ class WidgetType extends AbstractType
 
         $builder->get('parameters')
             ->addModelTransformer(new CallbackTransformer(
-                function ($value) {
-                    if (is_array($value) && !empty($value)) {
+                static function ($value) {
+                    if (is_array($value)) {
                         return json_encode($value);
                     }
 
                     return $value;
                 },
-                function ($value) {
+                static function ($value) {
                     if (is_string($value)) {
                         return json_decode($value, true);
                     }
@@ -74,7 +75,7 @@ class WidgetType extends AbstractType
             ));
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['csrf_protection' => false]);
     }
