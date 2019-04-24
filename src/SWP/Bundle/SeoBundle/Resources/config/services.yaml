@@ -1,0 +1,20 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+    bind:
+      $dataClass: '%swp.model.seo_metadata.class%'
+
+  SWP\Bundle\SeoBundle\:
+      resource: '../../*'
+
+  SWP\Bundle\SeoBundle\Uploader\SeoImageUploader:
+    public: true
+    arguments:
+      - '@swp_filesystem'
+
+  SWP\Bundle\SeoBundle\Resolver\SeoImageUriResolver:
+    public: true
+    arguments:
+      - '@swp_filesystem'

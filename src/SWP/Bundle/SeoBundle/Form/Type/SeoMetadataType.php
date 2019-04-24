@@ -9,9 +9,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 final class SeoMetadataType extends AbstractType
 {
+    public const MAX_LIMIT = 200;
+
     private $dataClass;
 
     public function __construct(?string $dataClass = null)
@@ -22,12 +25,24 @@ final class SeoMetadataType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('metaDescription', TextType::class)
-            ->add('metaTitle', TextType::class)
-            ->add('ogDescription', TextType::class)
-            ->add('ogTitle', TextType::class)
-            ->add('twitterDescription', TextType::class)
-            ->add('twitterTitle', TextType::class)
+            ->add('metaDescription', TextType::class, [
+                'constraints' => new Length(['max' => self::MAX_LIMIT]),
+            ])
+            ->add('metaTitle', TextType::class, [
+                'constraints' => new Length(['max' => self::MAX_LIMIT]),
+            ])
+            ->add('ogDescription', TextType::class, [
+                'constraints' => new Length(['max' => self::MAX_LIMIT]),
+            ])
+            ->add('ogTitle', TextType::class, [
+                'constraints' => new Length(['max' => self::MAX_LIMIT]),
+            ])
+            ->add('twitterDescription', TextType::class, [
+                'constraints' => new Length(['max' => self::MAX_LIMIT]),
+            ])
+            ->add('twitterTitle', TextType::class, [
+                'constraints' => new Length(['max' => self::MAX_LIMIT]),
+            ])
         ;
     }
 
@@ -35,7 +50,7 @@ final class SeoMetadataType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => $this->dataClass ?? SeoMetadata::class
+            'data_class' => $this->dataClass ?? SeoMetadata::class,
         ]);
     }
 

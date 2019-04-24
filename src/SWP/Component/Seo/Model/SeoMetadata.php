@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SWP\Component\Seo\Model;
 
 use SWP\Component\Common\Model\TimestampableTrait;
+use Symfony\Component\HttpFoundation\File\File;
 
 class SeoMetadata implements SeoMetadataInterface
 {
@@ -44,6 +45,36 @@ class SeoMetadata implements SeoMetadataInterface
      * @var string|null
      */
     protected $twitterDescription;
+
+    /**
+     * @var File|null
+     */
+    protected $metaImageFile;
+
+    /**
+     * @var string|null
+     */
+    protected $metaImageName;
+
+    /**
+     * @var File|null
+     */
+    protected $ogImageFile;
+
+    /**
+     * @var string|null
+     */
+    protected $ogImageName;
+
+    /**
+     * @var File|null
+     */
+    protected $twitterImageFile;
+
+    /**
+     * @var string|null
+     */
+    protected $twitterImageName;
 
     public function getId(): string
     {
@@ -108,5 +139,65 @@ class SeoMetadata implements SeoMetadataInterface
     public function setTwitterDescription(?string $twitterDescription): void
     {
         $this->twitterDescription = $twitterDescription;
+    }
+
+    public function getMetaImageFile(): ?File
+    {
+        return $this->metaImageFile;
+    }
+
+    public function setMetaImageFile(?File $metaImageFile): void
+    {
+        $this->metaImageFile = $metaImageFile;
+    }
+
+    public function getMetaImageName(): ?string
+    {
+        return $this->metaImageName;
+    }
+
+    public function setMetaImageName(?string $metaImageName): void
+    {
+        $this->metaImageName = $metaImageName;
+    }
+
+    public function getOgImageFile(): ?File
+    {
+        return $this->ogImageFile;
+    }
+
+    public function setOgImageFile(?File $ogImageFile): void
+    {
+        $this->ogImageFile = $ogImageFile;
+    }
+
+    public function getOgImageName(): ?string
+    {
+        return $this->ogImageName;
+    }
+
+    public function setOgImageName(?string $ogImageName): void
+    {
+        $this->ogImageName = $ogImageName;
+    }
+
+    public function getTwitterImageFile(): ?File
+    {
+        return $this->twitterImageFile;
+    }
+
+    public function setTwitterImageFile(?File $twitterImageFile): void
+    {
+        $this->twitterImageFile = $twitterImageFile;
+    }
+
+    public function getTwitterImageName(): ?string
+    {
+        return $this->twitterImageName;
+    }
+
+    public function setTwitterImageName(?string $twitterImageName): void
+    {
+        $this->twitterImageName = $twitterImageName;
     }
 }

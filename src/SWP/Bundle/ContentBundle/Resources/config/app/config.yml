@@ -78,6 +78,7 @@ oneup_flysystem:
             alias: swp_filesystem
 
 swp_seo:
+    upload_destination: swp_filesystem
     persistence:
         orm:
             enabled: true

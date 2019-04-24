@@ -19,6 +19,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('swp_seo');
         $treeBuilder->getRootNode()
             ->children()
+                ->scalarNode('upload_destination')->cannotBeEmpty()->end()
                 ->arrayNode('persistence')
                     ->addDefaultsIfNotSet()
                     ->children()
