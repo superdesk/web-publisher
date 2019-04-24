@@ -57,7 +57,7 @@
         "ext-zip": "*",
         "ext-gd": "*",
         "ext-intl": "*",
-        "symfony/symfony": "3.4.20",
+        "symfony/symfony": "3.4.26",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",
         "sensio/distribution-bundle": "~v5.0",
