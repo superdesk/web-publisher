@@ -14,11 +14,12 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Response;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\ResponseContextInterface;
 
-class ResourcesListResponseTest extends \PHPUnit_Framework_TestCase
+class ResourcesListResponseTest extends TestCase
 {
     public function testInitialization()
     {

@@ -18,6 +18,7 @@ use Facebook\Facebook;
 use Facebook\InstantArticles\Client\Client;
 use Facebook\InstantArticles\Client\InstantArticleStatus;
 use Facebook\InstantArticles\Elements\InstantArticle;
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed;
@@ -28,7 +29,7 @@ use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookManager;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
+class FacebookInstantArticlesServiceTest extends TestCase
 {
     private $facebookManager;
 
