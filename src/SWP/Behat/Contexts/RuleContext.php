@@ -6,6 +6,7 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use function json_decode;
 use SWP\Bundle\CoreBundle\Model\RuleInterface;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
@@ -64,8 +65,8 @@ final class RuleContext extends AbstractContext implements Context
 
     private function submitForm(PyStringNode $string): FormInterface
     {
-        $form = $this->formFactory->create(RuleType::class, $this->ruleFactory->create(), []);
-        $form->submit(\json_decode($string->getRaw(), true), true);
+        $form = $this->formFactory->create(RuleType::class, $this->ruleFactory->create());
+        $form->submit(json_decode($string->getRaw(), true));
 
         return $form;
     }

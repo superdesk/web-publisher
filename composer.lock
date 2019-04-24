@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60c9eceada4d6b94ce1d5c110fee87a8",
+    "content-hash": "f979a08d3f3f29f6cc7a44d29f0abfce",
     "packages": [
         {
             "name": "apache/log4php",
@@ -10876,16 +10876,16 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "2.0.0-alpha15",
+            "version": "2.0.0-alpha14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "76c3fd3fef5bd149eaa4b00399194a41350223af"
+                "reference": "0b0569854983c073cb9d30ef140f7c284ea34222"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/76c3fd3fef5bd149eaa4b00399194a41350223af",
-                "reference": "76c3fd3fef5bd149eaa4b00399194a41350223af",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/0b0569854983c073cb9d30ef140f7c284ea34222",
+                "reference": "0b0569854983c073cb9d30ef140f7c284ea34222",
                 "shasum": ""
             },
             "require": {
@@ -10946,7 +10946,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2019-03-24T23:03:32+00:00"
+            "time": "2019-03-02T19:11:28+00:00"
         },
         {
             "name": "liip/rmt",
