@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
+use function stripslashes;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
@@ -95,7 +96,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->apiKeyRepository
-            ->getValidToken(str_replace('Basic ', '', $credentials['token']))
+            ->getValidToken(str_replace('Basic ', '', stripslashes($credentials['token'])))
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -182,16 +183,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         }
 
         return true;
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return array|string
-     */
-    private function getIntention(Request $request)
-    {
-        return $request->headers->get('Intention', $request->query->get('intention'));
     }
 
     /**
