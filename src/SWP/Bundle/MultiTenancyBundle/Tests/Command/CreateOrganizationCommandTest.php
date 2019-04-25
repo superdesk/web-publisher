@@ -20,6 +20,7 @@ use SWP\Component\MultiTenancy\Model\Organization;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
@@ -28,6 +29,9 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
 
     private $command;
 
+    /**
+     * @var QuestionHelper
+     */
     private $question;
 
     public function setUp()

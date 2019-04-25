@@ -26,11 +26,11 @@ abstract class PaginatedLoader
     public function applyPaginationToCriteria(Criteria $criteria, array $parameters): Criteria
     {
         if (array_key_exists('limit', $parameters) && is_numeric($parameters['limit'])) {
-            $criteria->set('maxResults', (int) $parameters['limit']);
+            $criteria->set('maxResults', (int) abs($parameters['limit']));
         }
 
         if (array_key_exists('start', $parameters) && is_numeric($parameters['start'])) {
-            $criteria->set('firstResult', (int) $parameters['start']);
+            $criteria->set('firstResult', (int) abs($parameters['start']));
         }
 
         if (array_key_exists('order', $parameters)) {

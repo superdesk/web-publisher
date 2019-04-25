@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Repository;
 
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -32,7 +33,7 @@ class ApiKeyRepository extends EntityRepository implements ApiKeyRepositoryInter
             ->leftJoin('ak.user', 'u')
             ->addSelect('u')
             ->andWhere('ak.validTo >= :now')
-            ->setParameter('now', new \DateTime());
+            ->setParameter('now', new DateTime());
 
         return $qb;
     }
@@ -46,7 +47,7 @@ class ApiKeyRepository extends EntityRepository implements ApiKeyRepositoryInter
             ->leftJoin('ak.user', 'u')
             ->addSelect('u')
             ->andWhere('ak.validTo >= :now')
-            ->setParameter('now', new \DateTime());
+            ->setParameter('now', new DateTime());
 
         return $qb;
     }
