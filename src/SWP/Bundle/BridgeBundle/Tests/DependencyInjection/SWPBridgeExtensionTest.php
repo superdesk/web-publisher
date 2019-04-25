@@ -14,11 +14,12 @@
 
 namespace SWP\Bundle\BridgeBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\BridgeBundle\DependencyInjection\SWPBridgeExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
-class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
+class SWPBridgeExtensionTest extends TestCase
 {
     /**
      * @covers \SWP\Bundle\BridgeBundle\SWPBridgeBundle

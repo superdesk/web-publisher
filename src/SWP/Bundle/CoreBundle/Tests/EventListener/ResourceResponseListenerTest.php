@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Tests\EventListener;
 
 use FOS\RestBundle\View\ViewHandler;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
+use PHPUnit\Framework\TestCase;
 use SWP\Component\Common\EventListener\ResourceResponseListener;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -23,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 
-class ResourceResponseListenerTest extends \PHPUnit_Framework_TestCase
+class ResourceResponseListenerTest extends TestCase
 {
     public function testInitialization()
     {
@@ -38,29 +39,33 @@ class ResourceResponseListenerTest extends \PHPUnit_Framework_TestCase
         $viewHandler = $this->createMock(ViewHandler::class);
         $viewHandler
             ->method('handle')
-            ->will($this->returnValue(new Response()));
+            ->willReturn(new Response());
 
         $listener = new ResourceResponseListener($viewHandler);
 
         $resourcesListResponse = new ResourcesListResponse(new SlidingPagination([]));
         $event = $this->createMock(GetResponseForControllerResultEvent::class);
         $event
+            ->expects($this->once())
             ->method('getControllerResult')
-            ->will($this->returnValue($resourcesListResponse));
+            ->willReturn($resourcesListResponse);
         $event
+            ->expects($this->once())
             ->method('getRequest')
-            ->will($this->returnValue(new Request()));
+            ->willReturn(new Request());
 
         $listener->onKernelView($event);
 
         $singleResponse = new SingleResourceResponse([1, 2, 3]);
         $event = $this->createMock(GetResponseForControllerResultEvent::class);
         $event
+            ->expects($this->once())
             ->method('getControllerResult')
-            ->will($this->returnValue($singleResponse));
+            ->willReturn($singleResponse);
         $event
+            ->expects($this->never())
             ->method('getRequest')
-            ->will($this->returnValue(new Request()));
+            ->willReturn(new Request());
 
         $listener->onKernelView($event);
     }

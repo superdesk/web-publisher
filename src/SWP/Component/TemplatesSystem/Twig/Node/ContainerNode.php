@@ -23,7 +23,7 @@ use Twig\Node\Node;
  */
 class ContainerNode extends Node
 {
-    public function __construct(Node $name, \Twig_Node_Expression $parameters = null, Node $body, $lineno, $tag = null)
+    public function __construct(Node $name, \Twig\Node\Expression\AbstractExpression $parameters = null, Node $body, $lineno, $tag = null)
     {
         $nodes = [
             'name' => $name,

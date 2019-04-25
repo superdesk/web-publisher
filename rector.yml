@@ -1,0 +1,2 @@
+parameters:
+    php_version_features: '7.3'

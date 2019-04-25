@@ -13,10 +13,11 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Tests\DependencyInjection\Compiler;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass;
 use Symfony\Component\DependencyInjection\Reference;
 
-class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
+class TenantAwareRouterCompilerPassTest extends TestCase
 {
     private $container;
 
