@@ -14,10 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\CoreBundle\DependencyInjection\SWPCoreExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class SWPCoreExtensionTest extends \PHPUnit_Framework_TestCase
+class SWPCoreExtensionTest extends TestCase
 {
     private $extension;
 

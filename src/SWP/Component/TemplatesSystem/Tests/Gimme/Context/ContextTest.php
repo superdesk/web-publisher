@@ -19,7 +19,7 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class ContextTest extends \PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Context

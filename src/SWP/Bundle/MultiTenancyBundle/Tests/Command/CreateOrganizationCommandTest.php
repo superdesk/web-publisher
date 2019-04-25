@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Tests\Command;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand;
 use SWP\Component\MultiTenancy\Factory\OrganizationFactoryInterface;
 use SWP\Component\MultiTenancy\Model\Organization;
@@ -23,7 +24,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
+class CreateOrganizationCommandTest extends TestCase
 {
     private $commandTester;
 

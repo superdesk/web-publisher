@@ -153,11 +153,11 @@ class ThemeSetupCommandTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertNotNull(1, $content['feature_media']);
+        self::assertIsArray($content['feature_media']);
         self::assertCount(1, $content['media']);
         self::assertCount(1, $content['media'][0]['renditions']);
-        self::assertNotNull(1, $content['route']);
-        self::assertNotNull(1, $content['article_statistics']);
+        self::assertNotNull($content['route']);
+        self::assertNotNull($content['article_statistics']);
 
         $client->request('GET', $router->generate('swp_api_content_list_lists'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

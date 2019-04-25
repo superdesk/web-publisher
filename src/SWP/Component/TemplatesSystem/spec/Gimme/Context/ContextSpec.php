@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Component\TemplatesSystem\Gimme\Context;
+namespace SWP\Component\TemplatesSystem\spec\Gimme\Context;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;

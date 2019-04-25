@@ -14,9 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Response;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Component\Common\Response\ResponseContext;
 
-class ResponseContextTest extends \PHPUnit_Framework_TestCase
+class ResponseContextTest extends TestCase
 {
     public function testInitialization()
     {

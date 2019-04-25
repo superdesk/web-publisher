@@ -19,19 +19,19 @@ use SWP\Component\TemplatesSystem\Twig\Node\GimmeListNode;
 /**
  * Parser for gimme/endgimme blocks.
  */
-class GimmeListTokenParser extends \Twig_TokenParser
+class GimmeListTokenParser extends \Twig\TokenParser\AbstractTokenParser
 {
     /**
-     * @param \Twig_Token $token
+     * @param \Twig\Token $token
      *
      * @return bool
      */
-    public function decideGimmeListEnd(\Twig_Token $token)
+    public function decideGimmeListEnd(\Twig\Token $token)
     {
         return $token->test('endgimmelist');
     }
 
-    public function decideGimmeListFork(\Twig_Token $token)
+    public function decideGimmeListFork(\Twig\Token $token)
     {
         return $token->test(['else', 'endgimmelist']);
     }
@@ -47,54 +47,54 @@ class GimmeListTokenParser extends \Twig_TokenParser
     /**
      * {@inheritdoc}
      */
-    public function parse(\Twig_Token $token)
+    public function parse(\Twig\Token $token)
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
 
         $variable = $this->parser->getExpressionParser()->parseAssignmentExpression();
-        $stream->expect(\Twig_Token::NAME_TYPE, 'from');
+        $stream->expect(\Twig\Token::NAME_TYPE, 'from');
         $collectionType = $this->parser->getExpressionParser()->parseAssignmentExpression();
 
         $collectionFilters = null;
-        if ($stream->test(\Twig_Token::PUNCTUATION_TYPE, '|')) {
+        if ($stream->test(\Twig\Token::PUNCTUATION_TYPE, '|')) {
             $collectionFilters = $this->parser->getExpressionParser()->parsePostfixExpression($collectionType);
         }
 
         $withParameters = null;
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'with')) {
+        if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'with')) {
             $withParameters = $this->parser->getExpressionParser()->parseExpression();
         }
 
         $withoutParameters = null;
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'without')) {
+        if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'without')) {
             $withoutParameters = $this->parser->getExpressionParser()->parseExpression();
         }
 
         $ignoreContext = null;
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'ignoreContext')) {
-            if ($stream->test(\Twig_Token::PUNCTUATION_TYPE, '[')) {
+        if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'ignoreContext')) {
+            if ($stream->test(\Twig\Token::PUNCTUATION_TYPE, '[')) {
                 $ignoreContext = $this->parser->getExpressionParser()->parseExpression();
             } else {
-                $ignoreContext = new \Twig_Node_Expression_Array([], $token->getLine());
+                $ignoreContext = new \Twig\Node\Expression\ArrayExpression([], $token->getLine());
             }
         }
 
         $ifExpression = null;
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'if')) {
+        if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'if')) {
             $ifExpression = $this->parser->getExpressionParser()->parseExpression();
         }
 
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig\Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideGimmeListFork']);
         if ('else' === $stream->next()->getValue()) {
-            $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+            $stream->expect(\Twig\Token::BLOCK_END_TYPE);
             $else = $this->parser->subparse([$this, 'decideGimmeListEnd'], true);
         } else {
             $else = null;
         }
 
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig\Token::BLOCK_END_TYPE);
 
         return new GimmeListNode(
             $variable,

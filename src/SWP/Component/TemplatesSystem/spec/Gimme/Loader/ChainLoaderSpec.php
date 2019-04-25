@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Component\TemplatesSystem\Gimme\Loader;
+namespace SWP\Component\TemplatesSystem\spec\Gimme\Loader;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
