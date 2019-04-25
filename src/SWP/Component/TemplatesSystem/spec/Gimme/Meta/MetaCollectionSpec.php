@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Component\TemplatesSystem\Gimme\Meta;
+namespace SWP\Component\TemplatesSystem\spec\Gimme\Meta;
 
 use PhpSpec\ObjectBehavior;
 
