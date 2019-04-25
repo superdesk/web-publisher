@@ -39,29 +39,33 @@ class ResourceResponseListenerTest extends TestCase
         $viewHandler = $this->createMock(ViewHandler::class);
         $viewHandler
             ->method('handle')
-            ->will($this->returnValue(new Response()));
+            ->willReturn(new Response());
 
         $listener = new ResourceResponseListener($viewHandler);
 
         $resourcesListResponse = new ResourcesListResponse(new SlidingPagination([]));
         $event = $this->createMock(GetResponseForControllerResultEvent::class);
         $event
+            ->expects($this->once())
             ->method('getControllerResult')
-            ->will($this->returnValue($resourcesListResponse));
+            ->willReturn($resourcesListResponse);
         $event
+            ->expects($this->once())
             ->method('getRequest')
-            ->will($this->returnValue(new Request()));
+            ->willReturn(new Request());
 
         $listener->onKernelView($event);
 
         $singleResponse = new SingleResourceResponse([1, 2, 3]);
         $event = $this->createMock(GetResponseForControllerResultEvent::class);
         $event
+            ->expects($this->once())
             ->method('getControllerResult')
-            ->will($this->returnValue($singleResponse));
+            ->willReturn($singleResponse);
         $event
+            ->expects($this->never())
             ->method('getRequest')
-            ->will($this->returnValue(new Request()));
+            ->willReturn(new Request());
 
         $listener->onKernelView($event);
     }

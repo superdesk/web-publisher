@@ -25,6 +25,7 @@ suites:
         psr4_prefix: SWP\Component\TemplatesSystem
         spec_path: src/SWP/Component/TemplatesSystem
         src_path: src/SWP/Component/TemplatesSystem
+        spec_prefix: "%namespace%\\spec"
     Rule_suite:
         namespace: SWP\Component\Rule
         psr4_prefix: SWP\Component\Rule
@@ -112,10 +113,3 @@ suites:
         psr4_prefix: SWP\Bundle\PaywallBundle
         spec_path: src/SWP/Bundle/PaywallBundle
         src_path: src/SWP/Bundle/PaywallBundle
-
-#extensions:
-#    - PhpSpec\Extension\CodeCoverageExtension
-
-#code_coverage:
-#    output: build/coverage
-#    format: html

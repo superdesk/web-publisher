@@ -17,11 +17,11 @@ namespace SWP\Bundle\CoreBundle\Tests\Service;
 use Facebook\Facebook;
 use Facebook\InstantArticles\Client\Client;
 use Facebook\InstantArticles\Client\InstantArticleStatus;
-use Facebook\InstantArticles\Elements\InstantArticle;
 use PHPUnit\Framework\TestCase;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepository;
 use SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService;
 use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManager;
@@ -54,31 +54,6 @@ class FacebookInstantArticlesServiceTest extends TestCase
         $service = $this->getService();
 
         self::assertInstanceOf(FacebookInstantArticlesService::class, $service);
-    }
-
-    public function testPushing()
-    {
-        $service = $this->getMockBuilder(FacebookInstantArticlesService::class)
-            ->setConstructorArgs([
-                new FacebookInstantArticlesManager($this->facebookManager),
-                $this->createMock(Factory::class),
-                $this->facebookInstantArticlesArticleRepository,
-                $this->createMock(UrlGenerator::class),
-            ])
-            ->setMethods(['getClient', 'pushInstantArticle'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $client = $this->createMock(Client::class);
-        $client->method('importArticle')->willReturn('456345765423634563');
-        $service->method('getClient')->willReturn($client);
-
-        $feed = $this->createMock(FacebookInstantArticlesFeed::class);
-
-        $service->pushInstantArticle(
-            $feed,
-            InstantArticle::create(),
-            $this->createMock(Article::class)
-        );
     }
 
     public function testUpdatingSubmission()
@@ -114,13 +89,16 @@ class FacebookInstantArticlesServiceTest extends TestCase
         ->getMock();
         $client = $this->createMock(Client::class);
 
-        $client->method('removeArticle')->willReturn($this->createMock(InstantArticleStatus::class));
+        $article = $this->createMock(Article::class);
+        $article->method('getRoute')->willReturn($this->createMock(Route::class));
+
+        $client->expects($this->once())->method('removeArticle')->willReturn($this->createMock(InstantArticleStatus::class));
         $service->method('getClient')->willReturn($client);
         $feed = $this->createMock(FacebookInstantArticlesFeed::class);
 
         $service->removeInstantArticle(
             $feed,
-            $this->createMock(Article::class)
+            $article
         );
     }
 
