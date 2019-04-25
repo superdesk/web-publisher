@@ -99,7 +99,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             ->getValidToken(str_replace('Basic ', '', stripslashes($credentials['token'])))
             ->getQuery()
             ->getOneOrNullResult();
-
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
         if (null === $apiKey) {
