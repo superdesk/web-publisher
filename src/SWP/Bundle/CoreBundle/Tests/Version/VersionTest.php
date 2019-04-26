@@ -14,9 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Version;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\CoreBundle\Version\Version;
 
-class VersionTest extends \PHPUnit_Framework_TestCase
+class VersionTest extends TestCase
 {
     public function testVersion()
     {

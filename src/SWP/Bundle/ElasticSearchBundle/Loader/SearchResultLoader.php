@@ -26,6 +26,8 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
 final class SearchResultLoader implements LoaderInterface
 {
+    public const MAX_RESULTS = 10000;
+
     /**
      * @var RepositoryManagerInterface
      */
@@ -88,13 +90,20 @@ final class SearchResultLoader implements LoaderInterface
         /** @var ArticleRepository $repository */
         $repository = $this->repositoryManager->getRepository($this->modelClass);
         $query = $repository->findByCriteria($criteria, $this->extraFields);
+
+        $pagination = $criteria->getPagination();
+        $metaCollection = new MetaCollection();
+
+        if (($pagination->getCurrentPage() * $pagination->getItemsPerPage()) > (self::MAX_RESULTS + $pagination->getItemsPerPage())) {
+            return $metaCollection;
+        }
+
         $partialResult = $query->getResults(
-            $criteria->getPagination()->getOffset(),
-            $criteria->getPagination()->getItemsPerPage()
+            $pagination->getOffset(),
+            $pagination->getItemsPerPage()
         );
 
-        $metaCollection = new MetaCollection();
-        $metaCollection->setTotalItemsCount($partialResult->getTotalHits());
+        $metaCollection->setTotalItemsCount($query->getTotalHits());
         foreach ($partialResult->toArray() as $article) {
             if (null !== ($articleMeta = $this->metaFactory->create($article))) {
                 $metaCollection->add($articleMeta);

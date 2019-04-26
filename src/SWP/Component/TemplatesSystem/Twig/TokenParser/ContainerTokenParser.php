@@ -20,14 +20,14 @@ use SWP\Component\TemplatesSystem\Twig\Node\ContainerNode;
  * @deprecated since 2.0, will be removed in 3.0
  * Parser for container/endcontainer blocks.
  */
-class ContainerTokenParser extends \Twig_TokenParser
+class ContainerTokenParser extends \Twig\TokenParser\AbstractTokenParser
 {
     /**
-     * @param \Twig_Token $token
+     * @param \Twig\Token $token
      *
      * @return bool
      */
-    public function decideEnd(\Twig_Token $token)
+    public function decideEnd(\Twig\Token $token)
     {
         return $token->test('endcontainer');
     }
@@ -43,7 +43,7 @@ class ContainerTokenParser extends \Twig_TokenParser
     /**
      * {@inheritdoc}
      */
-    public function parse(\Twig_Token $token)
+    public function parse(\Twig\Token $token)
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
@@ -51,14 +51,14 @@ class ContainerTokenParser extends \Twig_TokenParser
         $name = $this->parser->getExpressionParser()->parseExpression();
 
         $parameters = null;
-        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'with')) {
+        if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'with')) {
             $parameters = $this->parser->getExpressionParser()->parseExpression();
         }
 
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig\Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideEnd'], true);
 
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig\Token::BLOCK_END_TYPE);
 
         return new ContainerNode($name, $parameters, $body, $lineno, $this->getTag());
     }

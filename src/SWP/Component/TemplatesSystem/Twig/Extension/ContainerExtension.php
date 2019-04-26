@@ -23,7 +23,7 @@ use Twig\Extension\AbstractExtension;
 class ContainerExtension extends AbstractExtension
 {
     /**
-     * @return array|\Twig_TokenParserInterface[]
+     * @return array|\Twig\TokenParser\TokenParserInterface[]
      */
     public function getTokenParsers()
     {

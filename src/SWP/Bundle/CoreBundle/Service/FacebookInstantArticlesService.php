@@ -120,12 +120,9 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     {
         if ($article->getRoute() instanceof RouteInterface) {
             $url = $this->urlGenerator->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
-            $status = $this->getClient($feed)->removeArticle($url);
 
-            return $status;
+            return $this->getClient($feed)->removeArticle($url);
         }
-
-        return;
     }
 
     /**

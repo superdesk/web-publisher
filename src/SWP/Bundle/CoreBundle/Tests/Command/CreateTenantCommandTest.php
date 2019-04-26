@@ -30,6 +30,7 @@ class CreateTenantCommandTest extends WebTestCase
 
     public function testCommand()
     {
-        $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'subdomain' => 'test23', 'domain' => 'localhost', 'name' => 'Tenant'], true);
+        $commandTester = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'subdomain' => 'test23', 'domain' => 'localhost', 'name' => 'Tenant'], true);
+        self::assertContains('has been created and', $commandTester->getDisplay());
     }
 }

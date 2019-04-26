@@ -20,7 +20,7 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class ChainLoaderTest extends \PHPUnit_Framework_TestCase
+class ChainLoaderTest extends \PHPUnit\Framework\TestCase
 {
     private $loader;
 

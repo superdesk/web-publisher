@@ -21,7 +21,7 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class GimmeExtensionTest extends \PHPUnit_Framework_TestCase
+class GimmeExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor()
     {

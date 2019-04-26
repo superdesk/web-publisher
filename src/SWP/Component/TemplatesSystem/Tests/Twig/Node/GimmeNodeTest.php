@@ -140,7 +140,7 @@ EOF
         $twig = new Environment($loader);
         $twig->addExtension(new GimmeExtension($context, $metaLoader));
 
-        $this->expectException(\Twig_Error_Syntax::class);
+        $this->expectException(\Twig\Error\SyntaxError::class);
         $twig->render('error_gimme');
     }
 

@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Tests\Command;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand;
 use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
 use SWP\Component\MultiTenancy\Model\Organization;
@@ -25,7 +26,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
+class CreateTenantCommandTest extends TestCase
 {
     const ORGANIZATION_CODE = '123456';
 

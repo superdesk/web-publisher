@@ -5,6 +5,7 @@ fos_rest:
         enabled: false
     routing_loader:
         default_format: json
+        include_format: false
     view:
         formats:
             json: true
