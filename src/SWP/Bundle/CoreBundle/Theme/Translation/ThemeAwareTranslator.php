@@ -20,9 +20,10 @@ use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
+use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class ThemeAwareTranslator implements TranslatorInterface, TranslatorBagInterface, WarmableInterface
+final class ThemeAwareTranslator implements TranslatorInterface, TranslatorBagInterface, WarmableInterface, LocaleAwareInterface
 {
     /**
      * @var TranslatorInterface|TranslatorBagInterface
