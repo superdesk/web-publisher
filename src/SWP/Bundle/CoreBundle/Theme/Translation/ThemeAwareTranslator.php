@@ -20,7 +20,7 @@ use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ThemeAwareTranslator implements TranslatorInterface, TranslatorBagInterface, WarmableInterface
 {
