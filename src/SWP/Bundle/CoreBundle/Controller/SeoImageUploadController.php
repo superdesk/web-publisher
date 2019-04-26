@@ -54,7 +54,7 @@ class SeoImageUploadController extends AbstractController
                 if (null !== ($file = $seoMetadata->getMetaMediaFile())) {
                     $image = $seoMediaManager->handleUploadedFile($file, $randomStringGenerator->generate(15));
                     $seoImageMedia = $seoMediaFactory->create();
-                    $seoImageMedia->setKey('seo_meta_image');
+                    $seoImageMedia->setKey(ArticleSeoMediaInterface::MEDIA_META_KEY);
                     $seoImageMedia->setImage($image);
 
                     $seoMetadata->setMetaMedia($seoImageMedia);
@@ -63,7 +63,7 @@ class SeoImageUploadController extends AbstractController
                 if (null !== ($file = $seoMetadata->getOgMediaFile())) {
                     $image = $seoMediaManager->handleUploadedFile($file, $randomStringGenerator->generate(15));
                     $seoImageMedia = $seoMediaFactory->create();
-                    $seoImageMedia->setKey('seo_og_image');
+                    $seoImageMedia->setKey(ArticleSeoMediaInterface::MEDIA_OG_KEY);
                     $seoImageMedia->setImage($image);
 
                     $seoMetadata->setOgMedia($seoImageMedia);
@@ -72,7 +72,7 @@ class SeoImageUploadController extends AbstractController
                 if (null !== ($file = $seoMetadata->getTwitterMediaFile())) {
                     $image = $seoMediaManager->handleUploadedFile($file, $randomStringGenerator->generate(15));
                     $seoImageMedia = $seoMediaFactory->create();
-                    $seoImageMedia->setKey('seo_twitter_image');
+                    $seoImageMedia->setKey(ArticleSeoMediaInterface::MEDIA_TWITTER_KEY);
                     $seoImageMedia->setImage($image);
 
                     $seoMetadata->setTwitterMedia($seoImageMedia);
