@@ -3,51 +3,70 @@
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Seo\Model\SeoMetadata;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ArticleSeoMetadata extends SeoMetadata implements ArticleSeoMetadataInterface
 {
     /**
-     * @var ImageInterface|null
+     * @var UploadedFile|null
      */
-    protected $metaImage;
+    protected $metaMediaFile;
 
     /**
-     * @var ImageInterface|null
+     * @var UploadedFile|null
      */
-    protected $ogImage;
+    protected $ogMediaFile;
 
     /**
-     * @var ImageInterface|null
+     * @var UploadedFile|null
      */
-    protected $twitterImage;
+    protected $twitterMediaFile;
 
-    public function getMetaImage(): ?ImageInterface
+    /**
+     * @return UploadedFile|null
+     */
+    public function getMetaMediaFile(): ?UploadedFile
     {
-        return $this->metaImage;
+        return $this->metaMediaFile;
     }
 
-    public function setMetaImage(?ImageInterface $metaImage): void
+    /**
+     * @param UploadedFile|null $metaMediaFile
+     */
+    public function setMetaMediaFile(?UploadedFile $metaMediaFile): void
     {
-        $this->metaImage = $metaImage;
+        $this->metaMediaFile = $metaMediaFile;
     }
 
-    public function getOgImage(): ?ImageInterface
+    /**
+     * @return UploadedFile|null
+     */
+    public function getOgMediaFile(): ?UploadedFile
     {
-        return $this->ogImage;
+        return $this->ogMediaFile;
     }
 
-    public function setOgImage(?ImageInterface $ogImage): void
+    /**
+     * @param UploadedFile|null $ogMediaFile
+     */
+    public function setOgMediaFile(?UploadedFile $ogMediaFile): void
     {
-        $this->ogImage = $ogImage;
+        $this->ogMediaFile = $ogMediaFile;
     }
 
-    public function getTwitterImage(): ?ImageInterface
+    /**
+     * @return UploadedFile|null
+     */
+    public function getTwitterMediaFile(): ?UploadedFile
     {
-        return $this->twitterImage;
+        return $this->twitterMediaFile;
     }
 
-    public function setTwitterImage(?ImageInterface $twitterImage): void
+    /**
+     * @param UploadedFile|null $twitterMediaFile
+     */
+    public function setTwitterMediaFile(?UploadedFile $twitterMediaFile): void
     {
-        $this->twitterImage = $twitterImage;
+        $this->twitterMediaFile = $twitterMediaFile;
     }
 }

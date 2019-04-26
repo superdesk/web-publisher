@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SWP\Component\Seo\Model;
 
 use SWP\Component\Common\Model\TimestampableTrait;
-use Symfony\Component\HttpFoundation\File\File;
 
 class SeoMetadata implements SeoMetadataInterface
 {
@@ -47,34 +46,19 @@ class SeoMetadata implements SeoMetadataInterface
     protected $twitterDescription;
 
     /**
-     * @var File|null
+     * @var SeoImageInterface|null
      */
-    protected $metaImageFile;
+    protected $metaMedia;
 
     /**
-     * @var string|null
+     * @var SeoImageInterface|null
      */
-    protected $metaImageName;
+    protected $ogMedia;
 
     /**
-     * @var File|null
+     * @var SeoImageInterface|null
      */
-    protected $ogImageFile;
-
-    /**
-     * @var string|null
-     */
-    protected $ogImageName;
-
-    /**
-     * @var File|null
-     */
-    protected $twitterImageFile;
-
-    /**
-     * @var string|null
-     */
-    protected $twitterImageName;
+    protected $twitterMedia;
 
     public function getId(): string
     {
@@ -141,63 +125,33 @@ class SeoMetadata implements SeoMetadataInterface
         $this->twitterDescription = $twitterDescription;
     }
 
-    public function getMetaImageFile(): ?File
+    public function getMetaMedia(): ?SeoImageInterface
     {
-        return $this->metaImageFile;
+        return $this->metaMedia;
     }
 
-    public function setMetaImageFile(?File $metaImageFile): void
+    public function setMetaMedia(?SeoImageInterface $metaMedia): void
     {
-        $this->metaImageFile = $metaImageFile;
+        $this->metaMedia = $metaMedia;
     }
 
-    public function getMetaImageName(): ?string
+    public function getOgMedia(): ?SeoImageInterface
     {
-        return $this->metaImageName;
+        return $this->ogMedia;
     }
 
-    public function setMetaImageName(?string $metaImageName): void
+    public function setOgMedia(?SeoImageInterface $ogMedia): void
     {
-        $this->metaImageName = $metaImageName;
+        $this->ogMedia = $ogMedia;
     }
 
-    public function getOgImageFile(): ?File
+    public function getTwitterMedia(): ?SeoImageInterface
     {
-        return $this->ogImageFile;
+        return $this->twitterMedia;
     }
 
-    public function setOgImageFile(?File $ogImageFile): void
+    public function setTwitterMedia(?SeoImageInterface $twitterMedia): void
     {
-        $this->ogImageFile = $ogImageFile;
-    }
-
-    public function getOgImageName(): ?string
-    {
-        return $this->ogImageName;
-    }
-
-    public function setOgImageName(?string $ogImageName): void
-    {
-        $this->ogImageName = $ogImageName;
-    }
-
-    public function getTwitterImageFile(): ?File
-    {
-        return $this->twitterImageFile;
-    }
-
-    public function setTwitterImageFile(?File $twitterImageFile): void
-    {
-        $this->twitterImageFile = $twitterImageFile;
-    }
-
-    public function getTwitterImageName(): ?string
-    {
-        return $this->twitterImageName;
-    }
-
-    public function setTwitterImageName(?string $twitterImageName): void
-    {
-        $this->twitterImageName = $twitterImageName;
+        $this->twitterMedia = $twitterMedia;
     }
 }

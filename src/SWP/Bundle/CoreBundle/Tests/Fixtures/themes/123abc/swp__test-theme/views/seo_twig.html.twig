@@ -1,0 +1,7 @@
+{#{{ seo_image(article.seoMetadata, 'meta') }}#}
+{#{% if gimme.article.seoMetadata.metaMedia %}#}
+{#    not empty#}
+{#    {% else %}#}
+{#    empty#}
+{#{% endif %}#}
+{{ url(gimme.article.seoMetadata.metaMedia) }}

@@ -1,0 +1,23 @@
+SWP\Component\Seo\Model\SeoImage:
+    type: mappedSuperclass
+    table: swp_seo_image
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        key:
+            type: string
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

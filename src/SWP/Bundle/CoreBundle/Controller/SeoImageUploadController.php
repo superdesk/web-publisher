@@ -5,7 +5,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\SeoBundle\Form\Type\ImageUploadType;
-use SWP\Bundle\SeoBundle\Uploader\SeoImageUploader;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -47,22 +46,42 @@ class SeoImageUploadController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $objectManager = $this->get('swp.object_manager.seo_metadata');
 
+            $seoMediaManager = $this->get('swp_core_bundle.manager.seo_media');
+            $seoMediaFactory = $this->get('swp.factory.seo_media');
+            $randomStringGenerator = $this->get('swp.random_string_generator');
+
             try {
-                $fileUploader = $this->get(SeoImageUploader::class);
+                if (null !== ($file = $seoMetadata->getMetaMediaFile())) {
+                    $image = $seoMediaManager->handleUploadedFile($file, $randomStringGenerator->generate(15));
+                    $seoImageMedia = $seoMediaFactory->create();
+                    $seoImageMedia->setKey('seo_meta_image');
+                    $seoImageMedia->setImage($image);
 
-                if (null !== $seoMetadata->getMetaImageFile()) {
-                    $fileName = $fileUploader->upload($seoMetadata->getMetaImageFile());
-                    $seoMetadata->setMetaImageName($fileName);
+                    $seoMetadata->setMetaMedia($seoImageMedia);
                 }
 
-                if (null !== $seoMetadata->getOgImageFile()) {
-                    $fileName = $fileUploader->upload($seoMetadata->getOgImageFile());
-                    $seoMetadata->setOgImageName($fileName);
+                if (null !== ($file = $seoMetadata->getOgMediaFile())) {
+                    $image = $seoMediaManager->handleUploadedFile($file, $randomStringGenerator->generate(15));
+                    $seoImageMedia = $seoMediaFactory->create();
+                    $seoImageMedia->setKey('seo_og_image');
+                    $seoImageMedia->setImage($image);
+
+                    $seoMetadata->setOgMedia($seoImageMedia);
                 }
 
-                if (null !== $seoMetadata->getTwitterImageFile()) {
-                    $fileName = $fileUploader->upload($seoMetadata->getTwitterImageFile());
-                    $seoMetadata->setTwitterImageName($fileName);
+                if (null !== ($file = $seoMetadata->getTwitterMediaFile())) {
+                    $image = $seoMediaManager->handleUploadedFile($file, $randomStringGenerator->generate(15));
+                    $seoImageMedia = $seoMediaFactory->create();
+                    $seoImageMedia->setKey('seo_twitter_image');
+                    $seoImageMedia->setImage($image);
+
+                    $seoMetadata->setTwitterMedia($seoImageMedia);
+                }
+
+                $article->setPublishable(true);
+
+                if (null === $article->getSeoMetadata()) {
+                    $article->setSeoMetadata($seoMetadata);
                 }
 
                 $objectManager->flush();

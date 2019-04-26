@@ -19,7 +19,7 @@ final class ImageUploadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('metaImageFile', FileType::class, [
+            ->add('metaMediaFile', FileType::class, [
                 'constraints' => [
                     new File([
                         'maxSize' => '5120k',
@@ -30,7 +30,7 @@ final class ImageUploadType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('ogImageFile', FileType::class, [
+            ->add('ogMediaFile', FileType::class, [
                 'constraints' => [
                     new File([
                         'maxSize' => '5120k',
@@ -41,7 +41,7 @@ final class ImageUploadType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('twitterImageFile', FileType::class, [
+            ->add('twitterMediaFile', FileType::class, [
                 'constraints' => [
                     new File([
                         'maxSize' => '5120k',

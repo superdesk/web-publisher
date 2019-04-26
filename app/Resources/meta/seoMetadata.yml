@@ -20,3 +20,6 @@ properties:
   twitterDescription:
     description: "Twitter description"
     type: string
+  metaMedia:
+    description: "SEO Meta image"
+    type: Meta

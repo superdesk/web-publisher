@@ -62,4 +62,7 @@ properties:
     contentLists:
         description: "An array with content lists to which this article is assigned"
         type: array
+    seoMetadata:
+        description: "SEO metadata"
+        type: Meta
 to_string: title

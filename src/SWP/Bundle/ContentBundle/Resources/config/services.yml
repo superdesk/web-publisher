@@ -220,6 +220,13 @@ services:
         tags:
             - { name: router, priority: 300 }
 
+    swp_content_bundle.router.seo_media:
+        class: SWP\Bundle\ContentBundle\Routing\SeoMediaRouter
+        parent: "router.symfony"
+        public: true
+        tags:
+            - { name: router, priority: 250 }
+
     swp_content_bundle.form.type.route_selector:
         class: SWP\Bundle\ContentBundle\Form\Type\RouteSelectorType
         arguments:

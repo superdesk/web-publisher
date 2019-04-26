@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\SeoBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Seo\Model\SeoImage;
+use SWP\Component\Seo\Model\SeoImageInterface;
 use SWP\Component\Seo\Model\SeoMetadata;
 use SWP\Component\Seo\Model\SeoMetadataInterface;
 use SWP\Component\Storage\Factory\Factory;
@@ -37,6 +39,16 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('interface')->defaultValue(SeoMetadataInterface::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('seo_image')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(SeoImage::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('interface')->defaultValue(SeoImageInterface::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

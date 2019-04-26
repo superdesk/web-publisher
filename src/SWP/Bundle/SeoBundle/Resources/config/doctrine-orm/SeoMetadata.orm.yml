@@ -1,6 +1,6 @@
 SWP\Component\Seo\Model\SeoMetadata:
     type: mappedSuperclass
-    table: swp_article_seo_metadata
+    table: swp_seo_metadata
     id:
         id:
             type: integer

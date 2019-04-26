@@ -86,3 +86,6 @@ swp_seo:
                 seo_metadata:
                     model: SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata
                     interface: SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface
+                seo_image:
+                    model: SWP\Bundle\ContentBundle\Model\ArticleSeoMedia
+                    interface: SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface
