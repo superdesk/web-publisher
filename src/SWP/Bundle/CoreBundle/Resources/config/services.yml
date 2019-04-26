@@ -727,3 +727,9 @@ services:
             - '@swp.factory.article_events'
 
     Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
+
+    SWP\Bundle\CoreBundle\Service\SeoImageUploader:
+        arguments:
+            - '@swp.random_string_generator'
+            - '@swp_core_bundle.manager.seo_media'
+            - '@swp.factory.seo_image'

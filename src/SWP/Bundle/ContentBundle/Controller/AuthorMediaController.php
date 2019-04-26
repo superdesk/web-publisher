@@ -19,7 +19,7 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SeoMediaController extends AbstractMediaController
+class AuthorMediaController extends AbstractMediaController
 {
     /**
      * @Route("/author/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_author_media_get")

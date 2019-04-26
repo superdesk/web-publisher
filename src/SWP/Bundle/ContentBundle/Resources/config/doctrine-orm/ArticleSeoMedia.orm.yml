@@ -2,13 +2,6 @@ SWP\Bundle\ContentBundle\Model\ArticleSeoMedia:
     type: mappedSuperclass
     table: swp_article_seo_media
     manyToOne:
-#        author:
-#            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
-#            cascade: ["persist"]
-#            joinColumn:
-#                name: author_id
-#                referencedColumnName: id
-#                onDelete: CASCADE
         image:
             targetEntity: SWP\Bundle\ContentBundle\Model\ImageInterface
             inversedBy: media
