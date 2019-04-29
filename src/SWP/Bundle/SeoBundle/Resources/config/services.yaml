@@ -8,13 +8,3 @@ services:
 
   SWP\Bundle\SeoBundle\:
       resource: '../../*'
-
-  SWP\Bundle\SeoBundle\Uploader\SeoImageUploader:
-    public: true
-    arguments:
-      - '@swp_filesystem'
-
-  SWP\Bundle\SeoBundle\Resolver\SeoImageUriResolver:
-    public: true
-    arguments:
-      - '@swp_filesystem'

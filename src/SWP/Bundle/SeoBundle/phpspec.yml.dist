@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: SWP\Bundle\SeoBundle
-        psr4_prefix: SWP\Bundle\SeoBundle
-        src_path: .
