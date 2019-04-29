@@ -733,3 +733,6 @@ services:
             - '@swp.random_string_generator'
             - '@swp_core_bundle.manager.seo_media'
             - '@swp.factory.seo_image'
+
+    SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface:
+        alias: SWP\Bundle\CoreBundle\Service\SeoImageUploader

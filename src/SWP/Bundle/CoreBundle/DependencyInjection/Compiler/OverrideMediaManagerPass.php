@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
+use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\CoreBundle\Manager\AuthorMediaManager;
 use SWP\Bundle\CoreBundle\Manager\MediaManager;
 use SWP\Bundle\CoreBundle\Manager\SeoMediaManager;
@@ -52,6 +53,18 @@ final class OverrideMediaManagerPass extends AbstractOverridePass
             ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
         ;
 
-        $container->setDefinition('swp_core_bundle.manager.seo_media', $authorMediaManager);
+        $container->setDefinition('swp_core_bundle.manager.seo_media', $seoMediaManager);
+
+        $container->registerAliasForArgument(
+            'swp_core_bundle.manager.author_media',
+            MediaManagerInterface::class,
+            'author media manager'
+        );
+
+        $container->registerAliasForArgument(
+            'swp_core_bundle.manager.seo_media',
+            MediaManagerInterface::class,
+            'seo media manager'
+        );
     }
 }

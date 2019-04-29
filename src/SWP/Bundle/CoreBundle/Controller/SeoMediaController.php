@@ -16,20 +16,42 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use SWP\Bundle\ContentBundle\Controller\AbstractMediaController;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Service\SeoImageUploader;
+use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\ImageUploadType;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeoMediaController extends AbstractMediaController
 {
+    private $seoMetadataFactory;
+
+    private $articleProvider;
+
+    private $seoObjectManager;
+
+    public function __construct(
+        FactoryInterface $seoMetadataFactory,
+        ArticleProviderInterface $articleProvider,
+        ObjectManager $seoObjectManager,
+        MediaManagerInterface $seoMediaManager
+    ) {
+        $this->seoMetadataFactory = $seoMetadataFactory;
+        $this->articleProvider = $articleProvider;
+        $this->seoObjectManager = $seoObjectManager;
+
+        parent::__construct($seoMediaManager);
+    }
+
     /**
      * @Route("/media/seo/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_seo_media_get")
      */
@@ -53,27 +75,23 @@ class SeoMediaController extends AbstractMediaController
      *
      * @return SingleResourceResponse
      */
-    public function uploadSeoImageAction(Request $request, string $id): SingleResourceResponse
+    public function uploadSeoImageAction(Request $request, string $id, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse
     {
         $article = $this->findOr404($id);
         $seoMetadata = $article->getSeoMetadata();
 
         if (null === $seoMetadata) {
-            $seoMetadata = $this->get('swp.factory.seo_metadata')->create();
+            $seoMetadata = $this->seoMetadataFactory->create();
         }
 
         $form = $this->get('form.factory')->createNamed('', ImageUploadType::class, $seoMetadata);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $objectManager = $this->get('swp.object_manager.seo_metadata');
-
-            $seoImageUploader = $this->get(SeoImageUploader::class);
-
             try {
                 $seoImageUploader->handleUpload($article, $seoMetadata);
 
-                $objectManager->flush();
+                $this->seoObjectManager->flush();
             } catch (\Exception $e) {
                 return new SingleResourceResponse(['message' => 'Could not upload an image.'], new ResponseContext(400));
             }
@@ -86,15 +104,10 @@ class SeoMediaController extends AbstractMediaController
 
     private function findOr404(string $id): ArticleInterface
     {
-        if (null === $article = $this->get('swp.provider.article')->getOneById($id)) {
+        if (null === $article = $this->articleProvider->getOneById($id)) {
             throw new NotFoundHttpException('Article was not found.');
         }
 
         return $article;
-    }
-
-    public function getMediaManager(): MediaManagerInterface
-    {
-        return $this->get('swp_core_bundle.manager.seo_media');
     }
 }

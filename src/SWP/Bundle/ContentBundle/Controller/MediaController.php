@@ -21,16 +21,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MediaController extends AbstractMediaController
 {
+    public function __construct(MediaManagerInterface $mediaManager)
+    {
+        parent::__construct($mediaManager);
+    }
+
     /**
      * @Route("/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_media_get")
      */
     public function getAction(string $mediaId, string $extension)
     {
         return $this->getMedia($mediaId, $extension);
-    }
-
-    public function getMediaManager(): MediaManagerInterface
-    {
-        return $this->get('swp_content_bundle.manager.media');
     }
 }

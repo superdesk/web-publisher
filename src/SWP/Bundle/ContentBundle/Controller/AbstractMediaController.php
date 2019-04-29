@@ -21,14 +21,21 @@ use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Provider\FileProvider;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Hoa\Mime\Mime;
 
-abstract class AbstractMediaController extends Controller
+abstract class AbstractMediaController extends AbstractController
 {
+    protected $mediaManager;
+
+    public function __construct(MediaManagerInterface $mediaManager)
+    {
+        $this->mediaManager = $mediaManager;
+    }
+
     public function getMedia(string $mediaId, string $extension): Response
     {
         $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
@@ -64,12 +71,8 @@ abstract class AbstractMediaController extends Controller
         $response->setSharedMaxAge(63072000);
         $response->setLastModified($media->getUpdatedAt() ?: $media->getCreatedAt());
 
-        $mediaManager = $this->getMediaManager();
-
-        $response->setContent($mediaManager->getFile($media));
+        $response->setContent($this->mediaManager->getFile($media));
 
         return $response;
     }
-
-    abstract public function getMediaManager(): MediaManagerInterface;
 }

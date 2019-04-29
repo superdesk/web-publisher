@@ -43,6 +43,7 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
         $loader->load('output_channel_adapter.yml');
         $loader->load('websocket.yml');
         $loader->load('commands.yml');
+        $loader->load('controllers.yaml');
         $this->loadDeviceListener($config, $loader);
 
         $config = $container->resolveEnvPlaceholders($config);

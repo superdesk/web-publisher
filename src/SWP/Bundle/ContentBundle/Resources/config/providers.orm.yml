@@ -34,6 +34,9 @@ services:
         arguments:
             - '@swp.repository.article'
 
+    SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface:
+        alias: swp.provider.article
+
     SWP\Bundle\ContentBundle\Provider\FileProvider:
         arguments:
             - '@swp.repository.image'
