@@ -7,16 +7,16 @@ Feature: Adding article SEO metadata
 
   Scenario: Adding SEO metadata to the article
     Given the following Tenants:
-      | organization | name | subdomain | domain_name | enabled | default |
-      | Default      | test |           | localhost   | true    | true    |
+      | organization | name | subdomain | domainName | enabled | default  | themeName      | code   |
+      | Default      | test |           | localhost  | true    | true     | swp/test-theme | 123abc |
 
     Given the following Routes:
-      |  name | type       | slug |
-      |  test | collection | test |
+      |  name | type       | slug | templateName       |
+      |  test | collection | test | seo_twig.html.twig |
 
     Given the following Articles:
-      | title               | route      | status    |
-      | Lorem               | test       | published |
+      | title               | route      | status    | isPublishable  |
+      | Lorem               | test       | published | true           |
 
     Given the following Users:
       | username   | email                      | token      | plainPassword | role                | enabled |
@@ -44,6 +44,15 @@ Feature: Adding article SEO metadata
     And the JSON node "seo_metadata.og_description" should be equal to "This is my og description"
     And the JSON node "seo_metadata.twitter_title" should be equal to "This is my twitter title"
     And the JSON node "seo_metadata.twitter_description" should be equal to "This is my twitter description"
+
+    When I go to "/test/lorem"
+    Then the response status code should be 200
+    And the response should contain "This is my og title"
+    And the response should contain "This is my og description"
+    And the response should contain "This is my meta title"
+    And the response should contain "This is my meta description"
+    And the response should contain "This is my twitter title"
+    And the response should contain "This is my twitter description"
 
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"

@@ -1,2 +1,33 @@
 SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata:
   exclusion_policy: ALL
+  relations:
+    -
+      rel: meta_media_url
+      href:
+        route: swp_seo_media_get
+        absolute: true
+        parameters:
+          mediaId: "expr(object.getMetaMedia().getImage().getAssetId())"
+          extension: "expr(object.getMetaMedia().getImage().getFileExtension())"
+      exclusion:
+        exclude_if: "expr(object.getMetaMedia() === null)"
+    -
+      rel: og_media_url
+      href:
+        route: swp_seo_media_get
+        absolute: true
+        parameters:
+          mediaId: "expr(object.getOgMedia().getImage().getAssetId())"
+          extension: "expr(object.getOgMedia().getImage().getFileExtension())"
+      exclusion:
+        exclude_if: "expr(object.getOgMedia() === null)"
+    -
+      rel: twitter_media_url
+      href:
+        route: swp_seo_media_get
+        absolute: true
+        parameters:
+          mediaId: "expr(object.getTwitterMedia().getImage().getAssetId())"
+          extension: "expr(object.getTwitterMedia().getImage().getFileExtension())"
+      exclusion:
+        exclude_if: "expr(object.getTwitterMedia() === null)"

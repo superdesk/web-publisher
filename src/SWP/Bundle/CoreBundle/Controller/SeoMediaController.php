@@ -73,11 +73,8 @@ class SeoMediaController extends AbstractMediaController
             try {
                 $seoImageUploader->handleUpload($article, $seoMetadata);
 
-                $article->setPublishable(true);
-
                 $objectManager->flush();
             } catch (\Exception $e) {
-                dump($e);die;
                 return new SingleResourceResponse(['message' => 'Could not upload an image.'], new ResponseContext(400));
             }
 
