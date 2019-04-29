@@ -14,22 +14,21 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\Seo\Model;
+namespace spec\SWP\Component\Seo\Model;
 
-trait SeoMetadataAwareTrait
+use SWP\Component\Seo\Model\SeoImage;
+use SWP\Component\Seo\Model\SeoImageInterface;
+use PhpSpec\ObjectBehavior;
+
+class SeoImageSpec extends ObjectBehavior
 {
-    /**
-     * @var SeoMetadataInterface|null
-     */
-    protected $seoMetadata;
-
-    public function getSeoMetadata(): ?SeoMetadataInterface
+    public function it_is_initializable(): void
     {
-        return $this->seoMetadata;
+        $this->shouldHaveType(SeoImage::class);
     }
 
-    public function setSeoMetadata(?SeoMetadataInterface $seoMetadata): void
+    public function it_implements_interface(): void
     {
-        $this->seoMetadata = $seoMetadata;
+        $this->shouldImplement(SeoImageInterface::class);
     }
 }
