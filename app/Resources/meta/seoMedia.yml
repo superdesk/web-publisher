@@ -1,0 +1,7 @@
+name: seoMedia
+class: 'SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface'
+description: SEO Metadata Meta is representation of SEO media
+properties:
+  key:
+    description: "Media key"
+    type: string
