@@ -96,7 +96,7 @@
     "lexik/jwt-authentication-bundle": "^2.5",
     "litipk/flysystem-fallback-adapter": "^0.1.2",
     "masterminds/html5": "2.3.*",
-    "nelmio/api-doc-bundle": "^2.13",
+    "nelmio/api-doc-bundle": "^3.4",
     "nelmio/cors-bundle": "^1.4",
     "ocramius/proxy-manager": "<=2.1.1",
     "oneup/flysystem-bundle": "^3.0",
