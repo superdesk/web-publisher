@@ -98,7 +98,7 @@
     "masterminds/html5": "2.3.*",
     "nelmio/api-doc-bundle": "^2.13",
     "nelmio/cors-bundle": "^1.4",
-    "ocramius/proxy-manager": "<=2.1.1",
+    "ocramius/proxy-manager": "<=2.3.2",
     "oneup/flysystem-bundle": "^3.0",
     "php-amqplib/rabbitmq-bundle": "^1.14",
     "php-http/guzzle6-adapter": "^v1.1",
