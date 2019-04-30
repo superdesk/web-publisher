@@ -100,7 +100,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         return $package->getDescription();
     }
 
-    private function populateByline(PackageInterface $package): string
+    private function populateByline(PackageInterface $package): ?string
     {
         $items = $this->filterTextItems($package->getItems());
 
