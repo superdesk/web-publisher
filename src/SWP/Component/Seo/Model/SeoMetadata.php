@@ -72,6 +72,11 @@ class SeoMetadata implements SeoMetadataInterface
      */
     protected $twitterMedia;
 
+    public function setId(?string $id): void
+    {
+        $this->id = $id;
+    }
+
     public function getId(): string
     {
         return $this->id;

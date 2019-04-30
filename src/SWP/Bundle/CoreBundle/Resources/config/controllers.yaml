@@ -5,3 +5,4 @@ services:
     autoconfigure: true
 
   SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
+  SWP\Bundle\CoreBundle\Controller\SeoMetadataController: ~

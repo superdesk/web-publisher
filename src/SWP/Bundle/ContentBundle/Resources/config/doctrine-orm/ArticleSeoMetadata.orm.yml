@@ -1,6 +1,10 @@
 SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata:
   type: mappedSuperclass
   table: swp_article_seo_metadata
+  fields:
+      packageGuid:
+        type: string
+        nullable: true
   oneToOne:
       metaMedia:
         targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface

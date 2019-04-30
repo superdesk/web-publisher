@@ -21,6 +21,8 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface SeoMetadataInterface extends PersistableInterface, TimestampableInterface
 {
+    public function setId(?string $id): void;
+
     public function getMetaTitle(): ?string;
 
     public function setMetaTitle(?string $metaTitle): void;

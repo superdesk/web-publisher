@@ -80,6 +80,14 @@ abstract class AbstractDriver implements PersistenceDriverInterface
                 break;
             }
         }
+
+        foreach (class_implements($repositoryClass) as $typehintClass) {
+            $container->registerAliasForArgument(
+                'swp.repository.'.$config['name'],
+                $typehintClass,
+                $config['name'].' repository'
+            );
+        }
     }
 
     /**
