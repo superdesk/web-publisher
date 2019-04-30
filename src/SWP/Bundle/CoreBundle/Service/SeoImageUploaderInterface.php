@@ -17,9 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Service;
 
 use SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 
 interface SeoImageUploaderInterface
 {
-    public function handleUpload(ArticleInterface $article, ArticleSeoMetadataInterface $seoMetadata): void;
+    public function handleUpload(ArticleSeoMetadataInterface $seoMetadata): void;
 }

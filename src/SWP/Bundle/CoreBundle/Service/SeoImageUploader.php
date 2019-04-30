@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Service;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\Common\Generator\GeneratorInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
@@ -38,7 +37,7 @@ class SeoImageUploader implements SeoImageUploaderInterface
         $this->factory = $factory;
     }
 
-    public function handleUpload(ArticleInterface $article, ArticleSeoMetadataInterface $seoMetadata): void
+    public function handleUpload(ArticleSeoMetadataInterface $seoMetadata): void
     {
         if (null !== ($file = $seoMetadata->getMetaMediaFile())) {
             $image = $this->mediaManager->handleUploadedFile($file, $this->randomStringGenerator->generate(15));
@@ -65,10 +64,6 @@ class SeoImageUploader implements SeoImageUploaderInterface
             $seoImageMedia->setImage($image);
 
             $seoMetadata->setTwitterMedia($seoImageMedia);
-        }
-
-        if (null === $article->getSeoMetadata()) {
-            $article->setSeoMetadata($seoMetadata);
         }
     }
 }

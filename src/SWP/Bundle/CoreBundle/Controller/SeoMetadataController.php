@@ -6,6 +6,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -50,13 +51,13 @@ class SeoMetadataController extends AbstractController
      *     input="SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType"
      * )
      *
-     * @Route("/api/{version}/packages/{id}/seo/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_seo_metadata_create")
+     * @Route("/api/{version}/seo/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_seo_metadata_create")
      *
      * @param Request $request
      *
      * @return SingleResourceResponse
      */
-    public function createAction(Request $request, string $id): SingleResourceResponse
+    public function createAction(Request $request, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
@@ -71,7 +72,8 @@ class SeoMetadataController extends AbstractController
                 $this->seoMetadataRepository->remove($existingSeoMetadata);
             }
 
-            $seoMetadata->setPackageGuid($id);
+            $seoImageUploader->handleUpload($seoMetadata);
+
             $this->seoMetadataObjectManager->persist($seoMetadata);
             $this->seoMetadataObjectManager->flush();
 
