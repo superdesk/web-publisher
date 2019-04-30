@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce8a7586901eda716fef35cd1b709fde",
+    "content-hash": "04fe787f73ee45c629f6d9b6faa207ae",
     "packages": [
         {
             "name": "apache/log4php",
@@ -10096,7 +10096,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -10583,12 +10583,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "665c7439f444b784f1cf8de974f521cd7545e2e0"
+                "reference": "82fac7d892e29a858f570eb4bc015c4b9521e821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/665c7439f444b784f1cf8de974f521cd7545e2e0",
-                "reference": "665c7439f444b784f1cf8de974f521cd7545e2e0",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/82fac7d892e29a858f570eb4bc015c4b9521e821",
+                "reference": "82fac7d892e29a858f570eb4bc015c4b9521e821",
                 "shasum": ""
             },
             "require": {
@@ -10651,7 +10651,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-04-23T17:46:21+00:00"
+            "time": "2019-04-27T14:39:34+00:00"
         },
         {
             "name": "symfony/security-bundle",
@@ -16280,16 +16280,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.4.26",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "a43a2f6c465a2d99635fea0addbebddc3864ad97"
+                "reference": "12593ad0bc54658d9bc74fa240a545b3873b4626"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/a43a2f6c465a2d99635fea0addbebddc3864ad97",
-                "reference": "a43a2f6c465a2d99635fea0addbebddc3864ad97",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/12593ad0bc54658d9bc74fa240a545b3873b4626",
+                "reference": "12593ad0bc54658d9bc74fa240a545b3873b4626",
                 "shasum": ""
             },
             "require": {
@@ -16307,7 +16307,7 @@
             "type": "symfony-bridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "4.2-dev"
                 },
                 "thanks": {
                     "name": "phpunit/phpunit",
@@ -16341,7 +16341,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-04-16T09:03:16+00:00"
+            "time": "2019-04-16T09:36:45+00:00"
         },
         {
             "name": "symfony/process",
