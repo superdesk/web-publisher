@@ -16,9 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
-use DeepCopy\DeepCopy;
-use DeepCopy\Filter\SetNullFilter;
-use DeepCopy\Matcher\PropertyNameMatcher;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
@@ -44,10 +41,6 @@ final class AssignSeoMetadataListener
 
         $article->setSeoMetadata(null);
 
-//        $copier = new DeepCopy();
-//        $copier->addFilter(new SetNullFilter(), new PropertyNameMatcher('packageGuid'));
-//        $copier->addFilter(new SetNullFilter(), new PropertyNameMatcher('id'));
-//        $seoMetadata = $copier->copy($seoMetadata);
         $newSeoMetadata = clone $seoMetadata;
         $newSeoMetadata->setPackageGuid(null);
         $newSeoMetadata->setId(null);
