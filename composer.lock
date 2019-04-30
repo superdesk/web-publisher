@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce8a7586901eda716fef35cd1b709fde",
+    "content-hash": "034b2029eba221f9b17674f7ea92d821",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2479,23 +2479,23 @@
         },
         {
             "name": "gesdinet/jwt-refresh-token-bundle",
-            "version": "v0.5.4",
+            "version": "v0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gesdinet/JWTRefreshTokenBundle.git",
-                "reference": "604b70c86e557c70105b8850eb44426ab2056a9d"
+                "reference": "9b9a9f8cf5fdc48dacb012929dc01cdf05b6badf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gesdinet/JWTRefreshTokenBundle/zipball/604b70c86e557c70105b8850eb44426ab2056a9d",
-                "reference": "604b70c86e557c70105b8850eb44426ab2056a9d",
+                "url": "https://api.github.com/repos/gesdinet/JWTRefreshTokenBundle/zipball/9b9a9f8cf5fdc48dacb012929dc01cdf05b6badf",
+                "reference": "9b9a9f8cf5fdc48dacb012929dc01cdf05b6badf",
                 "shasum": ""
             },
             "require": {
                 "lexik/jwt-authentication-bundle": "^1.1|^2.0@dev",
-                "php": ">=5.3.3",
-                "symfony/framework-bundle": "~3.3|~4.0",
-                "symfony/validator": "~3.3|~4.0"
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/framework-bundle": "~3.4|~4.0",
+                "symfony/validator": "~3.4|~4.0"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "~1.4",
@@ -2528,7 +2528,7 @@
             "keywords": [
                 "jwt refresh token bundle symfony json web"
             ],
-            "time": "2018-12-06T11:02:57+00:00"
+            "time": "2019-04-04T10:06:48+00:00"
         },
         {
             "name": "gos/pubsub-router-bundle",
@@ -10096,7 +10096,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -10583,12 +10583,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "665c7439f444b784f1cf8de974f521cd7545e2e0"
+                "reference": "82fac7d892e29a858f570eb4bc015c4b9521e821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/665c7439f444b784f1cf8de974f521cd7545e2e0",
-                "reference": "665c7439f444b784f1cf8de974f521cd7545e2e0",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/82fac7d892e29a858f570eb4bc015c4b9521e821",
+                "reference": "82fac7d892e29a858f570eb4bc015c4b9521e821",
                 "shasum": ""
             },
             "require": {
@@ -10651,7 +10651,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-04-23T17:46:21+00:00"
+            "time": "2019-04-27T14:39:34+00:00"
         },
         {
             "name": "symfony/security-bundle",
