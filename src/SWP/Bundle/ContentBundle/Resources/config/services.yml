@@ -308,6 +308,7 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
 
     SWP\Bundle\ContentBundle\File\FileExtensionChecker: ~
+    SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface: '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
 
     SWP\Bundle\ContentBundle\Service\KeywordBlackLister:
         arguments:

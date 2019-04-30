@@ -16,17 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AuthorMediaController extends AbstractMediaController
 {
-    public function __construct(MediaManagerInterface $authorMediaManager)
-    {
-        parent::__construct($authorMediaManager);
-    }
-
     /**
      * @Route("/author/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_author_media_get")
      */

@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use SWP\Bundle\ContentBundle\File\FileExtensionChecker;
+use Doctrine\Common\Cache\Cache;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
-use SWP\Bundle\ContentBundle\Provider\FileProvider;
+use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -31,21 +31,32 @@ abstract class AbstractMediaController extends AbstractController
 {
     protected $mediaManager;
 
-    public function __construct(MediaManagerInterface $mediaManager)
-    {
+    protected $cacheProvider;
+
+    protected $fileProvider;
+
+    protected $fileExtensionChecker;
+
+    public function __construct(
+        MediaManagerInterface $mediaManager,
+        Cache $cacheProvider,
+        FileProviderInterface $fileProvider,
+        FileExtensionCheckerInterface $fileExtensionChecker
+    ) {
         $this->mediaManager = $mediaManager;
+        $this->cacheProvider = $cacheProvider;
+        $this->fileProvider = $fileProvider;
+        $this->fileExtensionChecker = $fileExtensionChecker;
     }
 
     public function getMedia(string $mediaId, string $extension): Response
     {
-        $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
         $cacheKey = md5(serialize(['media_file', $mediaId]));
-        if (!$cacheProvider->contains($cacheKey)) {
-            $fileProvider = $this->container->get(FileProvider::class);
-            $media = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);
-            $cacheProvider->save($cacheKey, $media, 63072000);
+        if (!$this->cacheProvider->contains($cacheKey)) {
+            $media = $this->fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);
+            $this->cacheProvider->save($cacheKey, $media, 63072000);
         } else {
-            $media = $cacheProvider->fetch($cacheKey);
+            $media = $this->cacheProvider->fetch($cacheKey);
         }
 
         if (null === $media) {
@@ -53,11 +64,9 @@ abstract class AbstractMediaController extends AbstractController
         }
 
         $response = new Response();
-        /** @var FileExtensionCheckerInterface $fileExtensionChecker */
-        $fileExtensionChecker = $this->container->get(FileExtensionChecker::class);
         $mimeType = Mime::getMimeFromExtension($extension);
 
-        if (!$fileExtensionChecker->isAttachment($mimeType)) {
+        if (!$this->fileExtensionChecker->isAttachment($mimeType)) {
             $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, str_replace('/', '_', $mediaId.'.'.$media->getFileExtension()));
         } else {
             $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, str_replace('/', '_', $mediaId.'.'.$media->getFileExtension()));
@@ -70,7 +79,6 @@ abstract class AbstractMediaController extends AbstractController
         $response->setMaxAge(63072000);
         $response->setSharedMaxAge(63072000);
         $response->setLastModified($media->getUpdatedAt() ?: $media->getCreatedAt());
-
         $response->setContent($this->mediaManager->getFile($media));
 
         return $response;

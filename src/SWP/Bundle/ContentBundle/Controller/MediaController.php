@@ -16,16 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MediaController extends AbstractMediaController
 {
-    public function __construct(MediaManagerInterface $mediaManager)
-    {
-        parent::__construct($mediaManager);
-    }
-
     /**
      * @Route("/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_media_get")
      */

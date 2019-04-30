@@ -43,6 +43,8 @@ services:
             - '@swp.repository.file'
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
 
+    SWP\Bundle\ContentBundle\Provider\FileProviderInterface: '@SWP\Bundle\ContentBundle\Provider\FileProvider'
+
     SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProvider:
         arguments:
             - '@swp.repository.image'

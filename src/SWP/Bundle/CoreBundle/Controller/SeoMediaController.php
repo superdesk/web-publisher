@@ -16,11 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use SWP\Bundle\ContentBundle\Controller\AbstractMediaController;
+use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
+use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\ImageUploadType;
@@ -43,13 +46,16 @@ class SeoMediaController extends AbstractMediaController
         FactoryInterface $seoMetadataFactory,
         ArticleProviderInterface $articleProvider,
         ObjectManager $seoObjectManager,
-        MediaManagerInterface $seoMediaManager
+        MediaManagerInterface $seoMediaManager,
+        Cache $cacheProvider,
+        FileProviderInterface $fileProvider,
+        FileExtensionCheckerInterface $fileExtensionChecker
     ) {
         $this->seoMetadataFactory = $seoMetadataFactory;
         $this->articleProvider = $articleProvider;
         $this->seoObjectManager = $seoObjectManager;
 
-        parent::__construct($seoMediaManager);
+        parent::__construct($seoMediaManager, $cacheProvider, $fileProvider, $fileExtensionChecker);
     }
 
     /**
