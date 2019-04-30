@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
+use function count;
 use Doctrine\Common\Collections\Collection;
+use InvalidArgumentException;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -81,18 +83,13 @@ final class ArticleHydrator implements ArticleHydratorInterface
         return $article;
     }
 
-    /**
-     * @param PackageInterface $package
-     *
-     * @return string
-     */
-    private function populateLead(PackageInterface $package)
+    private function populateLead(PackageInterface $package): string
     {
         if (null === $package->getDescription() || '' === $package->getDescription()) {
             $items = $this->filterTextItems($package->getItems());
 
             $map = $items->map(
-                function (ItemInterface $item) {
+                static function (ItemInterface $item) {
                     return ' '.$item->getDescription();
                 }
             );
@@ -103,16 +100,11 @@ final class ArticleHydrator implements ArticleHydratorInterface
         return $package->getDescription();
     }
 
-    /**
-     * @param PackageInterface $package
-     *
-     * @return string
-     */
-    private function populateByline(PackageInterface $package)
+    private function populateByline(PackageInterface $package): string
     {
         $items = $this->filterTextItems($package->getItems());
 
-        $authors = array_filter(array_values(array_map(function (ItemInterface $item) {
+        $authors = array_filter(array_values(array_map(static function (ItemInterface $item) {
             $metadata = $item->getMetadata();
 
             return $metadata['byline'];
@@ -125,12 +117,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         return implode(', ', $authors);
     }
 
-    /**
-     * @param Collection $items
-     *
-     * @return Collection
-     */
-    private function filterTextItems(Collection $items)
+    private function filterTextItems(Collection $items): Collection
     {
         return $items->filter(
             function (ItemInterface $item) {
@@ -141,12 +128,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         );
     }
 
-    /**
-     * @param PackageInterface $package
-     *
-     * @return string
-     */
-    private function populateBody(PackageInterface $package)
+    private function populateBody(PackageInterface $package): string
     {
         return $package->getBody().' '.implode('', array_map(function (ItemInterface $item) {
             $this->ensureTypeIsAllowed($item->getType());
@@ -155,11 +137,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         }, $package->getItems()->toArray()));
     }
 
-    /**
-     * @param ArticleInterface $article
-     * @param PackageInterface $package
-     */
-    private function populateSources(ArticleInterface $article, PackageInterface $package)
+    private function populateSources(ArticleInterface $article, PackageInterface $package): void
     {
         if (null === $package->getSource()) {
             return;
@@ -176,10 +154,14 @@ final class ArticleHydrator implements ArticleHydratorInterface
         }
     }
 
-    private function populateKeywords(ArticleInterface $article, PackageInterface $package)
+    private function populateKeywords(ArticleInterface $article, PackageInterface $package): void
     {
-        if (0 === \count($package->getKeywords())) {
+        if (0 === count($package->getKeywords())) {
             return;
+        }
+
+        foreach ($article->getKeywords() as $keyword) {
+            $article->removeKeyword($keyword);
         }
 
         foreach ($package->getKeywords() as $keyword) {
@@ -188,14 +170,12 @@ final class ArticleHydrator implements ArticleHydratorInterface
     }
 
     /**
-     * @param string $type
-     *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    private function ensureTypeIsAllowed(string $type)
+    private function ensureTypeIsAllowed(string $type): void
     {
         if (!\in_array($type, $this->allowedTypes, true)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Item type "%s" is not supported. Supported types are: %s',
                 $type,
                 implode(', ', $this->allowedTypes)
