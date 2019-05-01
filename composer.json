@@ -89,7 +89,7 @@
     "jms/translation-bundle": "^1.4.3",
     "justinrainbow/json-schema": "~5.0",
     "knplabs/knp-menu-bundle": "^2.1",
-    "knplabs/knp-paginator-bundle": "^2.4",
+    "knplabs/knp-paginator-bundle": "^3.0",
     "knplabs/knp-time-bundle": "^1.8",
     "layershifter/tld-extract": "^1.2",
     "league/flysystem-aws-s3-v3": "^1.0",
