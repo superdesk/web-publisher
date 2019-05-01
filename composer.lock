@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce8a7586901eda716fef35cd1b709fde",
+    "content-hash": "f7476eb4cb190d92f25116d8758469bc",
     "packages": [
         {
             "name": "apache/log4php",
@@ -10096,7 +10096,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -10583,12 +10583,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "665c7439f444b784f1cf8de974f521cd7545e2e0"
+                "reference": "82fac7d892e29a858f570eb4bc015c4b9521e821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/665c7439f444b784f1cf8de974f521cd7545e2e0",
-                "reference": "665c7439f444b784f1cf8de974f521cd7545e2e0",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/82fac7d892e29a858f570eb4bc015c4b9521e821",
+                "reference": "82fac7d892e29a858f570eb4bc015c4b9521e821",
                 "shasum": ""
             },
             "require": {
@@ -10651,7 +10651,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-04-23T17:46:21+00:00"
+            "time": "2019-04-27T14:39:34+00:00"
         },
         {
             "name": "symfony/security-bundle",
@@ -15125,16 +15125,16 @@
         },
         {
             "name": "pixers/doctrine-profiler-bundle",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pixers/PixersDoctrineProfilerBundle.git",
-                "reference": "5b3f1d20cd6f49ba14d9b158819cefb1633867ac"
+                "reference": "31038fab5f78b301ba369313c5485000505450e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pixers/PixersDoctrineProfilerBundle/zipball/5b3f1d20cd6f49ba14d9b158819cefb1633867ac",
-                "reference": "5b3f1d20cd6f49ba14d9b158819cefb1633867ac",
+                "url": "https://api.github.com/repos/pixers/PixersDoctrineProfilerBundle/zipball/31038fab5f78b301ba369313c5485000505450e3",
+                "reference": "31038fab5f78b301ba369313c5485000505450e3",
                 "shasum": ""
             },
             "require": {
@@ -15164,7 +15164,7 @@
                 }
             ],
             "description": "PIXERS Doctrine profiler bundle",
-            "time": "2017-12-21T12:33:01+00:00"
+            "time": "2018-02-25T22:29:40+00:00"
         },
         {
             "name": "rector/rector",
@@ -15273,12 +15273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "1b329f4f2d9a0a3981fd79dbfe37754bedd383e2"
+                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/1b329f4f2d9a0a3981fd79dbfe37754bedd383e2",
-                "reference": "1b329f4f2d9a0a3981fd79dbfe37754bedd383e2",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/1dfa887a7e87ba9b7c635299462554b9ad241d5b",
+                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b",
                 "shasum": ""
             },
             "conflict": {
@@ -15299,7 +15299,7 @@
                 "composer/composer": "<=1.0.0-alpha11",
                 "contao-components/mediaelement": ">=2.14.2,<2.21.1",
                 "contao/core": ">=2,<3.5.39",
-                "contao/core-bundle": ">=4,<4.4.37|>=4.5,<4.7.3",
+                "contao/core-bundle": ">=4,<4.4.39|>=4.5,<4.7.5",
                 "contao/listing-bundle": ">=4,<4.4.8",
                 "contao/newsletter-bundle": ">=4,<4.1",
                 "david-garcia/phpwhois": "<=4.3.1",
@@ -15473,7 +15473,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-04-24T06:22:37+00:00"
+            "time": "2019-04-30T09:56:45+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
