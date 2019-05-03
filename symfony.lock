@@ -181,6 +181,9 @@
     "facebook/graph-sdk": {
         "version": "5.7.0"
     },
+    "fig/link-util": {
+        "version": "1.0.0"
+    },
     "friends-of-behat/service-container-extension": {
         "version": "v1.0.1"
     },
@@ -485,6 +488,9 @@
     "nette/robot-loader": {
         "version": "v3.2.0"
     },
+    "nette/schema": {
+        "version": "v1.0.0"
+    },
     "nette/utils": {
         "version": "v3.0.1"
     },
@@ -619,6 +625,9 @@
     },
     "psr/http-message": {
         "version": "1.0.1"
+    },
+    "psr/link": {
+        "version": "1.0.0"
     },
     "psr/log": {
         "version": "1.1.0"
@@ -1072,6 +1081,9 @@
     },
     "symfony/var-exporter": {
         "version": "v4.2.7"
+    },
+    "symfony/web-link": {
+        "version": "v4.2.8"
     },
     "symfony/web-profiler-bundle": {
         "version": "3.3",
