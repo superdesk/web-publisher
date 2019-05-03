@@ -121,7 +121,7 @@
     "takeit/amp-html-bundle": "^1.0",
     "takeit/stringy": "dev-fix",
     "twig/extensions": "~1.0",
-    "twig/twig": "^2.7",
+    "twig/twig": "^2.9",
     "willdurand/hateoas-bundle": "^2.0"
   },
   "require-dev": {
