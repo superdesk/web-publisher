@@ -112,16 +112,17 @@
     "sylius/theme-bundle": "^1.1",
     "symfony-cmf/core-bundle": "^2.0",
     "symfony-cmf/routing-bundle": "^2.0",
+    "symfony/dotenv": "^4.2",
     "symfony/flex": "^1.1",
     "symfony/monolog-bundle": "~3.0",
     "symfony/routing": "^4.3",
     "symfony/swiftmailer-bundle": "~3.0",
+    "symfony/web-link": "^4.2",
     "takeit/amp-html-bundle": "^1.0",
     "takeit/stringy": "dev-fix",
     "twig/extensions": "~1.0",
-    "twig/twig": "^2.7",
-    "willdurand/hateoas-bundle": "^2.0",
-    "symfony/dotenv": "^4.2"
+    "twig/twig": "^2.9",
+    "willdurand/hateoas-bundle": "^2.0"
   },
   "require-dev": {
     "behat/behat": "^3.4",
