@@ -109,17 +109,17 @@ class RouteEnhancer implements RouteEnhancerInterface
      */
     public function setArticleMeta($content, array $defaults)
     {
-        $articleMeta = null;
+        $articleMeta = false;
         if (isset($defaults['slug'])) {
             $articleMeta = $this->metaLoader->load('article', ['slug' => $defaults['slug']], LoaderInterface::SINGLE);
             $defaults['type'] = RouteInterface::TYPE_COLLECTION;
-            if (null === $articleMeta || ($articleMeta->getValues()->getRoute()->getId() !== $defaults[RouteObjectInterface::ROUTE_OBJECT]->getId())) {
+            if (false === $articleMeta || ($articleMeta->getValues()->getRoute()->getId() !== $defaults[RouteObjectInterface::ROUTE_OBJECT]->getId())) {
                 throw new NotFoundHttpException(sprintf('Article for slug: %s was not found.', $defaults['slug']));
             }
         } elseif ($content instanceof ArticleInterface) {
             $articleMeta = $this->metaLoader->load('article', ['article' => $content], LoaderInterface::SINGLE);
             $defaults['type'] = RouteInterface::TYPE_CONTENT;
-            if (null === $articleMeta) {
+            if (false === $articleMeta) {
                 throw new NotFoundHttpException(sprintf('Content with id: %s was not found.', $content->getId()));
             }
         }
