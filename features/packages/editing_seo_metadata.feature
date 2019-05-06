@@ -1,7 +1,7 @@
 @packages
-Feature: Adding new SEO metadata
+Feature: Editing existing SEO metadata
 
-  Scenario: Creating a new SEO metadata for package
+  Scenario: Editing existing package SEO metadata
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/v2/seo/" with parameters:
@@ -116,10 +116,57 @@ Feature: Adding new SEO metadata
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/lorem"
-    Then the response status code should be 200
+
+    And the JSON node "seo_metadata._links.meta_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
+    And the JSON node "seo_metadata._links.og_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
+    And the JSON node "seo_metadata._links.twitter_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
     And the JSON node "seo_metadata.meta_title" should be equal to "This is my meta title"
     And the JSON node "seo_metadata.meta_description" should be equal to "This is my meta description"
     And the JSON node "seo_metadata.og_title" should be equal to "This is my og title"
+    And the JSON node "seo_metadata.og_description" should be equal to "This is my og description"
+    And the JSON node "seo_metadata.twitter_title" should be equal to "This is my twitter title"
+    And the JSON node "seo_metadata.twitter_description" should be equal to "This is my twitter description"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "PATCH" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with parameters:
+      | key                  | value                                                           |
+      | metaTitle            | This is my meta title edit                                      |
+      | metaDescription      | This is my meta description edit                                |
+      | ogTitle              | This is my og title edit                                        |
+    Then the response status code should be 200
+    And the JSON node "_links.meta_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
+    And the JSON node "_links.og_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
+    And the JSON node "_links.twitter_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
+    And the JSON node "meta_title" should be equal to "This is my meta title edit"
+    And the JSON node "meta_description" should be equal to "This is my meta description edit"
+    And the JSON node "og_title" should be equal to "This is my og title edit"
+    And the JSON node "og_description" should be equal to "This is my og description"
+    And the JSON node "twitter_title" should be equal to "This is my twitter title"
+    And the JSON node "twitter_description" should be equal to "This is my twitter description"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
+     """
+      {
+          "destinations":[
+            {
+              "tenant":"123abc",
+              "published":true
+            }
+          ]
+      }
+     """
+    Then the response status code should be 201
+
+    Then I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/articles/lorem"
+    Then the response status code should be 200
+    And the JSON node "seo_metadata.meta_title" should be equal to "This is my meta title edit"
+    And the JSON node "seo_metadata.meta_description" should be equal to "This is my meta description edit"
+    And the JSON node "seo_metadata.og_title" should be equal to "This is my og title edit"
     And the JSON node "seo_metadata.og_description" should be equal to "This is my og description"
     And the JSON node "seo_metadata.twitter_title" should be equal to "This is my twitter title"
     And the JSON node "seo_metadata.twitter_description" should be equal to "This is my twitter description"
