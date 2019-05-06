@@ -56,6 +56,6 @@ final class AmpSupportChecker implements AmpSupportCheckerInterface
             return false;
         }
 
-        return null !== $request->attributes->get(RouteEnhancer::ARTICLE_META, null) || 'swp_package_preview' === $request->attributes->get('_route');
+        return false !== $request->attributes->get(RouteEnhancer::ARTICLE_META, false) || 'swp_package_preview' === $request->attributes->get('_route');
     }
 }
