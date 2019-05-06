@@ -10201,7 +10201,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -13814,16 +13814,16 @@
         },
         {
             "name": "nelmio/alice",
-            "version": "v3.5.6",
+            "version": "v3.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/alice.git",
-                "reference": "8678b22421b390c83c50e87d4eb25862cbe5c506"
+                "reference": "8bb64f0fe13f6675f0d07ca11ce5c3676f02a9ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/alice/zipball/8678b22421b390c83c50e87d4eb25862cbe5c506",
-                "reference": "8678b22421b390c83c50e87d4eb25862cbe5c506",
+                "url": "https://api.github.com/repos/nelmio/alice/zipball/8bb64f0fe13f6675f0d07ca11ce5c3676f02a9ce",
+                "reference": "8bb64f0fe13f6675f0d07ca11ce5c3676f02a9ce",
                 "shasum": ""
             },
             "require": {
@@ -13890,7 +13890,7 @@
                 "faker",
                 "test"
             ],
-            "time": "2019-04-02T12:43:25+00:00"
+            "time": "2019-05-05T08:51:28+00:00"
         },
         {
             "name": "nesbot/carbon",
