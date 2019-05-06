@@ -18,6 +18,8 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use function iterator_to_array;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -79,12 +81,15 @@ class ArticleProvider implements ArticleProviderInterface
     {
         // set max results to null to not break joins
         $criteria->set('maxResults', null);
-        $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getResult();
-        if (null === $article || 0 === count($article)) {
+        $query = $this->articleRepository->getByCriteria($criteria, [])->getQuery();
+        $query->setMaxResults(1);
+        $query->setFirstResult(0);
+        $articles = iterator_to_array(new Paginator($query, $fetchJoin = true));
+        if (null === $articles || 0 === count($articles)) {
             throw new NotFoundHttpException('Article was not found');
         }
 
-        return $article[0];
+        return $articles[0];
     }
 
     /**

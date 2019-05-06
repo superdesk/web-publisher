@@ -98,9 +98,12 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 try {
                     return $this->getArticleMeta($parameters['article']);
                 } catch (NotFoundHttpException $e) {
-                    return;
+                    return false;
                 }
             } elseif (array_key_exists('slug', $parameters)) {
+                if ('' === $parameters['slug']) {
+                    $parameters['slug'] = null;
+                }
                 $criteria->set('slug', $parameters['slug']);
             }
 
@@ -109,7 +112,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
                 return $this->getArticleMeta($article);
             } catch (NotFoundHttpException $e) {
-                return;
+                return false;
             }
         } elseif ('articles' === $type && LoaderInterface::COLLECTION === $responseType) {
             $currentPage = $this->context['route'];
