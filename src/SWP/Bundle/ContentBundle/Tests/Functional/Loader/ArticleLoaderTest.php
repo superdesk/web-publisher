@@ -58,12 +58,12 @@ class ArticleLoaderTest extends WebTestCase
         $article = $this->articleLoader->load('article', ['slug' => 'test-article']);
         $this->assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $article);
 
-        $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-articles']));
-        $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-article'], [], LoaderInterface::COLLECTION));
+        $this->assertFalse($this->articleLoader->load('article', ['slug' => 'test-articles']));
+        $this->assertFalse($this->articleLoader->load('article', ['slug' => 'test-article'], [], LoaderInterface::COLLECTION));
         $this->assertTrue(3 == count($this->articleLoader->load('articles', ['route' => '/news'], [], LoaderInterface::COLLECTION)));
-        $this->assertNull($this->articleLoader->load('articles', ['route' => 99], [], LoaderInterface::COLLECTION));
+        $this->assertFalse($this->articleLoader->load('articles', ['route' => 99], [], LoaderInterface::COLLECTION));
 
-        $this->assertNull($this->articleLoader->load('article', [], [], LoaderInterface::COLLECTION));
+        $this->assertFalse($this->articleLoader->load('article', [], [], LoaderInterface::COLLECTION));
     }
 
     public function testLoadWithParameters()
