@@ -55,7 +55,7 @@ SWP\Bundle\ContentBundle\Model\Article:
                 getter: getMetadata
         keywords:
             expose: true
-            type: array
+            type: array<SWP\Bundle\ContentBundle\Model\Keyword>
         code:
             expose: true
             type: string
