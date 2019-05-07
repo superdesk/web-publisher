@@ -54,7 +54,6 @@
     "litipk/flysystem-fallback-adapter": "dev-master",
     "zendframework/zend-stdlib": "^3.2@dev",
     "symfony/translation": "^4.2",
-    "swp/seo": "^2.0",
     "swp/seo-bundle": "^2.0"
   },
   "require-dev": {
