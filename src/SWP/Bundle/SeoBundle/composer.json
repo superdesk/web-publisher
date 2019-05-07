@@ -1,0 +1,47 @@
+{
+    "name": "swp/seo-bundle",
+    "type": "symfony-bundle",
+    "description": "SEO tools to support meta tags, og tags, twitter tags.",
+    "keywords": ["rules", "rule", "superdesk", "webpublisher", "business"],
+    "license":"AGPL-3.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "swp/storage-bundle": "^2.0",
+        "swp/seo": "^2.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^5.1"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Bundle\\SeoBundle\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SWP\\Bundle\\SeoBundle\\spec\\": "spec/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}

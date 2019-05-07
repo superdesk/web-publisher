@@ -1,0 +1,39 @@
+{
+    "name": "swp/seo",
+    "type": "library",
+    "description": "SEO tools.",
+    "keywords": ["seo", "superdesk", "publisher", "library", "twitter", "facebook"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"AGPL-3.0-only",
+    "require": {
+        "php": "^7.3",
+        "swp/storage": "^2.0",
+        "swp/common": "^2.0@dev"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^5.1"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\Seo\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\Seo\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}

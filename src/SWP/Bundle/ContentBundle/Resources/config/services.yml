@@ -179,6 +179,8 @@ services:
             - '@monolog.logger.swp_asset_download'
             - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
 
+    SWP\Bundle\ContentBundle\Manager\MediaManagerInterface $mediaManager: '@swp_content_bundle.manager.media'
+
     swp_content_bundle.processor.article_body:
         class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain
 
@@ -219,6 +221,13 @@ services:
         public: true
         tags:
             - { name: router, priority: 300 }
+
+    swp_content_bundle.router.seo_media:
+        class: SWP\Bundle\ContentBundle\Routing\SeoMediaRouter
+        parent: "router.symfony"
+        public: true
+        tags:
+            - { name: router, priority: 250 }
 
     swp_content_bundle.form.type.route_selector:
         class: SWP\Bundle\ContentBundle\Form\Type\RouteSelectorType
@@ -299,6 +308,7 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
 
     SWP\Bundle\ContentBundle\File\FileExtensionChecker: ~
+    SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface: '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
 
     SWP\Bundle\ContentBundle\Service\KeywordBlackLister:
         arguments:

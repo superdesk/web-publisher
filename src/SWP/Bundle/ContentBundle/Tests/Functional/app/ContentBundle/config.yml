@@ -131,6 +131,10 @@ oneup_flysystem:
             local:
                 directory: "%kernel.cache_dir%/uploads/"
 
+swp_seo:
+    persistence:
+        orm: true
+
 services:
     _defaults:
         autowire: true

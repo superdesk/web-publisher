@@ -1,0 +1,29 @@
+SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata:
+  type: mappedSuperclass
+  table: swp_article_seo_metadata
+  fields:
+      packageGuid:
+        type: string
+        nullable: true
+  oneToOne:
+      metaMedia:
+        targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface
+        cascade: ["persist"]
+        joinColumn:
+          name: seo_meta_media_id
+          referencedColumnName: id
+          nullable: true
+      ogMedia:
+        targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface
+        cascade: ["persist"]
+        joinColumn:
+          name: seo_og_media_id
+          referencedColumnName: id
+          nullable: true
+      twitterMedia:
+        targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface
+        cascade: ["persist"]
+        joinColumn:
+          name: seo_twitter_media_id
+          referencedColumnName: id
+          nullable: true

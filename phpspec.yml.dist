@@ -46,6 +46,11 @@ suites:
         psr4_prefix: SWP\Component\Paywall
         spec_path: src/SWP/Component/Paywall
         src_path: src/SWP/Component/Paywall
+    Seo_suite:
+        namespace: SWP\Component\Seo
+        psr4_prefix: SWP\Component\Seo
+        spec_path: src/SWP/Component/Seo
+        src_path: src/SWP/Component/Seo
 
     # bundles
     MultiTenancyBundle_suite:
@@ -113,3 +118,8 @@ suites:
         psr4_prefix: SWP\Bundle\PaywallBundle
         spec_path: src/SWP/Bundle/PaywallBundle
         src_path: src/SWP/Bundle/PaywallBundle
+    SeoBundle_suite:
+        namespace: SWP\Bundle\SeoBundle
+        psr4_prefix: SWP\Bundle\SeoBundle
+        spec_path: src/SWP/Bundle/SeoBundle
+        src_path: src/SWP/Bundle/SeoBundle

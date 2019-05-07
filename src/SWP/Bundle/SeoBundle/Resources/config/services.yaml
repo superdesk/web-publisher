@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+    bind:
+      $dataClass: '%swp.model.seo_metadata.class%'
+
+  SWP\Bundle\SeoBundle\:
+      resource: '../../*'

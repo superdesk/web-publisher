@@ -437,6 +437,8 @@ services:
             - '@request_stack'
             - '@event_dispatcher'
 
+    SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface: '@swp_multi_tenancy.tenant_context'
+
     swp_core.loader.media:
         class: SWP\Bundle\CoreBundle\Loader\PreviewArticleMediaLoader
         arguments:
@@ -710,6 +712,13 @@ services:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: setPublishDate }
             - { name: kernel.event_listener, event: swp.article.pre_update, method: setPublishDate }
 
+    SWP\Bundle\CoreBundle\EventListener\AssignSeoMetadataListener:
+        arguments:
+            - '@swp.repository.seo_metadata'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: assignSeoMetadata }
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: assignSeoMetadata }
+
     SWP\Bundle\CoreBundle\EventListener\OverrideArticleSlugListener:
         arguments:
             - '@swp_settings.manager.settings'
@@ -727,3 +736,14 @@ services:
             - '@swp.factory.article_events'
 
     Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
+
+    SWP\Bundle\CoreBundle\Service\SeoImageUploader:
+        arguments:
+            - '@swp.random_string_generator'
+            - '@swp_core_bundle.manager.seo_media'
+            - '@swp.factory.seo_image'
+
+    SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface:
+        alias: SWP\Bundle\CoreBundle\Service\SeoImageUploader
+
+    Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'

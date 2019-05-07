@@ -15,3 +15,4 @@ Bundles
    SWPWebhookBundle/index
    SWPOutputChannelBundle/index
    SWPPaywallBundle/index
+   SWPSeoBundle/index
