@@ -19,14 +19,6 @@
     {
       "type": "path",
       "url": "../../*/*"
-    },
-    {
-      "type": "path",
-      "url": "/var/www/publisher/src/SWP/Bundle/SeoBundle/"
-    },
-    {
-      "type": "path",
-      "url": "/var/www/publisher/src/SWP/Component/Seo/"
     }
   ],
   "require": {
