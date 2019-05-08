@@ -130,7 +130,6 @@ class ContentPushConsumer implements ConsumerInterface
         $this->packageRepository->add($package);
         $this->eventDispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));
         $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
-
         $this->reset();
         $this->logger->info(sprintf('Package %s was created', $package->getGuid()));
 
@@ -139,12 +138,15 @@ class ContentPushConsumer implements ConsumerInterface
 
     protected function findExistingPackage(PackageInterface $package)
     {
-        $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getGuid()]);
-
-        if (null === $existingPackage && null !== $package->getEvolvedFrom()) {
+        $existingPackage = null;
+        if (null === $package->getEvolvedFrom()) {
             $existingPackage = $this->packageRepository->findOneBy([
-                'guid' => $package->getEvolvedFrom(),
+                'evolvedFrom' => $package->getGuid(),
             ]);
+        }
+
+        if (null === $existingPackage) {
+            $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getEvolvedFrom() ?? $package->getGuid()]);
         }
 
         return $existingPackage;
