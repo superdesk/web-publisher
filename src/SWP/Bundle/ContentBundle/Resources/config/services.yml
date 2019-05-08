@@ -322,3 +322,5 @@ services:
                 credentials:
                     key: '%env(resolve:FS_AWS_S3_KEY)%'
                     secret: '%env(resolve:FS_AWS_S3_SECRET)%'
+
+    Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
