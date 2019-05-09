@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d22e66c38d12921a5f7602a5737dcca",
+    "content-hash": "94ba74fe83658b4de131ebd7e262d307",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2699,16 +2699,16 @@
         },
         {
             "name": "gos/web-socket-bundle",
-            "version": "v1.9.0-rc2",
+            "version": "v1.9.0-rc3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GeniusesOfSymfony/WebSocketBundle.git",
-                "reference": "f2787f3ad911a8c7b9aa820b97de8e4cc1ed4d33"
+                "reference": "5aa644c24167d42319b5b9cb8b23dc7eeae0b4f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/f2787f3ad911a8c7b9aa820b97de8e4cc1ed4d33",
-                "reference": "f2787f3ad911a8c7b9aa820b97de8e4cc1ed4d33",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/5aa644c24167d42319b5b9cb8b23dc7eeae0b4f0",
+                "reference": "5aa644c24167d42319b5b9cb8b23dc7eeae0b4f0",
                 "shasum": ""
             },
             "require": {
@@ -2716,7 +2716,7 @@
                 "gos/pubsub-router-bundle": "^0.3",
                 "gos/websocket-client": "^0.1",
                 "ocramius/proxy-manager": "^1.0|^2.1",
-                "php": ">=5.4",
+                "php": ">=7.2",
                 "react/event-loop": "^1.0",
                 "symfony/framework-bundle": "^2.3|^3.0|^4.0"
             },
@@ -2766,7 +2766,7 @@
                 "io",
                 "websocket"
             ],
-            "time": "2018-10-12T10:07:20+00:00"
+            "time": "2018-11-17T15:34:02+00:00"
         },
         {
             "name": "gos/websocket-client",
@@ -10201,7 +10201,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -15497,17 +15497,6 @@
         {
             "name": "roave/security-advisories",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/1dfa887a7e87ba9b7c635299462554b9ad241d5b",
-                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b",
-                "shasum": ""
-            },
             "conflict": {
                 "3f/pygmentize": "<1.2",
                 "adodb/adodb-php": "<5.20.12",
