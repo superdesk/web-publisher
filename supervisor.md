@@ -31,11 +31,12 @@ Websocket server is using amqp library and RabbitMQ. The Exchange (swp_websocket
 Binding Queue to the Exchange:
 
 ```bash
+sudo rabbitmq-plugins enable rabbitmq_management
 wget http://127.0.0.1:15672/cli/rabbitmqadmin
 chmod +x rabbitmqadmin
 sudo mv rabbitmqadmin /etc/rabbitmq
 
-/etc/rabbitmq/rabbitmqadmin --vhost=/ declare binding source="swp_websocket_exchange" destination_type="queue" destination="swp_websocket"
+/etc/rabbitmq/rabbitmqadmin --vhost=/ declare binding source="swp_websocket_exchange" destination="swp_websocket"
 ```
 
 Supervisor config file for running WebSocket server can be found in [scripts/supervisor/supervisor_websocket.conf](scripts/supervisor/supervisor_websocket.conf)
