@@ -26,4 +26,16 @@ publisher_webhooks               RUNNING   pid 77112, uptime 0:00:04
 
 #### Running WebSocket Server
 
+Websocket server is using amqp library and RabbitMQ. The Exchange (swp_websocket_exchange) and Queue (swp_websocket) is created automatically but you need to manually bind the swp_websocket queue to swp_websocket_exchange from server admin panel.
+
+Binding Queue to the Exchange:
+
+```bash
+wget http://127.0.0.1:15672/cli/rabbitmqadmin
+chmod +x rabbitmqadmin
+sudo mv rabbitmqadmin /etc/rabbitmq
+
+/etc/rabbitmq/rabbitmqadmin --vhost=/ declare binding source="swp_websocket_exchange" destination_type="queue" destination="swp_websocket"
+```
+
 Supervisor config file for running WebSocket server can be found in [scripts/supervisor/supervisor_websocket.conf](scripts/supervisor/supervisor_websocket.conf)

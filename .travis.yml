@@ -43,6 +43,10 @@ before_install:
 - sudo sysctl -w vm.max_map_count=262144
 - sudo sysctl -p
 - printf "\n" | pecl install amqp
+- wget http://127.0.0.1:15672/cli/rabbitmqadmin
+- chmod +x rabbitmqadmin
+- sudo mv rabbitmqadmin /etc/rabbitmq
+- /etc/rabbitmq/rabbitmqadmin --vhost=/ declare binding source="swp_websocket_exchange" destination_type="queue" destination="swp_websocket"
 
 install:
 - wget ${ES_DOWNLOAD_URL}
