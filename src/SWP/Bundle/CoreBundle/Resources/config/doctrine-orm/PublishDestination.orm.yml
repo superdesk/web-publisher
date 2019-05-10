@@ -42,6 +42,7 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
             joinColumn:
                 name: route_id
                 referencedColumnName: id
+                onDelete: "SET NULL"
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
             inversedBy: publishDestinations
