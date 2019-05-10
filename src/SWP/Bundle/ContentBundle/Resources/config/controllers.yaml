@@ -5,6 +5,3 @@ services:
     autoconfigure: true
 
   SWP\Bundle\ContentBundle\Controller\MediaController: ~
-  SWP\Bundle\ContentBundle\Controller\AuthorMediaController:
-    bind:
-      $mediaManager: '@swp_core_bundle.manager.author_media'

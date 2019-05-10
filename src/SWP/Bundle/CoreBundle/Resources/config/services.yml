@@ -745,5 +745,3 @@ services:
 
     SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface:
         alias: SWP\Bundle\CoreBundle\Service\SeoImageUploader
-
-    Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
