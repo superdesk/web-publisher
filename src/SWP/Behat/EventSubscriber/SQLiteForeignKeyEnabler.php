@@ -32,7 +32,7 @@ class SQLiteForeignKeyEnabler implements EventSubscriber
         if (!$this->manager->getConnection()->getDatabasePlatform() instanceof SqlitePlatform) {
             return;
         }
-        
+
         $this->manager
             ->createNativeQuery('PRAGMA foreign_keys = ON;', new ResultSetMapping())
             ->execute()
