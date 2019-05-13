@@ -106,7 +106,7 @@
     "ramsey/uuid": "^3.8",
     "rdx/behat-variables": "^1.2",
     "sensio/framework-extra-bundle": "^5.2",
-    "sentry/sentry-symfony": "^2.0",
+    "sentry/sentry-symfony": "^3.0",
     "stof/doctrine-extensions-bundle": "^1.2",
     "superdesk/contentapi-sdk-php": "^1.0.0",
     "sylius/theme-bundle": "^1.1",
