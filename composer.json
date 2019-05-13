@@ -63,7 +63,7 @@
     "blackfire/php-sdk": "^1.17",
     "burgov/key-value-form-bundle": "^1.4",
     "cboden/ratchet": "^0.4.1",
-    "doctrine/common": "2.8.*",
+    "doctrine/common": "2.10.*",
     "doctrine/dbal": "2.7.*",
     "doctrine/doctrine-bundle": "~1.8",
     "doctrine/doctrine-cache-bundle": "1.3.*",
