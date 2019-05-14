@@ -1,0 +1,19 @@
+SWP\Bundle\ContentBundle\Model\ImageRendition:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+      type: integer
+    width:
+      expose: true
+      type: integer
+    height:
+      expose: true
+      type: integer
+    name:
+      expose: true
+    previewUrl:
+      expose: true
+      type: string
+    image:
+      expose: true
