@@ -93,8 +93,8 @@ class ArticleRepository extends Repository
             }
         }
 
-        if (null !== $fields->get('tenantCode')) {
-            $boolFilter->addFilter(new Term(['tenantCode' => $fields->get('tenantCode')]));
+        if (null !== $fields->get('tenant_code')) {
+            $boolFilter->addFilter(new Term(['tenantCode' => $fields->get('tenant_code')]));
         }
 
         $bool = new BoolQuery();
@@ -102,12 +102,12 @@ class ArticleRepository extends Repository
             $bool->addFilter(new Query\Terms('route.id', $fields->get('routes')));
         }
 
-        if (null !== $fields->get('publishedAfter') || null !== $fields->get('publishedBefore')) {
+        if (null !== $fields->get('published_after') || null !== $fields->get('published_before')) {
             $boolFilter->addFilter(new Range(
                 'publishedAt',
                 [
-                    'gte' => null !== $fields->get('publishedAfter') ? $fields->get('publishedAfter')->format('Y-m-d') : null,
-                    'lte' => null !== $fields->get('publishedBefore') ? $fields->get('publishedBefore')->format('Y-m-d') : null,
+                    'gte' => null !== $fields->get('published_after') ? $fields->get('published_after')->format('Y-m-d') : null,
+                    'lte' => null !== $fields->get('published_before') ? $fields->get('published_before')->format('Y-m-d') : null,
                 ]
             ));
 

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Criteria;
 
-final class Order
+final class Order extends AbstractCriteria
 {
     const DEFAULT_FIELD = 'id';
 
@@ -66,11 +66,6 @@ final class Order
         }
 
         return new self($field, $direction);
-    }
-
-    private static function camelize(string $value): string
-    {
-        return lcfirst(str_replace('_', '', ucwords($value, '_')));
     }
 
     /**

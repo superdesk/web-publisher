@@ -18,7 +18,7 @@ namespace SWP\Bundle\ElasticSearchBundle\Criteria;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-final class Filters
+final class Filters extends AbstractCriteria
 {
     /**
      * @var ParameterBag
@@ -41,11 +41,14 @@ final class Filters
     public static function fromQueryParameters(array $queryParameters)
     {
         $fields = $queryParameters;
-        unset($fields['page']);
-        unset($fields['per_page']);
-        unset($fields['sort']);
+        unset($fields['page'], $fields['per_page'], $fields['sort']);
 
-        return new self($fields);
+        $convertedFields = [];
+        foreach ($fields as $field) {
+            $convertedFields[] = self::camelize($field);
+        }
+
+        return new self($convertedFields);
     }
 
     /**
