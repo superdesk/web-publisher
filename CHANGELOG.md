@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 ### 2.0.0
+ * BC BREAK [#834] Changed query params publishedBefore and publishedAfter to published_before and published_after in ES bundle
  * feature [#787] Added support for SEO metadata
  * BC BREAK/cleanup [#778] Remove Container, Widgets and Revisions concepts from Templates System
  * BC BREAK/feature [#643] Added support for Symfony 4.2 & Flex & PHP 7.3
