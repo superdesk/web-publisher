@@ -67,15 +67,15 @@ class PackageRepository extends Repository
             $boolFilter->addMust($nested);
         }
 
-        if (null !== $fields->get('published_after') || null !== $fields->get('published_before')) {
+        if (null !== $fields->get('publishedAfter') || null !== $fields->get('publishedBefore')) {
             $nested = new Nested();
             $nested->setPath('articles');
             $boolQuery = new BoolQuery();
             $boolQuery->addMust(new Range(
                 'articles.publishedAt',
                 [
-                    'gte' => $fields->get('published_after'),
-                    'lte' => $fields->get('published_before'),
+                    'gte' => $fields->get('publishedAfter'),
+                    'lte' => $fields->get('publishedBefore'),
                 ]
             ));
 
