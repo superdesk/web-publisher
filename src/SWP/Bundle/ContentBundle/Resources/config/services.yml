@@ -174,7 +174,7 @@ services:
         arguments:
             - '@swp.repository.media'
             - '@swp_filesystem'
-            - '@router'
+            - '@router.symfony'
             - '@swp.factory.file'
             - '@monolog.logger.swp_asset_download'
             - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"

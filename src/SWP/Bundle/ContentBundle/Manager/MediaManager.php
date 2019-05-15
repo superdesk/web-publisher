@@ -25,6 +25,7 @@ use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Resolver\AssetLocationResolverInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
@@ -70,7 +71,7 @@ class MediaManager implements MediaManagerInterface
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
-        RouterInterface $router,
+        Router $router,
         FileFactoryInterface $fileFactory,
         LoggerInterface $logger,
         bool $retryDownloads,

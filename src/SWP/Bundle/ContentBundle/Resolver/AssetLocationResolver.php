@@ -20,8 +20,11 @@ use SWP\Bundle\ContentBundle\Model\FileInterface;
 class AssetLocationResolver implements AssetLocationResolverInterface
 {
     private $mainAdapter;
+
     private $awsBucket;
+
     private $awsClient;
+
     private $localDirectory;
 
     public function __construct(string $mainAdapter, string $awsBucket, S3Client $awsClient, string $localDirectory)

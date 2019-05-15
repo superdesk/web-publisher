@@ -13,7 +13,7 @@ Feature: Handling embedded video
     Then the response status code should be 201
     And the JSON node "media_id" should be equal to "20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
     And the JSON node "mime_type" should be equal to "video/mp4"
-    And the JSON node "URL" should be equal to "http://localhost/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
+    And the JSON node "URL" should be equal to "http://localhost/uploads/swp/123456/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
     And the JSON node "media" should not be null
 
     When I add "Content-Type" header equal to "application/json"

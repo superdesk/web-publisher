@@ -16,15 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Manager;
 
-use SWP\Bundle\CoreBundle\Manager\MediaManager as BaseMediaManager;
+use SWP\Bundle\ContentBundle\Manager\MediaManager as BaseMediaManager;
 
 final class AuthorMediaManager extends BaseMediaManager
 {
-    public function getMediaBasePath(): string
-    {
-        $tenant = $this->tenantContext->getTenant();
-        $pathElements = ['swp', $tenant->getOrganization()->getCode(), 'authors'];
-
-        return implode('/', $pathElements);
-    }
 }

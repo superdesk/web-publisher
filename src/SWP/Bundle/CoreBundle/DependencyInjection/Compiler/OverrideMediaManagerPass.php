@@ -17,7 +17,6 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 use SWP\Bundle\CoreBundle\Manager\AuthorMediaManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 
 final class OverrideMediaManagerPass extends AbstractOverridePass
 {
@@ -30,8 +29,8 @@ final class OverrideMediaManagerPass extends AbstractOverridePass
         $authorMediaManager = new Definition(AuthorMediaManager::class);
         $authorMediaManager
             ->setArguments($mediaManager->getArguments())
+            ->setArgument(6, $this->getDefinitionIfExists($container, 'swp.resolver.asset_location'))
             ->setPublic(true)
-            ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
         ;
         $container->setDefinition('swp_core_bundle.manager.author_media', $authorMediaManager);
     }
