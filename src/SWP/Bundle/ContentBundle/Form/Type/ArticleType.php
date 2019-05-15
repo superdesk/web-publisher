@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
+use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,7 +40,9 @@ class ArticleType extends AbstractType
                 'constraints' => [
                     new Length(['min' => 1]),
                 ],
-            ]);
+            ])
+            ->add('seoMetadata', SeoMetadataType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -33,6 +33,8 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
 {
     private $mediaManager;
 
+    private $authorMediaManager;
+
     public function __construct(
         ContainerInterface $container,
         $resource,
@@ -43,6 +45,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         $defaultLocale = null
     ) {
         $this->mediaManager = $container->get('swp_content_bundle.manager.media');
+        $this->authorMediaManager = $container->get('swp_core_bundle.manager.author_media');
 
         parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
     }
@@ -71,6 +74,10 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
 
         if ($item instanceof PreviewUrlAwareInterface && null !== ($previewUrl = $item->getPreviewUrl())) {
             return $previewUrl;
+        }
+
+        if ($meta->getValues() instanceof AuthorMediaInterface) {
+            return $this->authorMediaManager->getMediaPublicUrl($meta->getValues()->getImage());
         }
 
         return  $this->mediaManager->getMediaPublicUrl($item);

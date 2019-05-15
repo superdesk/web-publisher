@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPSeoBundle:
+                namespace_prefix: "SWP\\Component\\Seo"
+                path: "@SWPSeoBundle/Resources/config/serializer"

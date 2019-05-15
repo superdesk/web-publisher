@@ -121,10 +121,6 @@ class Tenant implements TenantInterface
      */
     public function setCode($code)
     {
-        if (null !== $this->code) {
-            throw new \LogicException('Tenant\'s code is already set. Can not change it.');
-        }
-
         $this->code = $code;
     }
 

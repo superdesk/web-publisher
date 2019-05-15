@@ -1,0 +1,39 @@
+SWP\Component\Seo\Model\SeoMetadata:
+    type: mappedSuperclass
+    table: swp_seo_metadata
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        metaTitle:
+            type: string
+            nullable: true
+        metaDescription:
+            type: string
+            nullable: true
+        ogTitle:
+            type: string
+            nullable: true
+        ogDescription:
+            type: string
+            nullable: true
+        twitterTitle:
+            type: string
+            nullable: true
+        twitterDescription:
+            type: string
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

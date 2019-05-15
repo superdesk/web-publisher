@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Component\Storage\DependencyInjection\Driver\PersistenceDriverInterface;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -79,6 +80,14 @@ abstract class AbstractDriver implements PersistenceDriverInterface
                 break;
             }
         }
+
+        foreach (class_implements($repositoryClass) as $typehintClass) {
+            $container->registerAliasForArgument(
+                'swp.repository.'.$config['name'],
+                $typehintClass,
+                $config['name'].' repository'
+            );
+        }
     }
 
     /**
@@ -102,6 +111,14 @@ abstract class AbstractDriver implements PersistenceDriverInterface
                 break;
             }
         }
+
+        foreach (class_implements($factoryClass) as $typehintClass) {
+            $container->registerAliasForArgument(
+                'swp.factory.'.$config['name'],
+                $typehintClass,
+                $config['name'].' factory'
+            );
+        }
     }
 
     /**
@@ -114,6 +131,12 @@ abstract class AbstractDriver implements PersistenceDriverInterface
             new Alias($this->getObjectManagerId($config))
         );
         $aliasDefinition->setPublic(true);
+
+        $container->registerAliasForArgument(
+            'swp.object_manager.'.$config['name'],
+            ObjectManager::class,
+            $config['name'].' manager'
+        );
     }
 
     /**

@@ -34,11 +34,16 @@ services:
         arguments:
             - '@swp.repository.article'
 
+    SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface:
+        alias: swp.provider.article
+
     SWP\Bundle\ContentBundle\Provider\FileProvider:
         arguments:
             - '@swp.repository.image'
             - '@swp.repository.file'
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+
+    SWP\Bundle\ContentBundle\Provider\FileProviderInterface: '@SWP\Bundle\ContentBundle\Provider\FileProvider'
 
     SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProvider:
         arguments:

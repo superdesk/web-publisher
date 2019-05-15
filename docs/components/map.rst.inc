@@ -5,3 +5,4 @@
 * :doc:`/components/ContentList/index`
 * :doc:`/components/OutputChannel/index`
 * :doc:`/components/Paywall/index`
+* :doc:`/components/Seo/index`

@@ -90,6 +90,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             expose: true
             groups: [api]
             type: ArrayCollection
+        seoMetadata:
+            expose: true
+            groups: [api]
     relations:
         -
             rel: self

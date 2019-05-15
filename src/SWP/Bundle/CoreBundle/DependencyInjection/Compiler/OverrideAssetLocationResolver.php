@@ -16,8 +16,8 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Resolver\AssetLocationResolver;
 use SWP\Bundle\CoreBundle\Resolver\AuthorAssetLocationResolver;
+use SWP\Bundle\CoreBundle\Resolver\SeoAssetLocationResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 final class OverrideAssetLocationResolver extends AbstractOverridePass
@@ -33,9 +33,17 @@ final class OverrideAssetLocationResolver extends AbstractOverridePass
                 ->setClass(AssetLocationResolver::class)
                 ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')]);
 
-            $authorAssetLocationResolverDefinition = new Definition('swp.resolver.author_asset_location');
+            $authorAssetLocationResolverDefinition = $this->getDefinitionIfExists($container, 'swp.resolver.author_asset_location');
             $authorAssetLocationResolverDefinition
                 ->setClass(AuthorAssetLocationResolver::class)
+                ->setArguments($assetLocationResolverDefinition->getArguments())
+                ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
+                ->setPublic(true)
+            ;
+
+            $authorAssetLocationResolverDefinition = $this->getDefinitionIfExists($container, 'swp.resolver.seo_asset_location');
+            $authorAssetLocationResolverDefinition
+                ->setClass(SeoAssetLocationResolver::class)
                 ->setArguments($assetLocationResolverDefinition->getArguments())
                 ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
                 ->setPublic(true)

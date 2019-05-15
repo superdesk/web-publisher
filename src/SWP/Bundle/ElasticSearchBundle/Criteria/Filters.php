@@ -41,9 +41,7 @@ final class Filters
     public static function fromQueryParameters(array $queryParameters)
     {
         $fields = $queryParameters;
-        unset($fields['page']);
-        unset($fields['per_page']);
-        unset($fields['sort']);
+        unset($fields['page'], $fields['per_page'], $fields['sort']);
 
         return new self($fields);
     }

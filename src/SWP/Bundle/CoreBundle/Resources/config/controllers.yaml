@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    public: false
+    autowire: true
+    autoconfigure: true
+
+  SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
+  SWP\Bundle\CoreBundle\Controller\SeoMetadataController: ~
+  SWP\Bundle\ContentBundle\Controller\AuthorMediaController:
+    bind:
+      $mediaManager: '@swp_core_bundle.manager.author_media'

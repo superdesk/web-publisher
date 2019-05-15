@@ -109,12 +109,12 @@ class TenantSpec extends ObjectBehavior
         $this->getCode()->shouldReturn(null);
     }
 
-    public function it_should_not_allow_to_change_code_once_its_set()
+    public function it_should_allow_to_change_code_once_its_set()
     {
         $this->setCode('code');
+        $this->getCode()->shouldReturn('code');
 
-        $this
-            ->shouldThrow('LogicException')
-            ->during('setCode', ['newcode']);
+        $this->setCode('newcode');
+        $this->getCode()->shouldReturn('newcode');
     }
 }

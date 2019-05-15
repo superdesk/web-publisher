@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -15,6 +17,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ContentController.
@@ -24,9 +27,9 @@ class ContentController extends Controller
     /**
      * @param string $contentTemplate
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function renderPageAction($contentTemplate)
+    public function renderPageAction($contentTemplate): Response
     {
         return $this->render($contentTemplate);
     }

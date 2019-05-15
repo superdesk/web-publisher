@@ -20,3 +20,4 @@ The goal of these components is to solve the problems related to content publish
    ContentList/index
    OutputChannel/index
    Paywall/index
+   Seo/index

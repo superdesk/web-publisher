@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Component\Seo
+        psr4_prefix: SWP\Component\Seo
+        src_path: .

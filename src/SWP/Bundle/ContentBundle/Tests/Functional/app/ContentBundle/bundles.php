@@ -39,5 +39,6 @@ return [
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
     new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
     new SWP\Bundle\MenuBundle\SWPMenuBundle(),
+    new SWP\Bundle\SeoBundle\SWPSeoBundle(),
     new SWP\Bundle\ContentBundle\SWPContentBundle(),
 ];

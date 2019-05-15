@@ -8,3 +8,4 @@
 * :doc:`/bundles/SWPSettingsBundle/index`
 * :doc:`/bundles/SWPOutputChannelBundle/index`
 * :doc:`/bundles/SWPPaywallBundle/index`
+* :doc:`/bundles/SWPSeoBundle/index`

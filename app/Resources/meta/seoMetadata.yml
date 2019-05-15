@@ -1,0 +1,25 @@
+name: seoMetadata
+class: 'SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface'
+description: SEO Metadata Meta is representation of SEO metadata
+properties:
+  metaTitle:
+    description: "Meta title"
+    type: string
+  metaDescription:
+    description: "Meta description"
+    type: string
+  ogTitle:
+    description: "Og title"
+    type: string
+  ogDescription:
+    description: "Og description"
+    type: string
+  twitterTitle:
+    description: "Twitter title"
+    type: string
+  twitterDescription:
+    description: "Twitter description"
+    type: string
+  metaMedia:
+    description: "SEO Meta image"
+    type: Meta
