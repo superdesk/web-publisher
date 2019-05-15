@@ -14,8 +14,10 @@
 
 namespace SWP\Bundle\ContentBundle\Routing;
 
-use SWP\Bundle\ContentBundle\Model\ArticleMedia;
-use SWP\Bundle\ContentBundle\Model\AuthorMedia;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
@@ -25,65 +27,70 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RequestContext;
 
 class MediaRouter extends Router implements VersatileGeneratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    private $mediaManager;
+
+    public function __construct(
+        ContainerInterface $container,
+        $resource,
+        array $options = [],
+        RequestContext $context = null,
+        ContainerInterface $parameters = null,
+        LoggerInterface $logger = null, string
+        $defaultLocale = null
+    ) {
+        $this->mediaManager = $container->get('swp_content_bundle.manager.media');
+
+        parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
+    }
+
+    public function getRouteDebugMessage($meta, array $parameters = array()): string
     {
-        /** @var FileInterface $item */
-        $item = $this->getItem($name);
-        if (null === $item) {
-            return '';
-        }
+        return 'Route for media '.$meta->getValues()->getId().' not found';
+    }
 
-        $routeName = 'swp_media_get';
-        if ($name instanceof Meta && $name->getValues() instanceof AuthorMedia) {
-            $routeName = 'swp_author_media_get';
-        }
+    public function supports($meta): bool
+    {
+        return $meta instanceof Meta && (
+            $meta->getValues() instanceof ArticleMediaInterface ||
+            $meta->getValues() instanceof ImageRenditionInterface ||
+            $meta->getValues() instanceof AuthorMediaInterface
+        );
+    }
 
-        if ($name->getValues() instanceof ImageRenditionInterface && null !== $name->getValues()->getPreviewUrl()) {
-            return $name->getValues()->getPreviewUrl();
+    /** @param Meta $meta */
+    public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
+    {
+        $item = $this->getItem($meta);
+        if ($meta->getValues() instanceof ImageRenditionInterface && null !== ($previewUrl = $meta->getValues()->getPreviewUrl())) {
+            return $previewUrl;
         }
 
         if ($item instanceof PreviewUrlAwareInterface && null !== ($previewUrl = $item->getPreviewUrl())) {
             return $previewUrl;
         }
 
-        $parameters['mediaId'] = $item->getAssetId();
-        $parameters['extension'] = $item->getFileExtension();
-
-        return parent::generate($routeName, $parameters, $referenceType);
+        return  $this->mediaManager->getMediaPublicUrl($item);
     }
 
-    public function supports($name): bool
+    private function getItem($meta): ?FileInterface
     {
-        return $name instanceof Meta && (
-            $name->getValues() instanceof ArticleMedia ||
-            $name->getValues() instanceof ImageRendition ||
-            $name->getValues() instanceof AuthorMedia
-        );
-    }
-
-    public function getRouteDebugMessage($name, array $parameters = array()): string
-    {
-        return 'Route for media '.$name->getValues()->getId().' not found';
-    }
-
-    private function getItem($name)
-    {
-        $values = $name->getValues();
-        if ($name->getValues() instanceof ImageRendition) {
-            return $name->getValues()->getImage();
+        if (!$meta instanceof Meta) {
+            return null;
         }
 
-        if (($image = $values->getImage()) instanceof ImageInterface) {
+        if (($rendition = $meta->getValues()) instanceof ImageRendition) {
+            return $rendition->getImage();
+        }
+
+        if (($image = $meta->getValues()->getImage()) instanceof ImageInterface) {
             return $image;
         }
 
-        if (($file = $values->getFile()) instanceof FileInterface) {
+        if (($file = $meta->getValues()->getFile()) instanceof FileInterface) {
             return $file;
         }
     }

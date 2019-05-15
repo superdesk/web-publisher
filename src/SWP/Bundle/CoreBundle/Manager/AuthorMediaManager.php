@@ -20,7 +20,7 @@ use SWP\Bundle\CoreBundle\Manager\MediaManager as BaseMediaManager;
 
 final class AuthorMediaManager extends BaseMediaManager
 {
-    protected function getMediaBasePath(): string
+    public function getMediaBasePath(): string
     {
         $tenant = $this->tenantContext->getTenant();
         $pathElements = ['swp', $tenant->getOrganization()->getCode(), 'authors'];

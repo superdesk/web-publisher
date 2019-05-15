@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Manager\AuthorMediaManager;
-use SWP\Bundle\CoreBundle\Manager\MediaManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -25,15 +24,9 @@ final class OverrideMediaManagerPass extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $mediaManager = $this->getDefinitionIfExists($container, 'swp_content_bundle.manager.media');
-        $mediaManager
-            ->setClass(MediaManager::class)
-            ->setPublic(true)
-            ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
-        ;
-
         $authorMediaManager = new Definition(AuthorMediaManager::class);
         $authorMediaManager
             ->setArguments($mediaManager->getArguments())

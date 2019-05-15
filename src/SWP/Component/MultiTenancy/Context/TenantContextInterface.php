@@ -16,9 +16,6 @@ namespace SWP\Component\MultiTenancy\Context;
 
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 
-/**
- * Interface TenantContextInterface.
- */
 interface TenantContextInterface
 {
     /**

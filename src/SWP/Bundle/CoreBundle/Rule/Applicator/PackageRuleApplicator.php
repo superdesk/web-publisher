@@ -44,22 +44,13 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
      */
     private $supportedKeys = ['destinations'];
 
-    /**
-     * PackageRuleApplicator constructor.
-     *
-     * @param TenantRepositoryInterface $tenantRepository
-     * @param ArticlePopulatorInterface $articlePopulator
-     */
     public function __construct(TenantRepositoryInterface $tenantRepository, ArticlePopulatorInterface $articlePopulator)
     {
         $this->tenantRepository = $tenantRepository;
         $this->articlePopulator = $articlePopulator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function apply(RuleInterface $rule, RuleSubjectInterface $subject)
+    public function apply(RuleInterface $rule, RuleSubjectInterface $subject): void
     {
         $configuration = $this->validateRuleConfiguration($rule->getConfiguration());
 
@@ -95,10 +86,7 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
         return $tenant;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isSupported(RuleSubjectInterface $subject)
+    public function isSupported(RuleSubjectInterface $subject): bool
     {
         if (!$subject instanceof PackageInterface && 'package' === $subject->getSubjectType()) {
             $this->logger->warning(sprintf(
@@ -113,7 +101,7 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
         return true;
     }
 
-    private function validateDestinationConfig(array $config)
+    private function validateDestinationConfig(array $config): array
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined('tenant');
@@ -121,7 +109,7 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
         return $this->resolveConfig($resolver, $config);
     }
 
-    private function validateRuleConfiguration(array $config)
+    private function validateRuleConfiguration(array $config): array
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined($this->supportedKeys[0]);

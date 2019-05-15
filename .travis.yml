@@ -96,4 +96,4 @@ script:
 cache:
   directories:
   - node_modules
-  - "$HOME/.composer/cache"
+  - "$HOME/.composer/cache/files"

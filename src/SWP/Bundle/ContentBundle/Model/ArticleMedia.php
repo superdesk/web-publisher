@@ -21,9 +21,6 @@ use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * ArticleMedia represents media which belongs to Article.
- */
 class ArticleMedia implements ArticleMediaInterface
 {
     use TimestampableTrait, SoftDeletableTrait;
@@ -200,15 +197,15 @@ class ArticleMedia implements ArticleMediaInterface
     /**
      * {@inheritdoc}
      */
-    public function getAssetId()
+    public function getAssetId(): ?string
     {
         if ($this->getImage() instanceof Image) {
             return $this->getImage()->getAssetId();
-        } elseif ($this->getFile() instanceof File) {
-            return $this->getFile()->getAssetId();
         }
 
-        return;
+        if ($this->getFile() instanceof File) {
+            return $this->getFile()->getAssetId();
+        }
     }
 
     /**

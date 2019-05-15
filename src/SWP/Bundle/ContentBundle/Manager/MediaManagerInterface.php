@@ -74,4 +74,6 @@ interface MediaManagerInterface
      * @return FileInterface
      */
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface;
+
+    public function getMediaBasePath(): string;
 }

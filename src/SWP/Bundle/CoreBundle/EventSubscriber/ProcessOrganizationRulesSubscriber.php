@@ -55,15 +55,6 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
      */
     private $rulesMatcher;
 
-    /**
-     * ProcessOrganizationRulesSubscriber constructor.
-     *
-     * @param RuleProcessorInterface              $ruleProcessor
-     * @param EventDispatcherInterface            $eventDispatcher
-     * @param PublishDestinationProviderInterface $publishDestinationProvider
-     * @param ArticlePublisherInterface           $articlePublisher
-     * @param RulesMatcherInterface               $rulesMatcher
-     */
     public function __construct(
         RuleProcessorInterface $ruleProcessor,
         EventDispatcherInterface $eventDispatcher,
@@ -89,10 +80,7 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param GenericEvent $event
-     */
-    public function processRules(GenericEvent $event)
+    public function processRules(GenericEvent $event): void
     {
         $package = $event->getSubject();
         $destinationsCount = $this->publishDestinationProvider->countDestinationsByPackageGuid($package);
@@ -134,7 +122,3 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
         return $destinations;
     }
 }
-
-/*
-features/user/register_and_login.feature:7
- */

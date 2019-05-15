@@ -24,6 +24,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
+use SWP\Bundle\ContentBundle\Resolver\AssetLocationResolverInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
@@ -64,13 +65,16 @@ class MediaManager implements MediaManagerInterface
      */
     private $retryDownloads;
 
+    private $assetLocationResolver;
+
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
         RouterInterface $router,
         FileFactoryInterface $fileFactory,
         LoggerInterface $logger,
-        bool $retryDownloads
+        bool $retryDownloads,
+        AssetLocationResolverInterface $assetLocationResolver
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->filesystem = $filesystem;
@@ -78,6 +82,7 @@ class MediaManager implements MediaManagerInterface
         $this->fileFactory = $fileFactory;
         $this->logger = $logger;
         $this->retryDownloads = $retryDownloads;
+        $this->assetLocationResolver = $assetLocationResolver;
     }
 
     /**
@@ -104,7 +109,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function saveFile(UploadedFile $uploadedFile, $fileName)
+    public function saveFile(UploadedFile $uploadedFile, $fileName): bool
     {
         $extension = $this->guessExtension($uploadedFile);
         $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$extension;
@@ -136,23 +141,14 @@ class MediaManager implements MediaManagerInterface
         return new UploadedFile($tempLocation, $mediaId, $mimeType, \strlen($tempLocation), null, true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMediaPublicUrl(FileInterface $media)
+    public function getMediaPublicUrl(FileInterface $media): string
     {
         return $this->getMediaUri($media, RouterInterface::ABSOLUTE_URL);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH)
+    public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH): string
     {
-        return $this->router->generate('swp_media_get', [
-            'mediaId' => $media->getAssetId(),
-            'extension' => $media->getFileExtension(),
-        ], $type);
+        return$this->router->generate('homepage', [], $type).$this->assetLocationResolver->getAssetUrl($media);
     }
 
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
@@ -162,7 +158,12 @@ class MediaManager implements MediaManagerInterface
         return $this->fileFactory->createWith($assetId, $extension);
     }
 
-    protected function retryDecider()
+    public function getMediaBasePath(): string
+    {
+        return $this->assetLocationResolver->getMediaBasePath();
+    }
+
+    protected function retryDecider(): callable
     {
         return function (
             $retries,
@@ -203,18 +204,11 @@ class MediaManager implements MediaManagerInterface
         };
     }
 
-    protected function retryDelay()
+    protected function retryDelay(): callable
     {
         return function ($numberOfRetries): int {
             return 1000 * $numberOfRetries;
         };
-    }
-
-    protected function getMediaBasePath(): string
-    {
-        $pathElements = ['swp', 'media'];
-
-        return implode('/', $pathElements);
     }
 
     private function guessExtension(UploadedFile $uploadedFile): string

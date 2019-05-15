@@ -178,6 +178,7 @@ services:
             - '@swp.factory.file'
             - '@monolog.logger.swp_asset_download'
             - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
+            - '@swp.resolver.asset_location'
 
     swp_content_bundle.processor.article_body:
         class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain
@@ -312,3 +313,11 @@ services:
                 credentials:
                     key: '%env(resolve:FS_AWS_S3_KEY)%'
                     secret: '%env(resolve:FS_AWS_S3_SECRET)%'
+
+    swp.resolver.asset_location:
+        class: SWP\Bundle\ContentBundle\Resolver\AssetLocationResolver
+        arguments:
+            - '%env(resolve:FS_MAIN_ADAPTER)%'
+            - '%env(resolve:FS_AWS_S3_BUCKET)%'
+            - '@Aws\S3\S3Client'
+            - 'uploads'
