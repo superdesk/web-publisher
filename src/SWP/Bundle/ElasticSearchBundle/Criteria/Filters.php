@@ -45,7 +45,7 @@ final class Filters extends AbstractCriteria
 
         $convertedFields = [];
         foreach ($fields as $field) {
-            $convertedFields[] = self::camelize($field);
+            $convertedFields[] = is_string($field) ? self::camelize($field) : $field;
         }
 
         return new self($convertedFields);
