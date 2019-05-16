@@ -15,7 +15,6 @@
 namespace spec\SWP\Bundle\ContentBundle\Manager;
 
 use PhpSpec\ObjectBehavior;
-use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
@@ -30,10 +29,9 @@ class MediaManagerSpec extends ObjectBehavior
         Filesystem $filesystem,
         Router $router,
         FileFactoryInterface $fileFactory,
-        LoggerInterface $logger,
         AssetLocationResolverInterface $assetLocationResolver
     ) {
-        $this->beConstructedWith($mediaRepository, $filesystem, $router, $fileFactory, $logger, false, $assetLocationResolver);
+        $this->beConstructedWith($mediaRepository, $filesystem, $router, $fileFactory, $assetLocationResolver);
     }
 
     public function it_is_initializable()

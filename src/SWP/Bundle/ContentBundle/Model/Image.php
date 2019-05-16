@@ -155,47 +155,23 @@ class Image implements ImageInterface
         $this->renditions = $renditions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
 
-    /**
-     * Set the value of Width.
-     *
-     * @param int $width
-     *
-     * @return self
-     */
-    public function setWidth(int $width): ImageInterface
+    public function setWidth(int $width): void
     {
         $this->width = $width;
-
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
 
-    /**
-     * Set the value of Height.
-     *
-     * @param int $height
-     *
-     * @return self
-     */
-    public function setHeight(int $height): ImageInterface
+    public function setHeight(int $height): void
     {
         $this->height = $height;
-
-        return $this;
     }
 }

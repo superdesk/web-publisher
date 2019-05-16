@@ -16,21 +16,11 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 interface ImageInterface extends FileInterface
 {
-    /**
-     * Get the value of Width.
-     *
-     * @return int
-     */
-    public function getWidth();
+    public function getWidth(): int;
 
-    /**
-     * Get the value of Height.
-     *
-     * @return int
-     */
-    public function getHeight();
+    public function getHeight(): int;
 
-    public function setHeight(int $height): self;
+    public function setHeight(int $height): void;
 
-    public function setWidth(int $width): self;
+    public function setWidth(int $width): void;
 }
