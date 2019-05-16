@@ -33,7 +33,7 @@ final class OverrideMediaManagerPass extends AbstractOverridePass
         $authorMediaManager = new Definition(AuthorMediaManager::class);
         $authorMediaManager
             ->setArguments($mediaManager->getArguments())
-            ->setArgument(6, $this->getDefinitionIfExists($container, 'swp.resolver.author_asset_location'))
+            ->setArgument(4, $this->getDefinitionIfExists($container, 'swp.resolver.author_asset_location'))
             ->setPublic(true)
         ;
         $container->setDefinition('swp_core_bundle.manager.author_media', $authorMediaManager);
@@ -41,7 +41,7 @@ final class OverrideMediaManagerPass extends AbstractOverridePass
         $seoMediaManager = new Definition(SeoMediaManager::class);
         $seoMediaManager
             ->setArguments($mediaManager->getArguments())
-            ->setArgument(6, $this->getDefinitionIfExists($container, 'swp.resolver.seo_asset_location'))
+            ->setArgument(4, $this->getDefinitionIfExists($container, 'swp.resolver.seo_asset_location'))
             ->setPublic(true)
         ;
 

@@ -14,12 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Manager;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\CurlHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use Hoa\Mime\Mime;
-use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
@@ -29,10 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 
 class MediaManager implements MediaManagerInterface
 {
@@ -56,16 +46,6 @@ class MediaManager implements MediaManagerInterface
      */
     protected $fileFactory;
 
-    /**
-     * @var bool
-     */
-    private $logger;
-
-    /**
-     * @var string
-     */
-    private $retryDownloads;
-
     private $assetLocationResolver;
 
     public function __construct(
@@ -73,16 +53,12 @@ class MediaManager implements MediaManagerInterface
         Filesystem $filesystem,
         Router $router,
         FileFactoryInterface $fileFactory,
-        LoggerInterface $logger,
-        bool $retryDownloads,
         AssetLocationResolverInterface $assetLocationResolver
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->filesystem = $filesystem;
         $this->router = $router;
         $this->fileFactory = $fileFactory;
-        $this->logger = $logger;
-        $this->retryDownloads = $retryDownloads;
         $this->assetLocationResolver = $assetLocationResolver;
     }
 
@@ -112,8 +88,7 @@ class MediaManager implements MediaManagerInterface
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName): bool
     {
-        $extension = $this->guessExtension($uploadedFile);
-        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$extension;
+        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$this->guessExtension($uploadedFile);
 
         if ($this->filesystem->has($filePath)) {
             return true;
@@ -124,22 +99,6 @@ class MediaManager implements MediaManagerInterface
         fclose($stream);
 
         return $result;
-    }
-
-    public function downloadFile(string $url, string $mediaId, string $mimeType = null): UploadedFile
-    {
-        $pathParts = \pathinfo($url);
-        if (null === $mimeType) {
-            $mimeType = Mime::getMimeFromExtension($pathParts['extension']);
-        }
-
-        $handlerStack = HandlerStack::create(new CurlHandler());
-        $handlerStack->push(Middleware::retry($this->retryDecider(), $this->retryDelay()));
-        $client = new Client(array('handler' => $handlerStack));
-        $tempLocation = \rtrim(\sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.\sha1($mediaId.date('his'));
-        $client->request('GET', $url, ['sink' => $tempLocation]);
-
-        return new UploadedFile($tempLocation, $mediaId, $mimeType, \strlen($tempLocation), null, true);
     }
 
     public function getMediaPublicUrl(FileInterface $media): string
@@ -160,62 +119,12 @@ class MediaManager implements MediaManagerInterface
 
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
     {
-        $extension = $this->guessExtension($uploadedFile);
-
-        return $this->fileFactory->createWith($assetId, $extension);
+        return $this->fileFactory->createWith($assetId, $this->guessExtension($uploadedFile));
     }
 
     public function getMediaBasePath(): string
     {
         return $this->assetLocationResolver->getMediaBasePath();
-    }
-
-    protected function retryDecider(): callable
-    {
-        return function (
-            $retries,
-            Request $request,
-            Response $response = null,
-            RequestException $exception = null
-        ): bool {
-            $retry = false;
-            if (!$this->retryDownloads) {
-                $this->logger->error(\sprintf('Retries are disabled'));
-
-                return false;
-            }
-
-            if ($retries >= 4) {
-                $this->logger->error(\sprintf('Maximum number of retires reached'));
-
-                return false;
-            }
-
-            // Retry connection exceptions
-            if ($exception instanceof ConnectException) {
-                $retry = true;
-            }
-
-            if ($response) {
-                // Retry on server errors
-                if ($response->getStatusCode() >= 400) {
-                    $retry = true;
-                }
-            }
-
-            if (true === $retry) {
-                $this->logger->info(\sprintf('Retry downloading %s', $request->getUri()));
-            }
-
-            return $retry;
-        };
-    }
-
-    protected function retryDelay(): callable
-    {
-        return function ($numberOfRetries): int {
-            return 1000 * $numberOfRetries;
-        };
     }
 
     private function guessExtension(UploadedFile $uploadedFile): string

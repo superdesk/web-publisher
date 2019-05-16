@@ -169,6 +169,11 @@ services:
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
 
+    SWP\Bundle\ContentBundle\File\FileDownloader:
+        arguments:
+            - '@monolog.logger.swp_asset_download'
+            - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
+
     swp_content_bundle.manager.media:
         class: '%swp_content_bundle.manager.media.class%'
         arguments:
@@ -176,8 +181,6 @@ services:
             - '@swp_filesystem'
             - '@router.symfony'
             - '@swp.factory.file'
-            - '@monolog.logger.swp_asset_download'
-            - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
             - '@swp.resolver.asset_location'
 
     SWP\Bundle\ContentBundle\Manager\MediaManagerInterface $mediaManager: '@swp_content_bundle.manager.media'

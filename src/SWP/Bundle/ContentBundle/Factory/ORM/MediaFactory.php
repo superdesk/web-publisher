@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use Psr\Log\LoggerInterface;
+use SWP\Bundle\ContentBundle\File\FileDownloaderInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
@@ -56,18 +57,22 @@ class MediaFactory implements MediaFactoryInterface
      */
     private $logger;
 
+    private $fileDownloader;
+
     public function __construct(
         ArticleMediaAssetProviderInterface $articleMediaAssetProvider,
         FactoryInterface $factory,
         ImageRenditionFactoryInterface $imageRenditionFactory,
         MediaManagerInterface $mediaManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        FileDownloaderInterface $fileDownloader
     ) {
         $this->articleMediaAssetProvider = $articleMediaAssetProvider;
         $this->factory = $factory;
         $this->imageRenditionFactory = $imageRenditionFactory;
         $this->mediaManager = $mediaManager;
         $this->logger = $logger;
+        $this->fileDownloader = $fileDownloader;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
@@ -147,7 +152,7 @@ class MediaFactory implements MediaFactoryInterface
     private function downloadAsset(string $url, string $media, string $mimetype): FileInterface
     {
         $this->logger->info(\sprintf('Downloading %s for media %s', $url, $media));
-        $uploadedFile = $this->mediaManager->downloadFile($url, $media, $mimetype);
+        $uploadedFile = $this->fileDownloader->download($url, $media, $mimetype);
         $file = $this->mediaManager->handleUploadedFile($uploadedFile, $media);
 
         if ($file instanceof ImageInterface) {
