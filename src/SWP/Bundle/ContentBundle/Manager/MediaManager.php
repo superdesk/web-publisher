@@ -149,7 +149,13 @@ class MediaManager implements MediaManagerInterface
 
     public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH): string
     {
-        return $this->router->generate('homepage', [], $type).$this->assetLocationResolver->getAssetUrl($media);
+        $uri = '/'.$this->assetLocationResolver->getAssetUrl($media);
+        if (RouterInterface::ABSOLUTE_URL === $type) {
+            $requestContext = $this->router->getContext();
+            $uri = $requestContext->getScheme().'://'.$requestContext->getHost().$uri;
+        }
+
+        return $uri;
     }
 
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface

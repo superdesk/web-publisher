@@ -62,7 +62,7 @@ class MediaManagerTest extends WebTestCase
             'asdgsadfvasdf4w35qwetasftest'
         );
 
-        $this->assertEquals($mediaManager->getMediaUri($media), '/media/asdgsadfvasdf4w35qwetasftest.png');
-        $this->assertEquals($mediaManager->getMediaPublicUrl($media), 'http://localhost/media/asdgsadfvasdf4w35qwetasftest.png');
+        $this->assertEquals('/uploads/swp/media/asdgsadfvasdf4w35qwetasftest.png', $mediaManager->getMediaUri($media));
+        $this->assertEquals('http://localhost/uploads/swp/media/asdgsadfvasdf4w35qwetasftest.png', $mediaManager->getMediaPublicUrl($media));
     }
 }

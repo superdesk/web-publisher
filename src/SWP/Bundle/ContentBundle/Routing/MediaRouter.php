@@ -17,7 +17,6 @@ namespace SWP\Bundle\ContentBundle\Routing;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
-use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
@@ -33,19 +32,16 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
 {
     private $mediaManager;
 
-    private $authorMediaManager;
-
     public function __construct(
         ContainerInterface $container,
         $resource,
         array $options = [],
         RequestContext $context = null,
         ContainerInterface $parameters = null,
-        LoggerInterface $logger = null, string
-        $defaultLocale = null
+        LoggerInterface $logger = null,
+        string $defaultLocale = null
     ) {
         $this->mediaManager = $container->get('swp_content_bundle.manager.media');
-        $this->authorMediaManager = $container->get('swp_core_bundle.manager.author_media');
 
         parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
     }
@@ -59,8 +55,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
     {
         return $meta instanceof Meta && (
             $meta->getValues() instanceof ArticleMediaInterface ||
-            $meta->getValues() instanceof ImageRenditionInterface ||
-            $meta->getValues() instanceof AuthorMediaInterface
+            $meta->getValues() instanceof ImageRenditionInterface
         );
     }
 
@@ -74,10 +69,6 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
 
         if ($item instanceof PreviewUrlAwareInterface && null !== ($previewUrl = $item->getPreviewUrl())) {
             return $previewUrl;
-        }
-
-        if ($meta->getValues() instanceof AuthorMediaInterface) {
-            return $this->authorMediaManager->getMediaPublicUrl($meta->getValues()->getImage());
         }
 
         return  $this->mediaManager->getMediaPublicUrl($item);
