@@ -19,7 +19,7 @@ use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
