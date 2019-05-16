@@ -26,27 +26,15 @@ use Symfony\Component\Routing\RouterInterface;
 
 class MediaManager implements MediaManagerInterface
 {
-    /**
-     * @var Filesystem
-     */
     protected $filesystem;
 
-    /**
-     * @var RouterInterface
-     */
     protected $router;
 
-    /**
-     * @var ArticleMediaRepositoryInterface
-     */
     protected $mediaRepository;
 
-    /**
-     * @var FileFactoryInterface
-     */
     protected $fileFactory;
 
-    private $assetLocationResolver;
+    protected $assetLocationResolver;
 
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
@@ -62,9 +50,6 @@ class MediaManager implements MediaManagerInterface
         $this->assetLocationResolver = $assetLocationResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
         $mediaId = ArticleMedia::handleMediaId($mediaId);
@@ -75,20 +60,14 @@ class MediaManager implements MediaManagerInterface
         return $asset;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFile(FileInterface $media)
     {
-        return $this->filesystem->read($this->getMediaBasePath().'/'.$media->getAssetId().'.'.$media->getFileExtension());
+        return $this->filesystem->read($this->assetLocationResolver->getMediaBasePath().'/'.$media->getAssetId().'.'.$media->getFileExtension());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function saveFile(UploadedFile $uploadedFile, $fileName): bool
     {
-        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$this->guessExtension($uploadedFile);
+        $filePath = $this->assetLocationResolver->getMediaBasePath().'/'.$fileName.'.'.$this->guessExtension($uploadedFile);
 
         if ($this->filesystem->has($filePath)) {
             return true;
@@ -120,11 +99,6 @@ class MediaManager implements MediaManagerInterface
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
     {
         return $this->fileFactory->createWith($assetId, $this->guessExtension($uploadedFile));
-    }
-
-    public function getMediaBasePath(): string
-    {
-        return $this->assetLocationResolver->getMediaBasePath();
     }
 
     private function guessExtension(UploadedFile $uploadedFile): string

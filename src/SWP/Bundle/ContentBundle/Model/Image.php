@@ -170,7 +170,7 @@ class Image implements ImageInterface
      *
      * @return self
      */
-    public function setWidth($width)
+    public function setWidth(int $width): ImageInterface
     {
         $this->width = $width;
 
@@ -192,7 +192,7 @@ class Image implements ImageInterface
      *
      * @return self
      */
-    public function setHeight($height)
+    public function setHeight(int $height): ImageInterface
     {
         $this->height = $height;
 

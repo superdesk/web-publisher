@@ -29,4 +29,8 @@ interface ImageInterface extends FileInterface
      * @return int
      */
     public function getHeight();
+
+    public function setHeight(int $height): ImageInterface;
+
+    public function setWidth(int $width): ImageInterface;
 }

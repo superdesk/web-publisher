@@ -167,7 +167,7 @@ class MediaFactory implements MediaFactoryInterface
     private function findOriginalRendition(ItemInterface $item): RenditionInterface
     {
         return $item->getRenditions()->filter(
-            function (RenditionInterface $rendition) {
+            static function (RenditionInterface $rendition) {
                 return 'original' === $rendition->getName();
             }
         )->first();
