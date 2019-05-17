@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 trait KeywordsAwareTrait
@@ -44,6 +45,9 @@ trait KeywordsAwareTrait
         if ($this->hasKeyword($keyword)) {
             $this->keywords->removeElement($keyword);
         }
+
+        // Reset internal array keys, so it's serialized to json as array not object
+        $this->setKeywords(new ArrayCollection($this->getKeywords()->getValues()));
     }
 
     public function hasKeyword(KeywordInterface $keyword): bool

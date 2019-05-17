@@ -175,6 +175,10 @@ final class ArticlePublisher implements ArticlePublisherInterface
     private function addToContentLists(array $contentListsPositions, ArticleInterface $article): void
     {
         foreach ($contentListsPositions as $contentListsPosition) {
+            if (!is_int($contentListsPosition['id'])) {
+                return;
+            }
+
             $contentList = $this->contentListRepository->findListById($contentListsPosition['id']);
             if (null === $contentList) {
                 continue;

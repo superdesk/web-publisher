@@ -89,6 +89,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
+        $article->getKeywords()->willReturn(new ArrayCollection());
         $articleKeywordAdder->add($article, 'key1')->shouldBeCalled();
         $articleKeywordAdder->add($article, 'key2')->shouldBeCalled();
         $article->setSlug('item headline')->shouldNotBeCalled();
@@ -143,6 +144,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->setSlug('slugline')->shouldBeCalled();
+        $article->getKeywords()->willReturn(new ArrayCollection());
         $articleKeywordAdder->add($article, 'key1')->shouldBeCalled();
         $articleKeywordAdder->add($article, 'key2')->shouldBeCalled();
         $article->getRoute()->shouldBeCalled()->willReturn($route);

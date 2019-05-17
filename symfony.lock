@@ -136,6 +136,9 @@
             "src/Migrations/.gitignore"
         ]
     },
+    "doctrine/event-manager": {
+        "version": "v1.0.0"
+    },
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
@@ -151,6 +154,9 @@
     "doctrine/orm": {
         "version": "v2.6.3"
     },
+    "doctrine/persistence": {
+        "version": "1.1.1"
+    },
     "doctrine/phpcr-bundle": {
         "version": "2.0",
         "recipe": {
@@ -162,6 +168,9 @@
     },
     "doctrine/phpcr-odm": {
         "version": "1.4.4"
+    },
+    "doctrine/reflection": {
+        "version": "v1.0.0"
     },
     "egulias/email-validator": {
         "version": "2.1.7"
@@ -1134,9 +1143,6 @@
     },
     "theseer/tokenizer": {
         "version": "1.1.2"
-    },
-    "true/punycode": {
-        "version": "v2.1.1"
     },
     "twig/extensions": {
         "version": "1.0",

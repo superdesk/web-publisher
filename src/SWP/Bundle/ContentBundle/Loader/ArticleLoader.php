@@ -98,9 +98,12 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 try {
                     return $this->getArticleMeta($parameters['article']);
                 } catch (NotFoundHttpException $e) {
-                    return;
+                    return false;
                 }
             } elseif (array_key_exists('slug', $parameters)) {
+                if ('' === $parameters['slug']) {
+                    $parameters['slug'] = null;
+                }
                 $criteria->set('slug', $parameters['slug']);
             }
 
@@ -109,7 +112,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
                 return $this->getArticleMeta($article);
             } catch (NotFoundHttpException $e) {
-                return;
+                return false;
             }
         } elseif ('articles' === $type && LoaderInterface::COLLECTION === $responseType) {
             $currentPage = $this->context['route'];
@@ -125,7 +128,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
                     if (null === $route) {
                         // if Route parameter was passed but it was not found - don't return articles not filtered by route
-                        return;
+                        return false;
                     }
                 }
             }
@@ -148,7 +151,6 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             $this->setDateRangeToCriteria($criteria, $parameters);
             $countCriteria = clone $criteria;
             $articlesCollection = $this->articleProvider->getManyByCriteria($criteria, $criteria->get('order', []));
-
             if ($articlesCollection->count() > 0) {
                 $metaCollection = new MetaCollection();
                 $metaCollection->setTotalItemsCount($this->articleProvider->getCountByCriteria($countCriteria));
@@ -158,11 +160,16 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                         $metaCollection->add($articleMeta);
                     }
                 }
+
                 unset($articlesCollection, $route, $criteria);
 
                 return $metaCollection;
             }
+
+            return false;
         }
+
+        return false;
     }
 
     /**
@@ -187,12 +194,14 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     /**
      * @param ArticleInterface|null $article
      *
-     * @return \SWP\Component\TemplatesSystem\Gimme\Meta\Meta|void
+     * @return \SWP\Component\TemplatesSystem\Gimme\Meta\Meta|bool
      */
     protected function getArticleMeta($article)
     {
         if (null !== $article) {
             return $this->metaFactory->create($article);
         }
+
+        return false;
     }
 }

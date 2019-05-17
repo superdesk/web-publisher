@@ -26,24 +26,13 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 
 final class ResourceResponseListener
 {
-    /**
-     * @var ViewHandlerInterface
-     */
     private $viewHandler;
 
-    /**
-     * ResourcesListResponseListener constructor.
-     *
-     * @param ViewHandlerInterface $viewHandler
-     */
     public function __construct(ViewHandlerInterface $viewHandler)
     {
         $this->viewHandler = $viewHandler;
     }
 
-    /**
-     * @param GetResponseForControllerResultEvent $event
-     */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $controllerResult = $event->getControllerResult();
@@ -79,10 +68,6 @@ final class ResourceResponseListener
         $this->clearCookies($event, $responseContext);
     }
 
-    /**
-     * @param GetResponseForControllerResultEvent $event
-     * @param ResponseContext                     $responseContext
-     */
     private function setHeaders(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
     {
         if (count($responseContext->getHeaders()) > 0) {
@@ -95,10 +80,6 @@ final class ResourceResponseListener
         }
     }
 
-    /**
-     * @param GetResponseForControllerResultEvent $event
-     * @param ResponseContext                     $responseContext
-     */
     private function clearCookies(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
     {
         if (count($responseContext->getClearedCookies()) > 0) {
