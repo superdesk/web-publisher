@@ -74,7 +74,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         keywords:
             expose: true
             groups: [api]
-            type: ArrayCollection
+            type: array<SWP\Bundle\ContentBundle\Model\Keyword>
         code:
             expose: true
             groups: [api]

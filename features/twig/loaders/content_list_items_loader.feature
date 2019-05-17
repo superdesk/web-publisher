@@ -55,3 +55,11 @@ Feature: Working with Content List Items Loader
       {% endgimme %}
      """
     Then rendered template should not contain "First Test Article"
+
+    And I render a template with content:
+     """
+      {% gimme article with {slug: ""} %}
+        aaa
+      {% endgimme %}
+     """
+    Then rendered template should not contain "aaa"
