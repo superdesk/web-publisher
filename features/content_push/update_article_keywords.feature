@@ -35,14 +35,12 @@ Feature: Skip blacklisted keywords
     Then I send a "POST" request to "/api/v2/packages/6/publish/" with body:
      """
       {
-          "publish":{
-            "destinations":[
-              {
-                "tenant":"123abc",
-                "published":true
-              }
-            ]
-          }
+          "destinations":[
+            {
+              "tenant":"123abc",
+              "published":true
+            }
+          ]
       }
      """
     Then the response status code should be 201
