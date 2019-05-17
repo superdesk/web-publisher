@@ -15,23 +15,23 @@
 namespace spec\SWP\Bundle\ContentBundle\Manager;
 
 use PhpSpec\ObjectBehavior;
-use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
 use League\Flysystem\Filesystem;
-use Symfony\Component\Routing\RouterInterface;
+use SWP\Bundle\ContentBundle\Resolver\AssetLocationResolverInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 class MediaManagerSpec extends ObjectBehavior
 {
     public function let(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
-        RouterInterface $router,
+        Router $router,
         FileFactoryInterface $fileFactory,
-        LoggerInterface $logger
+        AssetLocationResolverInterface $assetLocationResolver
     ) {
-        $this->beConstructedWith($mediaRepository, $filesystem, $router, $fileFactory, $logger, false);
+        $this->beConstructedWith($mediaRepository, $filesystem, $router, $fileFactory, $assetLocationResolver);
     }
 
     public function it_is_initializable()

@@ -60,7 +60,7 @@ final class ContentPushControllerTest extends WebTestCase
         $this->assertEquals(
             [
                 'media_id' => 'asdgsadfvasdf4w35qwetasftest',
-                'URL' => 'http://localhost/media/asdgsadfvasdf4w35qwetasftest.png',
+                'URL' => 'http://localhost/uploads/swp/media/asdgsadfvasdf4w35qwetasftest.png',
                 'media' => base64_encode(file_get_contents(__DIR__.'/../app/Resources/test_file.png')),
                 'mime_type' => 'image/png',
                 'filemeta' => [],
@@ -82,7 +82,7 @@ final class ContentPushControllerTest extends WebTestCase
         $this->assertEquals(
             [
                 'media_id' => '2016083108080/6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
-                'URL' => 'http://localhost/media/2016083108080_6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.png',
+                'URL' => 'http://localhost/uploads/swp/media/2016083108080_6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.png',
                 'media' => base64_encode(file_get_contents(__DIR__.'/../app/Resources/test_file.png')),
                 'mime_type' => 'image/png',
                 'filemeta' => [],
@@ -104,7 +104,7 @@ final class ContentPushControllerTest extends WebTestCase
         $this->assertEquals(
             [
                 'media_id' => 'testinstance/2016083108080/7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
-                'URL' => 'http://localhost/media/testinstance_2016083108080_7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.png',
+                'URL' => 'http://localhost/uploads/swp/media/testinstance_2016083108080_7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.png',
                 'media' => base64_encode(file_get_contents(__DIR__.'/../app/Resources/test_file.png')),
                 'mime_type' => 'image/png',
                 'filemeta' => [],

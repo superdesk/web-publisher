@@ -20,10 +20,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaManagerTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initDatabase();
 
@@ -31,38 +28,30 @@ class MediaManagerTest extends WebTestCase
         $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
     }
 
-    /**
-     * Test file upload.
-     */
-    public function testFileUpload()
+    public function testFileUpload(): void
     {
         $mediaManager = $this->getContainer()->get('swp_content_bundle.manager.media');
-
         $media = $mediaManager->handleUploadedFile(
             new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png'),
             'asdgsadfvasdf4w35qwetasftest'
         );
 
-        $this->assertTrue('asdgsadfvasdf4w35qwetasftest' === $media->getAssetId());
-        $this->assertTrue('png' === $media->getFileExtension());
+        $this->assertSame('asdgsadfvasdf4w35qwetasftest', $media->getAssetId());
+        $this->assertSame('png', $media->getFileExtension());
 
         $file = $mediaManager->getFile($media);
-        $this->assertTrue($file === file_get_contents(__DIR__.'/../app/Resources/test_file.png'));
+        $this->assertSame($file, file_get_contents(__DIR__.'/../app/Resources/test_file.png'));
     }
 
-    /**
-     * Test url generation functions.
-     */
-    public function testUrlGeneration()
+    public function testUrlGeneration(): void
     {
         $mediaManager = $this->getContainer()->get('swp_content_bundle.manager.media');
-
         $media = $mediaManager->handleUploadedFile(
             new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png'),
             'asdgsadfvasdf4w35qwetasftest'
         );
 
-        $this->assertEquals($mediaManager->getMediaUri($media), '/media/asdgsadfvasdf4w35qwetasftest.png');
-        $this->assertEquals($mediaManager->getMediaPublicUrl($media), 'http://localhost/media/asdgsadfvasdf4w35qwetasftest.png');
+        $this->assertEquals('/uploads/swp/media/asdgsadfvasdf4w35qwetasftest.png', $mediaManager->getMediaUri($media));
+        $this->assertEquals('http://localhost/uploads/swp/media/asdgsadfvasdf4w35qwetasftest.png', $mediaManager->getMediaPublicUrl($media));
     }
 }

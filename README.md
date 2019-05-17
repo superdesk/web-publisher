@@ -3,8 +3,6 @@ Superdesk Web Publisher
 
 [![Build Status](https://travis-ci.org/superdesk/web-publisher.svg?branch=master)](https://travis-ci.org/superdesk/web-publisher)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/superdesk/web-publisher/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/superdesk/web-publisher/?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/56bc97382a29ed00396b3760/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56bc97382a29ed00396b3760)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c1d40e6d-f4c3-42fa-af0e-d4a4e521d435/mini.png)](https://insight.sensiolabs.com/projects/c1d40e6d-f4c3-42fa-af0e-d4a4e521d435)
 
 Superdesk Publisher - the next generation publishing platform for journalists and newsrooms.
 

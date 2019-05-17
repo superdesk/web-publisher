@@ -79,7 +79,7 @@ interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInter
     /**
      * @return mixed
      */
-    public function getAssetId();
+    public function getAssetId(): ?string;
 
     /**
      * @return mixed

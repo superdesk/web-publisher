@@ -84,9 +84,19 @@ class MetaRouter extends DynamicRouter
      */
     public function supports($name)
     {
-        return ($name instanceof Meta && (
+        return
+        ($name instanceof Meta && (
             $name->getValues() instanceof ArticleInterface ||
             $name->getValues() instanceof RouteInterface
-        )) || $name instanceof RouteInterface || $name instanceof ArticleInterface || (is_string($name) && 'homepage' !== $name);
+        )) ||
+        $name instanceof RouteInterface ||
+        $name instanceof ArticleInterface ||
+        (
+            is_string($name) &&
+            'homepage' !== $name &&
+            'swp_author_media_get' !== $name &&
+            'swp_media_get' !== $name &&
+            false === strpos($name, 'swp_api_')
+        );
     }
 }

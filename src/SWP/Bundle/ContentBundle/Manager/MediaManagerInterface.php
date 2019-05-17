@@ -47,31 +47,9 @@ interface MediaManagerInterface
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName);
 
-    public function downloadFile(string $url, string $mediaId, string $mimeType = null): UploadedFile;
+    public function getMediaPublicUrl(FileInterface $media): string;
 
-    /**
-     * Get public url (tenant host + path to media) for media.
-     *
-     * @param FileInterface $media
-     *
-     * @return string
-     */
-    public function getMediaPublicUrl(FileInterface $media);
+    public function getMediaUri(FileInterface $media): string;
 
-    /**
-     * Get path to media.
-     *
-     * @param FileInterface $media
-     *
-     * @return string
-     */
-    public function getMediaUri(FileInterface $media);
-
-    /**
-     * @param UploadedFile $uploadedFile
-     * @param string       $assetId
-     *
-     * @return FileInterface
-     */
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface;
 }

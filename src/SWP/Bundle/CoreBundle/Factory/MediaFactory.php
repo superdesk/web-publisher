@@ -6,6 +6,7 @@ namespace SWP\Bundle\CoreBundle\Factory;
 
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Factory\ORM\ImageRenditionFactoryInterface;
+use SWP\Bundle\ContentBundle\File\FileDownloaderInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProviderInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -18,8 +19,9 @@ final class MediaFactory extends BaseMediaFactory
         FactoryInterface $factory,
         ImageRenditionFactoryInterface $imageRenditionFactory,
         MediaManagerInterface $mediaManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        FileDownloaderInterface $fileDownloader
     ) {
-        parent::__construct($articleMediaAssetProvider, $factory, $imageRenditionFactory, $mediaManager, $logger);
+        parent::__construct($articleMediaAssetProvider, $factory, $imageRenditionFactory, $mediaManager, $logger, $fileDownloader);
     }
 }

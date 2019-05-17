@@ -25,11 +25,11 @@ interface ArticlePublisherInterface
      * @param PackageInterface                $package
      * @param CompositePublishActionInterface $action
      */
-    public function publish(PackageInterface $package, CompositePublishActionInterface $action);
+    public function publish(PackageInterface $package, CompositePublishActionInterface $action): void;
 
     /**
      * @param PackageInterface $package
      * @param array            $tenants
      */
-    public function unpublish(PackageInterface $package, array $tenants = []);
+    public function unpublish(PackageInterface $package, array $tenants = []): void;
 }

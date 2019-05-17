@@ -87,5 +87,19 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
         );
 
         $container->prependExtensionConfig('fos_http_cache', $fosHttpCacheConfig);
+
+        $nelmioCorsConfig = [
+            'defaults' => [
+                'allow_origin' => [
+                    '%env(CORS_ALLOW_ORIGIN)%',
+                ],
+            ],
+        ];
+        $nelmioCorsConfig = $container->resolveEnvPlaceholders(
+            $nelmioCorsConfig,
+            true
+        );
+
+        $container->prependExtensionConfig('nelmio_cors', $nelmioCorsConfig);
     }
 }

@@ -18,11 +18,9 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\CoreBundle\Manager\AuthorMediaManager;
-use SWP\Bundle\CoreBundle\Manager\MediaManager;
 use SWP\Bundle\CoreBundle\Manager\SeoMediaManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 
 final class OverrideMediaManagerPass extends AbstractOverridePass
 {
@@ -32,25 +30,19 @@ final class OverrideMediaManagerPass extends AbstractOverridePass
     public function process(ContainerBuilder $container): void
     {
         $mediaManager = $this->getDefinitionIfExists($container, 'swp_content_bundle.manager.media');
-        $mediaManager
-            ->setClass(MediaManager::class)
-            ->setPublic(true)
-            ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
-        ;
-
         $authorMediaManager = new Definition(AuthorMediaManager::class);
         $authorMediaManager
             ->setArguments($mediaManager->getArguments())
+            ->setArgument(4, $this->getDefinitionIfExists($container, 'swp.resolver.author_asset_location'))
             ->setPublic(true)
-            ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
         ;
         $container->setDefinition('swp_core_bundle.manager.author_media', $authorMediaManager);
 
         $seoMediaManager = new Definition(SeoMediaManager::class);
         $seoMediaManager
             ->setArguments($mediaManager->getArguments())
+            ->setArgument(4, $this->getDefinitionIfExists($container, 'swp.resolver.seo_asset_location'))
             ->setPublic(true)
-            ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
         ;
 
         $container->setDefinition('swp_core_bundle.manager.seo_media', $seoMediaManager);

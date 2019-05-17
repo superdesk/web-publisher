@@ -169,15 +169,19 @@ services:
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
 
+    SWP\Bundle\ContentBundle\File\FileDownloader:
+        arguments:
+            - '@monolog.logger.swp_asset_download'
+            - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
+
     swp_content_bundle.manager.media:
         class: '%swp_content_bundle.manager.media.class%'
         arguments:
             - '@swp.repository.media'
             - '@swp_filesystem'
-            - '@router'
+            - '@router.symfony'
             - '@swp.factory.file'
-            - '@monolog.logger.swp_asset_download'
-            - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
+            - '@swp.resolver.asset_location'
 
     SWP\Bundle\ContentBundle\Manager\MediaManagerInterface $mediaManager: '@swp_content_bundle.manager.media'
 
@@ -322,5 +326,22 @@ services:
                 credentials:
                     key: '%env(resolve:FS_AWS_S3_KEY)%'
                     secret: '%env(resolve:FS_AWS_S3_SECRET)%'
+
+    swp.resolver.asset_location:
+        class: SWP\Bundle\ContentBundle\Resolver\AssetLocationResolver
+        arguments:
+            - '%env(resolve:FS_MAIN_ADAPTER)%'
+            - '%env(resolve:FS_AWS_S3_BUCKET)%'
+            - '@Aws\S3\S3Client'
+            - 'uploads'
+
+    swp.resolver.author_asset_location:
+        parent: swp.resolver.asset_location
+        public: true
+
+
+    swp.resolver.seo_asset_location:
+        parent: swp.resolver.asset_location
+        public: true
 
     Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'

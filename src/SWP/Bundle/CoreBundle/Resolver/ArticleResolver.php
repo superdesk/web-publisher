@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Resolver;
 
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
@@ -34,7 +35,7 @@ class ArticleResolver implements ArticleResolverInterface
     {
         try {
             $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
-            if (isset($route['_article_meta']) && $route['_article_meta']->getValues() instanceof ArticleInterface) {
+            if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && $route['_article_meta']->getValues() instanceof ArticleInterface) {
                 return $route['_article_meta']->getValues();
             }
         } catch (ResourceNotFoundException $e) {

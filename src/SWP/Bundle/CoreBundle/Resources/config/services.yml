@@ -57,6 +57,12 @@ services:
         tags:
             -  { name: dynamic_router_route_enhancer, priority: 10 }
 
+    SWP\Bundle\CoreBundle\Routing\ArticleAuthorMediaRouter:
+        parent: "router.symfony"
+        public: true
+        tags:
+            - { name: router, priority: 300 }
+
     swp_core.provider.theme:
         class: SWP\Bundle\CoreBundle\Theme\Provider\ThemeProvider
         arguments:

@@ -49,13 +49,11 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $env = $this->getEnvironment();
 
         $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
-        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
         if (null === $tenantContext->getTenant()) {
             $tenantContext->setTenant(
                 $this->container->get('swp.repository.tenant')->findOneByCode('123abc')
             );
         }
-        $mediaManager->setTenantContext($tenantContext);
 
         $this->loadRoutes($env, $manager);
         $this->loadArticles($env, $manager);

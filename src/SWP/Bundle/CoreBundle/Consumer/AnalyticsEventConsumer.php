@@ -26,6 +26,7 @@ use SWP\Bundle\CoreBundle\Resolver\ArticleResolverInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
@@ -167,7 +168,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
 
         $route = $this->matcher->match($this->getFragmentFromUrl($referrer, 'path'));
-        if (isset($route['_article_meta']) && $route['_article_meta']->getValues() instanceof ArticleInterface) {
+        if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && $route['_article_meta']->getValues() instanceof ArticleInterface) {
             $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE] = 'article';
             $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE] = $route['_article_meta']->getValues();
         } elseif (isset($route['_route_meta']) && $route['_route_meta']->getValues() instanceof RouteInterface) {
