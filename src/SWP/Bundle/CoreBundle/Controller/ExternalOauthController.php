@@ -5,7 +5,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 class OauthController extends Controller
 {
     /**
-     * @Route("/connect/oauth")
+     * @Route("/connect/oauth", name="connect_oauth_start")
      */
     public function connectAction(ClientRegistry $clientRegistry)
     {
@@ -17,7 +17,7 @@ class OauthController extends Controller
     }
 
     /**
-     * @Route("/connect/oauth/check
+     * @Route("/connect/oauth/check", name="connect_oauth_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {
