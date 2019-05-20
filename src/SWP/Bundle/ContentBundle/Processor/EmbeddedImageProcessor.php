@@ -50,6 +50,10 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
 
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
+        if (null === $article->getBody()) {
+            return;
+        }
+
         $body = preg_replace('/\s+/', ' ', trim($article->getBody()));
         $mediaId = str_replace('/', '\\/', $articleMedia->getKey());
 
