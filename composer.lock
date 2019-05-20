@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7434e7070fdc0fa7b568dff9ccb7f03",
+    "content-hash": "61c1bbc6a20fb4210010db2ef246e6de",
     "packages": [
         {
             "name": "apache/log4php",
@@ -940,28 +940,31 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.7.2",
+            "version": "v2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "c0e5736016a51b427a8cba8bc470fbea78165819"
+                "reference": "a9019c1e3232eacace373a6ba957a85b66a255c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/c0e5736016a51b427a8cba8bc470fbea78165819",
-                "reference": "c0e5736016a51b427a8cba8bc470fbea78165819",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/a9019c1e3232eacace373a6ba957a85b66a255c1",
+                "reference": "a9019c1e3232eacace373a6ba957a85b66a255c1",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "^2.7.1",
+                "doctrine/cache": "^1.0",
+                "doctrine/event-manager": "^1.0",
                 "ext-pdo": "*",
                 "php": "^7.1"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^4.0",
-                "phpunit/phpunit": "^7.0",
+                "jetbrains/phpstorm-stubs": "^2018.1.2",
+                "phpstan/phpstan": "^0.10.1",
+                "phpunit/phpunit": "^7.1.2",
                 "phpunit/phpunit-mock-objects": "!=3.2.4,!=3.2.5",
-                "symfony/console": "^2.0.5||^3.0",
+                "symfony/console": "^2.0.5|^3.0|^4.0",
                 "symfony/phpunit-bridge": "^3.4.5|^4.0.5"
             },
             "suggest": {
@@ -973,7 +976,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7.x-dev"
+                    "dev-master": "2.8.x-dev",
+                    "dev-develop": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -1011,7 +1015,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2018-07-13T04:49:01+00:00"
+            "time": "2018-12-04T06:44:25+00:00"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -10458,7 +10462,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -12386,7 +12390,7 @@
             ],
             "authors": [
                 {
-                    "name": "William DURAND",
+                    "name": "William Durand",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -15711,12 +15715,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "c91d74867cc32f6bbc788b33d23372703d61f2c2"
+                "reference": "73398309c6b11d09275e47224f9ad301ba661f74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c91d74867cc32f6bbc788b33d23372703d61f2c2",
-                "reference": "c91d74867cc32f6bbc788b33d23372703d61f2c2",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/73398309c6b11d09275e47224f9ad301ba661f74",
+                "reference": "73398309c6b11d09275e47224f9ad301ba661f74",
                 "shasum": ""
             },
             "conflict": {
@@ -15734,7 +15738,7 @@
                 "cart2quote/module-quotation": ">=4.1.6,<=4.4.5|>=5,<5.4.4",
                 "cartalyst/sentry": "<=2.1.6",
                 "codeigniter/framework": "<=3.0.6",
-                "composer/composer": "<=1.0.0-alpha11",
+                "composer/composer": "<=1-alpha.11",
                 "contao-components/mediaelement": ">=2.14.2,<2.21.1",
                 "contao/core": ">=2,<3.5.39",
                 "contao/core-bundle": ">=4,<4.4.39|>=4.5,<4.7.5",
@@ -15766,7 +15770,7 @@
                 "fuel/core": "<1.8.1",
                 "gree/jose": "<=2.2",
                 "gregwar/rst": "<1.0.3",
-                "guzzlehttp/guzzle": ">=6,<6.2.1|>=4.0.0-rc2,<4.2.4|>=5,<5.3.1",
+                "guzzlehttp/guzzle": ">=4-rc.2,<4.2.4|>=5,<5.3.1|>=6,<6.2.1",
                 "illuminate/auth": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.10",
                 "illuminate/cookie": ">=4,<=4.0.11|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.42|>=5.6,<5.6.30",
                 "illuminate/database": ">=4,<4.0.99|>=4.1,<4.1.29",
@@ -15801,7 +15805,7 @@
                 "phpunit/phpunit": ">=4.8.19,<4.8.28|>=5.0.10,<5.6.3",
                 "phpwhois/phpwhois": "<=4.2.5",
                 "phpxmlrpc/extras": "<0.6.1",
-                "propel/propel": ">=2.0.0-alpha1,<=2.0.0-alpha7",
+                "propel/propel": ">=2-alpha.1,<=2-alpha.7",
                 "propel/propel1": ">=1,<=1.7.1",
                 "pusher/pusher-php-server": "<2.2.1",
                 "robrichards/xmlseclibs": ">=1,<3.0.2",
@@ -15852,7 +15856,7 @@
                 "symfony/yaml": ">=2,<2.0.22|>=2.1,<2.1.7",
                 "tecnickcom/tcpdf": "<6.2.22",
                 "thelia/backoffice-default-template": ">=2.1,<2.1.2",
-                "thelia/thelia": ">=2.1.0-beta1,<2.1.3|>=2.1,<2.1.2",
+                "thelia/thelia": ">=2.1-beta.1,<2.1.3",
                 "theonedemon/phpwhois": "<=4.2.5",
                 "titon/framework": ">=0,<9.9.99",
                 "truckersmp/phpwhois": "<=4.3.1",
@@ -15912,7 +15916,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-05-10T14:32:12+00:00"
+            "time": "2019-05-17T16:29:20+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -17524,7 +17528,8 @@
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-json": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ext-dom": "*"
     },
     "platform-dev": []
 }
