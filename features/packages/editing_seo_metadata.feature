@@ -28,6 +28,7 @@ Feature: Editing existing SEO metadata
     And the JSON node "twitter_title" should be equal to "This is my twitter title"
     And the JSON node "twitter_description" should be equal to "This is my twitter description"
 
+    Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
     Then the response status code should be 200
