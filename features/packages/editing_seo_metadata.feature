@@ -29,7 +29,7 @@ Feature: Editing existing SEO metadata
     And the JSON node "twitter_description" should be equal to "This is my twitter description"
 
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v2/seo/"
+    Then I send a "GET" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
     Then the response status code should be 200
     And the JSON node "_links.meta_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
     And the JSON node "_links.og_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
