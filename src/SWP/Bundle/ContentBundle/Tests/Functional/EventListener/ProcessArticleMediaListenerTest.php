@@ -88,7 +88,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
 
         $expected = <<<'EOT'
-<p>here goes the picture</p><p><br></p> <!-- EMBED START Image {id: "embedded6358005131"} --><figure><img src="/media/20160905140916_12345678987654321a.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321a" data-rendition-name="original" width="1189" height="793" alt="man and tractor"><figcaption>man and tractor<span>ADmin</span></figcaption></figure> <!-- EMBED END Image {id: "embedded6358005131"} -->
+<p>here goes the picture</p><p><br></p> <!-- EMBED START Image {id: "embedded6358005131"} --><figure><img src="/media/20160905140916_12345678987654321a.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321a" data-rendition-name="original" width="1189" height="793" alt="man and tractor"><figcaption>man and tractor<span>ADmin</span></figcaption></figure><!-- EMBED END Image {id: "embedded6358005131"} -->
 EOT;
 
         self::assertEquals($expected, $article->getBody());
@@ -104,7 +104,7 @@ EOT;
         $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $item));
 
         $embed1 = <<<'EOT'
-<!-- EMBED START Image {id: "embedded11331114891"} --><figure><img src="/media/58512be6c3a5be49fdca1178.jpeg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" data-rendition-name="original" width="1200" height="797" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded11331114891"} -->
+<!-- EMBED START Image {id: "embedded11331114891"} --><figure><img src="/media/58512be6c3a5be49fdca1178.jpeg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" data-rendition-name="original" width="1200" height="797" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)<span>Ljuba Ranković</span></figcaption></figure><!-- EMBED END Image {id: "embedded11331114891"} -->
 EOT;
 
         $embed2 = <<<'EOT'
