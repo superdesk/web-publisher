@@ -124,4 +124,30 @@ class SeoMetadataController extends AbstractController
 
         return new SingleResourceResponse($form, new ResponseContext(400));
     }
+
+    /**
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Gets SEO metadata entry",
+     *     statusCodes={
+     *         201="Returned on success.",
+     *         400="Returned when form have errors"
+     *     }
+     * )
+     *
+     * @Route("/api/{version}/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")
+     *
+     * @return SingleResourceResponse
+     */
+    public function getAction(string $packageGuid): SingleResourceResponse
+    {
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+
+        $existingSeoMetadata = $this->seoMetadataRepository->findOneByPackageGuid($packageGuid);
+        if (null === $existingSeoMetadata) {
+            throw new NotFoundHttpException('SEO metadata not found!');
+        }
+
+        return new SingleResourceResponse($existingSeoMetadata, new ResponseContext(200));
+    }
 }
