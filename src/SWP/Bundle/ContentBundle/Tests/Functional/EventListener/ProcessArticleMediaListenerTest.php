@@ -108,7 +108,7 @@ EOT;
 EOT;
 
         $embed2 = <<<'EOT'
-<!-- EMBED START Image {id: "embedded5366428123"} --><figure><img src="/media/58512be4c3a5be49fdca1168.jpeg" data-media-id="embedded5366428123" data-image-id="58512be4c3a5be49fdca1168" data-rendition-name="original" width="1200" height="900" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded5366428123"} -->
+<!-- EMBED START Image {id: "embedded5366428123"} --><figure><img src="/media/58512be4c3a5be49fdca1168.jpeg" data-media-id="embedded5366428123" data-image-id="58512be4c3a5be49fdca1168" data-rendition-name="original" width="1200" height="900" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis<span>Ljuba Ranković</span></figcaption></figure><!-- EMBED END Image {id: "embedded5366428123"} -->
 EOT;
         self::assertContains($embed1, $article->getBody());
         self::assertContains($embed2, $article->getBody());
