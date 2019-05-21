@@ -63,8 +63,8 @@ class WidgetControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $this->loadCustomFixtures(['tenant']);
-
+        $client->request('DELETE', $this->router->generate('swp_api_templates_delete_widget', ['id' => 1]));
+        $client->request('DELETE', $this->router->generate('swp_api_templates_delete_widget', ['id' => 2]));
         $client->request('GET', $this->router->generate('swp_api_templates_list_widgets'));
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
