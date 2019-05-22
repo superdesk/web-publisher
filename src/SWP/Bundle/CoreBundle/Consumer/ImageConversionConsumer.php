@@ -82,6 +82,7 @@ class ImageConversionConsumer implements ConsumerInterface
 
         $mediaId = $imageRendition->getImage()->getAssetId();
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
+
         try {
             imagewebp($this->getImageAsResource($imageRendition->getImage()), $tempLocation);
             $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
