@@ -71,6 +71,10 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
             return $previewUrl;
         }
 
+        if (array_key_exists('webp', $parameters) && $parameters['webp']) {
+            return str_replace('.'.$item->getFileExtension(), '.webp', $this->mediaManager->getMediaPublicUrl($item));
+        }
+
         return  $this->mediaManager->getMediaPublicUrl($item);
     }
 

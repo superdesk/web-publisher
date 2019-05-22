@@ -24,6 +24,9 @@ SWP\Bundle\ContentBundle\Model\Image:
         updatedAt:
             type: date
             nullable: true
+        variants:
+            type: json_array
+            nullable: true
     oneToMany:
         media:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface

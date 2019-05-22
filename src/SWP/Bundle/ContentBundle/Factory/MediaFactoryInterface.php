@@ -20,6 +20,8 @@ use SWP\Component\Bridge\Model\ItemInterface;
 
 interface MediaFactoryInterface
 {
+    public const RENDITION_CREATE_EVENT = 'swp.rendition.create';
+
     /**
      * @param ArticleInterface $article
      * @param string           $key

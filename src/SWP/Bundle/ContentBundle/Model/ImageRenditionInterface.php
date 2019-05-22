@@ -36,4 +36,6 @@ interface ImageRenditionInterface extends PreviewUrlAwareInterface
     public function setWidth(int $width): void;
 
     public function setName(string $name): void;
+
+    public function isConvertedToWebp(): bool;
 }

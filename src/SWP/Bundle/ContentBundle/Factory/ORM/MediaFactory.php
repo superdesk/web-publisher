@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\Factory\ORM;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\File\FileDownloaderInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
@@ -32,32 +31,17 @@ use SWP\Component\Storage\Factory\FactoryInterface;
 
 class MediaFactory implements MediaFactoryInterface
 {
-    /**
-     * @var ArticleMediaAssetProviderInterface
-     */
     protected $articleMediaAssetProvider;
 
-    /**
-     * @var FactoryInterface
-     */
     protected $factory;
 
-    /**
-     * @var ImageRenditionFactoryInterface
-     */
     protected $imageRenditionFactory;
 
-    /**
-     * @var MediaManagerInterface
-     */
     protected $mediaManager;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    protected $logger;
 
-    private $fileDownloader;
+    protected $fileDownloader;
 
     public function __construct(
         ArticleMediaAssetProviderInterface $articleMediaAssetProvider,
@@ -77,6 +61,7 @@ class MediaFactory implements MediaFactoryInterface
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
+        /** @var ArticleMediaInterface $articleMedia */
         $articleMedia = $this->factory->create();
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
@@ -93,7 +78,7 @@ class MediaFactory implements MediaFactoryInterface
         return $this->factory->create();
     }
 
-    protected function createFileMedia(ArticleMedia $articleMedia, string $key, ItemInterface $item): ArticleMediaInterface
+    protected function createFileMedia(ArticleMediaInterface $articleMedia, string $key, ItemInterface $item): ArticleMediaInterface
     {
         if (0 === $item->getRenditions()->count()) {
             return $articleMedia;
@@ -108,7 +93,7 @@ class MediaFactory implements MediaFactoryInterface
         return $articleMedia;
     }
 
-    protected function createImageMedia(ArticleMedia $articleMedia, string $key, ItemInterface $item): ArticleMediaInterface
+    protected function createImageMedia(ArticleMediaInterface $articleMedia, string $key, ItemInterface $item): ArticleMediaInterface
     {
         if (0 === $item->getRenditions()->count()) {
             return $articleMedia;
@@ -122,13 +107,13 @@ class MediaFactory implements MediaFactoryInterface
         $image = $this->getFile($originalRendition, $this->articleMediaAssetProvider->getImage($originalRendition));
         $articleMedia->setImage($image);
 
-        foreach ($item->getRenditions() as $rendition) {
-            $image = $this->getFile($rendition, $this->articleMediaAssetProvider->getImage($rendition));
+        foreach ($item->getRenditions() as $itemRendition) {
+            $image = $this->getFile($itemRendition, $this->articleMediaAssetProvider->getImage($itemRendition));
             if (null === $image) {
                 continue;
             }
 
-            $articleMedia->addRendition($this->imageRenditionFactory->createWith($articleMedia, $image, $rendition));
+            $articleMedia->addRendition($this->imageRenditionFactory->createWith($articleMedia, $image, $itemRendition));
         }
 
         return $articleMedia;

@@ -41,7 +41,7 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
         }
 
         $items = $package->getItems()->filter(
-            function ($entry) use ($guids) {
+            static function ($entry) use ($guids) {
                 return !\in_array($entry->getGuid(), $guids, true);
             }
         );
@@ -57,7 +57,7 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
             if (null !== ($packageItems = $packageItem->getItems()) && 0 !== $packageItems->count()) {
                 $packageItems = $packageItem->getItems()->filter(
-                    function ($entry) use ($guids) {
+                    static function ($entry) use ($guids) {
                         return !\in_array($entry->getGuid(), $guids, true);
                     }
                 );

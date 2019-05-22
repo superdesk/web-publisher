@@ -65,6 +65,7 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
 
     public function __construct()
     {
+        parent::__construct();
         $this->renditions = new ArrayCollection();
         $this->items = new ArrayCollection();
     }

@@ -50,34 +50,19 @@ class MediaManager implements MediaManagerInterface
         $this->assetLocationResolver = $assetLocationResolver;
     }
 
-    public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
+    public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId): FileInterface
     {
         $mediaId = ArticleMedia::handleMediaId($mediaId);
-        $asset = $this->createMediaAsset($uploadedFile, $mediaId);
-        $this->saveFile($uploadedFile, $mediaId);
+        $asset = $this->fileFactory->createWith($mediaId, $this->guessExtension($uploadedFile));
         $this->mediaRepository->persist($asset);
+        $this->saveFile($uploadedFile, $mediaId);
 
         return $asset;
     }
 
-    public function getFile(FileInterface $media)
+    public function getFile(FileInterface $asset)
     {
-        return $this->filesystem->read($this->assetLocationResolver->getMediaBasePath().'/'.$media->getAssetId().'.'.$media->getFileExtension());
-    }
-
-    public function saveFile(UploadedFile $uploadedFile, $fileName): bool
-    {
-        $filePath = $this->assetLocationResolver->getMediaBasePath().'/'.$fileName.'.'.$this->guessExtension($uploadedFile);
-
-        if ($this->filesystem->has($filePath)) {
-            return true;
-        }
-
-        $stream = fopen($uploadedFile->getRealPath(), 'r+');
-        $result = $this->filesystem->writeStream($filePath, $stream);
-        fclose($stream);
-
-        return $result;
+        return $this->filesystem->read($this->assetLocationResolver->getMediaBasePath().'/'.$asset->getAssetId().'.'.$asset->getFileExtension());
     }
 
     public function getMediaPublicUrl(FileInterface $media): string
@@ -96,9 +81,16 @@ class MediaManager implements MediaManagerInterface
         return $uri;
     }
 
-    public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
+    public function saveFile(UploadedFile $uploadedFile, $fileName): void
     {
-        return $this->fileFactory->createWith($assetId, $this->guessExtension($uploadedFile));
+        $filePath = $this->assetLocationResolver->getMediaBasePath().'/'.$fileName.'.'.$this->guessExtension($uploadedFile);
+        if ($this->filesystem->has($filePath)) {
+            return;
+        }
+
+        $stream = fopen($uploadedFile->getRealPath(), 'rb+');
+        $this->filesystem->writeStream($filePath, $stream);
+        fclose($stream);
     }
 
     private function guessExtension(UploadedFile $uploadedFile): string

@@ -16,42 +16,23 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
 
-/**
- * ImageRendition represents media which belongs to Article.
- */
 class ImageRendition implements ImageRenditionInterface, PersistableInterface
 {
     use PreviewUrlAwareTrait;
 
-    /**
-     * @var string
-     */
     protected $width;
 
-    /**
-     * @var string
-     */
     protected $height;
 
-    /**
-     * @var string
-     */
     protected $name;
 
-    /**
-     * @var int
-     */
     protected $id;
 
-    /**
-     * @var ImageInterface
-     */
     protected $image;
 
-    /**
-     * @var ArticleMediaInterface
-     */
     protected $media;
+
+    protected $convertedToWebp;
 
     public function getMedia(): ArticleMediaInterface
     {
@@ -73,17 +54,11 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
         $this->image = $image;
     }
 
-    /**
-     * @return null|int
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param null|int $id
-     */
     public function setId(?int $id)
     {
         $this->id = $id;
@@ -117,5 +92,10 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function isConvertedToWebp(): bool
+    {
+        return $this->getImage()->haveVariant('webp');
     }
 }
