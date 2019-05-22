@@ -452,3 +452,26 @@ Feature: Settings bulk update
     And the JSON nodes should contain:
       | [20].name                | switch   |
     And the JSON node "[20].value" should be false
+
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v2/settings/bulk/" with body:
+    """
+    {
+      "bulk":[
+        {
+          "name":"primary_font_family",
+          "value":""
+        }
+      ]
+    }
+    """
+    Then the response status code should be 200
+
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "GET" request to "/api/v2/settings/"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | [17].name               | primary_font_family   |
+    And the JSON node "[17].value" should be equal to ""

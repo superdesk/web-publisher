@@ -286,6 +286,10 @@ class SettingsManager implements SettingsManagerInterface
      */
     private function encodeValue($settingType, $value)
     {
+        if ('string' === $settingType) {
+            return (string) $value;
+        }
+
         if (($actualType = gettype($value)) !== $settingType) {
             throw new \Exception(sprintf('Value type should be "%s" not "%s"', $settingType, $actualType));
         }
