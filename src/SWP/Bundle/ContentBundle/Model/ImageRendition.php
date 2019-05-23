@@ -96,6 +96,6 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
 
     public function isConvertedToWebp(): bool
     {
-        return $this->getImage()->haveVariant('webp');
+        return $this->getImage()->hasVariant(ImageInterface::VARIANT_WEBP);
     }
 }

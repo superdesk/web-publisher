@@ -191,7 +191,11 @@ class Meta implements MetaInterface
             $getterName = 'get'.ucfirst($name);
 
             if ('bool' === $type) {
-                $getterName = 'is'.ucfirst($name);
+                if (0 !== strpos($name, 'is')) {
+                    $getterName = 'is'.ucfirst($name);
+                } else {
+                    $getterName = $name;
+                }
             }
 
             if (method_exists($values, $getterName)) {

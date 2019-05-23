@@ -190,12 +190,12 @@ class Image implements ImageInterface
 
     public function addVariant(string $variant): void
     {
-        if (!$this->haveVariant($variant)) {
+        if (!$this->hasVariant($variant)) {
             $this->variants[] = $variant;
         }
     }
 
-    public function haveVariant(string $variant): bool
+    public function hasVariant(string $variant): bool
     {
         return in_array($variant, $this->getVariants(), true);
     }

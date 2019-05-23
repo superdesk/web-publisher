@@ -28,6 +28,7 @@ use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Bundle\ContentBundle\Resolver\AssetLocationResolverInterface;
+use SWP\Bundle\CoreBundle\Model\ImageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
@@ -99,7 +100,7 @@ class ImageConversionConsumer implements ConsumerInterface
         }
 
         $imageRendition = $this->entityManager->find(ImageRendition::class, $imageRendition->getId());
-        $imageRendition->getImage()->addVariant('webp');
+        $imageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
         $this->entityManager->flush();
 
         return ConsumerInterface::MSG_ACK;

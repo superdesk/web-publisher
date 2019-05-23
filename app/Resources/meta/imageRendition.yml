@@ -11,7 +11,7 @@ properties:
     height:
         description: "Rendition height"
         type: int
-    convertedToWebp:
+    isConvertedToWebp:
         description: "Checks if image was converted to webp"
         type: bool
 to_string: body

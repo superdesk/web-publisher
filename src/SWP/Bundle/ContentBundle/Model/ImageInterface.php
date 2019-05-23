@@ -16,6 +16,8 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 interface ImageInterface extends FileInterface
 {
+    public const VARIANT_WEBP = 'webp';
+
     public function getWidth(): int;
 
     public function getHeight(): int;
@@ -30,5 +32,5 @@ interface ImageInterface extends FileInterface
 
     public function addVariant(string $variant): void;
 
-    public function haveVariant(string $variant): bool;
+    public function hasVariant(string $variant): bool;
 }

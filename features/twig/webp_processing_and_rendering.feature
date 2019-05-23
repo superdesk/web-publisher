@@ -127,7 +127,7 @@ Feature: Converting images to webp format and rendering them for reader
           <figure>
               {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': 'original' } %}
                 <picture>
-                    {% if rendition.convertedToWebp %}
+                    {% if rendition.isConvertedToWebp %}
                     <source srcset="{{ path(rendition, { webp: true }) }}" type="image/webp" width="2048" height="1365">
                     {% endif %}
                     <img src="{{ path(rendition) }}" alt="{{ imgCaption }}" width="2048" height="1365" />
