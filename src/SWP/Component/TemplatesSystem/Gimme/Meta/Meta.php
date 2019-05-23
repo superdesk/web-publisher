@@ -148,8 +148,6 @@ class Meta implements MetaInterface
             return;
         }
 
-        $type = $configuration['properties'][$name]['type'];
-
         $event = new MetaEvent($this->getValues(), $name);
         $this->context->dispatchMetaEvent($event);
         if ($event->isResultSet()) {
@@ -159,7 +157,7 @@ class Meta implements MetaInterface
         }
 
         $getterName = 'get'.ucfirst($name);
-        if ('bool' === $type) {
+        if ('bool' === $configuration['properties'][$name]['type']) {
             $getterName = (0 !== strpos($name, 'is')) ? 'is'.ucfirst($name) : $name;
         }
 
