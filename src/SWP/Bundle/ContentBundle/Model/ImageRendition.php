@@ -14,9 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
-use SWP\Component\Storage\Model\PersistableInterface;
-
-class ImageRendition implements ImageRenditionInterface, PersistableInterface
+class ImageRendition implements ImageRenditionInterface
 {
     use PreviewUrlAwareTrait;
 

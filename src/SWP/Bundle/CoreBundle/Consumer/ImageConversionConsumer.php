@@ -63,13 +63,15 @@ class ImageConversionConsumer implements ConsumerInterface
     public function execute(AMQPMessage $message): int
     {
         try {
-            $decodedMessage = unserialize($message->body, [ImageRenditionInterface::class, TenantInterface::class]);
             /** @var ImageRenditionInterface $imageRendition */
-            $imageRendition = $decodedMessage['rendition'];
-            /** @var TenantInterface $imageRendition */
-            $tenant = $decodedMessage['tenant'];
-
-            $this->tenantContext->setTenant($this->entityManager->find(Tenant::class, $tenant->getId()));
+            /** @var TenantInterface $tenant */
+            ['rendition' => $imageRendition, 'tenant' => $tenant] = unserialize($message->body, [
+                ImageRenditionInterface::class,
+                TenantInterface::class,
+            ]);
+            if (($tenant = $this->entityManager->find(Tenant::class, $tenant->getId())) instanceof TenantInterface) {
+                $this->tenantContext->setTenant($tenant);
+            }
         } catch (RuntimeException $e) {
             $this->logger->error('Message REJECTED: '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
@@ -96,9 +98,9 @@ class ImageConversionConsumer implements ConsumerInterface
             }
         }
 
-        $imageRendition = $this->entityManager->find(ImageRendition::class, $imageRendition->getId());
-        if (null !== $imageRendition) {
-            $imageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
+        $fetchedImageRendition = $this->entityManager->find(ImageRendition::class, $imageRendition->getId());
+        if (null !== $fetchedImageRendition) {
+            $fetchedImageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
             $this->entityManager->flush();
         }
 

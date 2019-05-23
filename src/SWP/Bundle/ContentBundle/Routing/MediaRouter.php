@@ -66,6 +66,10 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         }
 
         $item = $this->getItem($meta);
+        if (null === $item) {
+            return null;
+        }
+
         if ($meta->getValues() instanceof ImageRenditionInterface && null !== ($previewUrl = $meta->getValues()->getPreviewUrl())) {
             return $previewUrl;
         }
@@ -77,7 +81,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         return $this->getUrlWithCorrectExtension($item, $parameters);
     }
 
-    private function getItem($meta): ?FileInterface
+    private function getItem(Meta $meta): ?FileInterface
     {
         if (($rendition = $meta->getValues()) instanceof ImageRendition) {
             return $rendition->getImage();
