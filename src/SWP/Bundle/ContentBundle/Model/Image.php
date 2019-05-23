@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use function in_array;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 class Image implements ImageInterface
@@ -57,6 +58,8 @@ class Image implements ImageInterface
      * @var ArrayCollection
      */
     protected $renditions;
+
+    protected $variants = [];
 
     /**
      * File constructor.
@@ -173,5 +176,27 @@ class Image implements ImageInterface
     public function setHeight(int $height): void
     {
         $this->height = $height;
+    }
+
+    public function getVariants(): array
+    {
+        return $this->variants;
+    }
+
+    public function setVariants(array $variants): void
+    {
+        $this->variants = $variants;
+    }
+
+    public function addVariant(string $variant): void
+    {
+        if (!$this->hasVariant($variant)) {
+            $this->variants[] = $variant;
+        }
+    }
+
+    public function hasVariant(string $variant): bool
+    {
+        return in_array($variant, $this->getVariants(), true);
     }
 }

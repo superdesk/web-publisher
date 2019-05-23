@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\File;
 
 use function rtrim;
 use function sha1;
+use function sprintf;
 use function strlen;
 use function sys_get_temp_dir;
 use function pathinfo;
@@ -71,29 +72,24 @@ final class FileDownloader implements FileDownloaderInterface
         ): bool {
             $retry = false;
             if (!$this->retryDownloads) {
-                $this->logger->error(\sprintf('Retries are disabled'));
+                $this->logger->error(sprintf('Retries are disabled'));
 
                 return false;
             }
 
             if ($retries >= 4) {
-                $this->logger->error(\sprintf('Maximum number of retires reached'));
+                $this->logger->error(sprintf('Maximum number of retires reached'));
 
                 return false;
             }
 
             // Retry connection exceptions
-            if ($exception instanceof ConnectException) {
-                $retry = true;
-            }
-
-            // Retry on server errors
-            if ($response && $response->getStatusCode() >= 400) {
+            if ($exception instanceof ConnectException || ($response && $response->getStatusCode() >= 400)) {
                 $retry = true;
             }
 
             if (true === $retry) {
-                $this->logger->info(\sprintf('Retry downloading %s', $request->getUri()));
+                $this->logger->info(sprintf('Retry downloading %s', $request->getUri()));
             }
 
             return $retry;

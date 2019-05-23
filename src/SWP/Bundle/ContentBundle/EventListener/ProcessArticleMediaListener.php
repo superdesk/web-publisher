@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
+use function in_array;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 
 class ProcessArticleMediaListener extends AbstractArticleMediaListener
@@ -41,8 +42,8 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
         }
 
         $items = $package->getItems()->filter(
-            function ($entry) use ($guids) {
-                return !\in_array($entry->getGuid(), $guids, true);
+            static function ($entry) use ($guids) {
+                return !in_array($entry->getGuid(), $guids, true);
             }
         );
 
@@ -57,8 +58,8 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
             if (null !== ($packageItems = $packageItem->getItems()) && 0 !== $packageItems->count()) {
                 $packageItems = $packageItem->getItems()->filter(
-                    function ($entry) use ($guids) {
-                        return !\in_array($entry->getGuid(), $guids, true);
+                    static function ($entry) use ($guids) {
+                        return !in_array($entry->getGuid(), $guids, true);
                     }
                 );
 

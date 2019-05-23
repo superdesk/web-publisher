@@ -14,10 +14,12 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use SWP\Component\Storage\Model\PersistableInterface;
+
 /**
  * Interface ImageRenditionInterface.
  */
-interface ImageRenditionInterface extends PreviewUrlAwareInterface
+interface ImageRenditionInterface extends PreviewUrlAwareInterface, PersistableInterface
 {
     public function getWidth(): int;
 
@@ -36,4 +38,6 @@ interface ImageRenditionInterface extends PreviewUrlAwareInterface
     public function setWidth(int $width): void;
 
     public function setName(string $name): void;
+
+    public function isConvertedToWebp(): bool;
 }

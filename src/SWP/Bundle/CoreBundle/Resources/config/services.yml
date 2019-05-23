@@ -510,28 +510,6 @@ services:
             - '@swp.repository.article_source'
             - '@swp_multi_tenancy.tenant_context'
 
-    SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer:
-        arguments:
-            - '@jms_serializer'
-            - '@monolog.logger.swp_send_webhook'
-
-    SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer:
-        arguments:
-            - '@SWP\Bundle\CoreBundle\Service\ArticleStatisticsService'
-            - '@swp_multi_tenancy.tenant_resolver'
-            - '@swp_multi_tenancy.tenant_context'
-            - '@router'
-            - '@swp.resolver.article'
-
-    SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
-        arguments:
-            - '@monolog.logger.swp_content_push'
-            - '@swp.repository.package'
-            - '@event_dispatcher'
-            - '@swp_bridge.transformer.json_to_package'
-            - '@swp.object_manager.package'
-            - '@swp_multi_tenancy.tenant_context'
-
     swp_core.article.populator:
         class: SWP\Bundle\CoreBundle\Rule\Populator\ArticlePopulator
         arguments:
@@ -678,6 +656,15 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.post_update, method: onPostUpdate }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: onPostUpdate }
+
+    SWP\Bundle\CoreBundle\EventListener\ImageToWebpConversionListener:
+        autowire: true
+        arguments:
+            - '@old_sound_rabbit_mq.image_conversion_producer'
+            - '@swp_multi_tenancy.tenant_context'
+            - '%env(bool:WEBP_CONVERSION_ENABLED)%'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
 
     SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor:
         arguments:

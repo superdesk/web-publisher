@@ -3,6 +3,7 @@ monolog:
         - swp_send_webhook
         - swp_asset_download
         - swp_content_push
+        - swp_image_conversion
     handlers:
         swp_send_webhook:
             type:      stream
@@ -16,6 +17,12 @@ monolog:
             max_files: 7
             path:      '%kernel.logs_dir%/swp_content_push_%kernel.environment%.log'
             channels:  swp_content_push
+        swp_image_conversion:
+            type:      stream
+            level:     debug
+            max_files: 7
+            path:      '%kernel.logs_dir%/swp_image_conversion_%kernel.environment%.log'
+            channels:  swp_image_conversion
         swp_asset_download:
             level:     debug
             type:      rotating_file

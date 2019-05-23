@@ -27,7 +27,7 @@ final class TemplatingContext implements Context
     public function iRenderATemplateWithContent(PyStringNode $templateContent): void
     {
         $template = $this->templating->createTemplate($templateContent->getRaw());
-        $this->lastRenderedContent = $template->render([]);
+        $this->lastRenderedContent = $template->render();
     }
 
     /**

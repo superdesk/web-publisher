@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
+use function in_array;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
@@ -96,7 +97,7 @@ abstract class AbstractArticleMediaListener
 
     public function isTypeAllowed(string $type): bool
     {
-        return \in_array($type, [
+        return in_array($type, [
             ItemInterface::TYPE_PICTURE,
             ItemInterface::TYPE_VIDEO,
             ItemInterface::TYPE_FILE,

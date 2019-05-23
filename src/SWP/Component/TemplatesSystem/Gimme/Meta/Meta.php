@@ -17,31 +17,14 @@ namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Event\MetaEvent;
 
-/**
- * Class Meta.
- */
 class Meta implements MetaInterface
 {
-    /**
-     * Original Meta values (json|array|object).
-     *
-     * @var mixed
-     */
     protected $values;
 
-    /**
-     * @var Context
-     */
     protected $context;
 
-    /**
-     * @var array
-     */
     protected $configuration;
 
-    /**
-     * @var array
-     */
     private $copiedValues = [];
 
     public function __construct(Context $context, $values, $configuration)
@@ -62,7 +45,7 @@ class Meta implements MetaInterface
     {
         if (array_key_exists('to_string', $this->configuration)) {
             $toStringProperty = $this->configuration['to_string'];
-            $this->__load($toStringProperty);
+            $this->load($toStringProperty);
             if (isset($this->copiedValues[$toStringProperty])) {
                 return (string) $this->copiedValues[$toStringProperty];
             }
@@ -78,7 +61,7 @@ class Meta implements MetaInterface
      */
     public function __isset(string $name)
     {
-        $this->__load($name);
+        $this->load($name);
         if (array_key_exists($name, $this->copiedValues)) {
             return true;
         }
@@ -117,7 +100,7 @@ class Meta implements MetaInterface
         if (array_key_exists($name, $this->copiedValues)) {
             return $this->copiedValues[$name];
         }
-        $this->__load($name);
+        $this->load($name);
 
         return $this->copiedValues[$name];
     }
@@ -130,35 +113,21 @@ class Meta implements MetaInterface
         return $this->values;
     }
 
-    /**
-     * @return array
-     */
-    public function getConfiguration()
+    public function getConfiguration(): array
     {
         return $this->configuration;
     }
 
-    /**
-     * @param array $configuration
-     */
-    public function setConfiguration($configuration)
+    public function setConfiguration(array $configuration): void
     {
         $this->configuration = $configuration;
     }
 
-    /**
-     * @return Context
-     */
-    public function getContext()
+    public function getContext(): Context
     {
         return $this->context;
     }
 
-    /**
-     * Don't serialize values, context and configuration.
-     *
-     * @return array
-     */
     public function __sleep()
     {
         unset($this->values, $this->context, $this->configuration);
@@ -166,45 +135,40 @@ class Meta implements MetaInterface
         return array_keys(get_object_vars($this));
     }
 
-    private function fillFromArray(array $values, array $configuration, string $name): bool
+    private function fillFromArray(array $values, array $configuration, string $name): void
     {
-        if (isset($configuration['properties'][$name]) && isset($values[$name]) && count($values) > 0) {
+        if (isset($configuration['properties'][$name], $values[$name]) && count($values) > 0) {
             $this->$name = $values[$name];
         }
-
-        return true;
     }
 
-    private function fillFromObject($values, array $configuration, string $name): bool
+    private function fillFromObject($values, array $configuration, string $name): void
     {
-        if (isset($configuration['properties'][$name])) {
-            $type = $configuration['properties'][$name]['type'];
-
-            $event = new MetaEvent($this->getValues(), $name);
-            $this->context->dispatchMetaEvent($event);
-            if ($event->isResultSet()) {
-                $this->$name = $event->getResult();
-
-                return true;
-            }
-
-            $getterName = 'get'.ucfirst($name);
-
-            if ('bool' === $type) {
-                $getterName = 'is'.ucfirst($name);
-            }
-
-            if (method_exists($values, $getterName)) {
-                $this->$name = $values->$getterName();
-            }
+        if (!isset($configuration['properties'][$name])) {
+            return;
         }
 
-        return true;
+        $event = new MetaEvent($this->getValues(), $name);
+        $this->context->dispatchMetaEvent($event);
+        if ($event->isResultSet()) {
+            $this->$name = $event->getResult();
+
+            return;
+        }
+
+        $getterName = 'get'.ucfirst($name);
+        if ('bool' === $configuration['properties'][$name]['type']) {
+            $getterName = (0 !== strpos($name, 'is')) ? 'is'.ucfirst($name) : $name;
+        }
+
+        if (method_exists($values, $getterName)) {
+            $this->$name = $values->$getterName();
+        }
     }
 
     private function isJson(string $string): bool
     {
-        json_decode($string);
+        json_decode($string, false);
 
         return JSON_ERROR_NONE === json_last_error();
     }
@@ -223,10 +187,7 @@ class Meta implements MetaInterface
         return $value;
     }
 
-    /**
-     * @param string $name
-     */
-    private function __load(string $name)
+    private function load(string $name): void
     {
         if (is_array($this->values)) {
             $this->fillFromArray($this->values, $this->configuration, $name);

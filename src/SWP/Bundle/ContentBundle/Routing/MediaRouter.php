@@ -59,10 +59,17 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         );
     }
 
-    /** @param Meta $meta */
     public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
+        if (!$meta instanceof Meta) {
+            return null;
+        }
+
         $item = $this->getItem($meta);
+        if (null === $item) {
+            return null;
+        }
+
         if ($meta->getValues() instanceof ImageRenditionInterface && null !== ($previewUrl = $meta->getValues()->getPreviewUrl())) {
             return $previewUrl;
         }
@@ -71,15 +78,11 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
             return $previewUrl;
         }
 
-        return  $this->mediaManager->getMediaPublicUrl($item);
+        return $this->getUrlWithCorrectExtension($item, $parameters);
     }
 
-    private function getItem($meta): ?FileInterface
+    private function getItem(Meta $meta): ?FileInterface
     {
-        if (!$meta instanceof Meta) {
-            return null;
-        }
-
         if (($rendition = $meta->getValues()) instanceof ImageRendition) {
             return $rendition->getImage();
         }
@@ -91,5 +94,21 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         if (($file = $meta->getValues()->getFile()) instanceof FileInterface) {
             return $file;
         }
+    }
+
+    private function getUrlWithCorrectExtension(FileInterface $item, array $parameters): string
+    {
+        $url = $this->mediaManager->getMediaPublicUrl($item);
+
+        if (
+            $item instanceof ImageInterface &&
+            array_key_exists('webp', $parameters) &&
+            true === $parameters['webp'] &&
+            $item->hasVariant(ImageInterface::VARIANT_WEBP)
+        ) {
+            return str_replace('.'.$item->getFileExtension(), '.webp', $url);
+        }
+
+        return $url;
     }
 }

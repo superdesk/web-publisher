@@ -65,7 +65,7 @@ before_script:
 - cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing loading fixtures in dev env")"
 - php bin/console doctrine:schema:update -f
-- FIXTURES_TYPE=dev php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
+- FIXTURES_TYPE=dev WEBP_CONVERSION_ENABLED=false php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing migrations")"
 - DATABASE_URL="pgsql://postgres:''@127.0.0.1:5432/postgres" php bin/console doctrine:migrations:migrate --no-interaction --env=test --no-debug -vvv
 - php bin/console doctrine:cache:clear main_cache --env=test --no-debug -vvv
@@ -77,7 +77,7 @@ script:
 - bin/phpspec run
 - echo -en 'travis_fold:end:script.1\\r'
 - echo 'BEHAT' && echo -en 'travis_fold:start:script.2\\r'
-- bin/behat -f progress -vvv
+- bin/behat -f progress -vvv --tags '~@webp'
 - echo -en 'travis_fold:end:script.2\\r'
 - echo 'PHPUNIT APP' && echo -en 'travis_fold:start:script.3\\r'
 - bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php

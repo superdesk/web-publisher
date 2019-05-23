@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
+use function count;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
@@ -27,9 +28,6 @@ use SWP\Component\Storage\Factory\FactoryInterface;
 
 class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
 {
-    /**
-     * @var FactoryInterface
-     */
     private $slideshowFactory;
 
     public function __construct(
@@ -48,15 +46,20 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
         $package = $event->getPackage();
         $article = $event->getArticle();
 
-        $groups = $package->getGroups()->filter(function ($group) {
-            return GroupInterface::TYPE_RELATED !== $group->getType();
-        });
-
-        if (null === $package || (null !== $package && 0 === \count($groups))) {
+        if (null === ($groups = $package->getGroups())) {
             return;
         }
 
-        foreach ($package->getGroups() as $packageGroup) {
+        $groups->filter(static function ($group) {
+            /* @var GroupInterface $group */
+            return GroupInterface::TYPE_RELATED !== $group->getType();
+        });
+
+        if (null === $package || (null !== $package && 0 === count($groups))) {
+            return;
+        }
+
+        foreach ($groups as $packageGroup) {
             foreach ($packageGroup->getItems() as $item) {
                 if ($this->isTypeAllowed($item->getType())) {
                     $this->removeArticleMediaIfNeeded($item->getName(), $article);
