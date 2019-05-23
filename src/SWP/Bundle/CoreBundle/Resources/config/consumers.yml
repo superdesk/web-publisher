@@ -3,8 +3,6 @@ services:
         public: true
         autoconfigure: true
         autowire: true
-        bind:
-            $assetLocationResolver: '@swp.resolver.asset_location'
 
     SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer:
         arguments:

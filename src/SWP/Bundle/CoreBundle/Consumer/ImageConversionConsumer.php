@@ -27,7 +27,6 @@ use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
-use SWP\Bundle\ContentBundle\Resolver\AssetLocationResolverInterface;
 use SWP\Bundle\CoreBundle\Model\ImageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
@@ -47,22 +46,18 @@ class ImageConversionConsumer implements ConsumerInterface
 
     protected $entityManager;
 
-    protected $assetLocationResolver;
-
     public function __construct(
         SerializerInterface $serializer,
         LoggerInterface $logger,
         MediaManagerInterface $mediaManager,
         TenantContextInterface $tenantContext,
-        EntityManagerInterface $entityManager,
-        AssetLocationResolverInterface $assetLocationResolver
+        EntityManagerInterface $entityManager
     ) {
         $this->serializer = $serializer;
         $this->logger = $logger;
         $this->mediaManager = $mediaManager;
         $this->tenantContext = $tenantContext;
         $this->entityManager = $entityManager;
-        $this->assetLocationResolver = $assetLocationResolver;
     }
 
     public function execute(AMQPMessage $message): int
@@ -92,6 +87,8 @@ class ImageConversionConsumer implements ConsumerInterface
             $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
         } catch (Exception $e) {
             $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
+
+            return ConsumerInterface::MSG_REJECT;
         } finally {
             $filesystem = new Filesystem();
             if ($filesystem->exists($tempLocation)) {
@@ -100,8 +97,10 @@ class ImageConversionConsumer implements ConsumerInterface
         }
 
         $imageRendition = $this->entityManager->find(ImageRendition::class, $imageRendition->getId());
-        $imageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
-        $this->entityManager->flush();
+        if (null !== $imageRendition) {
+            $imageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
+            $this->entityManager->flush();
+        }
 
         return ConsumerInterface::MSG_ACK;
     }
