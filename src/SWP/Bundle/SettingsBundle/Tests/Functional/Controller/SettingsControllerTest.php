@@ -79,6 +79,14 @@ class SettingsControllerTest extends WebTestCase
                 'value' => '1234567',
         ]);
 
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'publisher', 'PHP_AUTH_PW' => 'testpass']);
+        $client->request('PATCH', $this->router->generate('swp_api_settings_update'), [
+            'name' => 'third_setting',
+            'value' => false,
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }
