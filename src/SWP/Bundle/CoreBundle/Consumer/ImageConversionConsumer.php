@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Consumer;
 
+use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use JMS\Serializer\Exception\RuntimeException;
