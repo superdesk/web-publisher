@@ -661,6 +661,8 @@ services:
         autowire: true
         arguments:
             - '@old_sound_rabbit_mq.image_conversion_producer'
+            - '@swp_multi_tenancy.tenant_context'
+            - '%env(bool:WEBP_CONVERSION_ENABLED)%'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 

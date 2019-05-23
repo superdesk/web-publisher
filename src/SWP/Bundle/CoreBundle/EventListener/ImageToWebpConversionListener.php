@@ -27,16 +27,19 @@ class ImageToWebpConversionListener
 
     protected $tenantContext;
 
-    public function __construct(ProducerInterface $imageConversionProducer, TenantContextInterface $tenantContext)
+    protected $isWebpConversionEnabled;
+
+    public function __construct(ProducerInterface $imageConversionProducer, TenantContextInterface $tenantContext, string $isWebpConversionEnabled)
     {
         $this->imageConversionProducer = $imageConversionProducer;
         $this->tenantContext = $tenantContext;
+        $this->isWebpConversionEnabled = $isWebpConversionEnabled;
     }
 
     public function postPersist(LifecycleEventArgs $args): void
     {
         $rendition = $args->getEntity();
-        if (!$rendition instanceof ImageRenditionInterface) {
+        if (!$this->isWebpConversionEnabled || !$rendition instanceof ImageRenditionInterface) {
             return;
         }
 
