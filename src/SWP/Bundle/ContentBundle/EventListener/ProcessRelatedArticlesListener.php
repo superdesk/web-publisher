@@ -49,7 +49,7 @@ class ProcessRelatedArticlesListener
 
         $this->removeOldRelatedArticles($article);
 
-        $relatedItemsGroups = $package->getGroups()->filter(function ($group) {
+        $relatedItemsGroups = $package->getGroups()->filter(static function ($group) {
             return GroupInterface::TYPE_RELATED === $group->getType();
         });
 
