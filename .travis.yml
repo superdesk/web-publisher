@@ -77,7 +77,7 @@ script:
 - bin/phpspec run
 - echo -en 'travis_fold:end:script.1\\r'
 - echo 'BEHAT' && echo -en 'travis_fold:start:script.2\\r'
-- bin/behat -f progress -vvv
+- bin/behat -f progress -vvv --tags '~@webp'
 - echo -en 'travis_fold:end:script.2\\r'
 - echo 'PHPUNIT APP' && echo -en 'travis_fold:start:script.3\\r'
 - bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php

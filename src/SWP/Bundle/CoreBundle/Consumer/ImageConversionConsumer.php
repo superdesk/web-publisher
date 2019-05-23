@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Consumer;
 
+use BadFunctionCallException;
 use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -83,11 +84,20 @@ class ImageConversionConsumer implements ConsumerInterface
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
 
         try {
+            if (!function_exists('imagewebp')) {
+                throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
+            }
             imagewebp($this->getImageAsResource($imageRendition->getImage()), $tempLocation);
             $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
             $this->mediaManager->saveFile($uploadedFile, $mediaId);
 
             $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
+
+            $fetchedImageRendition = $this->entityManager->find(ImageRendition::class, $imageRendition->getId());
+            if (null !== $fetchedImageRendition) {
+                $fetchedImageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
+                $this->entityManager->flush();
+            }
         } catch (Exception $e) {
             $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
@@ -97,12 +107,6 @@ class ImageConversionConsumer implements ConsumerInterface
             if ($filesystem->exists($tempLocation)) {
                 $filesystem->remove($tempLocation);
             }
-        }
-
-        $fetchedImageRendition = $this->entityManager->find(ImageRendition::class, $imageRendition->getId());
-        if (null !== $fetchedImageRendition) {
-            $fetchedImageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
-            $this->entityManager->flush();
         }
 
         return ConsumerInterface::MSG_ACK;
