@@ -44,8 +44,8 @@ class ImageToWebpConversionListener
         }
 
         $this->imageConversionProducer->publish(serialize([
-            'rendition' => $rendition,
-            'tenant' => $this->tenantContext->getTenant(),
+            'renditionId' => $rendition->getId(),
+            'tenantId' => $this->tenantContext->getTenant()->getId(),
         ]));
     }
 }

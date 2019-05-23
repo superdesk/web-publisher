@@ -28,7 +28,6 @@ use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
-use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Bundle\CoreBundle\Model\ImageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
@@ -65,13 +64,8 @@ class ImageConversionConsumer implements ConsumerInterface
     public function execute(AMQPMessage $message): int
     {
         try {
-            /** @var ImageRenditionInterface $imageRendition */
-            /** @var TenantInterface $tenant */
-            ['rendition' => $imageRendition, 'tenant' => $tenant] = unserialize($message->body, [
-                ImageRenditionInterface::class,
-                TenantInterface::class,
-            ]);
-            if (($tenant = $this->entityManager->find(Tenant::class, $tenant->getId())) instanceof TenantInterface) {
+            ['renditionId' => $imageRenditionId, 'tenantId' => $tenantId] = unserialize($message->body, [false]);
+            if (($tenant = $this->entityManager->find(Tenant::class, $tenantId)) instanceof TenantInterface) {
                 $this->tenantContext->setTenant($tenant);
             }
         } catch (RuntimeException $e) {
@@ -80,32 +74,32 @@ class ImageConversionConsumer implements ConsumerInterface
             return ConsumerInterface::MSG_REJECT;
         }
 
-        $mediaId = $imageRendition->getImage()->getAssetId();
-        $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
+        $imageRendition = $this->entityManager->find(ImageRendition::class, $imageRenditionId);
+        if (null !== $imageRendition) {
+            $mediaId = $imageRendition->getImage()->getAssetId();
+            $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
 
-        try {
-            if (!function_exists('imagewebp')) {
-                throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
-            }
-            imagewebp($this->getImageAsResource($imageRendition->getImage()), $tempLocation);
-            $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
-            $this->mediaManager->saveFile($uploadedFile, $mediaId);
+            try {
+                if (!function_exists('imagewebp')) {
+                    throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
+                }
+                imagewebp($this->getImageAsResource($imageRendition->getImage()), $tempLocation);
+                $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
+                $this->mediaManager->saveFile($uploadedFile, $mediaId);
 
-            $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
+                $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
 
-            $fetchedImageRendition = $this->entityManager->find(ImageRendition::class, $imageRendition->getId());
-            if (null !== $fetchedImageRendition) {
-                $fetchedImageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
+                $imageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
                 $this->entityManager->flush();
-            }
-        } catch (Exception $e) {
-            $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
+            } catch (Exception $e) {
+                $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
-            return ConsumerInterface::MSG_REJECT;
-        } finally {
-            $filesystem = new Filesystem();
-            if ($filesystem->exists($tempLocation)) {
-                $filesystem->remove($tempLocation);
+                return ConsumerInterface::MSG_REJECT;
+            } finally {
+                $filesystem = new Filesystem();
+                if ($filesystem->exists($tempLocation)) {
+                    $filesystem->remove($tempLocation);
+                }
             }
         }
 
