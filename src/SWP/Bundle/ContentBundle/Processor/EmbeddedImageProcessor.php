@@ -67,7 +67,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
             return;
         }
 
-        $figureString = $embeds[2];
+        $figureString = trim($embeds[2]);
         $crawler = new Crawler($figureString);
         $images = $crawler->filter('figure img');
 
@@ -87,6 +87,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         }
 
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
+        dump($article->getBody());
     }
 
     public function setDefaultImageRendition(string $renditionName): void
