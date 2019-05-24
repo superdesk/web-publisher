@@ -50,7 +50,11 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
 
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
-        $body = $article->getBody();
+        if (null === $article->getBody()) {
+            return;
+        }
+
+        $body = preg_replace('/\s+/', ' ', trim($article->getBody()));
         $mediaId = str_replace('/', '\\/', $articleMedia->getKey());
 
         preg_match(
@@ -63,7 +67,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
             return;
         }
 
-        $figureString = $embeds[2];
+        $figureString = trim($embeds[2]);
         $crawler = new Crawler($figureString);
         $images = $crawler->filter('figure img');
 
@@ -83,6 +87,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         }
 
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
+        dump($article->getBody());
     }
 
     public function setDefaultImageRendition(string $renditionName): void
