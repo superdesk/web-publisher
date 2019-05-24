@@ -32,6 +32,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeoMediaController extends AbstractMediaController
@@ -59,7 +60,7 @@ class SeoMediaController extends AbstractMediaController
     }
 
     /**
-     * @Route("/media/seo/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_seo_media_get")
+     * @Route("/seo/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_seo_media_get")
      */
     public function getAction(string $mediaId, string $extension): Response
     {
