@@ -49,7 +49,7 @@ class PackageSeoMediaUploadController extends AbstractController
      *     statusCodes={
      *         201="Returned on success."
      *     },
-     *     input="SWP\Bundle\ContentBundle\Form\Type\ImageUploadType"
+     *     input="SWP\Bundle\SeoBundle\Form\Type\SeoImageType"
      * )
      *
      * @Route("/api/{version}/packages/seo/upload/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_upload_package_seo_image")
