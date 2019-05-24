@@ -9,3 +9,4 @@ services:
   SWP\Bundle\ContentBundle\Controller\AuthorMediaController:
     bind:
       $mediaManager: '@swp_core_bundle.manager.author_media'
+  SWP\Bundle\CoreBundle\Controller\RedirectingController: ~

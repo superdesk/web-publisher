@@ -401,6 +401,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'webcode' => '+jxux6',
                         'extra data' => 'extra value',
                     ],
+                    'extra' => [
+                        'articleNumber' => '1919',
+                    ],
                     'commentsCount' => 34,
                 ],
                 [
