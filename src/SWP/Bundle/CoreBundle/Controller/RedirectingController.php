@@ -16,43 +16,56 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Doctrine\ORM\NonUniqueResultException;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
-class RedirectingController extends Controller
+class RedirectingController extends AbstractController
 {
+    private $router;
+
+    private $articleRepository;
+
+    public function __construct(RouterInterface $router, ArticleRepositoryInterface $articleRepository)
+    {
+        $this->router = $router;
+        $this->articleRepository = $articleRepository;
+    }
+
     public function redirectBasedOnExtraDataAction(string $key, string $value): RedirectResponse
     {
-        $articleRepository = $this->container->get('swp.repository.article');
-        $existingArticle = $articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
+        try {
+            $existingArticle = $this->articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
+            if (null === $existingArticle) {
+                $existingArticle = $this->articleRepository->getArticleByExtraData($key, $value)->getQuery()->getOneOrNullResult();
+            }
+        } catch (NonUniqueResultException $e) {
+            $existingArticle = null;
+        }
 
         if (null === $existingArticle || null === $existingArticle->getRoute()) {
             throw $this->createNotFoundException('Article with provided data was not found.');
         }
-        $url = $this->generateArticleUrl($existingArticle);
 
-        return $this->redirect($url, 301);
+        return $this->redirect($this->generateArticleUrl($existingArticle), 301);
     }
 
     public function redirectBasedOnSlugAction(string $slug): RedirectResponse
     {
-        $articleRepository = $this->container->get('swp.repository.article');
-        $article = $articleRepository->findOneBySlug($slug);
-
-        if (null === $article || null === $article->getRoute()) {
+        $existingArticle = $this->articleRepository->findOneBySlug($slug);
+        if (null === $existingArticle || null === $existingArticle->getRoute()) {
             throw $this->createNotFoundException('Article not found.');
         }
-        $url = $this->generateArticleUrl($article);
 
-        return $this->redirect($url, 301);
+        return $this->redirect($this->generateArticleUrl($existingArticle), 301);
     }
 
     private function generateArticleUrl(ArticleInterface $article): string
     {
-        $urlGenerator = $this->container->get('router');
-
-        return $urlGenerator->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->router->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }
