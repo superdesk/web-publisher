@@ -46,7 +46,7 @@ class SeoMetadataController extends AbstractController
      *     input="SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType"
      * )
      *
-     * @Route("/api/{version}/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_seo_metadata_put")
+     * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_seo_metadata_put")
      *
      * @param Request $request
      *
@@ -85,7 +85,7 @@ class SeoMetadataController extends AbstractController
      *     }
      * )
      *
-     * @Route("/api/{version}/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")
+     * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")
      *
      * @return SingleResourceResponse
      */

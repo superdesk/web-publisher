@@ -27,7 +27,6 @@ use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\SeoImageType;
-use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -76,7 +75,7 @@ class SeoMediaController extends AbstractMediaController
      *     },
      *     input="SWP\Bundle\SeoBundle\Form\Type\SeoImageType"
      * )
-     * @Route("/api/{version}/upload/seo_image/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_upload_seo_image")
+     * @Route("/api/{version}/upload/seo_image/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_seo_image")
      *
      * @param Request $request
      *
@@ -91,7 +90,7 @@ class SeoMediaController extends AbstractMediaController
             $seoMetadata = $this->seoMetadataFactory->create();
         }
 
-        $form = $this->get('form.factory')->createNamed('', SeoImageType::class, $seoMetadata, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', SeoImageType::class, $seoMetadata);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

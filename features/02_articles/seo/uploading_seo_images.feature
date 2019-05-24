@@ -24,19 +24,19 @@ Feature: Adding article SEO metadata
 
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PUT" request to "/api/v2/upload/seo_image/lorem" with parameters:
+    Then I send a "POST" request to "/api/v2/upload/seo_image/lorem" with parameters:
       | key                | value      |
       | metaMediaFile      | @logo.png  |
     Then the response status code should be 201
 
     Then I am authenticated as "test.user"
-    Then I send a "PUT" request to "/api/v2/upload/seo_image/lorem" with parameters:
+    Then I send a "POST" request to "/api/v2/upload/seo_image/lorem" with parameters:
       | key             | value      |
       | ogMediaFile     | @logo.png  |
     Then the response status code should be 201
 
     Then I am authenticated as "test.user"
-    Then I send a "PUT" request to "/api/v2/upload/seo_image/lorem" with parameters:
+    Then I send a "POST" request to "/api/v2/upload/seo_image/lorem" with parameters:
       | key                   | value      |
       | twitterMediaFile      | @logo.png  |
     Then the response status code should be 201

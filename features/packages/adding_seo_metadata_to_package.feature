@@ -4,7 +4,7 @@ Feature: Adding new SEO metadata
   Scenario: Creating a new SEO metadata for package
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PUT" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
+    Then I send a "PUT" request to "/api/v2/packages/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
     """
     {
       "meta_title": "This is my meta title",
@@ -25,12 +25,12 @@ Feature: Adding new SEO metadata
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
+    Then I send a "GET" request to "/api/v2/packages/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
     Then the response status code should be 200
 
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PUT" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
+    Then I send a "PUT" request to "/api/v2/packages/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
     """
     {
       "meta_title": "This is my meta title",
@@ -50,14 +50,14 @@ Feature: Adding new SEO metadata
     And the JSON node "twitter_description" should be equal to ""
 
     Then I am authenticated as "test.user"
-    Then I send a "PUT" request to "/api/v2/packages/seo/upload/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with parameters:
+    Then I send a "POST" request to "/api/v2/packages/seo/upload/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with parameters:
       | key                  | value                                                           |
       | twitterMediaFile     | @logo.png                                                       |
     Then the response status code should be 201
     And the JSON node "_links.twitter_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
 
     Then I am authenticated as "test.user"
-    Then I send a "PUT" request to "/api/v2/packages/seo/upload/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with parameters:
+    Then I send a "POST" request to "/api/v2/packages/seo/upload/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with parameters:
       | key                  | value                                                           |
       | metaMediaFile        | @logo.png                                                       |
     Then the response status code should be 201
@@ -65,7 +65,7 @@ Feature: Adding new SEO metadata
     And the JSON node "_links.twitter_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
 
     Then I am authenticated as "test.user"
-    Then I send a "PUT" request to "/api/v2/packages/seo/upload/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with parameters:
+    Then I send a "POST" request to "/api/v2/packages/seo/upload/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with parameters:
       | key                  | value                                                           |
       | ogMediaFile          | @logo.png                                                       |
     Then the response status code should be 201

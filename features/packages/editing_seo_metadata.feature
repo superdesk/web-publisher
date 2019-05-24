@@ -4,7 +4,7 @@ Feature: Editing existing SEO metadata
   Scenario: Editing existing package SEO metadata
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PUT" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
+    Then I send a "PUT" request to "/api/v2/packages/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
     """
     {
       "meta_title": "This is my meta title",
@@ -25,7 +25,7 @@ Feature: Editing existing SEO metadata
 
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
+    Then I send a "GET" request to "/api/v2/packages/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
     Then the response status code should be 200
     And the JSON node "meta_title" should be equal to "This is my meta title"
     And the JSON node "meta_description" should be equal to "This is my meta description"
@@ -132,7 +132,7 @@ Feature: Editing existing SEO metadata
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "PUT" request to "/api/v2/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
+    Then I send a "PUT" request to "/api/v2/packages/seo/2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc" with body:
     """
     {
       "meta_title":"This is my meta title edit",

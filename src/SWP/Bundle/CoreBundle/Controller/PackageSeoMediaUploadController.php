@@ -51,7 +51,7 @@ class PackageSeoMediaUploadController extends AbstractController
      *     input="SWP\Bundle\SeoBundle\Form\Type\SeoImageType"
      * )
      *
-     * @Route("/api/{version}/packages/seo/upload/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_upload_package_seo_image")
+     * @Route("/api/{version}/packages/seo/upload/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_package_seo_image")
      *
      * @param Request $request
      *
@@ -65,7 +65,7 @@ class PackageSeoMediaUploadController extends AbstractController
             $seoMetadata = $this->seoMetadataFactory->create();
         }
 
-        $form = $this->get('form.factory')->createNamed('', SeoImageType::class, $seoMetadata, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')->createNamed('', SeoImageType::class, $seoMetadata);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
