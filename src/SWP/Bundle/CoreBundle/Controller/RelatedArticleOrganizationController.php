@@ -23,7 +23,7 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleList;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleListItem;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
-use SWP\Component\Bridge\Model\GroupInterface;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -74,8 +74,8 @@ class RelatedArticleOrganizationController extends Controller
 
     private function getRelated(PackageInterface $package): RelatedArticleList
     {
-        $relatedItemsGroups = $package->getGroups()->filter(function ($group) {
-            return GroupInterface::TYPE_RELATED === $group->getType();
+        $relatedItemsGroups = $package->getItems()->filter(static function ($group) {
+            return ItemInterface::TYPE_TEXT === $group->getType();
         });
 
         $relatedArticlesList = new RelatedArticleList();
@@ -87,26 +87,24 @@ class RelatedArticleOrganizationController extends Controller
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $articleRepository = $this->get('swp.repository.article');
 
-        foreach ($relatedItemsGroups as $relatedItemsGroup) {
-            foreach ($relatedItemsGroup->getItems() as $item) {
-                if (null === ($existingArticles = $articleRepository->findBy(['code' => $item->getGuid()]))) {
-                    continue;
-                }
-
-                $tenants = [];
-                foreach ($existingArticles as $existingArticle) {
-                    $tenantCode = $existingArticle->getTenantCode();
-                    $tenant = $this->get('swp.repository.tenant')->findOneByCode($tenantCode);
-
-                    $tenants[] = $tenant;
-                }
-
-                $relatedArticleListItem = new RelatedArticleListItem();
-                $relatedArticleListItem->setTenants($tenants);
-                $relatedArticleListItem->setTitle($item->getHeadline());
-
-                $relatedArticlesList->addRelatedArticleItem($relatedArticleListItem);
+        foreach ($relatedItemsGroups as $item) {
+            if (null === ($existingArticles = $articleRepository->findBy(['code' => $item->getGuid()]))) {
+                continue;
             }
+
+            $tenants = [];
+            foreach ($existingArticles as $existingArticle) {
+                $tenantCode = $existingArticle->getTenantCode();
+                $tenant = $this->get('swp.repository.tenant')->findOneByCode($tenantCode);
+
+                $tenants[] = $tenant;
+            }
+
+            $relatedArticleListItem = new RelatedArticleListItem();
+            $relatedArticleListItem->setTenants($tenants);
+            $relatedArticleListItem->setTitle($item->getHeadline());
+
+            $relatedArticlesList->addRelatedArticleItem($relatedArticleListItem);
         }
 
         return $relatedArticlesList;
