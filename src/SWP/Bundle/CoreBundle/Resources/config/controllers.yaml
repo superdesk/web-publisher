@@ -11,3 +11,4 @@ services:
       $mediaManager: '@swp_core_bundle.manager.author_media'
 
   SWP\Bundle\CoreBundle\Controller\PackageSeoMediaUploadController: ~
+  SWP\Bundle\CoreBundle\Controller\RedirectingController: ~

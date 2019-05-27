@@ -80,6 +80,18 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
         return $queryBuilder;
     }
 
+    public function getArticleByExtraData(string $key, string $value): QueryBuilder
+    {
+        $criteria = new Criteria([
+            'maxResults' => 1,
+            'extra' => [
+                $key => $value,
+            ],
+        ]);
+
+        return $this->getArticlesByCriteria($criteria);
+    }
+
     protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias, Criteria $criteria = null)
     {
         $properties = \array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());

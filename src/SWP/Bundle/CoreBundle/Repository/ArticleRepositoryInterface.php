@@ -27,4 +27,6 @@ interface ArticleRepositoryInterface extends BaseInterface
     public function getArticlesByPackage(PackageInterface $package): QueryBuilder;
 
     public function getArticleByPackageExtraData(string $key, string $value): QueryBuilder;
+
+    public function getArticleByExtraData(string $key, string $value): QueryBuilder;
 }
