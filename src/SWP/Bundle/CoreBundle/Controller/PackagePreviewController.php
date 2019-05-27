@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -73,15 +75,23 @@ class PackagePreviewController extends Controller
     /**
      * Generates package preview token for specific route.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Generate package preview token for specific route",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when validation failed.",
-     *         500="Returned when unexpected error."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Generate package preview token for specific route",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when validation failed."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
      */
     public function generateTokenAction(Request $request, int $routeId)

@@ -14,7 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookInstantArticlesFeedType;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
@@ -30,17 +31,26 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 class FbiaFeedController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists Facebook Instant Articles feeds",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Lists Facebook Instant Articles feeds",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_feed")
      */
     public function listAction(Request $request)
@@ -57,15 +67,40 @@ class FbiaFeedController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create Facebook Instant Articles feed content list",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when not valid data."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookInstantArticlesFeedType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Create Facebook Instant Articles feed content list",
+     *     @SWG\Parameter(
+     *         name="contentBucket",
+     *         in="body",
+     *         description="Content List Id",
+     *         required=false,
+     *         @SWG\Schema(type="choice")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="facebookPage",
+     *         in="body",
+     *         description="Facebook Page Id (from Publisher)",
+     *         required=false,
+     *         @SWG\Schema(type="choice")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="mode",
+     *         in="body",
+     *         description="Feed Mode (0 for development, 1 for production)",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_instant_articles_feed")
      */
     public function createAction(Request $request)

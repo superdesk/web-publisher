@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -42,15 +44,89 @@ class SeoMetadataController extends AbstractController
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Add a new SEO metadata entry",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Add a new SEO metadata entry",
+     *     @SWG\Parameter(
+     *         name="metaDescription",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="metaTitle",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ogDescription",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ogTitle",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="twitterDescription",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="twitterTitle",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="metaMediaFile",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ogMediaFile",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="twitterMediaFile",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="packageGuid",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/seo/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_seo_metadata_create")
      *
@@ -85,15 +161,89 @@ class SeoMetadataController extends AbstractController
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Edits SEO metadata entry",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Edits SEO metadata entry",
+     *     @SWG\Parameter(
+     *         name="metaDescription",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="metaTitle",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ogDescription",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ogTitle",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="twitterDescription",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="twitterTitle",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="metaMediaFile",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="file")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ogMediaFile",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="file")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="twitterMediaFile",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="file")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="packageGuid",
+     *         in="body",
+     *         description="",
+     *         required=true,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_seo_metadata_edit")
      *
@@ -126,14 +276,19 @@ class SeoMetadataController extends AbstractController
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Gets SEO metadata entry",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Gets SEO metadata entry",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")
      *

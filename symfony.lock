@@ -184,6 +184,9 @@
     "evenement/evenement": {
         "version": "v3.0.1"
     },
+    "exsyst/swagger": {
+        "version": "v0.4.1"
+    },
     "facebook/facebook-instant-articles-sdk-php": {
         "version": "v1.10.1"
     },
@@ -426,9 +429,6 @@
     },
     "matthiasnoback/symfony-dependency-injection-test": {
         "version": "v1.2.0"
-    },
-    "michelf/php-markdown": {
-        "version": "1.8.0"
     },
     "monolog/monolog": {
         "version": "1.24.0"
@@ -977,6 +977,9 @@
     "symfony/property-access": {
         "version": "v4.2.7"
     },
+    "symfony/property-info": {
+        "version": "v4.2.8"
+    },
     "symfony/proxy-manager-bridge": {
         "version": "v4.2.7"
     },
@@ -1188,5 +1191,8 @@
     },
     "zendframework/zend-stdlib": {
         "version": "3.2.1"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.14"
     }
 }

@@ -16,7 +16,8 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
@@ -36,17 +37,29 @@ class RouteController extends FOSRestController
     /**
      * Lists current tenant routes.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists current tenant routes",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     },
-     *     filters={
-     *         {"name"="type", "dataType"="string", "pattern"="collection|content"},
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Lists current tenant routes",
+     *     @SWG\Parameter(
+     *         name="type",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_routes")
      */
     public function listAction(Request $request)
@@ -63,13 +76,15 @@ class RouteController extends FOSRestController
     /**
      * Show single tenant route.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Show single tenant route",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Show single tenant route",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
      */
     public function getAction($id)
@@ -80,13 +95,15 @@ class RouteController extends FOSRestController
     /**
      * Delete single tenant route.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete single tenant route",
-     *     statusCodes={
-     *         204="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Delete single tenant route",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
      *
      * @return Response
@@ -117,15 +134,103 @@ class RouteController extends FOSRestController
      *
      * Parameter `type` cane have one of two values: `content`, `collection` or `custom`.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create new route",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when not valid data."
-     *     },
-     *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Create new route",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="slug",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="type",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="templateName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="articlesTemplateName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="content",
+     *         in="body",
+     *         description="Content identifier (e.g. article identifier)",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="parent",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="cacheTimeInSeconds",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="variablePattern",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="requirements",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="position",
+     *         in="body",
+     *         description="Position under parent subtree in which to place the route.",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="paywallSecured",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_create_routes")
      */
     public function createAction(Request $request)
@@ -153,17 +258,111 @@ class RouteController extends FOSRestController
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single route",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when not valid data.",
-     *         404="Returned when not found.",
-     *         409="Returned on conflict."
-     *     },
-     *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Update single route",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="slug",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="type",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="templateName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="articlesTemplateName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="content",
+     *         in="body",
+     *         description="Content identifier (e.g. article identifier)",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="parent",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="cacheTimeInSeconds",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="variablePattern",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="requirements",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="position",
+     *         in="body",
+     *         description="Position under parent subtree in which to place the route.",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="paywallSecured",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="Returned on conflict."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
      */
     public function updateAction(Request $request, $id)

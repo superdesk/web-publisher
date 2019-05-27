@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleList;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleListItem;
@@ -31,13 +33,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class RelatedArticleOrganizationController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Returns a list of related articles",
-     *     statusCodes={
-     *         200="Returned on success"
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Returns a list of related articles",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success"
+     *     )
      * )
+     *
      * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_organization_related_articles")
      */
     public function postAction(Request $request)
@@ -51,13 +55,15 @@ class RelatedArticleOrganizationController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Returns a list of related articles",
-     *     statusCodes={
-     *         200="Returned on success"
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Returns a list of related articles",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success"
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
      */
     public function getRelatedAction(string $id)

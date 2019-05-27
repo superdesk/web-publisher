@@ -22,7 +22,8 @@ use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\UserBundle\Form\Type\RegistrationFormType;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -38,16 +39,44 @@ class RegistrationController extends Controller
     /**
      * Register new user.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Register new user",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on failure.",
-     *         409="Returned on conflict."
-     *     },
-     *     input="SWP\Bundle\UserBundle\Form\Type\RegistrationFormType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Register new user",
+     *     @SWG\Parameter(
+     *         name="email",
+     *         in="body",
+     *         description="form.email",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="username",
+     *         in="body",
+     *         description="form.username",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="plainPassword",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="object (RepeatedType)")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on failure."
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="Returned on conflict."
+     *     )
      * )
+     *
      * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
      */
     public function registerAction(Request $request)

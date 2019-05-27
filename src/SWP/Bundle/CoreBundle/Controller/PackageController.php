@@ -17,7 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Collections\Collection;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Form\Type\PackageType;
@@ -40,18 +41,33 @@ class PackageController extends Controller
     /**
      * List all items.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="List all packages",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Returned when unexpected error occurred."
-     *     },
-     *     filters={
-     *         {"name"="status", "dataType"="string", "pattern"="published|unpublished|new|canceled"},
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="List all packages",
+     *     @SWG\Parameter(
+     *         name="status",
+     *         in="query",
+     *         description="options: new|published|unpublished|canceled",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="example: [updatedAt]=asc|desc",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_packages")
      */
     public function listAction(Request $request)
@@ -71,13 +87,15 @@ class PackageController extends Controller
     /**
      * Show single package.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Show single package",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Show single package",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_package", requirements={"id"="\d+"})
      */
     public function getAction(int $id)
@@ -88,16 +106,30 @@ class PackageController extends Controller
     /**
      * Publishes package to many websites.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Publishes package to many tenants",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when validation failed.",
-     *         500="Returned when unexpected error."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Publishes package to many tenants",
+     *     @SWG\Parameter(
+     *         name="destinations",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (PublishDestinationType)")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when validation failed."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/{id}/publish/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publish_package", requirements={"id"="\d+"})
      */
     public function publishAction(Request $request, int $id)
@@ -122,16 +154,30 @@ class PackageController extends Controller
     /**
      * Un-publishes package from many websites.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Un-publishes package from many tenants",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when validation failed.",
-     *         500="Returned when unexpected error."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Un-publishes package from many tenants",
+     *     @SWG\Parameter(
+     *         name="tenants",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of choices")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when validation failed."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/{id}/unpublish/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_unpublish_package", requirements={"id"="\d+"})
      */
     public function unpublishAction(Request $request, int $id)
@@ -159,16 +205,30 @@ class PackageController extends Controller
      * @param Request $request
      * @param int     $id
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Updates package",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when validation failed.",
-     *         500="Returned when unexpected error."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\PackageType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Updates package",
+     *     @SWG\Parameter(
+     *         name="pubStatus",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when validation failed."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
      *
@@ -196,7 +256,7 @@ class PackageController extends Controller
     /**
      * @param int $id
      *
-     * @return null|object
+     * @return object|null
      */
     private function findOr404(int $id)
     {

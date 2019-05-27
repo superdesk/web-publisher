@@ -20,7 +20,9 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\UserBundle\Form\Type\ProfileFormType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -37,14 +39,19 @@ class ProfileController extends Controller
     /**
      * Get user profile.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get user profile",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Returned on user not found."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Get user profile",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned on user not found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
      */
     public function getAction($id)
@@ -62,16 +69,65 @@ class ProfileController extends Controller
     /**
      * Update user profile.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update user profile",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on failure.",
-     *         404="Returned on user not found."
-     *     },
-     *     input="SWP\Bundle\UserBundle\Form\Type\ProfileFormType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Update user profile",
+     *     @SWG\Parameter(
+     *         name="email",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="username",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="firstName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="lastName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="about",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="plainPassword",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="object (RepeatedType)")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on failure."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned on user not found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/users/profile/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_edit_user_profile")
      */
     public function editAction(Request $request, $id)

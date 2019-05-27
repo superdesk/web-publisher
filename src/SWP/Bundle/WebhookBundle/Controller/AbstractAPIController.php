@@ -29,48 +29,27 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use SWP\Component\Common\Exception\NotFoundHttpException;
 
-/**
- * Class AbstractAPIController.
- */
 abstract class AbstractAPIController extends Controller
 {
-    /**
-     * @param RepositoryInterface $repository
-     * @param Request             $request
-     *
-     * @throws NotFoundHttpException
-     *
-     * @return ResourcesListResponse
-     */
-    public function listWebhooks(RepositoryInterface $repository, Request $request)
+    public function listWebhooks(RepositoryInterface $repository, Request $request): ResourcesListResponse
     {
         $webhooks = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($webhooks);
     }
 
-    /**
-     * @param WebhookInterface $webhook
-     *
-     * @return SingleResourceResponse
-     */
-    public function getSingleWebhook(WebhookInterface $webhook)
+    public function getSingleWebhook(WebhookInterface $webhook): SingleResourceResponse
     {
         return new SingleResourceResponse($webhook);
     }
 
-    /**
-     * @param RepositoryInterface  $ruleRepository
-     * @param FactoryInterface     $ruleFactory
-     * @param Request              $request
-     * @param FormFactoryInterface $formFactory
-     *
-     * @return SingleResourceResponse
-     */
-    public function createWebhook(RepositoryInterface $ruleRepository, FactoryInterface $ruleFactory, Request $request, FormFactoryInterface $formFactory)
-    {
+    public function createWebhook(
+        RepositoryInterface $ruleRepository,
+        FactoryInterface $ruleFactory,
+        Request $request,
+        FormFactoryInterface $formFactory
+    ): SingleResourceResponse {
         $webhook = $ruleFactory->create();
         $form = $formFactory->createNamed('', WebhookType::class, $webhook);
         $form->handleRequest($request);
@@ -84,29 +63,19 @@ abstract class AbstractAPIController extends Controller
         return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
-    /**
-     * @param RepositoryInterface $webhookRepository
-     * @param WebhookInterface    $webhook
-     *
-     * @return SingleResourceResponse
-     */
-    public function deleteWebhook(RepositoryInterface $webhookRepository, WebhookInterface $webhook)
+    public function deleteWebhook(RepositoryInterface $webhookRepository, WebhookInterface $webhook): SingleResourceResponse
     {
         $webhookRepository->remove($webhook);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
 
-    /**
-     * @param ObjectManager        $objectManager
-     * @param Request              $request
-     * @param WebhookInterface     $webhook
-     * @param FormFactoryInterface $formFactory
-     *
-     * @return SingleResourceResponse
-     */
-    public function updateWebhook(ObjectManager $objectManager, Request $request, WebhookInterface $webhook, FormFactoryInterface $formFactory)
-    {
+    public function updateWebhook(
+        ObjectManager $objectManager,
+        Request $request,
+        WebhookInterface $webhook,
+        FormFactoryInterface $formFactory
+    ): SingleResourceResponse {
         $form = $formFactory->createNamed('', WebhookType::class, $webhook, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);

@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -26,17 +28,26 @@ use Symfony\Component\HttpFoundation\Request;
 class FbiaArticleController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists Facebook Instant Articles submitted articles",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Lists Facebook Instant Articles submitted articles",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_articles")
      */
     public function listAction(Request $request)
@@ -53,14 +64,19 @@ class FbiaArticleController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Updates status of submitted Instant Article",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Unexpected error."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Updates status of submitted Instant Article",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_facebook_instant_articles_articles_update")
      */
     public function updateSubmissionAction(string $submissionId)

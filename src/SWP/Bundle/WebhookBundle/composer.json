@@ -24,6 +24,7 @@
     "symfony/form": "^4.2"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "phpspec/phpspec": "^5.1"
   },
   "autoload": {

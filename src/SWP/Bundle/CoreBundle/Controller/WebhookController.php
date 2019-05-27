@@ -14,7 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\WebhookBundle\Controller\AbstractAPIController;
@@ -28,17 +29,26 @@ class WebhookController extends AbstractAPIController
     /**
      * List all Webhook entities for current tenant.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="List all webhooks",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         405="Method Not Allowed."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="List all webhooks",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_webhook")
      *
      * @param Request $request
@@ -53,15 +63,23 @@ class WebhookController extends AbstractAPIController
     /**
      * Get single Webhook.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get single webhook",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Rule not found.",
-     *         405="Method Not Allowed."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Get single webhook",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_webhook")
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
@@ -78,16 +96,44 @@ class WebhookController extends AbstractAPIController
     /**
      * Create new Webhook.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create new webhook",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     },
-     *     input="SWP\Bundle\WebhookBundle\Form\Type\WebhookType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Create new webhook",
+     *     @SWG\Parameter(
+     *         name="url",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="events",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of strings")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="enabled",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_webhook")
      *
      * @param Request $request
@@ -106,15 +152,23 @@ class WebhookController extends AbstractAPIController
     /**
      * Delete single webhook.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete single webhook",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         404="Returned when rule not found.",
-     *         405="Returned when method not allowed."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Delete single webhook",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Returned when method not allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_webhook", requirements={"id"="\d+"})
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
@@ -131,17 +185,48 @@ class WebhookController extends AbstractAPIController
     /**
      * Updates single webhook.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single webhook",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         404="Rule not found.",
-     *         405="Method Not Allowed."
-     *     },
-     *     input="SWP\Bundle\WebhookBundle\Form\Type\WebhookType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Update single webhook",
+     *     @SWG\Parameter(
+     *         name="url",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="events",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of strings")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="enabled",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_webhook", requirements={"id"="\d+"})
      *

@@ -16,7 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -28,27 +29,102 @@ use Symfony\Component\Routing\Annotation\Route;
 class PackageSearchController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="List all packages",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Returned when unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="status", "dataType"="array", "pattern"="new|published|unpublished|canceled","description"="Package status"},
-     *         {"name"="published_before", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now", "description"="The datetime before which the package has been published"},
-     *         {"name"="published_after", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now", "description"="The datetime after which the package has been published"},
-     *         {"name"="author", "dataType"="array", "description"="Package authors"},
-     *         {"name"="term", "dataType"="string", "pattern"="search phrase", "description"="Search phrase"},
-     *         {"name"="sorting", "dataType"="array", "pattern"="sorting[id]=desc", "description"="List order"},
-     *         {"name"="source", "dataType"="array", "description"="Sources"},
-     *         {"name"="limit", "dataType"="integer", "description"="Items per page"},
-     *         {"name"="page", "dataType"="integer", "description"="Page number"},
-     *         {"name"="tenant", "dataType"="array", "description"="Tenant codes"},
-     *         {"name"="route", "dataType"="array", "description"="Routes ids"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="List all packages",
+     *     @SWG\Parameter(
+     *         name="status",
+     *         in="query",
+     *         description="Package status",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="published_before",
+     *         in="query",
+     *         description="The datetime before which the package has been published",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="published_after",
+     *         in="query",
+     *         description="The datetime after which the package has been published",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="author",
+     *         in="query",
+     *         description="Package authors",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="term",
+     *         in="query",
+     *         description="Search phrase",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="List order",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="source",
+     *         in="query",
+     *         description="Sources",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Items per page",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page number",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="tenant",
+     *         in="query",
+     *         description="Tenant codes",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="route",
+     *         in="query",
+     *         description="Routes ids",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="integer")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_packages")
      */
     public function searchAction(Request $request)

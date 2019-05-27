@@ -16,7 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Matcher\RulesMatcher;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -35,13 +36,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OrganizationRuleController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Returns a list of rules that will be executed on the package",
-     *     statusCodes={
-     *         200="Returned on success"
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Returns a list of rules that will be executed on the package",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success"
+     *     )
      * )
+     *
      * @Route("/api/{version}/organization/rules/evaluate", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_organization_rules_evaluate")
      */
     public function rulesEvaluationAction(Request $request)
@@ -59,17 +62,26 @@ class OrganizationRuleController extends Controller
     /**
      * List all current organization's rules.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="List all current organization's articles",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Returned when unexpected error occurred."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="List all current organization's articles",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error occurred."
+     *     )
      * )
+     *
      * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_organization_rules")
      */
     public function rulesAction(Request $request)
@@ -94,16 +106,58 @@ class OrganizationRuleController extends Controller
     /**
      * Create a new Organization Rule.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create a new organization rule",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     },
-     *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Create a new organization rule",
+     *     @SWG\Parameter(
+     *         name="expression",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="priority",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="configuration",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="description",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_organization_rule")
      */
     public function createAction(Request $request)
@@ -128,13 +182,15 @@ class OrganizationRuleController extends Controller
     /**
      * Show single organiation's rule.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Show single organization rule",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Show single organization rule",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_organization_rule", requirements={"id"="\d+"})
      */
     public function getAction(int $id)
@@ -145,16 +201,58 @@ class OrganizationRuleController extends Controller
     /**
      * Updates organization's rule.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Updates organization rule",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when validation failed.",
-     *         500="Returned when unexpected error."
-     *     },
-     *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Updates organization rule",
+     *     @SWG\Parameter(
+     *         name="expression",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="priority",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="configuration",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="description",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when validation failed."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_organization_rule", requirements={"id"="\d+"})
      */
     public function updateRuleAction(Request $request, int $id)
@@ -177,15 +275,23 @@ class OrganizationRuleController extends Controller
     /**
      * Delete single organization rule.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete single organization rule",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         404="Returned when rule not found.",
-     *         405="Returned when method not allowed."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Delete single organization rule",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Returned when method not allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_organization_rule", requirements={"id"="\d+"})
      */
     public function deleteAction(int $id)

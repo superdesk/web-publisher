@@ -14,7 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
@@ -35,16 +36,22 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ContentListController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists all content lists",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Lists all content lists",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_list_lists")
      */
     public function listAction(Request $request)
@@ -57,13 +64,15 @@ class ContentListController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Show single content list",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Show single content list",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
      */
     public function getAction($id)
@@ -72,15 +81,62 @@ class ContentListController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create new content list",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when not valid data."
-     *     },
-     *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Create new content list",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="List name",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="type",
+     *         in="body",
+     *         description="List type",
+     *         required=false,
+     *         type="choice",
+     *         @SWG\Schema(type="choice")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="description",
+     *         in="body",
+     *         description="List description",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="limit",
+     *         in="body",
+     *         description="List limit",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="cacheLifeTime",
+     *         in="body",
+     *         description="List cache life time",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="filters",
+     *         in="body",
+     *         description="Content list filters in JSON format.",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_content_create_lists")
      */
     public function createAction(Request $request)
@@ -102,17 +158,69 @@ class ContentListController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single content list",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when not valid data.",
-     *         404="Returned when not found.",
-     *         409="Returned on conflict."
-     *     },
-     *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Update single content list",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="List name",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="type",
+     *         in="body",
+     *         description="List type",
+     *         required=false,
+     *         @SWG\Schema(type="choice")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="description",
+     *         in="body",
+     *         description="List description",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="limit",
+     *         in="body",
+     *         description="List limit",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="cacheLifeTime",
+     *         in="body",
+     *         description="List cache life time",
+     *         required=false,
+     *         @SWG\Schema(type="integer")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="filters",
+     *         in="body",
+     *         description="Content list filters in JSON format.",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="Returned on conflict."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
      */
     public function updateAction(Request $request, $id)
@@ -140,13 +248,15 @@ class ContentListController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete single content list",
-     *     statusCodes={
-     *         204="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Delete single content list",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
      */
     public function deleteAction($id)
@@ -172,15 +282,23 @@ class ContentListController extends Controller
      *     header name: "link"
      *     header value: "</api/{version}/content/articles/{id}; rel="article">,<1; rel="position">"
      *
-     * @ApiDoc(
-     *     statusCodes={
-     *         201="Returned when successful",
-     *         404="Returned when resource not found",
-     *         409={
-     *           "Returned when the link already exists",
-     *         }
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Link or Unlink resource with Content List.",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned when successful"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when resource not found"
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="Returned when the link already exists"
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v2"}, methods={"LINK","UNLINK"}, name="swp_api_content_list_link_unlink")
      *

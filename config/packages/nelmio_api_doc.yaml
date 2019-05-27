@@ -1,5 +1,4 @@
 nelmio_api_doc:
-  request_listener: false
-  sandbox:
-    request_format:
-      method: accept_header
+  documentation:
+    info:
+      title: Superdesk Publisher

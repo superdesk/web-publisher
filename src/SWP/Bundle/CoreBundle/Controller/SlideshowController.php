@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -28,16 +30,22 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SlideshowController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="List all slideshows",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="List all slideshows",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_slideshows_list")
      */
     public function listAction(Request $request, string $articleId)
@@ -54,13 +62,15 @@ class SlideshowController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get single slideshow",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Get single slideshow",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
      */
     public function getAction($id, string $articleId)

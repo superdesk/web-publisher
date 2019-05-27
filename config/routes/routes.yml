@@ -20,10 +20,6 @@ swp_user:
 swp_settings:
     resource: "@SWPSettingsBundle/Resources/config/routing.yml"
 
-NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
-
 swp_elasticsearch:
     resource: "@SWPElasticSearchBundle/Controller/Api"
     type:     annotation

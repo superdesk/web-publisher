@@ -23,7 +23,9 @@ use SWP\Bundle\SettingsBundle\Form\Type\SettingType;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,13 +35,15 @@ class SettingsController extends Controller
     /**
      * Lists all settings.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists all settings",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Lists all settings",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/settings/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_list")
      *
      * @return SingleResourceResponse
@@ -54,13 +58,15 @@ class SettingsController extends Controller
     /**
      * Revert settings to defaults by scope.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Revert settings to defaults by scope",
-     *     statusCodes={
-     *         204="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Revert settings to defaults by scope",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/settings/revert/{scope}", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_revert")
      *
      * @return SingleResourceResponse
@@ -77,15 +83,33 @@ class SettingsController extends Controller
     /**
      * Change setting value.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Change setting value",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Setting not found",
-     *     },
-     *     input="SWP\Bundle\SettingsBundle\Form\Type\SettingType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Change setting value",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="value",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Setting not found"
+     *     )
      * )
+     *
      * @Route("/api/{version}/settings/", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_update")
      *
      * @param Request $request
@@ -130,15 +154,26 @@ class SettingsController extends Controller
     /**
      * Settings bulk update - update multiple settings.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Settings bulk update",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Setting not found",
-     *     },
-     *     input="SWP\Bundle\SettingsBundle\Form\Type\BulkSettingsUpdateType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Settings bulk update",
+     *     @SWG\Parameter(
+     *         name="bulk",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (SettingType)")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Setting not found"
+     *     )
      * )
+     *
      * @Route("/api/{version}/settings/bulk/", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_settings_bulk_update")
      *
      * @param Request $request

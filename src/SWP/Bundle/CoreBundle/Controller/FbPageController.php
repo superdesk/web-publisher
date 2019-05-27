@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookPageType;
 use SWP\Bundle\CoreBundle\Model\FacebookPage;
@@ -32,17 +34,26 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class FbPageController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists Facebook Pages",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Lists Facebook Pages",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_pages")
      */
     public function listAction(Request $request)
@@ -59,15 +70,33 @@ class FbPageController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create Facebook page",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when not valid data."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookPageType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Create Facebook page",
+     *     @SWG\Parameter(
+     *         name="pageId",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_pages")
      */
     public function createAction(Request $request)
@@ -88,16 +117,27 @@ class FbPageController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete Facebook page",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         500="Unexpected error.",
-     *         404="Page not found",
-     *         409="Page is used by Instant Articles Feed"
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Delete Facebook page",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Page not found"
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="Page is used by Instant Articles Feed"
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/pages/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_pages")
      */
     public function deleteAction($id)

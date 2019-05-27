@@ -14,7 +14,8 @@
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -31,16 +32,13 @@ class ArticleController extends Controller
     /**
      * List all articles for current tenant.
      *
-     * @ApiDoc(
+     * ApiDoc(
      *     resource=true,
      *     description="List all articles for current tenant",
      *     statusCodes={
      *         200="Returned on success.",
      *     },
      *     filters={
-     *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"},
-     *         {"name"="route", "dataType"="integer"},
-     *         {"name"="includeSubRoutes", "dataType"="boolean"},
      *         {"name"="publishedBefore", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
      *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
      *         {"name"="author", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith"},
@@ -49,6 +47,41 @@ class ArticleController extends Controller
      *         {"name"="source", "dataType"="string"}
      *     }
      * )
+     *
+     * @Operation(
+     *     tags={""},
+     *     summary="List all articles for current tenant",
+     *     @SWG\Parameter(
+     *         name="status",
+     *         in="query",
+     *         description="options: new|published|unpublished|canceled",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="route",
+     *         in="query",
+     *         description="",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="includeSubRoutes",
+     *         in="query",
+     *         description="options: new|published|unpublished|canceled",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
+     * )
+     *
      * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_articles")
      *
      * @param Request $request
@@ -93,13 +126,15 @@ class ArticleController extends Controller
     /**
      * Show single tenant article.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Show single tenant article",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Show single tenant article",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/articles/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_articles", requirements={"id"=".+"})
      */
     public function getAction($id)
@@ -127,16 +162,58 @@ class ArticleController extends Controller
      *
      * Changing status from `published` to any other will make article hidden for user who don't have rights to see unpublished articles.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Updates articles",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when validation failed.",
-     *         500="Returned when unexpected error."
-     *     },
-     *     input="SWP\Bundle\ContentBundle\Form\Type\ArticleType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Updates articles",
+     *     @SWG\Parameter(
+     *         name="status",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="route",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="template_name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="seoMetadata",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="object (SeoMetadataType)")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="paywallSecured",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when validation failed."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/articles/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_articles", requirements={"id"=".+"})
      */
     public function updateAction(Request $request, $id)
@@ -162,15 +239,23 @@ class ArticleController extends Controller
     /**
      * Delete Article.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Deletes articles",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         404="Returned when article not found.",
-     *         500="Returned when unexpected error."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Deletes articles",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when article not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned when unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/articles/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
      *
      * @param int $id

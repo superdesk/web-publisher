@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use Superdesk\ContentApiSdk\Exception\InvalidDataException;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
@@ -29,15 +31,23 @@ use Symfony\Component\HttpFoundation\Request;
 class ExternalDataController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Set new package external data",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Set new package external data",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_add_extra_data")
      */
     public function setAction(Request $request, string $slug)
@@ -79,15 +89,23 @@ class ExternalDataController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get package external data",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     },
+     * @Operation(
+     *     tags={""},
+     *     summary="Get package external data",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_extra_data")
      */
     public function getAction(string $slug)

@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
@@ -37,19 +39,37 @@ class ContentListItemController extends Controller
     /**
      * List all items of content list.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists content list items",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Content list item not found.",
-     *         500="Unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="sticky", "dataType"="boolean", "pattern"="true|false"},
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Lists content list items",
+     *     @SWG\Parameter(
+     *         name="sticky",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Content list item not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
      */
     public function listAction(Request $request, $id)
@@ -69,13 +89,15 @@ class ContentListItemController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get single content list item",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={""},
+     *     summary="Get single content list item",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
      */
     public function getAction($listId, $id)
@@ -84,16 +106,30 @@ class ContentListItemController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single content list item",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when not valid data.",
-     *         404="Returned when not found."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\ContentListItemType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Update single content list item",
+     *     @SWG\Parameter(
+     *         name="sticky",
+     *         in="body",
+     *         description="Defines whether content is sticky or not (true or false).",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when not found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
      */
     public function updateAction(Request $request, $listId, $id)
@@ -125,16 +161,37 @@ class ContentListItemController extends Controller
      *
      * Possible actions: move, add, delete
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update many content list items",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when not valid data.",
-     *         404="Returned when not found."
-     *     },
-     *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Update many content list items",
+     *     @SWG\Parameter(
+     *         name="items",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (ContentListItemPositionType)")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="updatedAt",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when not found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
      */
     public function batchUpdateAction(Request $request, $listId)

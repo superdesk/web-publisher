@@ -16,7 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType;
@@ -32,15 +33,68 @@ class PublishDestinationController extends Controller
     /**
      * Add a new publish destination.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Add a new publish destination",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Add a new publish destination",
+     *     @SWG\Parameter(
+     *         name="tenant",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="route",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="isPublishedFbia",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="packageGuid",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="published",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="paywallSecured",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="contentLists",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (ContentListPositionType)")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
      *
@@ -82,15 +136,68 @@ class PublishDestinationController extends Controller
     /**
      * Updates existing publish destination.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update existing publish destination",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
+     * @Operation(
+     *     tags={""},
+     *     summary="Update existing publish destination",
+     *     @SWG\Parameter(
+     *         name="tenant",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="route",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="isPublishedFbia",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="packageGuid",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="published",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="paywallSecured",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="contentLists",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         @SWG\Schema(type="array of objects (ContentListPositionType)")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
      * @ParamConverter("publishDestination", class="SWP\Bundle\CoreBundle\Model\PublishDestination")
