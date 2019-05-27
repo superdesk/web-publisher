@@ -36,7 +36,3 @@ services:
     SWP\Bundle\CoreBundle\Form\Extension\RouteTypeExtension:
         tags:
             - { name: form.type_extension, extended_type: SWP\Bundle\ContentBundle\Form\Type\RouteType }
-
-    SWP\Bundle\CoreBundle\Form\Extension\SeoMetadataTypeExtension:
-        autoconfigure: true
-        autowire: true

@@ -26,12 +26,13 @@ use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
-use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
+use SWP\Bundle\SeoBundle\Form\Type\SeoImageType;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeoMediaController extends AbstractMediaController
@@ -59,7 +60,7 @@ class SeoMediaController extends AbstractMediaController
     }
 
     /**
-     * @Route("/media/seo/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_seo_media_get")
+     * @Route("/seo/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_seo_media_get")
      */
     public function getAction(string $mediaId, string $extension): Response
     {
@@ -73,7 +74,7 @@ class SeoMediaController extends AbstractMediaController
      *     statusCodes={
      *         201="Returned on success."
      *     },
-     *     input="SWP\Bundle\ContentBundle\Form\Type\ImageUploadType"
+     *     input="SWP\Bundle\SeoBundle\Form\Type\SeoImageType"
      * )
      * @Route("/api/{version}/upload/seo_image/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_seo_image")
      *
@@ -90,7 +91,7 @@ class SeoMediaController extends AbstractMediaController
             $seoMetadata = $this->seoMetadataFactory->create();
         }
 
-        $form = $this->get('form.factory')->createNamed('', SeoMetadataType::class, $seoMetadata);
+        $form = $this->get('form.factory')->createNamed('', SeoImageType::class, $seoMetadata);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
