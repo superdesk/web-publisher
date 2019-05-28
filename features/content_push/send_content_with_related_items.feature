@@ -217,7 +217,97 @@ Feature: Related items support
       ],
       "description_html":"<p><b><u>some abstract text</u></b></p>",
       "located":"Warsaw",
-      "pubstatus":"usable"
+      "pubstatus":"usable",
+      "associations":{
+        "related--item1":{
+          "language":"en",
+          "slugline":"abstract-html-test-1",
+          "body_html":"<p>some html body related 1</p>",
+          "versioncreated":"2016-09-23T13:57:28+0000",
+          "firstcreated":"2016-05-25T10:23:15+0000",
+          "description_text":"some abstract text related 1",
+          "place":[
+            {
+              "country":"Australia",
+              "world_region":"Oceania",
+              "state":"Australian Capital Territory",
+              "qcode":"ACT",
+              "name":"ACT",
+              "group":"Australia"
+            }
+          ],
+          "version":"2",
+          "byline":"ADmin",
+          "keywords":[
+            "keyword1",
+            "keyword2"
+          ],
+          "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cr9",
+          "priority":6,
+          "subject":[
+            {
+              "name":"lawyer",
+              "code":"02002001"
+            }
+          ],
+          "urgency":3,
+          "type":"text",
+          "headline":"hello world 1",
+          "service":[
+            {
+              "name":"Australian General News",
+              "code":"a"
+            }
+          ],
+          "description_html":"<p><b><u>some abstract text related 1</u></b></p>",
+          "located":"Warsaw",
+          "pubstatus":"usable"
+        },
+        "related--item2":{
+          "language":"en",
+          "slugline":"abstract-html-test-2",
+          "body_html":"<p>some html body related 1</p>",
+          "versioncreated":"2016-09-23T13:57:28+0000",
+          "firstcreated":"2016-05-25T10:23:15+0000",
+          "description_text":"some abstract text related 2",
+          "place":[
+            {
+              "country":"Australia",
+              "world_region":"Oceania",
+              "state":"Australian Capital Territory",
+              "qcode":"ACT",
+              "name":"ACT",
+              "group":"Australia"
+            }
+          ],
+          "version":"2",
+          "byline":"ADmin",
+          "keywords":[
+            "keyword1",
+            "keyword2"
+          ],
+          "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3r74",
+          "priority":6,
+          "subject":[
+            {
+              "name":"lawyer",
+              "code":"02002001"
+            }
+          ],
+          "urgency":3,
+          "type":"text",
+          "headline":"hello world 2",
+          "service":[
+            {
+              "name":"Australian General News",
+              "code":"a"
+            }
+          ],
+          "description_html":"<p><b><u>some abstract text related 2</u></b></p>",
+          "located":"Warsaw",
+          "pubstatus":"usable"
+        }
+      }
     }
     """
     Then the response status code should be 201
