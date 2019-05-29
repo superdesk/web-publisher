@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine3.7
+FROM php:7.3-fpm-alpine
 
 RUN apk update
 RUN apk add curl-dev
@@ -22,6 +22,8 @@ RUN set -ex \
         autoconf \
         build-base \
         rabbitmq-c-dev \
+        libzip-dev \
+        zip \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -38,12 +40,13 @@ RUN set -ex \
     && docker-php-ext-configure gd \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip xml gd mbstring curl bcmath
 
 RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
 
 # Set timezone
-RUN rm /etc/localtime
+RUN rm -f /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN "date"
 
