@@ -14,8 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
@@ -32,18 +32,22 @@ class SlideshowItemController extends Controller
      * List all slideshow items.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"slideshow"},
      *     summary="Lists slideshow items",
      *     @SWG\Parameter(
      *         name="sorting",
      *         in="query",
-     *         description="todo",
+     *         description="example: [updatedAt]=asc|desc",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\ContentBundle\Model\SlideshowItem::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="404",

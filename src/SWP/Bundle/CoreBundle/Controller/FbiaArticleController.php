@@ -14,9 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -29,18 +31,22 @@ class FbiaArticleController extends Controller
 {
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Lists Facebook Instant Articles submitted articles",
      *     @SWG\Parameter(
      *         name="sorting",
      *         in="query",
-     *         description="todo",
+     *         description="example: [updatedAt]=asc|desc",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="500",
@@ -50,7 +56,7 @@ class FbiaArticleController extends Controller
      *
      * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_articles")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): ResourcesListResponseInterface
     {
         $repository = $this->get('swp.repository.facebook_instant_articles_article');
 
@@ -65,11 +71,12 @@ class FbiaArticleController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Updates status of submitted Instant Article",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="500",
@@ -79,7 +86,7 @@ class FbiaArticleController extends Controller
      *
      * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_facebook_instant_articles_articles_update")
      */
-    public function updateSubmissionAction(string $submissionId)
+    public function updateSubmissionAction(string $submissionId): SingleResourceResponseInterface
     {
         $instantArticlesService = $this->get('swp.facebook.service.instant_articles');
         $instantArticle = $instantArticlesService->updateSubmissionStatus($submissionId);

@@ -14,9 +14,12 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\MenuBundle\MenuEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -25,22 +28,25 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType;
 use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class MenuController extends Controller
+class MenuController extends AbstractController
 {
     /**
      * Lists all registered menus.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"menu"},
      *     summary="Lists all registered menus",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -50,7 +56,7 @@ class MenuController extends Controller
      *
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_menu")
      */
-    public function listAction()
+    public function listAction(): ResourcesListResponseInterface
     {
         $menuRepository = $this->get('swp.repository.menu');
 
@@ -61,11 +67,15 @@ class MenuController extends Controller
      * Lists all children of menu item.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"menu"},
      *     summary="Lists all children of menu item",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -75,7 +85,7 @@ class MenuController extends Controller
      *
      * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_children_menu")
      */
-    public function listChildrenAction($id)
+    public function listChildrenAction($id): ResourcesListResponseInterface
     {
         $menuRepository = $this->get('swp.repository.menu');
 
@@ -88,25 +98,19 @@ class MenuController extends Controller
      * Moves menu item to a specific position.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"menu"},
      *     summary="Moves menu item to a specific position in a tree",
      *     @SWG\Parameter(
-     *         name="parent",
+     *         name="body",
      *         in="body",
-     *         description="A parent menu item id to which the node should be moved.",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="position",
-     *         in="body",
-     *         description="Position under parent subtree in which to place the menu item.",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
+     *         @SWG\Schema(
+     *             ref=@Model(type=MenuItemMoveType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -128,7 +132,7 @@ class MenuController extends Controller
      *
      * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
      */
-    public function moveAction(Request $request, $id)
+    public function moveAction(Request $request, $id): SingleResourceResponseInterface
     {
         $menuItem = $this->findOr404($id);
         $form = $this->get('form.factory')->createNamed('', MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
@@ -150,11 +154,12 @@ class MenuController extends Controller
      * Get single menu.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"menu"},
      *     summary="Get single menu",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -168,7 +173,7 @@ class MenuController extends Controller
      *
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_menu")
      */
-    public function getAction($id)
+    public function getAction($id): SingleResourceResponseInterface
     {
         return new SingleResourceResponse($this->findOr404($id));
     }
@@ -177,46 +182,19 @@ class MenuController extends Controller
      * Create new menu.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"menu"},
      *     summary="Create new menu",
      *     @SWG\Parameter(
-     *         name="name",
-     *         in="formData",
-     *         description="Menu item name",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="label",
-     *         in="formData",
-     *         description="Menu item label",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="uri",
-     *         in="formData",
-     *         description="Menu item URI",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="parent",
-     *         in="formData",
-     *         description="Menu item identifier (e.g. 10)",
-     *         required=false,
-     *         type="integer"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="route",
-     *         in="formData",
-     *         description="Route identifier (e.g. 10)",
-     *         required=false,
-     *         type="string"
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=MenuType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -226,12 +204,8 @@ class MenuController extends Controller
      *
      *
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_menu")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): SingleResourceResponseInterface
     {
         /* @var MenuItemInterface $menu */
         $menu = $this->get('swp.factory.menu')->create();
@@ -254,7 +228,7 @@ class MenuController extends Controller
      * Delete single menu.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"menu"},
      *     summary="Delete single menu",
      *     @SWG\Response(
      *         response="204",
@@ -287,46 +261,19 @@ class MenuController extends Controller
      * Update single menu.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"menu"},
      *     summary="Update single menu",
      *     @SWG\Parameter(
-     *         name="name",
+     *         name="body",
      *         in="body",
-     *         description="Menu item name",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="label",
-     *         in="body",
-     *         description="Menu item label",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="uri",
-     *         in="body",
-     *         description="Menu item URI",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="parent",
-     *         in="body",
-     *         description="Menu item identifier (e.g. 10)",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="route",
-     *         in="body",
-     *         description="Route identifier (e.g. 10)",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         @SWG\Schema(
+     *             ref=@Model(type=MenuType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -343,13 +290,8 @@ class MenuController extends Controller
      * )
      *
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_menu")
-     *
-     * @param Request $request
-     * @param int     $id
-     *
-     * @return SingleResourceResponse
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id): SingleResourceResponseInterface
     {
         $objectManager = $this->get('swp.object_manager.menu');
         $menu = $this->findOr404($id);

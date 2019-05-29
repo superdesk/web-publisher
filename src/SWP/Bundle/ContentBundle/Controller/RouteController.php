@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -141,85 +142,10 @@ class RouteController extends FOSRestController
      *         name="name",
      *         in="body",
      *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="slug",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="type",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="templateName",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="articlesTemplateName",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="content",
-     *         in="body",
-     *         description="Content identifier (e.g. article identifier)",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="parent",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="cacheTimeInSeconds",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="variablePattern",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="requirements",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="position",
-     *         in="body",
-     *         description="Position under parent subtree in which to place the route.",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="paywallSecured",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         required=true,
+     *         @SWG\Schema(
+     *             ref=@Model(type=RouteType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
@@ -262,88 +188,13 @@ class RouteController extends FOSRestController
      *     tags={""},
      *     summary="Update single route",
      *     @SWG\Parameter(
-     *         name="name",
+     *         name="body",
      *         in="body",
      *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="slug",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="type",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="templateName",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="articlesTemplateName",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="content",
-     *         in="body",
-     *         description="Content identifier (e.g. article identifier)",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="parent",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="cacheTimeInSeconds",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="variablePattern",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="requirements",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="position",
-     *         in="body",
-     *         description="Position under parent subtree in which to place the route.",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="paywallSecured",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         required=true,
+     *         @SWG\Schema(
+     *             ref=@Model(type=RouteType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",

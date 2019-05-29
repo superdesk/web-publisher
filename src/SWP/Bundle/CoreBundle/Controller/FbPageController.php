@@ -14,9 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookPageType;
 use SWP\Bundle\CoreBundle\Model\FacebookPage;
@@ -26,27 +28,30 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class FbPageController extends Controller
+class FbPageController extends AbstractController
 {
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Lists Facebook Pages",
      *     @SWG\Parameter(
      *         name="sorting",
      *         in="query",
-     *         description="todo",
+     *         description="example: [updatedAt]=asc|desc",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\FacebookPage::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="500",
@@ -71,25 +76,19 @@ class FbPageController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Create Facebook page",
      *     @SWG\Parameter(
-     *         name="pageId",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="name",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=FacebookPageType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\FacebookPage::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -118,7 +117,7 @@ class FbPageController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Delete Facebook page",
      *     @SWG\Response(
      *         response="204",
@@ -140,7 +139,7 @@ class FbPageController extends Controller
      *
      * @Route("/api/{version}/facebook/pages/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_pages")
      */
-    public function deleteAction($id)
+    public function deleteAction(int $id): SingleResourceResponseInterface
     {
         $repository = $this->get('swp.repository.facebook_page');
         if (null === $page = $this->get('swp.repository.facebook_page')->findOneBy(['id' => $id])) {
@@ -156,10 +155,7 @@ class FbPageController extends Controller
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
 
-    /**
-     * @param PageInterface $page
-     */
-    private function checkIfPageExists(PageInterface $page)
+    private function checkIfPageExists(PageInterface $page): void
     {
         if (null !== $this->get('swp.repository.facebook_page')->findOneBy([
                 'pageId' => $page->getPageId(),

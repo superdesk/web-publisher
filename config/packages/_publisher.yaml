@@ -9,6 +9,7 @@ imports:
   - { resource: "@SWPOutputChannelBundle/Resources/config/app/config.yml" }
   - { resource: "@SWPPaywallBundle/Resources/config/app/config.yml" }
   - { resource: "@SWPSeoBundle/Resources/config/app/config.yml" }
+  - { resource: "@SWPWebhookBundle/Resources/config/app/config.yml" }
   - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
   - { resource: "@SWPElasticSearchBundle/Resources/config/app/config.yml" }
 

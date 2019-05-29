@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GuzzleHttp;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
@@ -38,11 +39,13 @@ class AuthController extends Controller
      *     tags={""},
      *     summary="Look for user matching provided credentials",
      *     @SWG\Parameter(
-     *         name="auth",
+     *         name="body",
      *         in="body",
      *         description="",
      *         required=false,
-     *         @SWG\Schema(type="object (UserAuthenticationType)")
+     *         @SWG\Schema(
+     *             ref=@Model(type=UserAuthenticationType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",

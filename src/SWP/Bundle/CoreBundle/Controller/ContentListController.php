@@ -14,8 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Exception;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
@@ -84,48 +87,13 @@ class ContentListController extends Controller
      * @Operation(
      *     tags={""},
      *     summary="Create new content list",
+     *
      *     @SWG\Parameter(
-     *         name="name",
+     *         name="body",
      *         in="body",
-     *         description="List name",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="type",
-     *         in="body",
-     *         description="List type",
-     *         required=false,
-     *         type="choice",
-     *         @SWG\Schema(type="choice")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="description",
-     *         in="body",
-     *         description="List description",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="limit",
-     *         in="body",
-     *         description="List limit",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="cacheLifeTime",
-     *         in="body",
-     *         description="List cache life time",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="filters",
-     *         in="body",
-     *         description="Content list filters in JSON format.",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         @SWG\Schema(
+     *             ref=@Model(type=ContentListType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
@@ -133,7 +101,8 @@ class ContentListController extends Controller
      *     ),
      *     @SWG\Response(
      *         response="400",
-     *         description="Returned when not valid data."
+     *         description="Returned when not valid data.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
      *     )
      * )
      *
@@ -159,53 +128,19 @@ class ContentListController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"content list"},
      *     summary="Update single content list",
      *     @SWG\Parameter(
-     *         name="name",
+     *         name="body",
      *         in="body",
-     *         description="List name",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="type",
-     *         in="body",
-     *         description="List type",
-     *         required=false,
-     *         @SWG\Schema(type="choice")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="description",
-     *         in="body",
-     *         description="List description",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="limit",
-     *         in="body",
-     *         description="List limit",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="cacheLifeTime",
-     *         in="body",
-     *         description="List cache life time",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="filters",
-     *         in="body",
-     *         description="Content list filters in JSON format.",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         @SWG\Schema(
+     *             ref=@Model(type=ContentListType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -249,7 +184,7 @@ class ContentListController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"content list"},
      *     summary="Delete single content list",
      *     @SWG\Response(
      *         response="204",
@@ -283,11 +218,12 @@ class ContentListController extends Controller
      *     header value: "</api/{version}/content/articles/{id}; rel="article">,<1; rel="position">"
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"content list"},
      *     summary="Link or Unlink resource with Content List.",
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned when successful"
+     *         description="Returned when successful",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -299,18 +235,9 @@ class ContentListController extends Controller
      *     )
      * )
      *
-     *
      * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v2"}, methods={"LINK","UNLINK"}, name="swp_api_content_list_link_unlink")
-     *
-     * @param Request $request
-     * @param string  $id
-     *
-     * @throws NotFoundHttpException
-     * @throws \Exception
-     *
-     * @return SingleResourceResponse
      */
-    public function linkUnlinkToContentListAction(Request $request, $id)
+    public function linkUnlinkToContentListAction(Request $request, string $id): SingleResourceResponseInterface
     {
         $objectManager = $this->get('swp.object_manager.content_list');
         /** @var ContentListInterface $contentList */
@@ -323,7 +250,7 @@ class ContentListController extends Controller
             }
 
             $object = $objectArray['object'];
-            if ($object instanceof \Exception) {
+            if ($object instanceof Exception) {
                 throw $object;
             }
 
@@ -338,7 +265,7 @@ class ContentListController extends Controller
                     $position = 0;
                     if (count($notConvertedLinks = RequestParser::getNotConvertedLinks($request->attributes->get('links'))) > 0) {
                         foreach ($notConvertedLinks as $link) {
-                            if (isset($link['resourceType']) && 'position' == $link['resourceType']) {
+                            if (isset($link['resourceType']) && 'position' === $link['resourceType']) {
                                 $position = $link['resource'];
                             }
                         }

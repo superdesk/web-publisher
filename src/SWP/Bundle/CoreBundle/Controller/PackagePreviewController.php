@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
@@ -76,11 +76,19 @@ class PackagePreviewController extends Controller
      * Generates package preview token for specific route.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"package"},
      *     summary="Generate package preview token for specific route",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Package::class)
+     *         )
+     *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *          @SWG\Schema(type="string")
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -94,7 +102,7 @@ class PackagePreviewController extends Controller
      *
      * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
      */
-    public function generateTokenAction(Request $request, int $routeId)
+    public function generateTokenAction(Request $request, int $routeId): SingleResourceResponseInterface
     {
         $route = $this->findRouteOr404($routeId);
 
@@ -119,6 +127,24 @@ class PackagePreviewController extends Controller
         $this->updatePackagePreviewTokenBody($content, $existingPreviewToken);
 
         return $this->returnResponseWithPreviewUrl($existingPreviewToken);
+    }
+
+    /**
+     * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, methods={"GET"}, name="swp_package_preview_publish")
+     */
+    public function publishPreviewAction(string $token)
+    {
+        $existingPreviewToken = $this->get('swp.repository.package_preview_token')->findOneBy(['token' => $token]);
+
+        if (null === $existingPreviewToken) {
+            throw $this->createNotFoundException(sprintf('Token %s is not valid.', $token));
+        }
+
+        $article = $this->getArticleForPreview($existingPreviewToken);
+        $route = $article->getRoute();
+        $route = $this->ensureRouteTemplateExists($route, $article);
+
+        return $this->renderTemplateOr404($route);
     }
 
     private function updatePackagePreviewTokenBody(string $content, PackagePreviewTokenInterface $packagePreviewToken)
@@ -151,24 +177,6 @@ class PackagePreviewController extends Controller
         return new SingleResourceResponse([
             'preview_url' => $url,
         ]);
-    }
-
-    /**
-     * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, methods={"GET"}, name="swp_package_preview_publish")
-     */
-    public function publishPreviewAction(string $token)
-    {
-        $existingPreviewToken = $this->get('swp.repository.package_preview_token')->findOneBy(['token' => $token]);
-
-        if (null === $existingPreviewToken) {
-            throw $this->createNotFoundException(sprintf('Token %s is not valid.', $token));
-        }
-
-        $article = $this->getArticleForPreview($existingPreviewToken);
-        $route = $article->getRoute();
-        $route = $this->ensureRouteTemplateExists($route, $article);
-
-        return $this->renderTemplateOr404($route);
     }
 
     private function getArticleForPreview(PackagePreviewTokenInterface $packagePreviewToken): ArticleInterface

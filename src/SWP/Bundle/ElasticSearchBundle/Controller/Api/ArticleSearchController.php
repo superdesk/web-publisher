@@ -29,7 +29,7 @@ class ArticleSearchController extends Controller
 {
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"article"},
      *     summary="Search articles",
      *     @SWG\Parameter(
      *         name="status",

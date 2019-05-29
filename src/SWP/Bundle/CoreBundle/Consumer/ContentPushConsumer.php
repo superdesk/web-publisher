@@ -89,7 +89,7 @@ class ContentPushConsumer implements ConsumerInterface
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
-            return ConsumerInterface::MSG_REJECT_REQUEUE;
+            return ConsumerInterface::MSG_REJECT;
         }
     }
 

@@ -95,21 +95,24 @@ class MediaFactory implements MediaFactoryInterface
 
     protected function createImageMedia(ArticleMediaInterface $articleMedia, string $key, ItemInterface $item): ArticleMediaInterface
     {
+        $articleMedia->setKey($key);
+        $articleMedia->setMimetype('unknown');
         if (0 === $item->getRenditions()->count()) {
             return $articleMedia;
         }
 
         $originalRendition = $this->findOriginalRendition($item);
         $articleMedia->setMimetype($originalRendition->getMimetype());
-        $articleMedia->setKey($key);
-
         /** @var ImageInterface $image */
         $image = $this->getFile($originalRendition, $this->articleMediaAssetProvider->getImage($originalRendition));
+        if (!$image instanceof ImageInterface) {
+            return $articleMedia;
+        }
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $itemRendition) {
             $image = $this->getFile($itemRendition, $this->articleMediaAssetProvider->getImage($itemRendition));
-            if (null === $image) {
+            if (null === $image || !$image instanceof ImageInterface) {
                 continue;
             }
 

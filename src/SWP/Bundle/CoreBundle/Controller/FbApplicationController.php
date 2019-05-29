@@ -14,9 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookApplicationType;
 use SWP\Bundle\CoreBundle\Model\FacebookApplication;
@@ -35,7 +36,7 @@ class FbApplicationController extends Controller
 {
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Lists Facebook Applications",
      *     @SWG\Parameter(
      *         name="sorting",
@@ -46,7 +47,8 @@ class FbApplicationController extends Controller
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\FacebookApplication::class)
      *     ),
      *     @SWG\Response(
      *         response="500",
@@ -56,7 +58,7 @@ class FbApplicationController extends Controller
      *
      * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_applications")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): ResourcesListResponseInterface
     {
         $repository = $this->get('swp.repository.facebook_application');
 
@@ -71,25 +73,19 @@ class FbApplicationController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Create Facebook application",
      *     @SWG\Parameter(
-     *         name="appId",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="appSecret",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=FacebookApplicationType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\FacebookApplication::class)
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -118,7 +114,7 @@ class FbApplicationController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"facebook instant articles"},
      *     summary="Delete Facebook application",
      *     @SWG\Response(
      *         response="204",

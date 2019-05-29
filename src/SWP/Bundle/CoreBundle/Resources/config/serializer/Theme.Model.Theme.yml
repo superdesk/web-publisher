@@ -1,2 +1,18 @@
 SWP\Bundle\CoreBundle\Theme\Model\Theme:
     exclusion_policy: NONE
+    properties:
+        config:
+            expose: true
+            groups: [api]
+            type: array
+        logoPath:
+            expose: true
+            groups: [api]
+            type: string
+        logo:
+            expose: true
+            groups: [api]
+        settings:
+            expose: true
+            groups: [api]
+            type: array

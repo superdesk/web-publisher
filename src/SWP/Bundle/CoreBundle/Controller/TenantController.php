@@ -18,6 +18,7 @@ use function array_key_exists;
 use DateTime;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +40,7 @@ class TenantController extends FOSRestController
      * List all tenants/websites.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant"},
      *     summary="List all tenants/websites",
      *     @SWG\Parameter(
      *         name="sorting",
@@ -68,11 +69,12 @@ class TenantController extends FOSRestController
      * Shows a single tenant/website.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant"},
      *     summary="Show single tenant/website",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=SWP\Bundle\CoreBundle\Model\Tenant::class, groups={"api"})
      *     )
      * )
      *
@@ -87,7 +89,7 @@ class TenantController extends FOSRestController
      * Deletes a single tenant.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant"},
      *     summary="Delete single tenant/website",
      *     @SWG\Parameter(
      *         name="force",
@@ -136,74 +138,19 @@ class TenantController extends FOSRestController
      * Creates a new tenant/website.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant"},
      *     summary="Create new tenant/website",
      *     @SWG\Parameter(
-     *         name="name",
+     *         name="body",
      *         in="body",
-     *         description="Tenant name",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="subdomain",
-     *         in="body",
-     *         description="Tenant subdomain",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="domainName",
-     *         in="body",
-     *         description="Tenant domain name",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="themeName",
-     *         in="body",
-     *         description="Tenant theme name",
-     *         required=false,
-     *         @SWG\Schema(type="choice")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="organization",
-     *         in="body",
-     *         description="Tenant organization code",
-     *         required=false,
-     *         @SWG\Schema(type="choice")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ampEnabled",
-     *         in="body",
-     *         description="Defines whether Google AMP HTML support is enabled or not (true or false).",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="fbiaEnabled",
-     *         in="body",
-     *         description="Defines whether Facebook Instant Articles support is enabled or not (true or false).",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="paywallEnabled",
-     *         in="body",
-     *         description="Defines whether Paywall support is enabled or not (true or false).",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="outputChannel",
-     *         in="body",
-     *         description="Output Channel",
-     *         required=false,
-     *         @SWG\Schema(type="object (OutputChannelType)")
+     *         @SWG\Schema(
+     *             ref=@Model(type=TenantType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=SWP\Bundle\CoreBundle\Model\Tenant::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -243,74 +190,19 @@ class TenantController extends FOSRestController
      * Updates a single tenant.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant"},
      *     summary="Update single tenant",
      *     @SWG\Parameter(
-     *         name="name",
+     *         name="body",
      *         in="body",
-     *         description="Tenant name",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="subdomain",
-     *         in="body",
-     *         description="Tenant subdomain",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="domainName",
-     *         in="body",
-     *         description="Tenant domain name",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="themeName",
-     *         in="body",
-     *         description="Tenant theme name",
-     *         required=false,
-     *         @SWG\Schema(type="choice")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="organization",
-     *         in="body",
-     *         description="Tenant organization code",
-     *         required=false,
-     *         @SWG\Schema(type="choice")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ampEnabled",
-     *         in="body",
-     *         description="Defines whether Google AMP HTML support is enabled or not (true or false).",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="fbiaEnabled",
-     *         in="body",
-     *         description="Defines whether Facebook Instant Articles support is enabled or not (true or false).",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="paywallEnabled",
-     *         in="body",
-     *         description="Defines whether Paywall support is enabled or not (true or false).",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="outputChannel",
-     *         in="body",
-     *         description="Output Channel",
-     *         required=false,
-     *         @SWG\Schema(type="object (OutputChannelType)")
+     *         description="",
+     *         required=true,
+     *         @SWG\Schema(ref=@Model(type=TenantType::class))
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=SWP\Bundle\CoreBundle\Model\Tenant::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -327,11 +219,6 @@ class TenantController extends FOSRestController
      * )
      *
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
-     *
-     * @param Request $request
-     * @param string  $code
-     *
-     * @return SingleResourceResponse
      */
     public function updateAction(Request $request, $code)
     {

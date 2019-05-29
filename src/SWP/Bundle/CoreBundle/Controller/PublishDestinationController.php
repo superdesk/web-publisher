@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,60 +35,19 @@ class PublishDestinationController extends Controller
      * Add a new publish destination.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"destination"},
      *     summary="Add a new publish destination",
      *     @SWG\Parameter(
-     *         name="tenant",
+     *         name="body",
      *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="route",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="isPublishedFbia",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="packageGuid",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="published",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="paywallSecured",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="contentLists",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="array of objects (ContentListPositionType)")
+     *         @SWG\Schema(
+     *             ref=@Model(type=PublishDestinationType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\PublishDestination::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -95,15 +55,7 @@ class PublishDestinationController extends Controller
      *     )
      * )
      *
-     *
      * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function createAction(Request $request): SingleResourceResponse
     {
@@ -137,60 +89,19 @@ class PublishDestinationController extends Controller
      * Updates existing publish destination.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"destination"},
      *     summary="Update existing publish destination",
      *     @SWG\Parameter(
-     *         name="tenant",
+     *         name="body",
      *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="route",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="isPublishedFbia",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="packageGuid",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="published",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="paywallSecured",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="contentLists",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="array of objects (ContentListPositionType)")
+     *         @SWG\Schema(
+     *             ref=@Model(type=PublishDestinationType::class)
+     *         )
      *     ),
      *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\PublishDestination::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",

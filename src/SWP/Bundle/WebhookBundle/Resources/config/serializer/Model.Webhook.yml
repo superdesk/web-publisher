@@ -1,6 +1,20 @@
 SWP\Bundle\WebhookBundle\Model\Webhook:
-    exclusion_policy: NONE
+    exclusion_policy: ALL
     properties:
+        id:
+            expose: true
+            groups: ["api"]
+            type: string
+        url:
+            expose: true
+            groups: ["api"]
+            type: string
+        enabled:
+            expose: true
+            groups: ["api"]
+            type: boolean
         events:
+            expose: true
             access_type: public_method
+            groups: ["api"]
             type: array

@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
@@ -103,39 +104,13 @@ class RuleController extends FOSRestController
      *     tags={""},
      *     summary="Create new rule",
      *     @SWG\Parameter(
-     *         name="expression",
+     *         name="body",
      *         in="body",
      *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="priority",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="configuration",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="description",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="name",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         required=true,
+     *         @SWG\Schema(
+     *             ref=@Model(type=RuleType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
@@ -208,39 +183,13 @@ class RuleController extends FOSRestController
      *     tags={""},
      *     summary="Update single rule",
      *     @SWG\Parameter(
-     *         name="expression",
+     *         name="body",
      *         in="body",
      *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="priority",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="integer")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="configuration",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="array of objects (KeyValueRowType)")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="description",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="name",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         required=true,
+     *         @SWG\Schema(
+     *             ref=@Model(type=RuleType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",

@@ -35,7 +35,7 @@ final class ArticleBodyProcessorChain implements ArticleBodyProcessorInterface
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
         foreach ($this->processors as $processor) {
-            if ($processor->supports($articleMedia->getMimetype())) {
+            if (is_string($articleMedia->getMimetype()) && $processor->supports($articleMedia->getMimetype())) {
                 $processor->process($article, $articleMedia);
             }
         }

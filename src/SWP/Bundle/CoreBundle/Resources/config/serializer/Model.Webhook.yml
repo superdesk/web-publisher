@@ -1,0 +1,11 @@
+SWP\Bundle\CoreBundle\Model\Webhook:
+    exclusion_policy: ALL
+    properties:
+        createdAt:
+            expose: true
+            groups: [api]
+            type: DateTime
+        updatedAt:
+            expose: true
+            groups: [api]
+            type: DateTime

@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use Hoa\Mime\Mime;
 use SWP\Component\Bridge\Events;
 use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
@@ -40,6 +39,13 @@ class ContentPushController extends Controller
      * @Operation(
      *     tags={""},
      *     summary="Adds a new content from HTTP Push",
+     *     @SWG\Parameter(
+     *         name="",
+     *         in="body",
+     *         description="NinJS body",
+     *         required=true,
+     *         @SWG\Schema(type="string")
+     *     ),
      *     @SWG\Response(
      *         response="201",
      *         description="Returned on success"

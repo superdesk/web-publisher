@@ -3,6 +3,7 @@ SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata:
   relations:
     -
       rel: meta_media_url
+      groups: [api]
       href:
         route: swp_seo_media_get
         absolute: true
@@ -13,6 +14,7 @@ SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata:
         exclude_if: "expr(object.getMetaMedia() === null)"
     -
       rel: og_media_url
+      groups: [api]
       href:
         route: swp_seo_media_get
         absolute: true

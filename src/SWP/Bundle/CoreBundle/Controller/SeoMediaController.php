@@ -18,8 +18,8 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Persistence\ObjectManager;
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Controller\AbstractMediaController;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
@@ -34,6 +34,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeoMediaController extends AbstractMediaController
@@ -70,11 +71,33 @@ class SeoMediaController extends AbstractMediaController
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"seo"},
      *     summary="Uploads SEO image",
+     *     @SWG\Parameter(
+     *         name="metaMediaFile",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ogMediaFile",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="twitterMediaFile",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
      *     )
      * )
      *
@@ -117,6 +140,7 @@ class SeoMediaController extends AbstractMediaController
 
     private function findOr404(string $id): ArticleInterface
     {
+        /** @var $article ArticleInterface */
         if (null === $article = $this->articleProvider->getOneById($id)) {
             throw new NotFoundHttpException('Article was not found.');
         }

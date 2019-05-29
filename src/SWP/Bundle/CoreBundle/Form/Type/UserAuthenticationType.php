@@ -30,14 +30,14 @@ final class UserAuthenticationType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'required' => true,
-                'description' => 'User Username',
+                'help' => 'User Username',
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
             ->add('password', TextType::class, [
                 'required' => true,
-                'description' => 'User password',
+                'help' => 'User password',
                 'constraints' => [
                     new NotBlank(),
                 ],

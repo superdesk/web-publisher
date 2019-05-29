@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
@@ -33,19 +32,19 @@ class SubscriptionController extends Controller
      * Lists user subscriptions.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"paywall"},
      *     summary="Lists user subscriptions",
      *     @SWG\Parameter(
      *         name="routeId",
      *         in="query",
-     *         description="todo",
+     *         description="Route id",
      *         required=false,
      *         type="integer"
      *     ),
      *     @SWG\Parameter(
      *         name="articleId",
      *         in="query",
-     *         description="todo",
+     *         description="Article id",
      *         required=false,
      *         type="integer"
      *     ),

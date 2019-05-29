@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,81 +46,19 @@ class SeoMetadataController extends AbstractController
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"seo"},
      *     summary="Add a new SEO metadata entry",
      *     @SWG\Parameter(
-     *         name="metaDescription",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="metaTitle",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogDescription",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogTitle",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterDescription",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterTitle",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="metaMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="packageGuid",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="string"
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=SeoMetadataType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -129,12 +68,8 @@ class SeoMetadataController extends AbstractController
      *
      *
      * @Route("/api/{version}/seo/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_seo_metadata_create")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
-    public function create(Request $request, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse
+    public function create(Request $request, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponseInterface
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
@@ -162,81 +97,19 @@ class SeoMetadataController extends AbstractController
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"seo"},
      *     summary="Edits SEO metadata entry",
      *     @SWG\Parameter(
-     *         name="metaDescription",
+     *         name="body",
      *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="metaTitle",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogDescription",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogTitle",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterDescription",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterTitle",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="metaMediaFile",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="file")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogMediaFile",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="file")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterMediaFile",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="file")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="packageGuid",
-     *         in="body",
-     *         description="",
-     *         required=true,
-     *         @SWG\Schema(type="string")
+     *         @SWG\Schema(
+     *             ref=@Model(type=SeoMetadataType::class)
+     *         )
      *     ),
      *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -244,14 +117,9 @@ class SeoMetadataController extends AbstractController
      *     )
      * )
      *
-     *
      * @Route("/api/{version}/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_seo_metadata_edit")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
-    public function edit(Request $request, string $packageGuid, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse
+    public function edit(Request $request, string $packageGuid, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponseInterface
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
@@ -277,11 +145,12 @@ class SeoMetadataController extends AbstractController
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"seo"},
      *     summary="Gets SEO metadata entry",
      *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -291,10 +160,8 @@ class SeoMetadataController extends AbstractController
      *
      *
      * @Route("/api/{version}/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")
-     *
-     * @return SingleResourceResponse
      */
-    public function getAction(string $packageGuid): SingleResourceResponse
+    public function getAction(string $packageGuid): SingleResourceResponseInterface
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 

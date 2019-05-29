@@ -25,7 +25,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Type;
 
 /**
  * Form Type for Routes.
@@ -72,7 +71,7 @@ class RouteType extends AbstractType
             ])
             ->add('content', ArticleSelectorType::class, [
                 'required' => false,
-                'description' => 'Content identifier (e.g. article identifier)',
+                'help' => 'Content identifier (e.g. article identifier)',
             ])
             ->add('parent', RouteSelectorType::class)
             ->add('cacheTimeInSeconds', IntegerType::class, [
@@ -96,7 +95,7 @@ class RouteType extends AbstractType
                 'constraints' => [
                     new GreaterThanOrEqual(['value' => 0]),
                 ],
-                'description' => 'Position under parent subtree in which to place the route.',
+                'help' => 'Position under parent subtree in which to place the route.',
             ]);
 
         $builder->get('cacheTimeInSeconds')

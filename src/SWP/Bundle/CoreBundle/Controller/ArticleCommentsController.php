@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use function array_key_exists;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use function parse_url;
 use function str_replace;
 use function strpos;
 use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
@@ -37,11 +37,19 @@ class ArticleCommentsController extends AbstractController
 {
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"article"},
      *     summary="Update article comments number",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=ArticleCommentsType::class)
+     *         )
+     *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Article::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",
