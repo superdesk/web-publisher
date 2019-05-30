@@ -24,7 +24,6 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
         contentLists:
             expose: true
             groups: [api]
-            type: array<SWP\Bundle\CoreBundle\Model\ContentList>
         createdAt:
             expose: true
             groups: [api]
@@ -39,3 +38,7 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
         organization:
             expose: true
             groups: [api]
+        tenant:
+            expose: true
+            groups: [api]
+

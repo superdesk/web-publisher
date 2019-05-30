@@ -184,7 +184,7 @@ class AuthController extends Controller
         ], new ResponseContext(401));
     }
 
-    private function returnApiTokenResponse(UserInterface $user, string $token): SingleResourceResponseInterface
+    private function returnApiTokenResponse(UserInterface $user, string $token = null): SingleResourceResponseInterface
     {
         /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->generateOrGetApiKey($user, $token);

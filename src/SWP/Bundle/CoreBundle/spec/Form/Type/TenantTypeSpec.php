@@ -47,7 +47,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'description' => 'Tenant name',
+                'help' => 'Tenant name',
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3]),
@@ -59,7 +59,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('subdomain', TextType::class, [
                 'required' => false,
-                'description' => 'Tenant subdomain',
+                'help' => 'Tenant subdomain',
                 'constraints' => [
                     new Length(['min' => 3]),
                 ],
@@ -70,7 +70,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('domainName', TextType::class, [
                 'required' => true,
-                'description' => 'Tenant domain name',
+                'help' => 'Tenant domain name',
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3]),
@@ -81,7 +81,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('themeName', ThemeNameChoiceType::class, [
                 'required' => false,
-                'description' => 'Tenant theme name',
+                'help' => 'Tenant theme name',
             ])
             ->willReturn($builder)
         ;
@@ -89,7 +89,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('organization', OrganizationCodeChoiceType::class, [
                 'required' => false,
-                'description' => 'Tenant organization code',
+                'help' => 'Tenant organization code',
             ])
             ->willReturn($builder)
         ;
@@ -97,7 +97,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('ampEnabled', BooleanType::class, [
                 'required' => false,
-                'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
+                'help' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
             ])
             ->willReturn($builder)
         ;
@@ -106,7 +106,7 @@ class TenantTypeSpec extends ObjectBehavior
             ->add('fbiaEnabled', BooleanType::class, [
                 'mapped' => false,
                 'required' => false,
-                'description' => 'Defines whether Facebook Instant Articles support is enabled or not (true or false).',
+                'help' => 'Defines whether Facebook Instant Articles support is enabled or not (true or false).',
             ])
             ->willReturn($builder)
         ;
@@ -115,7 +115,7 @@ class TenantTypeSpec extends ObjectBehavior
             ->add('paywallEnabled', BooleanType::class, [
                 'mapped' => false,
                 'required' => false,
-                'description' => 'Defines whether Paywall support is enabled or not (true or false).',
+                'help' => 'Defines whether Paywall support is enabled or not (true or false).',
             ])
             ->willReturn($builder)
         ;
@@ -123,7 +123,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('outputChannel', OutputChannelType::class, [
                 'required' => false,
-                'description' => 'Output Channel',
+                'help' => 'Output Channel',
             ])
             ->willReturn($builder)
         ;
