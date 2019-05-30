@@ -87,7 +87,6 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         }
 
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
-        dump($article->getBody());
     }
 
     public function setDefaultImageRendition(string $renditionName): void

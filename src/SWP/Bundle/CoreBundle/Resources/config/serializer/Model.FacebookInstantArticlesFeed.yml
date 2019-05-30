@@ -16,7 +16,7 @@ SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed:
         mode:
             expose: true
             groups: [api]
-            type: string
+            type: integer
         createdAt:
             expose: true
             groups: [api]

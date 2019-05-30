@@ -8,7 +8,7 @@ SWP\Bundle\FacebookInstantArticlesBundle\Model\Page:
         pageId:
             expose: true
             groups: [api]
-            type: integer
+            type: string
         name:
             expose: true
             groups: [api]
