@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPWebhookComponent:
+                namespace_prefix: "SWP\\Component\\Webhook"
+                path: "@SWPWebhookBundle/Resources/config/serializer/component"

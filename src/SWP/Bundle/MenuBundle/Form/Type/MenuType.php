@@ -33,23 +33,23 @@ class MenuType extends AbstractType
                     new NotBlank(),
                 ],
                 'required' => true,
-                'description' => 'Menu item name',
+                'help' => 'Menu item name',
             ])
             ->add('label', TextType::class, [
                 'required' => false,
-                'description' => 'Menu item label',
+                'help' => 'Menu item label',
             ])
             ->add('uri', TextType::class, [
                 'required' => false,
-                'description' => 'Menu item URI',
+                'help' => 'Menu item URI',
             ])
             ->add('parent', MenuItemSelectorType::class, [
                 'required' => false,
-                'description' => 'Menu item identifier (e.g. 10)',
+                'help' => 'Menu item identifier (e.g. 10)',
             ])
             ->add('route', RouteSelectorType::class, [
                 'required' => false,
-                'description' => 'Route identifier (e.g. 10)',
+                'help' => 'Route identifier (e.g. 10)',
             ]);
     }
 

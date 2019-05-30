@@ -30,14 +30,14 @@ final class SuperdeskCredentialAuthenticationType extends AbstractType
         $builder
             ->add('sessionId', TextType::class, [
                 'required' => true,
-                'description' => 'Superdesk user session id',
+                'help' => 'Superdesk user session id',
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
             ->add('token', TextType::class, [
                 'required' => true,
-                'description' => 'Superdesk user token',
+                'help' => 'Superdesk user token',
                 'constraints' => [
                     new NotBlank(),
                 ],

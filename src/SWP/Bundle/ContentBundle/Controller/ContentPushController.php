@@ -18,33 +18,43 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;
 use SWP\Component\Bridge\Events;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Provider\FileProvider;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ContentPushController extends Controller
+class ContentPushController extends AbstractController
 {
     /**
-     * Receives HTTP Push Request's payload.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Adds a new content from HTTP Push",
-     *     statusCodes={
-     *         201="Returned on success"
-     *     }
+     * @Operation(
+     *     tags={"content push"},
+     *     summary="Adds a new content from HTTP Push",
+     *     @SWG\Parameter(
+     *         name="",
+     *         in="body",
+     *         description="NinJS body",
+     *         required=true,
+     *         @SWG\Schema(type="object")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success"
+     *     )
      * )
+     *
+     *
      * @Route("/api/{version}/content/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_push")
      */
-    public function pushContentAction(Request $request)
+    public function pushContentAction(Request $request): SingleResourceResponseInterface
     {
         $package = $this->container->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
         $this->container->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
@@ -61,19 +71,40 @@ class ContentPushController extends Controller
     /**
      * Receives HTTP Push Request's assets payload which is then processed and stored.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Adds new assets from HTTP Push",
-     *     statusCodes={
-     *         201="Returned on successful post.",
-     *         500="Returned on invalid file.",
-     *         200="Returned on form errors"
-     *     },
-     *     input="SWP\Bundle\ContentBundle\Form\Type\MediaFileType"
+     * @Operation(
+     *     tags={"content push"},
+     *     summary="Adds new assets from HTTP Push",
+     *     @SWG\Parameter(
+     *         name="media_id",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="media",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on successful post."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Returned on invalid file."
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on form errors"
+     *     )
      * )
+     *
      * @Route("/api/{version}/assets/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_assets_push")
      */
-    public function pushAssetsAction(Request $request)
+    public function pushAssetsAction(Request $request): SingleResourceResponseInterface
     {
         $form = $this->get('form.factory')->createNamed('', MediaFileType::class);
         $form->handleRequest($request);
@@ -112,18 +143,24 @@ class ContentPushController extends Controller
     /**
      * Checks if media exists in storage.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Gets a single media file",
-     *     statusCodes={
-     *         404="Returned when file doesn't exist.",
-     *         200="Returned on form errors"
-     *     }
+     * Action route parameter values: "get" or "push"
+     *
+     * @Operation(
+     *     tags={"content push"},
+     *     summary="Gets a single media file",
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when file doesn't exist."
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on form errors"
+     *     )
      * )
-     * @Route("/api/{version}/assets/push/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
-     * @Route("/api/{version}/assets/get/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
+     *
+     * @Route("/api/{version}/assets/{action}/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+", "action"="get|push"}, name="swp_api_assets_get")
      */
-    public function getAssetsAction(string $mediaId, string $extension)
+    public function getAssetsAction(string $mediaId, string $extension): SingleResourceResponseInterface
     {
         $fileProvider = $this->container->get(FileProvider::class);
         $file = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);

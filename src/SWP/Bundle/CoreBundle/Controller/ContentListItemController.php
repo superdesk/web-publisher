@@ -14,7 +14,14 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use DateTime;
+use DateTimeZone;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
@@ -27,32 +34,53 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ContentListItemController extends Controller
+class ContentListItemController extends AbstractController
 {
     /**
      * List all items of content list.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists content list items",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Content list item not found.",
-     *         500="Unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="sticky", "dataType"="boolean", "pattern"="true|false"},
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={"content list"},
+     *     summary="Lists content list items",
+     *     @SWG\Parameter(
+     *         name="sticky",
+     *         in="query",
+     *         description="Keep item on top of the list",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="example: [updatedAt]=asc|desc",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\ContentListItem::class, groups={"api"}))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Content list item not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
      */
-    public function listAction(Request $request, $id)
+    public function listAction(Request $request, int $id): ResourcesListResponseInterface
     {
         $repository = $this->get('swp.repository.content_list_item');
 
@@ -69,13 +97,16 @@ class ContentListItemController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get single content list item",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={"content list"},
+     *     summary="Get single content list item",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentListItem::class, groups={"api"})
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
      */
     public function getAction($listId, $id)
@@ -84,19 +115,34 @@ class ContentListItemController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single content list item",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when not valid data.",
-     *         404="Returned when not found."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\ContentListItemType"
+     * @Operation(
+     *     tags={"content list"},
+     *     summary="Update single content list item",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=ContentListItemType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentListItem::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when not found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
      */
-    public function updateAction(Request $request, $listId, $id)
+    public function updateAction(Request $request, $listId, $id): SingleResourceResponseInterface
     {
         $objectManager = $this->get('swp.object_manager.content_list_item');
         $contentListItem = $this->findOr404($listId, $id);
@@ -109,7 +155,7 @@ class ContentListItemController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contentListItem->getContentList()->setUpdatedAt(new \DateTime());
+            $contentListItem->getContentList()->setUpdatedAt(new DateTime());
             $objectManager->flush();
 
             return new SingleResourceResponse($contentListItem);
@@ -125,19 +171,34 @@ class ContentListItemController extends Controller
      *
      * Possible actions: move, add, delete
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update many content list items",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         400="Returned when not valid data.",
-     *         404="Returned when not found."
-     *     },
-     *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType"
+     * @Operation(
+     *     tags={"content list"},
+     *     summary="Update many content list items",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=ContentListItemsType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when not found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
      */
-    public function batchUpdateAction(Request $request, $listId)
+    public function batchUpdateAction(Request $request, int $listId): SingleResourceResponseInterface
     {
         /** @var ContentListInterface $list */
         $list = $this->get('swp.repository.content_list')->findOneBy([
@@ -154,10 +215,10 @@ class ContentListItemController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $updatedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $data['updatedAt'], new \DateTimeZone('UTC'));
-            $updatedAt->setTimezone(new \DateTimeZone('UTC'));
+            $updatedAt = DateTime::createFromFormat(DateTime::RFC3339, $data['updatedAt'], new DateTimeZone('UTC'));
+            $updatedAt->setTimezone(new DateTimeZone('UTC'));
             $listUpdatedAt = $list->getUpdatedAt();
-            $listUpdatedAt->setTimezone(new \DateTimeZone('UTC'));
+            $listUpdatedAt->setTimezone(new DateTimeZone('UTC'));
             if ($updatedAt < $listUpdatedAt) {
                 throw new ConflictHttpException('List was already updated');
             }
@@ -176,7 +237,7 @@ class ContentListItemController extends Controller
                     case 'move':
                         $contentListItem = $this->findByContentOr404($list, $item['contentId']);
                         $contentListItem->setPosition($item['position']);
-                        $list->setUpdatedAt(new \DateTime('now'));
+                        $list->setUpdatedAt(new DateTime('now'));
                         $objectManager->flush();
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
@@ -186,7 +247,7 @@ class ContentListItemController extends Controller
                         $contentListItem = $this->get('swp.service.content_list')
                             ->addArticleToContentList($list, $object, $item['position']);
                         $objectManager->persist($contentListItem);
-                        $list->setUpdatedAt(new \DateTime('now'));
+                        $list->setUpdatedAt(new DateTime('now'));
                         $objectManager->flush();
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
@@ -194,7 +255,7 @@ class ContentListItemController extends Controller
                     case 'delete':
                         $contentListItem = $this->findByContentOr404($list, $item['contentId']);
                         $objectManager->remove($contentListItem);
-                        $list->setUpdatedAt(new \DateTime('now'));
+                        $list->setUpdatedAt(new DateTime('now'));
                         $objectManager->flush();
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 

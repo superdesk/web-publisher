@@ -14,7 +14,12 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use function json_decode;
+use function json_last_error;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Superdesk\ContentApiSdk\Exception\InvalidDataException;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
@@ -29,18 +34,36 @@ use Symfony\Component\HttpFoundation\Request;
 class ExternalDataController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Set new package external data",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     }
+     * @Operation(
+     *     tags={"package"},
+     *     summary="Set new package external data",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         required=true,
+     *         @SWG\Schema(type="object")
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Component\Bridge\Model\ExternalData::class))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_add_extra_data")
      */
-    public function setAction(Request $request, string $slug)
+    public function setAction(Request $request, string $slug): SingleResourceResponseInterface
     {
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->get('swp.repository.package');
@@ -79,18 +102,30 @@ class ExternalDataController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get package external data",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     },
+     * @Operation(
+     *     tags={"package"},
+     *     summary="Get package external data",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Component\Bridge\Model\ExternalData::class))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_extra_data")
      */
-    public function getAction(string $slug)
+    public function getAction(string $slug): SingleResourceResponseInterface
     {
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->get('swp.repository.package');
@@ -116,8 +151,8 @@ class ExternalDataController extends Controller
 
     private static function getArrayFromJson($jsonString)
     {
-        $jsonArray = \json_decode($jsonString, true);
-        if (is_null($jsonArray) || JSON_ERROR_NONE !== \json_last_error()) {
+        $jsonArray = json_decode($jsonString, true);
+        if (null === $jsonArray || JSON_ERROR_NONE !== json_last_error()) {
             throw new InvalidDataException('Provided request content is not valid JSON');
         }
 

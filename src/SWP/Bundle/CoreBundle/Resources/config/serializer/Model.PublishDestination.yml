@@ -1,0 +1,44 @@
+SWP\Bundle\CoreBundle\Model\PublishDestination:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [api]
+            type: string
+        isPublishedFbia:
+            expose: true
+            groups: [api]
+            type: boolean
+        published:
+            expose: true
+            groups: [api]
+            type: boolean
+        paywallSecured:
+            expose: true
+            groups: [api]
+            type: boolean
+        packageGuid:
+            expose: true
+            groups: [api]
+            type: string
+        contentLists:
+            expose: true
+            groups: [api]
+        createdAt:
+            expose: true
+            groups: [api]
+            type: DateTime
+        updatedAt:
+            expose: true
+            groups: [api]
+            type: DateTime
+        route:
+            expose: true
+            groups: [api]
+        organization:
+            expose: true
+            groups: [api]
+        tenant:
+            expose: true
+            groups: [api]
+

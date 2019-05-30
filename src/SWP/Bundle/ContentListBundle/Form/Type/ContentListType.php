@@ -36,29 +36,29 @@ class ContentListType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                 ],
-                'description' => 'List name',
+                'help' => 'List name',
             ])
             ->add('type', ContentListTypeSelectorType::class, [
                 'constraints' => [
                     new NotBlank(),
                 ],
-                'description' => 'List type',
+                'help' => 'List type',
             ])
             ->add('description', TextType::class, [
                 'required' => false,
-                'description' => 'List description',
+                'help' => 'List description',
             ])
             ->add('limit', IntegerType::class, [
                 'required' => false,
-                'description' => 'List limit',
+                'help' => 'List limit',
             ])
             ->add('cacheLifeTime', IntegerType::class, [
                 'required' => false,
-                'description' => 'List cache life time',
+                'help' => 'List cache life time',
             ])
             ->add('filters', TextType::class, [
                 'required' => false,
-                'description' => 'Content list filters in JSON format.',
+                'help' => 'Content list filters in JSON format.',
             ])
         ;
 

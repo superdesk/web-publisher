@@ -16,7 +16,10 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GuzzleHttp;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
 use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
@@ -31,17 +34,28 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 class AuthController extends Controller
 {
     /**
-     * Look for user matching provided credentials.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Look for user matching provided credentials",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         401="No user found or not authorized."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType"
+     * @Operation(
+     *     tags={"auth"},
+     *     summary="Look for user matching provided credentials",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="",
+     *         @SWG\Schema(
+     *             ref=@Model(type=UserAuthenticationType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="No user found or not authorized."
+     *     )
      * )
+     *
      * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_auth")
      */
     public function authenticateAction(Request $request)
@@ -71,17 +85,28 @@ class AuthController extends Controller
     }
 
     /**
-     * Ask Superdesk server for user with those credentials and tries to authorize.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Authorize using Superdesk credentials",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         401="No user found or not authorized."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType"
+     * @Operation(
+     *     tags={"auth"},
+     *     summary="Authorize using Superdesk credentials",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="",
+     *         @SWG\Schema(
+     *             ref=@Model(type=SuperdeskCredentialAuthenticationType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="No user found or not authorized."
+     *     )
      * )
+     *
      * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, methods={"POST"}, defaults={"version"="v2"}, name="swp_api_auth_superdesk")
      */
     public function authenticateWithSuperdeskAction(Request $request)
@@ -159,13 +184,7 @@ class AuthController extends Controller
         ], new ResponseContext(401));
     }
 
-    /**
-     * @param UserInterface $user
-     * @param string        $token
-     *
-     * @return SingleResourceResponse
-     */
-    private function returnApiTokenResponse(UserInterface $user, $token)
+    private function returnApiTokenResponse(UserInterface $user, string $token = null): SingleResourceResponseInterface
     {
         /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->generateOrGetApiKey($user, $token);

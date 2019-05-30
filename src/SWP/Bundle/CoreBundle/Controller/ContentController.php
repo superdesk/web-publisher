@@ -16,20 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class ContentController.
- */
-class ContentController extends Controller
+class ContentController extends AbstractController
 {
-    /**
-     * @param string $contentTemplate
-     *
-     * @return Response
-     */
-    public function renderPageAction($contentTemplate): Response
+    public function renderPageAction(string $contentTemplate): Response
     {
         return $this->render($contentTemplate);
     }

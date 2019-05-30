@@ -17,7 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Controller;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\UserBundle\Form\Type\UserRolesType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -30,18 +32,32 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class UserController extends Controller
 {
     /**
-     * Add new Roles for User.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Change user roles",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Returned on user not found.",
-     *         403="Returned when user don't have permissions to change roles"
-     *     },
-     *     input="SWP\Bundle\UserBundle\Form\Type\UserRolesType"
+     * @Operation(
+     *     tags={"user"},
+     *     summary="Change user roles",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=UserRolesType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned on user not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Returned when user don't have permissions to change roles"
+     *     )
      * )
+     *
+     *
      * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_promote_user")
      * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_demote_user")
      */

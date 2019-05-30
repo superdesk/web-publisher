@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -29,18 +31,34 @@ class SlideshowItemController extends Controller
     /**
      * List all slideshow items.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists slideshow items",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Slideshow not found.",
-     *         500="Unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={"slideshow"},
+     *     summary="Lists slideshow items",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="example: [updatedAt]=asc|desc",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\ContentBundle\Model\SlideshowItem::class, groups={"api"}))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Slideshow not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/slideshows/{articleId}/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_slideshow_items", requirements={"id"="\d+"})
      */
     public function listAction(Request $request, string $articleId, string $id)

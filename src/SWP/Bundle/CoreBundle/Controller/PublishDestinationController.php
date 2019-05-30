@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType;
@@ -32,24 +34,28 @@ class PublishDestinationController extends Controller
     /**
      * Add a new publish destination.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Add a new publish destination",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
+     * @Operation(
+     *     tags={"destination"},
+     *     summary="Add a new publish destination",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=PublishDestinationType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\PublishDestination::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
      *
      * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function createAction(Request $request): SingleResourceResponse
     {
@@ -82,15 +88,27 @@ class PublishDestinationController extends Controller
     /**
      * Updates existing publish destination.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update existing publish destination",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType"
+     * @Operation(
+     *     tags={"destination"},
+     *     summary="Update existing publish destination",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=PublishDestinationType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\PublishDestination::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
      * @ParamConverter("publishDestination", class="SWP\Bundle\CoreBundle\Model\PublishDestination")

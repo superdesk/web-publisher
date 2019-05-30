@@ -17,10 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use function array_key_exists;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use function parse_url;
 use function str_replace;
 use function strpos;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleCommentsType;
@@ -34,14 +36,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleCommentsController extends AbstractController
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update article comments number",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Return when article was not found"
-     *     },
+     * @Operation(
+     *     tags={"article"},
+     *     summary="Update article comments number",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=ArticleCommentsType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Article::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Return when article was not found"
+     *     )
      * )
+     *
      * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_article_comments")
      */
     public function updateAction(Request $request)

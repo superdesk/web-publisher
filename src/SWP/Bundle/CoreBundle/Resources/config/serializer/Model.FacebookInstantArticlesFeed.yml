@@ -1,0 +1,27 @@
+SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [api]
+            type: string
+        contentBucket:
+            expose: true
+            groups: [api]
+            type: SWP\Bundle\CoreBundle\Model\ContentList
+        facebookPage:
+            expose: true
+            groups: [api]
+            type: SWP\Bundle\CoreBundle\Model\FacebookPage
+        mode:
+            expose: true
+            groups: [api]
+            type: integer
+        createdAt:
+            expose: true
+            groups: [api]
+            type: DateTime
+        updatedAt:
+            expose: true
+            groups: [api]
+            type: DateTime

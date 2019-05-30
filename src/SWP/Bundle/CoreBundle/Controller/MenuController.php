@@ -14,7 +14,12 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\MenuBundle\MenuEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -23,27 +28,35 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType;
 use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class MenuController extends Controller
+class MenuController extends AbstractController
 {
     /**
      * Lists all registered menus.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists all registered menus",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="No menus found."
-     *     }
+     * @Operation(
+     *     tags={"menu"},
+     *     summary="Lists all registered menus",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"}))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="No menus found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_menu")
      */
-    public function listAction()
+    public function listAction(): ResourcesListResponseInterface
     {
         $menuRepository = $this->get('swp.repository.menu');
 
@@ -53,17 +66,26 @@ class MenuController extends Controller
     /**
      * Lists all children of menu item.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists all children of menu item",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="No menus found."
-     *     }
+     * @Operation(
+     *     tags={"menu"},
+     *     summary="Lists all children of menu item",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"}))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="No menus found."
+     *     )
      * )
+     *
      * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_children_menu")
      */
-    public function listChildrenAction($id)
+    public function listChildrenAction($id): ResourcesListResponseInterface
     {
         $menuRepository = $this->get('swp.repository.menu');
 
@@ -75,24 +97,42 @@ class MenuController extends Controller
     /**
      * Moves menu item to a specific position.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Moves menu item to a specific position in a tree",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Menu item not found.",
-     *         400="Validation error.",
-     *         409="When Menu item is already placed at the same position.",
-     *         500="Unexpected error."
-     *     },
-     *     requirements={
-     *         {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="An identifier of Menu item which you want to move"}
-     *     },
-     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType"
+     * @Operation(
+     *     tags={"menu"},
+     *     summary="Moves menu item to a specific position in a tree",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=MenuItemMoveType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Menu item not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="When Menu item is already placed at the same position."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
      */
-    public function moveAction(Request $request, $id)
+    public function moveAction(Request $request, $id): SingleResourceResponseInterface
     {
         $menuItem = $this->findOr404($id);
         $form = $this->get('form.factory')->createNamed('', MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
@@ -113,18 +153,27 @@ class MenuController extends Controller
     /**
      * Get single menu.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get single menu",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Menu not found",
-     *         422="Menu id is not number"
-     *     }
+     * @Operation(
+     *     tags={"menu"},
+     *     summary="Get single menu",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Menu not found"
+     *     ),
+     *     @SWG\Response(
+     *         response="422",
+     *         description="Menu id is not number"
+     *     )
      * )
+     *
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_menu")
      */
-    public function getAction($id)
+    public function getAction($id): SingleResourceResponseInterface
     {
         return new SingleResourceResponse($this->findOr404($id));
     }
@@ -132,23 +181,31 @@ class MenuController extends Controller
     /**
      * Create new menu.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create new menu",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
+     * @Operation(
+     *     tags={"menu"},
+     *     summary="Create new menu",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=MenuType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
      *
+     *
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_menu")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): SingleResourceResponseInterface
     {
         /* @var MenuItemInterface $menu */
         $menu = $this->get('swp.factory.menu')->create();
@@ -170,15 +227,23 @@ class MenuController extends Controller
     /**
      * Delete single menu.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete single menu",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         404="Menu not found",
-     *         422="Menu id is not number"
-     *     }
+     * @Operation(
+     *     tags={"menu"},
+     *     summary="Delete single menu",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Menu not found"
+     *     ),
+     *     @SWG\Response(
+     *         response="422",
+     *         description="Menu id is not number"
+     *     )
      * )
+     *
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_menu")
      */
     public function deleteAction(int $id)
@@ -195,25 +260,38 @@ class MenuController extends Controller
     /**
      * Update single menu.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single menu",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         404="Menu not found",
-     *         422="Menu id is not number",
-     *         405="Method Not Allowed"
-     *     },
-     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
+     * @Operation(
+     *     tags={"menu"},
+     *     summary="Update single menu",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=MenuType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\MenuItem::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Menu not found"
+     *     ),
+     *     @SWG\Response(
+     *         response="422",
+     *         description="Menu id is not number"
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed"
+     *     )
      * )
+     *
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_menu")
-     *
-     * @param Request $request
-     * @param int     $id
-     *
-     * @return SingleResourceResponse
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id): SingleResourceResponseInterface
     {
         $objectManager = $this->get('swp.object_manager.menu');
         $menu = $this->findOr404($id);

@@ -53,15 +53,6 @@ class FileFactory implements FileFactoryInterface
     {
         $mimeType = Mime::getMimeFromExtension($extension);
 
-        if ($this->fileExtensionChecker->isVideo($mimeType) || $this->fileExtensionChecker->isAudio($mimeType)) {
-            /** @var FileInterface $file */
-            $file = $this->fileFactory->create();
-            $file->setAssetId($assetId);
-            $file->setFileExtension($extension);
-
-            return $file;
-        }
-
         if ($this->fileExtensionChecker->isImage($mimeType)) {
             /** @var ImageInterface $image */
             $image = $this->imageFactory->create();
@@ -70,6 +61,13 @@ class FileFactory implements FileFactoryInterface
 
             return $image;
         }
+
+        /** @var FileInterface $file */
+        $file = $this->fileFactory->create();
+        $file->setAssetId($assetId);
+        $file->setFileExtension($extension);
+
+        return $file;
     }
 
     public function createFile(): FileInterface

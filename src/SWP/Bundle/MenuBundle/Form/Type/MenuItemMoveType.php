@@ -33,7 +33,7 @@ class MenuItemMoveType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                 ],
-                'description' => 'A parent menu item id to which the node should be moved.',
+                'help' => 'A parent menu item id to which the node should be moved.',
             ])
             ->add('position', IntegerType::class, [
                 'required' => true,
@@ -41,7 +41,7 @@ class MenuItemMoveType extends AbstractType
                     new NotBlank(),
                     new GreaterThanOrEqual(['value' => 0]),
                 ],
-                'description' => 'Position under parent subtree in which to place the menu item.',
+                'help' => 'Position under parent subtree in which to place the menu item.',
             ]);
     }
 

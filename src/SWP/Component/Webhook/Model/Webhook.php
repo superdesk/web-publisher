@@ -18,30 +18,18 @@ namespace SWP\Component\Webhook\Model;
 
 use SWP\Component\Common\Model\EnableableTrait;
 
-/**
- * Class Webhook.
- */
 class Webhook implements WebhookInterface
 {
     use EnableableTrait;
 
-    /**
-     * @var string
-     */
     protected $url;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setUrl(string $url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }

@@ -32,7 +32,7 @@ final class TenantType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'description' => 'Tenant name',
+                'help' => 'Tenant name',
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3]),
@@ -40,14 +40,14 @@ final class TenantType extends AbstractType
             ])
             ->add('subdomain', TextType::class, [
                 'required' => false,
-                'description' => 'Tenant subdomain',
+                'help' => 'Tenant subdomain',
                 'constraints' => [
                     new Length(['min' => 3]),
                 ],
             ])
             ->add('domainName', TextType::class, [
                 'required' => true,
-                'description' => 'Tenant domain name',
+                'help' => 'Tenant domain name',
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3]),
@@ -55,29 +55,29 @@ final class TenantType extends AbstractType
             ])
             ->add('themeName', ThemeNameChoiceType::class, [
                 'required' => false,
-                'description' => 'Tenant theme name',
+                'help' => 'Tenant theme name',
             ])
             ->add('organization', OrganizationCodeChoiceType::class, [
                 'required' => false,
-                'description' => 'Tenant organization code',
+                'help' => 'Tenant organization code',
             ])
             ->add('ampEnabled', BooleanType::class, [
                 'required' => false,
-                'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
+                'help' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
             ])
             ->add('fbiaEnabled', BooleanType::class, [
                 'mapped' => false,
                 'required' => false,
-                'description' => 'Defines whether Facebook Instant Articles support is enabled or not (true or false).',
+                'help' => 'Defines whether Facebook Instant Articles support is enabled or not (true or false).',
             ])
             ->add('paywallEnabled', BooleanType::class, [
                 'mapped' => false,
                 'required' => false,
-                'description' => 'Defines whether Paywall support is enabled or not (true or false).',
+                'help' => 'Defines whether Paywall support is enabled or not (true or false).',
             ])
             ->add('outputChannel', OutputChannelType::class, [
                 'required' => false,
-                'description' => 'Output Channel',
+                'help' => 'Output Channel',
             ]);
     }
 

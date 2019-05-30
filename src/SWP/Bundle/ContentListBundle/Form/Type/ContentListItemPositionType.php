@@ -31,14 +31,14 @@ class ContentListItemPositionType extends AbstractType
     {
         $builder
             ->add('position', IntegerType::class, [
-                'description' => 'Defines content position on list.',
+                'help' => 'Defines content position on list.',
                 'required' => false,
             ])
             ->add('action', TextType::class, [
-                'description' => 'Defines content action (add, move or delete).',
+                'help' => 'Defines content action (add, move or delete).',
             ])
             ->add('contentId', IntegerType::class, [
-                'description' => 'Content identifier.',
+                'help' => 'Content identifier.',
             ])
         ;
     }

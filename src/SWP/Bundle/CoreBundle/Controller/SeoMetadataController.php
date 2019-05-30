@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -36,14 +38,25 @@ class SeoMetadataController extends AbstractController
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Edits SEO metadata entry",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType"
+     * @Operation(
+     *     tags={"seo"},
+     *     summary="Change SEO metadata entry",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=SeoMetadataType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
      *
      * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_seo_metadata_put")
@@ -76,13 +89,18 @@ class SeoMetadataController extends AbstractController
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Gets SEO metadata entry",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when form have errors"
-     *     }
+     * @Operation(
+     *     tags={"seo"},
+     *     summary="Gets SEO metadata entry",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when form have errors"
+     *     )
      * )
      *
      * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")

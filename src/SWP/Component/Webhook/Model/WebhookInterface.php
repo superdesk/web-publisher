@@ -18,18 +18,9 @@ namespace SWP\Component\Webhook\Model;
 
 use SWP\Component\Common\Model\EnableableInterface;
 
-/**
- * Interface WebhookInterface.
- */
 interface WebhookInterface extends EnableableInterface
 {
-    /**
-     * @return string
-     */
-    public function getUrl();
+    public function getUrl(): ?string;
 
-    /**
-     * @param string $url
-     */
-    public function setUrl(string $url);
+    public function setUrl(string $url): void;
 }

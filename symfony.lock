@@ -184,6 +184,9 @@
     "evenement/evenement": {
         "version": "v3.0.1"
     },
+    "exsyst/swagger": {
+        "version": "v0.4.1"
+    },
     "facebook/facebook-instant-articles-sdk-php": {
         "version": "v1.10.1"
     },
@@ -319,12 +322,6 @@
     "hoa/zformat": {
         "version": "1.17.01.10"
     },
-    "illuminate/contracts": {
-        "version": "v5.8.14"
-    },
-    "illuminate/support": {
-        "version": "v5.8.14"
-    },
     "jackalope/jackalope": {
         "version": "1.3.7"
     },
@@ -427,9 +424,6 @@
     "matthiasnoback/symfony-dependency-injection-test": {
         "version": "v1.2.0"
     },
-    "michelf/php-markdown": {
-        "version": "1.8.0"
-    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
@@ -475,9 +469,6 @@
         "files": [
             "config/packages/nelmio_cors.yaml"
         ]
-    },
-    "nesbot/carbon": {
-        "version": "2.17.0"
     },
     "nette/bootstrap": {
         "version": "v3.0.0"
@@ -641,9 +632,6 @@
     "psr/log": {
         "version": "1.1.0"
     },
-    "psr/simple-cache": {
-        "version": "1.0.1"
-    },
     "querypath/querypath": {
         "version": "3.0.5"
     },
@@ -800,6 +788,9 @@
     "symfony/cache": {
         "version": "v4.2.7"
     },
+    "symfony/cache-contracts": {
+        "version": "v1.1.1"
+    },
     "symfony/class-loader": {
         "version": "v3.4.26"
     },
@@ -855,6 +846,9 @@
     "symfony/event-dispatcher": {
         "version": "v4.2.7"
     },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.1"
+    },
     "symfony/expression-language": {
         "version": "v4.2.7"
     },
@@ -909,6 +903,9 @@
     },
     "symfony/intl": {
         "version": "v4.2.7"
+    },
+    "symfony/mime": {
+        "version": "v4.3.0"
     },
     "symfony/monolog-bridge": {
         "version": "v4.2.7"
@@ -968,6 +965,9 @@
     "symfony/polyfill-php72": {
         "version": "v1.11.0"
     },
+    "symfony/polyfill-php73": {
+        "version": "v1.11.0"
+    },
     "symfony/polyfill-util": {
         "version": "v1.11.0"
     },
@@ -976,6 +976,9 @@
     },
     "symfony/property-access": {
         "version": "v4.2.7"
+    },
+    "symfony/property-info": {
+        "version": "v4.2.8"
     },
     "symfony/proxy-manager-bridge": {
         "version": "v4.2.7"
@@ -1022,6 +1025,9 @@
     "symfony/serializer": {
         "version": "v4.2.7"
     },
+    "symfony/service-contracts": {
+        "version": "v1.1.2"
+    },
     "symfony/stopwatch": {
         "version": "v4.2.7"
     },
@@ -1054,6 +1060,9 @@
             "config/packages/translation.yaml",
             "translations/.gitignore"
         ]
+    },
+    "symfony/translation-contracts": {
+        "version": "v1.1.2"
     },
     "symfony/twig-bridge": {
         "version": "v4.2.7"
@@ -1188,5 +1197,8 @@
     },
     "zendframework/zend-stdlib": {
         "version": "3.2.1"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.14"
     }
 }

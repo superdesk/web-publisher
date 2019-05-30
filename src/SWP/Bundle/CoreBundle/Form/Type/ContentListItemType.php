@@ -29,7 +29,7 @@ class ContentListItemType extends AbstractType
     {
         $builder
             ->add('sticky', BooleanType::class, [
-                'description' => 'Defines whether content is sticky or not (true or false).',
+                'help' => 'Defines whether content is sticky or not (true or false).',
                 'required' => false,
             ])
         ;

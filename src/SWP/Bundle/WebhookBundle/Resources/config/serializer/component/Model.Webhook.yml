@@ -1,0 +1,11 @@
+SWP\Component\Webhook\Model\Webhook:
+    exclusion_policy: ALL
+    properties:
+        url:
+            expose: true
+            groups: ["api"]
+            type: string
+        enabled:
+            expose: true
+            groups: ["api"]
+            type: boolean

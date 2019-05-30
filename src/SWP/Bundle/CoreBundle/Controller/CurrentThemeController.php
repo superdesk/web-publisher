@@ -16,7 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType;
@@ -31,23 +34,27 @@ class CurrentThemeController extends Controller
     /**
      * Uploads current theme logo.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Uploads current theme logo",
-     *     statusCodes={
-     *         201="Returned on success."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType"
+     * @Operation(
+     *     tags={"theme"},
+     *     summary="Uploads current theme logo",
+     *     @SWG\Parameter(
+     *         name="logo",
+     *         in="formData",
+     *         description="Logo file",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"})
+     *     )
      * )
+     *
      * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
      * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo")
-     *
-     * @param Request $request
-     * @param string  $type
-     *
-     * @return SingleResourceResponse
      */
-    public function uploadThemeLogoAction(Request $request, string $type = ThemeLogoProviderInterface::SETTING_NAME_DEFAULT)
+    public function uploadThemeLogoAction(Request $request, string $type = ThemeLogoProviderInterface::SETTING_NAME_DEFAULT): SingleResourceResponseInterface
     {
         $themeContext = $this->get('swp_core.theme.context.tenant_aware');
 
@@ -84,18 +91,19 @@ class CurrentThemeController extends Controller
     /**
      * Lists current theme settings.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists current theme settings",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     }
+     * @Operation(
+     *     tags={"theme"},
+     *     summary="Lists current theme settings",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *          @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"})
+     *     )
      * )
-     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
      *
-     * @return SingleResourceResponse
+     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
      */
-    public function listAction()
+    public function listAction(): SingleResourceResponseInterface
     {
         $themeContext = $this->get('swp_core.theme.context.tenant_aware');
 

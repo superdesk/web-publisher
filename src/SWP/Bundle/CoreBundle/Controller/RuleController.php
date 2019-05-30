@@ -15,7 +15,9 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -31,19 +33,30 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RuleController extends FOSRestController
 {
     /**
-     * List all Rule entities for current tenant.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="List all rules",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         405="Method Not Allowed."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={"tenant rule"},
+     *     summary="List all Rule entities for current tenant.",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="example: [updatedAt]=asc|desc",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"}))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_rule")
      */
     public function listAction(Request $request)
@@ -59,17 +72,24 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Get single Rule Entity.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get single rule",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Rule not found.",
-     *         405="Method Not Allowed."
-     *     }
+     * @Operation(
+     *     tags={"tenant rule"},
+     *     summary="Get single rule",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_rule")
      * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
@@ -79,18 +99,33 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Create new Rule.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create new rule",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     },
-     *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
+     * @Operation(
+     *     tags={"tenant rule"},
+     *     summary="Create new rule",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="",
+     *         required=true,
+     *         @SWG\Schema(
+     *             ref=@Model(type=RuleType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_rule")
      */
     public function createAction(Request $request)
@@ -111,17 +146,23 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Delete single rule.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete single rule",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         404="Returned when rule not found.",
-     *         405="Returned when method not allowed."
-     *     }
+     * @Operation(
+     *     tags={"tenant rule"},
+     *     summary="Delete single rule",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Returned when method not allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_rule", methods={"DELETE"}, requirements={"id"="\d+"})
      * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
@@ -134,19 +175,36 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Updates single rule.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single rule",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         404="Rule not found.",
-     *         405="Method Not Allowed."
-     *     },
-     *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
+     * @Operation(
+     *     tags={"tenant rule"},
+     *     summary="Update single rule",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="",
+     *         @SWG\Schema(
+     *             ref=@Model(type=RuleType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_rule", requirements={"id"="\d+"})
      * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */

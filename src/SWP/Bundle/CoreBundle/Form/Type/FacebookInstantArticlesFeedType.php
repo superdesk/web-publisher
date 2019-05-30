@@ -21,6 +21,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use SWP\Bundle\CoreBundle\Model\ContentList;
+use SWP\Bundle\CoreBundle\Model\FacebookPage;
 
 class FacebookInstantArticlesFeedType extends AbstractType
 {
@@ -31,15 +33,15 @@ class FacebookInstantArticlesFeedType extends AbstractType
     {
         $builder
             ->add('contentBucket', EntityType::class, [
-                'class' => 'SWP\Bundle\CoreBundle\Model\ContentList',
-                'description' => 'Content List Id',
+                'class' => ContentList::class,
+                'help' => 'Content List Id',
             ])
             ->add('facebookPage', EntityType::class, [
-                'class' => 'SWP\Bundle\CoreBundle\Model\FacebookPage',
-                'description' => 'Facebook Page Id (from Publisher)',
+                'class' => FacebookPage::class,
+                'help' => 'Facebook Page Id (from Publisher)',
             ])
             ->add('mode', IntegerType::class, [
-                'description' => 'Feed Mode (0 for development, 1 for production)',
+                'help' => 'Feed Mode (0 for development, 1 for production)',
             ])
         ;
     }

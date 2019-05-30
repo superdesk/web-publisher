@@ -16,7 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider;
@@ -30,17 +31,29 @@ class SubscriptionController extends Controller
     /**
      * Lists user subscriptions.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists user subscriptions",
-     *     statusCodes={
-     *         200="Returned on success."
-     *     },
-     *     filters={
-     *         {"name"="routeId", "dataType"="integer", "pattern"="\d+"},
-     *         {"name"="articleId", "dataType"="integer", "pattern"="\d+"},
-     *     }
+     * @Operation(
+     *     tags={"paywall"},
+     *     summary="Lists user subscriptions",
+     *     @SWG\Parameter(
+     *         name="routeId",
+     *         in="query",
+     *         description="Route id",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="articleId",
+     *         in="query",
+     *         description="Article id",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
+     *
      * @Route("/api/{version}/subscriptions/{userId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_paywall_list_subscriptions", requirements={"id"="\d+"})
      */
     public function getAction(Request $request, int $userId)

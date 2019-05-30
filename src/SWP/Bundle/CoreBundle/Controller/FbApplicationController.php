@@ -14,7 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookApplicationType;
 use SWP\Bundle\CoreBundle\Model\FacebookApplication;
@@ -32,20 +35,30 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class FbApplicationController extends Controller
 {
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Lists Facebook Applications",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         500="Unexpected error."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={"facebook instant articles"},
+     *     summary="Lists Facebook Applications",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="todo",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\FacebookApplication::class)
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_applications")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): ResourcesListResponseInterface
     {
         $repository = $this->get('swp.repository.facebook_application');
 
@@ -59,15 +72,27 @@ class FbApplicationController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create Facebook application",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned when not valid data."
-     *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookApplicationType"
+     * @Operation(
+     *     tags={"facebook instant articles"},
+     *     summary="Create Facebook application",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=FacebookApplicationType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\FacebookApplication::class)
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned when not valid data."
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_applications")
      */
     public function createAction(Request $request)
@@ -88,16 +113,27 @@ class FbApplicationController extends Controller
     }
 
     /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete Facebook application",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         500="Unexpected error.",
-     *         404="Application not found",
-     *         409="Application is used by page"
-     *     }
+     * @Operation(
+     *     tags={"facebook instant articles"},
+     *     summary="Delete Facebook application",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="500",
+     *         description="Unexpected error."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Application not found"
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="Application is used by page"
+     *     )
      * )
+     *
      * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
      */
     public function deleteAction($id)

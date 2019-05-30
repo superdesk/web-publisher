@@ -1,25 +1,31 @@
-SWP\Bundle\SettingsBundle\Model\Settings:
+SWP\Bundle\FacebookInstantArticlesBundle\Model\Page:
     exclusion_policy: ALL
     properties:
         id:
             expose: true
             groups: [api]
             type: integer
-        createdAt:
+        pageId:
             expose: true
             groups: [api]
-        updatedAt:
-            expose: true
-            groups: [api]
-        scope:
-            expose: true
-            groups: [api]
-        value:
-            expose: true
-            groups: [api]
+            type: string
         name:
             expose: true
             groups: [api]
-        owner:
+            type: string
+        accessToken:
             expose: true
             groups: [api]
+            type: string
+        application:
+            expose: true
+            groups: [api]
+            type: string
+        createdAt:
+            expose: true
+            groups: [api]
+            type: DateTime
+        updatedAt:
+            expose: true
+            groups: [api]
+            type: DateTime

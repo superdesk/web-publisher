@@ -14,31 +14,44 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\WebhookBundle\Controller\AbstractAPIController;
 use SWP\Bundle\WebhookBundle\Model\WebhookInterface;
 use SWP\Component\Common\Response\ResourcesListResponse;
-use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class WebhookController extends AbstractAPIController
 {
     /**
-     * List all Webhook entities for current tenant.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="List all webhooks",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         405="Method Not Allowed."
-     *     },
-     *     filters={
-     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
-     *     }
+     * @Operation(
+     *     tags={"webhook"},
+     *     summary="List all Webhook entities for current tenant.",
+     *     @SWG\Parameter(
+     *         name="sorting",
+     *         in="query",
+     *         description="example: [updatedAt]=asc|desc",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Webhook::class, groups={"api"}))
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_webhook")
      *
      * @param Request $request
@@ -47,116 +60,149 @@ class WebhookController extends AbstractAPIController
      */
     public function listAction(Request $request)
     {
-        return parent::listWebhooks($this->container->get('swp.repository.webhook'), $request);
+        return $this->listWebhooks($this->container->get('swp.repository.webhook'), $request);
     }
 
     /**
-     * Get single Webhook.
-     *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Get single webhook",
-     *     statusCodes={
-     *         200="Returned on success.",
-     *         404="Rule not found.",
-     *         405="Method Not Allowed."
-     *     }
+     * @Operation(
+     *     tags={"webhook"},
+     *     summary="Get single webhook",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Webhook::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_webhook")
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
-     *
-     * @param WebhookInterface $webhook
-     *
-     * @return SingleResourceResponse
      */
-    public function getAction(WebhookInterface $webhook)
+    public function getAction(WebhookInterface $webhook): SingleResourceResponseInterface
     {
-        return parent::getSingleWebhook($webhook);
+        return $this->getSingleWebhook($webhook);
     }
 
     /**
      * Create new Webhook.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Create new webhook",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         405="Method Not Allowed."
-     *     },
-     *     input="SWP\Bundle\WebhookBundle\Form\Type\WebhookType"
+     * @Operation(
+     *     tags={"webhook"},
+     *     summary="Create new webhook",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=\SWP\Bundle\WebhookBundle\Form\Type\WebhookType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Webhook::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_webhook")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): SingleResourceResponseInterface
     {
         $ruleRepository = $this->get('swp.repository.webhook');
         $ruleFactory = $this->get('swp.factory.webhook');
         $formFactory = $this->get('form.factory');
 
-        return parent::createWebhook($ruleRepository, $ruleFactory, $request, $formFactory);
+        return $this->createWebhook($ruleRepository, $ruleFactory, $request, $formFactory);
     }
 
     /**
      * Delete single webhook.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Delete single webhook",
-     *     statusCodes={
-     *         204="Returned on success.",
-     *         404="Returned when rule not found.",
-     *         405="Returned when method not allowed."
-     *     }
+     * @Operation(
+     *     tags={"webhook"},
+     *     summary="Delete single webhook",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Returned on success."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Returned when rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Returned when method not allowed."
+     *     )
      * )
+     *
      * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_webhook", requirements={"id"="\d+"})
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
-     *
-     * @return SingleResourceResponse
      */
-    public function deleteAction(WebhookInterface $webhook)
+    public function deleteAction(WebhookInterface $webhook): SingleResourceResponseInterface
     {
         $webhookRepository = $this->get('swp.repository.webhook');
 
-        return parent::deleteWebhook($webhookRepository, $webhook);
+        return $this->deleteWebhook($webhookRepository, $webhook);
     }
 
     /**
      * Updates single webhook.
      *
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Update single webhook",
-     *     statusCodes={
-     *         201="Returned on success.",
-     *         400="Returned on validation error.",
-     *         404="Rule not found.",
-     *         405="Method Not Allowed."
-     *     },
-     *     input="SWP\Bundle\WebhookBundle\Form\Type\WebhookType"
+     * @Operation(
+     *     tags={"webhook"},
+     *     summary="Update single webhook",
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=\SWP\Bundle\WebhookBundle\Form\Type\WebhookType::class)
+     *         )
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Webhook::class, groups={"api"})
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="Returned on validation error."
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Rule not found."
+     *     ),
+     *     @SWG\Response(
+     *         response="405",
+     *         description="Method Not Allowed."
+     *     )
      * )
+     *
      *
      * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_webhook", requirements={"id"="\d+"})
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
-     *
-     * @param Request          $request
-     * @param WebhookInterface $webhook
-     *
-     * @return SingleResourceResponse
      */
-    public function updateAction(Request $request, WebhookInterface $webhook)
+    public function updateAction(Request $request, WebhookInterface $webhook): SingleResourceResponseInterface
     {
         $objectManager = $this->get('swp.object_manager.webhook');
         $formFactory = $this->get('form.factory');
 
-        return parent::updateWebhook($objectManager, $request, $webhook, $formFactory);
+        return $this->updateWebhook($objectManager, $request, $webhook, $formFactory);
     }
 }
