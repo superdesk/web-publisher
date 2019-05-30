@@ -25,26 +25,25 @@ use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Provider\FileProvider;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ContentPushController extends Controller
+class ContentPushController extends AbstractController
 {
     /**
-     * Receives HTTP Push Request's payload.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"content push"},
      *     summary="Adds a new content from HTTP Push",
      *     @SWG\Parameter(
      *         name="",
      *         in="body",
      *         description="NinJS body",
      *         required=true,
-     *         @SWG\Schema(type="string")
+     *         @SWG\Schema(type="object")
      *     ),
      *     @SWG\Response(
      *         response="201",
@@ -55,7 +54,7 @@ class ContentPushController extends Controller
      *
      * @Route("/api/{version}/content/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_push")
      */
-    public function pushContentAction(Request $request)
+    public function pushContentAction(Request $request): SingleResourceResponseInterface
     {
         $package = $this->container->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
         $this->container->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
@@ -73,7 +72,7 @@ class ContentPushController extends Controller
      * Receives HTTP Push Request's assets payload which is then processed and stored.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"content push"},
      *     summary="Adds new assets from HTTP Push",
      *     @SWG\Parameter(
      *         name="media_id",
@@ -105,7 +104,7 @@ class ContentPushController extends Controller
      *
      * @Route("/api/{version}/assets/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_assets_push")
      */
-    public function pushAssetsAction(Request $request)
+    public function pushAssetsAction(Request $request): SingleResourceResponseInterface
     {
         $form = $this->get('form.factory')->createNamed('', MediaFileType::class);
         $form->handleRequest($request);
@@ -144,8 +143,10 @@ class ContentPushController extends Controller
     /**
      * Checks if media exists in storage.
      *
+     * Action route parameter values: "get" or "push"
+     *
      * @Operation(
-     *     tags={""},
+     *     tags={"content push"},
      *     summary="Gets a single media file",
      *     @SWG\Response(
      *         response="404",
@@ -157,10 +158,9 @@ class ContentPushController extends Controller
      *     )
      * )
      *
-     * @Route("/api/{version}/assets/push/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
-     * @Route("/api/{version}/assets/get/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
+     * @Route("/api/{version}/assets/{action}/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+", "action"="get|push"}, name="swp_api_assets_get")
      */
-    public function getAssetsAction(string $mediaId, string $extension)
+    public function getAssetsAction(string $mediaId, string $extension): SingleResourceResponseInterface
     {
         $fileProvider = $this->container->get(FileProvider::class);
         $file = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);

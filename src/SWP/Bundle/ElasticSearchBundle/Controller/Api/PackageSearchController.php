@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
@@ -30,7 +31,7 @@ class PackageSearchController extends Controller
 {
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"package"},
      *     summary="List all packages",
      *     @SWG\Parameter(
      *         name="status",
@@ -117,7 +118,11 @@ class PackageSearchController extends Controller
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Package::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="500",

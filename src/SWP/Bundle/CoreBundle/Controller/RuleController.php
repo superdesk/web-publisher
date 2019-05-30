@@ -33,21 +33,23 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RuleController extends FOSRestController
 {
     /**
-     * List all Rule entities for current tenant.
-     *
      * @Operation(
-     *     tags={""},
-     *     summary="List all rules",
+     *     tags={"tenant rule"},
+     *     summary="List all Rule entities for current tenant.",
      *     @SWG\Parameter(
      *         name="sorting",
      *         in="query",
-     *         description="todo",
+     *         description="example: [updatedAt]=asc|desc",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="405",
@@ -70,14 +72,13 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Get single Rule Entity.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant rule"},
      *     summary="Get single rule",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -98,10 +99,8 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Create new Rule.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant rule"},
      *     summary="Create new rule",
      *     @SWG\Parameter(
      *         name="body",
@@ -114,7 +113,8 @@ class RuleController extends FOSRestController
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -146,10 +146,8 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Delete single rule.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant rule"},
      *     summary="Delete single rule",
      *     @SWG\Response(
      *         response="204",
@@ -177,23 +175,21 @@ class RuleController extends FOSRestController
     }
 
     /**
-     * Updates single rule.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"tenant rule"},
      *     summary="Update single rule",
      *     @SWG\Parameter(
      *         name="body",
      *         in="body",
      *         description="",
-     *         required=true,
      *         @SWG\Schema(
      *             ref=@Model(type=RuleType::class)
      *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",

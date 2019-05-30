@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Controller;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\UserBundle\Form\Type\UserRolesType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
@@ -32,21 +32,20 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class UserController extends Controller
 {
     /**
-     * Add new Roles for User.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"user"},
      *     summary="Change user roles",
      *     @SWG\Parameter(
-     *         name="roles",
+     *         name="body",
      *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         @SWG\Schema(
+     *             ref=@Model(type=UserRolesType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",

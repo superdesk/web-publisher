@@ -13,4 +13,4 @@ nelmio_api_doc:
     security:
       - Bearer: []
   areas:
-    path_patterns: [ ^/api ]
+    path_patterns: [ ^/api(?!/doc/$) ]

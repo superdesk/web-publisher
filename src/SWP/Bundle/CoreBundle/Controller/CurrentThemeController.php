@@ -47,7 +47,7 @@ class CurrentThemeController extends Controller
      *     @SWG\Response(
      *         response="201",
      *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class)
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"})
      *     )
      * )
      *
@@ -97,7 +97,7 @@ class CurrentThemeController extends Controller
      *     @SWG\Response(
      *         response="200",
      *         description="Returned on success.",
-     *          @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class)
+     *          @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"})
      *     )
      * )
      *

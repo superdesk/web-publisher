@@ -22,6 +22,7 @@ use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\UserBundle\Form\Type\RegistrationFormType;
@@ -37,35 +38,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends Controller
 {
     /**
-     * Register new user.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"user"},
      *     summary="Register new user",
      *     @SWG\Parameter(
-     *         name="email",
+     *         name="body",
      *         in="body",
-     *         description="form.email",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="username",
-     *         in="body",
-     *         description="form.username",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="plainPassword",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="object (RepeatedType)")
+     *         @SWG\Schema(
+     *             ref=@Model(type=RegistrationFormType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",

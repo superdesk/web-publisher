@@ -1,2 +1,25 @@
 SWP\Bundle\SettingsBundle\Model\Settings:
-    exclusion_policy: NONE
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [api]
+            type: integer
+        createdAt:
+            expose: true
+            groups: [api]
+        updatedAt:
+            expose: true
+            groups: [api]
+        scope:
+            expose: true
+            groups: [api]
+        value:
+            expose: true
+            groups: [api]
+        name:
+            expose: true
+            groups: [api]
+        owner:
+            expose: true
+            groups: [api]

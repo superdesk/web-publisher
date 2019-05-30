@@ -19,6 +19,7 @@ use GuzzleHttp;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
 use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
@@ -33,23 +34,21 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 class AuthController extends Controller
 {
     /**
-     * Look for user matching provided credentials.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"auth"},
      *     summary="Look for user matching provided credentials",
      *     @SWG\Parameter(
      *         name="body",
      *         in="body",
      *         description="",
-     *         required=false,
      *         @SWG\Schema(
      *             ref=@Model(type=UserAuthenticationType::class)
      *         )
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="401",
@@ -86,28 +85,21 @@ class AuthController extends Controller
     }
 
     /**
-     * Ask Superdesk server for user with those credentials and tries to authorize.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"auth"},
      *     summary="Authorize using Superdesk credentials",
      *     @SWG\Parameter(
-     *         name="sessionId",
-     *         in="formData",
-     *         description="Superdesk user session id",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="token",
-     *         in="formData",
-     *         description="Superdesk user token",
-     *         required=false,
-     *         type="string"
+     *         name="body",
+     *         in="body",
+     *         description="",
+     *         @SWG\Schema(
+     *             ref=@Model(type=SuperdeskCredentialAuthenticationType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="401",
@@ -192,13 +184,7 @@ class AuthController extends Controller
         ], new ResponseContext(401));
     }
 
-    /**
-     * @param UserInterface $user
-     * @param string        $token
-     *
-     * @return SingleResourceResponse
-     */
-    private function returnApiTokenResponse(UserInterface $user, $token)
+    private function returnApiTokenResponse(UserInterface $user, string $token): SingleResourceResponseInterface
     {
         /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->generateOrGetApiKey($user, $token);

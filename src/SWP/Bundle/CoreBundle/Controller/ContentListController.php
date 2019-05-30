@@ -40,18 +40,22 @@ class ContentListController extends Controller
 {
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"content list"},
      *     summary="Lists all content lists",
      *     @SWG\Parameter(
      *         name="sorting",
      *         in="query",
-     *         description="todo",
+     *         description="example: [updatedAt]=asc|desc",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"}))
+     *         )
      *     )
      * )
      *
@@ -68,11 +72,12 @@ class ContentListController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"content list"},
      *     summary="Show single content list",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
      *     )
      * )
      *
@@ -85,7 +90,7 @@ class ContentListController extends Controller
 
     /**
      * @Operation(
-     *     tags={""},
+     *     tags={"content list"},
      *     summary="Create new content list",
      *
      *     @SWG\Parameter(

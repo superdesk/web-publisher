@@ -40,7 +40,7 @@ class OrganizationRuleController extends AbstractController
 {
     /**
      * @Operation(
-     *     tags={"rule"},
+     *     tags={"organization rule"},
      *     summary="Returns a list of rules that will be executed on the package",
      *     @SWG\Parameter(
      *         name="body",
@@ -73,7 +73,7 @@ class OrganizationRuleController extends AbstractController
      * List all current organization's rules.
      *
      * @Operation(
-     *     tags={"rule"},
+     *     tags={"organization rule"},
      *     summary="List all current organization's articles",
      *     @SWG\Parameter(
      *         name="sorting",
@@ -121,7 +121,7 @@ class OrganizationRuleController extends AbstractController
      * Create a new Organization Rule.
      *
      * @Operation(
-     *     tags={"rule"},
+     *     tags={"organization rule"},
      *     summary="Create a new organization rule",
      *     @SWG\Parameter(
      *         name="body",
@@ -170,7 +170,7 @@ class OrganizationRuleController extends AbstractController
      * Show single organiation's rule.
      *
      * @Operation(
-     *     tags={"rule"},
+     *     tags={"organization rule"},
      *     summary="Show single organization rule",
      *     @SWG\Response(
      *         response="200",
@@ -190,7 +190,7 @@ class OrganizationRuleController extends AbstractController
      * Updates organization's rule.
      *
      * @Operation(
-     *     tags={"rule"},
+     *     tags={"organization rule"},
      *     summary="Updates organization rule",
      *     @SWG\Parameter(
      *         name="body",
@@ -237,7 +237,7 @@ class OrganizationRuleController extends AbstractController
      * Delete single organization rule.
      *
      * @Operation(
-     *     tags={"rule"},
+     *     tags={"organization rule"},
      *     summary="Delete single organization rule",
      *     @SWG\Response(
      *         response="204",

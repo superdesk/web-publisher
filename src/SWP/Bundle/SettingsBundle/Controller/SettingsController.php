@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\SettingsBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\Model;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Form\Type\BulkSettingsUpdateType;
@@ -24,7 +25,6 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -33,14 +33,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class SettingsController extends Controller
 {
     /**
-     * Lists all settings.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"settings"},
      *     summary="Lists all settings",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"}))
+     *         )
      *     )
      * )
      *
@@ -59,7 +61,7 @@ class SettingsController extends Controller
      * Revert settings to defaults by scope.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"settings"},
      *     summary="Revert settings to defaults by scope",
      *     @SWG\Response(
      *         response="204",
@@ -81,28 +83,20 @@ class SettingsController extends Controller
     }
 
     /**
-     * Change setting value.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"settings"},
      *     summary="Change setting value",
      *     @SWG\Parameter(
-     *         name="name",
+     *         name="body",
      *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="value",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="string")
+     *         @SWG\Schema(
+     *             ref=@Model(type=SettingType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="404",
@@ -155,18 +149,22 @@ class SettingsController extends Controller
      * Settings bulk update - update multiple settings.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"settings"},
      *     summary="Settings bulk update",
      *     @SWG\Parameter(
-     *         name="bulk",
+     *         name="body",
      *         in="body",
-     *         description="",
-     *         required=false,
-     *         @SWG\Schema(type="array of objects (SettingType)")
+     *         @SWG\Schema(
+     *             ref=@Model(type=BulkSettingsUpdateType::class)
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"}))
+     *         )
      *     ),
      *     @SWG\Response(
      *         response="404",

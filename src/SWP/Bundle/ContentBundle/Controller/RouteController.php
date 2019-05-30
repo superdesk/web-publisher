@@ -39,25 +39,29 @@ class RouteController extends FOSRestController
      * Lists current tenant routes.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"route"},
      *     summary="Lists current tenant routes",
      *     @SWG\Parameter(
      *         name="type",
      *         in="query",
-     *         description="todo",
+     *         description="possible values: 'collection' or 'content'",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="sorting",
      *         in="query",
-     *         description="todo",
+     *         description="example: [updatedAt]=asc|desc",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"}))
+     *         )
      *     )
      * )
      *
@@ -75,14 +79,13 @@ class RouteController extends FOSRestController
     }
 
     /**
-     * Show single tenant route.
-     *
      * @Operation(
-     *     tags={""},
+     *     tags={"route"},
      *     summary="Show single tenant route",
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"})
      *     )
      * )
      *
@@ -97,7 +100,7 @@ class RouteController extends FOSRestController
      * Delete single tenant route.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"route"},
      *     summary="Delete single tenant route",
      *     @SWG\Response(
      *         response="204",
@@ -136,20 +139,20 @@ class RouteController extends FOSRestController
      * Parameter `type` cane have one of two values: `content`, `collection` or `custom`.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"route"},
      *     summary="Create new route",
      *     @SWG\Parameter(
      *         name="name",
      *         in="body",
      *         description="",
-     *         required=true,
      *         @SWG\Schema(
      *             ref=@Model(type=RouteType::class)
      *         )
      *     ),
      *     @SWG\Response(
      *         response="201",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -185,7 +188,7 @@ class RouteController extends FOSRestController
      * Parameter `type` cane have one of two values: `content` or `collection`.
      *
      * @Operation(
-     *     tags={""},
+     *     tags={"route"},
      *     summary="Update single route",
      *     @SWG\Parameter(
      *         name="body",
@@ -198,7 +201,8 @@ class RouteController extends FOSRestController
      *     ),
      *     @SWG\Response(
      *         response="200",
-     *         description="Returned on success."
+     *         description="Returned on success.",
+     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"})
      *     ),
      *     @SWG\Response(
      *         response="400",
