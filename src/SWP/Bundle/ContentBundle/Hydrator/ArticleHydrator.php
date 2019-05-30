@@ -44,7 +44,12 @@ final class ArticleHydrator implements ArticleHydratorInterface
     {
         $package->setByLine($package->getByLine());
         $article->setCode($package->getGuid());
-        $article->setBody($package->getBody());
+
+        if (null === ($body = $package->getBody())) {
+            $body = '';
+        }
+
+        $article->setBody($body);
 
         if (null !== $package->getSlugline() && null === $article->getSlug()) {
             $article->setSlug($package->getSlugline());
