@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class ProcessArticleMediaListener extends AbstractArticleMediaListener
 {
@@ -53,6 +54,10 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
                 $this->articleMediaRepository->persist($articleMedia);
+
+                if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
+                    $article->setFeatureMedia($articleMedia);
+                }
             }
 
             if (null !== ($packageItems = $packageItem->getItems()) && 0 !== $packageItems->count()) {
