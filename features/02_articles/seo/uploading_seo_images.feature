@@ -43,12 +43,15 @@ Feature: Adding article SEO metadata
 
     When I go to "/test/lorem"
     Then the response status code should be 200
-    And the response should contain "http://localhost/media/seo/0123456789abc.png"
+    And the response should contain "http://localhost/seo/media/0123456789abc.png"
 
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/lorem"
     Then the response status code should be 200
-    And the JSON node "seo_metadata._links.meta_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
-    And the JSON node "seo_metadata._links.og_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
-    And the JSON node "seo_metadata._links.twitter_media_url.href" should be equal to "http://localhost/media/seo/0123456789abc.png"
+    And the JSON node "seo_metadata._links.meta_media_url.href" should be equal to "http://localhost/seo/media/0123456789abc.png"
+    And the JSON node "seo_metadata._links.og_media_url.href" should be equal to "http://localhost/seo/media/0123456789abc.png"
+    And the JSON node "seo_metadata._links.twitter_media_url.href" should be equal to "http://localhost/seo/media/0123456789abc.png"
+
+    When I send a "GET" request to "http://localhost/seo/media/0123456789abc.png"
+    Then the response status code should be 200

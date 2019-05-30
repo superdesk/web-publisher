@@ -78,6 +78,7 @@ final class CanceledPackageListener
 
         $this->articleManager->flush();
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $event->stopPropagation();
     }
 
     /**

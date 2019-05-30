@@ -18,11 +18,9 @@ namespace SWP\Bundle\SeoBundle\Form\Type;
 
 use SWP\Component\Seo\Model\SeoMetadata;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 
 final class SeoMetadataType extends AbstractType
@@ -56,39 +54,6 @@ final class SeoMetadataType extends AbstractType
             ])
             ->add('twitterTitle', TextType::class, [
                 'constraints' => new Length(['max' => self::MAX_LIMIT]),
-            ])
-            ->add('metaMediaFile', FileType::class, [
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5120k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                    ]),
-                ],
-            ])
-            ->add('ogMediaFile', FileType::class, [
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5120k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                    ]),
-                ],
-            ])
-            ->add('twitterMediaFile', FileType::class, [
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5120k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                    ]),
-                ],
             ])
         ;
     }
