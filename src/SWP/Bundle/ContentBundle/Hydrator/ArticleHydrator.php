@@ -42,7 +42,6 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
     public function hydrate(ArticleInterface $article, PackageInterface $package): ArticleInterface
     {
-        $package->setByLine($package->getByLine());
         $article->setCode($package->getGuid());
 
         if (null === ($body = $package->getBody())) {
