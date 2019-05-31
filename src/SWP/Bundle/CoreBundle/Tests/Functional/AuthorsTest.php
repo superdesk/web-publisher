@@ -47,7 +47,7 @@ final class AuthorsTest extends WebTestCase
 
         self::assertEquals('published', $content['status']);
         self::assertTrue($content['isPublishable']);
-        self::assertEquals($content['metadata']['byline'], 'Item 1 Author, Item 2 author, Item 3 author');
+        self::assertEquals($content['metadata']['byline'], 'Package Creator');
     }
 
     public function testFallbackToPackageBylineOnContentPush()
