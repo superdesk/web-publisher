@@ -21,8 +21,10 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
     private $clientRegistry;
     private $em;
 
-    public function(ClientRegistry $clientRegistry, EntityManagerInterface $em) 
-    {
+    public function __construct(
+        ClientRegistry $clientRegistry,
+        EntityManagerInterface $em
+    ) {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
     }
@@ -51,7 +53,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         }
 
         // Create a new user
-        $newUser = $this->em->getRepository(User::class)
+        $newUser = $this->em->getRepository(User::class);
     }
 
     private function getOauthClient()
