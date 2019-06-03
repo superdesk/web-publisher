@@ -51,6 +51,7 @@ security:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
                     - swp.security.token_authenticator
+                    - swp.security.external_oauth_authenticator
             stateless: true
         preview:
             pattern: ^/preview/package
