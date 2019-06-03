@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Twig;
 
 use Symfony\Bridge\Twig\Extension\RoutingExtension as SymfonyRoutingExtension;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
@@ -29,7 +30,7 @@ class RoutingExtension extends SymfonyRoutingExtension
     {
         try {
             return parent::getPath($name, $parameters, $relative);
-        } catch (RouteNotFoundException $e) {
+        } catch (RouteNotFoundException | MissingMandatoryParametersException | InvalidParameterException $e) {
             // allow empty path
         }
     }
@@ -41,7 +42,7 @@ class RoutingExtension extends SymfonyRoutingExtension
     {
         try {
             return parent::getUrl($name, $parameters, $schemeRelative);
-        } catch (RouteNotFoundException | MissingMandatoryParametersException $e) {
+        } catch (RouteNotFoundException | MissingMandatoryParametersException | InvalidParameterException $e) {
             // allow empty url
         }
     }
