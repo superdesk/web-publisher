@@ -38,19 +38,12 @@ class ArticleEventsExtensionTest extends WebTestCase
     public function testRenderLinkImpressionCount()
     {
         $this->assertEquals("<script type=\"text/javascript\">
-let arr = [];
-const l = document.links, hostname = window.location.hostname;
+let arr = [], links = [], l = document.links;
+const hostname = window.location.hostname;
 
-for(var i=0; i<l.length; i++) {
-    const attr = l[i].dataset['article'];
-    if(typeof attr !== 'undefined' && arr.indexOf(attr) === -1){arr.push(attr);}
-}
-
-if (arr.length == 0) {
-    for(var i=0; i<l.length; i++) {
-      if(arr.indexOf(l[i].href) === -1 && l[i].href.indexOf(hostname) !== -1){arr.push(l[i].href);}
-    }
-}
+for(var i=0; i<l.length; i++) {const parts = l[i].pathname.split('/');if (parts.length > 2) {links.push(l[i])}}
+for(var i=0; i<links.length; i++) {const attr = links[i].dataset['article'];if(typeof attr !== 'undefined' && arr.indexOf(attr) === -1){arr.push(attr); links.splice(i, 1);}}
+for(var i=0; i<links.length; i++){if(arr.indexOf(links[i].href) === -1 && links[i].href.indexOf(hostname) !== -1){arr.push(links[i].href);}}
 
 var xhr = new XMLHttpRequest();
 var read_date = new Date();
