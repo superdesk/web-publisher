@@ -1,10 +1,10 @@
-auth2_client:
+knpu_oauth2_client:
     clients:
         # will create service: "knpu.oauth2.client.generic_oauth"
         # an instance of: KnpU\OAuth2ClientBundle\Client\OAuth2Client
         generic_oauth:
             type: generic
-            provider_class: SWP\Bundle\CoreBundle
+            provider_class: SWP\Bundle\CoreBundle\Security\Provider\ExternalOauthProvider
 
             # optional: a class that extends OAuth2Client
             # client_class: Some\Custom\Client
@@ -13,8 +13,8 @@ auth2_client:
             # provider_options: {}
 
             # now, all the normal options!
-            client_id: '%env(OAUTH_CLIENT_ID)%'
-            client_secret: '%env(OAUTH_CLIENT_SECRET)%'
+            client_id: '%env(EXTERNAL_OAUTH_CLIENT_ID)%'
+            client_secret: '%env(EXTERNAL_OAUTH_CLIENT_SECRET)%'
             redirect_route: connect_oauth_check
             redirect_params: {}
 
