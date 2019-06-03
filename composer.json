@@ -93,6 +93,7 @@
     "knplabs/knp-menu-bundle": "^2.1",
     "knplabs/knp-paginator-bundle": "^2.4",
     "knplabs/knp-time-bundle": "^1.9",
+    "knpuniversity/oauth2-client-bundle": "^1.28",
     "layershifter/tld-extract": "^2.0",
     "league/flysystem-aws-s3-v3": "^1.0",
     "lexik/jwt-authentication-bundle": "^2.5",
