@@ -38,10 +38,20 @@ class ArticleEventsExtensionTest extends WebTestCase
     public function testRenderLinkImpressionCount()
     {
         $this->assertEquals("<script type=\"text/javascript\">
-var arr = [], l = document.links;
+let arr = [];
+const l = document.links, hostname = window.location.hostname;
+
 for(var i=0; i<l.length; i++) {
-  if(arr.indexOf(l[i].href) === -1){arr.push(l[i].href);}
+    const attr = l[i].dataset['article'];
+    if(typeof attr !== 'undefined' && arr.indexOf(attr) === -1){arr.push(attr);}
 }
+
+if (arr.length == 0) {
+    for(var i=0; i<l.length; i++) {
+      if(arr.indexOf(l[i].href) === -1 && l[i].href.indexOf(hostname) !== -1){arr.push(l[i].href);}
+    }
+}
+
 var xhr = new XMLHttpRequest();
 var read_date = new Date();
 var request_randomizer = \"&\" + read_date.getTime() + Math.random();
