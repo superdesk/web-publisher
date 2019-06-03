@@ -225,6 +225,12 @@ services:
         public: true
         parent: swp.security.token_authenticator
 
+    swp.security.external_oauth_authenticator:
+        class: SWP\Bundle\CoreBundle\Security\Authenticator\ExternalOAuthAuthenticator
+        arguments:
+            - "@knpu.oauth2.registry"
+            - "@doctrine.orm.entity_manager"
+
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
         arguments:
