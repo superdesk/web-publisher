@@ -73,7 +73,7 @@ class MediaManager implements MediaManagerInterface
     public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH): string
     {
         $uri = $this->assetLocationResolver->getAssetUrl($media);
-        if (preg_match('/http(s?)\:\/\//i', $uri)) {
+        if (0 === strpos($uri, 'http')) {
             return $uri;
         }
 
@@ -89,6 +89,10 @@ class MediaManager implements MediaManagerInterface
     public function saveFile(UploadedFile $uploadedFile, $fileName): void
     {
         $filePath = $this->assetLocationResolver->getMediaBasePath().'/'.$fileName.'.'.$this->guessExtension($uploadedFile);
+        if ($this->filesystem->has($filePath)) {
+            return;
+        }
+
         $stream = fopen($uploadedFile->getRealPath(), 'rb+');
         $this->filesystem->writeStream($filePath, $stream);
         fclose($stream);
