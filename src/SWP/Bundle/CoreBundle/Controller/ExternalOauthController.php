@@ -15,8 +15,10 @@ class ExternalOauthController extends Controller
     /**
      * @Route("/connect/oauth", name="connect_oauth_start")
      */
-    public function connectAction(ClientRegistry $clientRegistry)
+    public function connectAction(Request $request)
     {
+        $clientRegistry = $this->get('knpu.oauth2.registry');
+
         return $clientRegistry
             ->getClient('external_oauth')
             ->redirect([
@@ -29,8 +31,9 @@ class ExternalOauthController extends Controller
      * This is where the user is redirected after being authenticated by the OAuth server.
      * @Route("/connect/oauth/check", name="connect_oauth_check")
      */
-    public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
+    public function connectCheckAction(Request $request)
     {
+        $clientRegistry = $this->get('knpu.oauth2.registry');
         $client = $clientRegistry->getClient('external_oauth');
 
         try {
