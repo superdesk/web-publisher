@@ -90,14 +90,21 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
+
+        return new Response($message, Response:HTTP_FORBIDDEN);
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
+        return new RedirectResponse(
+            '/connect/oauth/',
+            Response::HTTP_TEMPORARY_REDIRECT
+        );
     }
-
 }
