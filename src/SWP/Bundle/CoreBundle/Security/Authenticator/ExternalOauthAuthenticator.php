@@ -58,7 +58,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
     private function getOauthClient()
     {
-        return $this->clientRegistry->getClient('oauth_client');
+        return $this->clientRegistry->getClient('external_oauth');
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
