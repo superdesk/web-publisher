@@ -36,9 +36,11 @@ class ExternalOauthController extends Controller
         $clientRegistry = $this->get('knpu.oauth2.registry');
         $client = $clientRegistry->getClient('external_oauth');
 
+        $accessToken = $client->getAccessToken();
+
         try {
-            $oauthUser = $client->fetchUser();
-        } catch(IdentityProvderException $e) {
+            $oauthUser = $client->fetchUserFromToken($accessToken);
+        } catch(IdentityProviderException $e) {
             var_dump($e->getMessage()); die;
         }
     }
