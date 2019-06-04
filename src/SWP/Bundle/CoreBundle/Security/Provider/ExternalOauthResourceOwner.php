@@ -33,6 +33,6 @@ class ExternalOauthResourceOwner extends ResourceOwnerInterface
 
     public function toArray()
     {
-        return $this->getValueByKey($this->response);
+        return $this->response;
     }
 }
