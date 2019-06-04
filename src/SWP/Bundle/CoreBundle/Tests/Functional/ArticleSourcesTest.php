@@ -88,7 +88,6 @@ final class ArticleSourcesTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
 
         $client->request(
             'GET',
@@ -99,7 +98,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset([['id' => 1, 'name' => 'FOX News'], ['id' => 2, 'name' => 'CNN']], $content['_embedded']['_items']);
+        self::assertArraySubset([['id' => 1, 'name' => 'FOX News']], $content['_embedded']['_items']);
     }
 
     public function testArticleSourcesIfAreNotDuplicated()
@@ -176,7 +175,6 @@ final class ArticleSourcesTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
 
         $client->request(
             'GET',
@@ -187,7 +185,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset([['id' => 1, 'name' => 'FOX News'], ['id' => 2, 'name' => 'CNN']], $content['_embedded']['_items']);
+        self::assertArraySubset([['id' => 1, 'name' => 'FOX News']], $content['_embedded']['_items']);
     }
 
     public function testArticleSourcesWithDifferentTenants()
@@ -257,7 +255,6 @@ final class ArticleSourcesTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
 
         $client2->request(
             'GET',
@@ -268,8 +265,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client2->getResponse()->getContent(), true);
 
-        self::assertArraySubset(['id' => 3, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
-        self::assertArraySubset(['id' => 4, 'name' => 'CNN'], $content['sources'][1]['articleSource']);
+        self::assertArraySubset(['id' => 2, 'name' => 'FOX News'], $content['sources'][0]['articleSource']);
 
         $client->request(
             'GET',
@@ -280,7 +276,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset([['id' => 1, 'name' => 'FOX News'], ['id' => 2, 'name' => 'CNN']], $content['_embedded']['_items']);
+        self::assertArraySubset([['id' => 1, 'name' => 'FOX News']], $content['_embedded']['_items']);
 
         $client2->request(
             'GET',
@@ -291,7 +287,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client2->getResponse()->getContent(), true);
 
-        self::assertArraySubset([['id' => 3, 'name' => 'FOX News'], ['id' => 4, 'name' => 'CNN']], $content['_embedded']['_items']);
+        self::assertArraySubset([['id' => 2, 'name' => 'FOX News']], $content['_embedded']['_items']);
     }
 
     private function createRoute()

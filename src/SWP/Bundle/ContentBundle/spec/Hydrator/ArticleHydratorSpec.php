@@ -70,9 +70,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
-        $package->getByLine()->shouldBeCalled()->willReturn('Person');
         $package->getKeywords()->shouldBeCalled()->willReturn(['key1', 'key2']);
-        $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
+        $package->getItems()->willReturn(new ArrayCollection([$item]));
         $package->getSource()->willReturn('package_source');
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
@@ -84,7 +83,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setAuthors($authors)->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
-        $article->setBody('some package body some item body')->shouldBeCalled();
+        $article->setBody('some package body')->shouldBeCalled();
         $article->setLead('package lead')->shouldBeCalled();
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
@@ -95,7 +94,6 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setSlug('item headline')->shouldNotBeCalled();
         $article->getRoute()->shouldBeCalled()->willReturn($route);
         $articleSourcesAdder->add($article, 'package_source')->shouldBeCalled();
-        $articleSourcesAdder->add($article, 'item_source')->shouldBeCalled();
 
         $this->hydrate($article, $package)->shouldReturn($article);
     }
@@ -123,9 +121,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
-        $package->getByLine()->shouldBeCalled()->willReturn('Person');
         $package->getKeywords()->shouldBeCalled()->willReturn(['key1', 'key2']);
-        $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
+        $package->getItems()->willReturn(new ArrayCollection([$item]));
         $package->getSource()->willReturn('package_source');
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
@@ -138,7 +135,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->getSlug()->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
-        $article->setBody('some package body some item body')->shouldBeCalled();
+        $article->setBody('some package body')->shouldBeCalled();
         $article->setLead('package lead')->shouldBeCalled();
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
@@ -151,33 +148,5 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $articleSourcesAdder->add($article, 'package_source')->shouldBeCalled();
 
         $this->hydrate($article, $package)->shouldReturn($article);
-    }
-
-    public function it_throws_an_exception_when_item_type_not_allowed(
-        PackageInterface $package,
-        ArticleInterface $article,
-        RouteInterface $route
-    ) {
-        $item = new Item();
-        $item->setBody('some item body');
-        $item->setType('fake');
-
-        $package->getGuid()->shouldNotBeCalled();
-        $package->getHeadline()->shouldNotBeCalled();
-        $package->getBody()->shouldNotBeCalled();
-        $package->getKeywords()->shouldNotBeCalled();
-        $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
-        $package->getLanguage()->shouldNotBeCalled();
-        $package->getMetadata()->shouldNotBeCalled();
-
-        $article->setTitle('item headline')->shouldNotBeCalled();
-        $article->setBody('some package body some item body')->shouldNotBeCalled();
-        $article->setLocale('en')->shouldNotBeCalled();
-        $article->setRoute($route)->shouldNotBeCalled();
-        $article->setMetadata(['some' => 'meta'])->shouldNotBeCalled();
-        $article->setKeywords(['key1', 'key2'])->shouldNotBeCalled();
-
-        $this->shouldThrow(\InvalidArgumentException::class)
-            ->duringHydrate($article, $package);
     }
 }

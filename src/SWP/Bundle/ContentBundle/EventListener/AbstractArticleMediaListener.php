@@ -61,10 +61,6 @@ abstract class AbstractArticleMediaListener
 
         $this->articleBodyProcessor->process($article, $articleMedia);
 
-        if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
-            $article->setFeatureMedia($articleMedia);
-        }
-
         return $articleMedia;
     }
 

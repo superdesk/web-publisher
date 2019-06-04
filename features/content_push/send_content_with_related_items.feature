@@ -50,10 +50,53 @@ Feature: Related items support
       ],
       "description_html":"<p><b><u>some abstract text related 1</u></b></p>",
       "located":"Warsaw",
-      "pubstatus":"usable"
+      "pubstatus":"usable",
+      "associations":{
+        "featuremedia":{
+          "authors":[
+            {
+              "role":"photographer",
+              "biography":"",
+              "name":"Doe"
+            }
+          ],
+          "versioncreated":"2018-12-31T10:10:02+0000",
+          "language":"en",
+          "renditions":{
+            "original":{
+              "mimetype":"image/jpeg",
+              "height":2000,
+              "media":"1234567890987654321b",
+              "href":"http://localhost:3000/api/upload/1234567890987654321b/raw?_schema=http",
+              "width":3000
+            }
+          },
+          "usageterms":"",
+          "copyrightnotice":"",
+          "byline":"Doe",
+          "copyrightholder":"",
+          "type":"picture",
+          "body_html":"",
+          "pubstatus":"usable",
+          "headline":"Sad",
+          "body_text":"Sad",
+          "keywords":[
+
+          ],
+          "guid":"http://localhost:3000/api/upload/20181231111216/5c29ece5d05508291620aa51jpeg.jpg",
+          "version":"1",
+          "priority":5,
+          "description_text":"Sad"
+        }
+      }
     }
     """
     Then the response status code should be 201
+
+    Given default tenant with code "123abc"
+    Given the following Routes:
+      |  name | type       | slug | templateName               |
+      |  test | collection | test | related_articles.html.twig |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
@@ -64,7 +107,8 @@ Feature: Related items support
           "destinations":[
             {
               "tenant":"123abc",
-              "published":true
+              "published":true,
+              "route": 7
             }
           ]
         }
@@ -219,6 +263,42 @@ Feature: Related items support
       "located":"Warsaw",
       "pubstatus":"usable",
       "associations":{
+        "featuremedia":{
+          "authors":[
+            {
+              "role":"photographer",
+              "biography":"",
+              "name":"Doe"
+            }
+          ],
+          "versioncreated":"2018-12-31T10:10:02+0000",
+          "language":"en",
+          "renditions":{
+            "original":{
+              "mimetype":"image/jpeg",
+              "height":2000,
+              "media":"1234567890987654321a",
+              "href":"http://localhost:3000/api/upload/1234567890987654321a/raw?_schema=http",
+              "width":3000
+            }
+          },
+          "usageterms":"",
+          "copyrightnotice":"",
+          "byline":"Doe",
+          "copyrightholder":"",
+          "type":"picture",
+          "body_html":"",
+          "pubstatus":"usable",
+          "headline":"Sad",
+          "body_text":"Sad",
+          "keywords":[
+
+          ],
+          "guid":"http://localhost:3000/api/upload/20181231111216/5c29ece5d05508291620aa50jpeg.jpg",
+          "version":"1",
+          "priority":5,
+          "description_text":"Sad"
+        },
         "related--item1":{
           "language":"en",
           "slugline":"abstract-html-test-1",
@@ -261,7 +341,45 @@ Feature: Related items support
           ],
           "description_html":"<p><b><u>some abstract text related 1</u></b></p>",
           "located":"Warsaw",
-          "pubstatus":"usable"
+          "pubstatus":"usable",
+          "associations": {
+            "featuremedia":{
+              "authors":[
+                {
+                  "role":"photographer",
+                  "biography":"",
+                  "name":"Doe"
+                }
+              ],
+              "versioncreated":"2018-12-31T10:10:02+0000",
+              "language":"en",
+              "renditions":{
+                "original":{
+                  "mimetype":"image/jpeg",
+                  "height":2000,
+                  "media":"1234567890987654321b",
+                  "href":"http://localhost:3000/api/upload/1234567890987654321b/raw?_schema=http",
+                  "width":3000
+                }
+              },
+              "usageterms":"",
+              "copyrightnotice":"",
+              "byline":"Doe",
+              "copyrightholder":"",
+              "type":"picture",
+              "body_html":"",
+              "pubstatus":"usable",
+              "headline":"Sad",
+              "body_text":"Sad",
+              "keywords":[
+
+              ],
+              "guid":"http://localhost:3000/api/upload/20181231111216/5c29ece5d05508291620aa51jpeg.jpg",
+              "version":"1",
+              "priority":5,
+              "description_text":"Sad"
+            }
+          }
         },
         "related--item2":{
           "language":"en",
@@ -321,7 +439,8 @@ Feature: Related items support
           "destinations":[
             {
               "tenant":"123abc",
-              "published":true
+              "published":true,
+              "route": 7
             }
           ]
         }
@@ -333,6 +452,9 @@ Feature: Related items support
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
     Then the response status code should be 200
+    And the JSON node "body" should be equal to "<p>some html body</p>"
+    And the JSON node "featureMedia.image.assetId" should be equal to "1234567890987654321a"
+    And the JSON node "featureMedia._links.download.href" should be equal to "/media/1234567890987654321a.png"
     And the JSON nodes should contain:
       | _links.related.href  | /api/v1/content/articles/7/related/  |
 
@@ -347,6 +469,14 @@ Feature: Related items support
     And the JSON node "_embedded._items[0].article.id" should be equal to 6
     And the JSON node "_embedded._items[0].updatedAt" should exist
     And the JSON node "_embedded._items[0].createdAt" should exist
+    And the JSON node "_embedded._items[0].article.featureMedia.image.assetId" should be equal to "1234567890987654321b"
+
+    When I go to "/test/abstract-html-test"
+    Then the response status code should be 200
+    And the response should contain "http://localhost/media/1234567890987654321a.png"
+    And the response should contain "some html body"
+    And the response should contain "hello world 1"
+    And the response should contain "http://localhost/media/1234567890987654321b.png"
 
     Then I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/push" with body:
