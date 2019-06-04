@@ -12,17 +12,17 @@ class ExternalOauthProvider extends AbstractProvider
 {
     public function getBaseAuthorizationUrl()
     {
-        return 'https://dev-sxtg2-xy.eu.auth0.com/authorize';
+        return getenv('EXTERNAL_OAUTH_BASE_URL') . '/authorize';
     }
 
     public function getBaseAccessTokenUrl(array $params)
     {
-        return 'https://dev-sxtg2-xy.eu.auth0.com/oauth/token';
+        return getenv('EXTERNAL_OAUTH_BASE_URL') . '/oauth/token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return 'https://dev-sxtg2-xy.eu.auth0.com/userinfo';
+        return getenv('EXTERNAL_OAUTH_BASE_URL') . '/userinfo';
     }
 
     protected function getDefaultScopes()
