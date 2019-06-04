@@ -25,6 +25,8 @@ class ExternalOauthController extends Controller
     }
 
     /**
+     * This is the redirect route.
+     * This is where the user is redirected after being authenticated by the OAuth server.
      * @Route("/connect/oauth/check", name="connect_oauth_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
