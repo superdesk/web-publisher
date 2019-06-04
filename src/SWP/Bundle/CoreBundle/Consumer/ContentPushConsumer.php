@@ -18,6 +18,8 @@ namespace SWP\Bundle\CoreBundle\Consumer;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
+use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
@@ -84,9 +86,9 @@ class ContentPushConsumer implements ConsumerInterface
     {
         try {
             return $this->doExecute($msg);
-        } catch (DBALException $e) {
+        } catch (DBALException | ORMException $e) {
             throw $e;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
             return ConsumerInterface::MSG_REJECT;

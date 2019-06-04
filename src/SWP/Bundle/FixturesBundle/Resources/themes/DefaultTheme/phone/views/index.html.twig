@@ -18,5 +18,5 @@
 
 {% block template_code%}
 <h3>Template code used to render that page <small><a href="#" class="js-toggle-code">show/hide</a></small></h3>
-<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+<pre class="js-template-code" style="display:none;">{{ source(_self)|escape('html') }}</pre>
 {% endblock %}

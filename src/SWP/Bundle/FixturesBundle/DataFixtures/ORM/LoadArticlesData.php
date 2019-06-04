@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Behat\Transliterator\Transliterator;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
@@ -36,7 +35,7 @@ use SWP\Bundle\FixturesBundle\Faker\Provider\ArticleDataProvider;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterface
 {
     private $manager;
 
@@ -587,7 +586,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $articleStatistics->setArticle($article);
         $articleStatistics->setPageViewsNumber($pageViewsNumber);
 
-        $count = 0;
         foreach ($pageViewsDates as $dateValue => $number) {
             for ($i = $number; $i > 0; --$i) {
                 $articleEvent = new ArticleEvent();
@@ -598,7 +596,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $date->setTime(mt_rand(0, 23), (int) str_pad((string) mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
                 $articleEvent->setCreatedAt($date);
                 $manager->persist($articleEvent);
-                ++$count;
             }
         }
 
