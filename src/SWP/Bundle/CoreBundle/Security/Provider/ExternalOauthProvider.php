@@ -33,7 +33,7 @@ class ExternalOauthProvider extends AbstractProvider
     protected function checkResponse(ResponseInterface $response, $data)
     {
         if($response->getStatusCode() >= 400) {
-            return new IdentifyProviderException(
+            return new IdentityProviderException(
                 $data['error'] ?: $response->getReasonPhrase(),
                 $response->getStatusCode(),
                 (string) $response->getBody());
