@@ -18,7 +18,7 @@ class ExternalOauthController extends Controller
     public function connectAction(ClientRegistry $clientRegistry)
     {
         return $clientRegistry
-            ->getClient('oatuh_client')
+            ->getClient('external_oauth')
             ->redirect([
                 'openid', 'email'
             ]);
@@ -29,7 +29,7 @@ class ExternalOauthController extends Controller
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {
-        $client = $clientRegistry->getClient('oauth_client');
+        $client = $clientRegistry->getClient('external_oauth');
 
         try {
             $oauthUser = $client->fetchUser();

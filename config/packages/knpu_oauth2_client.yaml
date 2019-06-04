@@ -2,7 +2,7 @@ knpu_oauth2_client:
     clients:
         # will create service: "knpu.oauth2.client.generic_oauth"
         # an instance of: KnpU\OAuth2ClientBundle\Client\OAuth2Client
-        generic_oauth:
+        external_oauth:
             type: generic
             provider_class: SWP\Bundle\CoreBundle\Security\Provider\ExternalOauthProvider
 
