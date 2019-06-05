@@ -18,6 +18,7 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\AddCustomTwigCachePass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OrganizationThemesProviderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleSourceAdderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideAssetLocationResolver;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideBodyListenerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideEmbeddedImageProcessorPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaFactoryPass;
@@ -70,6 +71,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideMediaFactoryPass());
         $container->addCompilerPass(new OverrideSerializerPass());
         $container->addCompilerPass(new OverrideEmbeddedImageProcessorPass());
+        $container->addCompilerPass(new OverrideBodyListenerPass());
     }
 
     /**
