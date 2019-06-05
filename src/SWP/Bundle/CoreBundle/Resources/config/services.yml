@@ -576,6 +576,7 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '@router'
             - '@swp.resolver.article'
+            - '@swp.object_manager.article_statistics'
 
     SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
         arguments:

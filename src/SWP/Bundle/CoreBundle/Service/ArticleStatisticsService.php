@@ -159,7 +159,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         $articleEvent->setImpressionRoute($sourceRoute);
         $articleEvent->setImpressionType($type);
         $articleStatistics->setImpressionsNumber($this->articleEventRepository->getCountForArticleAllImpressions($article) + 1);
-        $this->articleStatisticsRepository->add($articleStatistics);
+        $this->articleStatisticsRepository->persist($articleStatistics);
     }
 
     private function getArticleEvent(

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Consumer;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
@@ -60,18 +61,22 @@ final class AnalyticsEventConsumer implements ConsumerInterface
      */
     private $articleResolver;
 
+    private $articleStatisticsObjectManager;
+
     public function __construct(
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
         TenantContextInterface $tenantContext,
         UrlMatcherInterface $matcher,
-        ArticleResolverInterface $articleResolver
+        ArticleResolverInterface $articleResolver,
+        ObjectManager $articleStatisticsObjectManager
     ) {
         $this->articleStatisticsService = $articleStatisticsService;
         $this->tenantResolver = $tenantResolver;
         $this->tenantContext = $tenantContext;
         $this->matcher = $matcher;
         $this->articleResolver = $articleResolver;
+        $this->articleStatisticsObjectManager = $articleStatisticsObjectManager;
     }
 
     /**
@@ -119,7 +124,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
 
         foreach ($request->attributes->get('data') as $articleId) {
-            if (!is_numeric($articleId)) {
+            if (filter_var($articleId, FILTER_VALIDATE_URL)) {
                 try {
                     $article = $this->articleResolver->resolve($articleId);
                     if (null === $article) {
@@ -147,6 +152,8 @@ final class AnalyticsEventConsumer implements ConsumerInterface
             );
             echo 'Article '.$articleId." impression was added \n";
         }
+
+        $this->articleStatisticsObjectManager->flush();
     }
 
     private function handleArticlePageViews(Request $request): void
