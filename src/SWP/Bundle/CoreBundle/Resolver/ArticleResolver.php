@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Resolver;
 
+use Doctrine\Common\Cache\CacheProvider;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -26,17 +28,42 @@ class ArticleResolver implements ArticleResolverInterface
      */
     private $matcher;
 
-    public function __construct(UrlMatcherInterface $matcher)
+    private $cacheProvider;
+
+    public function __construct(UrlMatcherInterface $matcher, CacheProvider $cacheProvider)
     {
         $this->matcher = $matcher;
+        $this->cacheProvider = $cacheProvider;
     }
 
     public function resolve(string $url): ?ArticleInterface
     {
+        $collectionRouteCacheKey = md5('route_'.md5($url));
+        $articleCacheKey = md5('article_'.md5($url));
+
+        if ($this->cacheProvider->contains($collectionRouteCacheKey)) {
+            return $this->cacheProvider->fetch($articleCacheKey);
+        }
+
+        if ($this->cacheProvider->contains($collectionRouteCacheKey)) {
+            return null;
+        }
+
         try {
             $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
+
             if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && ($article = $route['_article_meta']->getValues()) instanceof ArticleInterface) {
+                $this->cacheProvider->save($articleCacheKey, $article);
+
                 return $article;
+            }
+
+            if (isset($route['_route_meta']) &&
+                $route['_route_meta'] instanceof Meta &&
+                $route['_route_meta']->getValues() instanceof RouteInterface &&
+                RouteInterface::TYPE_COLLECTION === $route['_route_meta']->getValues()->getType()
+            ) {
+                $this->cacheProvider->save($collectionRouteCacheKey, null);
             }
         } catch (ResourceNotFoundException $e) {
             return null;

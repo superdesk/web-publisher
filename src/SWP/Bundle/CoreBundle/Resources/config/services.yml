@@ -763,6 +763,7 @@ services:
         public: true
         arguments:
             - '@router'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\CoreBundle\EventListener\SetArticlePublishDateListener:
         arguments:

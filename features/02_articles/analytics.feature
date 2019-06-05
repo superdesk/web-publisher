@@ -18,7 +18,7 @@ Feature: Collect article statistics
     And I add "Referer" header equal to "http://localhost/news/test-news-article"
     When I send a POST request to "/_swp_analytics?type=impression&15362257892160.335822969944755" with body:
     """
-      ["http://localhost/news/test-news-article", "http://facebook.com"]
+      ["http://localhost/news", "http://localhost/news/test-news-article", "http://example.com"]
     """
     Then the response status code should be 200
     And the header "terminate-immediately" should be equal to "1"
