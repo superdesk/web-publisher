@@ -117,34 +117,30 @@ final class AnalyticsEventConsumer implements ConsumerInterface
             return;
         }
 
-        foreach ($request->attributes->get('data') as $url) {
-            try {
-                $article = $this->articleResolver->resolve($url);
-            } catch (\Exception $e) {
-                $article = null;
+        foreach ($request->attributes->get('data') as $articleId) {
+            if (!is_numeric($articleId)) {
+                $article = $this->articleResolver->resolve($articleId);
+                if (null === $article) {
+                    continue;
+                }
+
+                $articleId = $article->getId();
             }
 
-            if (null !== $article) {
-                $articleId = $article->getId();
-                if (!\array_key_exists($articleId, $articles)) {
-                    $articles[$articleId] = $article;
-                }
+            if (!\array_key_exists($articleId, $articles)) {
+                $articles[] = $articleId;
             }
         }
 
-        foreach ($articles as $article) {
-            try {
-                $impressionSource = $this->getImpressionSource($request);
-            } catch (\Exception $e) {
-                continue;
-            }
+        $impressionSource = $this->getImpressionSource($request);
 
+        foreach ($articles as $articleId) {
             $this->articleStatisticsService->addArticleEvent(
-                (int) $article->getId(),
+                (int) $articleId,
                 ArticleEventInterface::ACTION_IMPRESSION,
                 $impressionSource
             );
-            echo 'Article '.$article->getId()." impression was added \n";
+            echo 'Article '.$articleId." impression was added \n";
         }
     }
 
@@ -162,6 +158,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
     {
         $source = [];
         $referrer = $request->server->get('HTTP_REFERER');
+
         if (null === $referrer) {
             return $source;
         }
