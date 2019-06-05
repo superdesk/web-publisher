@@ -41,7 +41,7 @@ class ArticleResolver implements ArticleResolverInterface
         $collectionRouteCacheKey = md5('route_'.md5($url));
         $articleCacheKey = md5('article_'.md5($url));
 
-        if ($this->cacheProvider->contains($collectionRouteCacheKey)) {
+        if ($this->cacheProvider->contains($articleCacheKey)) {
             return $this->cacheProvider->fetch($articleCacheKey);
         }
 
