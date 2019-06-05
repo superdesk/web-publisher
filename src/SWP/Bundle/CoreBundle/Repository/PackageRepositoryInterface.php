@@ -16,8 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Repository;
 
+use Doctrine\ORM\QueryBuilder;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface PackageRepositoryInterface extends RepositoryInterface
 {
+    public function applyCriteria(QueryBuilder $queryBuilder, Criteria $criteria, string $alias);
 }
