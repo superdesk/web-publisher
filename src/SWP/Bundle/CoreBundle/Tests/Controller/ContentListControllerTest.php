@@ -1,4 +1,4 @@
-SWP\Bundle\CoreBundle\Tests\Functional\PackagePreviewTest<?php
+<?php
 
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
