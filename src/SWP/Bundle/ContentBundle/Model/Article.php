@@ -170,6 +170,11 @@ class Article implements ArticleInterface
         $this->isPublishable = $boolean;
     }
 
+    public function setIsPublishable(bool $boolean): void
+    {
+        $this->setPublishable($boolean);
+    }
+
     public function isPublished()
     {
         return ArticleInterface::STATUS_PUBLISHED === $this->getStatus();

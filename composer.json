@@ -48,6 +48,10 @@
         {
             "type": "vcs",
             "url": "https://gitbox.apache.org/repos/asf/logging-log4php.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/takeit/amp-library.git"
         }
     ],
     "require": {
@@ -118,7 +122,8 @@
         "rdx/behat-variables": "^1.2",
         "apache/log4php": "^2.3",
         "takeit/amp-html-bundle": "^1.0",
-        "blackfire/php-sdk": "^1.17"
+        "blackfire/php-sdk": "^1.17",
+        "lullabot/amp": "dev-invalid-tags as 1.1.1"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

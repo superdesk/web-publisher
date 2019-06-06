@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f979a08d3f3f29f6cc7a44d29f0abfce",
+    "content-hash": "053883cd016979030065261f9ba12087",
     "packages": [
         {
             "name": "apache/log4php",
@@ -4941,16 +4941,16 @@
         },
         {
             "name": "lullabot/amp",
-            "version": "1.1.4",
+            "version": "dev-invalid-tags",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Lullabot/amp-library.git",
-                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d"
+                "url": "https://github.com/takeit/amp-library.git",
+                "reference": "fd100bae7f0af60a8d69bf526b35ae3f95074640"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Lullabot/amp-library/zipball/54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
-                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
+                "url": "https://api.github.com/repos/takeit/amp-library/zipball/fd100bae7f0af60a8d69bf526b35ae3f95074640",
+                "reference": "fd100bae7f0af60a8d69bf526b35ae3f95074640",
                 "shasum": ""
             },
             "require": {
@@ -4976,7 +4976,6 @@
                     "Lullabot\\AMP\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -4989,11 +4988,14 @@
             "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
             "homepage": "https://github.com/Lullabot/amp-library",
             "keywords": [
-                "amp",
-                "drupal",
+                "AMP",
+                "Drupal",
                 "mobile"
             ],
-            "time": "2018-11-29T12:40:29+00:00"
+            "support": {
+                "source": "https://github.com/takeit/amp-library/tree/invalid-tags"
+            },
+            "time": "2019-06-17T09:33:20+00:00"
         },
         {
             "name": "marc1706/fast-image-size",
@@ -11231,7 +11233,7 @@
                     "email": "shelburt02@gmail.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -12791,17 +12793,6 @@
         {
             "name": "roave/security-advisories",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/1dfa887a7e87ba9b7c635299462554b9ad241d5b",
-                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b",
-                "shasum": ""
-            },
             "conflict": {
                 "3f/pygmentize": "<1.2",
                 "adodb/adodb-php": "<5.20.12",
@@ -13776,6 +13767,12 @@
             "alias_normalized": "1.5.0.0",
             "version": "2.1.9999999.9999999-dev",
             "package": "friendsofsymfony/rest-bundle"
+        },
+        {
+            "alias": "1.1.1",
+            "alias_normalized": "1.1.1.0",
+            "version": "dev-invalid-tags",
+            "package": "lullabot/amp"
         }
     ],
     "minimum-stability": "dev",
@@ -13784,6 +13781,7 @@
         "friendsofsymfony/rest-bundle": 20,
         "burgov/key-value-form-bundle": 0,
         "react/zmq": 20,
+        "lullabot/amp": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
