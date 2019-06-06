@@ -332,6 +332,7 @@ services:
         arguments:
             - '%env(resolve:FS_MAIN_ADAPTER)%'
             - '%env(resolve:FS_AWS_S3_BUCKET)%'
+            - '%env(resolve:FS_AWS_S3_PREFIX)%'
             - '@Aws\S3\S3Client'
             - 'uploads'
 
