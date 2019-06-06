@@ -72,7 +72,7 @@ final class AmpController extends AbstractController
             $elements[] = $object->getId();
         }
 
-        if ($object instanceof TimestampableInterface) {
+        if ($object instanceof TimestampableInterface && null !== $object->getUpdatedAt()) {
             $elements[] = $object->getUpdatedAt()->getTimestamp();
         }
 
