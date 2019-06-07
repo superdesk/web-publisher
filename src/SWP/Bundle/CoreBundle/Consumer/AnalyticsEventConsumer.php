@@ -157,6 +157,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         $impressionSource = $this->getImpressionSource($request);
 
         $this->articleStatisticsObjectManager->getConnection()->beginTransaction();
+
         try {
             try {
                 $stmt = $this->articleStatisticsObjectManager->getConnection()->prepare('LOCK TABLE swp_article_statistics IN EXCLUSIVE MODE;');
@@ -181,6 +182,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
             $this->articleStatisticsObjectManager->getConnection()->commit();
         } catch (\Exception $e) {
             $this->articleStatisticsObjectManager->getConnection()->rollBack();
+
             throw $e;
         }
     }
