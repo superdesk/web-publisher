@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\Resolver;
 
 use Doctrine\Common\Cache\CacheProvider;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -28,6 +27,9 @@ class ArticleResolver implements ArticleResolverInterface
      */
     private $matcher;
 
+    /**
+     * @var CacheProvider
+     */
     private $cacheProvider;
 
     public function __construct(UrlMatcherInterface $matcher, CacheProvider $cacheProvider)
@@ -40,8 +42,10 @@ class ArticleResolver implements ArticleResolverInterface
     {
         $collectionRouteCacheKey = md5('route_'.$url);
 
+        $result = null;
+
         if ($this->cacheProvider->contains($collectionRouteCacheKey)) {
-            return null;
+            return $result;
         }
 
         try {
@@ -50,19 +54,12 @@ class ArticleResolver implements ArticleResolverInterface
             if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && ($article = $route['_article_meta']->getValues()) instanceof ArticleInterface) {
                 return $article;
             }
-
-            if (isset($route['_route_meta']) &&
-                $route['_route_meta'] instanceof Meta &&
-                $route['_route_meta']->getValues() instanceof RouteInterface &&
-                RouteInterface::TYPE_COLLECTION === $route['_route_meta']->getValues()->getType()
-            ) {
-                $this->cacheProvider->save($collectionRouteCacheKey, null);
-            }
         } catch (ResourceNotFoundException $e) {
-            return null;
         }
 
-        return null;
+        $this->cacheProvider->save($collectionRouteCacheKey, $result);
+
+        return $result;
     }
 
     private function getFragmentFromUrl(string $url, string $fragment): ?string

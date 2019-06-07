@@ -127,7 +127,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
 
         $articleEvent = $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_PAGEVIEW);
         $articleEvent->setPageViewSource($pageViewSource);
-        $articleStatistics->setPageViewsNumber($this->articleEventRepository->getCountForArticleAllPageViews($article) + 1);
+
         if (ArticleEventInterface::PAGEVIEW_SOURCE_INTERNAL === $pageViewSource) {
             $internalPageViewsCount = $this->articleEventRepository->getCountForArticleInternalPageViews($article) + 1;
             if ($internalPageViewsCount > 0 && $articleStatistics->getImpressionsNumber() > 0) {
@@ -158,7 +158,6 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         $articleEvent->setImpressionArticle($sourceArticle);
         $articleEvent->setImpressionRoute($sourceRoute);
         $articleEvent->setImpressionType($type);
-        $articleStatistics->setImpressionsNumber($this->articleEventRepository->getCountForArticleAllImpressions($article) + 1);
         $this->articleStatisticsRepository->persist($articleStatistics);
     }
 

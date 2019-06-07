@@ -577,6 +577,7 @@ services:
             - '@router'
             - '@swp.resolver.article'
             - '@swp.object_manager.article_statistics'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
         arguments:

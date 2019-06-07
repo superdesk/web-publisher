@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Consumer;
 
+use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Common\Persistence\ObjectManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -23,6 +24,7 @@ use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleStatistics;
 use SWP\Bundle\CoreBundle\Resolver\ArticleResolverInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
@@ -64,13 +66,16 @@ final class AnalyticsEventConsumer implements ConsumerInterface
 
     private $articleStatisticsObjectManager;
 
+    private $cacheProvider;
+
     public function __construct(
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
         TenantContextInterface $tenantContext,
         UrlMatcherInterface $matcher,
         ArticleResolverInterface $articleResolver,
-        ObjectManager $articleStatisticsObjectManager
+        ObjectManager $articleStatisticsObjectManager,
+        CacheProvider $cacheProvider
     ) {
         $this->articleStatisticsService = $articleStatisticsService;
         $this->tenantResolver = $tenantResolver;
@@ -78,6 +83,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         $this->matcher = $matcher;
         $this->articleResolver = $articleResolver;
         $this->articleStatisticsObjectManager = $articleStatisticsObjectManager;
+        $this->cacheProvider = $cacheProvider;
     }
 
     /**
@@ -125,7 +131,11 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
 
         foreach ($request->attributes->get('data') as $articleId) {
-            if (filter_var($articleId, FILTER_VALIDATE_URL)) {
+            $cacheKey = md5('article_impressions_'.$articleId);
+
+            if ($this->cacheProvider->contains($cacheKey)) {
+                $articleId = $this->cacheProvider->fetch($cacheKey);
+            } elseif (filter_var($articleId, FILTER_VALIDATE_URL)) {
                 try {
                     $article = $this->articleResolver->resolve($articleId);
                     if (null === $article) {
@@ -136,6 +146,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
                 }
 
                 $articleId = $article->getId();
+                $this->cacheProvider->save($cacheKey, $articleId);
             }
 
             if (!\array_key_exists($articleId, $articles)) {
@@ -155,11 +166,15 @@ final class AnalyticsEventConsumer implements ConsumerInterface
             }
 
             foreach ($articles as $articleId) {
-                $this->articleStatisticsService->addArticleEvent(
+                $articleStatistics = $this->articleStatisticsService->addArticleEvent(
                     (int) $articleId,
                     ArticleEventInterface::ACTION_IMPRESSION,
                     $impressionSource
                 );
+                $query = $this->articleStatisticsObjectManager->createQuery('UPDATE '.ArticleStatistics::class.' s SET s.impressionsNumber = s.impressionsNumber + 1 WHERE s.id = :id');
+                $query->setParameter('id', $articleStatistics->getId());
+                $query->execute();
+
                 echo 'Article '.$articleId." impression was added \n";
             }
             $this->articleStatisticsObjectManager->flush();
@@ -174,9 +189,13 @@ final class AnalyticsEventConsumer implements ConsumerInterface
     {
         $articleId = $request->query->get('articleId', null);
         if (null !== $articleId && 0 !== (int) $articleId) {
-            $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW, [
+            $articleStatistics = $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW, [
                 'pageViewSource' => $this->getPageViewSource($request),
             ]);
+
+            $query = $this->articleStatisticsObjectManager->createQuery('UPDATE '.ArticleStatistics::class.' s SET s.pageViewsNumber = s.pageViewsNumber + 1 WHERE s.id = :id');
+            $query->setParameter('id', $articleStatistics->getId());
+            $query->execute();
         }
     }
 
