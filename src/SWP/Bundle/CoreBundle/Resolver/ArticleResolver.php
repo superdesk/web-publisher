@@ -39,11 +39,6 @@ class ArticleResolver implements ArticleResolverInterface
     public function resolve(string $url): ?ArticleInterface
     {
         $collectionRouteCacheKey = md5('route_'.$url);
-        $articleCacheKey = md5('article_'.$url);
-
-        if ($this->cacheProvider->contains($articleCacheKey)) {
-            return $this->cacheProvider->fetch($articleCacheKey);
-        }
 
         if ($this->cacheProvider->contains($collectionRouteCacheKey)) {
             return null;
@@ -53,8 +48,6 @@ class ArticleResolver implements ArticleResolverInterface
             $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
 
             if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && ($article = $route['_article_meta']->getValues()) instanceof ArticleInterface) {
-                $this->cacheProvider->save($articleCacheKey, $article);
-
                 return $article;
             }
 
