@@ -2,6 +2,7 @@
 
 namespace spec\SWP\Bundle\CoreBundle\Consumer;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Prophecy\Argument;
@@ -19,9 +20,9 @@ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 class AnalyticsEventConsumerSpec extends ObjectBehavior
 {
-    public function it_is_initializable(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, UrlMatcherInterface $matcher, ArticleResolverInterface $articleResolver)
+    public function it_is_initializable(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, UrlMatcherInterface $matcher, ArticleResolverInterface $articleResolver, ObjectManager $articleStatisticsObjectManager)
     {
-        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver);
+        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver, $articleStatisticsObjectManager);
         $this->shouldHaveType(AnalyticsEventConsumer::class);
     }
 

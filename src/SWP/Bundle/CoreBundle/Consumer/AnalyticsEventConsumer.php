@@ -29,6 +29,7 @@ use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 /**
@@ -144,22 +145,35 @@ final class AnalyticsEventConsumer implements ConsumerInterface
 
         $impressionSource = $this->getImpressionSource($request);
 
-        foreach ($articles as $articleId) {
-            $this->articleStatisticsService->addArticleEvent(
-                (int) $articleId,
-                ArticleEventInterface::ACTION_IMPRESSION,
-                $impressionSource
-            );
-            echo 'Article '.$articleId." impression was added \n";
-        }
+        $this->articleStatisticsObjectManager->getConnection()->beginTransaction();
+        try {
+            try {
+                $stmt = $this->articleStatisticsObjectManager->getConnection()->prepare('LOCK TABLE swp_article_statistics IN EXCLUSIVE MODE;');
+                $stmt->execute();
+            } catch (\Exception $e) {
+                // ignore when lock not supported
+            }
 
-        $this->articleStatisticsObjectManager->flush();
+            foreach ($articles as $articleId) {
+                $this->articleStatisticsService->addArticleEvent(
+                    (int) $articleId,
+                    ArticleEventInterface::ACTION_IMPRESSION,
+                    $impressionSource
+                );
+                echo 'Article '.$articleId." impression was added \n";
+            }
+            $this->articleStatisticsObjectManager->flush();
+            $this->articleStatisticsObjectManager->getConnection()->commit();
+        } catch (\Exception $e) {
+            $this->articleStatisticsObjectManager->getConnection()->rollBack();
+            throw $e;
+        }
     }
 
     private function handleArticlePageViews(Request $request): void
     {
         $articleId = $request->query->get('articleId', null);
-        if (null !== $articleId) {
+        if (null !== $articleId && 0 !== (int) $articleId) {
             $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW, [
                 'pageViewSource' => $this->getPageViewSource($request),
             ]);
@@ -175,7 +189,12 @@ final class AnalyticsEventConsumer implements ConsumerInterface
             return $source;
         }
 
-        $route = $this->matcher->match($this->getFragmentFromUrl($referrer, 'path'));
+        try {
+            $route = $this->matcher->match($this->getFragmentFromUrl($referrer, 'path'));
+        } catch (ResourceNotFoundException $e) {
+            return $source;
+        }
+
         if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && $route['_article_meta']->getValues() instanceof ArticleInterface) {
             $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE] = 'article';
             $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE] = $route['_article_meta']->getValues();
