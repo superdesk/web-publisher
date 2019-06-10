@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "017210eb5a3bd3e91713130f127a9bb8",
+    "content-hash": "064f7e69e424717e75aaf27da3e71d48",
     "packages": [
         {
             "name": "apache/log4php",
@@ -10594,7 +10594,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -12868,7 +12868,7 @@
             ],
             "authors": [
                 {
-                    "name": "William DURAND",
+                    "name": "William Durand",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -14167,16 +14167,16 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "2.0.0-alpha15",
+            "version": "2.0.0-alpha16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "76c3fd3fef5bd149eaa4b00399194a41350223af"
+                "reference": "464c7a20a30f6f73ecb1a4c0ce9f9caf3ebbfd64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/76c3fd3fef5bd149eaa4b00399194a41350223af",
-                "reference": "76c3fd3fef5bd149eaa4b00399194a41350223af",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/464c7a20a30f6f73ecb1a4c0ce9f9caf3ebbfd64",
+                "reference": "464c7a20a30f6f73ecb1a4c0ce9f9caf3ebbfd64",
                 "shasum": ""
             },
             "require": {
@@ -14237,7 +14237,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2019-03-24T23:03:32+00:00"
+            "time": "2019-06-05T10:19:01+00:00"
         },
         {
             "name": "liip/rmt",
@@ -14529,7 +14529,7 @@
                     "email": "shelburt02@gmail.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
