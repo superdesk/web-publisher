@@ -50,19 +50,89 @@ class ArticleEventsExtension extends AbstractExtension
     {
         $jsTemplate = <<<'EOT'
 <script type="text/javascript">
-let arr = [], links = [], l = document.links;
+function isInCurrentViewport(el) {
+    var rect = el.getBoundingClientRect();
+
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+
+let arr = [], links = [], processedLinks = [], l = document.links;
 const hostname = window.location.hostname;
 
-for(var i=0; i<l.length; i++) {const parts = l[i].pathname.split('/');if (parts.length > 2) {links.push(l[i])}}
-for(var i=0; i<links.length; i++) {const attr = links[i].dataset['article'];if(typeof attr !== 'undefined' && arr.indexOf(attr) === -1){arr.push(attr); links.splice(i, 1);}}
-for(var i=0; i<links.length; i++){if(arr.indexOf(links[i].href) === -1 && links[i].href.indexOf(hostname) !== -1){arr.push(links[i].href);}}
+window.onscroll = function() {countImpressions()};
 
-var xhr = new XMLHttpRequest();
-var read_date = new Date();
-var request_randomizer = "&" + read_date.getTime() + Math.random();
-xhr.open('POST', '/_swp_analytics?type=impression'+request_randomizer);
-xhr.setRequestHeader("Content-Type", "application/json");
-xhr.send(JSON.stringify(arr));
+var iterator = 0;
+var breakpoint = 200;
+
+function countImpressions() {
+    var scrollDown = document.body.scrollTop || document.documentElement.scrollTop;
+    if (scrollDown >= breakpoint) {
+       process();
+       breakpoint += 200;
+       iterator++;
+    }
+}
+
+function unique(array) {
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+}
+
+process();
+
+function process() {
+  links = [];
+  arr = [];
+  console.log(processedLinks);
+  // filter out section pages
+  for(var i=0; i<l.length; i++) {
+      const parts = l[i].pathname.split('/');
+      if (parts.length > 2 && isInCurrentViewport(l[i]) && processedLinks.indexOf(l[i].href) === -1) {
+          links.push(l[i]);
+      }
+  }
+  // filter out links with data-article, add article id
+  for(var i=0; i<links.length; i++) {
+      const attr = links[i].dataset['article'];
+      // if attribute not in array
+      if(typeof attr !== 'undefined' && arr.indexOf(attr) === -1 && isInCurrentViewport(links[i]) && processedLinks.indexOf(links[i].href) === -1){
+          arr.push(attr); 
+          links.splice(i, 1);
+      }
+  }
+  
+  // filter out links different than current domain
+  for(var i=0; i<links.length; i++){
+      if(arr.indexOf(links[i].href) === -1 && links[i].href.indexOf(hostname) !== -1){
+          arr.push(links[i].href);
+      }
+  }
+
+  processedLinks = unique(processedLinks.concat(arr));
+  
+  if (arr.length > 0) {
+      var xhr = new XMLHttpRequest();
+      var read_date = new Date();
+      var request_randomizer = "&" + read_date.getTime() + Math.random();
+      xhr.open('POST', '/_swp_analytics?type=impression'+request_randomizer);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(arr));
+  }
+}
+
 </script>
 EOT;
 
