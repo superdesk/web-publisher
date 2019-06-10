@@ -166,18 +166,22 @@ final class AnalyticsEventConsumer implements ConsumerInterface
                 // ignore when lock not supported
             }
 
+            $ids = [];
             foreach ($articles as $articleId) {
                 $articleStatistics = $this->articleStatisticsService->addArticleEvent(
                     (int) $articleId,
                     ArticleEventInterface::ACTION_IMPRESSION,
                     $impressionSource
                 );
-                $query = $this->articleStatisticsObjectManager->createQuery('UPDATE '.ArticleStatistics::class.' s SET s.impressionsNumber = s.impressionsNumber + 1 WHERE s.id = :id');
-                $query->setParameter('id', $articleStatistics->getId());
-                $query->execute();
 
+                $ids[] = $articleStatistics->getId();
                 echo 'Article '.$articleId." impression was added \n";
             }
+
+            $query = $this->articleStatisticsObjectManager->createQuery('UPDATE '.ArticleStatistics::class.' s SET s.impressionsNumber = s.impressionsNumber + 1 WHERE s.id IN (:ids)');
+            $query->setParameter('ids', $ids);
+            $query->execute();
+
             $this->articleStatisticsObjectManager->flush();
             $this->articleStatisticsObjectManager->getConnection()->commit();
         } catch (\Exception $e) {
