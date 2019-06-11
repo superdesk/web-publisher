@@ -69,6 +69,8 @@ oneup_flysystem:
                 client: Aws\S3\S3Client
                 bucket: '%env(resolve:FS_AWS_S3_BUCKET)%'
                 prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
+                options:
+                    ACL: 'public-read'
         local_adapter:
             local:
                 directory: '%kernel.project_dir%/public/uploads/'

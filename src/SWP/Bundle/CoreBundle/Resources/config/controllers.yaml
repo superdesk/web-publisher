@@ -3,6 +3,8 @@ services:
     public: false
     autowire: true
     autoconfigure: true
+    bind:
+      $cacheService: '@doctrine_cache.providers.main_cache'
 
   SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
   SWP\Bundle\CoreBundle\Controller\SeoMetadataController: ~
@@ -12,3 +14,10 @@ services:
 
   SWP\Bundle\CoreBundle\Controller\PackageSeoMediaUploadController: ~
   SWP\Bundle\CoreBundle\Controller\RedirectingController: ~
+
+  takeit_amp_html.amp_controller:
+    class: SWP\Bundle\CoreBundle\Controller\AmpController
+    bind:
+      $ampConverter: '@takeit_amp_html.amp_converter'
+      $ampThemeLoader: '@takeit_amp_html.loader.theme'
+    public: true
