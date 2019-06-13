@@ -23,7 +23,9 @@ use SWP\Component\Paywall\Model\PaywallSecuredTrait;
 
 class PublishDestination implements PublishDestinationInterface
 {
-    use TimestampableTrait, OrganizationAwareTrait, PaywallSecuredTrait;
+    use TimestampableTrait;
+    use OrganizationAwareTrait;
+    use PaywallSecuredTrait;
 
     /**
      * @var string

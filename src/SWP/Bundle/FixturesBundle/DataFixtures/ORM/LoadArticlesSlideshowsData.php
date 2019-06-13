@@ -19,7 +19,6 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Model\Slideshow;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 

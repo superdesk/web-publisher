@@ -22,5 +22,6 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class MenuItem extends BaseMenuItem implements MenuItemInterface
 {
-    use TenantAwareTrait, RouteAwareTrait;
+    use TenantAwareTrait;
+    use RouteAwareTrait;
 }

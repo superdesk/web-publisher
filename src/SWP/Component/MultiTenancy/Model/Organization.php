@@ -22,7 +22,9 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class Organization implements OrganizationInterface
 {
-    use SoftDeletableTrait, TimestampableTrait, EnableableTrait;
+    use SoftDeletableTrait;
+    use TimestampableTrait;
+    use EnableableTrait;
 
     /**
      * @var mixed

@@ -21,7 +21,8 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class ExternalArticle implements ExternalArticleInterface
 {
-    use SoftDeletableTrait, TimestampableTrait;
+    use SoftDeletableTrait;
+    use TimestampableTrait;
 
     /**
      * @var int

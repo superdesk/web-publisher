@@ -22,7 +22,10 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class ContentList implements ContentListInterface
 {
-    use TimestampableTrait, SoftDeletableTrait, EnableableTrait, ContentListItemsUpdateAtTrait;
+    use TimestampableTrait;
+    use SoftDeletableTrait;
+    use EnableableTrait;
+    use ContentListItemsUpdateAtTrait;
 
     /**
      * @var mixed

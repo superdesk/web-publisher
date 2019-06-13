@@ -15,7 +15,6 @@
 namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
-use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Symfony\Component\Yaml\Parser;
 
