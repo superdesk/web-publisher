@@ -12,7 +12,7 @@ Feature: Handling the custom media fields
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "multipart/form-data
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321b  |
@@ -414,7 +414,7 @@ Feature: Handling the custom media fields
      """
     Then the response status code should be 201
 
-    Given I add "Content-Type" header equal to "multipart/form-data"
+    And I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
