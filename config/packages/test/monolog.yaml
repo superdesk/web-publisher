@@ -1,4 +1,9 @@
 monolog:
+    channels:
+        - swp_send_webhook
+        - swp_asset_download
+        - swp_content_push
+        - swp_image_conversion
     handlers:
         main:
             type:   stream
