@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class ExternalOauthController extends Controller
 {
@@ -38,10 +39,6 @@ class ExternalOauthController extends Controller
 
         $accessToken = $client->getAccessToken();
 
-        try {
-            $oauthUser = $client->fetchUserFromToken($accessToken);
-        } catch(IdentityProviderException $e) {
-            var_dump($e->getMessage()); die;
-        }
+        return new Response('Access token acquired! ' . $accessToken . "\n" . var_dump($client->getOAuth2Provider()));
     }
 }
