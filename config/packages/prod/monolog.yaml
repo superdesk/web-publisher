@@ -1,12 +1,44 @@
+services:
+    monolog.gelf_handler:
+        class: Monolog\Handler\GelfHandler
+        arguments: ["@gelf.publisher", 100]
+
+    gelf.validator:
+        class: Gelf\MessageValidator
+
+    gelf.transport:
+        class: Gelf\Transport\UdpTransport
+        arguments: ['%env(LOG_DOMAIN)%', '%env(LOG_PORT)%']
+
+    gelf.publisher:
+        class: Gelf\Publisher
+        arguments: ["@gelf.transport", "@gelf.validator"]
+
 monolog:
+    channels:
+        - swp_send_webhook
+        - swp_asset_download
+        - swp_content_push
+        - swp_image_conversion
     handlers:
         main:
             type:         fingers_crossed
             action_level: error
             handler:      nested
         nested:
-            type:  stream
-            path:  "%kernel.logs_dir%/prod.log"
+            type:  service
+            id:    monolog.gelf_handler
             level: error
         console:
             type:  console
+        gelf:
+            level: debug
+            type: service
+            id: monolog.gelf_handler
+            channels:
+                - swp_send_webhook
+                - swp_content_push
+                - swp_image_conversion
+                - swp_asset_download
+                - swp_rule
+                - swp_validators
