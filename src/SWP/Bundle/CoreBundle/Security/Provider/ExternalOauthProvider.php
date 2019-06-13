@@ -44,4 +44,9 @@ class ExternalOauthProvider extends AbstractProvider
     {
         return new ExternalOauthResourceOwner($response);
     }
+
+    protected function getScopeSeparator()
+    {
+        return ' ';
+    }
 }
