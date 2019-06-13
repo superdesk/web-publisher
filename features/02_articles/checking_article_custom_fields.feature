@@ -6,7 +6,7 @@ Feature: Validate custom fields
 
   Scenario: Submitting and publishing a package with extra custom fields
     Given I am authenticated as "test.user"
-    When I add "Content-Type" header equal to "application/json"
+    And I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key      | value      |
       | media    | @image.jpg |

@@ -99,7 +99,7 @@ Feature: Checking if not authorized content push is rejected
     """
     Then the response status code should be 401
 
-    Given I add "Content-Type" header equal to "application/json"
+    Given I add "Content-Type" header equal to "multipart/form-data"
     When I add "x-superdesk-signature" header equal to "sha1=6e4a429f0162fca02a6edd5c759f57014bfa6d90"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
