@@ -22,7 +22,7 @@ class ExternalOauthProvider extends AbstractProvider
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return getenv('EXTERNAL_OAUTH_BASE_URL') . '/userinfo';
+        return getenv('EXTERNAL_OAUTH_BASE_URL') . '/userinfo?access_token='.$token;
     }
 
     protected function getDefaultScopes()
