@@ -37,6 +37,7 @@ class ExternalOauthController extends Controller
         $client = $clientRegistry->getClient('external_oauth');
 
         $accessToken = $client->getAccessToken();
+        $oauthUser = $client->fetchUserFromToken($accessToken);
 
         return new Response('Access token acquired! ' . $accessToken . "\n" . var_dump($client->getOAuth2Provider()));
     }
