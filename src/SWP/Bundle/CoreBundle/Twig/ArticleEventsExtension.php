@@ -51,7 +51,7 @@ class ArticleEventsExtension extends AbstractExtension
         $jsTemplate = <<<'EOT'
 <script type="text/javascript">
 function isInCurrentViewport(el) {
-    var rect = el.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
 
     return (
         rect.top >= 0 &&
@@ -64,48 +64,21 @@ function isInCurrentViewport(el) {
 
 let arr = [], links = [], processedLinks = [], l = document.links;
 const hostname = window.location.hostname;
-
-window.onscroll = function() {countImpressions()};
-
 var iterator = 0;
 var breakpoint = 200;
 
-function countImpressions() {
-    var scrollDown = document.body.scrollTop || document.documentElement.scrollTop;
-    if (scrollDown >= breakpoint) {
-       process();
-       breakpoint += 200;
-       iterator++;
-    }
-}
-
-function unique(array) {
-    var a = array.concat();
-    for(var i=0; i<a.length; ++i) {
-        for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
-                a.splice(j--, 1);
-        }
-    }
-
-    return a;
-}
-
-process();
-
-function process() {
+var process = function process() {
   links = [];
   arr = [];
-  console.log(processedLinks);
   // filter out section pages
-  for(var i=0; i<l.length; i++) {
+  for(let i=0; i<l.length; i++) {
       const parts = l[i].pathname.split('/');
       if (parts.length > 2 && isInCurrentViewport(l[i]) && processedLinks.indexOf(l[i].href) === -1) {
           links.push(l[i]);
       }
   }
   // filter out links with data-article, add article id
-  for(var i=0; i<links.length; i++) {
+  for(let i=0; i<links.length; i++) {
       const attr = links[i].dataset['article'];
       // if attribute not in array
       if(typeof attr !== 'undefined' && arr.indexOf(attr) === -1 && isInCurrentViewport(links[i]) && processedLinks.indexOf(links[i].href) === -1){
@@ -115,7 +88,7 @@ function process() {
   }
   
   // filter out links different than current domain
-  for(var i=0; i<links.length; i++){
+  for(let i=0; i<links.length; i++){
       if(arr.indexOf(links[i].href) === -1 && links[i].href.indexOf(hostname) !== -1){
           arr.push(links[i].href);
       }
@@ -124,14 +97,38 @@ function process() {
   processedLinks = unique(processedLinks.concat(arr));
   
   if (arr.length > 0) {
-      var xhr = new XMLHttpRequest();
-      var read_date = new Date();
-      var request_randomizer = "&" + read_date.getTime() + Math.random();
+      let xhr = new XMLHttpRequest();
+      let read_date = new Date();
+      let request_randomizer = "&" + read_date.getTime() + Math.random();
       xhr.open('POST', '/_swp_analytics?type=impression'+request_randomizer);
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(JSON.stringify(arr));
   }
 }
+
+var countImpressions = function countImpressions() {
+    let scrollDown = document.body.scrollTop || document.documentElement.scrollTop;
+    if (scrollDown >= breakpoint) {
+       process();
+       breakpoint += 200;
+       iterator++;
+    }
+}
+
+var unique = function unique(array) {
+    let a = array.concat();
+    for(let i=0; i<a.length; ++i) {
+        for(let j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+}
+
+window.onscroll = function() {countImpressions()};
+process();
 
 </script>
 EOT;

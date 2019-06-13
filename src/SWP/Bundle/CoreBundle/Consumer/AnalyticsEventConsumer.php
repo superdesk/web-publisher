@@ -159,13 +159,6 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         $this->articleStatisticsObjectManager->getConnection()->beginTransaction();
 
         try {
-            try {
-                $stmt = $this->articleStatisticsObjectManager->getConnection()->prepare('LOCK TABLE swp_article_statistics IN EXCLUSIVE MODE;');
-                $stmt->execute();
-            } catch (\Exception $e) {
-                // ignore when lock not supported
-            }
-
             $ids = [];
             foreach ($articles as $articleId) {
                 $articleStatistics = $this->articleStatisticsService->addArticleEvent(
@@ -176,6 +169,13 @@ final class AnalyticsEventConsumer implements ConsumerInterface
 
                 $ids[] = $articleStatistics->getId();
                 echo 'Article '.$articleId." impression was added \n";
+            }
+
+            try {
+                $stmt = $this->articleStatisticsObjectManager->getConnection()->prepare('LOCK TABLE swp_article_statistics IN EXCLUSIVE MODE;');
+                $stmt->execute();
+            } catch (\Exception $e) {
+                // ignore when lock not supported
             }
 
             $query = $this->articleStatisticsObjectManager->createQuery('UPDATE '.ArticleStatistics::class.' s SET s.impressionsNumber = s.impressionsNumber + 1 WHERE s.id IN (:ids)');
