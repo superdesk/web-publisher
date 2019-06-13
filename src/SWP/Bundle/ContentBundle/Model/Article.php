@@ -32,7 +32,14 @@ use SWP\Component\Seo\Model\SeoMetadataAwareTrait;
  */
 class Article implements ArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait, RelatedArticlesAwareTrait, TimestampableCancelTrait, SeoMetadataAwareTrait;
+    use TranslatableTrait;
+    use SoftDeletableTrait;
+    use TimestampableTrait;
+    use AuthorsAwareTrait;
+    use KeywordsAwareTrait;
+    use RelatedArticlesAwareTrait;
+    use TimestampableCancelTrait;
+    use SeoMetadataAwareTrait;
 
     /**
      * @var mixed

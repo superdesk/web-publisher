@@ -19,7 +19,6 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Route;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadRoutesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface

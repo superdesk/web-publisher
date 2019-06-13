@@ -22,5 +22,7 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class ContentList extends BaseContentList implements ContentListInterface, ContentListItemsCountInterface
 {
-    use TenantAwareTrait, ContentListItemsCountTrait, TimestampableCancelTrait;
+    use TenantAwareTrait;
+    use ContentListItemsCountTrait;
+    use TimestampableCancelTrait;
 }

@@ -25,7 +25,11 @@ use SWP\Component\Paywall\Model\PaywallSecuredTrait;
 
 class Article extends BaseArticle implements ArticleInterface
 {
-    use TenantAwareTrait, OrganizationAwareTrait, PaywallSecuredTrait, ArticleEventsTrait, ContentListsAwareTrait;
+    use TenantAwareTrait;
+    use OrganizationAwareTrait;
+    use PaywallSecuredTrait;
+    use ArticleEventsTrait;
+    use ContentListsAwareTrait;
 
     /**
      * @var PackageInterface

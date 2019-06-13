@@ -22,7 +22,9 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class PackagePreviewToken implements PackagePreviewTokenInterface
 {
-    use TimestampableTrait, TenantAwareTrait, RouteAwareTrait;
+    use TimestampableTrait;
+    use TenantAwareTrait;
+    use RouteAwareTrait;
 
     /**
      * @var string

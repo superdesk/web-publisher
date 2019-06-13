@@ -23,7 +23,8 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class Page implements TimestampableInterface, PageInterface, EnableableInterface
 {
-    use TimestampableTrait, EnableableTrait;
+    use TimestampableTrait;
+    use EnableableTrait;
 
     /**
      * @var int

@@ -18,7 +18,8 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class File implements FileInterface, PreviewUrlAwareInterface
 {
-    use TimestampableTrait, PreviewUrlAwareTrait;
+    use TimestampableTrait;
+    use PreviewUrlAwareTrait;
 
     /**
      * @var string

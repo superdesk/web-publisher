@@ -21,7 +21,8 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 class ExternalData implements ExternalDataInterface, PersistableInterface
 {
-    use PackageAwareTrait, TimestampableTrait;
+    use PackageAwareTrait;
+    use TimestampableTrait;
 
     /**
      * @var int
