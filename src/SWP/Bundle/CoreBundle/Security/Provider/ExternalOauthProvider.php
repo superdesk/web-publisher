@@ -27,7 +27,7 @@ class ExternalOauthProvider extends AbstractProvider
 
     protected function getDefaultScopes()
     {
-        return ['openid', 'email'];
+        return ['openid', 'profile', 'email'];
     }
 
     protected function checkResponse(ResponseInterface $response, $data)
