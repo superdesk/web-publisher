@@ -21,7 +21,8 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 class FacebookInstantArticlesArticle implements FacebookInstantArticlesArticleInterface, PersistableInterface, TenantAwareInterface
 {
-    use TenantAwareTrait, TimestampableTrait;
+    use TenantAwareTrait;
+    use TimestampableTrait;
 
     /**
      * @var int

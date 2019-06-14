@@ -21,7 +21,8 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class Subscription implements SubscriptionInterface
 {
-    use TimestampableTrait, SoftDeletableTrait;
+    use TimestampableTrait;
+    use SoftDeletableTrait;
 
     /**
      * @var mixed|null

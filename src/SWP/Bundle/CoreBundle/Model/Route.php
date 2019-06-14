@@ -25,7 +25,10 @@ use SWP\Component\Paywall\Model\PaywallSecuredTrait;
 
 class Route extends BaseRoute implements TenantAwareInterface, ArticlesCountInterface, PaywallSecuredInterface
 {
-    use TenantAwareTrait, ArticlesCountTrait, PaywallSecuredTrait, ArticleEventsTrait;
+    use TenantAwareTrait;
+    use ArticlesCountTrait;
+    use PaywallSecuredTrait;
+    use ArticleEventsTrait;
 
     /**
      * {@inheritdoc}

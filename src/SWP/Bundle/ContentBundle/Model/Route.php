@@ -20,7 +20,8 @@ use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
 
 class Route extends BaseRoute implements RouteInterface
 {
-    use RouteTrait, ArticlesAwareTrait;
+    use RouteTrait;
+    use ArticlesAwareTrait;
 
     /**
      * @var int
