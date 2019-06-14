@@ -23,7 +23,8 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class FacebookInstantArticlesFeed implements TenantAwareInterface, FacebookInstantArticlesFeedInterface
 {
-    use TenantAwareTrait, TimestampableTrait;
+    use TenantAwareTrait;
+    use TimestampableTrait;
 
     /**
      * @var int

@@ -23,7 +23,8 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class Slideshow implements SlideshowInterface
 {
-    use TimestampableTrait, SoftDeletableTrait;
+    use TimestampableTrait;
+    use SoftDeletableTrait;
 
     /**
      * @var string|null

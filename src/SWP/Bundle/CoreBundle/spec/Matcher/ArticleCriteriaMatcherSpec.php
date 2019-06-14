@@ -21,7 +21,6 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcher;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
-use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Component\Common\Criteria\Criteria;
 
 final class ArticleCriteriaMatcherSpec extends ObjectBehavior

@@ -22,5 +22,6 @@ use SWP\Component\Rule\Model\Rule as BaseRule;
 
 class Rule extends BaseRule implements RuleInterface
 {
-    use TenantAwareTrait, OrganizationAwareTrait;
+    use TenantAwareTrait;
+    use OrganizationAwareTrait;
 }

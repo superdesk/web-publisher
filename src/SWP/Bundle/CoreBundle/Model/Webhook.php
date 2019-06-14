@@ -22,5 +22,6 @@ use SWP\Bundle\WebhookBundle\Model\Webhook as BaseWebhook;
 
 class Webhook extends BaseWebhook implements WebhookInterface
 {
-    use TenantAwareTrait, TimestampableTrait;
+    use TenantAwareTrait;
+    use TimestampableTrait;
 }
