@@ -576,6 +576,8 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '@router'
             - '@swp.resolver.article'
+            - '@swp.object_manager.article_statistics'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
         arguments:
@@ -763,6 +765,7 @@ services:
         public: true
         arguments:
             - '@router'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\CoreBundle\EventListener\SetArticlePublishDateListener:
         arguments:
@@ -787,3 +790,4 @@ services:
             - '@swp.repository.article_events'
             - '@swp.factory.article_statistics'
             - '@swp.factory.article_events'
+            - '@swp.object_manager.article'
