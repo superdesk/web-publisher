@@ -17,4 +17,6 @@ knpu_oauth2_client:
             client_secret: '%env(EXTERNAL_OAUTH_CLIENT_SECRET)%'
             redirect_route: connect_oauth_check
             redirect_params: {}
-
+            provider_options:
+                base_url: '%env(EXTERNAL_OAUTH_BASE_URL)%'
+                scope_separator: ' '
