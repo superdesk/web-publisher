@@ -5,7 +5,7 @@ Feature: Handling video groups
   I want to able to receive and parse the request payload with video groups
 
   Scenario: Saving the data with video groups
-    Given I add "Content-Type" header equal to "application/json"
+    Given I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                                                                                |
       | media_id     | 20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4  |

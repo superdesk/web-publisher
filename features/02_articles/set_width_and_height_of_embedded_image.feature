@@ -4,7 +4,7 @@ Feature: Set width and height of embedded images
   I must set width and height of the embedded images
 
   Scenario: Set width and height of embedded images
-    Given I add "Content-Type" header equal to "application/json"
+    Given I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a |
