@@ -51,7 +51,7 @@ final class ContentPushControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_assets_push'),
             [
-                'media_id' => 'asdgsadfvasdf4w35qwetasftest',
+                'mediaId' => 'asdgsadfvasdf4w35qwetasftest',
                 'media' => new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
             ]
         );
@@ -73,7 +73,7 @@ final class ContentPushControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_assets_push'),
             [
-                'media_id' => '2016083108080/6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
+                'mediaId' => '2016083108080/6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
                 'media' => new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
             ]
         );
@@ -95,7 +95,7 @@ final class ContentPushControllerTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_assets_push'),
             [
-                'media_id' => 'testinstance/2016083108080/7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
+                'mediaId' => 'testinstance/2016083108080/7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
                 'media' => new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
             ]
         );
