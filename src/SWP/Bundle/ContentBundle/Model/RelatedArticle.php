@@ -21,7 +21,8 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class RelatedArticle implements RelatedArticleInterface
 {
-    use TimestampableTrait, SoftDeletableTrait;
+    use TimestampableTrait;
+    use SoftDeletableTrait;
 
     protected $id;
 

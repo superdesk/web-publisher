@@ -23,7 +23,9 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class ContentListItem implements ContentListItemInterface, Sortable
 {
-    use TimestampableTrait, SoftDeletableTrait, EnableableTrait;
+    use TimestampableTrait;
+    use SoftDeletableTrait;
+    use EnableableTrait;
 
     /**
      * @var mixed

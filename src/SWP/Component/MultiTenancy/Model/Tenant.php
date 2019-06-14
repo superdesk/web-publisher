@@ -20,7 +20,9 @@ use SWP\Component\Common\Model\TimestampableTrait;
 
 class Tenant implements TenantInterface
 {
-    use SoftDeletableTrait, TimestampableTrait, EnableableTrait;
+    use SoftDeletableTrait;
+    use TimestampableTrait;
+    use EnableableTrait;
 
     /**
      * @var mixed

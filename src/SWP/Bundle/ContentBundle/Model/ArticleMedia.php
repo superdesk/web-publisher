@@ -23,7 +23,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ArticleMedia implements ArticleMediaInterface
 {
-    use TimestampableTrait, SoftDeletableTrait;
+    use TimestampableTrait;
+    use SoftDeletableTrait;
 
     /**
      * @var int

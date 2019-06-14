@@ -265,6 +265,9 @@
     "gos/websocket-client": {
         "version": "v0.1.2"
     },
+    "graylog2/gelf-php": {
+        "version": "1.6.2"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
     },
@@ -511,6 +514,9 @@
     },
     "pagerfanta/pagerfanta": {
         "version": "v1.1.0"
+    },
+    "paragonie/constant_time_encoding": {
+        "version": "v2.2.3"
     },
     "paragonie/random_compat": {
         "version": "v9.99.99"
