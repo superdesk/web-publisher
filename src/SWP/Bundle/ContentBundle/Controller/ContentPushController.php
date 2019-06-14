@@ -112,7 +112,7 @@ class ContentPushController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $mediaManager = $this->get('swp_content_bundle.manager.media');
             $uploadedFile = $form->getData()['media'];
-            $mediaId = $request->request->get('media_id');
+            $mediaId = $request->request->get('mediaId');
 
             if ($uploadedFile->isValid()) {
                 $fileProvider = $this->container->get(FileProvider::class);

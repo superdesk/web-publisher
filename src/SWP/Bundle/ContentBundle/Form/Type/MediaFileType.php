@@ -27,7 +27,7 @@ class MediaFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('media_id', TextType::class, [
+            ->add('mediaId', TextType::class, [
                 'required' => true,
                 'constraints' => [
                     new NotBlank(),

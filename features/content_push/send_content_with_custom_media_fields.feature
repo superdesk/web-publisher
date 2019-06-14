@@ -5,42 +5,42 @@ Feature: Handling the custom media fields
   I want to able to receive and parse the request with custom media fields payload
 
   Scenario: Saving the data from custom media fields
-    Given I add "Content-Type" header equal to "application/json"
+    Given I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321c  |
@@ -414,42 +414,42 @@ Feature: Handling the custom media fields
      """
     Then the response status code should be 201
 
-    Given I add "Content-Type" header equal to "application/json"
+    And I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321c  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321b  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    When I add "Content-Type" header equal to "application/json"
+    When I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 2234567890987654321c  |

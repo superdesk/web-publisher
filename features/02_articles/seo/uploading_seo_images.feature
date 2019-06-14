@@ -23,22 +23,24 @@ Feature: Adding article SEO metadata
       | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
 
     Then I am authenticated as "test.user"
-    And I add "Content-Type" header equal to "application/json"
+    And I add "Content-Type" header equal to "multipart/form-data"
     Then I send a "POST" request to "/api/v2/upload/seo_image/lorem" with parameters:
-      | key                | value      |
-      | metaMediaFile      | @logo.png  |
+      | key                  | value      |
+      | meta_media_file      | @logo.png  |
     Then the response status code should be 201
 
     Then I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "multipart/form-data"
     Then I send a "POST" request to "/api/v2/upload/seo_image/lorem" with parameters:
-      | key             | value      |
-      | ogMediaFile     | @logo.png  |
+      | key               | value      |
+      | og_media_file     | @logo.png  |
     Then the response status code should be 201
 
     Then I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "multipart/form-data"
     Then I send a "POST" request to "/api/v2/upload/seo_image/lorem" with parameters:
-      | key                   | value      |
-      | twitterMediaFile      | @logo.png  |
+      | key                     | value      |
+      | twitter_media_file      | @logo.png  |
     Then the response status code should be 201
 
     When I go to "/test/lorem"
