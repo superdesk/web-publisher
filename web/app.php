@@ -12,5 +12,6 @@ Request::enableHttpMethodParameterOverride();
 $request = Request::createFromGlobals();
 Request::setTrustedProxies(['192.0.0.1', $request->server->get('REMOTE_ADDR')], Request::HEADER_X_FORWARDED_ALL);
 $response = $kernel->handle($request);
+$response->setEtag(md5($response->getContent()));
 $response->send();
 $kernel->terminate($request, $response);
