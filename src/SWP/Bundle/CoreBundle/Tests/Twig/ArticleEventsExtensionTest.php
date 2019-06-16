@@ -37,7 +37,8 @@ class ArticleEventsExtensionTest extends WebTestCase
 
     public function testRenderLinkImpressionCount()
     {
-        $this->assertEquals("<script type=\"text/javascript\">
+        $this->assertEquals("<script type=\"text/javascript\" async>
+window.addEventListener('load',function(){
 function isInCurrentViewport(el) {
     const rect = el.getBoundingClientRect();
 
@@ -117,7 +118,7 @@ var unique = function unique(array) {
 
 window.onscroll = function() {countImpressions()};
 process();
-
+})
 </script>", $this->getRendered('{{ countArticlesImpressions() }}'));
     }
 
@@ -126,12 +127,14 @@ process();
         $article = new Article();
         $article->setId('1');
         $articleMeta = $this->metaFactory->create($article);
-        $this->assertEquals("<script type=\"text/javascript\">
+        $this->assertEquals("<script type=\"text/javascript\" async>
+window.addEventListener('load',function(){
 var xhr = new XMLHttpRequest();
 var read_date = new Date();
 var request_randomizer = \"&\" + read_date.getTime() + Math.random();
 xhr.open('GET', '/_swp_analytics?articleId=1'+request_randomizer+'&ref='+document.referrer);
 xhr.send();
+})
 </script>", $this->getRendered('{{ countPageView(article) }}', ['article' => $articleMeta]));
     }
 
