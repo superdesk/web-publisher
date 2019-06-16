@@ -49,7 +49,8 @@ class ArticleEventsExtension extends AbstractExtension
     public function renderLinkImpressionCount()
     {
         $jsTemplate = <<<'EOT'
-<script type="text/javascript">
+<script type="text/javascript" async>
+window.addEventListener('load',function(){
 function isInCurrentViewport(el) {
     const rect = el.getBoundingClientRect();
 
@@ -129,7 +130,7 @@ var unique = function unique(array) {
 
 window.onscroll = function() {countImpressions()};
 process();
-
+})
 </script>
 EOT;
 
@@ -152,12 +153,14 @@ EOT;
         }
 
         $jsTemplate = <<<'EOT'
-<script type="text/javascript">
+<script type="text/javascript" async>
+window.addEventListener('load',function(){
 var xhr = new XMLHttpRequest();
 var read_date = new Date();
 var request_randomizer = "&" + read_date.getTime() + Math.random();
 xhr.open('GET', '/_swp_analytics?articleId=%s'+request_randomizer+'&ref='+document.referrer);
 xhr.send();
+})
 </script>
 EOT;
         $article = $meta->getValues();
