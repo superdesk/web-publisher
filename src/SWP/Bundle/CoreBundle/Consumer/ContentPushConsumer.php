@@ -27,6 +27,7 @@ use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
@@ -102,6 +103,11 @@ class ContentPushConsumer implements ConsumerInterface
         $tenant = $decodedMessage['tenant'];
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
+
+        $packageType = $package->getType();
+        if (ItemInterface::TYPE_TEXT !== $packageType && ItemInterface::TYPE_COMPOSITE !== $packageType) {
+            return ConsumerInterface::MSG_REJECT;
+        }
 
         $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $tenant->getId()));
 
