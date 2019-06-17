@@ -72,7 +72,7 @@
     "doctrine/doctrine-bundle": "~1.8",
     "doctrine/data-fixtures": "^1.3",
     "doctrine/doctrine-cache-bundle": "1.3.*",
-    "liip/functional-test-bundle": "^2.0",
+    "liip/functional-test-bundle": "^2.0 <2.0.0-alpha16",
     "doctrine/doctrine-fixtures-bundle": "^3.0.0",
     "theofidry/alice-data-fixtures": "^1.0",
     "nelmio/alice": "3.5.*",
