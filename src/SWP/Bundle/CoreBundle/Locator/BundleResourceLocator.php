@@ -19,6 +19,7 @@ use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class BundleResourceLocator implements ResourceLocatorInterface
@@ -38,11 +39,6 @@ class BundleResourceLocator implements ResourceLocatorInterface
      */
     private $deviceDetection;
 
-    /**
-     * @param Filesystem               $filesystem
-     * @param KernelInterface          $kernel
-     * @param DeviceDetectionInterface $deviceDetection
-     */
     public function __construct(Filesystem $filesystem, KernelInterface $kernel, DeviceDetectionInterface $deviceDetection)
     {
         $this->filesystem = $filesystem;
@@ -52,13 +48,54 @@ class BundleResourceLocator implements ResourceLocatorInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @param string $resourcePath Eg. "@AcmeBundle/Resources/views/template.html.twig"
      */
     public function locateResource(string $resourcePath, ThemeInterface $theme): string
     {
         $this->assertResourcePathIsValid($resourcePath);
-        foreach ($this->getBundlePaths($resourcePath, $theme) as $path) {
+
+        if (false !== strpos($resourcePath, 'Bundle/Resources/views/')) {
+            // When using bundle notation, we get a path like @AcmeBundle/Resources/views/template.html.twig
+            return $this->locateResourceBasedOnBundleNotation($resourcePath, $theme);
+        }
+
+        // When using namespaced Twig paths, we get a path like @Acme/template.html.twig
+        return $this->locateResourceBasedOnTwigNamespace($resourcePath, $theme);
+    }
+
+    private function assertResourcePathIsValid(string $resourcePath): void
+    {
+        if (0 !== strpos($resourcePath, '@')) {
+            throw new \InvalidArgumentException(sprintf('Bundle resource path (given "%s") should start with an "@".', $resourcePath));
+        }
+
+        if (false !== strpos($resourcePath, '..')) {
+            throw new \InvalidArgumentException(sprintf('File name "%s" contains invalid characters (..).', $resourcePath));
+        }
+    }
+
+    private function locateResourceBasedOnBundleNotation(string $resourcePath, ThemeInterface $theme): string
+    {
+        $bundleName = substr($resourcePath, 1, strpos($resourcePath, '/') - 1);
+        $resourceName = substr($resourcePath, strpos($resourcePath, 'Resources/') + strlen('Resources/'));
+
+        // Symfony 4.0+ always returns a single bundle
+        /** @var BundleInterface|BundleInterface[] $bundles */
+        $bundles = $this->kernel->getBundle($bundleName, false);
+
+        // So we need to hack it to support both Symfony 3.4 and Symfony 4.0+
+        if (!is_array($bundles)) {
+            $bundles = [$bundles];
+        }
+
+        foreach ($bundles as $bundle) {
+            if (null !== $this->deviceDetection->getType()) {
+                $path = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $bundle->getName(), $resourceName);
+                if ($this->filesystem->exists($path)) {
+                    return $path;
+                }
+            }
+
+            $path = sprintf('%s/%s/%s', $theme->getPath(), $bundle->getName(), $resourceName);
             if ($this->filesystem->exists($path)) {
                 return $path;
             }
@@ -67,63 +104,32 @@ class BundleResourceLocator implements ResourceLocatorInterface
         throw new ResourceNotFoundException($resourcePath, $theme);
     }
 
-    /**
-     * @param string         $resourcePath
-     * @param ThemeInterface $theme
-     */
-    protected function getBundlePaths($resourcePath, ThemeInterface $theme)
+    private function locateResourceBasedOnTwigNamespace(string $resourcePath, ThemeInterface $theme): string
     {
-        $bundleName = $this->getBundleNameFromResourcePath($resourcePath);
-        $resourceName = $this->getResourceNameFromResourcePath($resourcePath);
-        $bundles = $this->kernel->getBundle($bundleName, false);
-        $paths = [];
-        if (is_array($bundles)) {
-            foreach ($bundles as $bundle) {
-                if (null !== $this->deviceDetection->getType()) {
-                    $paths[] = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $bundle->getName(), $resourceName);
-                }
-                $paths[] = sprintf('%s/%s/%s', $theme->getPath(), $bundle->getName(), $resourceName);
+        $twigNamespace = substr($resourcePath, 1, strpos($resourcePath, '/') - 1);
+        $resourceName = substr($resourcePath, strpos($resourcePath, '/') + 1);
+        if (null !== $this->deviceDetection->getType()) {
+            $path = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $this->getBundleOrPluginName($twigNamespace), $resourceName);
+            if ($this->filesystem->exists($path)) {
+                return $path;
             }
         }
 
-        return $paths;
-    }
+        $path = sprintf('%s/%s/views/%s', $theme->getPath(), $this->getBundleOrPluginName($twigNamespace), $resourceName);
 
-    /**
-     * @param string $resourcePath
-     */
-    private function assertResourcePathIsValid($resourcePath)
-    {
-        if ('@' !== substr($resourcePath, 0, 1)) {
-            throw new \InvalidArgumentException(sprintf('Bundle resource path (given "%s") should start with an "@".', $resourcePath));
+        if ($this->filesystem->exists($path)) {
+            return $path;
         }
 
-        if (false !== strpos($resourcePath, '..')) {
-            throw new \InvalidArgumentException(sprintf('File name "%s" contains invalid characters (..).', $resourcePath));
-        }
-
-        if (false === strpos($resourcePath, 'Resources/')) {
-            throw new \InvalidArgumentException(sprintf('Resource path "%s" should be in bundles\' "Resources/" directory.', $resourcePath));
-        }
+        throw new ResourceNotFoundException($resourcePath, $theme);
     }
 
-    /**
-     * @param string $resourcePath
-     *
-     * @return string
-     */
-    private function getBundleNameFromResourcePath($resourcePath)
+    private function getBundleOrPluginName(string $twigNamespace): string
     {
-        return substr($resourcePath, 1, strpos($resourcePath, '/') - 1);
-    }
+        if ('Plugin' === substr($twigNamespace, -6)) {
+            return $twigNamespace;
+        }
 
-    /**
-     * @param string $resourcePath
-     *
-     * @return string
-     */
-    private function getResourceNameFromResourcePath($resourcePath)
-    {
-        return substr($resourcePath, strpos($resourcePath, 'Resources/') + strlen('Resources/'));
+        return $twigNamespace.'Bundle';
     }
 }
