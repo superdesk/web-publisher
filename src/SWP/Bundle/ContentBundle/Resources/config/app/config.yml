@@ -63,6 +63,12 @@ cmf_core:
         request_listener:        true
 
 oneup_flysystem:
+    cache:
+        s3_cache:
+            psr6:
+                service: s3.files_pool
+                key: s3_files
+                expires: ~
     adapters:
         aws_adapter:
             awss3v3:
@@ -75,9 +81,15 @@ oneup_flysystem:
             local:
                 directory: '%kernel.project_dir%/public/uploads/'
     filesystems:
+        swp_themes_filesystem:
+            adapter: aws_adapter
+            cache: s3_cache
+            alias: swp_themes_filesystem
+
         swp_filesystem:
             adapter: fallback_adapter # fallback_adapter defined via extension class
             alias: swp_filesystem
+            cache: s3_cache
 
 swp_seo:
     upload_destination: swp_filesystem

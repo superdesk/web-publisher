@@ -73,7 +73,8 @@ final class ThemeAwareTranslator implements TranslatorInterface, TranslatorBagIn
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null): string
     {
-        return $this->translator->trans($id, $parameters, $domain, $this->transformLocale($locale));
+        return '';
+        $this->translator->trans($id, $parameters, $domain, $this->transformLocale($locale));
     }
 
     /**

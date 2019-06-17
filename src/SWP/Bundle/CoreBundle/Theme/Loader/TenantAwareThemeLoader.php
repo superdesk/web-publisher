@@ -95,6 +95,7 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
         $configurations = $this->configurationProvider->getConfigurations();
 
         $themes = $this->initializeThemes($configurations);
+
         $themes = $this->hydrateThemes($configurations, $themes);
 
         $this->checkForCircularDependencies($themes);

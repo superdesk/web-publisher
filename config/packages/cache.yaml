@@ -1,6 +1,8 @@
 framework:
     cache:
         pools:
+            s3.files_pool:
+                adapter: cache.app
             doctrine.result_cache_pool:
                 adapter: cache.app
             doctrine.system_cache_pool:

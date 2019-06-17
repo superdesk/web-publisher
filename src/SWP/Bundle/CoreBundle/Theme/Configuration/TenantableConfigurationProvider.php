@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Configuration;
 
+use InvalidArgumentException;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelperInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationProviderInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ConfigurationLoaderInterface;
@@ -75,7 +76,7 @@ class TenantableConfigurationProvider implements ConfigurationProviderInterface
                 [$this->themeHelper, 'process'],
                 $configs
             );
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return [];
         }
     }

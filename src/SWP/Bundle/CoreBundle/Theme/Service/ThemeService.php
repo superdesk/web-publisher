@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Service;
 
+use Exception;
+use function json_decode;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Installer\ThemeInstallerInterface;
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
@@ -24,60 +26,24 @@ use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * Class InstallThemeService.
- */
 final class ThemeService implements ThemeServiceInterface
 {
-    /**
-     * @var ThemeInstallerInterface
-     */
     private $themeInstaller;
 
-    /**
-     * @var RequiredDataProcessorInterface
-     */
     private $requiredDataProcessor;
 
-    /**
-     * @var string
-     */
     private $cacheDir;
 
-    /**
-     * @var TenantContextInterface
-     */
     private $tenantContext;
 
-    /**
-     * @var ThemeRepositoryInterface
-     */
     private $themeRepository;
 
-    /**
-     * @var TenantAwareThemeContextInterface
-     */
     private $themeContext;
 
-    /**
-     * @var TenantRepositoryInterface
-     */
     private $tenantRepository;
 
-    /**
-     * ThemeService constructor.
-     *
-     * @param ThemeInstallerInterface            $themeInstaller
-     * @param RequiredDataProcessorInterface     $requiredDataProcessor
-     * @param string                             $cacheDir
-     * @param TenantContextInterface             $tenantContext
-     * @param ReloadableThemeRepositoryInterface $themeRepository
-     * @param TenantAwareThemeContextInterface   $themeContext
-     * @param TenantRepositoryInterface          $tenantRepositorys
-     */
     public function __construct(
         ThemeInstallerInterface $themeInstaller,
         RequiredDataProcessorInterface $requiredDataProcessor,
@@ -96,9 +62,6 @@ final class ThemeService implements ThemeServiceInterface
         $this->tenantRepository = $tenantRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, bool $processOptionalData = false, bool $activate = false)
     {
         $messages = [];
@@ -117,11 +80,10 @@ final class ThemeService implements ThemeServiceInterface
             $this->themeRepository->reloadThemes();
 
             if (!file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
-                return new \Exception('Theme doesn\'t have required theme.json file with configuration.');
+                return new Exception('Theme doesn\'t have required theme.json file with configuration.');
             }
 
-            $themeName = \json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
-
+            $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
             if ($activate) {
                 $tenant->setThemeName($themeName);
                 $messages[] = 'Theme was activated!';
@@ -136,7 +98,7 @@ final class ThemeService implements ThemeServiceInterface
             if ($processOptionalData) {
                 $messages[] = 'Optional data were generated and persisted successfully';
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $fileSystem->remove($themeDir);
             if ($fileSystem->exists($backupThemeDir)) {
                 $fileSystem->rename($backupThemeDir, $themeDir);
@@ -152,9 +114,6 @@ final class ThemeService implements ThemeServiceInterface
         return $messages;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDirectoriesForTheme(string $themeName): array
     {
         /** @var ThemeInterface $theme */

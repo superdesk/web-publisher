@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Provider;
 
+use Doctrine\Common\Cache\CacheProvider;
+use League\Flysystem\FilesystemInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Provider\SettingsProviderInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
@@ -32,18 +34,20 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
      */
     private $themeConfigFilename;
 
-    /**
-     * ThemeSettingsProvider constructor.
-     *
-     * @param ThemeContextInterface $themeContext
-     * @param string                $themeConfigFileName
-     */
+    private $filesystem;
+
+    private $cacheProvider;
+
     public function __construct(
         ThemeContextInterface $themeContext,
-        string $themeConfigFileName
+        string $themeConfigFileName,
+        FilesystemInterface $filesystem,
+        CacheProvider $cacheProvider
     ) {
         $this->themeContext = $themeContext;
         $this->themeConfigFilename = $themeConfigFileName;
+        $this->filesystem = $filesystem;
+        $this->cacheProvider = $cacheProvider;
     }
 
     /**
@@ -53,8 +57,14 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
     {
         $currentTheme = $this->themeContext->getTheme();
         $themeConfigFile = $currentTheme->getPath().\DIRECTORY_SEPARATOR.$this->themeConfigFilename;
-        $content = file_get_contents($themeConfigFile);
-        $config = json_decode($content, true);
+
+        if ($this->cacheProvider->contains(md5($themeConfigFile))) {
+            $config = $this->cacheProvider->fetch(md5($themeConfigFile));
+        } else {
+            $content = $this->filesystem->read($themeConfigFile);
+            $config = json_decode($content, true);
+            $this->cacheProvider->save(md5($themeConfigFile), $config);
+        }
 
         if (!isset($config['settings'])) {
             return [];

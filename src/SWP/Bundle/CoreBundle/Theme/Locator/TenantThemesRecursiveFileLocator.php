@@ -18,24 +18,16 @@ use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
-final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
+class TenantThemesRecursiveFileLocator implements FileLocatorInterface
 {
-    /**
-     * @var FinderFactoryInterface
-     */
-    private $finderFactory;
+    protected $finderFactory;
 
-    /**
-     * @var array
-     */
-    private $paths;
+    protected $paths;
 
-    /**
-     * @param FinderFactoryInterface $finderFactory
-     * @param array                  $paths         An array of paths where to look for resources
-     */
-    public function __construct(FinderFactoryInterface $finderFactory, array $paths)
-    {
+    public function __construct(
+        FinderFactoryInterface $finderFactory,
+        array $paths
+    ) {
         $this->finderFactory = $finderFactory;
         $this->paths = $paths;
     }
@@ -61,15 +53,15 @@ final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
      *
      * @return \Generator
      */
-    private function doLocateFilesNamed($name)
+    protected function doLocateFilesNamed($name)
     {
         $this->assertNameIsNotEmpty($name);
-
         $found = false;
         foreach ($this->paths as $path) {
             try {
                 $finder = $this->finderFactory->create();
                 $finder
+                    ->depth(2)
                     ->files()
                     ->followLinks()
                     ->name($name)
@@ -98,7 +90,7 @@ final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
     /**
      * @param string $name
      */
-    private function assertNameIsNotEmpty($name)
+    protected function assertNameIsNotEmpty($name)
     {
         if (null === $name || '' === $name) {
             throw new \InvalidArgumentException(

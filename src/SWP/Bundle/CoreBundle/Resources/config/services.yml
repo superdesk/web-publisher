@@ -19,7 +19,7 @@ services:
     sylius.theme.locator.application_resource:
         class: SWP\Bundle\CoreBundle\Locator\ApplicationResourceLocator
         arguments:
-            - "@filesystem"
+            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
             - "@swp_core.detection.device_detection"
 
     sylius.theme.locator.bundle_resource:
@@ -46,6 +46,9 @@ services:
 
     swp_core.theme.resolver.template_name:
         class: '%swp_core.theme.resolver.template_name.class%'
+
+    sylius.theme.templating.cache:
+        alias: 'doctrine_cache.providers.main_cache'
 
     swp_core.routing.route_enhancer:
         class: '%swp_core.routing.route_enhancer.class%'
@@ -250,6 +253,17 @@ services:
             - "@swp_core.theme.context.tenant_aware"
             - "@sylius.theme.hierarchy_provider"
             - "%takeit_amp_html.configuration.theme.theme_path%"
+
+#    sylius.theme.twig.loader:
+#        class: SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader
+#        decorates: "twig.loader"
+#        arguments:
+#            - "@sylius.theme.twig.loader.inner"
+#            - "@templating.locator"
+#            - "@templating.name_parser"
+#            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
+#        tags:
+#            - { name: twig.loader }
 
     swp.twig.cache.tenant_aware:
         class: SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCache
@@ -523,6 +537,8 @@ services:
         arguments:
             - '@swp_core.theme.context.tenant_aware'
             - '%swp.theme.configuration.filename%'
+            - '@oneup_flysystem.swp_themes_filesystem_filesystem'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\SettingsBundle\Provider\SettingsProviderChain:
         arguments:

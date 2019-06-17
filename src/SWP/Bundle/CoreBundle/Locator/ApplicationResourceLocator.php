@@ -14,41 +14,29 @@
 
 namespace SWP\Bundle\CoreBundle\Locator;
 
+use League\Flysystem\FilesystemInterface;
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class ApplicationResourceLocator implements ResourceLocatorInterface
 {
-    /**
-     * @var Filesystem
-     */
     private $filesystem;
 
-    /**
-     * @var DeviceDetectionInterface
-     */
     private $deviceDetection;
 
-    /**
-     * @param Filesystem $filesystem
-     */
-    public function __construct(Filesystem $filesystem, DeviceDetectionInterface $deviceDetection)
+    public function __construct(FilesystemInterface $filesystem, DeviceDetectionInterface $deviceDetection)
     {
         $this->filesystem = $filesystem;
         $this->deviceDetection = $deviceDetection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function locateResource(string $resourceName, ThemeInterface $theme): string
     {
         $paths = $this->getApplicationPaths($resourceName, $theme);
         foreach ($paths as $path) {
-            if ($this->filesystem->exists($path)) {
+            if ($this->filesystem->has($path)) {
                 return $path;
             }
         }
@@ -56,13 +44,7 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
         throw new ResourceNotFoundException($resourceName, $theme);
     }
 
-    /**
-     * @param string         $resourceName
-     * @param ThemeInterface $theme
-     *
-     * @return array
-     */
-    protected function getApplicationPaths($resourceName, ThemeInterface $theme)
+    protected function getApplicationPaths(string $resourceName, ThemeInterface $theme): array
     {
         $paths = [sprintf('%s/%s', $theme->getPath(), $resourceName)];
         if (null !== $this->deviceDetection->getType()) {

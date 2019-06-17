@@ -391,6 +391,9 @@
     "league/flysystem-aws-s3-v3": {
         "version": "1.0.22"
     },
+    "league/flysystem-cached-adapter": {
+        "version": "1.0.9"
+    },
     "lexik/jwt-authentication-bundle": {
         "version": "2.5",
         "recipe": {
@@ -1173,6 +1176,12 @@
     },
     "twig/twig": {
         "version": "v2.8.1"
+    },
+    "twistor/flysystem-stream-wrapper": {
+        "version": "v1.0.9"
+    },
+    "twistor/stream-util": {
+        "version": "v1.0.1"
     },
     "vierbergenlars/php-semver": {
         "version": "3.0.2"

@@ -71,7 +71,9 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
             try {
                 $finder = $this->finderFactory->create();
                 $finder
+                    ->depth(1)
                     ->files()
+                    ->followLinks()
                     ->name($name)
                     ->ignoreUnreadableDirs()
                     ->in($path);

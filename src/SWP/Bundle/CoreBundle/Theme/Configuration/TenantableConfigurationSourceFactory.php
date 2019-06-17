@@ -14,10 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Configuration;
 
+use SWP\Bundle\CoreBundle\Theme\Filesystem\JsonFileConfigurationLoader;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
-use SWP\Bundle\CoreBundle\Theme\Locator\TenentThemesRecursiveFileLocator;
+use SWP\Bundle\CoreBundle\Theme\Locator\TenantS3ThemesRecursiveFileLocator;
+use SWP\Bundle\CoreBundle\Theme\Locator\TenantThemesRecursiveFileLocator;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
-use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\JsonFileConfigurationLoader;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ProcessingConfigurationLoader;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -35,10 +36,11 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
             ->fixXmlConfig('directory', 'directories')
                 ->children()
                     ->scalarNode('filename')->defaultValue('theme.json')->cannotBeEmpty()->end()
+                    ->scalarNode('store_themes_on_s3')->defaultValue(false)->end()
+                    ->scalarNode('local_themes_path')->defaultValue('%kernel.project_dir%')->end()
                     ->arrayNode('directories')
-                        ->defaultValue(['%kernel.project_dir%/app/themes'])
+                        ->defaultValue(['app/themes'])
                         ->requiresAtLeastOneElement()
-                        ->performNoDeepMerging()
                         ->prototype('scalar')
                     ->end();
     }
@@ -48,17 +50,26 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
      */
     public function initializeSource(ContainerBuilder $container, array $config)
     {
-        $recursiveFileLocator = new Definition(TenentThemesRecursiveFileLocator::class, [
-            new Reference('sylius.theme.finder_factory'),
-            $config['directories'],
-        ]);
+        if ($config['store_themes_on_s3']) {
+            $recursiveFileLocator = new Definition(TenantS3ThemesRecursiveFileLocator::class, [
+                new Reference('sylius.theme.finder_factory'),
+                $config['directories'],
+                new Reference('oneup_flysystem.swp_themes_filesystem_filesystem'),
+                $config['store_themes_on_s3'],
+            ]);
+        } else {
+            $recursiveFileLocator = new Definition(TenantThemesRecursiveFileLocator::class, [
+                new Reference('sylius.theme.finder_factory'),
+                $config['directories'],
+            ]);
+        }
 
         $themeConfigurationProcessor = $container->getDefinition('sylius.theme.configuration.processor');
         $themeConfigurationProcessor->replaceArgument(0, new Definition(ThemeConfiguration::class));
 
         $configurationLoader = new Definition(ProcessingConfigurationLoader::class, [
             new Definition(JsonFileConfigurationLoader::class, [
-                new Reference('sylius.theme.filesystem'),
+                new Reference('oneup_flysystem.swp_themes_filesystem_filesystem'),
             ]),
             $themeConfigurationProcessor,
         ]);
