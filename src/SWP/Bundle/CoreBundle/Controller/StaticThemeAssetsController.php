@@ -31,7 +31,7 @@ class StaticThemeAssetsController extends Controller
     const ASSETS_DIRECTORY = 'public';
 
     /**
-     * @Route("/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads"})
+     * @Route("/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads|OneSignalSDKWorker|OneSignalSDKUpdaterWorker|amp-web-push-helper-frame|amp-web-push-permission-dialog"})
      * @Route("/public-{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root_public", requirements={"fileName"=".+"})
      * @Route("/public/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_public", requirements={"fileName"=".+"})
      */
