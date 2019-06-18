@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "053883cd016979030065261f9ba12087",
+    "content-hash": "8f0e844d61f32a3188a872e4c0150341",
     "packages": [
         {
             "name": "apache/log4php",
@@ -4941,16 +4941,16 @@
         },
         {
             "name": "lullabot/amp",
-            "version": "dev-invalid-tags",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/takeit/amp-library.git",
-                "reference": "fd100bae7f0af60a8d69bf526b35ae3f95074640"
+                "url": "https://github.com/Lullabot/amp-library.git",
+                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/amp-library/zipball/fd100bae7f0af60a8d69bf526b35ae3f95074640",
-                "reference": "fd100bae7f0af60a8d69bf526b35ae3f95074640",
+                "url": "https://api.github.com/repos/Lullabot/amp-library/zipball/54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
+                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
                 "shasum": ""
             },
             "require": {
@@ -4976,6 +4976,7 @@
                     "Lullabot\\AMP\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -4988,14 +4989,11 @@
             "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
             "homepage": "https://github.com/Lullabot/amp-library",
             "keywords": [
-                "AMP",
-                "Drupal",
+                "amp",
+                "drupal",
                 "mobile"
             ],
-            "support": {
-                "source": "https://github.com/takeit/amp-library/tree/invalid-tags"
-            },
-            "time": "2019-06-17T09:33:20+00:00"
+            "time": "2018-11-29T12:40:29+00:00"
         },
         {
             "name": "marc1706/fast-image-size",
@@ -9217,6 +9215,62 @@
                 "framework"
             ],
             "time": "2019-04-17T15:57:27+00:00"
+        },
+        {
+            "name": "takeit/amp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/takeit/amp-library.git",
+                "reference": "676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/takeit/amp-library/zipball/676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870",
+                "reference": "676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.1",
+                "marc1706/fast-image-size": "1.*",
+                "masterminds/html5": "~2.3.0",
+                "php": ">=5.5.0",
+                "querypath/querypath": ">=3.0.4",
+                "sabberworm/php-css-parser": "^8.0.0",
+                "sebastian/diff": "^1.2 || ^2 || ^3"
+            },
+            "require-dev": {
+                "php": ">=5.5.0",
+                "phpunit/phpunit": "4.8.* || ^6",
+                "symfony/console": "^2.7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/Spec/validator-generated.php"
+                ],
+                "psr-4": {
+                    "Lullabot\\AMP\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sidharth Kshatriya",
+                    "email": "sid.kshatriya@gmail.com"
+                }
+            ],
+            "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
+            "homepage": "https://github.com/Lullabot/amp-library",
+            "keywords": [
+                "amp",
+                "drupal",
+                "mobile"
+            ],
+            "time": "2019-06-18T08:17:53+00:00"
         },
         {
             "name": "takeit/amp-html-bundle",
@@ -13767,12 +13821,6 @@
             "alias_normalized": "1.5.0.0",
             "version": "2.1.9999999.9999999-dev",
             "package": "friendsofsymfony/rest-bundle"
-        },
-        {
-            "alias": "1.1.1",
-            "alias_normalized": "1.1.1.0",
-            "version": "dev-invalid-tags",
-            "package": "lullabot/amp"
         }
     ],
     "minimum-stability": "dev",
@@ -13781,7 +13829,7 @@
         "friendsofsymfony/rest-bundle": 20,
         "burgov/key-value-form-bundle": 0,
         "react/zmq": 20,
-        "lullabot/amp": 20,
+        "takeit/amp": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
