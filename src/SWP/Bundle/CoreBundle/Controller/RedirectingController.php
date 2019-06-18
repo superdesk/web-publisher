@@ -21,6 +21,7 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -36,7 +37,7 @@ class RedirectingController extends AbstractController
         $this->articleRepository = $articleRepository;
     }
 
-    public function redirectBasedOnExtraDataAction(string $key, string $value): RedirectResponse
+    public function redirectBasedOnExtraDataAction(Request $request, string $key, string $value): RedirectResponse
     {
         try {
             $existingArticle = $this->articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
@@ -51,21 +52,26 @@ class RedirectingController extends AbstractController
             throw $this->createNotFoundException('Article with provided data was not found.');
         }
 
-        return $this->redirect($this->generateArticleUrl($existingArticle), 301);
+        return $this->redirect($this->generateArticleUrl($request, $existingArticle), 301);
     }
 
-    public function redirectBasedOnSlugAction(string $slug): RedirectResponse
+    public function redirectBasedOnSlugAction(Request $request, string $slug): RedirectResponse
     {
         $existingArticle = $this->articleRepository->findOneBySlug($slug);
         if (null === $existingArticle || null === $existingArticle->getRoute()) {
             throw $this->createNotFoundException('Article not found.');
         }
 
-        return $this->redirect($this->generateArticleUrl($existingArticle), 301);
+        return $this->redirect($this->generateArticleUrl($request, $existingArticle), 301);
     }
 
-    private function generateArticleUrl(ArticleInterface $article): string
+    private function generateArticleUrl(Request $request, ArticleInterface $article): string
     {
-        return $this->router->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $parameters = ['slug' => $article->getSlug()];
+        if ($request->query->has('amp')) {
+            $parameters['amp'] = 1;
+        }
+
+        return $this->router->generate($article->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }
