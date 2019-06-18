@@ -168,7 +168,8 @@
         "swp/output-channel-bundle": "self.version",
         "swp/output-channel": "self.version",
         "swp/paywall-bundle": "self.version",
-        "swp/paywall": "self.version"
+        "swp/paywall": "self.version",
+        "lullabot/amp": "^1.0"
     },
     "scripts": {
         "post-install-cmd": [
