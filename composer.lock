@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f979a08d3f3f29f6cc7a44d29f0abfce",
+    "content-hash": "8f0e844d61f32a3188a872e4c0150341",
     "packages": [
         {
             "name": "apache/log4php",
@@ -9217,6 +9217,62 @@
             "time": "2019-04-17T15:57:27+00:00"
         },
         {
+            "name": "takeit/amp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/takeit/amp-library.git",
+                "reference": "676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/takeit/amp-library/zipball/676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870",
+                "reference": "676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.1",
+                "marc1706/fast-image-size": "1.*",
+                "masterminds/html5": "~2.3.0",
+                "php": ">=5.5.0",
+                "querypath/querypath": ">=3.0.4",
+                "sabberworm/php-css-parser": "^8.0.0",
+                "sebastian/diff": "^1.2 || ^2 || ^3"
+            },
+            "require-dev": {
+                "php": ">=5.5.0",
+                "phpunit/phpunit": "4.8.* || ^6",
+                "symfony/console": "^2.7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/Spec/validator-generated.php"
+                ],
+                "psr-4": {
+                    "Lullabot\\AMP\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sidharth Kshatriya",
+                    "email": "sid.kshatriya@gmail.com"
+                }
+            ],
+            "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
+            "homepage": "https://github.com/Lullabot/amp-library",
+            "keywords": [
+                "amp",
+                "drupal",
+                "mobile"
+            ],
+            "time": "2019-06-18T08:17:53+00:00"
+        },
+        {
             "name": "takeit/amp-html-bundle",
             "version": "v1.0.1",
             "source": {
@@ -11231,7 +11287,7 @@
                     "email": "shelburt02@gmail.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -12791,17 +12847,6 @@
         {
             "name": "roave/security-advisories",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/1dfa887a7e87ba9b7c635299462554b9ad241d5b",
-                "reference": "1dfa887a7e87ba9b7c635299462554b9ad241d5b",
-                "shasum": ""
-            },
             "conflict": {
                 "3f/pygmentize": "<1.2",
                 "adodb/adodb-php": "<5.20.12",
@@ -12994,7 +13039,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-04-30T09:56:45+00:00"
+            "time": "2019-06-14T17:56:32+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -13784,6 +13829,7 @@
         "friendsofsymfony/rest-bundle": 20,
         "burgov/key-value-form-bundle": 0,
         "react/zmq": 20,
+        "takeit/amp": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,

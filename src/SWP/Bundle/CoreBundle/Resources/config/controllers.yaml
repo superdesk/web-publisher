@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    public: false
+
+  takeit_amp_html.amp_controller:
+    class: SWP\Bundle\CoreBundle\Controller\AmpController
+    bind:
+      $twig: '@twig'
+      $ampConverter: '@takeit_amp_html.amp_converter'
+      $ampThemeLoader: '@takeit_amp_html.loader.theme'
+      $cacheService: '@doctrine_cache.providers.main_cache'
+    public: true
