@@ -32,7 +32,7 @@ class ExternalOauthProvider extends AbstractProvider
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->base_url . '/userinfo?access_token='.$token;
+        return $this->base_url . '/userinfo';
     }
 
     protected function getDefaultScopes()
@@ -58,5 +58,16 @@ class ExternalOauthProvider extends AbstractProvider
     protected function getScopeSeparator()
     {
         return $this->scope_separator;
+    }
+
+    protected function getAuthorizationHeaders($token = null)
+    {
+        if($token) {
+            return [
+                'Authorization' => 'Bearer ' . $token
+            ];
+        } else {
+            return [];
+        }
     }
 }
