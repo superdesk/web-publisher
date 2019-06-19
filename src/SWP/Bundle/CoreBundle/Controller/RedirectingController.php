@@ -40,9 +40,9 @@ class RedirectingController extends AbstractController
     public function redirectBasedOnExtraDataAction(Request $request, string $key, string $value): RedirectResponse
     {
         try {
-            $existingArticle = $this->articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
+            $existingArticle = $this->articleRepository->getArticleByExtraData($key, $value)->getQuery()->getOneOrNullResult();
             if (null === $existingArticle) {
-                $existingArticle = $this->articleRepository->getArticleByExtraData($key, $value)->getQuery()->getOneOrNullResult();
+                $existingArticle = $this->articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
             }
         } catch (NonUniqueResultException $e) {
             $existingArticle = null;
