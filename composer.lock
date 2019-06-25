@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6587ff632f54a0fa76fa14b8556bba74",
+    "content-hash": "25bfb85ca171eed585367e32ecce76ae",
     "packages": [
         {
             "name": "apache/log4php",
@@ -4983,17 +4983,17 @@
         },
         {
             "name": "knplabs/knp-time-bundle",
-            "version": "1.8.0",
+            "version": "v1.9.1",
             "target-dir": "Knp/Bundle/TimeBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpTimeBundle.git",
-                "reference": "dd7ed9e72e8c28edb596c13e3d3c18c29d1248b4"
+                "reference": "d8464f1f0e0bdeb6fab3dd0d34bc085705e769f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/dd7ed9e72e8c28edb596c13e3d3c18c29d1248b4",
-                "reference": "dd7ed9e72e8c28edb596c13e3d3c18c29d1248b4",
+                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/d8464f1f0e0bdeb6fab3dd0d34bc085705e769f0",
+                "reference": "d8464f1f0e0bdeb6fab3dd0d34bc085705e769f0",
                 "shasum": ""
             },
             "require": {
@@ -5044,7 +5044,7 @@
                 "knplabs",
                 "time"
             ],
-            "time": "2017-12-26T03:59:33+00:00"
+            "time": "2019-04-19T10:01:52+00:00"
         },
         {
             "name": "layershifter/tld-database",
