@@ -32,6 +32,6 @@ class MessageFormatter extends BaseMessageFormatter
             $locale = substr($locale, 0, $position);
         }
 
-        return $this->format($message, $locale, $parameters);
+        return parent::format($message, $locale, $parameters);
     }
 }
