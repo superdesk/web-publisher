@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3dd0fe6a0b879517a99d27aab2201528",
+    "content-hash": "8edc2654f9680aa7bb41c7d3a030fd6d",
     "packages": [
         {
             "name": "apache/log4php",
@@ -23,6 +23,7 @@
                     "src/main/php/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -33,11 +34,6 @@
                 "logging",
                 "php"
             ],
-            "support": {
-                "issues": "https://issues.apache.org/jira/browse/LOG4PHP",
-                "source": "https://svn.apache.org/repos/asf/logging/log4php",
-                "email": "log4php-user@logging.apache.org"
-            },
             "time": "2012-10-26T09:13:25+00:00"
         },
         {
@@ -10773,7 +10769,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -14920,7 +14916,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "? Nette Finder: find files and directories with an intuitive API.",
+            "description": "🔍 Nette Finder: find files and directories with an intuitive API.",
             "homepage": "https://nette.org",
             "keywords": [
                 "filesystem",
@@ -14980,7 +14976,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "? Nette NEON: encodes and decodes NEON file format.",
+            "description": "🍸 Nette NEON: encodes and decodes NEON file format.",
             "homepage": "http://ne-on.org",
             "keywords": [
                 "export",
@@ -16267,17 +16263,6 @@
         {
             "name": "roave/security-advisories",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "baeb6f512b5ec8f0fd58bf890082b179f985c5a4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/baeb6f512b5ec8f0fd58bf890082b179f985c5a4",
-                "reference": "baeb6f512b5ec8f0fd58bf890082b179f985c5a4",
-                "shasum": ""
-            },
             "conflict": {
                 "3f/pygmentize": "<1.2",
                 "adodb/adodb-php": "<5.20.12",
