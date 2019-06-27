@@ -2,10 +2,10 @@
 
 namespace SWP\Bundle\CoreBundle\Security\Provider;
 
-use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use League\OAuth2\Client\Provider\GenericResourceOwner;
 use League\OAuth2\Client\Tool\ArrayAccessorTrait;
 
-class ExternalOauthResourceOwner extends ResourceOwnerInterface
+class ExternalOauthResourceOwner extends GenericResourceOwner
 {
     use ArrayAccessorTrait;
 
