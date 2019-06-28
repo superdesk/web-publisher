@@ -59,23 +59,6 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
                     $article->setFeatureMedia($articleMedia);
                 }
             }
-
-            if (null !== ($packageItems = $packageItem->getItems()) && 0 !== $packageItems->count()) {
-                $packageItems = $packageItem->getItems()->filter(
-                    function ($entry) use ($guids) {
-                        return !\in_array($entry->getGuid(), $guids, true);
-                    }
-                );
-
-                foreach ($packageItems as $key => $item) {
-                    if ($this->isTypeAllowed($item->getType())) {
-                        $this->removeArticleMediaIfNeeded($key, $article);
-
-                        $articleMedia = $this->handleMedia($article, $key, $item);
-                        $this->articleMediaRepository->persist($articleMedia);
-                    }
-                }
-            }
         }
     }
 }
