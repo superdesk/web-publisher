@@ -21,3 +21,5 @@ SWP\Bundle\UserBundle\Model\User:
             expose: true
             groups: [api]
             type: DateTime<'Y-m-d\TH:i:sO'>
+        externalId:
+            expose: false

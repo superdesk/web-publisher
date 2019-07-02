@@ -57,8 +57,8 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
             return $existingEmailUser;
         }
 
-        // Is there an existing user with the same user id (stored in username)?
-        $existingIdUser = $userProvider->findUserByUsername($oauthId);
+        // Is there an existing user with the same oauth id?
+        $existingIdUser = $userProvider->findUserByExternalId($oauthId);
         if($existingIdUser) {
             // The user has the same ID but a new email, meaning the email has
             // been updated on the authentication server. Update it here as well.
@@ -74,6 +74,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $newUser->setUsername($oauthId);
         $newUser->setEnabled(true);
         $newUser->setSuperAdmin(false);
+        $newUser->setExternalId($oauthId);
         $userManager->updateUser($user);
 
         // FIXME: Do we need to dispatch a USER_CREATED event? What does that do?
