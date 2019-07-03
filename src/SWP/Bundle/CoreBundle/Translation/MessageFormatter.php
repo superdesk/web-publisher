@@ -16,51 +16,22 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Translation;
 
-use Symfony\Component\Translation\Formatter\ChoiceMessageFormatterInterface;
-use Symfony\Component\Translation\Formatter\MessageFormatterInterface;
-use Symfony\Component\Translation\IdentityTranslator;
-use Symfony\Component\Translation\MessageSelector;
-use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use function strpos;
+use function substr;
+use Symfony\Component\Translation\Formatter\MessageFormatter as BaseMessageFormatter;
 
-class MessageFormatter implements MessageFormatterInterface, ChoiceMessageFormatterInterface
+class MessageFormatter extends BaseMessageFormatter
 {
-    private $translator;
-
-    public function __construct($translator = null)
-    {
-        if ($translator instanceof MessageSelector) {
-            $translator = new IdentityTranslator($translator);
-        } elseif (null !== $translator && !$translator instanceof TranslatorInterface && !$translator instanceof LegacyTranslatorInterface) {
-            throw new \TypeError(sprintf('Argument 1 passed to %s() must be an instance of %s, %s given.', __METHOD__, TranslatorInterface::class, \is_object($translator) ? \get_class($translator) : \gettype($translator)));
-        }
-
-        $this->translator = $translator ?? new IdentityTranslator();
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function format($message, $locale, array $parameters = array())
+    public function format($message, $locale, array $parameters = array()): string
     {
-        return strtr($message, $parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function choiceFormat($message, $number, $locale, array $parameters = array())
-    {
-        $parameters = array_merge(array('%count%' => $number), $parameters);
-        $position = \strpos($locale, '@');
+        $position = strpos($locale, '@');
         if (false !== $position) {
-            $locale = \substr($locale, 0, $position);
+            $locale = substr($locale, 0, $position);
         }
 
-        if ($this->translator instanceof TranslatorInterface) {
-            return $this->format($message, $locale, $parameters);
-        }
-
-        return $this->format($this->translator->transChoice($message, $number, [], null, $locale), $locale, $parameters);
+        return parent::format($message, $locale, $parameters);
     }
 }
