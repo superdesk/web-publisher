@@ -14,7 +14,6 @@ SWP\Component\Bridge\Model\Item:
             nullable: true
         headline:
             type: string
-            length: 500
         slugline:
             type: string
             nullable: true

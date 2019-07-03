@@ -73,35 +73,31 @@ class ImageConversionConsumer implements ConsumerInterface
             return ConsumerInterface::MSG_REJECT;
         }
 
-        if (null !== $image) {
-            $image = $this->entityManager->merge($image);
-            $mediaId = $image->getAssetId();
-            $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
+        $image = $this->entityManager->merge($image);
+        $mediaId = $image->getAssetId();
+        $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
 
-            try {
-                if (!function_exists('imagewebp')) {
-                    throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
-                }
-                imagewebp($this->getImageAsResource($image), $tempLocation);
-                $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
-                $this->mediaManager->saveFile($uploadedFile, $mediaId);
-
-                $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
-
-                $image->addVariant(ImageInterface::VARIANT_WEBP);
-                $this->entityManager->flush();
-            } catch (Exception $e) {
-                $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
-
-                return ConsumerInterface::MSG_REJECT;
-            } finally {
-                $filesystem = new Filesystem();
-                if ($filesystem->exists($tempLocation)) {
-                    $filesystem->remove($tempLocation);
-                }
+        try {
+            if (!function_exists('imagewebp')) {
+                throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
             }
-        } else {
-            $this->logger->error('Rendition was not found in database!');
+            imagewebp($this->getImageAsResource($image), $tempLocation);
+            $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
+            $this->mediaManager->saveFile($uploadedFile, $mediaId);
+
+            $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
+
+            $image->addVariant(ImageInterface::VARIANT_WEBP);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
+
+            return ConsumerInterface::MSG_REJECT;
+        } finally {
+            $filesystem = new Filesystem();
+            if ($filesystem->exists($tempLocation)) {
+                $filesystem->remove($tempLocation);
+            }
         }
 
         return ConsumerInterface::MSG_ACK;
