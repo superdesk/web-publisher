@@ -38,13 +38,13 @@ class ImageToWebpConversionListener
 
     public function postPersist(LifecycleEventArgs $args): void
     {
-        $rendition = $args->getEntity();
+        $rendition = $args->getObject();
         if (!$this->isWebpConversionEnabled || !$rendition instanceof ImageRenditionInterface) {
             return;
         }
 
         $this->imageConversionProducer->publish(serialize([
-            'renditionId' => $rendition->getId(),
+            'image' => $rendition->getImage(),
             'tenantId' => $this->tenantContext->getTenant()->getId(),
         ]));
     }

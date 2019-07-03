@@ -17,7 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Consumer;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\ORMException;
 use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
@@ -87,6 +89,10 @@ class ContentPushConsumer implements ConsumerInterface
     {
         try {
             return $this->doExecute($msg);
+        } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
+            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
+            return ConsumerInterface::MSG_REJECT;
         } catch (DBALException | ORMException $e) {
             throw $e;
         } catch (Exception $e) {

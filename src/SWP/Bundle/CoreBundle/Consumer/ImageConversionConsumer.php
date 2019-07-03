@@ -27,7 +27,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
-use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\CoreBundle\Model\ImageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
@@ -64,7 +63,7 @@ class ImageConversionConsumer implements ConsumerInterface
     public function execute(AMQPMessage $message): int
     {
         try {
-            ['renditionId' => $imageRenditionId, 'tenantId' => $tenantId] = unserialize($message->body, [false]);
+            ['image' => $image, 'tenantId' => $tenantId] = unserialize($message->body, [false]);
             if (($tenant = $this->entityManager->find(Tenant::class, $tenantId)) instanceof TenantInterface) {
                 $this->tenantContext->setTenant($tenant);
             }
@@ -74,32 +73,30 @@ class ImageConversionConsumer implements ConsumerInterface
             return ConsumerInterface::MSG_REJECT;
         }
 
-        $imageRendition = $this->entityManager->find(ImageRendition::class, $imageRenditionId);
-        if (null !== $imageRendition) {
-            $mediaId = $imageRendition->getImage()->getAssetId();
-            $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
+        $image = $this->entityManager->merge($image);
+        $mediaId = $image->getAssetId();
+        $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
 
-            try {
-                if (!function_exists('imagewebp')) {
-                    throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
-                }
-                imagewebp($this->getImageAsResource($imageRendition->getImage()), $tempLocation);
-                $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
-                $this->mediaManager->saveFile($uploadedFile, $mediaId);
+        try {
+            if (!function_exists('imagewebp')) {
+                throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
+            }
+            imagewebp($this->getImageAsResource($image), $tempLocation);
+            $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
+            $this->mediaManager->saveFile($uploadedFile, $mediaId);
 
-                $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
+            $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
 
-                $imageRendition->getImage()->addVariant(ImageInterface::VARIANT_WEBP);
-                $this->entityManager->flush();
-            } catch (Exception $e) {
-                $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
+            $image->addVariant(ImageInterface::VARIANT_WEBP);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
-                return ConsumerInterface::MSG_REJECT;
-            } finally {
-                $filesystem = new Filesystem();
-                if ($filesystem->exists($tempLocation)) {
-                    $filesystem->remove($tempLocation);
-                }
+            return ConsumerInterface::MSG_REJECT;
+        } finally {
+            $filesystem = new Filesystem();
+            if ($filesystem->exists($tempLocation)) {
+                $filesystem->remove($tempLocation);
             }
         }
 
