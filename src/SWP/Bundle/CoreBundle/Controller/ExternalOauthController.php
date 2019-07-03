@@ -10,6 +10,7 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ExternalOauthController extends Controller
 {
@@ -33,12 +34,17 @@ class ExternalOauthController extends Controller
      */
     public function connectCheckAction(Request $request)
     {
-        $clientRegistry = $this->get('knpu.oauth2.registry');
-        $client = $clientRegistry->getClient('external_oauth');
-
-        $accessToken = $client->getAccessToken();
-        $oauthUser = $client->fetchUserFromToken($accessToken);
-
-        return new Response('Access token acquired! ' . $accessToken . "\n" . var_dump($oauthUser));
+        if(!$this->getUser()) {
+            return new JsonResponse(array('status' => false, 'message' => "User not found!"));
+        } else {
+            return $this->redirectToRoute('default');
+        }
+#        $clientRegistry = $this->get('knpu.oauth2.registry');
+#        $client = $clientRegistry->getClient('external_oauth');
+#
+#        $accessToken = $client->getAccessToken();
+#        $oauthUser = $client->fetchUserFromToken($accessToken);
+#
+#        return new Response('Access token acquired! ' . $accessToken . "\n" . var_dump($oauthUser));
     }
 }

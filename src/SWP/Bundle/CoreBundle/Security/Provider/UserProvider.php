@@ -28,7 +28,7 @@ class UserProvider extends FOSUserProvider
     public function findOneByExternalId($externalId)
     {
         return $this->userManager->findUserBy([
-            'externalId' => $email,
+            'externalId' => $externalId,
         ]);
     }
 }

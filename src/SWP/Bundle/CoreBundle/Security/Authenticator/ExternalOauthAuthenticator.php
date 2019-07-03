@@ -51,31 +51,36 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $oauthEmail = $oauthUser->getEmail();
         $oauthId = $oauthUser->getId();
 
-        // Is there an existing user with the same email address?
-        $existingEmailUser = $userProvider->findOneByEmail($oauthEmail);
-        if($existingEmailUser) {
-            return $existingEmailUser;
+        // Is there an existing user with the same oauth id?
+        $user = $userProvider->findOneByExternalId($oauthId);
+        if($user) {
+            if($user->getEmail() !== $oauthEmail) {
+                // The user has the same ID but a new email, meaning the email has
+                // been updated on the authentication server. Update it here as well.
+                $user->setEmail($oauthEmail);
+                $userManager->updateUser($user);
+            }
+            return $user;
         }
 
-        // Is there an existing user with the same oauth id?
-        $existingIdUser = $userProvider->findUserByExternalId($oauthId);
-        if($existingIdUser) {
-            // The user has the same ID but a new email, meaning the email has
-            // been updated on the authentication server. Update it here as well.
-            $existingIdUser->setEmail($oauthEmail);
-            $userManager->updateUser($existingIdUser);
-            return $existingIdUser;
+        // Is there an existing user with the same email address?
+        $user = $userProvider->findOneByEmail($oauthEmail);
+        if($user) {
+            return $user;
         }
+
 
         // If the user has never logged in before, create the user 
         // using the information provided by OAuth
-        $newUser = $userManager->createUser();
-        $newUser->setEmail($oauthEmail);
-        $newUser->setUsername($oauthId);
-        $newUser->setEnabled(true);
-        $newUser->setSuperAdmin(false);
-        $newUser->setExternalId($oauthId);
+        $user = $userManager->createUser();
+        $user->setEmail($oauthEmail);
+        $user->setUsername($oauthId);
+        $user->setEnabled(true);
+        $user->setSuperAdmin(false);
+        $user->setExternalId($oauthId);
         $userManager->updateUser($user);
+
+        return $user;
 
         // FIXME: Do we need to dispatch a USER_CREATED event? What does that do?
         /** @var $dispatcher EventDispatcherInterface */
