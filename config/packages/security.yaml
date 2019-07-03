@@ -47,11 +47,12 @@ security:
             anonymous: false
             logout: false
             guard:
-                entry_point: lexik_jwt_authentication.jwt_token_authenticator
+                entry_point: swp.security.external_oauth_authenticator
+                #lexik_jwt_authentication.jwt_token_authenticator
                 authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
-                    - swp.security.token_authenticator
                     - swp.security.external_oauth_authenticator
+                      #- lexik_jwt_authentication.jwt_token_authenticator
+                      #- swp.security.token_authenticator
             stateless: true
         preview:
             pattern: ^/preview/package
@@ -59,20 +60,29 @@ security:
             logout: false
             guard:
                 authenticators:
-                    - swp.security.preview_token_authenticator
+                    - swp.security.external_oauth_authenticator
+                      #- swp.security.preview_token_authenticator
             stateless: true
         main:
             pattern: ^/
-            form_login:
-                check_path: security_login_check
-                provider: fos_userbundle
-                target_path_parameter: _login_success_path
-                failure_path_parameter: _login_failure_path
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+            #            form_login:
+            #    check_path: security_login_check
+            #    provider: fos_userbundle
+            #    target_path_parameter: _login_success_path
+            #    failure_path_parameter: _login_failure_path
+            #    success_handler:          lexik_jwt_authentication.handler.authentication_success
+            #    failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+            #logout:
+            #    path: security_logout
+            #anonymous: true
+            anonymous: ~
             logout:
-                path: security_logout
-            anonymous: true
+                path: /logout
+                target: /login
+            logout_on_user_change: true
+            guard:
+                authenticators:
+                    - swp.security.external_oauth_authenticator
 
     access_control:
         - { path: "^/preview/article", roles: ROLE_EDITOR }
