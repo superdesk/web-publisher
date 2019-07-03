@@ -134,7 +134,31 @@ Feature: Converting images to webp format and rendering them for reader
                 </picture>
               {% endgimme %}
           </figure>
+           <figure>
+              {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': 'viewImage' } %}
+                <picture>
+                    {% if rendition.isConvertedToWebp %}
+                    <source srcset="{{ path(rendition, { webp: true }) }}" type="image/webp" width="2048" height="1365">
+                    {% endif %}
+                    <img src="{{ path(rendition) }}" alt="{{ imgCaption }}" width="2048" height="1365" />
+                </picture>
+              {% endgimme %}
+          </figure>
+           <figure>
+              {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': 'baseImage' } %}
+                <picture>
+                    {% if rendition.isConvertedToWebp %}
+                    <source srcset="{{ path(rendition, { webp: true }) }}" type="image/webp" width="2048" height="1365">
+                    {% endif %}
+                    <img src="{{ path(rendition) }}" alt="{{ imgCaption }}" width="2048" height="1365" />
+                </picture>
+              {% endgimme %}
+          </figure>
       {% endgimme %}
      """
     Then rendered template should contain "http://localhost/uploads/swp/123456/media/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.webp"
     Then rendered template should contain "http://localhost/uploads/swp/123456/media/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+    Then rendered template should contain "http://localhost/uploads/swp/123456/media/20170111140132_3e737624ba92da6a54ca113344266ffc779c209df0f62297c0269a324c9b504c.webp"
+    Then rendered template should contain "http://localhost/uploads/swp/123456/media/20170111140132_3e737624ba92da6a54ca113344266ffc779c209df0f62297c0269a324c9b504c.png"
+    Then rendered template should contain "http://localhost/uploads/swp/123456/media/20170111140132_828ca0e06e013797aa2f32be119803f37843501c7618ea364b6b393f17e69708.webp"
+    Then rendered template should contain "http://localhost/uploads/swp/123456/media/20170111140132_828ca0e06e013797aa2f32be119803f37843501c7618ea364b6b393f17e69708.png"

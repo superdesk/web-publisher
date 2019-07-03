@@ -93,6 +93,8 @@ class MediaManager implements MediaManagerInterface
             return;
         }
 
+        // todo: handle errors with retry when write stream returns false
+        //       or maybe verify it file exists?
         $stream = fopen($uploadedFile->getRealPath(), 'rb+');
         $this->filesystem->writeStream($filePath, $stream);
         fclose($stream);
