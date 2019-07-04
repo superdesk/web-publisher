@@ -31,7 +31,13 @@ use SWP\Component\Common\Model\TranslatableTrait;
  */
 class Article implements ArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait, RelatedArticlesAwareTrait, TimestampableCancelTrait;
+    use TranslatableTrait;
+    use SoftDeletableTrait;
+    use TimestampableTrait;
+    use AuthorsAwareTrait;
+    use KeywordsAwareTrait;
+    use RelatedArticlesAwareTrait;
+    use TimestampableCancelTrait;
 
     /**
      * @var mixed
@@ -168,6 +174,11 @@ class Article implements ArticleInterface
     public function setPublishable($boolean)
     {
         $this->isPublishable = $boolean;
+    }
+
+    public function setIsPublishable(bool $boolean): void
+    {
+        $this->setPublishable($boolean);
     }
 
     public function isPublished()

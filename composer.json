@@ -118,7 +118,8 @@
         "rdx/behat-variables": "^1.2",
         "apache/log4php": "^2.3",
         "takeit/amp-html-bundle": "^1.0",
-        "blackfire/php-sdk": "^1.17"
+        "blackfire/php-sdk": "^1.17",
+        "takeit/amp": "dev-master"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -167,7 +168,8 @@
         "swp/output-channel-bundle": "self.version",
         "swp/output-channel": "self.version",
         "swp/paywall-bundle": "self.version",
-        "swp/paywall": "self.version"
+        "swp/paywall": "self.version",
+        "lullabot/amp": "^1.0"
     },
     "scripts": {
         "post-install-cmd": [
