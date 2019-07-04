@@ -34,17 +34,36 @@ class ExternalOauthController extends Controller
      */
     public function connectCheckAction(Request $request)
     {
-        if(!$this->getUser()) {
-            return new JsonResponse(array('status' => false, 'message' => "User not found!"));
-        } else {
-            return $this->redirectToRoute('default');
+        $clientRegistry = $this->get('knpu.oauth2.registry');
+        $client = $clientRegistry->getClient('external_oauth');
+
+        $accessToken = $client->getAccessToken();
+        $oauthUser = $client->fetchUserFromToken($accessToken);
+
+        $user = $this->getUser();
+        if(!$user) {
+            // If the user has never logged in before, create the user 
+            // using the information provided by OAuth
+            $userManager = $container->get('fos_user.user_manager');
+            // fixme: canonicalize email!
+
+            $newUser = $userManager->createUser();
+            $newUser->setEmail($oauthUser->getEmail());
+            $newUser->setUsername($oauthUser->getEmail());
+            $newUser->setEnabled(true);
+            $newUser->setSuperAdmin(false);
+            $newUser->setExternalId($oauthUser->getId());
+            $userManager->updateUser($user);
+
+            $user = $this->getUser();
+
+            if(!$user) {
+                return new JsonResponse(array('status' => false, 'message' => "User not found!"));
+            }
         }
-#        $clientRegistry = $this->get('knpu.oauth2.registry');
-#        $client = $clientRegistry->getClient('external_oauth');
-#
-#        $accessToken = $client->getAccessToken();
-#        $oauthUser = $client->fetchUserFromToken($accessToken);
-#
-#        return new Response('Access token acquired! ' . $accessToken . "\n" . var_dump($oauthUser));
+        $response = $this->redirectToRoute('homepage');
+        $response->headers->set('Authorization', $accessToken);
+
+        return $response;
     }
 }

@@ -32,20 +32,25 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
     public function supports(Request $request) 
     {
-        return $request->headers->has('Authorization') && 
-                preg_match('/^Bearer/', $request->headers['Authorization']);
+#        return $request->headers->has('Authorization') && 
+#                preg_match('/^Bearer/', $request->headers['Authorization']);
+        return true;
     }
 
     public function getCredentials(Request $request)
     {
-        return $this->fetchAccessToken($this->getOauthClient());
+        $authHeader = $request->headers->get('Authorization');
+        if($authHeader && preg_match('/^Bearer/', $authHeader)) {
+            return array(
+                "token" => substr($authHeader, 7)
+            );
+        } else {
+            return $this->fetchAccessToken($this->getOauthClient());
+        }
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        /** @var UserManagerInterface $userManager */
-        $userManager = $this->get('fos_user.user_manager');
-
         $oauthUser = $this->getOauthClient()->fetchUserFromToken($credentials);
         // FIXME: Canonicalize email!
         $oauthEmail = $oauthUser->getEmail();
@@ -57,8 +62,8 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
             if($user->getEmail() !== $oauthEmail) {
                 // The user has the same ID but a new email, meaning the email has
                 // been updated on the authentication server. Update it here as well.
-                $user->setEmail($oauthEmail);
-                $userManager->updateUser($user);
+#                $user->setEmail($oauthEmail);
+#                $userManager->updateUser($user);
             }
             return $user;
         }
@@ -69,18 +74,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
             return $user;
         }
 
-
-        // If the user has never logged in before, create the user 
-        // using the information provided by OAuth
-        $user = $userManager->createUser();
-        $user->setEmail($oauthEmail);
-        $user->setUsername($oauthId);
-        $user->setEnabled(true);
-        $user->setSuperAdmin(false);
-        $user->setExternalId($oauthId);
-        $userManager->updateUser($user);
-
-        return $user;
+        return null;
 
         // FIXME: Do we need to dispatch a USER_CREATED event? What does that do?
         /** @var $dispatcher EventDispatcherInterface */
