@@ -20,6 +20,7 @@ use BadFunctionCallException;
 use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use InvalidArgumentException;
 use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
@@ -62,10 +63,16 @@ class ImageConversionConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $message): int
     {
+        sleep(1); // wait for data to be flushed (really) in database
+
         try {
             ['image' => $image, 'tenantId' => $tenantId] = unserialize($message->body, [false]);
             if (($tenant = $this->entityManager->find(Tenant::class, $tenantId)) instanceof TenantInterface) {
                 $this->tenantContext->setTenant($tenant);
+            }
+
+            if (null === $image) {
+                throw new InvalidArgumentException('Missing image data');
             }
         } catch (RuntimeException $e) {
             $this->logger->error('Message REJECTED: '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
@@ -73,6 +80,7 @@ class ImageConversionConsumer implements ConsumerInterface
             return ConsumerInterface::MSG_REJECT;
         }
 
+        /** @var ImageInterface $image */
         $image = $this->entityManager->merge($image);
         $mediaId = $image->getAssetId();
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
