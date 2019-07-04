@@ -99,7 +99,6 @@
     "php-http/guzzle6-adapter": "^v1.1",
     "phpdocumentor/reflection-docblock": "^4.3",
     "ramsey/uuid": "^3.8",
-    "rdx/behat-variables": "^1.2",
     "sensio/framework-extra-bundle": "^5.2",
     "sentry/sentry-symfony": "^2.0",
     "stof/doctrine-extensions-bundle": "^1.2",

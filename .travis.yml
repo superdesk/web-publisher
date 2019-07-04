@@ -21,10 +21,10 @@ env:
   - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
   - APP_ENV=test
   matrix:
-  - DOCTRINE_CACHE_DRIVER="memcached" COMPOSER_FLAGS='update --prefer-stable'
-  - DOCTRINE_CACHE_DRIVER="memcached" COMPOSER_FLAGS='install'
-  - DOCTRINE_CACHE_DRIVER="array" COMPOSER_FLAGS='update --prefer-stable'
-  - DOCTRINE_CACHE_DRIVER="array" COMPOSER_FLAGS='install'
+  - DOCTRINE_CACHE_DRIVER="memcached" COMPOSER_FLAGS='install --no-interaction --prefer-dist && composer update --prefer-stable --no-interaction --prefer-dist'
+  - DOCTRINE_CACHE_DRIVER="memcached" COMPOSER_FLAGS='install --no-interaction --prefer-dist'
+  - DOCTRINE_CACHE_DRIVER="array" COMPOSER_FLAGS='install --no-interaction --prefer-dist && composer update --prefer-stable --no-interaction --prefer-dist'
+  - DOCTRINE_CACHE_DRIVER="array" COMPOSER_FLAGS='install --no-interaction --prefer-dist'
 
 matrix:
   allow_failures:
@@ -63,7 +63,7 @@ before_script:
 - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep memcached
 - phpenv config-rm xdebug.ini || echo "xdebug not available"
 - phpenv rehash
-- composer $COMPOSER_FLAGS --no-interaction --prefer-dist
+- composer $COMPOSER_FLAGS
 - cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing loading fixtures in dev env")"
 - php bin/console doctrine:schema:update -f
