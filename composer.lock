@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "debf84349fe4f2bdf2fb584562bcf9c6",
+    "content-hash": "169a154241c22cb3160e0004bb2cb96d",
     "packages": [
         {
             "name": "apache/log4php",
@@ -15520,16 +15520,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "0.3.3",
+            "version": "0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "472d3161d289f652713a5e353532fa4592663a57"
+                "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/472d3161d289f652713a5e353532fa4592663a57",
-                "reference": "472d3161d289f652713a5e353532fa4592663a57",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/8c4ef2aefd9788238897b678a985e1d5c8df6db4",
+                "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4",
                 "shasum": ""
             },
             "require": {
@@ -15563,20 +15563,20 @@
                 "MIT"
             ],
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "time": "2019-04-23T20:26:19+00:00"
+            "time": "2019-06-07T19:13:52+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.11.5",
+            "version": "0.11.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "24ce5a566a798b81343138ed5d41d6877554cf9a"
+                "reference": "6771e622ad93f0aff16a100547811e1e50781acb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/24ce5a566a798b81343138ed5d41d6877554cf9a",
-                "reference": "24ce5a566a798b81343138ed5d41d6877554cf9a",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6771e622ad93f0aff16a100547811e1e50781acb",
+                "reference": "6771e622ad93f0aff16a100547811e1e50781acb",
                 "shasum": ""
             },
             "require": {
@@ -15585,10 +15585,11 @@
                 "nette/bootstrap": "^2.4 || ^3.0",
                 "nette/di": "^2.4.7 || ^3.0",
                 "nette/robot-loader": "^3.0.1",
+                "nette/schema": "^1.0",
                 "nette/utils": "^2.4.5 || ^3.0",
                 "nikic/php-parser": "^4.0.2",
                 "php": "~7.1",
-                "phpstan/phpdoc-parser": "^0.3",
+                "phpstan/phpdoc-parser": "^0.3.5",
                 "symfony/console": "~3.2 || ~4.0",
                 "symfony/finder": "~3.2 || ~4.0"
             },
@@ -15601,6 +15602,7 @@
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
                 "ext-intl": "*",
                 "ext-mysqli": "*",
+                "ext-simplexml": "*",
                 "ext-soap": "*",
                 "ext-zip": "*",
                 "jakub-onderka/php-parallel-lint": "^1.0",
@@ -15636,7 +15638,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-03-25T16:40:09+00:00"
+            "time": "2019-07-03T21:25:16+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -16055,109 +16057,6 @@
             ],
             "description": "Store variables across Scenarios during Behat testing",
             "time": "2017-11-16T11:58:21+00:00"
-        },
-        {
-            "name": "rector/rector",
-            "version": "v0.4.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rectorphp/rector.git",
-                "reference": "c2495c1759498b1cdfcd0962b99afbf30ee1021b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/c2495c1759498b1cdfcd0962b99afbf30ee1021b",
-                "reference": "c2495c1759498b1cdfcd0962b99afbf30ee1021b",
-                "shasum": ""
-            },
-            "require": {
-                "composer/xdebug-handler": "^1.3",
-                "jean85/pretty-package-versions": "^1.2",
-                "nette/robot-loader": "^3.1",
-                "nette/utils": "^2.5|^3.0",
-                "nikic/php-parser": "^4.2.1",
-                "php": "^7.1",
-                "phpstan/phpdoc-parser": "0.3.3",
-                "phpstan/phpstan": "0.11.5",
-                "sebastian/diff": "^3.0",
-                "symfony/console": "^3.4|^4.2",
-                "symfony/dependency-injection": "^3.4|^4.2",
-                "symfony/finder": "^3.4|^4.2",
-                "symfony/process": "^3.4|^4.2",
-                "symplify/package-builder": "^5.4.16"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.14",
-                "ocramius/package-versions": "^1.4",
-                "phpunit/phpunit": "^7.5|^8.0",
-                "symplify/changelog-linker": "^5.4.16",
-                "symplify/easy-coding-standard": "^5.4.16",
-                "symplify/monorepo-builder": "^5.4.16",
-                "symplify/phpstan-extensions": "^5.4.16",
-                "thecodingmachine/phpstan-strict-rules": "^0.11",
-                "tracy/tracy": "^2.5"
-            },
-            "suggest": {
-                "symplify/easy-coding-standard": "Required to enable '--with-style' option. Use in case you don't have PHP_CodeSniffer or PHP-CS-Fixer yet."
-            },
-            "bin": [
-                "bin/rector"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Rector\\": "src",
-                    "Rector\\Celebrity\\": "packages/Celebrity/src",
-                    "Rector\\BetterPhpDocParser\\": "packages/BetterPhpDocParser/src",
-                    "Rector\\ConsoleDiffer\\": "packages/ConsoleDiffer/src",
-                    "Rector\\CodingStyle\\": "packages/CodingStyle/src",
-                    "Rector\\DeadCode\\": "packages/DeadCode/src",
-                    "Rector\\Guzzle\\": "packages/Guzzle/src",
-                    "Rector\\CodeQuality\\": "packages/CodeQuality/src",
-                    "Rector\\NetteToSymfony\\": "packages/NetteToSymfony/src",
-                    "Rector\\DomainDrivenDesign\\": "packages/DomainDrivenDesign/src",
-                    "Rector\\NodeTypeResolver\\": "packages/NodeTypeResolver/src",
-                    "Rector\\Symfony\\": "packages/Symfony/src",
-                    "Rector\\CakePHP\\": "packages/CakePHP/src",
-                    "Rector\\Php\\": "packages/Php/src",
-                    "Rector\\Jms\\": "packages/Jms/src",
-                    "Rector\\RemovingStatic\\": "packages/RemovingStatic/src",
-                    "Rector\\Silverstripe\\": "packages/Silverstripe/src",
-                    "Rector\\Sensio\\": "packages/Sensio/src",
-                    "Rector\\Sylius\\": "packages/Sylius/src",
-                    "Rector\\PHPStan\\": "packages/PHPStan/src",
-                    "Rector\\PHPUnit\\": "packages/PHPUnit/src",
-                    "Rector\\Twig\\": "packages/Twig/src",
-                    "Rector\\MysqlToMysqli\\": "packages/MysqlToMysqli/src",
-                    "Rector\\PhpParser\\": "packages/PhpParser/src",
-                    "Rector\\Doctrine\\": "packages/Doctrine/src",
-                    "Rector\\FileSystemRector\\": "packages/FileSystemRector/src",
-                    "Rector\\ContributorTools\\": "packages/ContributorTools/src",
-                    "Rector\\Laravel\\": "packages/Laravel/src",
-                    "Rector\\PhpSpecToPHPUnit\\": "packages/PhpSpecToPHPUnit/src",
-                    "Rector\\Shopware\\": "packages/Shopware/src",
-                    "Rector\\NetteTesterToPHPUnit\\": "packages/NetteTesterToPHPUnit/src",
-                    "Rector\\Nette\\": "packages/Nette/src",
-                    "Rector\\SOLID\\": "packages/SOLID/src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Instant upgrade and refactoring of your PHP code",
-            "keywords": [
-                "ast",
-                "automated refactoring",
-                "instant refactoring",
-                "instant upgrades"
-            ],
-            "time": "2019-05-01T23:59:42+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -17597,53 +17496,6 @@
             "description": "Symfony WebServerBundle",
             "homepage": "https://symfony.com",
             "time": "2019-04-29T09:33:16+00:00"
-        },
-        {
-            "name": "symplify/package-builder",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Symplify/PackageBuilder.git",
-                "reference": "85b9b23b526f3000d78dc130a4c1808dfd76d096"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Symplify/PackageBuilder/zipball/85b9b23b526f3000d78dc130a4c1808dfd76d096",
-                "reference": "85b9b23b526f3000d78dc130a4c1808dfd76d096",
-                "shasum": ""
-            },
-            "require": {
-                "nette/finder": "^2.4",
-                "nette/utils": "^2.5|^3.0",
-                "php": "^7.1",
-                "symfony/config": "^3.4|^4.2",
-                "symfony/console": "^3.4|^4.2",
-                "symfony/debug": "^3.4|^4.2",
-                "symfony/dependency-injection": "^3.4.10|^4.2",
-                "symfony/finder": "^3.4|^4.2",
-                "symfony/http-kernel": "^3.4|^4.2",
-                "symfony/yaml": "^3.4|^4.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.5|^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symplify\\PackageBuilder\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Dependency Injection, Console and Kernel toolkit for Symplify packages.",
-            "time": "2019-05-25T16:55:25+00:00"
         },
         {
             "name": "takeit/doctrine-data-fixtures-extension",
