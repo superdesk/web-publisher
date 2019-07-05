@@ -86,7 +86,6 @@ final class ArticleSourcesTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['article_source']);
 
         $client->request(
             'GET',
@@ -170,7 +169,6 @@ final class ArticleSourcesTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['article_source']);
 
         $client->request(
             'GET',
@@ -247,7 +245,6 @@ final class ArticleSourcesTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArraySubset(['id' => 1, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
-        self::assertArraySubset(['id' => 2, 'name' => 'CNN'], $content['sources'][1]['article_source']);
 
         $client2->request(
             'GET',
@@ -258,8 +255,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         $content = json_decode($client2->getResponse()->getContent(), true);
 
-        self::assertArraySubset(['id' => 3, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
-        self::assertArraySubset(['id' => 4, 'name' => 'CNN'], $content['sources'][1]['article_source']);
+        self::assertArraySubset(['id' => 2, 'name' => 'FOX News'], $content['sources'][0]['article_source']);
 
         $client->request(
             'GET',
