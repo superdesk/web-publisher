@@ -120,7 +120,8 @@
     "takeit/stringy": "dev-fix",
     "twig/extensions": "~1.5",
     "twig/twig": "^2.11",
-    "willdurand/hateoas-bundle": "^2.0"
+    "willdurand/hateoas-bundle": "^2.0",
+    "takeit/amp": "dev-master"
   },
   "require-dev": {
     "behat/behat": "^3.5",
@@ -177,7 +178,8 @@
     "swp/content-list-bundle": "self.version",
     "swp/content-list": "self.version",
     "swp/seo": "self.version",
-    "swp/seo-bundle": "self.version"
+    "swp/seo-bundle": "self.version",
+    "lullabot/amp": "^1.0"
   },
   "conflict": {
     "symfony/symfony": "*",

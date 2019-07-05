@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 
 use function in_array;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class ProcessArticleMediaListener extends AbstractArticleMediaListener
 {
@@ -54,22 +55,9 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
                 $this->articleMediaRepository->persist($articleMedia);
-            }
 
-            if (null !== ($packageItems = $packageItem->getItems()) && 0 !== $packageItems->count()) {
-                $packageItems = $packageItem->getItems()->filter(
-                    static function ($entry) use ($guids) {
-                        return !in_array($entry->getGuid(), $guids, true);
-                    }
-                );
-
-                foreach ($packageItems as $key => $item) {
-                    if ($this->isTypeAllowed($item->getType())) {
-                        $this->removeArticleMediaIfNeeded($key, $article);
-
-                        $articleMedia = $this->handleMedia($article, $key, $item);
-                        $this->articleMediaRepository->persist($articleMedia);
-                    }
+                if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
+                    $article->setFeatureMedia($articleMedia);
                 }
             }
         }
