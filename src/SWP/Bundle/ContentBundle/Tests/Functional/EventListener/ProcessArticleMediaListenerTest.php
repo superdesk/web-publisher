@@ -87,11 +87,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $article = $this->getContainer()->get('swp_content.transformer.package_to_article')->transform($package);
         $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
 
-        $expected = <<<'EOT'
-<p>here goes the picture</p><p><br></p> <!-- EMBED START Image {id: "embedded6358005131"} --> <figure><img src="/uploads/swp/media/20160905140916_12345678987654321a.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321a" data-rendition-name="original" width="1189" height="793" alt="man and tractor"><figcaption>man and tractor<span>ADmin</span></figcaption></figure> <!-- EMBED END Image {id: "embedded6358005131"} -->
-EOT;
-
-        self::assertEquals($expected, $article->getBody());
+        self::assertEquals('', $article->getBody());
     }
 
     /**
