@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "169a154241c22cb3160e0004bb2cb96d",
+    "content-hash": "3b6cb6d03db3faf5d744926918842705",
     "packages": [
         {
             "name": "apache/log4php",
@@ -13,6 +13,12 @@
                 "type": "git",
                 "url": "https://github.com/apache/logging-log4php.git",
                 "reference": "cac428b6f67d2035af39784da1d1a299ef42fcf2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apache/logging-log4php/zipball/cac428b6f67d2035af39784da1d1a299ef42fcf2",
+                "reference": "cac428b6f67d2035af39784da1d1a299ef42fcf2",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.2.7"
@@ -23,6 +29,7 @@
                     "src/main/php/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -33,11 +40,6 @@
                 "logging",
                 "php"
             ],
-            "support": {
-                "issues": "https://issues.apache.org/jira/browse/LOG4PHP",
-                "source": "https://svn.apache.org/repos/asf/logging/log4php",
-                "email": "log4php-user@logging.apache.org"
-            },
             "time": "2012-10-26T09:13:25+00:00"
         },
         {
@@ -2708,16 +2710,16 @@
         },
         {
             "name": "gos/web-socket-bundle",
-            "version": "v1.9.0-rc3",
+            "version": "v1.9.0-rc4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GeniusesOfSymfony/WebSocketBundle.git",
-                "reference": "5aa644c24167d42319b5b9cb8b23dc7eeae0b4f0"
+                "reference": "5afa0c9bdafa1b8ef6bbfc8254e9e2b220b28b8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/5aa644c24167d42319b5b9cb8b23dc7eeae0b4f0",
-                "reference": "5aa644c24167d42319b5b9cb8b23dc7eeae0b4f0",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/5afa0c9bdafa1b8ef6bbfc8254e9e2b220b28b8b",
+                "reference": "5afa0c9bdafa1b8ef6bbfc8254e9e2b220b28b8b",
                 "shasum": ""
             },
             "require": {
@@ -2730,7 +2732,7 @@
                 "symfony/framework-bundle": "^2.3|^3.0|^4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8"
+                "phpunit/phpunit": "^8.1"
             },
             "suggest": {
                 "doctrine/cache": "* to use doctrine/cache as a client driver",
@@ -2744,7 +2746,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-1.x": "1.x-dev"
                 }
             },
             "autoload": {
@@ -2775,7 +2777,7 @@
                 "io",
                 "websocket"
             ],
-            "time": "2018-11-17T15:34:02+00:00"
+            "time": "2019-06-15T20:31:17+00:00"
         },
         {
             "name": "gos/websocket-client",
@@ -10404,7 +10406,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -12679,7 +12681,7 @@
             ],
             "authors": [
                 {
-                    "name": "William DURAND",
+                    "name": "William Durand",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -14565,7 +14567,7 @@
                     "email": "shelburt02@gmail.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
