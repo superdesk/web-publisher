@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b6cb6d03db3faf5d744926918842705",
+    "content-hash": "cae262670b1073832d437c74741ed950",
     "packages": [
         {
             "name": "apache/log4php",
@@ -13,12 +13,6 @@
                 "type": "git",
                 "url": "https://github.com/apache/logging-log4php.git",
                 "reference": "cac428b6f67d2035af39784da1d1a299ef42fcf2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/apache/logging-log4php/zipball/cac428b6f67d2035af39784da1d1a299ef42fcf2",
-                "reference": "cac428b6f67d2035af39784da1d1a299ef42fcf2",
-                "shasum": ""
             },
             "require": {
                 "php": ">=5.2.7"
@@ -29,7 +23,6 @@
                     "src/main/php/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -40,6 +33,11 @@
                 "logging",
                 "php"
             ],
+            "support": {
+                "issues": "https://issues.apache.org/jira/browse/LOG4PHP",
+                "source": "https://svn.apache.org/repos/asf/logging/log4php",
+                "email": "log4php-user@logging.apache.org"
+            },
             "time": "2012-10-26T09:13:25+00:00"
         },
         {
@@ -98,16 +96,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.104.1",
+            "version": "3.105.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "295706ab2134bf842837fa0b0162ff3aef8b0aa4"
+                "reference": "3a1159eeb14f707780817bebf73dd3eeeeb710cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/295706ab2134bf842837fa0b0162ff3aef8b0aa4",
-                "reference": "295706ab2134bf842837fa0b0162ff3aef8b0aa4",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3a1159eeb14f707780817bebf73dd3eeeeb710cc",
+                "reference": "3a1159eeb14f707780817bebf73dd3eeeeb710cc",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +175,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-07-03T18:08:50+00:00"
+            "time": "2019-07-08T18:16:57+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -5247,62 +5245,6 @@
             "time": "2016-06-23T00:18:01+00:00"
         },
         {
-            "name": "lullabot/amp",
-            "version": "1.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Lullabot/amp-library.git",
-                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Lullabot/amp-library/zipball/54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
-                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "~6.1",
-                "marc1706/fast-image-size": "1.*",
-                "masterminds/html5": "~2.3.0",
-                "php": ">=5.5.0",
-                "querypath/querypath": ">=3.0.4",
-                "sabberworm/php-css-parser": "^8.0.0",
-                "sebastian/diff": "^1.2 || ^2 || ^3"
-            },
-            "require-dev": {
-                "php": ">=5.5.0",
-                "phpunit/phpunit": "4.8.* || ^6",
-                "symfony/console": "^2.7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/Spec/validator-generated.php"
-                ],
-                "psr-4": {
-                    "Lullabot\\AMP\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Sidharth Kshatriya",
-                    "email": "sid.kshatriya@gmail.com"
-                }
-            ],
-            "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
-            "homepage": "https://github.com/Lullabot/amp-library",
-            "keywords": [
-                "amp",
-                "drupal",
-                "mobile"
-            ],
-            "time": "2018-11-29T12:40:29+00:00"
-        },
-        {
             "name": "marc1706/fast-image-size",
             "version": "v1.1.4",
             "source": {
@@ -7369,16 +7311,16 @@
         },
         {
             "name": "react/cache",
-            "version": "v0.5.0",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/cache.git",
-                "reference": "7d7da7fb7574d471904ba357b39bbf110ccdbf66"
+                "reference": "a42d149e15b8312918327d5be2ba757cd2f23ff9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/cache/zipball/7d7da7fb7574d471904ba357b39bbf110ccdbf66",
-                "reference": "7d7da7fb7574d471904ba357b39bbf110ccdbf66",
+                "url": "https://api.github.com/repos/reactphp/cache/zipball/a42d149e15b8312918327d5be2ba757cd2f23ff9",
+                "reference": "a42d149e15b8312918327d5be2ba757cd2f23ff9",
                 "shasum": ""
             },
             "require": {
@@ -7405,7 +7347,7 @@
                 "promise",
                 "reactphp"
             ],
-            "time": "2018-06-25T12:52:40+00:00"
+            "time": "2019-07-04T14:45:59+00:00"
         },
         {
             "name": "react/dns",
@@ -10406,7 +10348,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -12283,6 +12225,62 @@
             "time": "2019-04-06T14:04:46+00:00"
         },
         {
+            "name": "takeit/amp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/takeit/amp-library.git",
+                "reference": "676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/takeit/amp-library/zipball/676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870",
+                "reference": "676fa4ce0eb8d0ca0676d8affa1fca7a56c2b870",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.1",
+                "marc1706/fast-image-size": "1.*",
+                "masterminds/html5": "~2.3.0",
+                "php": ">=5.5.0",
+                "querypath/querypath": ">=3.0.4",
+                "sabberworm/php-css-parser": "^8.0.0",
+                "sebastian/diff": "^1.2 || ^2 || ^3"
+            },
+            "require-dev": {
+                "php": ">=5.5.0",
+                "phpunit/phpunit": "4.8.* || ^6",
+                "symfony/console": "^2.7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/Spec/validator-generated.php"
+                ],
+                "psr-4": {
+                    "Lullabot\\AMP\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sidharth Kshatriya",
+                    "email": "sid.kshatriya@gmail.com"
+                }
+            ],
+            "description": "A set of useful classes and utilities to convert html to AMP html (See https://www.ampproject.org/)",
+            "homepage": "https://github.com/Lullabot/amp-library",
+            "keywords": [
+                "amp",
+                "drupal",
+                "mobile"
+            ],
+            "time": "2019-06-18T08:17:53+00:00"
+        },
+        {
             "name": "takeit/amp-html-bundle",
             "version": "v1.0.1",
             "source": {
@@ -12681,7 +12679,7 @@
             ],
             "authors": [
                 {
-                    "name": "William Durand",
+                    "name": "William DURAND",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -14567,7 +14565,7 @@
                     "email": "shelburt02@gmail.com"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -15569,16 +15567,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.11.10",
+            "version": "0.11.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d5eb89ba61eee89f5380a31c9599626430c25649"
+                "reference": "56b3eb2a371b60537fd20794e24af9e7e8ed4e30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d5eb89ba61eee89f5380a31c9599626430c25649",
-                "reference": "d5eb89ba61eee89f5380a31c9599626430c25649",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56b3eb2a371b60537fd20794e24af9e7e8ed4e30",
+                "reference": "56b3eb2a371b60537fd20794e24af9e7e8ed4e30",
                 "shasum": ""
             },
             "require": {
@@ -15640,7 +15638,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-07-07T13:50:30+00:00"
+            "time": "2019-07-08T06:55:18+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -15847,16 +15845,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18"
+                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c99e3be9d3e85f60646f152f9002d46ed7770d18",
-                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
+                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
                 "shasum": ""
             },
             "require": {
@@ -15892,7 +15890,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2018-10-30T05:52:18+00:00"
+            "time": "2019-07-08T05:24:54+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -17746,6 +17744,7 @@
         "friendsofsymfony/user-bundle": 20,
         "nelmio/api-doc-bundle": 20,
         "takeit/stringy": 20,
+        "takeit/amp": 20,
         "roave/security-advisories": 20,
         "takeit/doctrine-data-fixtures-extension": 20
     },

@@ -1,0 +1,7 @@
+<p><img src="{{ url(gimme.article.featureMedia) }}" /></p>
+<p>{{ gimme.article.body }}</p>
+
+{% gimmelist relatedArticle from relatedArticles with { article: gimme.article } %}
+    <p><img src="{{ url(relatedArticle.article.featureMedia) }}" /></p>
+    <li>{{ relatedArticle.article.title }}</li>
+{% endgimmelist %}

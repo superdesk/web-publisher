@@ -19,7 +19,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Bridge\Model\GroupInterface;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class ProcessRelatedArticlesListener
@@ -49,25 +49,23 @@ class ProcessRelatedArticlesListener
 
         $this->removeOldRelatedArticles($article);
 
-        $relatedItemsGroups = $package->getGroups()->filter(static function ($group) {
-            return GroupInterface::TYPE_RELATED === $group->getType();
+        $relatedItemsGroups = $package->getItems()->filter(static function ($item) {
+            return ItemInterface::TYPE_TEXT === $item->getType();
         });
 
         if (null === $package || (null !== $package && 0 === \count($relatedItemsGroups))) {
             return;
         }
 
-        foreach ($relatedItemsGroups as $relatedItemsGroup) {
-            foreach ($relatedItemsGroup->getItems() as $item) {
-                if (null === ($existingArticle = $this->articleRepository->findOneBy(['code' => $item->getGuid()]))) {
-                    continue;
-                }
-
-                $relatedArticle = $this->relatedArticleFactory->create();
-
-                $relatedArticle->setArticle($existingArticle);
-                $article->addRelatedArticle($relatedArticle);
+        foreach ($relatedItemsGroups as $item) {
+            if (null === ($existingArticle = $this->articleRepository->findOneBy(['code' => $item->getGuid()]))) {
+                continue;
             }
+
+            $relatedArticle = $this->relatedArticleFactory->create();
+
+            $relatedArticle->setArticle($existingArticle);
+            $article->addRelatedArticle($relatedArticle);
         }
     }
 

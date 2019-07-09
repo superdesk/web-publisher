@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Resolver;
 
+use Doctrine\Common\Cache\CacheProvider;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -26,23 +27,39 @@ class ArticleResolver implements ArticleResolverInterface
      */
     private $matcher;
 
-    public function __construct(UrlMatcherInterface $matcher)
+    /**
+     * @var CacheProvider
+     */
+    private $cacheProvider;
+
+    public function __construct(UrlMatcherInterface $matcher, CacheProvider $cacheProvider)
     {
         $this->matcher = $matcher;
+        $this->cacheProvider = $cacheProvider;
     }
 
     public function resolve(string $url): ?ArticleInterface
     {
+        $collectionRouteCacheKey = md5('route_'.$url);
+
+        $result = null;
+
+        if ($this->cacheProvider->contains($collectionRouteCacheKey)) {
+            return $result;
+        }
+
         try {
             $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
+
             if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && $route['_article_meta']->getValues() instanceof ArticleInterface) {
                 return $route['_article_meta']->getValues();
             }
         } catch (ResourceNotFoundException $e) {
-            return null;
         }
 
-        return null;
+        $this->cacheProvider->save($collectionRouteCacheKey, $result);
+
+        return $result;
     }
 
     private function getFragmentFromUrl(string $url, string $fragment): ?string

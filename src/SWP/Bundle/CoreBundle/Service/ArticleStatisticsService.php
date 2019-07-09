@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\AnalyticsBundle\Repository\ArticleEventRepositoryInterface;
@@ -23,6 +24,7 @@ use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
@@ -56,18 +58,22 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
      */
     protected $articleEventFactory;
 
+    protected $articleObjectManager;
+
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
         RepositoryInterface $articleStatisticsRepository,
         ArticleEventRepositoryInterface $articleEventRepository,
         FactoryInterface $articleStatisticsFactory,
-        FactoryInterface $articleEventFactory
+        FactoryInterface $articleEventFactory,
+        ObjectManager $articleObjectManager
     ) {
         $this->articleRepository = $articleRepository;
         $this->articleStatisticsRepository = $articleStatisticsRepository;
         $this->articleEventRepository = $articleEventRepository;
         $this->articleStatisticsFactory = $articleStatisticsFactory;
         $this->articleEventFactory = $articleEventFactory;
+        $this->articleObjectManager = $articleObjectManager;
     }
 
     public function addArticleEvent(int $articleId, string $action, array $extraData): ArticleStatisticsInterface
@@ -82,13 +88,13 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
                 $sourceArticle = null;
                 $sourceRoute = null;
                 $type = null;
-                if (array_key_exists(ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE, $extraData)) {
+                if (isset($extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE])) {
                     $sourceArticle = $extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE];
                 }
-                if (array_key_exists(ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ROUTE, $extraData)) {
+                if (isset($extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ROUTE])) {
                     $sourceRoute = $extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ROUTE];
                 }
-                if (array_key_exists(ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE, $extraData)) {
+                if (isset($extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE])) {
                     $type = $extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE];
                 }
                 $this->addNewImpressionEvent($articleStatistics, $articleId, $sourceArticle, $sourceRoute, $type);
@@ -114,14 +120,14 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     protected function addNewPageViewEvent(ArticleStatisticsInterface $articleStatistics, int $articleId, string $pageViewSource): void
     {
         /** @var ArticleInterface $article */
-        $article = $this->articleRepository->findOneBy(['id' => $articleId]);
+        $article = $this->articleObjectManager->getReference(ArticleInterface::class, $articleId);
         if (null === $article) {
             return;
         }
 
         $articleEvent = $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_PAGEVIEW);
         $articleEvent->setPageViewSource($pageViewSource);
-        $articleStatistics->setPageViewsNumber($this->articleEventRepository->getCountForArticleAllPageViews($article) + 1);
+
         if (ArticleEventInterface::PAGEVIEW_SOURCE_INTERNAL === $pageViewSource) {
             $internalPageViewsCount = $this->articleEventRepository->getCountForArticleInternalPageViews($article) + 1;
             if ($internalPageViewsCount > 0 && $articleStatistics->getImpressionsNumber() > 0) {
@@ -143,7 +149,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         string $type = null
     ): void {
         /** @var ArticleInterface $article */
-        $article = $this->articleRepository->findOneBy(['id' => $articleId]);
+        $article = $this->articleObjectManager->getReference(ArticleInterface::class, $articleId);
         if (null === $article) {
             return;
         }
@@ -152,8 +158,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         $articleEvent->setImpressionArticle($sourceArticle);
         $articleEvent->setImpressionRoute($sourceRoute);
         $articleEvent->setImpressionType($type);
-        $articleStatistics->setImpressionsNumber($this->articleEventRepository->getCountForArticleAllImpressions($article) + 1);
-        $this->articleStatisticsRepository->add($articleStatistics);
+        $this->articleStatisticsRepository->persist($articleStatistics);
     }
 
     private function getArticleEvent(

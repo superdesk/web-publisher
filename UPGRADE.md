@@ -11,6 +11,14 @@ Most important steps to do after updating code:
 * Install themes assets with `sylius:theme:assets:install` command
 * (optionally) Clear memcached store (with `echo \'flush_all\' | nc localhost 11211` on ubuntu)
 
+## Release 2.0
+
+* [BC] ```Unrecognized options "containers, widgets" under "sylius_theme.generatedData". Available options are "contentLists", "menus", "routes".```
+From your theme config file (`theme.json`) remove nodes: `generatedData.containers` and `generatedData.widgets`
+
+* [BC] Config values are moved from `app/config/parameters.yml` to `.env.local`. Default values were moved from `app/config/parameters.yml.dist` to `.env`
+
+
 ## Release 1.4.0
 
 * [BC] Article author `avatarUrl` property is deprecated. It will be removed in 1.5 version. Use `avatar` instead. 

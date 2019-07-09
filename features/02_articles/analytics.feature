@@ -15,12 +15,36 @@ Feature: Collect article statistics
     And the header "terminate-immediately" should be equal to "1"
 
   Scenario: Send analytics impressions request
+    And I add "Referer" header equal to "http://localhost/news/test-news-article"
     When I send a POST request to "/_swp_analytics?type=impression&15362257892160.335822969944755" with body:
     """
-["http://localhost/news/test-news-article"]
+      ["http://localhost/news", "http://localhost/news/test-news-article", "http://example.com"]
     """
     Then the response status code should be 200
     And the header "terminate-immediately" should be equal to "1"
+    When I am authenticated as "test.user"
+    Then I send a "GET" request to "/api/v1/content/articles/test-news-article"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | slug                                  | test-news-article |
+      | article_statistics.page_views_number  | 21                |
+      | article_statistics.impressions_number | 1                 |
+
+  Scenario: Send analytics impressions request
+    And I add "Referer" header equal to "http://localhost/news/test-news-article"
+    When I send a POST request to "/_swp_analytics?type=impression&15362257892160.335822969944755" with body:
+    """
+      ["1"]
+    """
+    Then the response status code should be 200
+    And the header "terminate-immediately" should be equal to "1"
+    When I am authenticated as "test.user"
+    Then I send a "GET" request to "/api/v1/content/articles/test-news-article"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | slug                                  | test-news-article |
+      | article_statistics.page_views_number  | 21                |
+      | article_statistics.impressions_number | 2                 |
 
   Scenario: Send analytics request
     When I go to "/_swp_analytics?articleId=1&sdrybretybr5yrd&&ref=http://localhost/"
@@ -33,6 +57,6 @@ Feature: Collect article statistics
     Then I send a "GET" request to "/api/v2/content/articles/test-news-article"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | slug                                  | test-news-article |
+      | slug                                   | test-news-article |
       | article_statistics.page_views_number   | 22                |
-      | article_statistics.internal_click_rate | 1                 |
+      | article_statistics.internal_click_rate | 0.5               |
