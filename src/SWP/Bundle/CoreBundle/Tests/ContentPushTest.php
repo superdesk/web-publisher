@@ -90,23 +90,23 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -233,9 +233,9 @@ final class ContentPushTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -254,14 +254,14 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -336,9 +336,9 @@ final class ContentPushTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -357,14 +357,14 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -421,9 +421,9 @@ final class ContentPushTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -449,21 +449,21 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'text-item-with-image']), [
-                'status' => 'unpublished',
+            'status' => 'unpublished',
         ]);
 
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -488,22 +488,22 @@ final class ContentPushTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'site',
-                'type' => 'content',
+            'name' => 'site',
+            'type' => 'content',
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'news',
-                'type' => 'collection',
-                'parent' => 1,
+            'name' => 'news',
+            'type' => 'collection',
+            'parent' => 1,
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -520,21 +520,21 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
-                'content' => 'ads-fsadf-sdaf-sadf-sadf',
+            'content' => 'ads-fsadf-sdaf-sadf-sadf',
         ]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -597,10 +597,10 @@ final class ContentPushTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'articlesTemplateName' => 'article.html.twig',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'articlesTemplateName' => 'article.html.twig',
+            'content' => null,
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -618,12 +618,12 @@ final class ContentPushTest extends WebTestCase
 
             [
                 'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
+                    ],
                 ],
             ]
         );
@@ -662,9 +662,9 @@ final class ContentPushTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -685,14 +685,14 @@ final class ContentPushTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
             [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -725,14 +725,14 @@ final class ContentPushTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 2]),
             [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -767,9 +767,9 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -779,14 +779,14 @@ final class ContentPushTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
             [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -853,9 +853,9 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -864,14 +864,14 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -928,9 +928,9 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -939,14 +939,14 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
 
@@ -1017,33 +1017,33 @@ final class ContentPushTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-                'name' => 'Local Wordpress',
-                'subdomain' => 'local_wordpress',
-                'domainName' => 'localhost',
-                'organization' => '123456',
-                'outputChannel' => [
-                    'type' => 'wordpress',
-                    'config' => [
-                        'url' => 'http://localhost:3000',
-                        'authorizationKey' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=',
-                    ],
+            'name' => 'Local Wordpress',
+            'subdomain' => 'local_wordpress',
+            'domainName' => 'localhost',
+            'organization' => '123456',
+            'outputChannel' => [
+                'type' => 'wordpress',
+                'config' => [
+                    'url' => 'http://localhost:3000',
+                    'authorizationKey' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=',
                 ],
+            ],
         ]);
         $externalTenant = \json_decode($client->getResponse()->getContent(), true);
 
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
-                'expression' => 'true == true',
-                'priority' => 1,
-                'configuration' => [
-                    [
-                        'key' => 'destinations',
-                        'value' => [
-                            [
-                                'tenant' => $externalTenant['code'],
-                            ],
+            'expression' => 'true == true',
+            'priority' => 1,
+            'configuration' => [
+                [
+                    'key' => 'destinations',
+                    'value' => [
+                        [
+                            'tenant' => $externalTenant['code'],
                         ],
                     ],
                 ],
+            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -1051,14 +1051,14 @@ final class ContentPushTest extends WebTestCase
             'HTTP_HOST' => 'local_wordpress.localhost',
         ]);
         $externalClient->request('POST', $this->router->generate('swp_api_core_create_rule'), [
-                'expression' => 'true == true',
-                'priority' => 1,
-                'configuration' => [
-                    [
-                        'key' => 'published',
-                        'value' => true,
-                    ],
+            'expression' => 'true == true',
+            'priority' => 1,
+            'configuration' => [
+                [
+                    'key' => 'published',
+                    'value' => true,
                 ],
+            ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -1106,22 +1106,22 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals('package_item_tests_source', $content['associations'][0]['source']);
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'articles',
-                'type' => 'collection',
-                'content' => null,
+            'name' => 'articles',
+            'type' => 'collection',
+            'content' => null,
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => 3,
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => 3,
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -1140,17 +1140,17 @@ final class ContentPushTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'root',
-                'type' => 'collection',
+            'name' => 'root',
+            'type' => 'collection',
         ]);
 
         $rootRouteContent = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-                'name' => 'child',
-                'type' => 'collection',
-                'parent' => $rootRouteContent['id'],
+            'name' => 'child',
+            'type' => 'collection',
+            'parent' => $rootRouteContent['id'],
         ]);
 
         $childRouteContent = json_decode($client->getResponse()->getContent(), true);
@@ -1170,14 +1170,14 @@ final class ContentPushTest extends WebTestCase
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
             [
-                    'destinations' => [
-                        [
-                            'tenant' => '123abc',
-                            'route' => $childRouteContent['id'],
-                            'isPublishedFbia' => false,
-                            'published' => true,
-                        ],
+                'destinations' => [
+                    [
+                        'tenant' => '123abc',
+                        'route' => $childRouteContent['id'],
+                        'isPublishedFbia' => false,
+                        'published' => true,
                     ],
+                ],
             ]
         );
         self::assertEquals(201, $client->getResponse()->getStatusCode());

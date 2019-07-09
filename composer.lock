@@ -5563,12 +5563,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "57f8cf4634fbd025df7258405112ad2be8485030"
+                "reference": "50cf155855b683d45da06779077d9fd84b608d75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/57f8cf4634fbd025df7258405112ad2be8485030",
-                "reference": "57f8cf4634fbd025df7258405112ad2be8485030",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/50cf155855b683d45da06779077d9fd84b608d75",
+                "reference": "50cf155855b683d45da06779077d9fd84b608d75",
                 "shasum": ""
             },
             "require": {
@@ -5642,7 +5642,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2019-06-15T13:22:54+00:00"
+            "time": "2019-07-09T09:59:30+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -7351,21 +7351,21 @@
         },
         {
             "name": "react/dns",
-            "version": "v0.4.17",
+            "version": "v0.4.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/dns.git",
-                "reference": "0f30c6ceb71504d359d51132a97e1703051f1589"
+                "reference": "b6778e74f33d38aa1f86d4718b0c6e45806a50d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/dns/zipball/0f30c6ceb71504d359d51132a97e1703051f1589",
-                "reference": "0f30c6ceb71504d359d51132a97e1703051f1589",
+                "url": "https://api.github.com/repos/reactphp/dns/zipball/b6778e74f33d38aa1f86d4718b0c6e45806a50d2",
+                "reference": "b6778e74f33d38aa1f86d4718b0c6e45806a50d2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "react/cache": "^1.0 || ^0.6 || ^0.5 || ^0.4 || ^0.3",
+                "react/cache": "^1.0 || ^0.6 || ^0.5",
                 "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5",
                 "react/promise": "^2.1 || ^1.2.1",
                 "react/promise-timer": "^1.2",
@@ -7392,7 +7392,7 @@
                 "dns-resolver",
                 "reactphp"
             ],
-            "time": "2019-04-01T07:31:55+00:00"
+            "time": "2019-07-09T10:19:27+00:00"
         },
         {
             "name": "react/event-loop",
