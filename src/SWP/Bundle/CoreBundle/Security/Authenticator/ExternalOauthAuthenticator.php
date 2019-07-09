@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\CoreBundle\Exception\ExternalOauthException;
 
 class ExternalOauthAuthenticator extends SocialAuthenticator
 {
@@ -56,15 +57,13 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $oauthEmail = $oauthUser->getEmail();
         $oauthId = $oauthUser->getId();
 
+        if(!$oauthUser) {
+            return null;
+        }
+
         // Is there an existing user with the same oauth id?
         $user = $userProvider->findOneByExternalId($oauthId);
         if($user) {
-            if($user->getEmail() !== $oauthEmail) {
-                // The user has the same ID but a new email, meaning the email has
-                // been updated on the authentication server. Update it here as well.
-#                $user->setEmail($oauthEmail);
-#                $userManager->updateUser($user);
-            }
             return $user;
         }
 
@@ -74,7 +73,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
             return $user;
         }
 
-        return null;
+        throw new ExternalOauthException();
 
         // FIXME: Do we need to dispatch a USER_CREATED event? What does that do?
         /** @var $dispatcher EventDispatcherInterface */

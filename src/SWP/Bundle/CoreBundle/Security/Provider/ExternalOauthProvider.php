@@ -12,12 +12,20 @@ class ExternalOauthProvider extends AbstractProvider
 {
     protected $base_url;
     protected $scope_separator;
+    protected $access_token;
 
     public function __construct(array $options = [], array $collaborators = [])
     {
         parent::__construct($options, $collaborators);
         $this->base_url = $options['base_url'];
         $this->scope_separator = $options['scope_separator'];
+    }
+
+    public function getAccessToken($grant, $options = []) {
+        if(!isset($this->access_token)) {
+            $this->access_token = parent::getAccessToken($grant, $options);
+        }
+        return $this->access_token;
     }
 
     public function getBaseAuthorizationUrl()

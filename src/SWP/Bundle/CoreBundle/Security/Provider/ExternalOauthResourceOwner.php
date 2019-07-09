@@ -18,7 +18,7 @@ class ExternalOauthResourceOwner extends GenericResourceOwner
 
     public function getId()
     {
-        return $this->getValueByKey($this->response, 'user_id');
+        return $this->getValueByKey($this->response, 'sub');
     }
 
     public function getEmail()

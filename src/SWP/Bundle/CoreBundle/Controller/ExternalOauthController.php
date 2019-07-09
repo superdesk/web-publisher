@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use SWP\Bundle\CoreBundle\Exception\ExternalOauthException;
 
 class ExternalOauthController extends Controller
 {
@@ -40,7 +41,12 @@ class ExternalOauthController extends Controller
         $accessToken = $client->getAccessToken();
         $oauthUser = $client->fetchUserFromToken($accessToken);
 
-        $user = $this->getUser();
+        try {
+            $user = $this->getUser();
+        } catch(ExternalOauthException $e) {
+                return new JsonResponse(array('exception' => true));
+        }
+
         if(!$user) {
             // If the user has never logged in before, create the user 
             // using the information provided by OAuth
@@ -53,16 +59,18 @@ class ExternalOauthController extends Controller
             $newUser->setEnabled(true);
             $newUser->setSuperAdmin(false);
             $newUser->setExternalId($oauthUser->getId());
-            $userManager->updateUser($user);
+            $userManager->updateUser($newUser);
+
 
             $user = $this->getUser();
 
             if(!$user) {
-                return new JsonResponse(array('status' => false, 'message' => "User not found!"));
+                return new JsonResponse(array('status' => false, 'message' => "User not found and failed to create new user!"));
             }
         }
+
+        # Redirect to /
         $response = $this->redirectToRoute('homepage');
-        $response->headers->set('Authorization', $accessToken);
 
         return $response;
     }
