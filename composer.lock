@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b6cb6d03db3faf5d744926918842705",
+    "content-hash": "3cf217e18078a827c47e67961a17fce4",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2546,23 +2546,23 @@
         },
         {
             "name": "gesdinet/jwt-refresh-token-bundle",
-            "version": "v0.5.4",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gesdinet/JWTRefreshTokenBundle.git",
-                "reference": "604b70c86e557c70105b8850eb44426ab2056a9d"
+                "reference": "ad475378b278719bebe4062c50b6135c5bcdd4e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gesdinet/JWTRefreshTokenBundle/zipball/604b70c86e557c70105b8850eb44426ab2056a9d",
-                "reference": "604b70c86e557c70105b8850eb44426ab2056a9d",
+                "url": "https://api.github.com/repos/gesdinet/JWTRefreshTokenBundle/zipball/ad475378b278719bebe4062c50b6135c5bcdd4e7",
+                "reference": "ad475378b278719bebe4062c50b6135c5bcdd4e7",
                 "shasum": ""
             },
             "require": {
                 "lexik/jwt-authentication-bundle": "^1.1|^2.0@dev",
-                "php": ">=5.3.3",
-                "symfony/framework-bundle": "~3.3|~4.0",
-                "symfony/validator": "~3.3|~4.0"
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/framework-bundle": "~3.4|~4.0",
+                "symfony/validator": "~3.4|~4.0"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "~1.4",
@@ -2595,7 +2595,7 @@
             "keywords": [
                 "jwt refresh token bundle symfony json web"
             ],
-            "time": "2018-12-06T11:02:57+00:00"
+            "time": "2019-07-03T06:42:07+00:00"
         },
         {
             "name": "gos/pubsub-router-bundle",
@@ -12681,7 +12681,7 @@
             ],
             "authors": [
                 {
-                    "name": "William Durand",
+                    "name": "William DURAND",
                     "email": "william.durand1@gmail.com"
                 }
             ],
