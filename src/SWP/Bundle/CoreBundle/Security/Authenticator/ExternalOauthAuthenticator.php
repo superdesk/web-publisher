@@ -25,10 +25,12 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
     public function __construct(
         ClientRegistry $clientRegistry,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        UserManagerInterface $um
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
+        $this->um = $um;
     }
 
     public function supports(Request $request) 
@@ -73,7 +75,20 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
             return $user;
         }
 
-        throw new ExternalOauthException();
+        // If the user has never logged in before, create the user 
+        // using the information provided by OAuth
+        $user = $this->um->createUser();
+        $user->setEmail($oauthUser->getEmail());
+        $user->setUsername($oauthUser->getEmail());
+        $user->setEnabled(true);
+        $user->setSuperAdmin(false);
+        $user->setExternalId($oauthUser->getId());
+        // password is a non-null field, so we'll have to generate a random password
+        $user->setPassword(\uniqid());
+        // Persist the updated user
+        $this->um->updateUser($user);
+
+        return $user;
 
         // FIXME: Do we need to dispatch a USER_CREATED event? What does that do?
         /** @var $dispatcher EventDispatcherInterface */

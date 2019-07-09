@@ -48,26 +48,10 @@ class ExternalOauthController extends Controller
         }
 
         if(!$user) {
-            // If the user has never logged in before, create the user 
-            // using the information provided by OAuth
-            $userManager = $container->get('fos_user.user_manager');
-            // fixme: canonicalize email!
-
-            $newUser = $userManager->createUser();
-            $newUser->setEmail($oauthUser->getEmail());
-            $newUser->setUsername($oauthUser->getEmail());
-            $newUser->setEnabled(true);
-            $newUser->setSuperAdmin(false);
-            $newUser->setExternalId($oauthUser->getId());
-            $userManager->updateUser($newUser);
-
-
-            $user = $this->getUser();
-
-            if(!$user) {
-                return new JsonResponse(array('status' => false, 'message' => "User not found and failed to create new user!"));
-            }
+            return new JsonResponse(array('status' => false, 'message' => "User not found and failed to create new user!"));
         }
+
+        return new JsonResponse(array('user' => $user->getEmail()));
 
         # Redirect to /
         $response = $this->redirectToRoute('homepage');
