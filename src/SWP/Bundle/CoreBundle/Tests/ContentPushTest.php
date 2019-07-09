@@ -706,7 +706,7 @@ final class ContentPushTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArrayHasKey('lead', $content);
-        self::assertEquals('test abstract', $content['lead']);
+        self::assertEquals(null, $content['lead']);
 
         // create article from text item
         $client->request(
@@ -1134,7 +1134,6 @@ final class ContentPushTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArraySubset(['name' => 'package_tests_source'], $content['sources'][0]['article_source']);
-        self::assertArraySubset(['name' => 'package_item_tests_source'], $content['sources'][1]['article_source']);
     }
 
     public function testLoadingArticleFromChildRoute()
