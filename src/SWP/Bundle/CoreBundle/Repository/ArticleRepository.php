@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ContentBundleArticleRepository;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleEvent;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -74,7 +75,8 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
             ->leftJoin('p.externalData', 'e')
             ->andWhere('e.key = :key')
             ->andWhere('e.value = :value')
-            ->setParameters(['key' => $key, 'value' => $value])
+            ->andWhere('a.status = :status')
+            ->setParameters(['key' => $key, 'value' => $value, 'status' => ArticleInterface::STATUS_PUBLISHED])
         ;
 
         return $queryBuilder;
@@ -87,6 +89,7 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
             'extra' => [
                 $key => $value,
             ],
+            'status' => ArticleInterface::STATUS_PUBLISHED,
         ]);
 
         return $this->getArticlesByCriteria($criteria);
