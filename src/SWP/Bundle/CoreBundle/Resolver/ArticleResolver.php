@@ -69,6 +69,6 @@ class ArticleResolver implements ArticleResolverInterface
             return null;
         }
 
-        return str_replace('/app_dev.php', '', $fragments[$fragment]);
+        return $fragments[$fragment];
     }
 }

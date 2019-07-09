@@ -729,6 +729,7 @@ services:
             - '@swp.factory.article_statistics'
             - '@swp.factory.article_events'
             - '@swp.object_manager.article'
+<<<<<<< HEAD
 
     Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
 
@@ -741,3 +742,5 @@ services:
     SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface:
         alias: SWP\Bundle\CoreBundle\Service\SeoImageUploader
 
+=======
+>>>>>>> 6d7d0ee5d87cbfaf97f995ed5e625d8e739729f6
