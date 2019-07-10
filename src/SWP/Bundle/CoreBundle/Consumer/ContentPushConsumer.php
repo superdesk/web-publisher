@@ -36,8 +36,6 @@ use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use SWP\Component\Bridge\Events;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Lock\Exception\LockAcquiringException;
-use Symfony\Component\Lock\Exception\LockConflictedException;
 use Symfony\Component\Lock\Factory;
 use function unserialize;
 
@@ -111,8 +109,6 @@ class ContentPushConsumer implements ConsumerInterface
             $lock->release();
 
             return $result;
-        } catch (LockConflictedException | LockAcquiringException $e) {
-            return ConsumerInterface::MSG_REJECT_REQUEUE;
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
@@ -131,6 +127,13 @@ class ContentPushConsumer implements ConsumerInterface
         }
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NotNullConstraintViolationException
+     * @throws DBALException
+     * @throws ORMException
+     * @throws Exception
+     */
     public function doExecute(TenantInterface $tenant, PackageInterface $package): int
     {
         $packageType = $package->getType();
