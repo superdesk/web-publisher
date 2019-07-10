@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cae262670b1073832d437c74741ed950",
+    "content-hash": "a9c3e522e7d60eafe9d69647c95e0e3a",
     "packages": [
         {
             "name": "apache/log4php",
@@ -10062,6 +10062,69 @@
             "time": "2019-06-17T17:37:00+00:00"
         },
         {
+            "name": "symfony/lock",
+            "version": "v4.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/lock.git",
+                "reference": "ee4cfbc78b3175ef41f000daa1c06b5600e623bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/ee4cfbc78b3175ef41f000daa1c06b5600e623bd",
+                "reference": "ee4cfbc78b3175ef41f000daa1c06b5600e623bd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "~2.4",
+                "mongodb/mongodb": "~1.1",
+                "predis/predis": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Lock\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                },
+                {
+                    "name": "Jérémy Derussé",
+                    "email": "jeremy@derusse.com"
+                }
+            ],
+            "description": "Symfony Lock Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "cas",
+                "flock",
+                "locking",
+                "mutex",
+                "redlock",
+                "semaphore"
+            ],
+            "time": "2019-06-26T09:25:00+00:00"
+        },
+        {
             "name": "symfony/mime",
             "version": "v4.3.2",
             "source": {
@@ -17743,8 +17806,8 @@
         "emanueleminotto/twig-cache-bundle": 20,
         "friendsofsymfony/user-bundle": 20,
         "nelmio/api-doc-bundle": 20,
-        "takeit/stringy": 20,
         "takeit/amp": 20,
+        "takeit/stringy": 20,
         "roave/security-advisories": 20,
         "takeit/doctrine-data-fixtures-extension": 20
     },

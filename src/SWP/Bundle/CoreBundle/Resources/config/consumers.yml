@@ -21,6 +21,7 @@ services:
 
     SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
         arguments:
+            - '@lock.factory'
             - '@monolog.logger.swp_content_push'
             - '@swp.repository.package'
             - '@event_dispatcher'
