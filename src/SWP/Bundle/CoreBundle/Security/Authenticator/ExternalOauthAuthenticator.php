@@ -20,8 +20,20 @@ use Symfony\Component\Security\Core\Security;
 
 class ExternalOauthAuthenticator extends SocialAuthenticator
 {
-    private $clientRegistry;
-    private $em;
+    /**
+     * @var ClientRegistry
+     */
+    protected $clientRegistry;
+
+    /**
+     * @var UserMangerInterface
+     */
+    protected $em;
+
+    /**
+     * @var UserMangerInterface
+     */
+    protected $security;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -33,6 +45,9 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $this->security = $security;
     }
 
+    /**
+     * @inehritdoc
+     */
     public function supports(Request $request) 
     {
         if(!$this->security->getUser() || ($request->query->get('code') && $request->get('state'))) {
@@ -42,6 +57,9 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         return false;
     }
 
+    /**
+     * @inehritdoc
+     */
     public function getCredentials(Request $request)
     {
         $authHeader = $request->headers->get('Authorization');
@@ -54,10 +72,17 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         }
     }
 
+    /**
+     * Get the user given the access token. If the user exists as a local user,
+     * fetch that one, if it does not, create a new user using the OAuth user
+     * fetched from the resource server using the access token.
+     *
+     * @inehritdoc
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        // Fetch the user from the resource server
         $oauthUser = $this->getOauthClient()->fetchUserFromToken($credentials);
-        // FIXME: Canonicalize email!
         $oauthEmail = $oauthUser->getEmail();
         $oauthId = $oauthUser->getId();
 
@@ -68,6 +93,13 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         // Is there an existing user with the same oauth id?
         $user = $userProvider->findOneByExternalId($oauthId);
         if($user) {
+            if($user->getEmail() !== $oauthEmail) {
+                // If the email has changed for the user, update it here as well
+                $user->setEmail($oauthEmail);
+                $user->setUsername($oauthEmail);
+                $this->um->updateUser($user);
+            }
+
             return $user;
         }
 
@@ -77,17 +109,13 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
             return $user;
         }
 
-        // If the user has never logged in before, create the user 
-        // using the information provided by OAuth
+        // No user found, create one using the user info provided by resource server
         $user = $this->um->createUser();
         $user->setEmail($oauthUser->getEmail());
         $user->setUsername($oauthUser->getEmail());
         $user->setEnabled(true);
         $user->setSuperAdmin(false);
-        $user->setExternalId($oauthUser->getId());
-        // password is a non-null field, so we'll have to generate a random password
-        $user->setPassword(\uniqid());
-        // Persist the updated user
+        // Persist the new user
         $this->um->updateUser($user);
 
         return $user;
@@ -99,15 +127,24 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         // $this->dispatcher->dispatch(FOSUserEvents::USER_CREATED, $event);
     }
 
+    /**
+     * @inehritdoc
+     */
     private function getOauthClient()
     {
         return $this->clientRegistry->getClient('external_oauth');
     }
 
+    /**
+     * @inehritdoc
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
     }
 
+    /**
+     * @inehritdoc
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
@@ -115,6 +152,9 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
+    /**
+     * @inehritdoc
+     */
     public function start(Request $request, AuthenticationException $authException = null)
     {
         return new RedirectResponse(
