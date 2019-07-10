@@ -104,20 +104,16 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
         // No user found, create one using the user info provided by resource server
         $user = $this->um->createUser();
-        $user->setEmail($oauthUser->getEmail());
-        $user->setUsername($oauthUser->getEmail());
+        $user->setEmail($oauthEmail);
+        $user->setUsername($oauthEmail);
+        $user->setExternalId($oauthId);
+        $user->setPassword(\uniqid());
         $user->setEnabled(true);
         $user->setSuperAdmin(false);
         // Persist the new user
         $this->um->updateUser($user);
 
         return $user;
-
-        // FIXME: Do we need to dispatch a USER_CREATED event? What does that do?
-        /** @var $dispatcher EventDispatcherInterface */
-        //$dispatcher = $this->get('event_dispatcher');
-        // $event = new UserEvent($user, $this->getRequest());
-        // $this->dispatcher->dispatch(FOSUserEvents::USER_CREATED, $event);
     }
 
     /**
@@ -140,9 +136,6 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
-
-        return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
     /**
