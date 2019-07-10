@@ -60,11 +60,6 @@ security:
                 authenticators:
                     - swp.security.preview_token_authenticator
             stateless: true
-        oauth:
-            pattern: ^/connect/oauth/check
-            guard:
-                authenticators:
-                    - swp.security.external_oauth_authenticator
         main:
             pattern: ^/
             form_login:
@@ -76,6 +71,9 @@ security:
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
             logout:
                 path: security_logout
+            guard:
+                authenticators:
+                    - swp.security.external_oauth_authenticator
             anonymous: true
 
     access_control:
