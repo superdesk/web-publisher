@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
-use SWP\Bundle\CoreBundle\Exception\ExternalOauthException;
+use Symfony\Component\Security\Core\Security;
 
 class ExternalOauthAuthenticator extends SocialAuthenticator
 {
@@ -25,19 +25,21 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
     public function __construct(
         ClientRegistry $clientRegistry,
-        EntityManagerInterface $em,
-        UserManagerInterface $um
+        UserManagerInterface $um,
+        Security $security
     ) {
         $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
         $this->um = $um;
+        $this->security = $security;
     }
 
     public function supports(Request $request) 
     {
-#        return $request->headers->has('Authorization') && 
-#                preg_match('/^Bearer/', $request->headers['Authorization']);
-        return true;
+        if(!$this->security->getUser() || ($request->query->get('code') && $request->get('state'))) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getCredentials(Request $request)
