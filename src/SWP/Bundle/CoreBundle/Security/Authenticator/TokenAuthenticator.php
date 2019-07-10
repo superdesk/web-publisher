@@ -177,7 +177,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        if ($this->security->getUser() || !preg_match('^Basic .*$', $token = $this->getToken($request))) {
+        if ($this->security->getUser() || !$token = $this->getToken($request)) {
             return false;
         }
 
