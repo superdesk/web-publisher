@@ -62,14 +62,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $authHeader = $request->headers->get('Authorization');
-        if($authHeader && preg_match('/^Bearer/', $authHeader)) {
-            return array(
-                "token" => substr($authHeader, 7)
-            );
-        } else {
-            return $this->fetchAccessToken($this->getOauthClient());
-        }
+        return $this->fetchAccessToken($this->getOauthClient());
     }
 
     /**
