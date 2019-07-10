@@ -57,6 +57,8 @@ install:
 
 before_script:
 - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+- echo 'extension="memcached.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+- cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep memcached
 - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
 - phpenv config-rm xdebug.ini || echo "xdebug not available"
