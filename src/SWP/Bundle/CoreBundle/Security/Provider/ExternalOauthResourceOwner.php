@@ -32,7 +32,8 @@ class ExternalOauthResourceOwner extends GenericResourceOwner
      */
     public function getEmail()
     {
-        return $this->getValueByKey($this->response, 'email');
+        # Normalize email address
+        return \strtolower($this->getValueByKey($this->response, 'email'));
     }
 
     /**
