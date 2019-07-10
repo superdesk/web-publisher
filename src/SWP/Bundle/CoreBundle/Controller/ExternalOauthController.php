@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use SWP\Bundle\CoreBundle\Exception\ExternalOauthException;
 
 class ExternalOauthController extends Controller
 {
@@ -40,18 +37,6 @@ class ExternalOauthController extends Controller
 
         $accessToken = $client->getAccessToken();
         $oauthUser = $client->fetchUserFromToken($accessToken);
-
-        try {
-            $user = $this->getUser();
-        } catch(ExternalOauthException $e) {
-                return new JsonResponse(array('exception' => true));
-        }
-
-        if(!$user) {
-            return new JsonResponse(array('status' => false, 'message' => "User not found and failed to create new user!"));
-        }
-
-        return new JsonResponse(array('user' => $user->getEmail()));
 
         # Redirect to /
         $response = $this->redirectToRoute('homepage');
