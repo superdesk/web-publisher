@@ -39,12 +39,6 @@ class TenantRevisionListener
      */
     protected $revisionContext;
 
-    /**
-     * TenantRevisionListener constructor.
-     *
-     * @param RevisionRepositoryInterface $revisionRepository
-     * @param RevisionContextInterface    $revisionContext
-     */
     public function __construct(RevisionRepositoryInterface $revisionRepository, RevisionContextInterface $revisionContext)
     {
         $this->revisionRepository = $revisionRepository;
