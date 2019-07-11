@@ -13,8 +13,6 @@ framework:
     serializer: ~
     validation: ~
     form: ~
-    templating:
-        engines: ['twig']
 
 monolog:
     handlers:
@@ -64,10 +62,5 @@ swp_settings:
             value: '{"a":1, "b": 2}'
 
 services:
-    swp_content_bundle.resources_list_response_listener:
-        class: SWP\Bundle\SettingsBundle\Tests\Functional\EventListener\ResourceResponseListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.view }
-
     tests_user_provider:
         class: SWP\Bundle\SettingsBundle\Tests\Functional\UserProvider

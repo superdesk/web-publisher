@@ -11,10 +11,12 @@ services:
             - '@swp.repository.settings'
             - '@swp.factory.settings'
             - '@swp_settings.context.scope'
+    SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface: '@swp_settings.manager.settings'
 
     swp_settings.context.scope:
         class: SWP\Bundle\SettingsBundle\Context\ScopeContext
         public: true
+    SWP\Bundle\SettingsBundle\Context\ScopeContextInterface: '@swp_settings.context.scope'
 
     swp_settings.context.scope.subscriber:
         class: SWP\Bundle\SettingsBundle\EventSubscriber\ScopeContextSubscriber

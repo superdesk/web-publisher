@@ -1,0 +1,12 @@
+swp_settings:
+    settings:
+        first_setting: ~
+        second_setting:
+            scope: global
+            value: 123
+        third_setting:
+            scope: user
+            value: "sdfgesgts4tgse5tdg4t"
+        fourth_setting:
+            type: array
+            value: '{"a":1, "b": 2}'

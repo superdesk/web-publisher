@@ -14,12 +14,14 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\SettingsBundle\Tests\Functional\Manager;
+namespace SWP\Bundle\CoreBundle\Tests\Functional\Manager;
 
-use SWP\Bundle\SettingsBundle\Tests\Functional\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class SettingsControllerTest extends WebTestCase
 {
+    private $router;
+
     /**
      * {@inheritdoc}
      */
@@ -27,6 +29,7 @@ class SettingsControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
+        $this->loadCustomFixtures(['tenant']);
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -39,7 +42,7 @@ class SettingsControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertCount(4, $data);
+        self::assertCount(25, $data);
     }
 
     public function testSettingsUpdate()
@@ -60,9 +63,9 @@ class SettingsControllerTest extends WebTestCase
                 'name' => 'third_setting',
                 'value' => '1234567string',
         ]);
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $client = static::createClient([], ['PHP_AUTH_USER' => 'publisher', 'PHP_AUTH_PW' => 'testpass']);
+        $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_settings_update'), [
                 'name' => 'third_setting',
                 'value' => '1234567string',
@@ -73,7 +76,7 @@ class SettingsControllerTest extends WebTestCase
         self::assertEquals('1234567string', $data['value']);
         self::assertEquals('1234567string', $this->getContainer()->get('swp_settings.manager.settings')->get('third_setting', null));
 
-        $client = static::createClient([], ['PHP_AUTH_USER' => 'publisher', 'PHP_AUTH_PW' => 'testpass']);
+        $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_settings_update'), [
                 'name' => 'third_setting',
                 'value' => '1234567',
@@ -81,7 +84,7 @@ class SettingsControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $client = static::createClient([], ['PHP_AUTH_USER' => 'publisher', 'PHP_AUTH_PW' => 'testpass']);
+        $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_settings_update'), [
             'name' => 'third_setting',
             'value' => false,
