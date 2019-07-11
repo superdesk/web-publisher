@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Consumer;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
+use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
@@ -32,9 +33,13 @@ use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use SWP\Component\Bridge\Events;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Lock\Factory;
+use function unserialize;
 
 class ContentPushConsumer implements ConsumerInterface
 {
+    protected $lockFactory;
+
     /**
      * @var LoggerInterface
      */
@@ -66,6 +71,7 @@ class ContentPushConsumer implements ConsumerInterface
     protected $tenantContext;
 
     public function __construct(
+        Factory $lockFactory,
         LoggerInterface $logger,
         PackageRepository $packageRepository,
         EventDispatcherInterface $eventDispatcher,
@@ -73,6 +79,7 @@ class ContentPushConsumer implements ConsumerInterface
         EntityManagerInterface $packageObjectManager,
         TenantContextInterface $tenantContext
     ) {
+        $this->lockFactory = $lockFactory;
         $this->logger = $logger;
         $this->packageRepository = $packageRepository;
         $this->eventDispatcher = $eventDispatcher;
@@ -83,25 +90,38 @@ class ContentPushConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg): int
     {
-        try {
-            return $this->doExecute($msg);
-        } catch (ConnectionException | ORMException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-
-            return ConsumerInterface::MSG_REJECT_REQUEUE;
-        }
-    }
-
-    public function doExecute(AMQPMessage $message): int
-    {
-        $decodedMessage = \unserialize($message->body);
+        $decodedMessage = unserialize($msg->body, [true]);
         /** @var TenantInterface $tenant */
         $tenant = $decodedMessage['tenant'];
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
+        $lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
 
+        try {
+            if (!$lock->acquire()) {
+                return ConsumerInterface::MSG_REJECT_REQUEUE;
+            }
+
+            $result = $this->doExecute($tenant, $package);
+            $lock->release();
+
+            return $result;
+        } catch (ConnectionException | ORMException $e) {
+            $lock->release();
+
+            throw $e;
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            $lock->release();
+
+            return ConsumerInterface::MSG_REJECT_REQUEUE;
+        } finally {
+            $lock->release();
+        }
+    }
+
+    public function doExecute(TenantInterface $tenant, PackageInterface $package): int
+    {
         $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $tenant->getId()));
 
         /** @var PackageInterface $existingPackage */
