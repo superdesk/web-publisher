@@ -6,6 +6,38 @@ const middlewares = jsonServer.defaults();
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
+server.get('/authorize', (req, res) => {
+    const state = req.param('state');
+    const redirectUri = req.parmam('redirect_uri');
+    const clientId = req.param('client_id');
+    res.status(301).header('Location', 
+        redirectUri + '?'
+        + 'code' + '9876'
+        + '&state=' + state);
+});
+
+server.get('/oauth/token', (req, res) => {
+    const client_id = req.param('client_id');
+    const client_secret = req.param('client_secret');
+    const code = req.param('code');
+    const grant_type = req.param('grant_type');
+    const redicrect_uri = req.param('redirect_uri);
+    res.status(200).json({
+        "access_token": "1234567",
+        "token_type": "Bearer",
+        "expires_in": 86400,
+    });
+});
+
+server.get('/userinfo', (req, res) => {
+    const access_token = req.header('Authorization');
+    //Existing user, Superdesk Test User
+    res.status(200).json({
+        'sub': '12345', 
+        'email': 'superdesk.test.user@sourcefabric.org'
+    });
+});
+
 let postsNumber = 1;
 let postVisible = false;
 // Add custom routes before JSON Server router
