@@ -34,13 +34,7 @@ class ExternalOauthController extends Controller
      */
     public function connectCheckAction(Request $request): RedirectResponse
     {
-        $clientRegistry = $this->get('knpu.oauth2.registry');
-        $client = $clientRegistry->getClient('external_oauth');
-
-        $accessToken = $client->getAccessToken();
-        $oauthUser = $client->fetchUserFromToken($accessToken);
-
-        # Redirect to /
+        // Redirect to /
         $response = $this->redirectToRoute('homepage');
 
         return $response;

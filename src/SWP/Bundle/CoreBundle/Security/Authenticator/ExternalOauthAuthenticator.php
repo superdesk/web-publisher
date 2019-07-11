@@ -122,7 +122,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
     /**
      * @inehritdoc
      */
-    private function getOauthClient(): OAuthClient
+    private function getOauthClient(): OAuth2Client
     {
         return $this->clientRegistry->getClient('external_oauth');
     }
