@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Consumer;
 
 use BadFunctionCallException;
+use DateTime;
 use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -28,10 +29,12 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
+use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Bundle\CoreBundle\Model\ImageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -40,6 +43,8 @@ class ImageConversionConsumer implements ConsumerInterface
     protected $serializer;
 
     protected $logger;
+
+    protected $imageRenditionRepository;
 
     protected $mediaManager;
 
@@ -50,12 +55,14 @@ class ImageConversionConsumer implements ConsumerInterface
     public function __construct(
         SerializerInterface $serializer,
         LoggerInterface $logger,
+        RepositoryInterface $imageRenditionRepository,
         MediaManagerInterface $mediaManager,
         TenantContextInterface $tenantContext,
         EntityManagerInterface $entityManager
     ) {
         $this->serializer = $serializer;
         $this->logger = $logger;
+        $this->imageRenditionRepository = $imageRenditionRepository;
         $this->mediaManager = $mediaManager;
         $this->tenantContext = $tenantContext;
         $this->entityManager = $entityManager;
@@ -96,6 +103,8 @@ class ImageConversionConsumer implements ConsumerInterface
             $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
 
             $image->addVariant(ImageInterface::VARIANT_WEBP);
+            $this->markArticlesMediaAsUpdated($image);
+
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
@@ -109,6 +118,15 @@ class ImageConversionConsumer implements ConsumerInterface
         }
 
         return ConsumerInterface::MSG_ACK;
+    }
+
+    private function markArticlesMediaAsUpdated($image)
+    {
+        /** @var ImageRenditionInterface[] $articleMedia */
+        $articleMedia = $this->imageRenditionRepository->findBy(['image' => $image]);
+        foreach ($articleMedia as $media) {
+            $media->getMedia()->getArticle()->setMediaUpdatedAt(new DateTime());
+        }
     }
 
     private function getImageAsResource(FileInterface $asset)

@@ -45,6 +45,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             gedmo:
                 timestampable:
                     on: update
+        mediaUpdatedAt:
+            type: datetime
+            nullable: true
         deletedAt:
             type: datetime
             nullable: true
