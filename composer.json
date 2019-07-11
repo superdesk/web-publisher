@@ -109,6 +109,7 @@
     "symfony/dom-crawler": "4.2.*",
     "symfony/dotenv": "^4.3",
     "symfony/flex": "^1.4",
+    "symfony/lock": "^4.3",
     "symfony/monolog-bundle": "~3.4",
     "symfony/routing": "^4.3",
     "symfony/serializer": "^4.3.2",
@@ -116,12 +117,12 @@
     "symfony/translation": "^4.3",
     "symfony/validator": "^4.3",
     "symfony/web-link": "^4.3",
+    "takeit/amp": "dev-master",
     "takeit/amp-html-bundle": "^1.0",
     "takeit/stringy": "dev-fix",
     "twig/extensions": "~1.5",
     "twig/twig": "^2.11",
-    "willdurand/hateoas-bundle": "^2.0",
-    "takeit/amp": "dev-master"
+    "willdurand/hateoas-bundle": "^2.0"
   },
   "require-dev": {
     "behat/behat": "^3.5",
