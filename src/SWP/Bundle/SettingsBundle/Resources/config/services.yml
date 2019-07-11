@@ -18,14 +18,6 @@ services:
         public: true
     SWP\Bundle\SettingsBundle\Context\ScopeContextInterface: '@swp_settings.context.scope'
 
-    swp_settings.context.scope.subscriber:
-        class: SWP\Bundle\SettingsBundle\EventSubscriber\ScopeContextSubscriber
-        arguments:
-          - '@swp_settings.context.scope'
-          - '@security.token_storage'
-        tags:
-            - { name: kernel.event_subscriber }
-
     SWP\Bundle\SettingsBundle\Provider\ConfigurationSettingsProvider:
         arguments:
             - '%swp_settings.settings%'

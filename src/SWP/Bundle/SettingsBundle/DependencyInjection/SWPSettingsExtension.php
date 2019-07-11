@@ -36,11 +36,15 @@ class SWPSettingsExtension extends Extension
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
         $container->setParameter('swp_settings.settings', $config['settings']);
 
         if ($config['persistence']['orm']['enabled']) {
+            $loader->load('services.yml');
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
+        }
+
+        if ($container->hasDefinition('security.token_storage')) {
+            $loader->load('user_scope.yml');
         }
     }
 }

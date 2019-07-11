@@ -1,0 +1,8 @@
+services:
+    swp_settings.context.scope.subscriber:
+        class: SWP\Bundle\SettingsBundle\EventSubscriber\ScopeContextSubscriber
+        arguments:
+            - '@swp_settings.context.scope'
+            - '@security.token_storage'
+        tags:
+            - { name: kernel.event_subscriber }
