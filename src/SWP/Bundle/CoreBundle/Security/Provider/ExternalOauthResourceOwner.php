@@ -22,7 +22,7 @@ class ExternalOauthResourceOwner extends GenericResourceOwner
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->getValueByKey($this->response, 'sub');
     }
@@ -30,16 +30,16 @@ class ExternalOauthResourceOwner extends GenericResourceOwner
     /**
      * {@inheritdoc}
      */
-    public function getEmail()
+    public function getEmail(): string
     {
-        # Normalize email address
+        // Normalize email address
         return \strtolower($this->getValueByKey($this->response, 'email'));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getValueByKey($this->response, 'name');
     }
@@ -47,7 +47,7 @@ class ExternalOauthResourceOwner extends GenericResourceOwner
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->response;
     }

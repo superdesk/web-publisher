@@ -10,13 +10,16 @@ use SWP\Bundle\CoreBundle\Security\Provider\UserProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\Security;
+use League\OAuth2\Client\Token\AccessToken;
 
 class ExternalOauthAuthenticator extends SocialAuthenticator
 {
@@ -48,7 +51,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
     /**
      * @inehritdoc
      */
-    public function supports(Request $request) 
+    public function supports(Request $request): bool
     {
         if(!$this->security->getUser() || ($request->query->get('code') && $request->get('state'))) {
             return true;
@@ -60,7 +63,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
     /**
      * @inehritdoc
      */
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): AccessToken
     {
         return $this->fetchAccessToken($this->getOauthClient());
     }
@@ -72,7 +75,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
      *
      * @inehritdoc
      */
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
     {
         // Fetch the user from the resource server
         $oauthUser = $this->getOauthClient()->fetchUserFromToken($credentials);
@@ -119,7 +122,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
     /**
      * @inehritdoc
      */
-    private function getOauthClient()
+    private function getOauthClient(): OAuthClient
     {
         return $this->clientRegistry->getClient('external_oauth');
     }
@@ -127,21 +130,21 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
     /**
      * @inehritdoc
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): void
     {
     }
 
     /**
      * @inehritdoc
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): void
     {
     }
 
     /**
      * @inehritdoc
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
         return new RedirectResponse(
             '/connect/oauth/',

@@ -21,61 +21,62 @@ class ExternalOauthProvider extends AbstractProvider
         $this->scope_separator = $options['scope_separator'];
     }
 
-    public function getAccessToken($grant, $options = []) {
+    public function getAccessToken($grant, array $options = []): AccessToken
+    {
         if(!isset($this->access_token)) {
             $this->access_token = parent::getAccessToken($grant, $options);
         }
         return $this->access_token;
     }
 
-    public function getBaseAuthorizationUrl()
+    public function getBaseAuthorizationUrl(): string
     {
         return $this->base_url . '/authorize';
     }
 
-    public function getBaseAccessTokenUrl(array $params)
+    public function getBaseAccessTokenUrl(array $params): string
     {
         return $this->base_url . '/oauth/token';
     }
 
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
         return $this->base_url . '/userinfo';
     }
 
-    protected function getDefaultScopes()
+    protected function getDefaultScopes(): string
     {
         return ['openid', 'profile', 'email'];
     }
 
-    protected function checkResponse(ResponseInterface $response, $data)
+    protected function checkResponse(ResponseInterface $response, $data): void
     {
         if($response->getStatusCode() >= 400) {
-            return new IdentityProviderException(
+            throw new IdentityProviderException(
                 $response->getReasonPhrase(),
                 $response->getStatusCode(),
                 (string) $response->getBody());
         }
     }
 
-    protected function createResourceOwner(array $response, AccessToken $token)
+    protected function createResourceOwner(array $response, AccessToken $token): ExternalOauthResourceOwner
     {
         return new ExternalOauthResourceOwner($response);
     }
 
-    protected function getScopeSeparator()
+    protected function getScopeSeparator(): string
     {
         return $this->scope_separator;
     }
 
-    protected function getAuthorizationHeaders($token = null)
+    protected function getAuthorizationHeaders($token = null): array
     {
         if($token) {
             return [
                 'Authorization' => 'Bearer ' . $token
             ];
-        } else {
-            return [];
         }
+
+        return [];
     }
 }
