@@ -87,6 +87,9 @@ SWP\Component\Bridge\Model\Package:
         deletedAt:
             type: datetime
             nullable: true
+    uniqueConstraints:
+        swp_package_guid_idx:
+            columns: [ guid ]
     oneToMany:
         items:
             targetEntity: SWP\Component\Bridge\Model\ItemInterface
