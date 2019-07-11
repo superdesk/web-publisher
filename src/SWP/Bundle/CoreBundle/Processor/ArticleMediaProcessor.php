@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Processor;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
@@ -88,7 +89,7 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
     {
         $articleMedia = $this->mediaFactory->create($article, $key, $item);
         $this->articleBodyProcessor->process($article, $articleMedia);
-        if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
+        if (MediaAwareInterface::KEY_FEATURE_MEDIA === $key) {
             $article->setFeatureMedia($articleMedia);
         }
 

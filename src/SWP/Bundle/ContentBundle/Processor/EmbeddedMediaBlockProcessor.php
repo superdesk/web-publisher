@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\Processor;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 final class EmbeddedMediaBlockProcessor implements ArticleBodyProcessorInterface
@@ -35,7 +36,7 @@ final class EmbeddedMediaBlockProcessor implements ArticleBodyProcessorInterface
 
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
-        if (ArticleInterface::KEY_FEATURE_MEDIA === $articleMedia->getKey() || null === $articleMedia->getImage()) {
+        if (MediaAwareInterface::KEY_FEATURE_MEDIA === $articleMedia->getKey() || null === $articleMedia->getImage()) {
             return;
         }
 

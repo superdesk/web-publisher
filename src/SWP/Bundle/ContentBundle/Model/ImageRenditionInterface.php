@@ -33,6 +33,8 @@ interface ImageRenditionInterface extends PreviewUrlAwareInterface, PersistableI
 
     public function setMedia(ArticleMediaInterface $media): void;
 
+    public function getMedia(): ArticleMediaInterface;
+
     public function setHeight(int $height): void;
 
     public function setWidth(int $width): void;

@@ -18,7 +18,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 
 use function in_array;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 
 class ProcessArticleMediaListener extends AbstractArticleMediaListener
 {
@@ -56,7 +56,7 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
                 $this->articleMediaRepository->persist($articleMedia);
 
-                if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
+                if (MediaAwareInterface::KEY_FEATURE_MEDIA === $key) {
                     $article->setFeatureMedia($articleMedia);
                 }
             }

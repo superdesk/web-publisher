@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\KeyGenerator;
 
 use Asm89\Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticlesUpdatedTimeAwareInterface;
+use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\ContentList\Model\ContentListItemsUpdatedAwareInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
@@ -32,18 +33,19 @@ class MetaKeyGenerator implements KeyGeneratorInterface
             $keyElements = [];
 
             if ($value instanceof TimestampableInterface) {
-                $date = $value->getUpdatedAt() ?? $value->getCreatedAt();
-                $keyElements[] = $date->getTimestamp();
+                $keyElements[] = ($value->getUpdatedAt() ?? $value->getCreatedAt())->getTimestamp();
             }
 
             if ($value instanceof ArticlesUpdatedTimeAwareInterface && null !== $value->getArticlesUpdatedAt()) {
-                $date = $value->getArticlesUpdatedAt();
-                $keyElements[] = $date->getTimestamp();
+                $keyElements[] = $value->getArticlesUpdatedAt()->getTimestamp();
             }
 
             if ($value instanceof ContentListItemsUpdatedAwareInterface && null !== $value->getContentListItemsUpdatedAt()) {
-                $date = $value->getContentListItemsUpdatedAt();
-                $keyElements[] = $date->getTimestamp();
+                $keyElements[] = $value->getContentListItemsUpdatedAt()->getTimestamp();
+            }
+
+            if ($value instanceof MediaAwareInterface && null !== $value->getMediaUpdatedAt()) {
+                $keyElements[] = $value->getMediaUpdatedAt()->getTimestamp();
             }
 
             if ($value instanceof PersistableInterface) {
