@@ -299,7 +299,7 @@ Feature: Related items support
           "priority":5,
           "description_text":"Sad"
         },
-        "related--item1":{
+        "related--1":{
           "language":"en",
           "slugline":"abstract-html-test-1",
           "body_html":"<p>some html body related 1</p>",
@@ -381,7 +381,7 @@ Feature: Related items support
             }
           }
         },
-        "related--item2":{
+        "related--2":{
           "language":"en",
           "slugline":"abstract-html-test-2",
           "body_html":"<p>some html body related 1</p>",
