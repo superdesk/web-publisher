@@ -39,4 +39,20 @@ class AppKernel extends Kernel
 
         return $parameters;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCacheDir()
+    {
+        return __DIR__.'/var/cache/'.$this->environment;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLogDir()
+    {
+        return __DIR__.'/var/log';
+    }
 }

@@ -92,5 +92,4 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.view }
 
-    tests_user_provider:
-        class: SWP\Bundle\SettingsBundle\Tests\Functional\UserProvider
+    SWP\Bundle\UserBundle\Tests\Functional\UserProvider: ~
