@@ -21,21 +21,51 @@ server.get('/oauth/token', (req, res) => {
     const client_secret = req.param('client_secret');
     const code = req.param('code');
     const grant_type = req.param('grant_type');
-    const redicrect_uri = req.param('redirect_uri);
-    res.status(200).json({
-        "access_token": "1234567",
-        "token_type": "Bearer",
-        "expires_in": 86400,
-    });
+    const redicrect_uri = req.param('redirect_uri');
+    if(client_id === '1') {
+        res.status(200).json({
+            'access_token': '1234567',
+            'token_type': 'Bearer',
+            'expires_in': 86400,
+        });
+    } else if(client_id === '2') {
+        res.status(200).json({
+            'access_token': '876543',
+            'token_type': 'Bearer',
+            'expires_in': 86400,
+        });
+    } else if(client_id === '3') {
+        res.status(200).json({
+            'access_token': '7654321',
+            'token_type': 'Bearer',
+            'expires_in': 86400,
+        });
+    }
 });
 
 server.get('/userinfo', (req, res) => {
     const access_token = req.header('Authorization');
-    //Existing user, Superdesk Test User
-    res.status(200).json({
-        'sub': '12345', 
-        'email': 'superdesk.test.user@sourcefabric.org'
-    });
+    if(access_token === 'Bearer 1234567') {
+        //Existing user, Superdesk Test User
+        res.status(200).json({
+            'sub': '12345', 
+            'email': 'superdesk.test.user@sourcefabric.org'
+        });
+    } else if(access_token === 'Bearer 876543') {
+        // Existing user, new email
+        res.status(200).json({
+            'sub': '12345',
+            'email': 'new.email@example.com'
+        });
+    } else if(access_token === 'Bearer 7654321') {
+        // New user
+        res.status(200).json({
+            'sub': '54321',
+            'email': 'example@example.com'
+        });
+    } else {
+        res.status(403);
+    }
 });
 
 let postsNumber = 1;
