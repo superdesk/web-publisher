@@ -119,6 +119,33 @@ Feature: Checking if settings work correctly
         "name":"paywall_enabled"
       },
       {
+          "scope": "global",
+          "value": null,
+          "type": "string",
+          "name": "first_setting"
+      },
+      {
+          "scope": "global",
+          "value": 123,
+          "type": "string",
+          "name": "second_setting"
+      },
+      {
+          "scope": "user",
+          "value": "sdfgesgts4tgse5tdg4t",
+          "type": "string",
+          "name": "third_setting"
+      },
+      {
+          "type": "array",
+          "value": {
+              "a": 1,
+              "b": 2
+          },
+          "scope": "global",
+          "name": "fourth_setting"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",

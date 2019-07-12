@@ -27,7 +27,7 @@ swp_api_settings_update:
 
 swp_api_settings_bulk_update:
     path: /api/{version}/settings/bulk/
-    defaults: { _controller: SWPCoreBundle:Settings:update, version: "v2" }
+    defaults: { _controller: SWPCoreBundle:Settings:bulk, version: "v2" }
     requirements:
         slug: .*
     options:

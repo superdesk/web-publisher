@@ -88,7 +88,7 @@ swp_user:
 
 services:
     swp_content_bundle.resources_list_response_listener:
-        class: SWP\Bundle\SettingsBundle\Tests\Functional\EventListener\ResourceResponseListener
+        class: SWP\Bundle\UserBundle\Tests\Functional\EventListener\ResourceResponseListener
         tags:
             - { name: kernel.event_listener, event: kernel.view }
 
