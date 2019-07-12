@@ -27,42 +27,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ScopeContextSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var ScopeContextInterface
-     */
     protected $scopeContext;
 
-    /**
-     * @var TokenStorageInterface
-     */
     protected $securityTokenStorage;
 
-    /**
-     * ScopeContextSubscriber constructor.
-     *
-     * @param ScopeContextInterface $scopeContext
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(ScopeContextInterface $scopeContext, TokenStorageInterface $tokenStorage)
     {
         $this->scopeContext = $scopeContext;
         $this->securityTokenStorage = $tokenStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => 'onRequest',
         ];
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onRequest(GetResponseEvent $event)
+    public function onRequest(GetResponseEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;

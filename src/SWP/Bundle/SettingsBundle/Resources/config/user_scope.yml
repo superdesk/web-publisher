@@ -3,6 +3,6 @@ services:
         class: SWP\Bundle\SettingsBundle\EventSubscriber\ScopeContextSubscriber
         arguments:
             - '@swp_settings.context.scope'
-            - '@security.token_storage'
+            - '@Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'
         tags:
             - { name: kernel.event_subscriber }
