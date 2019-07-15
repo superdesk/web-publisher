@@ -14,6 +14,7 @@ services:
 
   SWP\Bundle\CoreBundle\Controller\PackageSeoMediaUploadController: ~
   SWP\Bundle\CoreBundle\Controller\RedirectingController: ~
+  SWP\Bundle\CoreBundle\Controller\SettingsController: ~
 
   takeit_amp_html.amp_controller:
     class: SWP\Bundle\CoreBundle\Controller\AmpController

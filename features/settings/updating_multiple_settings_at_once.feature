@@ -135,6 +135,33 @@ Feature: Settings bulk update
         "name":"paywall_enabled"
       },
       {
+          "scope": "global",
+          "value": null,
+          "type": "string",
+          "name": "first_setting"
+      },
+      {
+          "scope": "global",
+          "value": 123,
+          "type": "string",
+          "name": "second_setting"
+      },
+      {
+          "scope": "user",
+          "value": "sdfgesgts4tgse5tdg4t",
+          "type": "string",
+          "name": "third_setting"
+      },
+      {
+          "type": "array",
+          "value": {
+              "a": 1,
+              "b": 2
+          },
+          "scope": "global",
+          "name": "fourth_setting"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -327,6 +354,33 @@ Feature: Settings bulk update
         "name":"paywall_enabled"
       },
       {
+          "scope": "global",
+          "value": null,
+          "type": "string",
+          "name": "first_setting"
+      },
+      {
+          "scope": "global",
+          "value": 123,
+          "type": "string",
+          "name": "second_setting"
+      },
+      {
+          "scope": "user",
+          "value": "sdfgesgts4tgse5tdg4t",
+          "type": "string",
+          "name": "third_setting"
+      },
+      {
+          "type": "array",
+          "value": {
+              "a": 1,
+              "b": 2
+          },
+          "scope": "global",
+          "name": "fourth_setting"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -423,14 +477,14 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/v2/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [17].name               | primary_font_family                 |
-      | [17].value              | Lato                                |
-      | [18].name               | secondary_font_family               |
-      | [18].value              | Oswald                              |
+      | [21].name               | primary_font_family                 |
+      | [21].value              | Lato                                |
+      | [22].name               | secondary_font_family               |
+      | [22].value              | Oswald                              |
       | [9].name               | theme_logo                          |
       | [9].value              | .png                                |
-      | [19].name               | body_font_size                      |
-      | [19].value              | 16                                  |
+      | [23].name               | body_font_size                      |
+      | [23].value              | 16                                  |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/v2/settings/bulk/" with body:
@@ -450,8 +504,8 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/v2/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [20].name                | switch   |
-    And the JSON node "[20].value" should be false
+      | [24].name                | switch   |
+    And the JSON node "[24].value" should be false
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -473,5 +527,5 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/v2/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [17].name               | primary_font_family   |
+      | [21].name               | primary_font_family   |
     And the JSON node "[17].value" should be equal to ""

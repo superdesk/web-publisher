@@ -21,17 +21,15 @@
     "php": "^7.3",
     "swp/storage-bundle": "^2.0",
     "swp/common": "^2.0",
-    "symfony/twig-bundle": "^4.2",
     "symfony/form": "^4.2",
     "symfony/validator": "^4.2",
     "symfony/security": "^4.2",
-    "symfony/translation": "^4.2",
-    "nelmio/api-doc-bundle": "^3.0",
     "sensio/framework-extra-bundle": "^5.0",
     "doctrine/orm": "^2.6",
     "doctrine/doctrine-bundle": "^1.10"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "phpunit/phpunit": "^5.6",
     "phpdocumentor/reflection-docblock": "^4.0",
     "symfony/framework-bundle": "^4.2",
@@ -42,8 +40,6 @@
     "symfony/monolog-bundle": "^3.4",
     "symfony/monolog-bridge": "^4.2",
     "symfony/serializer": "^4.2",
-    "symfony/asset": "^4.2",
-    "symfony/templating": "^4.2",
     "liip/functional-test-bundle": "^2.0",
     "doctrine/doctrine-cache-bundle": "1.3.*"
   },

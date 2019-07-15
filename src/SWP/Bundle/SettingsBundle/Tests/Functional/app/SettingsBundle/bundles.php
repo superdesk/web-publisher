@@ -20,8 +20,6 @@ return [
     new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
     new Symfony\Bundle\MonologBundle\MonologBundle(),
     new Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
-    new Symfony\Bundle\TwigBundle\TwigBundle(),
-    new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 
     new SWP\Bundle\StorageBundle\SWPStorageBundle(),
     new SWP\Bundle\SettingsBundle\SWPSettingsBundle(),
