@@ -93,7 +93,7 @@
         "hoa/mime": "3.17.01.10",
         "hoa/file": "1.17.07.11",
         "sentry/sentry-symfony": "^2.0",
-        "danielstjules/stringy": "~3.1",
+        "takeit/stringy": "dev-fix",
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
