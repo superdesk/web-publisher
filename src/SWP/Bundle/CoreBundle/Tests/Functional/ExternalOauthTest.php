@@ -6,6 +6,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Functional;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 final class ExternalOauthTest extends WebTestCase
 {
@@ -21,7 +22,7 @@ final class ExternalOauthTest extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
-    public function testConnectStart()
+    public function testConnectStart(): void
     {
         $client = static::createClient();
 
@@ -31,7 +32,8 @@ final class ExternalOauthTest extends WebTestCase
         self::assertContains('/authorize', $authorizeUrl);
     }
 
-    private function authorizeWithCode(string $code) {
+    private function authorizeWithCode(string $code): Client
+    {
         $client = static::createClient();
 
         // Initalize and get the parameters
@@ -53,7 +55,7 @@ final class ExternalOauthTest extends WebTestCase
         return $client;
     }
 
-    public function testAuthorizeExistingUser()
+    public function testAuthorizeExistingUser(): void
     {
         $client = $this->authorizeWithCode('123');
         self::assertEquals(302, $client->getResponse()->getStatusCode());
@@ -62,7 +64,7 @@ final class ExternalOauthTest extends WebTestCase
         self::assertContains('superdesk.test.user@sourcefabric.org', $client->getResponse()->getContent());
     }
 
-    public function testAuthorizeExistingUserNewEmail()
+    public function testAuthorizeExistingUserNewEmail(): void
     {
         $client = $this->authorizeWithCode('321');
         self::assertEquals(302, $client->getResponse()->getStatusCode());
@@ -71,7 +73,7 @@ final class ExternalOauthTest extends WebTestCase
         self::assertContains('new.email@example.com', $client->getResponse()->getContent());
     }
 
-    public function testAuthorizeNewUser()
+    public function testAuthorizeNewUser(): void
     {
         $client = $this->authorizeWithCode('132');
         self::assertEquals(302, $client->getResponse()->getStatusCode());
@@ -80,7 +82,8 @@ final class ExternalOauthTest extends WebTestCase
         self::assertContains('new.user@example.com', $client->getResponse()->getContent());
     }
 
-    public function testWrongAuthCode() {
+    public function testWrongAuthCode(): void
+    {
         $client = $this->authorizeWithCode('231');
         // Make sure we get unauthorized response when using an invalid authorization code.
         self::assertEquals(403, $client->getResponse()->getStatusCode());
