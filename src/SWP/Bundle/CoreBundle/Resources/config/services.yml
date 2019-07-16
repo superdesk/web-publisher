@@ -254,16 +254,16 @@ services:
             - "@sylius.theme.hierarchy_provider"
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
-#    sylius.theme.twig.loader:
-#        class: SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader
-#        decorates: "twig.loader"
-#        arguments:
-#            - "@sylius.theme.twig.loader.inner"
-#            - "@templating.locator"
-#            - "@templating.name_parser"
-#            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
-#        tags:
-#            - { name: twig.loader }
+    sylius.theme.twig.loader:
+        class: SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader
+        decorates: "twig.loader"
+        arguments:
+            - "@sylius.theme.twig.loader.inner"
+            - "@templating.locator"
+            - "@templating.name_parser"
+            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
+        tags:
+            - { name: twig.loader }
 
     swp.twig.cache.tenant_aware:
         class: SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCache

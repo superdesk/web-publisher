@@ -34,14 +34,14 @@ final class FilesystemTemplateLoader extends ThemeFilesystemLoader
         $this->filesystem = $filesystem;
     }
 
-//    public function getSourceContext($name): \Twig_Source
-//    {
-////        try {
-//        $path = $this->findTemplate($name);
-//
-//        return new \Twig_Source((string) $this->filesystem->read($path), (string) $name, $path);
-////        } catch (\Exception $exception) {
-////            return $this->decoratedLoader->getSourceContext($name);
-////        }
-//    }
+    public function getSourceContext($name): \Twig_Source
+    {
+//        try {
+        $path = $this->findTemplate($name);
+
+        return new \Twig_Source((string) $this->filesystem->read($path), (string) $name, $path);
+//        } catch (\Exception $exception) {
+//            return $this->decoratedLoader->getSourceContext($name);
+//        }
+    }
 }

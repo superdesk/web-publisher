@@ -96,6 +96,9 @@ class MetaRouter extends DynamicRouter
             'homepage' !== $name &&
             'swp_author_media_get' !== $name &&
             'swp_media_get' !== $name &&
+            '_profiler' !== $name &&
+            '_profiler_home' !== $name &&
+            '_wdt' !== $name &&
             false === strpos($name, 'swp_api_')
         );
     }
