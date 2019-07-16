@@ -35,6 +35,18 @@ class PackageRepository extends BasePackageRepository implements PackageReposito
             $criteria->remove('authors');
         }
 
+        if ($criteria->has('article-body-content')) {
+            $value = $criteria->get('article-body-content');
+            $queryBuilder->leftJoin($alias.'.articles', 'a');
+
+            $orX = $queryBuilder->expr()->orX();
+            $orX->add($queryBuilder->expr()->like('a.body', $queryBuilder->expr()->literal('%'.$value.'%')));
+            $orX->add($queryBuilder->expr()->like('a.lead', $queryBuilder->expr()->literal('%'.$value.'%')));
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('article-body-content');
+        }
+
         if ($criteria->has('statuses')) {
             $orX = $queryBuilder->expr()->orX();
             foreach ((array) $criteria->get('statuses') as $value) {

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use function explode;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
@@ -71,6 +72,7 @@ class ProcessPackagesCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription('Finds packages by term and process them.')
+            ->addArgument('article-body-content', InputArgument::OPTIONAL, 'Search for term in package articles body.')
             ->addOption('limit', null, InputArgument::OPTIONAL, 'Pagination limit', 10)
             ->addOption('page', null, InputArgument::OPTIONAL, 'Pagination page', 1)
             ->addOption('order', null, InputArgument::OPTIONAL, 'Packages order. Example: updatedAt=desc', 'updatedAt=desc')
@@ -101,22 +103,29 @@ EOT
             'organization' => $currentTenant->getOrganization()->getId(),
         ];
         if (null !== $input->getOption('authors')) {
-            $filters['authors'] = \explode(',', $input->getOption('authors'));
+            $filters['authors'] = explode(',', $input->getOption('authors'));
         }
         if (null !== $input->getOption('statuses')) {
-            $filters['statuses'] = \explode(',', $input->getOption('statuses'));
+            $filters['statuses'] = explode(',', $input->getOption('statuses'));
         }
 
         $criteria = new Criteria($filters);
 
+        if (null !== ($term = $input->getArgument('article-body-content'))) {
+            $criteria->set('article-body-content', $term);
+        }
+
+        $queryBuilder = $this->packageRepository->getQueryByCriteria($criteria, $order, 'p');
+        $this->packageRepository->applyCriteria($queryBuilder, $criteria, 'p');
+
         /** @var SlidingPagination $pagination */
         $pagination = $this->paginator->paginate(
-            $this->packageRepository->getQueryByCriteria($criteria, $order, 'p'),
+            $queryBuilder,
             $input->getOption('page'),
             $input->getOption('limit')
         );
 
-        $output->writeln(sprintf('Packages found: %s', $pagination->getTotalItemCount()));
+        $output->writeln(sprintf('<bg=green;options=bold>Packages found: %s</>', $pagination->getTotalItemCount()));
 
         /** @var PackageInterface $package */
         foreach ($pagination->getItems() as $package) {

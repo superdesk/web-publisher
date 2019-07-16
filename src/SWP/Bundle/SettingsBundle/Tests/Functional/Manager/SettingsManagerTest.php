@@ -26,11 +26,6 @@ use SWP\Bundle\SettingsBundle\Tests\Functional\WebTestCase;
 
 class SettingsManagerTest extends WebTestCase
 {
-    public function testDebugConstruct()
-    {
-        $this->createService();
-    }
-
     public function testGetAllSettingsFromConfiguration()
     {
         $this->initDatabase();

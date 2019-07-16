@@ -34,5 +34,9 @@ class RedirectingControllerTest extends WebTestCase
         $client->request('GET', '/redirecting/extra/articleNumber/1919');
         self::assertEquals(301, $client->getResponse()->getStatusCode());
         self::assertEquals('http://localhost/news/sports/test-news-sports-article', $client->getResponse()->headers->get('Location'));
+
+        $client->request('GET', '/redirecting/extra/articleNumber/10242?amp');
+        self::assertEquals(301, $client->getResponse()->getStatusCode());
+        self::assertEquals('http://localhost/news/test-article?amp=1', $client->getResponse()->headers->get('Location'));
     }
 }

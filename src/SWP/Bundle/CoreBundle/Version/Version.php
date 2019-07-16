@@ -24,7 +24,7 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $version = '1.4.0-beta';
+    private $version = '2.0.0-beta';
 
     /**
      * Code name string.

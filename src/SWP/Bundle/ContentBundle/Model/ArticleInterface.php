@@ -26,7 +26,7 @@ use SWP\Component\Storage\Model\PersistableInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
 
-interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareArticleInterface, AuthorsAwareInterface, KeywordAwareInterface, RelatedArticlesAwareInterface, SeoMetadataAwareInterface
+interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareInterface, AuthorsAwareInterface, KeywordAwareInterface, RelatedArticlesAwareInterface, SeoMetadataAwareInterface
 {
     const STATUS_NEW = 'new';
 
@@ -35,8 +35,6 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     const STATUS_UNPUBLISHED = 'unpublished';
 
     const STATUS_CANCELED = 'canceled';
-
-    const KEY_FEATURE_MEDIA = 'featuremedia';
 
     /**
      * @return mixed
@@ -131,16 +129,6 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
      * @param string $lead
      */
     public function setLead($lead);
-
-    /**
-     * @return ArticleMediaInterface|null
-     */
-    public function getFeatureMedia();
-
-    /**
-     * @param ArticleMediaInterface $featureMedia
-     */
-    public function setFeatureMedia(ArticleMediaInterface $featureMedia = null);
 
     /**
      * @return string

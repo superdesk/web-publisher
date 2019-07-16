@@ -16,9 +16,12 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '@router'
             - '@swp.resolver.article'
+            - '@swp.object_manager.article_statistics'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
         arguments:
+            - '@lock.factory'
             - '@monolog.logger.swp_content_push'
             - '@swp.repository.package'
             - '@event_dispatcher'
@@ -30,3 +33,4 @@ services:
         arguments:
             - '@jms_serializer'
             - '@monolog.logger.swp_image_conversion'
+            - '@swp.repository.image_rendition'

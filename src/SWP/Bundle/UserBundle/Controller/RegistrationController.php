@@ -67,7 +67,11 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $this->ensureThatRegistrationIsEnabled();
+        try {
+            $this->ensureThatRegistrationIsEnabled();
+        } catch (NotFoundHttpException $e) {
+            return new SingleResourceResponse(null, new ResponseContext(404));
+        }
 
         /** @var UserManagerInterface $userManager */
         $userManager = $this->get('fos_user.user_manager');

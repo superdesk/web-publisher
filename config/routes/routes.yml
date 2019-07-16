@@ -17,9 +17,6 @@ swp_facebook_instant_articles:
 swp_user:
     resource: "@SWPUserBundle/Resources/config/routing.yml"
 
-swp_settings:
-    resource: "@SWPSettingsBundle/Resources/config/routing.yml"
-
 swp_elasticsearch:
     resource: "@SWPElasticSearchBundle/Controller/Api"
     type:     annotation

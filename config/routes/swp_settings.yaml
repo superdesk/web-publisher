@@ -1,0 +1,35 @@
+swp_api_settings_list:
+    path: /api/{version}/settings/
+    defaults: { _controller: SWPCoreBundle:Settings:list, version: "v2" }
+    requirements:
+        slug: .*
+    options:
+        expose: true
+    methods: [GET]
+
+swp_api_settings_revert:
+    path: /api/{version}/settings/revert/{scope}
+    defaults: { _controller: SWPCoreBundle:Settings:revert, version: "v2" }
+    requirements:
+        slug: .*
+    options:
+        expose: true
+    methods: [POST]
+
+swp_api_settings_update:
+    path: /api/{version}/settings/
+    defaults: { _controller: SWPCoreBundle:Settings:update, version: "v2" }
+    requirements:
+        slug: .*
+    options:
+        expose: true
+    methods: [PATCH]
+
+swp_api_settings_bulk_update:
+    path: /api/{version}/settings/bulk/
+    defaults: { _controller: SWPCoreBundle:Settings:bulk, version: "v2" }
+    requirements:
+        slug: .*
+    options:
+        expose: true
+    methods: [PATCH]

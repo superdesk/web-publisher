@@ -34,7 +34,8 @@ Feature: Reprocessing already send to publisher packages
     """
       {
           "language":"en","headline":"Test Package","version":"2","guid":"16e111d5","priority":6,"type":"text",
-          "authors":[{"name":"Tom Doe","role":"editor"}]
+          "authors":[{"name":"Tom Doe","role":"editor"}],
+          "body_html":"<p>some html unique 123 body</p>"
       }
     """
 
@@ -43,7 +44,8 @@ Feature: Reprocessing already send to publisher packages
     """
       {
           "language":"en","headline":"Author Package","version":"2","guid":"fc0a805e","priority":6,"type":"text",
-          "authors":[{"name":"John Doe","role":"editor"}]
+          "authors":[{"name":"John Doe","role":"editor"}],
+          "body_html":"<p>some html unique 456 body</p>"
       }
     """
 
@@ -112,4 +114,22 @@ Feature: Reprocessing already send to publisher packages
       | --dry-run    | true      |
       | --tenant     | 123abc    |
       | --statuses   | new |
+    Then the command output should be "Packages found: 0"
+
+    When I run the "swp:package:process" command with options:
+      | --dry-run            | true      |
+      | --tenant             | 123abc    |
+      | article-body-content | 123       |
+    Then the command output should be "Packages found: 1"
+
+    When I run the "swp:package:process" command with options:
+      | --dry-run            | true      |
+      | --tenant             | 123abc    |
+      | article-body-content | 456       |
+    Then the command output should be "Packages found: 1"
+
+    When I run the "swp:package:process" command with options:
+      | --dry-run            | true      |
+      | --tenant             | 123abc    |
+      | article-body-content | 124       |
     Then the command output should be "Packages found: 0"

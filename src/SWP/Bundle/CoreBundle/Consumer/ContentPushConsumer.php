@@ -17,7 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Consumer;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\ORMException;
 use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
@@ -27,15 +29,20 @@ use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use SWP\Component\Bridge\Events;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Lock\Factory;
+use function unserialize;
 
 class ContentPushConsumer implements ConsumerInterface
 {
+    protected $lockFactory;
+
     /**
      * @var LoggerInterface
      */
@@ -67,6 +74,7 @@ class ContentPushConsumer implements ConsumerInterface
     protected $tenantContext;
 
     public function __construct(
+        Factory $lockFactory,
         LoggerInterface $logger,
         PackageRepository $packageRepository,
         EventDispatcherInterface $eventDispatcher,
@@ -74,6 +82,7 @@ class ContentPushConsumer implements ConsumerInterface
         EntityManagerInterface $packageObjectManager,
         TenantContextInterface $tenantContext
     ) {
+        $this->lockFactory = $lockFactory;
         $this->logger = $logger;
         $this->packageRepository = $packageRepository;
         $this->eventDispatcher = $eventDispatcher;
@@ -84,24 +93,53 @@ class ContentPushConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg): int
     {
-        try {
-            return $this->doExecute($msg);
-        } catch (DBALException | ORMException $e) {
-            throw $e;
-        } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-
-            return ConsumerInterface::MSG_REJECT;
-        }
-    }
-
-    public function doExecute(AMQPMessage $message): int
-    {
-        $decodedMessage = \unserialize($message->body);
+        $decodedMessage = unserialize($msg->body, [true]);
         /** @var TenantInterface $tenant */
         $tenant = $decodedMessage['tenant'];
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
+        $lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
+
+        try {
+            if (!$lock->acquire()) {
+                return ConsumerInterface::MSG_REJECT_REQUEUE;
+            }
+
+            $result = $this->doExecute($tenant, $package);
+            $lock->release();
+
+            return $result;
+        } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
+            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
+            return ConsumerInterface::MSG_REJECT;
+        } catch (DBALException | ORMException $e) {
+            $lock->release();
+
+            throw $e;
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            $lock->release();
+
+            return ConsumerInterface::MSG_REJECT;
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NotNullConstraintViolationException
+     * @throws DBALException
+     * @throws ORMException
+     * @throws Exception
+     */
+    public function doExecute(TenantInterface $tenant, PackageInterface $package): int
+    {
+        $packageType = $package->getType();
+        if (ItemInterface::TYPE_TEXT !== $packageType && ItemInterface::TYPE_COMPOSITE !== $packageType) {
+            return ConsumerInterface::MSG_REJECT;
+        }
 
         $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $tenant->getId()));
 

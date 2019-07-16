@@ -712,6 +712,7 @@ services:
         public: true
         arguments:
             - '@router'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\CoreBundle\EventListener\SetArticlePublishDateListener:
         arguments:
@@ -743,6 +744,7 @@ services:
             - '@swp.repository.article_events'
             - '@swp.factory.article_statistics'
             - '@swp.factory.article_events'
+            - '@swp.object_manager.article'
 
     Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
 
@@ -754,3 +756,5 @@ services:
 
     SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface:
         alias: SWP\Bundle\CoreBundle\Service\SeoImageUploader
+
+    SWP\Bundle\CoreBundle\Factory\ApiKeyFactory: '@swp.factory.api_key'
