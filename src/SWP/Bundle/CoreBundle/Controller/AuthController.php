@@ -14,12 +14,19 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use FOS\UserBundle\Model\UserManagerInterface;
 use GuzzleHttp;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Swagger\Annotations as SWG;
+use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
+use SWP\Bundle\CoreBundle\Repository\ApiKeyRepositoryInterface;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Lock\Factory;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
 use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
@@ -27,12 +34,33 @@ use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class AuthController extends Controller
+class AuthController extends AbstractController
 {
+    protected $formFactory;
+
+    protected $apiKeyRepository;
+
+    protected $apiKeyFactory;
+
+    protected $lockFactory;
+
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        ApiKeyRepositoryInterface $apiKeyRepository,
+        ApiKeyFactory $apiKeyFactory,
+        Factory $lockFactory
+    ) {
+        $this->formFactory = $formFactory;
+        $this->apiKeyRepository = $apiKeyRepository;
+        $this->apiKeyFactory = $apiKeyFactory;
+        $this->lockFactory = $lockFactory;
+    }
+
     /**
      * @Operation(
      *     tags={"auth"},
@@ -58,23 +86,21 @@ class AuthController extends Controller
      *
      * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_auth")
      */
-    public function authenticateAction(Request $request)
+    public function authenticateAction(Request $request, UserProviderInterface $userProvider, UserPasswordEncoderInterface $userPasswordEncoder)
     {
-        $form = $this->get('form.factory')->createNamed('', UserAuthenticationType::class, []);
+        $form = $this->formFactory->createNamed('', UserAuthenticationType::class, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
 
             try {
-                $user = $this->get('swp.security.user_provider')->loadUserByUsername($formData['username']);
+                $user = $userProvider->loadUserByUsername($formData['username']);
             } catch (UsernameNotFoundException $e) {
                 $user = null;
             }
 
-            if (null !== $user) {
-                if ($this->get('security.password_encoder')->isPasswordValid($user, $formData['password'])) {
-                    return $this->returnApiTokenResponse($user, null);
-                }
+            if ((null !== $user) && $userPasswordEncoder->isPasswordValid($user, $formData['password'])) {
+                return $this->returnApiTokenResponse($user);
             }
         }
 
@@ -109,13 +135,18 @@ class AuthController extends Controller
      *
      * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, methods={"POST"}, defaults={"version"="v2"}, name="swp_api_auth_superdesk")
      */
-    public function authenticateWithSuperdeskAction(Request $request)
-    {
-        $form = $this->get('form.factory')->createNamed('', SuperdeskCredentialAuthenticationType::class, []);
+    public function authenticateWithSuperdeskAction(
+        Request $request,
+        LoggerInterface $logger,
+        array $superdeskServers,
+        UserProviderInterface $userProvider,
+        UserManagerInterface $userManager
+    ) {
+        $form = $this->formFactory->createNamed('', SuperdeskCredentialAuthenticationType::class, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
-            $authorizedSuperdeskHosts = (array) $this->container->getParameter('superdesk_servers');
+            $authorizedSuperdeskHosts = $superdeskServers;
             $superdeskUser = null;
             $client = new GuzzleHttp\Client();
 
@@ -124,8 +155,10 @@ class AuthController extends Controller
                     $apiRequest = new GuzzleHttp\Psr7\Request('GET', sprintf('%s/api/sessions/%s', $baseUrl, $formData['sessionId']), [
                         'Authorization' => $formData['token'],
                     ]);
+
                     $apiResponse = $client->send($apiRequest);
                     if (200 !== $apiResponse->getStatusCode()) {
+                        $logger->warning(sprintf('[%s] Unsuccessful response from Superdesk Server: %s', $apiResponse->getStatusCode(), $apiResponse->getBody()->getContents()));
                         continue;
                     }
 
@@ -136,9 +169,8 @@ class AuthController extends Controller
                         break;
                     }
                 } catch (GuzzleHttp\Exception\ClientException $e) {
-                    if (200 !== $e->getResponse()->getStatusCode()) {
-                        continue;
-                    }
+                    $logger->warning(sprintf('Error when logging in Superdesk: %s', $e->getMessage()));
+                    continue;
                 }
             }
 
@@ -149,7 +181,6 @@ class AuthController extends Controller
                 ], new ResponseContext(401));
             }
 
-            $userProvider = $this->get('swp.security.user_provider');
             $publisherUser = $userProvider->findOneByEmail($superdeskUser['email']);
             if (null === $publisherUser) {
                 try {
@@ -160,7 +191,6 @@ class AuthController extends Controller
             }
 
             if (null === $publisherUser) {
-                $userManager = $this->get('fos_user.user_manager');
                 /** @var UserInterface $publisherUser */
                 $publisherUser = $userManager->createUser();
                 $publisherUser->setUsername($superdeskUser['username']);
@@ -198,25 +228,31 @@ class AuthController extends Controller
         ]);
     }
 
-    private function generateOrGetApiKey(UserInterface $user, $token)
+    private function generateOrGetApiKey(UserInterface $user, $token): ?ApiKeyInterface
     {
         $apiKey = null;
-        $apiKeyRepository = $this->get('swp.repository.api_key');
         if (null !== $token) {
-            $apiKey = $apiKeyRepository->getValidToken($token)->getQuery()->getOneOrNullResult();
+            $apiKey = $this->apiKeyRepository->getValidToken($token)->getQuery()->getOneOrNullResult();
         } else {
-            $validKeys = $apiKeyRepository->getValidTokenForUser($user)->getQuery()->getResult();
+            $validKeys = $this->apiKeyRepository->getValidTokenForUser($user)->getQuery()->getResult();
             if (count($validKeys) > 0) {
                 $apiKey = reset($validKeys);
             }
         }
 
         if (null === $apiKey) {
-            $apiKey = $this->get('swp.factory.api_key')->create($user, $token);
+            $apiKey = $this->apiKeyFactory->create($user, $token);
 
             try {
-                $apiKeyRepository->add($apiKey);
-            } catch (UniqueConstraintViolationException $e) {
+                $lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'user_api_key', 'user' => $user->getId()])), 2);
+                if (!$lock->acquire()) {
+                    throw new RuntimeException('Other api key is created right now for this user');
+                }
+                $this->apiKeyRepository->add($apiKey);
+                $lock->release();
+            } catch (RuntimeException $e) {
+                sleep(2);
+
                 return $this->generateOrGetApiKey($user, $token);
             }
         }

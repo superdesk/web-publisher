@@ -64,10 +64,10 @@ class ContentListType extends AbstractType
 
         $builder->get('filters')
             ->addModelTransformer(new CallbackTransformer(
-                function ($value) {
+                static function ($value) {
                     return json_encode($value);
                 },
-                function ($value) {
+                static function ($value) {
                     if (is_array($value)) {
                         return $value;
                     }
