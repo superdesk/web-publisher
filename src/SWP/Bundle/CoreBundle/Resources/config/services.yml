@@ -741,3 +741,4 @@ services:
     SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface:
         alias: SWP\Bundle\CoreBundle\Service\SeoImageUploader
 
+    SWP\Bundle\CoreBundle\Factory\ApiKeyFactory: '@swp.factory.api_key'

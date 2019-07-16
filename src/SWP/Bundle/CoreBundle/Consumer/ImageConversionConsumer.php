@@ -22,7 +22,6 @@ use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -37,6 +36,7 @@ use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Throwable;
 
 class ImageConversionConsumer implements ConsumerInterface
 {
@@ -81,7 +81,7 @@ class ImageConversionConsumer implements ConsumerInterface
             if (null === $image) {
                 throw new InvalidArgumentException('Missing image data');
             }
-        } catch (RuntimeException $e) {
+        } catch (Throwable $e) {
             $this->logger->error('Message REJECTED: '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
             return ConsumerInterface::MSG_REJECT;

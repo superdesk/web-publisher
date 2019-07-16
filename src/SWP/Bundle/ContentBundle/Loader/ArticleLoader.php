@@ -133,7 +133,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 }
             }
 
-            if (null !== $route && ($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType() || is_array($route))) {
+            if (null !== $route && (($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType()) || is_array($route))) {
                 $criteria->set('route', $route);
             }
 

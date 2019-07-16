@@ -5,7 +5,9 @@ services:
     autoconfigure: true
     bind:
       $cacheService: '@doctrine_cache.providers.main_cache'
+      $superdeskServers: '%superdesk_servers%'
 
+  SWP\Bundle\CoreBundle\Controller\AuthController: ~
   SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
   SWP\Bundle\CoreBundle\Controller\SeoMetadataController: ~
   SWP\Bundle\ContentBundle\Controller\AuthorMediaController:
