@@ -159,6 +159,7 @@ class AuthController extends AbstractController
                     $apiResponse = $client->send($apiRequest);
                     if (200 !== $apiResponse->getStatusCode()) {
                         $logger->warning(sprintf('[%s] Unsuccessful response from Superdesk Server: %s', $apiResponse->getStatusCode(), $apiResponse->getBody()->getContents()));
+
                         continue;
                     }
 
@@ -170,6 +171,7 @@ class AuthController extends AbstractController
                     }
                 } catch (GuzzleHttp\Exception\ClientException $e) {
                     $logger->warning(sprintf('Error when logging in Superdesk: %s', $e->getMessage()));
+
                     continue;
                 }
             }
