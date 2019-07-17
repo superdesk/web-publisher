@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Locator;
 
+use League\Flysystem\FilesystemInterface;
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
@@ -39,7 +40,7 @@ class BundleResourceLocator implements ResourceLocatorInterface
      */
     private $deviceDetection;
 
-    public function __construct(Filesystem $filesystem, KernelInterface $kernel, DeviceDetectionInterface $deviceDetection)
+    public function __construct(FilesystemInterface $filesystem, KernelInterface $kernel, DeviceDetectionInterface $deviceDetection)
     {
         $this->filesystem = $filesystem;
         $this->kernel = $kernel;
@@ -90,13 +91,13 @@ class BundleResourceLocator implements ResourceLocatorInterface
         foreach ($bundles as $bundle) {
             if (null !== $this->deviceDetection->getType()) {
                 $path = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $bundle->getName(), $resourceName);
-                if ($this->filesystem->exists($path)) {
+                if ($this->filesystem->has($path)) {
                     return $path;
                 }
             }
 
             $path = sprintf('%s/%s/%s', $theme->getPath(), $bundle->getName(), $resourceName);
-            if ($this->filesystem->exists($path)) {
+            if ($this->filesystem->has($path)) {
                 return $path;
             }
         }
@@ -108,16 +109,17 @@ class BundleResourceLocator implements ResourceLocatorInterface
     {
         $twigNamespace = substr($resourcePath, 1, strpos($resourcePath, '/') - 1);
         $resourceName = substr($resourcePath, strpos($resourcePath, '/') + 1);
+
         if (null !== $this->deviceDetection->getType()) {
             $path = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $this->getBundleOrPluginName($twigNamespace), $resourceName);
-            if ($this->filesystem->exists($path)) {
+            if ($this->filesystem->has($path)) {
                 return $path;
             }
         }
 
         $path = sprintf('%s/%s/views/%s', $theme->getPath(), $this->getBundleOrPluginName($twigNamespace), $resourceName);
 
-        if ($this->filesystem->exists($path)) {
+        if ($this->filesystem->has($path)) {
             return $path;
         }
 

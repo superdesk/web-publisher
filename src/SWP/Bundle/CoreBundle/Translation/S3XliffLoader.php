@@ -74,7 +74,7 @@ class S3XliffLoader implements LoaderInterface
             return $cacheFilePath;
         }
 
-        if (null === strpos($resource, 'app/themes/') || !$this->filesystem->has($resource)) {
+        if (false === strpos($resource, 'app/themes/') || !$this->filesystem->has($resource)) {
             return $resource;
         }
 

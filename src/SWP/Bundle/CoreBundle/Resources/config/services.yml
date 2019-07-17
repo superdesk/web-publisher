@@ -25,7 +25,7 @@ services:
     sylius.theme.locator.bundle_resource:
         class: SWP\Bundle\CoreBundle\Locator\BundleResourceLocator
         arguments:
-            - "@filesystem"
+            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
             - "@kernel"
             - "@swp_core.detection.device_detection"
 

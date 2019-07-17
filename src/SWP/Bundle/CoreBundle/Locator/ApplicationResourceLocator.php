@@ -34,24 +34,18 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
 
     public function locateResource(string $resourceName, ThemeInterface $theme): string
     {
-        $paths = $this->getApplicationPaths($resourceName, $theme);
-        foreach ($paths as $path) {
+        if (null !== $this->deviceDetection->getType()) {
+            $path = sprintf('%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
             if ($this->filesystem->has($path)) {
                 return $path;
             }
         }
 
-        throw new ResourceNotFoundException($resourceName, $theme);
-    }
-
-    protected function getApplicationPaths(string $resourceName, ThemeInterface $theme): array
-    {
-        $paths = [sprintf('%s/%s', $theme->getPath(), $resourceName)];
-        if (null !== $this->deviceDetection->getType()) {
-            $paths[] = sprintf('%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
-            krsort($paths);
+        $path = sprintf('%s/%s', $theme->getPath(), $resourceName);
+        if (!$this->filesystem->has($path)) {
+            throw new ResourceNotFoundException($resourceName, $theme);
         }
 
-        return $paths;
+        return $path;
     }
 }
