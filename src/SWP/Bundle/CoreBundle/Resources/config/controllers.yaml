@@ -6,6 +6,7 @@ services:
     bind:
       $cacheService: '@doctrine_cache.providers.main_cache'
       $superdeskServers: '%superdesk_servers%'
+      $themesFilesystem: '@oneup_flysystem.swp_themes_filesystem_filesystem'
 
   SWP\Bundle\CoreBundle\Controller\AuthController: ~
   SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
@@ -17,6 +18,7 @@ services:
   SWP\Bundle\CoreBundle\Controller\PackageSeoMediaUploadController: ~
   SWP\Bundle\CoreBundle\Controller\RedirectingController: ~
   SWP\Bundle\CoreBundle\Controller\SettingsController: ~
+  SWP\Bundle\CoreBundle\Controller\StaticThemeAssetsController: ~
 
   takeit_amp_html.amp_controller:
     class: SWP\Bundle\CoreBundle\Controller\AmpController

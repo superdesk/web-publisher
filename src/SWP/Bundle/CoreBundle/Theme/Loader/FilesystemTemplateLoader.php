@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Loader;
 use Exception;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Templating\TemplateNameParserInterface;
 use Twig\Loader\ExistsLoaderInterface;
 use Twig\Loader\LoaderInterface;
@@ -35,16 +36,20 @@ final class FilesystemTemplateLoader implements LoaderInterface, ExistsLoaderInt
 
     private $filesystem;
 
+    private $cacheDir;
+
     public function __construct(
         LoaderInterface $decoratedLoader,
         FileLocatorInterface $templateLocator,
         TemplateNameParserInterface $templateNameParser,
-        FilesystemInterface $filesystem
+        FilesystemInterface $filesystem,
+        string $cacheDir
     ) {
         $this->decoratedLoader = $decoratedLoader;
         $this->templateLocator = $templateLocator;
         $this->templateNameParser = $templateNameParser;
         $this->filesystem = $filesystem;
+        $this->cacheDir = $cacheDir;
     }
 
     /**
@@ -55,7 +60,7 @@ final class FilesystemTemplateLoader implements LoaderInterface, ExistsLoaderInt
         try {
             $path = $this->findTemplate($name);
 
-            return new Source((string) $this->filesystem->read($path), (string) $name, $path);
+            return new Source($this->getAndCache($path), (string) $name, $path);
         } catch (Exception $exception) {
             return $this->decoratedLoader->getSourceContext($name);
         }
@@ -111,5 +116,19 @@ final class FilesystemTemplateLoader implements LoaderInterface, ExistsLoaderInt
         $file = $this->templateLocator->locate($template);
 
         return $this->cache[$logicalName] = $file;
+    }
+
+    private function getAndCache(string $path): string
+    {
+        $cacheFilePath = $this->cacheDir.DIRECTORY_SEPARATOR.'s3'.DIRECTORY_SEPARATOR.$path;
+        $localFilesystem = new SymfonyFilesystem();
+        if ($localFilesystem->exists($cacheFilePath)) {
+            return file_get_contents($cacheFilePath);
+        }
+
+        $fileContent = $this->filesystem->read($path);
+        $localFilesystem->dumpFile($cacheFilePath, $fileContent);
+
+        return $fileContent;
     }
 }

@@ -14,31 +14,43 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Hoa\File\Read;
 use Hoa\Mime\Mime;
+use League\Flysystem\FilesystemInterface;
+use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class StaticThemeAssetsController extends Controller
+class StaticThemeAssetsController extends AbstractController
 {
     /**
      * Directory with assets inside theme.
      */
     const ASSETS_DIRECTORY = 'public';
 
+    protected $themesFilesystem;
+
+    public function __construct(FilesystemInterface $themesFilesystem)
+    {
+        $this->themesFilesystem = $themesFilesystem;
+    }
+
     /**
      * @Route("/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads|OneSignalSDKWorker|OneSignalSDKUpdaterWorker|amp-web-push-helper-frame|amp-web-push-permission-dialog"})
      * @Route("/public-{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root_public", requirements={"fileName"=".+"})
      * @Route("/public/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_public", requirements={"fileName"=".+"})
      */
-    public function rootAction($fileName, $fileExtension)
-    {
-        $themes = $this->get(ThemeHierarchyProviderInterface::class)->getThemeHierarchy(
-            $this->get('swp_core.theme.context.tenant_aware')->getTheme()
+    public function rootAction(
+        ThemeHierarchyProviderInterface $themeHierarchyProvider,
+        TenantAwareThemeContextInterface $themeContext,
+        string $fileName,
+        string $fileExtension
+    ) {
+        $themes = $themeHierarchyProvider->getThemeHierarchy(
+            $themeContext->getTheme()
         );
 
         $fileName = (null === $fileExtension) ? basename($fileName) : $fileName.'.'.$fileExtension;
@@ -75,15 +87,11 @@ class StaticThemeAssetsController extends Controller
         throw new NotFoundHttpException('File was not found.');
     }
 
-    /**
-     * @param $filePath
-     *
-     * @return Response
-     */
-    private function handleFileLoading($filePath)
+    private function handleFileLoading(string $filePath): ?Response
     {
-        if (file_exists($filePath)) {
-            $response = new Response(file_get_contents($filePath));
+        if ($this->themesFilesystem->has($filePath)) {
+            $fileContent = $this->themesFilesystem->read($filePath);
+            $response = new Response($fileContent);
             $disposition = $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_INLINE,
                 basename($filePath)
@@ -91,9 +99,11 @@ class StaticThemeAssetsController extends Controller
             $response->headers->set('Content-Disposition', $disposition);
 
             try {
-                $type = new Mime(new Read($filePath));
-                $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($type->getExtension()));
+                $info = pathinfo($filePath);
+                $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($info['extension']));
             } catch (\Exception $e) {
+                dump($e);
+                die;
                 $mime = 'text/plain';
             }
 

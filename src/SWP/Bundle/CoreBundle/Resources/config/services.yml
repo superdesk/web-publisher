@@ -36,6 +36,7 @@ services:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
             - "@doctrine_cache.providers.main_cache"
+    SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface: '@swp_core.theme.context.tenant_aware'
 
     swp_core.resources_list_response_listener:
         class: SWP\Component\Common\EventListener\ResourceResponseListener
@@ -262,6 +263,7 @@ services:
             - "@templating.locator"
             - "@templating.name_parser"
             - "@oneup_flysystem.swp_themes_filesystem_filesystem"
+            - "%kernel.cache_dir%"
         tags:
             - { name: twig.loader }
 
