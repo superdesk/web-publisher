@@ -258,7 +258,7 @@ services:
         class: SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader
         decorates: "twig.loader"
         arguments:
-            - "@sylius.theme.twig.loader.inner"
+            - "@twig.loader.filesystem"
             - "@templating.locator"
             - "@templating.name_parser"
             - "@oneup_flysystem.swp_themes_filesystem_filesystem"
