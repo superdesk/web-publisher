@@ -86,13 +86,13 @@ oneup_flysystem:
             cache: s3_cache
             alias: swp_themes_filesystem
 
-        swp_filesystem:
+        swp_assets_filesystem:
             adapter: fallback_adapter # fallback_adapter defined via extension class
-            alias: swp_filesystem
+            alias: swp_assets_filesystem
             cache: s3_cache
 
 swp_seo:
-    upload_destination: swp_filesystem
+    upload_destination: swp_assets_filesystem
     persistence:
         orm:
             enabled: true

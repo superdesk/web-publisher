@@ -82,7 +82,7 @@ services:
     swp_core.uploader.theme_logo:
         class: SWP\Bundle\CoreBundle\Theme\Uploader\ThemeLogoUploader
         arguments:
-            - '@swp_filesystem'
+            - '@swp_assets_filesystem'
 
     swp_core.installer.theme:
         class: SWP\Bundle\CoreBundle\Theme\Installer\TenantAwareThemeInstaller

@@ -36,7 +36,7 @@ class ThemeLogoController extends Controller
             return $cacheProvider->fetch($cacheKey);
         }
 
-        $fileSystem = $this->get('swp_filesystem');
+        $fileSystem = $this->get('swp_assets_filesystem');
         $themeLogoUploader = $this->get('swp_core.uploader.theme_logo');
         $id = $themeLogoUploader->getThemeLogoUploadPath($id);
 
