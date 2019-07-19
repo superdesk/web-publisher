@@ -51,7 +51,7 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
                 'adapters' => [
                     'fallback_themes_adapter' => [
                         'fallback' => [
-                            'mainAdapter' => '%env(FS_MAIN_ADAPTER)%',
+                            'mainAdapter' => '%env(FS_THEMES_ADAPTER)%',
                             'fallback' => 'local_themes_adapter',
                             'forceCopyOnMain' => false,
                         ],
