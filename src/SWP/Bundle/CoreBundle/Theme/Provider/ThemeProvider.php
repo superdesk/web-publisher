@@ -14,47 +14,32 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
+use function count;
+use Generator;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
 class ThemeProvider implements ThemeProviderInterface
 {
-    /**
-     * @var ThemeRepositoryInterface
-     */
     private $themeRepository;
 
-    /**
-     * @var TenantContextInterface
-     */
     private $tenantContext;
 
     /**
-     * @var array
-     *
-     * Internall cache for loaded themes. It prevents multiple filtering themes by tenant code
+     * Internal cache for loaded themes. It prevents multiple filtering themes by tenant code.
      */
     private $loadedThemes = [];
 
-    /**
-     * ThemeProvider constructor.
-     *
-     * @param ThemeRepositoryInterface $themeRepository
-     * @param TenantContextInterface   $tenantContext
-     */
     public function __construct(ThemeRepositoryInterface $themeRepository, TenantContextInterface $tenantContext)
     {
         $this->themeRepository = $themeRepository;
         $this->tenantContext = $tenantContext;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCurrentTenantAvailableThemes()
+    public function getCurrentTenantAvailableThemes(): array
     {
-        if (\count($this->loadedThemes) > 0) {
+        if (count($this->loadedThemes) > 0) {
             return $this->loadedThemes;
         }
 
@@ -64,12 +49,7 @@ class ThemeProvider implements ThemeProviderInterface
         return $this->loadedThemes;
     }
 
-    /**
-     * @param array $themes
-     *
-     * @return \Generator|null
-     */
-    private function filterThemesByTenantCode(array $themes): ?\Generator
+    private function filterThemesByTenantCode(array $themes): ?Generator
     {
         $currentTenantCode = $this->tenantContext->getTenant()->getCode();
 

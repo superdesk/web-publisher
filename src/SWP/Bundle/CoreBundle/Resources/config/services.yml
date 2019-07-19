@@ -256,14 +256,13 @@ services:
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
     sylius.theme.twig.loader:
+        autowire: true
         class: SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader
         decorates: "twig.loader"
         arguments:
             - "@twig.loader.filesystem"
             - "@templating.locator"
             - "@templating.name_parser"
-            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
-            - "%kernel.cache_dir%"
         tags:
             - { name: twig.loader }
 
@@ -539,7 +538,7 @@ services:
         arguments:
             - '@swp_core.theme.context.tenant_aware'
             - '%swp.theme.configuration.filename%'
-            - '@oneup_flysystem.swp_themes_filesystem_filesystem'
+            - '@SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface'
             - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\SettingsBundle\Provider\SettingsProviderChain:
@@ -552,6 +551,12 @@ services:
             - '@swp_settings.manager.settings'
             - '@router.default'
             - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProvider:
+        arguments:
+            - '@oneup_flysystem.swp_themes_filesystem_filesystem'
+            - '%kernel.cache_dir%'
+    SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface: '@SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProvider'
 
     SWP\Bundle\CoreBundle\Processor\RulesProcessor:
         arguments:

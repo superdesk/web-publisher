@@ -80,11 +80,14 @@ oneup_flysystem:
         local_adapter:
             local:
                 directory: '%kernel.project_dir%/public/uploads/'
+        local_themes_adapter:
+            local:
+                directory: '%kernel.project_dir%/app/themes/'
     filesystems:
         swp_themes_filesystem:
-            adapter: aws_adapter
-            cache: s3_cache
+            adapter: fallback_themes_adapter # fallback_adapter defined via extension class
             alias: swp_themes_filesystem
+            cache: s3_cache
 
         swp_assets_filesystem:
             adapter: fallback_adapter # fallback_adapter defined via extension class

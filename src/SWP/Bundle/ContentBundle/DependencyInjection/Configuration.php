@@ -69,8 +69,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    private const ADAPTERS = ['aws_adapter', 'local_adapter'];
-
     /**
      * {@inheritdoc}
      */
@@ -79,14 +77,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('swp_content');
         $treeBuilder->getRootNode()
             ->children()
-                ->scalarNode('media_storage_adapter')
-                    ->defaultValue('local_adapter')
-                    ->info('Choose media storage adapter from the following list: "aws_adapter", "local_adapter"')
-                    ->validate()
-                        ->ifNotInArray(self::ADAPTERS)
-                        ->thenInvalid('Invalid media adapter %s.')
-                    ->end()
-                ->end()
                 ->arrayNode('persistence')
                     ->addDefaultsIfNotSet()
                     ->children()

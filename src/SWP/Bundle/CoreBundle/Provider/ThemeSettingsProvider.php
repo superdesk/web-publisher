@@ -16,9 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Provider;
 
+use const DIRECTORY_SEPARATOR;
 use Doctrine\Common\Cache\CacheProvider;
-use League\Flysystem\FilesystemInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use SWP\Bundle\SettingsBundle\Provider\SettingsProviderInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 
@@ -34,19 +35,19 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
      */
     private $themeConfigFilename;
 
-    private $filesystem;
+    private $themeAssetProvider;
 
     private $cacheProvider;
 
     public function __construct(
         ThemeContextInterface $themeContext,
         string $themeConfigFileName,
-        FilesystemInterface $filesystem,
+        ThemeAssetProviderInterface $themeAssetProvider,
         CacheProvider $cacheProvider
     ) {
         $this->themeContext = $themeContext;
         $this->themeConfigFilename = $themeConfigFileName;
-        $this->filesystem = $filesystem;
+        $this->themeAssetProvider = $themeAssetProvider;
         $this->cacheProvider = $cacheProvider;
     }
 
@@ -56,12 +57,15 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
     public function getSettings(): array
     {
         $currentTheme = $this->themeContext->getTheme();
-        $themeConfigFile = $currentTheme->getPath().\DIRECTORY_SEPARATOR.$this->themeConfigFilename;
+        if (null === $currentTheme) {
+            return [];
+        }
 
+        $themeConfigFile = $currentTheme->getPath().DIRECTORY_SEPARATOR.$this->themeConfigFilename;
         if ($this->cacheProvider->contains(md5($themeConfigFile))) {
             $config = $this->cacheProvider->fetch(md5($themeConfigFile));
         } else {
-            $content = $this->filesystem->read($themeConfigFile);
+            $content = $this->themeAssetProvider->readFile($themeConfigFile);
             $config = json_decode($content, true);
             $this->cacheProvider->save(md5($themeConfigFile), $config);
         }

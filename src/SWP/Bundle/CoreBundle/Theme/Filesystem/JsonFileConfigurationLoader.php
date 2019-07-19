@@ -16,18 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Filesystem;
 
-use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
+use InvalidArgumentException;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ConfigurationLoaderInterface;
 
 final class JsonFileConfigurationLoader implements ConfigurationLoaderInterface
 {
-    /** @var Filesystem */
-    private $filesystem;
+    private $themeAssetProvider;
 
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(ThemeAssetProviderInterface $themeAssetProvider)
     {
-        $this->filesystem = $filesystem;
+        $this->themeAssetProvider = $themeAssetProvider;
     }
 
     /**
@@ -37,7 +36,7 @@ final class JsonFileConfigurationLoader implements ConfigurationLoaderInterface
     {
         $this->assertFileExists($identifier);
 
-        $contents = $this->filesystem->read($identifier);
+        $contents = $this->themeAssetProvider->readFile($identifier);
 
         return array_merge(
             ['path' => dirname($identifier)],
@@ -47,8 +46,8 @@ final class JsonFileConfigurationLoader implements ConfigurationLoaderInterface
 
     private function assertFileExists(string $path): void
     {
-        if (!$this->filesystem->has($path)) {
-            throw new \InvalidArgumentException(sprintf(
+        if (!$this->themeAssetProvider->hasFile($path)) {
+            throw new InvalidArgumentException(sprintf(
                 'Given file "%s" does not exist!',
                 $path
             ));

@@ -18,6 +18,7 @@ use SWP\Bundle\CoreBundle\Theme\Filesystem\JsonFileConfigurationLoader;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Bundle\CoreBundle\Theme\Locator\TenantS3ThemesRecursiveFileLocator;
 use SWP\Bundle\CoreBundle\Theme\Locator\TenantThemesRecursiveFileLocator;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ProcessingConfigurationLoader;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -69,7 +70,7 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
 
         $configurationLoader = new Definition(ProcessingConfigurationLoader::class, [
             new Definition(JsonFileConfigurationLoader::class, [
-                new Reference('oneup_flysystem.swp_themes_filesystem_filesystem'),
+                new Reference(ThemeAssetProviderInterface::class),
             ]),
             $themeConfigurationProcessor,
         ]);
