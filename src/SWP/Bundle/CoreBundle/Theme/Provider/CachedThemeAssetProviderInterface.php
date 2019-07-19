@@ -16,11 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
-interface ThemeAssetProviderInterface
+interface CachedThemeAssetProviderInterface extends ThemeAssetProviderInterface
 {
-    public function readFile(string $filePath): string;
-
-    public function hasFile(string $filePath): bool;
-
-    public function listContents(string $directory = '', bool $recursive = false);
+    public function getCachedFileLocation(string $path): ?string;
 }

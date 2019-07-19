@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 
 class ThemeAssetProvider implements ThemeAssetProviderInterface
@@ -29,7 +30,16 @@ class ThemeAssetProvider implements ThemeAssetProviderInterface
 
     public function readFile(string $filePath): string
     {
-        return $this->filesystem->read($filePath);
+        try {
+            $fileContent = $this->filesystem->read($filePath);
+            if (false !== $fileContent) {
+                return $fileContent;
+            }
+        } catch (FileNotFoundException $e) {
+            // allow to return null
+        }
+
+        return '';
     }
 
     public function hasFile(string $filePath): bool

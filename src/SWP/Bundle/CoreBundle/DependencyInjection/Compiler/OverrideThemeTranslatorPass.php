@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
+use SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProviderInterface;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use SWP\Bundle\CoreBundle\Theme\Translation\S3TranslationFilesFinder;
 use SWP\Bundle\CoreBundle\Theme\Translation\ThemeAwareTranslator;
 use SWP\Bundle\CoreBundle\Translation\MessageFormatter;
@@ -43,14 +45,13 @@ final class OverrideThemeTranslatorPass extends AbstractOverridePass
         $filesFinderDefinition = $this->getDefinitionIfExists($container, 'sylius.theme.translation.files_finder');
         if (null !== $filesFinderDefinition) {
             $filesFinderDefinition->setClass(S3TranslationFilesFinder::class);
-            $filesFinderDefinition->setArgument(0, new Reference('oneup_flysystem.swp_themes_filesystem_filesystem'));
+            $filesFinderDefinition->setArgument(0, new Reference(ThemeAssetProviderInterface::class));
         }
 
         $xliffLoaderDefinition = $this->getDefinitionIfExists($container, 'translation.loader.xliff');
         if (null !== $xliffLoaderDefinition) {
             $xliffLoaderDefinition->setClass(S3XliffLoader::class);
-            $xliffLoaderDefinition->setArgument(0, new Reference('oneup_flysystem.swp_themes_filesystem_filesystem'));
-            $xliffLoaderDefinition->setArgument(1, $container->getParameter('kernel.cache_dir'));
+            $xliffLoaderDefinition->setArgument(0, new Reference(CachedThemeAssetProviderInterface::class));
         }
     }
 }

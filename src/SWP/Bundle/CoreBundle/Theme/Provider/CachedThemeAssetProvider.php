@@ -20,7 +20,7 @@ use const DIRECTORY_SEPARATOR;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
-final class CachedThemeAssetProvider extends ThemeAssetProvider
+final class CachedThemeAssetProvider extends ThemeAssetProvider implements CachedThemeAssetProviderInterface
 {
     private $cacheDir;
 
@@ -36,19 +36,33 @@ final class CachedThemeAssetProvider extends ThemeAssetProvider
         return $this->getAndCache($filePath);
     }
 
-    private function getAndCache(string $path): string
+    public function getCachedFileLocation(string $path): ?string
     {
-        $cacheFilePath = $this->cacheDir.DIRECTORY_SEPARATOR.'s3'.DIRECTORY_SEPARATOR.$path;
+        $cacheFilePath = $this->getCacheDirectoryPath($path);
         $localFilesystem = new SymfonyFilesystem();
+        if ($localFilesystem->exists($cacheFilePath)) {
+            return $cacheFilePath;
+        }
 
+        return null;
+    }
+
+    private function getAndCache(string $path): ?string
+    {
+        $cacheFilePath = $this->getCacheDirectoryPath($path);
+        $localFilesystem = new SymfonyFilesystem();
         if ($localFilesystem->exists($cacheFilePath)) {
             return file_get_contents($cacheFilePath);
         }
 
         $fileContent = parent::readFile($path);
-
         $localFilesystem->dumpFile($cacheFilePath, $fileContent);
 
         return $fileContent;
+    }
+
+    private function getCacheDirectoryPath(string $path)
+    {
+        return $this->cacheDir.DIRECTORY_SEPARATOR.'s3'.DIRECTORY_SEPARATOR.$path;
     }
 }

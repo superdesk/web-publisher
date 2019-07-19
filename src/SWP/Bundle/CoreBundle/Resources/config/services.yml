@@ -557,6 +557,7 @@ services:
             - '@oneup_flysystem.swp_themes_filesystem_filesystem'
             - '%kernel.cache_dir%'
     SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface: '@SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProvider'
+    SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProviderInterface: '@SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProvider'
 
     SWP\Bundle\CoreBundle\Processor\RulesProcessor:
         arguments:

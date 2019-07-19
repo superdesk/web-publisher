@@ -16,17 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Translation;
 
-use League\Flysystem\Filesystem;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Translation\Finder\TranslationFilesFinderInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class S3TranslationFilesFinder implements TranslationFilesFinderInterface
 {
-    private $filesystem;
+    private $themeAssetProvider;
 
-    public function __construct(Filesystem $filesystem)
+    public function __construct(ThemeAssetProviderInterface $themeAssetProvider)
     {
-        $this->filesystem = $filesystem;
+        $this->themeAssetProvider = $themeAssetProvider;
     }
 
     /**
@@ -55,7 +55,7 @@ final class S3TranslationFilesFinder implements TranslationFilesFinderInterface
      */
     private function getFiles(string $path): iterable
     {
-        $files = $this->filesystem->listContents($path.'/translations', true);
+        $files = $this->themeAssetProvider->listContents($path.'/translations', true);
         $paths = [];
         foreach ($files as $file) {
             $paths[] = $file['path'];

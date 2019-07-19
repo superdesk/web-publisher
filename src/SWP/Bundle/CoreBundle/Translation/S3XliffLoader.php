@@ -17,22 +17,18 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Translation;
 
 use JMS\TranslationBundle\Exception\RuntimeException;
-use League\Flysystem\Filesystem;
+use SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProviderInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Loader\LoaderInterface;
 
 class S3XliffLoader implements LoaderInterface
 {
-    protected $filesystem;
+    protected $themeAssetProvider;
 
-    protected $cacheDir;
-
-    public function __construct(Filesystem $filesystem, string $cacheDir)
+    public function __construct(CachedThemeAssetProviderInterface $themeAssetProvider)
     {
-        $this->filesystem = $filesystem;
-        $this->cacheDir = $cacheDir;
+        $this->themeAssetProvider = $themeAssetProvider;
     }
 
     /**
@@ -40,7 +36,7 @@ class S3XliffLoader implements LoaderInterface
      */
     public function load($resource, $locale, $domain = 'messages')
     {
-        $resource = $this->cacheLoad($resource);
+        $resource = $this->loadResource($resource);
         $previous = libxml_use_internal_errors(true);
         if (false === $xml = simplexml_load_file($resource)) {
             libxml_use_internal_errors($previous);
@@ -66,21 +62,23 @@ class S3XliffLoader implements LoaderInterface
         return $catalogue;
     }
 
-    private function cacheLoad(string $resource): string
+    private function loadResource(string $resource): string
     {
-        $cacheFilePath = $this->cacheDir.DIRECTORY_SEPARATOR.'s3'.DIRECTORY_SEPARATOR.$resource;
-        $localFilesystem = new SymfonyFilesystem();
-        if ($localFilesystem->exists($cacheFilePath)) {
-            return $cacheFilePath;
+        // check if is already cached
+        $resourceContent = $this->themeAssetProvider->getCachedFileLocation($resource);
+        if (null !== $resourceContent) {
+            return $resourceContent;
         }
 
-        if (false === strpos($resource, 'app/themes/') || !$this->filesystem->has($resource)) {
+        // if it's not theme file - use original resource path
+        if (false === strpos($resource, 'app/themes/')) {
             return $resource;
         }
 
-        $file = $this->filesystem->get($resource);
-        $localFilesystem->dumpFile($cacheFilePath, $file->read());
+        // download resource and store in cache
+        $this->themeAssetProvider->readFile($resource);
 
-        return $cacheFilePath;
+        // return cached path
+        return $this->themeAssetProvider->getCachedFileLocation($resource);
     }
 }
