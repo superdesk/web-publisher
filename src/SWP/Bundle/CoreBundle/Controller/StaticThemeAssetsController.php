@@ -14,10 +14,13 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Exception;
 use Hoa\Mime\Mime;
-use League\Flysystem\FilesystemInterface;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
+use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
+use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,16 +29,22 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StaticThemeAssetsController extends AbstractController
 {
-    /**
-     * Directory with assets inside theme.
-     */
-    const ASSETS_DIRECTORY = 'public';
+    private const ASSETS_DIRECTORY = 'public';
 
-    protected $themesFilesystem;
+    protected $themeAssetProvider;
 
-    public function __construct(FilesystemInterface $themesFilesystem)
-    {
-        $this->themesFilesystem = $themesFilesystem;
+    private $themeRepository;
+
+    private $themeLoader;
+
+    public function __construct(
+        ThemeAssetProviderInterface $themeAssetProvider,
+        ThemeRepositoryInterface $themeRepository,
+        ThemeLoaderInterface $themeLoader
+    ) {
+        $this->themeAssetProvider = $themeAssetProvider;
+        $this->themeRepository = $themeRepository;
+        $this->themeLoader = $themeLoader;
     }
 
     /**
@@ -89,8 +98,8 @@ class StaticThemeAssetsController extends AbstractController
 
     private function handleFileLoading(string $filePath): ?Response
     {
-        if ($this->themesFilesystem->has($filePath)) {
-            $fileContent = $this->themesFilesystem->read($filePath);
+        if ($this->themeAssetProvider->hasFile($filePath)) {
+            $fileContent = $this->themeAssetProvider->readFile($filePath);
             $response = new Response($fileContent);
             $disposition = $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_INLINE,
@@ -101,9 +110,7 @@ class StaticThemeAssetsController extends AbstractController
             try {
                 $info = pathinfo($filePath);
                 $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($info['extension']));
-            } catch (\Exception $e) {
-                dump($e);
-                die;
+            } catch (Exception $e) {
                 $mime = 'text/plain';
             }
 
@@ -124,7 +131,7 @@ class StaticThemeAssetsController extends AbstractController
      */
     private function loadOrganizationTheme(string $themeName)
     {
-        $loadedThemes = $this->get('swp_core.loader.organization.theme')->load();
+        $loadedThemes = $this->themeLoader->load();
 
         return $this->filterThemes($loadedThemes, $themeName);
     }
@@ -136,7 +143,7 @@ class StaticThemeAssetsController extends AbstractController
      */
     private function loadTenantTheme(string $themeName)
     {
-        $loadedThemes = $this->get('sylius.repository.theme')->findAll();
+        $loadedThemes = $this->themeRepository->findAll();
 
         return $this->filterThemes($loadedThemes, $themeName);
     }
@@ -151,7 +158,7 @@ class StaticThemeAssetsController extends AbstractController
     {
         $themes = array_filter(
             $loadedThemes,
-            function ($element) use (&$themeName) {
+            static function ($element) use (&$themeName) {
                 return $element->getName() === $themeName;
             }
         );

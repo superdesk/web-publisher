@@ -7,6 +7,7 @@ services:
       $cacheService: '@doctrine_cache.providers.main_cache'
       $superdeskServers: '%superdesk_servers%'
       $themesFilesystem: '@oneup_flysystem.swp_themes_filesystem_filesystem'
+      $themeLoader: '@swp_core.loader.organization.theme'
 
   SWP\Bundle\CoreBundle\Controller\AuthController: ~
   SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
