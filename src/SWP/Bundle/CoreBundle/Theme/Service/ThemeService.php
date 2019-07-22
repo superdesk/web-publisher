@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Service;
 
 use Exception;
 use function json_decode;
+use League\Flysystem\Filesystem;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Installer\ThemeInstallerInterface;
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
@@ -26,7 +27,6 @@ use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 final class ThemeService implements ThemeServiceInterface
 {
@@ -44,6 +44,8 @@ final class ThemeService implements ThemeServiceInterface
 
     private $tenantRepository;
 
+    private $filesystem;
+
     public function __construct(
         ThemeInstallerInterface $themeInstaller,
         RequiredDataProcessorInterface $requiredDataProcessor,
@@ -51,7 +53,8 @@ final class ThemeService implements ThemeServiceInterface
         TenantContextInterface $tenantContext,
         ReloadableThemeRepositoryInterface $themeRepository,
         TenantAwareThemeContextInterface $themeContext,
-        TenantRepositoryInterface $tenantRepository
+        TenantRepositoryInterface $tenantRepository,
+        Filesystem $filesystem
     ) {
         $this->themeInstaller = $themeInstaller;
         $this->requiredDataProcessor = $requiredDataProcessor;
@@ -60,6 +63,7 @@ final class ThemeService implements ThemeServiceInterface
         $this->themeRepository = $themeRepository;
         $this->themeContext = $themeContext;
         $this->tenantRepository = $tenantRepository;
+        $this->filesystem = $filesystem;
     }
 
     public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, bool $processOptionalData = false, bool $activate = false)
@@ -67,23 +71,22 @@ final class ThemeService implements ThemeServiceInterface
         $messages = [];
         /** @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
-        $backupThemeDir = $this->cacheDir.\DIRECTORY_SEPARATOR.'backup'.\DIRECTORY_SEPARATOR.'themes'.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.\basename($themeDir).'_previous';
-        $fileSystem = new Filesystem();
+        $backupThemeDir = $themeDir.'_previous';
 
         try {
-            if ($fileSystem->exists($themeDir)) {
-                $fileSystem->rename($themeDir, $backupThemeDir, true);
+            if ($this->filesystem->has($themeDir)) {
+                $this->filesystem->rename($themeDir, $backupThemeDir);
             }
 
             $this->themeInstaller->install($sourceDir, $themeDir);
             $messages[] = 'Theme has been installed successfully!';
             $this->themeRepository->reloadThemes();
 
-            if (!file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
+            if (!$this->filesystem->has($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
                 return new Exception('Theme doesn\'t have required theme.json file with configuration.');
             }
 
-            $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
+            $themeName = json_decode($this->filesystem->read($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
             if ($activate) {
                 $tenant->setThemeName($themeName);
                 $messages[] = 'Theme was activated!';
@@ -99,16 +102,16 @@ final class ThemeService implements ThemeServiceInterface
                 $messages[] = 'Optional data were generated and persisted successfully';
             }
         } catch (Exception $e) {
-            $fileSystem->remove($themeDir);
-            if ($fileSystem->exists($backupThemeDir)) {
-                $fileSystem->rename($backupThemeDir, $themeDir);
-            }
+//            $this->filesystem->delete($themeDir);
+//            if ($this->filesystem->has($backupThemeDir)) {
+//                $this->filesystem->rename($backupThemeDir, $themeDir);
+//            }
 
             return $e;
         }
 
-        if ($fileSystem->exists($backupThemeDir)) {
-            $fileSystem->remove($backupThemeDir);
+        if ($this->filesystem->has($backupThemeDir)) {
+            $this->filesystem->delete($backupThemeDir);
         }
 
         return $messages;

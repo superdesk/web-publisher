@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\Theme\Configuration;
 
 use SWP\Bundle\CoreBundle\Theme\Filesystem\JsonFileConfigurationLoader;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
-use SWP\Bundle\CoreBundle\Theme\Locator\TenantS3ThemesRecursiveFileLocator;
 use SWP\Bundle\CoreBundle\Theme\Locator\TenantThemesRecursiveFileLocator;
 use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
@@ -37,10 +36,9 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
             ->fixXmlConfig('directory', 'directories')
                 ->children()
                     ->scalarNode('filename')->defaultValue('theme.json')->cannotBeEmpty()->end()
-                    ->scalarNode('store_themes_on_s3')->defaultValue(false)->end()
                     ->scalarNode('local_themes_path')->defaultValue('%kernel.project_dir%')->end()
                     ->arrayNode('directories')
-                        ->defaultValue(['app/themes'])
+                        ->defaultValue([''])
                         ->requiresAtLeastOneElement()
                         ->prototype('scalar')
                     ->end();
@@ -51,19 +49,14 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
      */
     public function initializeSource(ContainerBuilder $container, array $config)
     {
-        if ($config['store_themes_on_s3']) {
-            $recursiveFileLocator = new Definition(TenantS3ThemesRecursiveFileLocator::class, [
-                new Reference('sylius.theme.finder_factory'),
-                $config['directories'],
-                new Reference('oneup_flysystem.swp_themes_filesystem_filesystem'),
-                $config['store_themes_on_s3'],
-            ]);
-        } else {
-            $recursiveFileLocator = new Definition(TenantThemesRecursiveFileLocator::class, [
-                new Reference('sylius.theme.finder_factory'),
-                $config['directories'],
-            ]);
-        }
+        $container->setParameter('swp.theme.configuration.filename', $config['filename']);
+        $container->setParameter('swp.theme.configuration.default_directory', $config['directories'][0]);
+
+        $recursiveFileLocator = new Definition(TenantThemesRecursiveFileLocator::class, [
+            new Reference('sylius.theme.finder_factory'),
+            $config['directories'],
+            new Reference(ThemeAssetProviderInterface::class),
+        ]);
 
         $themeConfigurationProcessor = $container->getDefinition('sylius.theme.configuration.processor');
         $themeConfigurationProcessor->replaceArgument(0, new Definition(ThemeConfiguration::class));
@@ -83,9 +76,6 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
                 $config['directories'],
             ]),
         ]);
-
-        $container->setParameter('swp.theme.configuration.filename', $config['filename']);
-        $container->setParameter('swp.theme.configuration.default_directory', $config['directories'][0]);
 
         return $configurationProvider;
     }

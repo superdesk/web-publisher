@@ -14,21 +14,21 @@
 
 namespace SWP\Bundle\CoreBundle\Locator;
 
-use League\Flysystem\FilesystemInterface;
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 
 class ApplicationResourceLocator implements ResourceLocatorInterface
 {
-    private $filesystem;
+    private $themeAssetProvider;
 
     private $deviceDetection;
 
-    public function __construct(FilesystemInterface $filesystem, DeviceDetectionInterface $deviceDetection)
+    public function __construct(ThemeAssetProviderInterface $themeAssetProvider, DeviceDetectionInterface $deviceDetection)
     {
-        $this->filesystem = $filesystem;
+        $this->themeAssetProvider = $themeAssetProvider;
         $this->deviceDetection = $deviceDetection;
     }
 
@@ -36,13 +36,13 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
     {
         if (null !== $this->deviceDetection->getType()) {
             $path = sprintf('%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
-            if ($this->filesystem->has($path)) {
+            if ($this->themeAssetProvider->hasFile($path)) {
                 return $path;
             }
         }
 
         $path = sprintf('%s/%s', $theme->getPath(), $resourceName);
-        if (!$this->filesystem->has($path)) {
+        if (!$this->themeAssetProvider->hasFile($path)) {
             throw new ResourceNotFoundException($resourceName, $theme);
         }
 

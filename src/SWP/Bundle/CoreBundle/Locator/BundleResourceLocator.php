@@ -14,21 +14,17 @@
 
 namespace SWP\Bundle\CoreBundle\Locator;
 
-use League\Flysystem\FilesystemInterface;
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class BundleResourceLocator implements ResourceLocatorInterface
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
+    private $themeAssetProvider;
 
     /**
      * @var KernelInterface
@@ -40,9 +36,9 @@ class BundleResourceLocator implements ResourceLocatorInterface
      */
     private $deviceDetection;
 
-    public function __construct(FilesystemInterface $filesystem, KernelInterface $kernel, DeviceDetectionInterface $deviceDetection)
+    public function __construct(ThemeAssetProviderInterface $themeAssetProvider, KernelInterface $kernel, DeviceDetectionInterface $deviceDetection)
     {
-        $this->filesystem = $filesystem;
+        $this->themeAssetProvider = $themeAssetProvider;
         $this->kernel = $kernel;
         $this->deviceDetection = $deviceDetection;
     }
@@ -91,13 +87,13 @@ class BundleResourceLocator implements ResourceLocatorInterface
         foreach ($bundles as $bundle) {
             if (null !== $this->deviceDetection->getType()) {
                 $path = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $bundle->getName(), $resourceName);
-                if ($this->filesystem->has($path)) {
+                if ($this->themeAssetProvider->hasFile($path)) {
                     return $path;
                 }
             }
 
             $path = sprintf('%s/%s/%s', $theme->getPath(), $bundle->getName(), $resourceName);
-            if ($this->filesystem->has($path)) {
+            if ($this->themeAssetProvider->hasFile($path)) {
                 return $path;
             }
         }
@@ -112,14 +108,14 @@ class BundleResourceLocator implements ResourceLocatorInterface
 
         if (null !== $this->deviceDetection->getType()) {
             $path = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $this->getBundleOrPluginName($twigNamespace), $resourceName);
-            if ($this->filesystem->has($path)) {
+            if ($this->themeAssetProvider->hasFile($path)) {
                 return $path;
             }
         }
 
         $path = sprintf('%s/%s/views/%s', $theme->getPath(), $this->getBundleOrPluginName($twigNamespace), $resourceName);
 
-        if ($this->filesystem->has($path)) {
+        if ($this->themeAssetProvider->hasFile($path)) {
             return $path;
         }
 

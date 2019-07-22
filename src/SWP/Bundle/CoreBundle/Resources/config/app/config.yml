@@ -141,8 +141,7 @@ swp_bridge:
 sylius_theme:
     context: "swp_core.theme.context.tenant_aware"
     sources:
-        tenantable:
-            store_themes_on_s3: "%env(resolve:bool:THEMES_ON_S3)%"
+        tenantable: ~
 
 fos_user:
     db_driver: orm

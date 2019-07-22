@@ -14,9 +14,12 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Locator;
 
+use function array_filter;
+use Generator;
+use InvalidArgumentException;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
-use Symfony\Component\Finder\SplFileInfo;
 
 class TenantThemesRecursiveFileLocator implements FileLocatorInterface
 {
@@ -24,12 +27,16 @@ class TenantThemesRecursiveFileLocator implements FileLocatorInterface
 
     protected $paths;
 
+    protected $themeAssetProvider;
+
     public function __construct(
         FinderFactoryInterface $finderFactory,
-        array $paths
+        array $paths,
+        ThemeAssetProviderInterface $themeAssetProvider
     ) {
         $this->finderFactory = $finderFactory;
         $this->paths = $paths;
+        $this->themeAssetProvider = $themeAssetProvider;
     }
 
     /**
@@ -51,35 +58,30 @@ class TenantThemesRecursiveFileLocator implements FileLocatorInterface
     /**
      * @param string $name
      *
-     * @return \Generator
+     * @return Generator
      */
     protected function doLocateFilesNamed($name)
     {
         $this->assertNameIsNotEmpty($name);
         $found = false;
         foreach ($this->paths as $path) {
+            $files = $this->themeAssetProvider->listContents($path, true);
             try {
-                $finder = $this->finderFactory->create();
-                $finder
-                    ->depth(2)
-                    ->files()
-                    ->followLinks()
-                    ->name($name)
-                    ->ignoreUnreadableDirs()
-                    ->in($path);
+                $filteredFiles = array_filter($files, static function ($value) use ($name) {
+                    return 'file' === $value['type'] && isset($value['extension']) && $value['filename'].'.'.$value['extension'] === $name;
+                });
 
-                /** @var SplFileInfo $file */
-                foreach ($finder as $file) {
+                foreach ($filteredFiles as $file) {
                     $found = true;
 
-                    yield $file->getPathname();
+                    yield $file['path'];
                 }
-            } catch (\InvalidArgumentException $exception) {
+            } catch (InvalidArgumentException $exception) {
             }
         }
 
         if (false === $found) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'The file "%s" does not exist (searched in the following directories: %s).',
                 $name,
                 implode(', ', $this->paths)
@@ -93,7 +95,7 @@ class TenantThemesRecursiveFileLocator implements FileLocatorInterface
     protected function assertNameIsNotEmpty($name)
     {
         if (null === $name || '' === $name) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'An empty file name is not valid to be located.'
             );
         }

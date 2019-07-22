@@ -19,13 +19,13 @@ services:
     sylius.theme.locator.application_resource:
         class: SWP\Bundle\CoreBundle\Locator\ApplicationResourceLocator
         arguments:
-            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
+            - '@SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProvider'
             - "@swp_core.detection.device_detection"
 
     sylius.theme.locator.bundle_resource:
         class: SWP\Bundle\CoreBundle\Locator\BundleResourceLocator
         arguments:
-            - "@oneup_flysystem.swp_themes_filesystem_filesystem"
+            - '@SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProvider'
             - "@kernel"
             - "@swp_core.detection.device_detection"
 
@@ -93,6 +93,7 @@ services:
             - '%swp.theme.configuration.default_directory%'
             - '@sylius.theme.asset.assets_installer'
             - '%sylius_core.public_dir%'
+            - '@oneup_flysystem.swp_themes_filesystem_filesystem'
 
     swp_core.generator.theme.fake_article:
         class: SWP\Bundle\CoreBundle\Theme\Generator\FakeArticlesGenerator
@@ -115,6 +116,7 @@ services:
             - '@sylius.repository.theme'
             - '@swp_core.theme.context.tenant_aware'
             - '@swp.repository.tenant'
+            - '@oneup_flysystem.swp_themes_filesystem_filesystem'
 
     swp_core.generator.theme.routes:
         class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeRoutesGenerator

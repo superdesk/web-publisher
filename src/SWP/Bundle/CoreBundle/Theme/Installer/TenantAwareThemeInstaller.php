@@ -22,6 +22,8 @@ use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstallerInterface;
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -59,6 +61,8 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
      */
     private $assetsDir;
 
+    private $filesystem;
+
     /**
      * TenantAwareThemeInstaller constructor.
      *
@@ -75,7 +79,8 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
         \Twig_Environment $twig,
         string $baseDir,
         AssetsInstallerInterface $assetsInstaller,
-        string $assetsDir
+        string $assetsDir,
+        \League\Flysystem\Filesystem $filesystem
     ) {
         $this->tenantContext = $tenantContext;
         $this->themeLoader = $themeLoader;
@@ -83,6 +88,7 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
         $this->baseDir = $baseDir;
         $this->assetsInstaller = $assetsInstaller;
         $this->assetsDir = $assetsDir;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -91,7 +97,18 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     public function install($sourceDir = null, $themeDir = null): void
     {
         $filesystem = new Filesystem();
-        $filesystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
+        if (is_string($sourceDir) && is_string($themeDir)) {
+            $finder = new Finder();
+            $finder->sortByName()->ignoreDotFiles(true)->ignoreVCSIgnored(true)->files()->in($sourceDir);
+
+            /** @var SplFileInfo[] $finder */
+            foreach ($finder as $file) {
+                $this->filesystem->put(
+                    $themeDir.DIRECTORY_SEPARATOR.str_replace($sourceDir, '', $file->getRealPath()),
+                    $file->getContents()
+                );
+            }
+        }
 
         $cache = $this->twig->getCache();
         if ($cache instanceof TenantAwareCacheInterface) {
@@ -108,7 +125,7 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     {
         $themes = \array_filter(
             $this->themeLoader->load(),
-            function ($element) use (&$themeName) {
+            static function ($element) use (&$themeName) {
                 return $element->getName() === $themeName;
             }
         );

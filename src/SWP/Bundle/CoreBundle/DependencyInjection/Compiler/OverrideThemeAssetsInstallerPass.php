@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Asset\AssetsInstaller;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
 {
@@ -24,10 +25,10 @@ final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container)
     {
-        $this->overrideDefinitionClassIfExists(
-            $container,
-            'sylius.theme.asset.assets_installer',
-            AssetsInstaller::class
-        );
+        $themeAssetsInstaller = $container->findDefinition('sylius.theme.asset.assets_installer');
+        if (null !== $themeAssetsInstaller) {
+            $themeAssetsInstaller->setClass(AssetsInstaller::class);
+            $themeAssetsInstaller->setArgument(0, new Reference('oneup_flysystem.swp_themes_filesystem_filesystem'));
+        }
     }
 }
