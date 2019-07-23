@@ -111,7 +111,6 @@ services:
         arguments:
             - '@swp_core.installer.theme'
             - '@swp_core.processor.theme.required_data'
-            - '%kernel.cache_dir%'
             - '@swp_multi_tenancy.tenant_context'
             - '@sylius.repository.theme'
             - '@swp_core.theme.context.tenant_aware'
