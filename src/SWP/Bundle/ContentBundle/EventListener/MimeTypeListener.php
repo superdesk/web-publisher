@@ -49,7 +49,7 @@ class MimeTypeListener
                         $extension = $event->getRequest()->get($matches[1]);
                     }
                 }
-                $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension) . '; charset=UTF-8');
+                $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension).'; charset=UTF-8');
             }
         }
     }
