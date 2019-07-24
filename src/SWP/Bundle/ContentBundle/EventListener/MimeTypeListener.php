@@ -37,10 +37,19 @@ class MimeTypeListener
         /** @var RouteInterface $routeObject */
         $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
         if (null !== $routeObject) {
-            $extension = pathinfo($routeObject->getStaticPrefix().$routeObject->getVariablePattern(), PATHINFO_EXTENSION);
+            $extension = pathinfo($routeObject->getStaticPrefix() . $routeObject->getVariablePattern(), PATHINFO_EXTENSION);
             $response = $event->getResponse();
             if ('' !== $extension && Response::HTTP_OK === $response->getStatusCode()) {
-                $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension).'; charset=UTF-8');
+
+                //check if data are transferred through the route
+                if (preg_match('/[{}]/', $extension)) {
+
+                    // check if any twig parameters match found or not
+                    if (preg_match('/{(.*?)}/', $extension, $matches) !== false) {
+                        $extension = $event->getRequest()->get($matches[1]);
+                    }
+                }
+                $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension) . '; charset=UTF-8');
             }
         }
     }
