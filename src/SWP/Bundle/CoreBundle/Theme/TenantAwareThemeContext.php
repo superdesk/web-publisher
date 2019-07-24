@@ -92,7 +92,6 @@ final class TenantAwareThemeContext implements TenantAwareThemeContextInterface
         if (null === $themeName) {
             return null;
         }
-
         $theme = $this->themeRepository->findOneByName($themeName);
         unset($tenant);
 

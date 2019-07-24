@@ -3,3 +3,6 @@ oneup_flysystem:
         filesystem_adapter:
             local:
                 directory: "%kernel.cache_dir%/uploads/"
+        local_themes_adapter:
+            local:
+                directory: "%kernel.project_dir%/src/SWP/Bundle/CoreBundle/Tests/Fixtures/themes"

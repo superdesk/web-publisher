@@ -16,50 +16,36 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme;
 
+use SWP\Bundle\CoreBundle\Theme\Loader\NamespacedFilesystemTemplateLoader;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeAssetProviderInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Takeit\Bundle\AmpHtmlBundle\Loader\ThemeLoaderInterface;
 
 final class AmpThemeLoader implements ThemeLoaderInterface
 {
-    /**
-     * @var \Twig_Loader_Filesystem
-     */
-    private $filesystem;
+    private $filesystemTemplateLoader;
 
-    /**
-     * @var ThemeContextInterface
-     */
     private $themeContext;
 
-    /**
-     * @var string
-     */
     private $themePath;
 
-    /**
-     * @var ThemeHierarchyProviderInterface
-     */
     private $themeHierarchyProvider;
 
-    /**
-     * AmpThemeLoader constructor.
-     *
-     * @param \Twig_Loader_Filesystem         $filesystem
-     * @param ThemeContextInterface           $themeContext
-     * @param ThemeHierarchyProviderInterface $themeHierarchyProvider
-     * @param string                          $themePath
-     */
+    private $themeAssetProvider;
+
     public function __construct(
-        \Twig_Loader_Filesystem $filesystem,
+        NamespacedFilesystemTemplateLoader $filesystemTemplateLoader,
         ThemeContextInterface $themeContext,
         ThemeHierarchyProviderInterface $themeHierarchyProvider,
-        string $themePath
+        string $themePath,
+        ThemeAssetProviderInterface $themeAssetProvider
     ) {
-        $this->filesystem = $filesystem;
+        $this->filesystemTemplateLoader = $filesystemTemplateLoader;
         $this->themeContext = $themeContext;
         $this->themePath = $themePath;
         $this->themeHierarchyProvider = $themeHierarchyProvider;
+        $this->themeAssetProvider = $themeAssetProvider;
     }
 
     /**
@@ -70,10 +56,11 @@ final class AmpThemeLoader implements ThemeLoaderInterface
         $themes = $this->themeHierarchyProvider->getThemeHierarchy(
             $this->themeContext->getTheme()
         );
+
         foreach ($themes as $theme) {
             $directoryPath = sprintf('%s/%s', $theme->getPath(), trim($this->themePath, '/'));
-            if (file_exists($directoryPath)) {
-                $this->filesystem->addPath(
+            if ($this->themeAssetProvider->hasFile($directoryPath)) {
+                $this->filesystemTemplateLoader->addPath(
                     $directoryPath,
                     ThemeLoaderInterface::THEME_NAMESPACE
                 );

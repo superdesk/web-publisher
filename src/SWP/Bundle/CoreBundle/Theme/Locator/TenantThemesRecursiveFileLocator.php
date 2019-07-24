@@ -66,6 +66,7 @@ class TenantThemesRecursiveFileLocator implements FileLocatorInterface
         $found = false;
         foreach ($this->paths as $path) {
             $files = $this->themeAssetProvider->listContents($path, true);
+
             try {
                 $filteredFiles = array_filter($files, static function ($value) use ($name) {
                     return 'file' === $value['type'] && isset($value['extension']) && $value['filename'].'.'.$value['extension'] === $name;

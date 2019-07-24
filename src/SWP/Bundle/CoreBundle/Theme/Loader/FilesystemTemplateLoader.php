@@ -22,18 +22,18 @@ use Twig\Loader\ExistsLoaderInterface;
 use Twig\Loader\LoaderInterface;
 use Twig\Source;
 
-final class FilesystemTemplateLoader implements LoaderInterface, ExistsLoaderInterface
+class FilesystemTemplateLoader implements LoaderInterface, ExistsLoaderInterface
 {
-    private $decoratedLoader;
+    protected $decoratedLoader;
 
-    private $templateLocator;
+    protected $templateLocator;
 
-    private $templateNameParser;
+    protected $templateNameParser;
 
     /** @var string[] */
-    private $cache = [];
+    protected $cache = [];
 
-    private $themeAssetProvider;
+    protected $themeAssetProvider;
 
     public function __construct(
         LoaderInterface $decoratedLoader,
@@ -79,7 +79,7 @@ final class FilesystemTemplateLoader implements LoaderInterface, ExistsLoaderInt
     public function isFresh($name, $time): bool
     {
         try {
-            return filemtime($this->findTemplate($name)) <= $time;
+            return $this->themeAssetProvider->getTimestamp($this->findTemplate($name)) <= $time;
         } catch (Exception $exception) {
             return $this->decoratedLoader->isFresh($name, $time);
         }
@@ -91,13 +91,17 @@ final class FilesystemTemplateLoader implements LoaderInterface, ExistsLoaderInt
     public function exists($name): bool
     {
         try {
-            return false !== stat($this->findTemplate($name));
-        } catch (Exception $exception) {
+            if (!$this->themeAssetProvider->hasFile($this->findTemplate($name))) {
+                return $this->decoratedLoader->exists($name);
+            }
+        } catch (Exception $e) {
             return $this->decoratedLoader->exists($name);
         }
+
+        return true;
     }
 
-    private function findTemplate($logicalName): string
+    protected function findTemplate($logicalName): string
     {
         $logicalName = (string) $logicalName;
 

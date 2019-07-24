@@ -51,4 +51,9 @@ class ThemeAssetProvider implements ThemeAssetProviderInterface
     {
         return $this->filesystem->listContents($directory, $recursive);
     }
+
+    public function getTimestamp(string $path)
+    {
+        $this->filesystem->getTimestamp($path);
+    }
 }

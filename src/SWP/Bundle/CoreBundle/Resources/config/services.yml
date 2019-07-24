@@ -251,14 +251,24 @@ services:
         class: SWP\Bundle\CoreBundle\Theme\AmpThemeLoader
         public: false
         arguments:
-            - "@twig.loader.filesystem"
+            - '@SWP\Bundle\CoreBundle\Theme\Loader\NamespacedFilesystemTemplateLoader'
             - "@swp_core.theme.context.tenant_aware"
             - "@sylius.theme.hierarchy_provider"
             - "%takeit_amp_html.configuration.theme.theme_path%"
+            - '@SWP\Bundle\CoreBundle\Theme\Provider\CachedThemeAssetProvider'
 
-    sylius.theme.twig.loader:
+    SWP\Bundle\CoreBundle\Theme\Loader\NamespacedFilesystemTemplateLoader:
         autowire: true
-        class: SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader
+        decorates: 'SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader'
+        arguments:
+            - "@twig.loader.filesystem"
+            - "@templating.locator"
+            - "@templating.name_parser"
+        tags:
+            - { name: twig.loader }
+
+    SWP\Bundle\CoreBundle\Theme\Loader\FilesystemTemplateLoader:
+        autowire: true
         decorates: "twig.loader"
         arguments:
             - "@twig.loader.filesystem"

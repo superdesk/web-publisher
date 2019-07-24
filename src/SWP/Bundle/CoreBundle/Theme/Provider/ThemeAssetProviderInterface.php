@@ -23,4 +23,6 @@ interface ThemeAssetProviderInterface
     public function hasFile(string $filePath): bool;
 
     public function listContents(string $directory = '', bool $recursive = false);
+
+    public function getTimestamp(string $path);
 }
