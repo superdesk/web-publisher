@@ -67,7 +67,7 @@ class MimeTypeListenerTest extends WebTestCase
         $route->setRequirement('extSlug', '[.a-zA-Z0-9*\-_]+');
         $route->setDefault('extSlug', null);
         $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
-        $request->attributes->set('extSlug', "xml");
+        $request->attributes->set('extSlug', 'xml');
         $event = new FilterResponseEvent(
             $this->getContainer()->get('kernel'),
             $request,
