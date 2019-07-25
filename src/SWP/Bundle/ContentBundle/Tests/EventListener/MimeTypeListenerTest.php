@@ -58,5 +58,22 @@ class MimeTypeListenerTest extends WebTestCase
         $eventResponse = $event->getResponse();
         self::assertEquals(null, $eventResponse->headers->get('Content-Type'));
         self::assertEquals(Response::HTTP_OK, $eventResponse->getStatusCode());
+
+        $route->setVariablePattern('.{extSlug}');
+        $route->setStaticPrefix('/sitemaps/sitemap');
+        $route->setRequirement('extSlug', '[.a-zA-Z0-9*\-_]+');
+        $route->setDefault('extSlug', null);
+        $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
+        $request->attributes->set('extSlug', 'xml');
+        $event = new FilterResponseEvent(
+            $this->getContainer()->get('kernel'),
+            $request,
+            HttpKernelInterface::MASTER_REQUEST,
+            new Response()
+        );
+        $listener->onKernelResponse($event);
+        $eventResponse = $event->getResponse();
+        self::assertEquals('application/xml; charset=UTF-8', $eventResponse->headers->get('Content-Type'));
+        self::assertEquals(Response::HTTP_OK, $eventResponse->getStatusCode());
     }
 }
