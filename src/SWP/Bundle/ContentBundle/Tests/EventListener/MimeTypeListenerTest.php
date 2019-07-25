@@ -45,8 +45,6 @@ class MimeTypeListenerTest extends WebTestCase
         self::assertEquals('application/rss+xml; charset=UTF-8', $eventResponse->headers->get('Content-Type'));
         self::assertEquals(Response::HTTP_OK, $eventResponse->getStatusCode());
 
-
-
         $route->setName('articles');
         $route->setStaticPrefix('/articles');
         $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
@@ -60,7 +58,6 @@ class MimeTypeListenerTest extends WebTestCase
         $eventResponse = $event->getResponse();
         self::assertEquals(null, $eventResponse->headers->get('Content-Type'));
         self::assertEquals(Response::HTTP_OK, $eventResponse->getStatusCode());
-
 
         $route->setVariablePattern('.{extSlug}');
         $route->setStaticPrefix('/sitemaps/sitemap');
@@ -78,6 +75,5 @@ class MimeTypeListenerTest extends WebTestCase
         $eventResponse = $event->getResponse();
         self::assertEquals('application/xml; charset=UTF-8', $eventResponse->headers->get('Content-Type'));
         self::assertEquals(Response::HTTP_OK, $eventResponse->getStatusCode());
-
     }
 }
