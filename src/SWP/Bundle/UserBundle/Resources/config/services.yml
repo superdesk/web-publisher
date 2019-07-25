@@ -5,3 +5,4 @@ services:
             - "%swp.model.user.class%"
         tags:
             - { name: form.type }
+

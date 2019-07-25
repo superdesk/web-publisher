@@ -83,7 +83,7 @@ class ArticleCommentsController extends AbstractController
             }
 
             $article->setCommentsCount((int) $data['commentsCount']);
-            $article->cancelTimestampable(true);
+            $article->cancelTimestampable();
             $repository->flush();
 
             $this->container->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(

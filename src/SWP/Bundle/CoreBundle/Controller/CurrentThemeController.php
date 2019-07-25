@@ -103,11 +103,11 @@ class CurrentThemeController extends Controller
      *
      * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
      */
-    public function listAction(): SingleResourceResponseInterface
+    public function listSettingsAction(): SingleResourceResponseInterface
     {
         $themeContext = $this->get('swp_core.theme.context.tenant_aware');
 
-        if (null === ($themeContext->getTheme())) {
+        if (null === $themeContext->getTheme()) {
             throw new \LogicException('Theme is not set!');
         }
 

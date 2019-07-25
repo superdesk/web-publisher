@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        public: false
+        autowire: true
+        autoconfigure: true
+        bind:
+            $userRepository: '@swp.repository.user'
+
+    SWP\Bundle\UserBundle\Controller\UserController: ~
