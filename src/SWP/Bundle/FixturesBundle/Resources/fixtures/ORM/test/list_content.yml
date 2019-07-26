@@ -65,6 +65,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         code: "<uuid()>"
         route: '@newsRoute'
         publishable: true
+        publishedAt: "<(new \\DateTime('now'))>"
         authors: ['@author1']
         package: '@package<current()>'
         metadata:
@@ -79,6 +80,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         code: "<uuid()>"
         route: '@sportRoute'
         publishable: true
+        publishedAt: "<(new \\DateTime('now'))>"
         authors: ['@author2']
         package: '@package<current()>'
         metadata:
@@ -93,6 +95,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         code: "<uuid()>"
         route: '@politicsRoute'
         publishable: true
+        publishedAt: "<(new \\DateTime('+ 2 days'))>"
         authors: ['@author3']
         package: '@package5'
         metadata:
