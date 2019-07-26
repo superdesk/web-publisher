@@ -100,7 +100,10 @@ class ContentListType extends AbstractType
                 return json_encode([]);
             },
             static function ($value) {
-                $value = ContentListType::transformArrayKeys(json_decode($value, true), 'camel');
+                $value = json_decode($value, true);
+                if (is_array($value)) {
+                    $value = ContentListType::transformArrayKeys($value, 'camel');
+                }
 
                 return json_encode($value);
             }
