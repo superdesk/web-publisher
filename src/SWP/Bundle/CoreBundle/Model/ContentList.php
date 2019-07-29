@@ -25,4 +25,19 @@ class ContentList extends BaseContentList implements ContentListInterface, Conte
     use TenantAwareTrait;
     use ContentListItemsCountTrait;
     use TimestampableCancelTrait;
+
+    /**
+     * NOT MAPPED property used for api purposes.
+     */
+    private $items;
+
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function setItems(array $items): void
+    {
+        $this->items = $items;
+    }
 }

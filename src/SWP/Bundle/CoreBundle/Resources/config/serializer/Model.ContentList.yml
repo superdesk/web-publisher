@@ -5,6 +5,10 @@ SWP\Bundle\CoreBundle\Model\ContentList:
             expose: true
             groups: [api]
             type: SWP\Bundle\CoreBundle\Model\ContentListItemsCountInterface
+        items:
+            serialized_name: latest_items
+            expose: true
+            groups: [api]
     relations:
         -   rel: self
             href:

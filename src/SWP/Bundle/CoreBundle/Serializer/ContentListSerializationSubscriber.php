@@ -20,10 +20,19 @@ use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ContentList;
-use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 
 final class ContentListSerializationSubscriber implements EventSubscriberInterface
 {
+    private $contentListItemRepository;
+
+    public function __construct(ContentListItemRepositoryInterface $contentListItemRepository)
+    {
+        $this->contentListItemRepository = $contentListItemRepository;
+    }
+
     public static function getSubscribedEvents()
     {
         return [
@@ -37,11 +46,17 @@ final class ContentListSerializationSubscriber implements EventSubscriberInterfa
 
     public function onPreSerialize(ObjectEvent $event)
     {
+        /** @var ContentListInterface $object */
         $object = $event->getObject();
         if (!$object instanceof ContentListInterface) {
             return;
         }
 
         $object->setFilters(ContentListType::transformArrayKeys($object->getFilters(), 'snake'));
+
+        $items = $this->contentListItemRepository->getQueryByCriteria(new Criteria([
+            'contentList' => $object,
+        ]), ['createdAt' => 'desc'], 'n')->setMaxResults(5)->getQuery()->getResult();
+        $object->setItems($items);
     }
 }
