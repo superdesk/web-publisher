@@ -65,6 +65,8 @@ class ContentListType extends AbstractType
         $builder->get('filters')
             ->addModelTransformer(new CallbackTransformer(
                 static function ($value) {
+                    $value = self::transformArrayKeys($value, 'camel');
+
                     return json_encode($value);
                 },
                 static function ($value) {
@@ -73,12 +75,39 @@ class ContentListType extends AbstractType
                     }
 
                     if (null !== $value && '' !== $value) {
-                        return json_decode($value, true);
+                        $value = json_decode($value, true);
+                        if (is_array($value)) {
+                            return $value;
+                        }
                     }
 
                     return [];
                 }
-            ));
+            ))
+        ->addViewTransformer(new CallbackTransformer(
+            static function ($value) {
+                if (is_array($value)) {
+                    return json_encode(self::transformArrayKeys($value, 'snake'));
+                }
+
+                if (null !== $value && '' !== $value) {
+                    $value = json_decode($value, true);
+                    if (is_array($value)) {
+                        return json_encode(self::transformArrayKeys($value, 'snake'));
+                    }
+                }
+
+                return json_encode([]);
+            },
+            static function ($value) {
+                $value = json_decode($value, true);
+                if (is_array($value)) {
+                    $value = self::transformArrayKeys($value, 'camel');
+                }
+
+                return json_encode($value);
+            }
+        ));
     }
 
     /**
@@ -97,5 +126,35 @@ class ContentListType extends AbstractType
     public function getBlockPrefix()
     {
         return '';
+    }
+
+    public static function snakeToCamel(string $str): string
+    {
+        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $str))));
+    }
+
+    public static function camelToSnake(string $str): string
+    {
+        $str = preg_replace('/(?<=\\w)(?=[A-Z])/', '_$1', $str);
+
+        return  strtolower($str);
+    }
+
+    public static function transformArrayKeys(array $data, string $outputCase): array
+    {
+        foreach ($data as $key => $item) {
+            $newKey = null;
+            if ('camel' === $outputCase) {
+                $data[$newKey = self::snakeToCamel($key)] = $item;
+            } elseif ('snake' === $outputCase) {
+                $data[$newKey = self::camelToSnake($key)] = $item;
+            }
+
+            if ($newKey !== $key) {
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
     }
 }

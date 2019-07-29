@@ -219,6 +219,47 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(2, $content['total']);
     }
 
+    public function testContentListItemsByPublishedAfterFiltersApi()
+    {
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
+        ], true);
+
+        $yesterday = (new \DateTime('yesterday'))->format('Y-m-d');
+        $tomorrow = (new \DateTime('tomorrow'))->format('Y-m-d');
+
+        $this->client->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
+                'filters' => '{"published_after":"'.$yesterday.'"}',
+            ]
+        );
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $content = $this->client->getResponse()->getContent();
+        self::assertContains('"filters":{"published_after":"'.$yesterday.'"}', $content);
+        $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals(5, $content['total']);
+
+        $this->client->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
+                'filters' => '{"published_after":"'.$tomorrow.'"}',
+            ]
+        );
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $content = $this->client->getResponse()->getContent();
+        self::assertContains('"filters":{"published_after":"'.$tomorrow.'"}', $content);
+        $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['total']);
+    }
+
     public function testContentListItemsByAuthorFiltersApi()
     {
         $this->loadFixtureFiles([

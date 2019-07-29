@@ -61,14 +61,6 @@ class ContentListItemControllerTest extends WebTestCase
 
         self::assertArraySubset(json_decode('
         {
-            "_links": {
-                "item": {
-                    "href": "/api/v2/content/lists/1/items/1"
-                },
-                "list": {
-                    "href": "/api/v2/content/lists/1"
-                }
-            },
             "content": {
                 "_links": {
                     "online": {
@@ -91,7 +83,6 @@ class ContentListItemControllerTest extends WebTestCase
                     "byline": "John Smith",
                     "located": "Berlin"
                 },
-                "published_at": null,
                 "publish_end_date": null,
                 "publish_start_date": null,
                 "route": {
@@ -142,7 +133,7 @@ class ContentListItemControllerTest extends WebTestCase
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        self::assertArraySubset(json_decode('{"id":1,"content":{"id":1,"title":"article1","body":"art1","slug":"article-1","published_at":null,"status":"published","route":{"id":3,"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","parent":null,"children":[],"lft":3,"rgt": 4,"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","position":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/3"}}},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"feature_media":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v2\/content\/articles\/article-1"},"online":{"href":"\/article-1"}}},"position":0,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v2\/content\/lists\/1"},"item":{"href":"\/api\/v2\/content\/lists\/1\/items\/1"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"content":{"id":1,"title":"article1","body":"art1","slug":"article-1","status":"published","route":{"id":3,"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","parent":null,"children":[],"lft":3,"rgt": 4,"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","position":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/3"}}},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"feature_media":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v2\/content\/articles\/article-1"},"online":{"href":"\/article-1"}}},"position":0,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v2\/content\/lists\/1"},"item":{"href":"\/api\/v2\/content\/lists\/1\/items\/1"}}}', true), $content);
     }
 
     public function testGetSingleArticleAndItsContentLists()
