@@ -383,6 +383,8 @@ services:
             - { name: jms_serializer.event_subscriber }
 
     SWP\Bundle\CoreBundle\Serializer\ContentListSerializationSubscriber:
+        arguments:
+            - '@swp.repository.content_list_item'
         tags:
             - { name: jms_serializer.event_subscriber }
 

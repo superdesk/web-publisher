@@ -260,6 +260,22 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
     }
 
+    public function testEmbedingFirstCOntentListItemsInCOntentList()
+    {
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
+        ], true);
+
+        $this->client->request('GET', $this->router->generate('swp_api_content_list_lists', ['id' => 1]));
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(4, $content['_embedded']['_items'][0]['latest_items']);
+        self::assertEquals('article1', $content['_embedded']['_items'][0]['latest_items'][0]['content']['title']);
+    }
+
     public function testContentListItemsByAuthorFiltersApi()
     {
         $this->loadFixtureFiles([
