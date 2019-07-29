@@ -104,6 +104,9 @@ final class ContentListTypeSpec extends ObjectBehavior
         $builderFilters->addModelTransformer(Argument::type(CallbackTransformer::class))
             ->willReturn($builderFilters);
 
+        $builderFilters->addViewTransformer(Argument::type(CallbackTransformer::class))
+            ->willReturn($builderFilters);
+
         $this->buildForm($builder, []);
     }
 }
