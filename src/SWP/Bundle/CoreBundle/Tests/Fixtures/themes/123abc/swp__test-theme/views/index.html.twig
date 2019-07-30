@@ -8,5 +8,8 @@
         <span>theme_test/index.html.twig</span>
         <p><strong>Current tenant:</strong> {{ tenant.name }}</p>
         <p><strong>Assigned homepage:</strong> {{ gimme.route.name }} (id: {{ gimme.route.id }})</p>
+        {% if app.user %}
+            <p><strong>Logged user email:</strong> {{ app.user.email }}</p>
+        {% endif %}
     </body>
 </html>
