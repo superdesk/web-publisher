@@ -71,6 +71,9 @@ security:
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
             logout:
                 path: security_logout
+            guard:
+                authenticators:
+                    - swp.security.external_oauth_authenticator
             anonymous: true
 
     access_control:

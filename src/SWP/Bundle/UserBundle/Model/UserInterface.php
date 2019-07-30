@@ -51,4 +51,14 @@ interface UserInterface extends BaseUserInterface, PersistableInterface, Timesta
      * @param string $lastName
      */
     public function setLastName(string $lastName);
+
+    /**
+     * @return string
+     */
+    public function getExternalId();
+
+    /**
+     * @param string $externalId
+     */
+    public function setExternalId(string $externalId);
 }

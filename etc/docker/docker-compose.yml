@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
     postgres:
@@ -6,9 +6,9 @@ services:
         ports:
             - "5433:5432"
         environment:
-          - POSTGRES_DATABASE=publisher_${APP_ENV-dev}
-          - POSTGRES_USER=postgres
-          - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DATABASE=publisher_${APP_ENV-dev}
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
     memcached:
         image: memcached
         ports:
@@ -31,7 +31,7 @@ services:
             - rabbitmq
         volumes:
             - ../../:/var/www/publisher:cached
-            - ./logs/publisher:/var/www/publisher/var/log:cached
+            - publisher_logs:/var/www/publisher/var/log:rw
         env_file:
             - .env
     nginx:
@@ -41,7 +41,7 @@ services:
         depends_on:
             - php
         volumes:
-            - ./logs/nginx/:/var/log/nginx:cached
+            - nginx_logs:/var/log/nginx:rw
     rabbitmq:
         image: rabbitmq
         ports:
@@ -51,3 +51,8 @@ services:
         ports:
             - "8081:8080"
             - "5555:5555"
+volumes:
+    publisher_logs:
+        driver: local
+    nginx_logs:
+        driver: local
