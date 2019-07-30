@@ -1,5 +1,8 @@
 services:
     GuzzleHttp\Client:
+        arguments:
+            -
+                verify: false
         public: false
 
     SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter:

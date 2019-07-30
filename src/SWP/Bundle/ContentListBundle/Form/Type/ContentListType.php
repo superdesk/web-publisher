@@ -65,9 +65,13 @@ class ContentListType extends AbstractType
         $builder->get('filters')
             ->addModelTransformer(new CallbackTransformer(
                 static function ($value) {
-                    $value = self::transformArrayKeys($value, 'camel');
+                    if (is_array($value)) {
+                        $value = self::transformArrayKeys($value, 'camel');
 
-                    return json_encode($value);
+                        return json_encode($value);
+                    }
+
+                    return json_encode([]);
                 },
                 static function ($value) {
                     if (is_array($value)) {
