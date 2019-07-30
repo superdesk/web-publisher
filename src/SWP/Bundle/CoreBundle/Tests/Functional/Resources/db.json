@@ -19,7 +19,8 @@
         "user_type": "administrator",
         "display_name": "Superdesk Test User",
         "last_name": "User",
-        "sign_off": "testu"
+        "sign_off": "testu",
+        "external_id": "12345"
       }
     }
   ],

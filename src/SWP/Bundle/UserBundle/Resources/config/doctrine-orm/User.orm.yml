@@ -21,3 +21,6 @@ SWP\Bundle\UserBundle\Model\User:
         about:
             type: text
             nullable: true
+        externalId:
+            type: string
+            nullable: true
