@@ -1,0 +1,12 @@
+knpu_oauth2_client:
+    clients:
+        external_oauth:
+            type: generic
+            provider_class: SWP\Bundle\CoreBundle\Security\Provider\ExternalOauthProvider
+            client_id: '%env(EXTERNAL_OAUTH_CLIENT_ID)%'
+            client_secret: '%env(EXTERNAL_OAUTH_CLIENT_SECRET)%'
+            redirect_route: connect_oauth_check
+            redirect_params: {}
+            provider_options:
+                base_url: '%env(EXTERNAL_OAUTH_BASE_URL)%'
+                scope_separator: ' '

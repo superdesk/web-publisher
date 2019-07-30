@@ -39,6 +39,11 @@ class User extends BaseUser implements UserInterface
     protected $about;
 
     /**
+     * @var string
+     */
+    protected $externalId;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -94,5 +99,21 @@ class User extends BaseUser implements UserInterface
     public function setLastName(string $lastName)
     {
         $this->lastName = $lastName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExternalId()
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExternalId(string $externalId)
+    {
+        $this->externalId = $externalId;
     }
 }
