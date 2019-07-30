@@ -17,22 +17,14 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\Security;
 use League\OAuth2\Client\Token\AccessToken;
+use function uniqid;
 
 class ExternalOauthAuthenticator extends SocialAuthenticator
 {
-    /**
-     * @var ClientRegistry
-     */
     protected $clientRegistry;
 
-    /**
-     * @var UserMangerInterface
-     */
-    protected $em;
+    protected $um;
 
-    /**
-     * @var UserMangerInterface
-     */
     protected $security;
 
     public function __construct(
@@ -45,21 +37,15 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $this->security = $security;
     }
 
-    /**
-     * @inehritdoc
-     */
     public function supports(Request $request): bool
     {
-        if (!$this->security->getUser() || ($request->query->get('code') && $request->get('state'))) {
+        if (!$this->security->getUser() && ($request->query->get('code') && $request->get('state'))) {
             return true;
         }
 
         return false;
     }
 
-    /**
-     * @inehritdoc
-     */
     public function getCredentials(Request $request): AccessToken
     {
         return $this->fetchAccessToken($this->getOauthClient());
@@ -84,6 +70,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         }
 
         // Is there an existing user with the same oauth id?
+        /** @var \SWP\Bundle\CoreBundle\Model\UserInterface $user */
         $user = $userProvider->findOneByExternalId($oauthId);
         if ($user) {
             if ($user->getEmail() !== $oauthEmail) {
@@ -107,45 +94,33 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $user->setEmail($oauthEmail);
         $user->setUsername($oauthEmail);
         $user->setExternalId($oauthId);
-        $user->setPassword(\uniqid());
+        $user->setPassword(uniqid('', true));
         $user->setEnabled(true);
         $user->setSuperAdmin(false);
-        // Persist the new user
+
         $this->um->updateUser($user);
 
         return $user;
     }
 
-    /**
-     * @inehritdoc
-     */
-    private function getOauthClient(): OAuth2Client
-    {
-        return $this->clientRegistry->getClient('external_oauth');
-    }
-
-    /**
-     * @inehritdoc
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): void
     {
     }
 
-    /**
-     * @inehritdoc
-     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): void
     {
     }
 
-    /**
-     * @inehritdoc
-     */
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
         return new RedirectResponse(
             '/connect/oauth/',
             Response::HTTP_TEMPORARY_REDIRECT
         );
+    }
+
+    private function getOauthClient(): OAuth2Client
+    {
+        return $this->clientRegistry->getClient('external_oauth');
     }
 }

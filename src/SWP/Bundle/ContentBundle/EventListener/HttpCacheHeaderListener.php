@@ -31,6 +31,7 @@ class HttpCacheHeaderListener
 
         /** @var RouteInterface $routeObject */
         $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
+
         if (null !== $routeObject) {
             // Get expiry time
             $cacheTimeInSeconds = $routeObject->getCacheTimeInSeconds();
