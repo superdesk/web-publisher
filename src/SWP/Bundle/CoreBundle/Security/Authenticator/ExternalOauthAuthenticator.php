@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use Doctrine\ORM\EntityManagerInterface;
-use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
-use SWP\Bundle\CoreBundle\Security\Provider\UserProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -53,7 +50,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
      */
     public function supports(Request $request): bool
     {
-        if(!$this->security->getUser() || ($request->query->get('code') && $request->get('state'))) {
+        if (!$this->security->getUser() || ($request->query->get('code') && $request->get('state'))) {
             return true;
         }
 
@@ -82,14 +79,14 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $oauthEmail = $oauthUser->getEmail();
         $oauthId = $oauthUser->getId();
 
-        if(!$oauthUser) {
+        if (!$oauthUser) {
             return null;
         }
 
         // Is there an existing user with the same oauth id?
         $user = $userProvider->findOneByExternalId($oauthId);
-        if($user) {
-            if($user->getEmail() !== $oauthEmail) {
+        if ($user) {
+            if ($user->getEmail() !== $oauthEmail) {
                 // If the email has changed for the user, update it here as well
                 $user->setEmail($oauthEmail);
                 $user->setUsername($oauthEmail);
@@ -101,7 +98,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
         // Is there an existing user with the same email address?
         $user = $userProvider->findOneByEmail($oauthEmail);
-        if($user) {
+        if ($user) {
             return $user;
         }
 

@@ -7,11 +7,12 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
 
-
 class ExternalOauthProvider extends AbstractProvider
 {
     protected $base_url;
+
     protected $scope_separator;
+
     protected $access_token;
 
     public function __construct(array $options = [], array $collaborators = [])
@@ -23,25 +24,26 @@ class ExternalOauthProvider extends AbstractProvider
 
     public function getAccessToken($grant, array $options = []): AccessToken
     {
-        if(!isset($this->access_token)) {
+        if (!isset($this->access_token)) {
             $this->access_token = parent::getAccessToken($grant, $options);
         }
+
         return $this->access_token;
     }
 
     public function getBaseAuthorizationUrl(): string
     {
-        return $this->base_url . '/authorize';
+        return $this->base_url.'/authorize';
     }
 
     public function getBaseAccessTokenUrl(array $params): string
     {
-        return $this->base_url . '/oauth/token';
+        return $this->base_url.'/oauth/token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
-        return $this->base_url . '/userinfo';
+        return $this->base_url.'/userinfo';
     }
 
     protected function getDefaultScopes(): string
@@ -51,7 +53,7 @@ class ExternalOauthProvider extends AbstractProvider
 
     protected function checkResponse(ResponseInterface $response, $data): void
     {
-        if($response->getStatusCode() >= 400) {
+        if ($response->getStatusCode() >= 400) {
             throw new IdentityProviderException(
                 $response->getReasonPhrase(),
                 $response->getStatusCode(),
@@ -71,9 +73,9 @@ class ExternalOauthProvider extends AbstractProvider
 
     protected function getAuthorizationHeaders($token = null): array
     {
-        if($token) {
+        if ($token) {
             return [
-                'Authorization' => 'Bearer ' . $token
+                'Authorization' => 'Bearer '.$token,
             ];
         }
 

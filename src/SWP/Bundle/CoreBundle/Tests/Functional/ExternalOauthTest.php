@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Tests\Functional;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
 
 final class ExternalOauthTest extends WebTestCase
@@ -17,7 +16,7 @@ final class ExternalOauthTest extends WebTestCase
         self::bootKernel();
 
         $this->initDatabase();
-        #$this->loadCustomFixtures(['user']);
+        //$this->loadCustomFixtures(['user']);
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -50,7 +49,7 @@ final class ExternalOauthTest extends WebTestCase
         // We skip the request to /authorize, this part is between the client and the oauth server, and the result
         // is an authorization code. We instead use mock auth codes for our mock server, which return different
         // access tokens for different users depending on the authorization code.
-        $client->request('GET', $this->router->generate('connect_oauth_check') . '?code=' . $code . '&state=' . $state);
+        $client->request('GET', $this->router->generate('connect_oauth_check').'?code='.$code.'&state='.$state);
 
         return $client;
     }
