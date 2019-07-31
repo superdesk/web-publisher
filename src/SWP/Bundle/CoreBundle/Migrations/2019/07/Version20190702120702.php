@@ -28,6 +28,5 @@ final class Version20190702120702 extends AbstractMigration
 
         $this->addSql('ALTER TABLE swp_user DROP external_id');
         $this->addSql('ALTER TABLE swp_route COLUMN description');
-
     }
 }
