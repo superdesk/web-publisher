@@ -87,15 +87,15 @@ trait RouteTrait
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $slug
      */
-    public function setDescription(string $description)
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
