@@ -126,7 +126,8 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      *
      * @return string
      */
-    public function setDescription($description);
+    public function setDescription(string $description);
+
 
     /**
      * @return string
