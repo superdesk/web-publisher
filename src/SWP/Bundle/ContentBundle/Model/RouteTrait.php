@@ -93,7 +93,7 @@ trait RouteTrait
     }
 
     /**
-     * @param string|null $slug
+     * @param string|null $description
      */
     public function setDescription(?string $description): void
     {
