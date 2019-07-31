@@ -44,6 +44,12 @@ class RouteType extends AbstractType
                     new Length(['min' => 1]),
                 ],
             ])
+            ->add('description', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Length(['min' => 1]),
+                ],
+            ])
             ->add('slug', TextType::class, [
                 'required' => false,
                 'constraints' => [

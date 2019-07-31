@@ -85,6 +85,7 @@ class ContextDataCollector extends DataCollector
 
         return [
             'title' => $route->getName(),
+            'description' => $route->getDescription(),
             'parent' => $this->getRouteData($route->getParent()),
             'templateName' => $route->getTemplateName(),
             'articlesTemplateName' => $route->getArticlesTemplateName(),

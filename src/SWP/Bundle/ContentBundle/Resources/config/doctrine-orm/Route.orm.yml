@@ -24,6 +24,8 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
         name:
             type: string
+        description:
+            type: string
         slug:
             type: string
             nullable: true
