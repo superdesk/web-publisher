@@ -14,9 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Version;
 
-/**
- * Application version class.
- */
 final class Version implements VersionInterface
 {
     /**
@@ -24,7 +21,7 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $version = '2.0.0-beta';
+    private $version = '2.0.0-rc';
 
     /**
      * Code name string.
@@ -38,7 +35,7 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $releaseDate = '2018-06-07';
+    private $releaseDate = '2018-07-30';
 
     public function getVersion(): string
     {
