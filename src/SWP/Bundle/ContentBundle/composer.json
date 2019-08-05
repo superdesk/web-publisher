@@ -99,10 +99,6 @@
     "bin-dir": "bin"
   },
   "extra": {
-    "symfony": {
-      "allow-contrib": true,
-      "require": "4.3.*"
-    },
     "branch-alias": {
       "dev-master": "2.0-dev"
     }
