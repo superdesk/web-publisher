@@ -20,7 +20,7 @@ From your theme config file (`theme.json`) remove nodes: `generatedData.containe
 * [BC] `app/logs` directory was renamed to `var/logs`
 * [BC] `web/` directory was renamed to `public/`
 * New API version is now `v2`
-* in Your server vhost config chhange references to `app.php` into `index.php`. And there is no more `app_dev.php` - activate dev mode with env variables changes. 
+* In server vhost config change references to `app.php` into `index.php`. And there is no more `app_dev.php` - activate dev mode with env variables changes. 
 
 
 ## Release 1.4.0
