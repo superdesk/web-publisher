@@ -18,6 +18,7 @@ final class Version20190702120702 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_user ADD external_id VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_route ADD COLUMN description VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -26,5 +27,6 @@ final class Version20190702120702 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_user DROP external_id');
+        $this->addSql('ALTER TABLE swp_route COLUMN description');
     }
 }
