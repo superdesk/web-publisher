@@ -13,8 +13,6 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * BC BREAK/cleanup [#778] Remove Container, Widgets and Revisions concepts from Templates System
  * BC BREAK/feature [#643] Added support for Symfony 4.2 & Flex & PHP 7.3
  * improvement [#630] Add option to exclude articles from content list items
- 
-### 1.6.0
  * bug [#784] Fixed search pagination
  * bug [#763] Expose more metadata in article media
  * bug [#754] Always cast publishedBefore and publishedAfter parameters to object of type DateTime
