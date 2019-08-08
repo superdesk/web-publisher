@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace SWP\Migrations;
 
@@ -10,21 +8,21 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190702120702 extends AbstractMigration
+final class Version20190808092912 extends AbstractMigration
 {
-    public function up(Schema $schema): void
+    public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_user ADD external_id VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_route ADD COLUMN description VARCHAR(255) DEFAULT NULL');
     }
 
-    public function down(Schema $schema): void
+    public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_user DROP external_id');
+        $this->addSql('ALTER TABLE swp_route COLUMN description');
     }
 }
