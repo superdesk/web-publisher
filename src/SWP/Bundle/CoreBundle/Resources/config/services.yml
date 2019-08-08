@@ -386,6 +386,7 @@ services:
     SWP\Bundle\CoreBundle\Serializer\ContentListAwareSerializationSubscriber:
         arguments:
             - '@swp.repository.content_list_item'
+            - '@request_stack'
         tags:
             - { name: jms_serializer.event_subscriber }
 

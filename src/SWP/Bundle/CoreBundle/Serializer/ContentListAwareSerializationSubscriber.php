@@ -23,14 +23,20 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\ContentList\Model\ListContentInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class ContentListAwareSerializationSubscriber implements EventSubscriberInterface
 {
     private $contentListItemRepository;
 
-    public function __construct(ContentListItemRepositoryInterface $contentListItemRepository)
-    {
+    private $requestStack;
+
+    public function __construct(
+        ContentListItemRepositoryInterface $contentListItemRepository,
+        RequestStack $requestStack
+    ) {
         $this->contentListItemRepository = $contentListItemRepository;
+        $this->requestStack = $requestStack;
     }
 
     public static function getSubscribedEvents()
@@ -46,6 +52,11 @@ final class ContentListAwareSerializationSubscriber implements EventSubscriberIn
 
     public function onPreSerialize(ObjectEvent $event)
     {
+        $masterRequest = $this->requestStack->getMasterRequest();
+        if (!$masterRequest || 'swp_api_content_show_articles' !== $masterRequest->get('_route')) {
+            return;
+        }
+
         $object = $event->getObject();
         if (!$object instanceof ArticleInterface || !$object instanceof ListContentInterface) {
             return;
