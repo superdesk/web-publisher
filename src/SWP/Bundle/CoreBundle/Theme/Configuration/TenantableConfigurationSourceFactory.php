@@ -51,6 +51,7 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
         $recursiveFileLocator = new Definition(TenentThemesRecursiveFileLocator::class, [
             new Reference('sylius.theme.finder_factory'),
             $config['directories'],
+            new Reference('swp_multi_tenancy.tenant_context'),
         ]);
 
         $themeConfigurationProcessor = $container->getDefinition('sylius.theme.configuration.processor');
