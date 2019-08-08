@@ -48,6 +48,6 @@ class DefaultController extends AbstractController
 
         $templateEngineContext->setCurrentPage($metaFactory->create($route));
 
-        return $this->render('webinars/webinar_sms.html.twig');
+        return $this->render('index.html.twig');
     }
 }
