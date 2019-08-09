@@ -52,7 +52,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertEquals(
             json_decode(
-                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","description": null,"position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2}',
+                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","description":null,"position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -123,20 +123,6 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
             ['name' => 'simple-test-route-new-name'],
-            json_decode($client->getResponse()->getContent(), true)
-        );
-
-        $client->request(
-            'PATCH',
-            $this->router->generate('swp_api_content_update_routes', ['id' => 1]),
-            [
-                'description' => 'simple-test-route-new-description',
-            ]
-        );
-
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(
-            ['description' => 'simple-test-route-new-description'],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
@@ -408,7 +394,7 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","description":null,"position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[], "lft":1, "rgt": 2},{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","description":null,"position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt": 4}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","description":null,"position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[], "lft":1, "rgt": 2},{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt": 4}]}}',
                 true
             ),
             $content
