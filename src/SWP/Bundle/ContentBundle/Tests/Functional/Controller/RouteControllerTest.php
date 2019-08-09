@@ -492,5 +492,4 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(ArticleInterface::STATUS_NEW, $content['status']);
     }
-
 }
