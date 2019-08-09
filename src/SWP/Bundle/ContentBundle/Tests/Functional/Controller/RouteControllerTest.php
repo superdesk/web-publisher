@@ -52,7 +52,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertEquals(
             json_decode(
-                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2}',
+                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","description":null,"position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -82,7 +82,7 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertArraySubset(
             json_decode(
-                '{"id":2,"content":{"id":2,"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"id":1,"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":null,"media":[],"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v2\/content\/articles\/test-content-article"},"online":{"href":"\/test-content-article"}}},"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}}}',
+                '{"id":2,"content":{"id":2,"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"id":1,"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","description":null,"position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":null,"media":[],"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v2\/content\/articles\/test-content-article"},"online":{"href":"\/test-content-article"}}},"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","description":null,"position":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}}}',
                 true
             ),
             $content
@@ -106,7 +106,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
             json_decode(
-                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}}',
+                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","description":null,"position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -165,7 +165,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
             json_decode(
-                '{"content":{"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","position":0},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":null,"media":[],"lead":null},"static_prefix":"\/simple-test-route","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":50,"name":"simple-edited-test-route","position":1}',
+                '{"content":{"title":"Test content article","body":"Test article content","slug":"test-content-article","status":"published","route":{"content":null,"static_prefix":null,"variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"news","description":null,"position":0},"template_name":null,"publish_start_date":null,"publish_end_date":null,"is_publishable":true,"metadata":null,"media":[],"lead":null},"static_prefix":"\/simple-test-route","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":50,"name":"simple-edited-test-route","description":null,"position":1}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -203,7 +203,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
             json_decode(
-                '{"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":0}',
+                '{"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","description":null,"position":0}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -322,7 +322,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertArraySubset(
             json_decode(
-                '{"id":1,"content":null,"static_prefix":"\/root","variable_pattern":"\/{slug}","parent":null,"children":[{"id":2,"content":null,"static_prefix":"\/root\/root-child1","variable_pattern":"\/{slug}","parent":1,"children":[{"id":3,"content":null,"static_prefix":"\/root\/root-child1\/child1-root-child1","variable_pattern":"\/{slug}","parent":2,"children":[],"level":2,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"child1-root-child1","slug":"child1-root-child1","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/3"},"parent":{"href":"\/api\/v2\/content\/routes\/2"}}}],"level":1,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"root-child1","slug":"root-child1","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"},"parent":{"href":"\/api\/v2\/content\/routes\/1"}}}],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"root","slug":"root","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}}',
+                '{"id":1,"content":null,"static_prefix":"\/root","variable_pattern":"\/{slug}","parent":null,"children":[{"id":2,"content":null,"static_prefix":"\/root\/root-child1","variable_pattern":"\/{slug}","parent":1,"children":[{"id":3,"content":null,"static_prefix":"\/root\/root-child1\/child1-root-child1","variable_pattern":"\/{slug}","parent":2,"children":[],"level":2,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"child1-root-child1","description":null,"slug":"child1-root-child1","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/3"},"parent":{"href":"\/api\/v2\/content\/routes\/2"}}}],"level":1,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"root-child1","description":null,"slug":"root-child1","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"},"parent":{"href":"\/api\/v2\/content\/routes\/1"}}}],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":0,"name":"root","description":null,"slug":"root","position":0,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}}',
                 true
             ),
             $content
@@ -394,7 +394,7 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[], "lft":1, "rgt": 2},{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt": 4}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","description":null,"position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[], "lft":1, "rgt": 2},{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt": 4}]}}',
                 true
             ),
             $content
@@ -415,7 +415,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[],"lft":1,"rgt":2}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=content&page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"static_prefix":"\/route1","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"route1","description":null,"position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}},"slug":"route1","requirements":[],"lft":1,"rgt":2}]}}',
                 true
             ),
             $content
@@ -436,7 +436,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt":4}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","description":null,"position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt":4}]}}',
                 true
             ),
             $content
