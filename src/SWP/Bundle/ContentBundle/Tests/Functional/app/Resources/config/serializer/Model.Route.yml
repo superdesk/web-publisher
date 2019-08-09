@@ -10,6 +10,9 @@ SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route:
         name:
             expose: true
             groups: [api]
+        description:
+            expose: true
+            groups: [api]
         cacheTimeInSeconds:
             expose: true
             groups: [api]
