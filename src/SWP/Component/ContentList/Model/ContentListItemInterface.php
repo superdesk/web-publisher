@@ -39,7 +39,7 @@ interface ContentListItemInterface extends TimestampableInterface, SoftDeletable
     public function getContentList(): ContentListInterface;
 
     /**
-     * @param null|ContentListInterface $contentList
+     * @param ContentListInterface|null $contentList
      */
     public function setContentList(ContentListInterface $contentList = null);
 
