@@ -93,6 +93,7 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
     public function load(): array
     {
         $configurations = $this->configurationProvider->getConfigurations();
+
         $themes = $this->initializeThemes($configurations);
         $themes = $this->hydrateThemes($configurations, $themes);
 

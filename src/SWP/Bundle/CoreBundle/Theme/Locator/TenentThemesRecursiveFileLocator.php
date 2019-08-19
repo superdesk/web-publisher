@@ -14,24 +14,30 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Locator;
 
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
 {
+    /**
+     * @var FinderFactoryInterface
+     */
     private $finderFactory;
 
+    /**
+     * @var array
+     */
     private $paths;
 
-    private $tenantContext;
-
-    public function __construct(FinderFactoryInterface $finderFactory, array $paths, TenantContextInterface $tenantContext)
+    /**
+     * @param FinderFactoryInterface $finderFactory
+     * @param array                  $paths         An array of paths where to look for resources
+     */
+    public function __construct(FinderFactoryInterface $finderFactory, array $paths)
     {
         $this->finderFactory = $finderFactory;
         $this->paths = $paths;
-        $this->tenantContext = $tenantContext;
     }
 
     /**
@@ -67,9 +73,8 @@ final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
                     ->files()
                     ->followLinks()
                     ->name($name)
-                    ->ignoreUnreadableDirs();
-
-                $finder->in($path);
+                    ->ignoreUnreadableDirs()
+                    ->in($path);
 
                 /** @var SplFileInfo $file */
                 foreach ($finder as $file) {
