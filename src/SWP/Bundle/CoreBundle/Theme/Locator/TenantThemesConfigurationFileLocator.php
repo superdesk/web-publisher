@@ -14,68 +14,51 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Locator;
 
+use SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProviderInterface;
 use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
-final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
+final class TenantThemesConfigurationFileLocator implements FileLocatorInterface
 {
-    /**
-     * @var FinderFactoryInterface
-     */
     private $finderFactory;
 
-    /**
-     * @var array
-     */
     private $paths;
 
-    /**
-     * @param FinderFactoryInterface $finderFactory
-     * @param array                  $paths         An array of paths where to look for resources
-     */
-    public function __construct(FinderFactoryInterface $finderFactory, array $paths)
+    private $tenantThemesPathsProvider;
+
+    public function __construct(FinderFactoryInterface $finderFactory, array $paths, TenantThemesPathsProviderInterface $tenantThemesPathsProvider)
     {
         $this->finderFactory = $finderFactory;
         $this->paths = $paths;
+        $this->tenantThemesPathsProvider = $tenantThemesPathsProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function locateFileNamed(string $name): string
     {
         return $this->doLocateFilesNamed($name)->current();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function locateFilesNamed(string $name): array
     {
         return iterator_to_array($this->doLocateFilesNamed($name));
     }
 
-    /**
-     * @param string $name
-     *
-     * @return \Generator
-     */
     private function doLocateFilesNamed($name)
     {
         $this->assertNameIsNotEmpty($name);
 
         $found = false;
-        foreach ($this->paths as $path) {
+        foreach ($this->tenantThemesPathsProvider->getTenantThemesPaths($this->paths) as $path) {
             try {
                 $finder = $this->finderFactory->create();
                 $finder
                     ->files()
                     ->followLinks()
                     ->name($name)
+                    ->depth(['>= 1', '< 3'])
                     ->ignoreUnreadableDirs()
                     ->in($path);
-
                 /** @var SplFileInfo $file */
                 foreach ($finder as $file) {
                     $found = true;
@@ -95,10 +78,7 @@ final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
         }
     }
 
-    /**
-     * @param string $name
-     */
-    private function assertNameIsNotEmpty($name)
+    private function assertNameIsNotEmpty(?string $name): void
     {
         if (null === $name || '' === $name) {
             throw new \InvalidArgumentException(

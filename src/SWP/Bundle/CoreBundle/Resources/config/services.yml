@@ -549,6 +549,11 @@ services:
             - '@router.default'
             - '@swp_multi_tenancy.tenant_context'
 
+    SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProvider:
+        arguments:
+            - '@swp_multi_tenancy.tenant_context'
+    SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProviderInterface: '@SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProvider'
+
     SWP\Bundle\CoreBundle\Processor\RulesProcessor:
         arguments:
             - '@swp.repository.tenant'
