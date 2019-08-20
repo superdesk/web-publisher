@@ -62,7 +62,6 @@ final class ArticleRuleApplicator extends AbstractRuleApplicator
     public function apply(RuleInterface $rule, RuleSubjectInterface $subject)
     {
         $configuration = $this->validateRuleConfiguration($rule->getConfiguration());
-
         if (!$this->isAllowedType($subject) || empty($configuration)) {
             return;
         }

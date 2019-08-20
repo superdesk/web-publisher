@@ -7,21 +7,18 @@ namespace SWP\Behat\Contexts;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Doctrine\ORM\EntityManagerInterface;
-use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use function json_decode;
 
 final class ContentListContext extends AbstractContext implements Context
 {
     private $contentListFactory;
 
-    private $contentListRepository;
-
     private $entityManager;
 
-    public function __construct(FactoryInterface $contentListFactory, ContentListRepositoryInterface $contentListRepository, EntityManagerInterface $entityManager)
+    public function __construct(FactoryInterface $contentListFactory, EntityManagerInterface $entityManager)
     {
         $this->contentListFactory = $contentListFactory;
-        $this->contentListRepository = $contentListRepository;
         $this->entityManager = $entityManager;
     }
 
@@ -32,6 +29,9 @@ final class ContentListContext extends AbstractContext implements Context
     {
         foreach ($table as $row => $columns) {
             $contentList = $this->contentListFactory->create();
+            if (isset($columns['filters'])) {
+                $columns['filters'] = json_decode($columns['filters'], true);
+            }
             $this->fillObject($contentList, $columns);
             $this->entityManager->persist($contentList);
         }

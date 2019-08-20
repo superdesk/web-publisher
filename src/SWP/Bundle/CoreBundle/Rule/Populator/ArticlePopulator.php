@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Rule\Populator;
 
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
@@ -57,18 +58,25 @@ final class ArticlePopulator implements ArticlePopulatorInterface
      */
     private $tenantContext;
 
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
     public function __construct(
         ArticleFactoryInterface $articleFactory,
         FactoryInterface $articleStatisticsFactory,
         EventDispatcherInterface $eventDispatcher,
         ArticleRepositoryInterface $articleRepository,
-        TenantContextInterface $tenantContext
+        TenantContextInterface $tenantContext,
+        EntityManagerInterface $entityManager
     ) {
         $this->articleFactory = $articleFactory;
         $this->articleStatisticsFactory = $articleStatisticsFactory;
         $this->eventDispatcher = $eventDispatcher;
         $this->articleRepository = $articleRepository;
         $this->tenantContext = $tenantContext;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -101,7 +109,7 @@ final class ArticlePopulator implements ArticlePopulatorInterface
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
             $this->articleRepository->flush();
             $this->eventDispatcher->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article, $package, ArticleEvents::POST_CREATE));
-            $this->articleRepository->flush();
+            $this->entityManager->flush($article);
         }
         $this->tenantContext->setTenant($originalTenant);
     }
