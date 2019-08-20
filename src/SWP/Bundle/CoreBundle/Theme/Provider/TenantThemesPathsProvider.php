@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 
 final class TenantThemesPathsProvider implements TenantThemesPathsProviderInterface
 {
@@ -29,7 +30,12 @@ final class TenantThemesPathsProvider implements TenantThemesPathsProviderInterf
 
     public function getTenantThemesPaths(array $paths): array
     {
-        $tenant = $this->tenantContext->getTenant();
+        try {
+            $tenant = $this->tenantContext->getTenant();
+        } catch (TenantNotFoundException $e) {
+            $tenant = null;
+        }
+
         if (null !== $tenant) {
             foreach ($paths as $key => $path) {
                 $paths[$key] = $path.DIRECTORY_SEPARATOR.$tenant->getCode();
