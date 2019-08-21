@@ -85,7 +85,6 @@ class AddArticleToListListener
 
         foreach ($contentLists as $contentList) {
             $filters = $contentList->getFilters();
-
             if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
                 $this->createAndAddItem($article, $contentList);
 

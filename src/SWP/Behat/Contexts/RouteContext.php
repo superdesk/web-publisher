@@ -9,7 +9,6 @@ use Behat\Gherkin\Node\TableNode;
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Service\RouteServiceInterface;
 
 final class RouteContext extends AbstractContext implements Context
@@ -18,19 +17,15 @@ final class RouteContext extends AbstractContext implements Context
 
     private $routeFactory;
 
-    private $routeRepository;
-
     private $routeService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         RouteFactoryInterface $routeFactory,
-        RouteRepositoryInterface $routeRepository,
         RouteServiceInterface $routeService
     ) {
         $this->entityManager = $entityManager;
         $this->routeFactory = $routeFactory;
-        $this->routeRepository = $routeRepository;
         $this->routeService = $routeService;
     }
 

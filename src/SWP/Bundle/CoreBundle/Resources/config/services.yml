@@ -532,6 +532,7 @@ services:
           - '@event_dispatcher'
           - '@swp.repository.article'
           - '@swp_multi_tenancy.tenant_context'
+          - '@doctrine.orm.default_entity_manager'
 
     SWP\Bundle\CoreBundle\Provider\ThemeSettingsProvider:
         arguments:
