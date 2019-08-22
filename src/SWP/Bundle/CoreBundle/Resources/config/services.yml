@@ -422,6 +422,7 @@ services:
           - '@swp.repository.content_list'
           - '@swp.repository.content_list_item'
           - '@swp.service.content_list'
+          - '@doctrine.orm.default_entity_manager'
 
     swp_core.listener.canceled_package:
         class: SWP\Bundle\CoreBundle\EventListener\CanceledPackageListener
@@ -682,6 +683,7 @@ services:
             - '@old_sound_rabbit_mq.image_conversion_producer'
             - '@swp_multi_tenancy.tenant_context'
             - '%env(bool:WEBP_CONVERSION_ENABLED)%'
+            - '@event_dispatcher'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
