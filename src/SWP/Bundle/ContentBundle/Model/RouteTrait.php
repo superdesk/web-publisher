@@ -102,7 +102,6 @@ trait RouteTrait
         $this->slug = $slug;
     }
 
-
     /**
      * @return string
      */
