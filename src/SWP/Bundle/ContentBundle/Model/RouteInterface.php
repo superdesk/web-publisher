@@ -133,6 +133,19 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      */
     public function setSlug(?string $slug): void;
 
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string;
+
+    /**
+     * Rewrite a route by setting its new description
+     *
+     * @param string|null $description
+     */
+    public function setDescription(?string $description): void;
+
     /**
      * @return int
      */

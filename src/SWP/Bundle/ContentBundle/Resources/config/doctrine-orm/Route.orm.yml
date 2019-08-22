@@ -27,6 +27,9 @@ SWP\Bundle\ContentBundle\Model\Route:
         slug:
             type: string
             nullable: true
+        description:
+            type: string
+            nullable: true
         position:
             type: integer
             gedmo:
