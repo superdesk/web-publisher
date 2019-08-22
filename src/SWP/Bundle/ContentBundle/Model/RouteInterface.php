@@ -133,7 +133,6 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      */
     public function setSlug(?string $slug): void;
 
-
     /**
      * @return string
      */
