@@ -100,16 +100,6 @@ class Article implements ArticleInterface
     protected $metadata = [];
 
     /**
-     * @var Collection
-     */
-    protected $media;
-
-    /**
-     * @var ArticleMediaInterface
-     */
-    protected $featureMedia;
-
-    /**
      * @var string
      */
     protected $lead;
