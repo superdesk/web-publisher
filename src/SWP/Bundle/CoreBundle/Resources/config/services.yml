@@ -422,7 +422,6 @@ services:
           - '@swp.repository.content_list'
           - '@swp.repository.content_list_item'
           - '@swp.service.content_list'
-          - '@doctrine.orm.default_entity_manager'
 
     swp_core.listener.canceled_package:
         class: SWP\Bundle\CoreBundle\EventListener\CanceledPackageListener
