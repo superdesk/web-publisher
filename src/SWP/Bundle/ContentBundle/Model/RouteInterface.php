@@ -139,7 +139,7 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
     public function getDescription(): ?string;
 
     /**
-     * Rewrite a route by setting its new description
+     * Rewrite a route by setting its new description.
      *
      * @param string|null $description
      */

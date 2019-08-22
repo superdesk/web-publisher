@@ -111,7 +111,7 @@ trait RouteTrait
     }
 
     /**
-     * Rewrite a route by setting its new description
+     * Rewrite a route by setting its new description.
      *
      * @param string|null $description
      */
