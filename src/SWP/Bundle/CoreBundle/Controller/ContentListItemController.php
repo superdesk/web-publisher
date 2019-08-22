@@ -83,7 +83,6 @@ class ContentListItemController extends AbstractController
     public function listAction(Request $request, int $id): ResourcesListResponseInterface
     {
         $repository = $this->get('swp.repository.content_list_item');
-
         $items = $repository->getPaginatedByCriteria(
             new Criteria([
                 'contentList' => $id,

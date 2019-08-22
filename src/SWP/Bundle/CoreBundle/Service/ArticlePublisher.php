@@ -167,6 +167,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             if ($destination->isPublished()) {
                 $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
             }
+
             $this->articleRepository->flush();
         }
         $this->tenantContext->setTenant($originalRequestTenant);
