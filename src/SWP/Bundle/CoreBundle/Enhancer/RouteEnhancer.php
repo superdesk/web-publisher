@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Enhancer;
 
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -78,7 +79,10 @@ class RouteEnhancer implements RouteEnhancerInterface
         if (!isset($this->enhancedRoutesDefaults[$defaultsKey])) {
             $route = $defaults[RouteObjectInterface::ROUTE_OBJECT];
 
-            $defaults['_controller'] = ContentController::class.'::renderPageAction';
+            if (!isset($defaults['_controller']) || (isset($defaults['_controller']) && sprintf('%s::urlRedirectAction', RedirectController::class) !== $defaults['_controller'])) {
+                $defaults['_controller'] = ContentController::class.'::renderPageAction';
+            }
+
             $defaults = $this->setArticleMeta($this->getContentFromDefaults($defaults), $defaults);
             $defaults = $this->setTemplateName($this->getContentFromDefaults($defaults), $defaults);
             $defaults = $this->setRouteMeta($defaults);
