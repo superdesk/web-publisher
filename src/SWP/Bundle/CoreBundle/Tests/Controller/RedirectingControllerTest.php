@@ -23,6 +23,10 @@ class RedirectingControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'article']);
         $client = static::createClient();
 
+        $client->request('GET', 'http://localhost/news/');
+        self::assertEquals(301, $client->getResponse()->getStatusCode());
+        self::assertEquals('http://localhost/news', $client->getResponse()->headers->get('Location'));
+
         $client->request('GET', '/redirecting/extra/articleNumber/10242');
         self::assertEquals(301, $client->getResponse()->getStatusCode());
         self::assertEquals('http://localhost/news/test-article', $client->getResponse()->headers->get('Location'));
