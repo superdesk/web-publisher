@@ -49,11 +49,6 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     protected $dm;
 
     /**
-     * @var string
-     */
-    protected $routeBasepaths;
-
-    /**
      * @var MetaFactoryInterface
      */
     protected $metaFactory;
