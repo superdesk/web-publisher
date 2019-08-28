@@ -2,7 +2,7 @@ parameters:
     swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
     swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver
     swp_multi_tenancy.tenant_context.class: SWP\Bundle\CoreBundle\Context\CachedTenantContext
-    themes.upload_dir: "%kernel.project_dir%"
+    themes.upload_dir: "%kernel.project_dir%/public/uploads"
 
 services:
     _defaults:
@@ -73,7 +73,7 @@ services:
         class: SWP\Bundle\CoreBundle\Theme\Uploader\OrganizationAwareThemeUploader
         arguments:
             - '@swp_multi_tenancy.tenant_context'
-            - '%themes.upload_dir%/web/uploads'
+            - '%themes.upload_dir%'
 
     swp_core.uploader.theme_logo:
         class: SWP\Bundle\CoreBundle\Theme\Uploader\ThemeLogoUploader
