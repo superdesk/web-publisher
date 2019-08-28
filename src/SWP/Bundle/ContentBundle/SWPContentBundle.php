@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle;
 
+use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\OverrideCmfFinalMatcherPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterArticleBodyProcessorPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterFileFactoryPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterImageRenditionFactoryPass;
@@ -56,5 +57,6 @@ class SWPContentBundle extends Bundle
         $container->addCompilerPass(new RegisterMediaFactoryPass());
         $container->addCompilerPass(new RegisterORMArticleFactoryPass());
         $container->addCompilerPass(new RegisterArticleBodyProcessorPass());
+        $container->addCompilerPass(new OverrideCmfFinalMatcherPass());
     }
 }
