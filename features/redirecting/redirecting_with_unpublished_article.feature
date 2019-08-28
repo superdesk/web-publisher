@@ -86,6 +86,13 @@ Feature: Reprocessing already send to publisher packages
     Then the response status code should be 301
     And the header "location" should contain "http://localhost/test/test-package"
 
+    Then I send a "GET" request to "http://localhost/test/test-package"
+    Then the response status code should be 200
+
+    Then I send a "GET" request to "http://localhost/test/test-package-wrong"
+    Then the response status code should be 301
+    And the header "location" should contain "http://localhost/test"
+
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "PATCH" request to "/api/v2/content/articles/1" with body:

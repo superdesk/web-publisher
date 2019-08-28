@@ -272,6 +272,11 @@ services:
             - { name: kernel.event_listener, event: swp.article.unpublish, method: unpublish }
             - { name: kernel.event_listener, event: swp.article.canceled, method: cancel }
 
+    SWP\Bundle\ContentBundle\EventListener\ArticleNotFoundListener:
+        autowire: true
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
+
     swp_content_bundle.listener.route_remove:
         class: SWP\Bundle\ContentBundle\EventListener\RouteRemoveListener
         arguments:
