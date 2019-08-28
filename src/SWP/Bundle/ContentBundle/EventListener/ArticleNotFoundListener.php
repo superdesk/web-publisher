@@ -27,17 +27,19 @@ final class ArticleNotFoundListener
 {
     private $router;
 
-    public function __construct(RouterInterface $router)
+    private $redirectNotFoundArticles;
+
+    public function __construct(RouterInterface $router, bool $redirectNotFoundArticles)
     {
         $this->router = $router;
+        $this->redirectNotFoundArticles = $redirectNotFoundArticles;
     }
 
     public function onKernelException(ExceptionEvent $event)
     {
         $exception = $event->getException();
         $request = $event->getRequest();
-
-        if (!$exception instanceof ArticleNotFoundException) {
+        if (!$this->redirectNotFoundArticles || !$exception instanceof ArticleNotFoundException) {
             return;
         }
 

@@ -5,6 +5,7 @@ parameters:
     swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
     swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
+    swp.redirecting.notfound.section: '%env(bool:REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE)%'
 
 services:
     _defaults:
@@ -273,7 +274,9 @@ services:
             - { name: kernel.event_listener, event: swp.article.canceled, method: cancel }
 
     SWP\Bundle\ContentBundle\EventListener\ArticleNotFoundListener:
-        autowire: true
+        arguments:
+            - '@router'
+            - '%swp.redirecting.notfound.section%'
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
 
