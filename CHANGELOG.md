@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 ### 2.0.0
+ * feature [#942] redirect not found article request to route page  - controlled by ENV variable, disabled by default
  * feature [#925] oAuth client implementation
  * BC BREAK [#834] Changed query params publishedBefore and publishedAfter to published_before and published_after in ES bundle
  * feature [#787] Added support for SEO metadata

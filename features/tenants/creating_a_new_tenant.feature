@@ -19,10 +19,18 @@ Feature: Adding a new tenant
       }
     """
     Then the response status code should be 201
+    And the JSON node "code" should exist
+    And we save it into "tenant_code"
     Given I am authenticated as "test.user"
     When I send a "GET" request to "api/v2/tenants/"
     Then the response status code should be 200
     And the JSON node "_embedded._items" should have "4" elements
+
+    Given I am authenticated as "test.user"
+    And I send a "GET" request to "api/v2/tenants/<<tenant_code>>"
+    Then the response status code should be 200
+    And the JSON node "id" should be equal to 4
+    And the JSON node "code" should be equal to "<<tenant_code>>"
 
   Scenario: Checking if domain/subdoman is handled by Publisher
     When I send a "GET" request to "http://testdoman.localhost"
