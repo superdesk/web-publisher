@@ -16,6 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Component\Common\Exception;
 
-class ArticleNotFoundException extends NotFoundHttpException
+class ArticleNotFoundException extends \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 {
 }
