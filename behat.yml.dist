@@ -3,6 +3,8 @@ default:
         error_reporting: 16383 # E_ALL & ~E_USER_DREPRECATED
     suites:
         default:
+            filters:
+                tags: ~@custom-env&&~@webp
             contexts:
                 - rdx\behatvars\BehatVariablesContext
                 - FeatureContext

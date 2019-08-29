@@ -1,5 +1,6 @@
 @organization_commands
 @disable-fixtures
+@custom-env
 Feature: Reprocessing already send to publisher packages
   In order to apply new rules or content modifications to already pushed to publisher packages
   As a console command
