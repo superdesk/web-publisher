@@ -178,15 +178,15 @@ class ContentPushConsumer implements ConsumerInterface
 
     protected function findExistingPackage(PackageInterface $package)
     {
-        $existingPackage = null;
         if (null === $package->getEvolvedFrom()) {
-            $existingPackage = $this->packageRepository->findOneBy([
-                'evolvedFrom' => $package->getGuid(),
-            ]);
+            $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getGuid()]);
+        } else {
+            $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getEvolvedFrom()]);
         }
 
         if (null === $existingPackage) {
-            $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getEvolvedFrom() ?? $package->getGuid()]);
+            // check for updated items (with evolved from)
+            $existingPackage = $this->packageRepository->findOneBy(['evolvedFrom' => $package->getGuid()]);
         }
 
         return $existingPackage;
