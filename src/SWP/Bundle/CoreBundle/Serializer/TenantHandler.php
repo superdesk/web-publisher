@@ -19,44 +19,41 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
-use JMS\Serializer\GraphNavigator;
-use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\Metadata\StaticPropertyMetadata;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContext;
 use SWP\Bundle\CoreBundle\Model\Tenant;
-use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Symfony\Component\Routing\RouterInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-final class TenantHandler implements SubscribingHandlerInterface, EventSubscriberInterface
+final class TenantHandler implements EventSubscriberInterface
 {
-    private $tenantRepository;
-
-    private $router;
-
     private $settingsManager;
 
-    public function __construct(TenantRepositoryInterface $tenantRepository, RouterInterface $router, SettingsManagerInterface $settingsManager)
-    {
-        $this->tenantRepository = $tenantRepository;
-        $this->router = $router;
-        $this->settingsManager = $settingsManager;
-    }
+    private $requestStack;
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribingMethods()
-    {
-        return array(
-            array(
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'format' => 'json',
-                'type' => TenantInterface::class,
-                'method' => 'serializeToJson',
-            ),
-        );
+    private $routeRepository;
+
+    private $contentListRepository;
+
+    private $tenantContext;
+
+    public function __construct(
+        SettingsManagerInterface $settingsManager,
+        RequestStack $requestStack,
+        RouteRepositoryInterface $routeRepository,
+        ContentListRepositoryInterface $contentListRepository,
+        TenantContextInterface $tenantContext
+    ) {
+        $this->settingsManager = $settingsManager;
+        $this->requestStack = $requestStack;
+        $this->routeRepository = $routeRepository;
+        $this->contentListRepository = $contentListRepository;
+        $this->tenantContext = $tenantContext;
     }
 
     public static function getSubscribedEvents(): array
@@ -73,35 +70,26 @@ final class TenantHandler implements SubscribingHandlerInterface, EventSubscribe
     public function onPostSerialize(ObjectEvent $event): void
     {
         $tenant = $event->getObject();
-        $event->getVisitor()->setData('fbia_enabled', $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
-        $event->getVisitor()->setData('paywall_enabled', $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
-    }
+        $originalTenant = $this->tenantContext->getTenant();
+        $this->tenantContext->setTenant($tenant);
 
-    public function serializeToJson(
-        JsonSerializationVisitor $visitor,
-        string $tenantCode
-    ) {
-        /** @var TenantInterface $tenant */
-        $tenant = $this->tenantRepository->findOneByCode($tenantCode);
+        /** @var JsonSerializationVisitor $visitor */
+        $visitor = $event->getVisitor();
+        $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
+        $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
 
-        if (null === $tenant) {
-            return;
+        $masterRequest = $this->requestStack->getMasterRequest();
+        if (null !== $masterRequest && (null !== $masterRequest->get('withRoutes') || null !== $masterRequest->get('withContentLists'))) {
+            if (null !== $masterRequest->get('withRoutes')) {
+                $routes = $this->routeRepository->getQueryByCriteria(new Criteria(), [], 'r')->getQuery()->getResult();
+                $visitor->visitProperty(new StaticPropertyMetadata('', 'routes', null), $routes);
+            }
+
+            if (null !== $masterRequest->get('withContentLists')) {
+                $contentLists = $this->contentListRepository->getQueryByCriteria(new Criteria(), [], 'cl')->getQuery()->getResult();
+                $visitor->visitProperty(new StaticPropertyMetadata('', 'content_lists', null), $contentLists);
+            }
         }
-
-        return [
-            'id' => $tenant->getId(),
-            'subdomain' => $tenant->getSubdomain(),
-            'domain_name' => $tenant->getDomainName(),
-            'code' => $tenantCode,
-            'name' => $tenant->getName(),
-            'amp_enabled' => $tenant->isAmpEnabled(),
-            'fbia_enabled' => $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false),
-            'paywall_enabled' => $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false),
-            '_links' => [
-                'self' => [
-                    'href' => $this->router->generate('swp_api_core_get_tenant', ['code' => $tenantCode]),
-                ],
-            ],
-       ];
+        $this->tenantContext->setTenant($originalTenant);
     }
 }
