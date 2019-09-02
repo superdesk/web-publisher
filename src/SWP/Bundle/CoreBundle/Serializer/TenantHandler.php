@@ -19,18 +19,23 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use JMS\Serializer\GraphNavigatorInterface;
+use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
+use JMS\Serializer\Context;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContext;
 use SWP\Bundle\CoreBundle\Model\Tenant;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class TenantHandler implements EventSubscriberInterface
+final class TenantHandler implements EventSubscriberInterface, SubscribingHandlerInterface
 {
     private $settingsManager;
 
@@ -42,18 +47,22 @@ final class TenantHandler implements EventSubscriberInterface
 
     private $tenantContext;
 
+    private $tenantRepository;
+
     public function __construct(
         SettingsManagerInterface $settingsManager,
         RequestStack $requestStack,
         RouteRepositoryInterface $routeRepository,
         ContentListRepositoryInterface $contentListRepository,
-        TenantContextInterface $tenantContext
+        TenantContextInterface $tenantContext,
+        TenantRepositoryInterface $tenantRepository
     ) {
         $this->settingsManager = $settingsManager;
         $this->requestStack = $requestStack;
         $this->routeRepository = $routeRepository;
         $this->contentListRepository = $contentListRepository;
         $this->tenantContext = $tenantContext;
+        $this->tenantRepository = $tenantRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -63,6 +72,18 @@ final class TenantHandler implements EventSubscriberInterface
                 'event' => Events::POST_SERIALIZE,
                 'class' => Tenant::class,
                 'method' => 'onPostSerialize',
+            ],
+        ];
+    }
+
+    public static function getSubscribingMethods()
+    {
+        return [
+            [
+                'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
+                'format' => 'json',
+                'type' => TenantInterface::class,
+                'method' => 'serializeToJson',
             ],
         ];
     }
@@ -91,5 +112,23 @@ final class TenantHandler implements EventSubscriberInterface
             }
         }
         $this->tenantContext->setTenant($originalTenant);
+    }
+
+    public function serializeToJson(
+        JsonSerializationVisitor $visitor,
+        string $tenantCode,
+        array $type,
+        Context $context
+    ) {
+        /** @var TenantInterface $tenant */
+        $tenant = $this->tenantRepository->findOneByCode($tenantCode);
+        if (null === $tenant) {
+            return;
+        }
+
+        $data = $context->getNavigator()->accept($tenant);
+        unset($data['articles_count'], $data['created_at'], $data['enabled'], $data['organization'],$data['theme_name'], $data['updated_at']);
+
+        return $data;
     }
 }

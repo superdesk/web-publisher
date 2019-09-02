@@ -61,8 +61,10 @@ class TenantController extends FOSRestController
     {
         $tenants = $this->getTenantRepository()
             ->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
+        $responseContext = new ResponseContext();
+        $responseContext->setSerializationGroups(['Default', 'api', 'details_api']);
 
-        return new ResourcesListResponse($tenants);
+        return new ResourcesListResponse($tenants, $responseContext);
     }
 
     /**

@@ -22,7 +22,8 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\ResponseContextInterface;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 final class ResourceResponseListener
 {
@@ -33,7 +34,7 @@ final class ResourceResponseListener
         $this->viewHandler = $viewHandler;
     }
 
-    public function onKernelView(GetResponseForControllerResultEvent $event)
+    public function onKernelView(ViewEvent $event)
     {
         $controllerResult = $event->getControllerResult();
         if (null === $controllerResult) {
@@ -48,7 +49,7 @@ final class ResourceResponseListener
                 $representation = $factory->createRepresentation($controllerResult->getResources(), $event->getRequest());
 
                 $view = View::create($representation, $responseContext->getStatusCode());
-                $view = $this->setSerializationGroups($view);
+                $view = $this->setSerializationGroups($view, $responseContext->getSerializationGroups());
                 $event->setResponse($this->viewHandler->handle(
                     $view
                 ));
@@ -56,7 +57,7 @@ final class ResourceResponseListener
         } elseif ($controllerResult instanceof SingleResourceResponseInterface) {
             if (ResponseContextInterface::INTENTION_API === $responseContext->getIntention()) {
                 $view = View::create($controllerResult->getResource(), $responseContext->getStatusCode());
-                $view = $this->setSerializationGroups($view);
+                $view = $this->setSerializationGroups($view, $responseContext->getSerializationGroups());
 
                 $event->setResponse($this->viewHandler->handle(
                     $view
@@ -68,7 +69,7 @@ final class ResourceResponseListener
         $this->clearCookies($event, $responseContext);
     }
 
-    private function setHeaders(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
+    private function setHeaders(RequestEvent $event, ResponseContext $responseContext)
     {
         if (count($responseContext->getHeaders()) > 0) {
             $response = $event->getResponse();
@@ -80,7 +81,7 @@ final class ResourceResponseListener
         }
     }
 
-    private function clearCookies(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
+    private function clearCookies(RequestEvent $event, ResponseContext $responseContext)
     {
         if (count($responseContext->getClearedCookies()) > 0) {
             $response = $event->getResponse();
@@ -92,10 +93,10 @@ final class ResourceResponseListener
         }
     }
 
-    private function setSerializationGroups(View $view): View
+    private function setSerializationGroups(View $view, array $serializationGroups): View
     {
         $context = new Context();
-        $context->setGroups(['Default', 'api']);
+        $context->setGroups($serializationGroups);
         $view->setContext($context);
 
         return $view;

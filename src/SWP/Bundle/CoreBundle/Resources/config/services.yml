@@ -362,6 +362,7 @@ services:
     SWP\Bundle\CoreBundle\Serializer\TenantHandler:
         autowire: true
         tags:
+            - { name: jms_serializer.subscribing_handler }
             - { name: jms_serializer.event_subscriber }
 
     swp_core.jms_theme_handler:
