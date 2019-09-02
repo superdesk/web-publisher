@@ -168,7 +168,6 @@ class Theme extends BaseTheme implements ThemeInterface
     {
         return serialize([
             $this->config,
-            $this->logo,
             $this->generatedData,
             $this->settings,
             $this->name,
@@ -189,7 +188,6 @@ class Theme extends BaseTheme implements ThemeInterface
     {
         [
             $this->config,
-            $this->logo,
             $this->generatedData,
             $this->settings,
             $this->name,
