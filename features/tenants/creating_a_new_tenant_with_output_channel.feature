@@ -21,7 +21,7 @@ Feature: Adding a new tenant with output channel
           }
       }
     """
-#    Then the response status code should be 201
+    Then the response status code should be 201
     And the JSON node "output_channel.type" should be equal to "wordpress"
     And the JSON node "output_channel.config.url" should be equal to "http://api.wordpress.com"
     And the JSON node "output_channel.config.authorizationKey" should be equal to "private key"

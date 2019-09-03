@@ -360,10 +360,7 @@ services:
             - { name: kernel.event_subscriber }
 
     SWP\Bundle\CoreBundle\Serializer\TenantHandler:
-        arguments:
-          - '@swp.repository.tenant'
-          - '@router.default'
-          - '@swp_settings.manager.settings'
+        autowire: true
         tags:
             - { name: jms_serializer.subscribing_handler }
             - { name: jms_serializer.event_subscriber }
