@@ -22,7 +22,7 @@ use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 class ResourceResponseListenerTest extends TestCase
 {
@@ -44,7 +44,7 @@ class ResourceResponseListenerTest extends TestCase
         $listener = new ResourceResponseListener($viewHandler);
 
         $resourcesListResponse = new ResourcesListResponse(new SlidingPagination([]));
-        $event = $this->createMock(GetResponseForControllerResultEvent::class);
+        $event = $this->createMock(ViewEvent::class);
         $event
             ->expects($this->once())
             ->method('getControllerResult')
@@ -57,7 +57,7 @@ class ResourceResponseListenerTest extends TestCase
         $listener->onKernelView($event);
 
         $singleResponse = new SingleResourceResponse([1, 2, 3]);
-        $event = $this->createMock(GetResponseForControllerResultEvent::class);
+        $event = $this->createMock(ViewEvent::class);
         $event
             ->expects($this->once())
             ->method('getControllerResult')
