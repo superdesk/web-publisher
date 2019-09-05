@@ -14,7 +14,7 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
 
 ## Requirements
 
-See [requirements](REQUIREMENTS.md) for more general details. And [composer.json](composer.json) for always up to date libraries and extensions requirements.
+See [requirements](REQUIREMENTS.md) for general informations. And [composer.json](composer.json) for always up to date libraries and extensions requirements.
 
 ## Installation
 
