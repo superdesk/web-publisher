@@ -5,6 +5,7 @@ services:
         public: false
         bind:
             $migrationContentPushProducer: '@old_sound_rabbit_mq.migration_content_push_producer'
+            $filesystem: '@oneup_flysystem.swp_filesystem_filesystem'
 
     SWP\Component\MultiTenancy\Context\TenantContextInterface: '@swp_multi_tenancy.tenant_context'
     SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository: '@swp.repository.package'
