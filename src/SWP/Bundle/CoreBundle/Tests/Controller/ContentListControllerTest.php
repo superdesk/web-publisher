@@ -260,7 +260,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
     }
 
-    public function testEmbedingFirstCOntentListItemsInCOntentList()
+    public function testEmbedingFirstContentListItemsInContentList()
     {
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',

@@ -22,6 +22,7 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\Common\Criteria\Criteria;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ContentListItemRepository extends BaseRepository implements ContentListItemRepositoryInterface
 {
@@ -48,6 +49,38 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
             ])
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getItemsTitlesByList(ContentListInterface $list): array
+    {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT 
+                cl
+            from 
+                SWP\Bundle\CoreBundle\Model\ContentListItem cl
+            LEFT JOIN
+                SWP\Bundle\CoreBundle\Model\ContentList l 
+            WITH 
+                l.id = cl.contentList
+            LEFT JOIN 
+                SWP\Bundle\CoreBundle\Model\Article c
+            WITH
+                c.id = cl.content
+            WHERE
+                l.id = :list 
+            AND
+                c.status = :status
+        ")
+            ->setParameters([
+                'list' => $list->getId(),
+                'status' => ArticleInterface::STATUS_PUBLISHED,
+            ]);
+
+        $query->setMaxResults(5);
+        $query->setFirstResult(0);
+        $results = new Paginator($query, $fetchJoin = true);
+
+        return $results->getIterator()->getArrayCopy();
     }
 
     public function findItemsByArticle(ArticleInterface $article): array

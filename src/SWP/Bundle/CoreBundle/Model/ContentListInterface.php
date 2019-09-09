@@ -22,7 +22,4 @@ use SWP\Component\ContentList\Model\ContentListInterface as BaseContentListInter
 
 interface ContentListInterface extends BaseContentListInterface, TenantAwareInterface, TimestampableCancelInterface
 {
-    public function getItems(): array;
-
-    public function setItems(array $items): void;
 }
