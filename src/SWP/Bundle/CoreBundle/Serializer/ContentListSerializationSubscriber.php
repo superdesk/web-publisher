@@ -18,9 +18,11 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ContentList;
-use SWP\Component\Common\Criteria\Criteria;
+use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 
@@ -41,6 +43,11 @@ final class ContentListSerializationSubscriber implements EventSubscriberInterfa
                 'class' => ContentList::class,
                 'method' => 'onPreSerialize',
             ],
+            [
+                'event' => 'serializer.post_serialize',
+                'class' => ContentList::class,
+                'method' => 'onPostSerialize',
+            ],
         ];
     }
 
@@ -53,10 +60,30 @@ final class ContentListSerializationSubscriber implements EventSubscriberInterfa
         }
 
         $object->setFilters(ContentListType::transformArrayKeys($object->getFilters(), 'snake'));
+    }
 
-        $items = $this->contentListItemRepository->getQueryByCriteria(new Criteria([
-            'contentList' => $object,
-        ]), ['createdAt' => 'desc'], 'n')->setMaxResults(5)->getQuery()->getResult();
-        $object->setItems($items);
+    public function onPostSerialize(ObjectEvent $event): void
+    {
+        $object = $event->getObject();
+        /** @var JsonSerializationVisitor $visitor */
+        $visitor = $event->getVisitor();
+        if (!$object instanceof ContentListInterface) {
+            return;
+        }
+
+        $data = [];
+        $items = $this->contentListItemRepository->getItemsTitlesByList($object);
+
+        /** @var ContentListItemInterface $item */
+        foreach ($items as $item) {
+            $data[] = [
+                'content' => [
+                    'id' => $item->getContent()->getId(),
+                    'title' => $item->getContent()->getTitle(),
+                ],
+            ];
+        }
+
+        $visitor->visitProperty(new StaticPropertyMetadata('', 'latest_items', null), $data);
     }
 }

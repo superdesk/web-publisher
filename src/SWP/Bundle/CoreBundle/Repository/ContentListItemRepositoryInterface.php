@@ -29,5 +29,7 @@ interface ContentListItemRepositoryInterface extends BaseInterface
         string $type = ContentListInterface::TYPE_BUCKET
     ): ?ContentListItemInterface;
 
+    public function getItemsTitlesByList(ContentListInterface $list): array;
+
     public function findItemsByArticle(ArticleInterface $article): array;
 }
