@@ -50,11 +50,10 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             return;
         }
 
-        $groups->filter(static function ($group) {
+        $groups = $groups->filter(static function ($group) {
             /* @var GroupInterface $group */
             return GroupInterface::TYPE_RELATED !== $group->getType();
         });
-
         if (null === $package || (null !== $package && 0 === count($groups))) {
             return;
         }
