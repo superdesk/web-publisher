@@ -34,16 +34,9 @@ final class AssignSeoMetadataListener
         $package = $event->getPackage();
 
         $seoMetadata = $this->seoMetadataRepository->findOneBy(['packageGuid' => $package->getGuid()]);
-
         if (null === $seoMetadata) {
             return;
         }
-
-        $article->setSeoMetadata(null);
-
-        $newSeoMetadata = clone $seoMetadata;
-        $newSeoMetadata->setPackageGuid(null);
-        $newSeoMetadata->setId(null);
 
         $article->setSeoMetadata($seoMetadata);
     }
