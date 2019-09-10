@@ -724,6 +724,13 @@ services:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: setPublishDate }
             - { name: kernel.event_listener, event: swp.article.pre_update, method: setPublishDate }
 
+    SWP\Bundle\CoreBundle\EventListener\AssignSeoMetadataListener:
+        arguments:
+            - '@swp.repository.seo_metadata'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: assignSeoMetadata }
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: assignSeoMetadata }
+
     SWP\Bundle\CoreBundle\EventListener\OverrideArticleSlugListener:
         arguments:
             - '@swp_settings.manager.settings'
