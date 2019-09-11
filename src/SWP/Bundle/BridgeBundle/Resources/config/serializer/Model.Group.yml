@@ -5,11 +5,11 @@ SWP\Component\Bridge\Model\Group:
             expose: true
             type: string
             serialized_name: id
-            groups: [api]
+            groups: [api, api_groups_list]
         type:
             expose: true
             type: string
-            groups: [api]
+            groups: [api, api_groups_list]
         items:
             expose: true
             type: ArrayCollection<SWP\Component\Bridge\Model\Item>
