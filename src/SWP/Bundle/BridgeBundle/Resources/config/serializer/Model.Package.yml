@@ -33,4 +33,4 @@ SWP\Component\Bridge\Model\Package:
         getGroupsArray:
             serialized_name: extra_items
             type: array
-            groups: [api]
+            groups: [api, api_packages_items_list]

@@ -172,6 +172,7 @@ class PackageSearchController extends Controller
             [
                 'Default',
                 'api_packages_list',
+                'api_packages_items_list',
                 'api_tenant_list',
                 'api_articles_list',
                 'api_articles_statistics_list',
