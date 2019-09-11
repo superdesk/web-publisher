@@ -11,7 +11,7 @@ SWP\Bundle\CoreBundle\Model\Article:
             type: SWP\Bundle\CoreBundle\Model\TenantInterface
         articleStatistics:
             expose: true
-            groups: [api, api_articles_statistics]
+            groups: [api, api_articles_statistics_list]
         externalArticle:
             expose: true
             groups: [api]

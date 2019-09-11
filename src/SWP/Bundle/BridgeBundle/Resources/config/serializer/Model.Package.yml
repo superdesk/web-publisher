@@ -10,7 +10,7 @@ SWP\Component\Bridge\Model\Package:
             expose: true
             serialized_name: body_html
             type: string
-            groups: [api]
+            groups: [api, api_packages_list]
         createdAt:
             expose: true
             type: DateTime
