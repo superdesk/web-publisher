@@ -14,11 +14,11 @@ SWP\Component\Bridge\Model\Package:
         createdAt:
             expose: true
             type: DateTime
-            groups: [api]
+            groups: [api, api_packages_list]
         updatedAt:
             expose: true
             type: DateTime
-            groups: [api]
+            groups: [api, api_packages_list]
         groups:
             expose: true
             serialized_name: extra_items

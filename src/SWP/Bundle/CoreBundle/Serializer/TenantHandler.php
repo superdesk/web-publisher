@@ -49,6 +49,8 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
     private $tenantRepository;
 
+    private $cachedTenants = [];
+
     public function __construct(
         SettingsManagerInterface $settingsManager,
         RequestStack $requestStack,
@@ -120,8 +122,14 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         array $type,
         Context $context
     ) {
-        /** @var TenantInterface $tenant */
-        $tenant = $this->tenantRepository->findOneByCode($tenantCode);
+        if (array_key_exists($tenantCode, $this->cachedTenants)) {
+            $tenant = $this->cachedTenants[$tenantCode];
+        } else {
+            /** @var TenantInterface $tenant */
+            $tenant = $this->tenantRepository->findOneByCode($tenantCode);
+            $this->cachedTenants[$tenantCode] = $tenant;
+        }
+
         if (null === $tenant) {
             return;
         }

@@ -50,6 +50,7 @@ final class ResourceResponseListener
 
                 $view = View::create($representation, $responseContext->getStatusCode());
                 $view = $this->setSerializationGroups($view, $responseContext->getSerializationGroups());
+
                 $event->setResponse($this->viewHandler->handle(
                     $view
                 ));

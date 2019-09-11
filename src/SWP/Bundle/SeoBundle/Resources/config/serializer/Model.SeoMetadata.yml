@@ -3,25 +3,25 @@ SWP\Component\Seo\Model\SeoMetadata:
   properties:
     metaTitle:
       expose: true
-      groups: [api]
+      groups: [api, api_seo_metadata]
       type: string
     metaDescription:
       expose: true
-      groups: [api]
+      groups: [api, api_seo_metadata]
       type: string
     ogTitle:
       expose: true
-      groups: [api]
+      groups: [api, api_seo_metadata]
       type: string
     ogDescription:
       expose: true
-      groups: [api]
+      groups: [api, api_seo_metadata]
       type: string
     twitterTitle:
       expose: true
-      groups: [api]
+      groups: [api, api_seo_metadata]
       type: string
     twitterDescription:
       expose: true
-      groups: [api]
+      groups: [api, api_seo_metadata]
       type: string

@@ -4,15 +4,15 @@ SWP\Component\Bridge\Model\BaseContent:
         id:
             expose: true
             type: integer
-            groups: [api]
+            groups: [api, api_packages_list]
         guid:
             expose: true
             type: string
-            groups: [api]
+            groups: [api, api_packages_list]
         headline:
             expose: true
             type: string
-            groups: [api]
+            groups: [api, api_packages_list]
         byline:
             expose: true
             type: string
@@ -20,21 +20,21 @@ SWP\Component\Bridge\Model\BaseContent:
         slugline:
             expose: true
             type: string
-            groups: [api]
+            groups: [api, api_packages_list]
         createdAt:
             expose: true
             serialized_name: versioncreated
             type: DateTime<'Y-m-d\TH:i:sO'>
-            groups: [api]
+            groups: [api, api_packages_list]
         firstPublishedAt:
             expose: true
             serialized_name: firstpublished
             type: DateTime<'Y-m-d\TH:i:sO'>
-            groups: [api]
+            groups: [api, api_packages_list]
         language:
             expose: true
             type: string
-            groups: [api]
+            groups: [api, api_packages_list]
         subjects:
             expose: true
             serialized_name: subject
@@ -43,7 +43,7 @@ SWP\Component\Bridge\Model\BaseContent:
         type:
             expose: true
             type: string
-            groups: [api]
+            groups: [api, api_packages_list]
         places:
             expose: true
             serialized_name: place
@@ -97,7 +97,7 @@ SWP\Component\Bridge\Model\BaseContent:
             expose: true
             type: string
             serialized_name: evolvedfrom
-            groups: [api]
+            groups: [api, api_packages_list]
         source:
             expose: true
             type: string
@@ -105,7 +105,7 @@ SWP\Component\Bridge\Model\BaseContent:
         authors:
             expose: true
             type: ArrayCollection<SWP\Bundle\ContentBundle\Model\ArticleAuthor>
-            groups: [api]
+            groups: [api, api_packages_list]
         extra:
             expose: true
             type: array

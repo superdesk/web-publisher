@@ -3,11 +3,11 @@ SWP\Component\MultiTenancy\Model\Tenant:
     properties:
         id:
             expose: true
-            groups: [api]
+            groups: [api, api_tenant_list]
             type: integer
         name:
             expose: true
-            groups: [api]
+            groups: [api, api_tenant_list]
             type: string
         enabled:
             expose: true
@@ -15,15 +15,15 @@ SWP\Component\MultiTenancy\Model\Tenant:
             type: boolean
         subdomain:
             expose: true
-            groups: [api]
+            groups: [api, api_tenant_list]
             type: string
         domainName:
             expose: true
-            groups: [api]
+            groups: [api, api_tenant_list]
             type: string
         code:
             expose: true
-            groups: [api]
+            groups: [api, api_tenant_list]
             type: string
         createdAt:
             expose: true

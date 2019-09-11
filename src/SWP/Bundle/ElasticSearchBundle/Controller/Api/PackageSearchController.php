@@ -23,6 +23,7 @@ use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResponseContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -166,6 +167,17 @@ class PackageSearchController extends Controller
             $criteria->getPagination()->getItemsPerPage()
         );
 
-        return new ResourcesListResponse($pagination);
+        $responseContext = new ResponseContext();
+        $responseContext->setSerializationGroups(
+            [
+                'Default',
+                'api_packages_list',
+                'api_tenant_list',
+                'api_articles_list',
+                'api_articles_statistics',
+            ]
+        );
+
+        return new ResourcesListResponse($pagination, $responseContext);
     }
 }
