@@ -13,4 +13,4 @@ SWP\Component\Bridge\Model\Group:
         items:
             expose: true
             type: ArrayCollection<SWP\Component\Bridge\Model\Item>
-            groups: [api]
+            groups: [api, api_groups_list]
