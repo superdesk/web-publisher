@@ -110,7 +110,7 @@ class ContentPushConsumer implements ConsumerInterface
 
             return $result;
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
-            $this->logger->error($e->getMessage() ?? 'Unhandled NonUnique or NotNullConstraint exception', ['trace' => $e->getTraceAsString()]);
+            $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : 'Unhandled NonUnique or NotNullConstraint exception', ['trace' => $e->getTraceAsString()]);
 
             return ConsumerInterface::MSG_REJECT;
         } catch (DBALException | ORMException $e) {
@@ -118,7 +118,7 @@ class ContentPushConsumer implements ConsumerInterface
 
             throw $e;
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage() ?? 'Unhandled exception', ['trace' => $e->getTraceAsString()]);
+            $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : 'Unhandled exception', ['trace' => $e->getTraceAsString()]);
             $lock->release();
 
             return ConsumerInterface::MSG_REJECT;

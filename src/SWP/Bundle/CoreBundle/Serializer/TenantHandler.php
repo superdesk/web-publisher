@@ -24,6 +24,9 @@ use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\Context;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContext;
 use SWP\Bundle\CoreBundle\Model\Tenant;
@@ -50,6 +53,10 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
     private $tenantRepository;
 
     private $cachedTenants = [];
+    /**
+     * @var Serializer
+     */
+    private $serializer;
 
     public function __construct(
         SettingsManagerInterface $settingsManager,
@@ -57,7 +64,8 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         RouteRepositoryInterface $routeRepository,
         ContentListRepositoryInterface $contentListRepository,
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository
+        TenantRepositoryInterface $tenantRepository,
+        SerializerInterface $serializer
     ) {
         $this->settingsManager = $settingsManager;
         $this->requestStack = $requestStack;
@@ -65,6 +73,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         $this->contentListRepository = $contentListRepository;
         $this->tenantContext = $tenantContext;
         $this->tenantRepository = $tenantRepository;
+        $this->serializer = $serializer;
     }
 
     public static function getSubscribedEvents(): array
@@ -104,12 +113,14 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         $masterRequest = $this->requestStack->getMasterRequest();
         if (null !== $masterRequest && (null !== $masterRequest->get('withRoutes') || null !== $masterRequest->get('withContentLists'))) {
             if (null !== $masterRequest->get('withRoutes')) {
-                $routes = $this->routeRepository->getQueryByCriteria(new Criteria(), [], 'r')->getQuery()->getResult();
-                $visitor->visitProperty(new StaticPropertyMetadata('', 'routes', null), $routes);
+                $routes = $this->routeRepository->getQueryByCriteria(new Criteria(['maxResults' => 9999]), [], 'r')->getQuery()->getResult();
+                $routesArray = $this->serializer->toArray($routes, SerializationContext::create()->setGroups(['Default', 'api_routes_list']));
+
+                $visitor->visitProperty(new StaticPropertyMetadata('', 'routes', null, ['api_routes_list']), $routesArray);
             }
 
             if (null !== $masterRequest->get('withContentLists')) {
-                $contentLists = $this->contentListRepository->getQueryByCriteria(new Criteria(), [], 'cl')->getQuery()->getResult();
+                $contentLists = $this->contentListRepository->getQueryByCriteria(new Criteria(['maxResults' => 9999]), [], 'cl')->getQuery()->getResult();
                 $visitor->visitProperty(new StaticPropertyMetadata('', 'content_lists', null), $contentLists);
             }
         }
