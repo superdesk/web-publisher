@@ -25,7 +25,6 @@ use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\Context;
 use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContext;
@@ -53,9 +52,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
     private $tenantRepository;
 
     private $cachedTenants = [];
-    /**
-     * @var Serializer
-     */
+
     private $serializer;
 
     public function __construct(

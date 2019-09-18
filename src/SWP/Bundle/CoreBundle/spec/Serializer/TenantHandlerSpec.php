@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace spec\SWP\Bundle\CoreBundle\Serializer;
 
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
+use JMS\Serializer\SerializerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
@@ -34,10 +35,11 @@ final class TenantHandlerSpec extends ObjectBehavior
         RouteRepositoryInterface $routeRepository,
         ContentListRepositoryInterface $contentListRepository,
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository)
-    {
+        TenantRepositoryInterface $tenantRepository,
+        SerializerInterface $serializer
+    ) {
         $settingsManager->get(Argument::cetera())->willReturn(false);
-        $this->beConstructedWith($settingsManager, $requestStack, $routeRepository, $contentListRepository, $tenantContext, $tenantRepository);
+        $this->beConstructedWith($settingsManager, $requestStack, $routeRepository, $contentListRepository, $tenantContext, $tenantRepository, $serializer);
     }
 
     public function it_is_initializable()
