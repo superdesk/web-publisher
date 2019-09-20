@@ -378,6 +378,7 @@ services:
           - '@swp_multi_tenancy.tenant_context'
           - '@swp.repository.tenant'
           - '@doctrine'
+          - '@event_dispatcher'
         tags:
             - { name: jms_serializer.event_subscriber }
 
