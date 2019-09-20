@@ -173,7 +173,8 @@ class PackageSearchController extends Controller
                 'api_tenant_list',
                 'api_articles_list',
                 'api_articles_statistics_list',
-                'article_media_list',
+                'api_article_media_list',
+                'api_image_details',
                 'api_groups_list',
                 'api_routes_list',
             ]
