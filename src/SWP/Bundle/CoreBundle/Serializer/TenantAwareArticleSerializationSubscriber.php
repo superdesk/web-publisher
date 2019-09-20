@@ -21,16 +21,13 @@ use JMS\Serializer\EventDispatcher\ObjectEvent;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class TenantAwareArticleSerializationSubscriber implements EventSubscriberInterface
 {
     private $tenantContext;
-
-    private $tenantRepository;
 
     private $originalTenant;
 
@@ -40,18 +37,18 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
 
     private $isTenantableEnabled = true;
 
-    private $internalTenantCache = [];
+    private $tenantProvider;
 
     public function __construct(
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository,
+        TenantProviderInterface $tenantProvider,
         RegistryInterface $doctrine,
         EventDispatcherInterface $dispatcher
     ) {
         $this->tenantContext = $tenantContext;
-        $this->tenantRepository = $tenantRepository;
         $this->doctrine = $doctrine;
         $this->dispatcher = $dispatcher;
+        $this->tenantProvider = $tenantProvider;
     }
 
     public static function getSubscribedEvents(): array
@@ -76,7 +73,7 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
         $data = $event->getObject();
         if ($this->tenantContext->getTenant()->getCode() !== $data->getTenantCode()) {
             $this->originalTenant = $this->tenantContext->getTenant();
-            $tenant = $this->getTenant($data->getTenantCode());
+            $tenant = $this->tenantProvider->findOneByCode($data->getTenantCode());
             if (null !== $tenant) {
                 $this->tenantContext->setTenant($tenant);
             }
@@ -92,17 +89,5 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
         if (!$this->isTenantableEnabled) {
             $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         }
-    }
-
-    private function getTenant(string $tenantCode): ?TenantInterface
-    {
-        if (isset($this->internalTenantCache[$tenantCode])) {
-            return $this->internalTenantCache[$tenantCode];
-        }
-
-        $tenant = $this->tenantRepository->findOneByCode($tenantCode);
-        $this->internalTenantCache[$tenantCode] = $tenant;
-
-        return $tenant;
     }
 }

@@ -34,7 +34,7 @@ use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class TenantHandler implements EventSubscriberInterface, SubscribingHandlerInterface
@@ -49,11 +49,11 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
     private $tenantContext;
 
-    private $tenantRepository;
-
     private $cachedTenants = [];
 
     private $serializer;
+
+    private $tenantProvider;
 
     public function __construct(
         SettingsManagerInterface $settingsManager,
@@ -61,7 +61,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         RouteRepositoryInterface $routeRepository,
         ContentListRepositoryInterface $contentListRepository,
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository,
+        TenantProviderInterface $tenantProvider,
         SerializerInterface $serializer
     ) {
         $this->settingsManager = $settingsManager;
@@ -69,8 +69,8 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         $this->routeRepository = $routeRepository;
         $this->contentListRepository = $contentListRepository;
         $this->tenantContext = $tenantContext;
-        $this->tenantRepository = $tenantRepository;
         $this->serializer = $serializer;
+        $this->tenantProvider = $tenantProvider;
     }
 
     public static function getSubscribedEvents(): array
@@ -130,14 +130,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         array $type,
         Context $context
     ) {
-        if (array_key_exists($tenantCode, $this->cachedTenants)) {
-            $tenant = $this->cachedTenants[$tenantCode];
-        } else {
-            /** @var TenantInterface $tenant */
-            $tenant = $this->tenantRepository->findOneByCode($tenantCode);
-            $this->cachedTenants[$tenantCode] = $tenant;
-        }
-
+        $tenant = $this->tenantProvider->findOneByCode($tenantCode);
         if (null === $tenant) {
             return;
         }

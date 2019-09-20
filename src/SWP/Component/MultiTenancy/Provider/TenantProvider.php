@@ -14,31 +14,35 @@
 
 namespace SWP\Component\MultiTenancy\Provider;
 
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 class TenantProvider implements TenantProviderInterface
 {
-    /**
-     * @var TenantRepositoryInterface
-     */
     private $tenantRepository;
 
-    /**
-     * Construct.
-     *
-     * @param TenantRepositoryInterface $tenantRepository Tenant repository
-     */
+    private $internalCache = [];
+
     public function __construct(TenantRepositoryInterface $tenantRepository)
     {
         $this->tenantRepository = $tenantRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAvailableTenants()
+    public function getAvailableTenants(): array
     {
         return $this->tenantRepository
             ->findAvailableTenants();
+    }
+
+    public function findOneByCode(string $tenantCode): ?TenantInterface
+    {
+        if (isset($this->internalCache[$tenantCode])) {
+            $this->internalCache[$tenantCode];
+        }
+
+        $tenant = $this->tenantRepository->findOneByCode($tenantCode);
+        $this->internalCache[$tenantCode] = $tenant;
+
+        return $tenant;
     }
 }
