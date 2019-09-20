@@ -37,7 +37,7 @@ class TenantProvider implements TenantProviderInterface
     public function findOneByCode(string $tenantCode): ?TenantInterface
     {
         if (isset($this->internalCache[$tenantCode])) {
-            $this->internalCache[$tenantCode];
+            return $this->internalCache[$tenantCode];
         }
 
         $tenant = $this->tenantRepository->findOneByCode($tenantCode);

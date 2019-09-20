@@ -5,7 +5,7 @@ Feature: Add article to manual content list when published
   As a HTTP Client
   I want to be able to publish article and see it in content lists
 
-  Scenario: Push new article and add it to automatic content lists
+  Scenario: Push new article and add it to manual content lists
     Given the following Tenants:
       | organization | name | subdomain | domain_name | enabled | default | code   |
       | Default      | test |           | localhost   | true    | true    | 123abc |
