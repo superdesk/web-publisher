@@ -20,7 +20,6 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
-use SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
@@ -155,13 +154,11 @@ class PackageSearchController extends Controller
             ]
         );
 
-        $repositoryManager = $this->get('fos_elastica.manager');
-        /** @var PackageRepository $repository */
-        $repository = $repositoryManager->getRepository($this->getParameter('swp.model.package.class'));
-        $result = $repository->findByCriteria($criteria);
-        $paginator = $this->get('knp_paginator');
+        $result = $this->get('fos_elastica.manager')
+            ->getRepository($this->getParameter('swp.model.package.class'))
+            ->findByCriteria($criteria);
 
-        $pagination = $paginator->paginate(
+        $pagination = $this->get('knp_paginator')->paginate(
             $result,
             $request->query->get('page', 1),
             $criteria->getPagination()->getItemsPerPage()
@@ -176,6 +173,7 @@ class PackageSearchController extends Controller
                 'api_tenant_list',
                 'api_articles_list',
                 'api_articles_statistics_list',
+                'article_media_list',
                 'api_groups_list',
                 'api_routes_list',
             ]

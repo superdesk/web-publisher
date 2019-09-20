@@ -377,6 +377,7 @@ services:
         arguments:
           - '@swp_multi_tenancy.tenant_context'
           - '@swp.repository.tenant'
+          - '@doctrine'
         tags:
             - { name: jms_serializer.event_subscriber }
 

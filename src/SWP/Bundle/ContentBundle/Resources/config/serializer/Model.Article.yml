@@ -64,7 +64,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             groups: [api]
         featureMedia:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_list]
         metadata:
             expose: true
             groups: [api]

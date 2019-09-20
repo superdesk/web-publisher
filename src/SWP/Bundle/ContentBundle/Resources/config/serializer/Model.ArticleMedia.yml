@@ -3,14 +3,14 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
     properties:
         id:
             expose: true
-            groups: [api]
+            groups: [api, article_media_list]
             type: integer
         file:
             expose: true
             groups: [api]
         image:
             expose: true
-            groups: [api]
+            groups: [api, article_media_list]
         renditions:
             expose: true
             groups: [api]
