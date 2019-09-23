@@ -71,7 +71,7 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
     {
         $this->isTenantableEnabled = $this->doctrine->getEntityManager()->getFilters()->isEnabled('tenantable');
         $data = $event->getObject();
-        if ($this->tenantContext->getTenant()->getCode() !== $data->getTenantCode()) {
+        if ($data->getTenantCode() && $this->tenantContext->getTenant()->getCode() !== $data->getTenantCode()) {
             $this->originalTenant = $this->tenantContext->getTenant();
             $tenant = $this->tenantProvider->findOneByCode($data->getTenantCode());
             if (null !== $tenant) {

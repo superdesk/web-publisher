@@ -25,7 +25,7 @@ use SWP\Bundle\CoreBundle\Serializer\TenantHandler;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class TenantHandlerSpec extends ObjectBehavior
@@ -35,11 +35,11 @@ final class TenantHandlerSpec extends ObjectBehavior
         RouteRepositoryInterface $routeRepository,
         ContentListRepositoryInterface $contentListRepository,
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository,
+        TenantProviderInterface $tenantProvider,
         SerializerInterface $serializer
     ) {
         $settingsManager->get(Argument::cetera())->willReturn(false);
-        $this->beConstructedWith($settingsManager, $requestStack, $routeRepository, $contentListRepository, $tenantContext, $tenantRepository, $serializer);
+        $this->beConstructedWith($settingsManager, $requestStack, $routeRepository, $contentListRepository, $tenantContext, $tenantProvider, $serializer);
     }
 
     public function it_is_initializable()
