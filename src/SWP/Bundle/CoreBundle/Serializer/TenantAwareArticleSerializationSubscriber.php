@@ -19,42 +19,39 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use SWP\Bundle\CoreBundle\Model\Article;
-use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class TenantAwareArticleSerializationSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var TenantContextInterface
-     */
     private $tenantContext;
 
-    /**
-     * @var TenantRepositoryInterface
-     */
-    private $tenantRepository;
-
-    /**
-     * @var TenantInterface
-     */
     private $originalTenant;
 
-    /**
-     * TenantAwareArticleSerializationSubscriber constructor.
-     *
-     * @param TenantContextInterface $tenantContext
-     */
-    public function __construct(TenantContextInterface $tenantContext, TenantRepositoryInterface $tenantRepository)
-    {
+    private $doctrine;
+
+    private $dispatcher;
+
+    private $isTenantableEnabled = true;
+
+    private $tenantProvider;
+
+    public function __construct(
+        TenantContextInterface $tenantContext,
+        TenantProviderInterface $tenantProvider,
+        RegistryInterface $doctrine,
+        EventDispatcherInterface $dispatcher
+    ) {
         $this->tenantContext = $tenantContext;
-        $this->tenantRepository = $tenantRepository;
+        $this->doctrine = $doctrine;
+        $this->dispatcher = $dispatcher;
+        $this->tenantProvider = $tenantProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             [
@@ -70,28 +67,27 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
         ];
     }
 
-    /**
-     * @param ObjectEvent $event
-     */
-    public function onPreSerialize(ObjectEvent $event)
+    public function onPreSerialize(ObjectEvent $event): void
     {
+        $this->isTenantableEnabled = $this->doctrine->getEntityManager()->getFilters()->isEnabled('tenantable');
         $data = $event->getObject();
-        if ($this->tenantContext->getTenant()->getCode() !== $data->getTenantCode()) {
+        if ($data->getTenantCode() && $this->tenantContext->getTenant()->getCode() !== $data->getTenantCode()) {
             $this->originalTenant = $this->tenantContext->getTenant();
-            $tenant = $this->tenantRepository->findOneByCode($data->getTenantCode());
+            $tenant = $this->tenantProvider->findOneByCode($data->getTenantCode());
             if (null !== $tenant) {
                 $this->tenantContext->setTenant($tenant);
             }
         }
     }
 
-    /**
-     * @param ObjectEvent $event
-     */
-    public function onPostSerialize(ObjectEvent $event)
+    public function onPostSerialize(ObjectEvent $event): void
     {
         if ($this->originalTenant && $this->tenantContext->getTenant() !== $this->originalTenant) {
             $this->tenantContext->setTenant($this->originalTenant);
+        }
+
+        if (!$this->isTenantableEnabled) {
+            $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         }
     }
 }

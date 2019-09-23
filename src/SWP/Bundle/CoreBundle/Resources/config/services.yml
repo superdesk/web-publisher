@@ -376,7 +376,9 @@ services:
     SWP\Bundle\CoreBundle\Serializer\TenantAwareArticleSerializationSubscriber:
         arguments:
           - '@swp_multi_tenancy.tenant_context'
-          - '@swp.repository.tenant'
+          - '@swp_multi_tenancy.tenant_provider'
+          - '@doctrine'
+          - '@event_dispatcher'
         tags:
             - { name: jms_serializer.event_subscriber }
 

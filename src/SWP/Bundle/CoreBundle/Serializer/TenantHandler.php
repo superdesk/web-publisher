@@ -24,6 +24,8 @@ use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use JMS\Serializer\Context;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContext;
 use SWP\Bundle\CoreBundle\Model\Tenant;
@@ -32,7 +34,7 @@ use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class TenantHandler implements EventSubscriberInterface, SubscribingHandlerInterface
@@ -47,7 +49,11 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
     private $tenantContext;
 
-    private $tenantRepository;
+    private $internalCache = [];
+
+    private $serializer;
+
+    private $tenantProvider;
 
     public function __construct(
         SettingsManagerInterface $settingsManager,
@@ -55,14 +61,16 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         RouteRepositoryInterface $routeRepository,
         ContentListRepositoryInterface $contentListRepository,
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository
+        TenantProviderInterface $tenantProvider,
+        SerializerInterface $serializer
     ) {
         $this->settingsManager = $settingsManager;
         $this->requestStack = $requestStack;
         $this->routeRepository = $routeRepository;
         $this->contentListRepository = $contentListRepository;
         $this->tenantContext = $tenantContext;
-        $this->tenantRepository = $tenantRepository;
+        $this->serializer = $serializer;
+        $this->tenantProvider = $tenantProvider;
     }
 
     public static function getSubscribedEvents(): array
@@ -76,7 +84,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         ];
     }
 
-    public static function getSubscribingMethods()
+    public static function getSubscribingMethods(): array
     {
         return [
             [
@@ -90,28 +98,65 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
     public function onPostSerialize(ObjectEvent $event): void
     {
+        /** @var TenantInterface $tenant */
         $tenant = $event->getObject();
-        $originalTenant = $this->tenantContext->getTenant();
-        $this->tenantContext->setTenant($tenant);
-
         /** @var JsonSerializationVisitor $visitor */
         $visitor = $event->getVisitor();
-        $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
-        $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false));
+
+        if (isset($this->internalCache[$tenant->getCode()])) {
+            $cachedData = $this->internalCache[$tenant->getCode()];
+            $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $cachedData['settings']['fbiaEnabled']);
+            $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $cachedData['settings']['paywallEnabled']);
+            if (isset($cachedData['routes'])) {
+                $visitor->visitProperty(
+                    new StaticPropertyMetadata('', 'routes', null, ['api_routes_list']),
+                    $cachedData['routes']
+                );
+            }
+            if (isset($cachedData['contentLists'])) {
+                $visitor->visitProperty(new StaticPropertyMetadata('', 'content_lists', null), $cachedData['contentLists']);
+            }
+
+            return;
+        }
+
+        $originalTenant = $this->tenantContext->getTenant();
+        if ($originalTenant->getCode() !== $tenant->getCode()) {
+            $this->tenantContext->setTenant($tenant);
+        }
+
+        $fbiaEnabled = $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false);
+        $paywallEnabled = $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false);
+        $this->internalCache[$tenant->getCode()]['settings'] = [
+            'fbiaEnabled' => $fbiaEnabled,
+            'paywallEnabled' => $paywallEnabled,
+        ];
+
+        $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $fbiaEnabled);
+        $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $paywallEnabled);
 
         $masterRequest = $this->requestStack->getMasterRequest();
         if (null !== $masterRequest && (null !== $masterRequest->get('withRoutes') || null !== $masterRequest->get('withContentLists'))) {
             if (null !== $masterRequest->get('withRoutes')) {
-                $routes = $this->routeRepository->getQueryByCriteria(new Criteria(), [], 'r')->getQuery()->getResult();
-                $visitor->visitProperty(new StaticPropertyMetadata('', 'routes', null), $routes);
+                $routes = $this->routeRepository->getQueryByCriteria(new Criteria(['maxResults' => 9999]), [], 'r')->getQuery()->getResult();
+                $routesArray = $this->serializer->toArray($routes, SerializationContext::create()->setGroups(['Default', 'api_routes_list']));
+                $this->internalCache[$tenant->getCode()]['routes'] = $routesArray;
+
+                $visitor->visitProperty(new StaticPropertyMetadata('', 'routes', null, ['api_routes_list']), $routesArray);
             }
 
             if (null !== $masterRequest->get('withContentLists')) {
-                $contentLists = $this->contentListRepository->getQueryByCriteria(new Criteria(), [], 'cl')->getQuery()->getResult();
-                $visitor->visitProperty(new StaticPropertyMetadata('', 'content_lists', null), $contentLists);
+                $contentLists = $this->contentListRepository->getQueryByCriteria(new Criteria(['maxResults' => 9999]), [], 'cl')->getQuery()->getResult();
+                $contentListsArray = $this->serializer->toArray($contentLists, SerializationContext::create()->setGroups(['Default', 'api']));
+                $this->internalCache[$tenant->getCode()]['contentLists'] = $contentListsArray;
+
+                $visitor->visitProperty(new StaticPropertyMetadata('', 'content_lists', null), $contentListsArray);
             }
         }
-        $this->tenantContext->setTenant($originalTenant);
+
+        if ($originalTenant->getCode() !== $tenant->getCode()) {
+            $this->tenantContext->setTenant($originalTenant);
+        }
     }
 
     public function serializeToJson(
@@ -120,8 +165,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         array $type,
         Context $context
     ) {
-        /** @var TenantInterface $tenant */
-        $tenant = $this->tenantRepository->findOneByCode($tenantCode);
+        $tenant = $this->tenantProvider->findOneByCode($tenantCode);
         if (null === $tenant) {
             return;
         }

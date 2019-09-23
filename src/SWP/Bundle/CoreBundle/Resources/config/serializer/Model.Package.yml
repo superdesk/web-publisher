@@ -3,8 +3,8 @@ SWP\Bundle\CoreBundle\Model\Package:
     properties:
         articles:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list]
         status:
             expose: true
             type: string
-            groups: [api]
+            groups: [api, api_packages_list]

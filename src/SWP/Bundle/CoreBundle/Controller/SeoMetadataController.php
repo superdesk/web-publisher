@@ -61,8 +61,6 @@ class SeoMetadataController extends AbstractController
      *
      * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_seo_metadata_put")
      *
-     * @param Request $request
-     *
      * @return SingleResourceResponse
      */
     public function put(Request $request, string $packageGuid): SingleResourceResponse

@@ -2,7 +2,6 @@ parameters:
     swp_multi_tenancy.twig_extension.class: SWP\Bundle\MultiTenancyBundle\Twig\MultiTenancyExtension
     swp_multi_tenancy.tenant_resolver.class: SWP\Component\MultiTenancy\Resolver\TenantResolver
     swp_multi_tenancy.tenant_context.class: SWP\Bundle\MultiTenancyBundle\Context\TenantContext
-    swp_multi_tenancy.tenant_provider.class: SWP\Component\MultiTenancy\Provider\TenantProvider
     swp_multi_tenancy.random_string_generator.class: SWP\Component\Common\Generator\RandomStringGenerator
 
 services:
@@ -32,9 +31,12 @@ services:
             - '@event_dispatcher'
 
     swp_multi_tenancy.tenant_provider:
-       class: '%swp_multi_tenancy.tenant_provider.class%'
+       class: SWP\Component\MultiTenancy\Provider\TenantProvider
        arguments:
             - '@swp.repository.tenant'
+
+    SWP\Component\MultiTenancy\Provider\TenantProviderInterface:
+        alias: swp_multi_tenancy.tenant_provider
 
     swp_multi_tenancy.random_string_generator:
         class: '%swp_multi_tenancy.random_string_generator.class%'
