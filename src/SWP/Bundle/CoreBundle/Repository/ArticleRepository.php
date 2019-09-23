@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Repository;
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ContentBundleArticleRepository;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleEvent;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Criteria\Criteria;
 
@@ -101,25 +100,7 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
         foreach ($sorting as $property => $order) {
             if ('pageViews' === $property && !empty($order)) {
                 if ($criteria instanceof Criteria && null !== $dateRange = $criteria->get('dateRange', null)) {
-                    $start = new \DateTime();
-                    $start->setTimestamp(strtotime($dateRange[0]));
-                    $start->setTime(23, 59, 59);
-                    $end = new \DateTime();
-                    $end->setTimestamp(strtotime($dateRange[1]));
-                    $end->setTime(0, 0, 0);
-
-                    $articleEventsQuery = $this->_em->createQueryBuilder()
-                        ->from(ArticleEvent::class, 'ae')
-                        ->select('COUNT(ae.id)')
-                        ->where('ae.createdAt <= :start')
-                        ->andWhere('ae.createdAt >= :end')
-                        ->andWhere('ae.articleStatistics = stats.id');
-
-                    $queryBuilder
-                        ->addSelect(sprintf('(%s) as HIDDEN events_count', $articleEventsQuery))
-                        ->setParameter('start', $start)
-                        ->setParameter('end', $end);
-                    $queryBuilder->addOrderBy('events_count', $sorting['pageViews']);
+                    // TODO: Limit on published articles by provided dates range
                 } else {
                     $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
                 }

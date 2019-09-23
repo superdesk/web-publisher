@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsTrait;
 use SWP\Bundle\AnalyticsBundle\Model\ContentListsAwareTrait;
 use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareTrait;
@@ -28,7 +27,6 @@ class Article extends BaseArticle implements ArticleInterface
     use TenantAwareTrait;
     use OrganizationAwareTrait;
     use PaywallSecuredTrait;
-    use ArticleEventsTrait;
     use ContentListsAwareTrait;
 
     /**

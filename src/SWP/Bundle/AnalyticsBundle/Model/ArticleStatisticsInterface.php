@@ -15,59 +15,22 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\AnalyticsBundle\Model;
 
-use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-/**
- * Interface ArticleStatisticsInterface.
- */
 interface ArticleStatisticsInterface extends PersistableInterface
 {
-    /**
-     * @return ArticleInterface
-     */
     public function getArticle(): ArticleInterface;
 
-    /**
-     * @param ArticleInterface $article
-     */
     public function setArticle(ArticleInterface $article): void;
 
-    /**
-     * @return int
-     */
     public function getImpressionsNumber(): int;
 
-    /**
-     * @param int $impressionsNumber
-     */
     public function setImpressionsNumber(int $impressionsNumber): void;
 
-    /**
-     * @return int
-     */
     public function getPageViewsNumber(): int;
 
-    /**
-     * @param int $pageViewsNumber
-     */
     public function setPageViewsNumber(int $pageViewsNumber): void;
-
-    /**
-     * @return Collection
-     */
-    public function getEvents(): Collection;
-
-    /**
-     * @param Collection $events
-     */
-    public function setEvents(Collection $events): void;
-
-    /**
-     * @param ArticleEventInterface $articleEvent
-     */
-    public function addEvent(ArticleEventInterface $articleEvent);
 
     public function getInternalClickRate(): float;
 

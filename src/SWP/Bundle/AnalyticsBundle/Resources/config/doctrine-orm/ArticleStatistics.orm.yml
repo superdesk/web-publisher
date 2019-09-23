@@ -35,9 +35,3 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
                 name: article_id
                 referencedColumnName: id
                 nullable: false
-    oneToMany:
-        events:
-            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface
-            mappedBy: articleStatistics
-            orphanRemoval: true
-            cascade: ["all"]
