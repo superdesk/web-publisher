@@ -257,7 +257,7 @@ class SettingsManager implements SettingsManagerInterface
             ->getOneOrNullResult();
     }
 
-    private function encodeValue(string $settingType, $value): string
+    private function encodeValue(string $settingType, $value)
     {
         if ('string' === $settingType) {
             return (string) $value;

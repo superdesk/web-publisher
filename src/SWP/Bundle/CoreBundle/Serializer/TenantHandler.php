@@ -121,11 +121,16 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         }
 
         $originalTenant = $this->tenantContext->getTenant();
-        $this->tenantContext->setTenant($tenant);
+        if ($originalTenant->getCode() !== $tenant->getCode()) {
+            $this->tenantContext->setTenant($tenant);
+        }
 
         $fbiaEnabled = $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false);
         $paywallEnabled = $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false);
-        $this->internalCache[$tenant->getCode()]['settings'] = ['fbiaEnabled' => $fbiaEnabled, 'paywallEnabled' => $paywallEnabled];
+        $this->internalCache[$tenant->getCode()]['settings'] = [
+            'fbiaEnabled' => $fbiaEnabled,
+            'paywallEnabled' => $paywallEnabled,
+        ];
 
         $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $fbiaEnabled);
         $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $paywallEnabled);
@@ -148,7 +153,10 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
                 $visitor->visitProperty(new StaticPropertyMetadata('', 'content_lists', null), $contentListsArray);
             }
         }
-        $this->tenantContext->setTenant($originalTenant);
+
+        if ($originalTenant->getCode() !== $tenant->getCode()) {
+            $this->tenantContext->setTenant($originalTenant);
+        }
     }
 
     public function serializeToJson(
