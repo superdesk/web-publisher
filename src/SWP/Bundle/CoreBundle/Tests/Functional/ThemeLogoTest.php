@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Tests\Functional;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -33,6 +34,11 @@ final class ThemeLogoTest extends WebTestCase
     private $twig;
 
     /**
+     * @var SettingsManagerInterface
+     */
+    private $settingsManager;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -44,6 +50,7 @@ final class ThemeLogoTest extends WebTestCase
 
         $this->router = $this->getContainer()->get('router');
         $this->twig = $this->getContainer()->get('twig');
+        $this->settingsManager = $this->getContainer()->get('swp_settings.manager.settings');
     }
 
     public function testThemeLogoUpload()
@@ -66,8 +73,9 @@ final class ThemeLogoTest extends WebTestCase
         $client->request('POST', $this->router->generate('swp_api_upload_theme_logo'), [
             'logo' => new UploadedFile($fileName, 'logo.png', 'image/png', filesize($fileName), null, true),
         ]);
-
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+        // Test fix - set it to clear tests settings manager instance internal cache.
+        $this->settingsManager->set('first_setting', null);
 
         $client->request('GET', $this->router->generate('swp_api_theme_settings_list'));
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -76,14 +84,12 @@ final class ThemeLogoTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $route = $this->router->generate('swp_theme_logo_get', ['id' => $data[0]['value']]);
-
         $client->request('GET', $route);
         self::assertArrayHasKey('content-disposition', $client->getResponse()->headers->all());
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $template = '{{ themeLogo(asset(\'theme/logo.png\')) }}';
         $result = $this->getRendered($template);
-
         self::assertContains(ltrim($route, '/'), $result);
     }
 

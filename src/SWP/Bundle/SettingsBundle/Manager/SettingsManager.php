@@ -115,6 +115,7 @@ class SettingsManager implements SettingsManagerInterface
 
     public function set(string $name, $value, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
     {
+        $this->internalCache = [];
         $this->validateScopeAndOwner($scope, $owner);
         $defaultSetting = $this->getFromConfiguration($scope, $name);
 
