@@ -154,6 +154,7 @@ class SettingsManager implements SettingsManagerInterface
 
     public function clear(string $name, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null): bool
     {
+        $this->internalCache = [];
         $this->validateScopeAndOwner($scope, $owner);
 
         $setting = $this->getSettingFromRepository($name, $scope, $owner);
