@@ -743,11 +743,8 @@ services:
     SWP\Bundle\CoreBundle\Service\ArticleStatisticsService:
         public: true
         arguments:
-            - '@swp.repository.article'
             - '@swp.repository.article_statistics'
-            - '@swp.repository.article_events'
             - '@swp.factory.article_statistics'
-            - '@swp.factory.article_events'
             - '@swp.object_manager.article'
 
     Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
