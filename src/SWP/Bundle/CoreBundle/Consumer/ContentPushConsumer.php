@@ -98,15 +98,15 @@ class ContentPushConsumer implements ConsumerInterface
         $tenant = $decodedMessage['tenant'];
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
-        $lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
+        //$lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
 
         try {
-            if (!$lock->acquire()) {
-                return ConsumerInterface::MSG_REJECT_REQUEUE;
-            }
+            //if (!$lock->acquire()) {
+            //return ConsumerInterface::MSG_REJECT_REQUEUE;
+            //}
 
             $result = $this->doExecute($tenant, $package);
-            $lock->release();
+            //$lock->release();
 
             return $result;
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
@@ -114,16 +114,16 @@ class ContentPushConsumer implements ConsumerInterface
 
             return ConsumerInterface::MSG_REJECT;
         } catch (DBALException | ORMException $e) {
-            $lock->release();
+            //$lock->release();
 
             throw $e;
         } catch (Exception $e) {
             $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : 'Unhandled exception', ['trace' => $e->getTraceAsString()]);
-            $lock->release();
+            //$lock->release();
 
             return ConsumerInterface::MSG_REJECT;
         } finally {
-            $lock->release();
+            //$lock->release();
         }
     }
 
@@ -153,6 +153,10 @@ class ContentPushConsumer implements ConsumerInterface
                 'eventName' => Events::PACKAGE_PRE_UPDATE,
                 'package' => $existingPackage,
             ]));
+
+            foreach ($package->getGroups() as $group) {
+                $this->packageObjectManager->merge($group);
+            }
 
             $package = $this->packageObjectManager->merge($package);
             $this->packageObjectManager->flush();
