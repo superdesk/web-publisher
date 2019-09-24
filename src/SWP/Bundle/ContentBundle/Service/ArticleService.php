@@ -63,6 +63,10 @@ class ArticleService implements ArticleServiceInterface
     public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article): void
     {
         $newArticleStatus = $article->getStatus();
+        if ($originalArticleStatus === $newArticleStatus) {
+            return;
+        }
+
         if (ArticleInterface::STATUS_PUBLISHED === $newArticleStatus) {
             $this->publish($article);
         } else {
