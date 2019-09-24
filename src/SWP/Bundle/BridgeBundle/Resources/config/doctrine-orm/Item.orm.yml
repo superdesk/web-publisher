@@ -99,7 +99,7 @@ SWP\Component\Bridge\Model\Item:
                 onDelete: CASCADE
         group:
             targetEntity: SWP\Component\Bridge\Model\GroupInterface
-            inversedBy: groups
+            inversedBy: items
             joinColumn:
                 onDelete: CASCADE
     oneToMany:
