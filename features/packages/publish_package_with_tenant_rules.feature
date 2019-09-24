@@ -115,7 +115,9 @@ Feature: Publish article based on configured organization and tenant rules
     Then the response status code should be 200
     And the JSON node "status" should be equal to "published"
 
+
     Then I am authenticated as "test.user"
+    And I wait 1 second
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/packages/?limit=20&page=1&sorting%5Bupdated_at%5D=desc&status%5B%5D=published"
     Then the response status code should be 200
