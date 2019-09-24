@@ -18,26 +18,9 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleServiceInterface
 {
-    /**
-     * Make article publishable.
-     *
-     * @param ArticleInterface $article
-     *
-     * @return ArticleInterface
-     */
-    public function publish(ArticleInterface $article);
+    public function publish(ArticleInterface $article): ArticleInterface;
 
-    /**
-     * Make article unpublishable.
-     *
-     * @param ArticleInterface $article
-     * @param string           $newArticleStatus
-     */
-    public function unpublish(ArticleInterface $article, string $newArticleStatus);
+    public function unpublish(ArticleInterface $article, string $newArticleStatus): ArticleInterface;
 
-    /**
-     * @param string           $originalArticleStatus
-     * @param ArticleInterface $article
-     */
-    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article);
+    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article): void;
 }

@@ -445,9 +445,9 @@ services:
     swp_core.listener.package_status:
         class: SWP\Bundle\CoreBundle\EventListener\PackageStatusListener
         tags:
-            - { name: kernel.event_listener, event: swp.article.canceled, method: onArticleCancel }
-            - { name: kernel.event_listener, event: swp.article.unpublished, method: onArticleUnpublish }
             - { name: kernel.event_listener, event: swp.article.published, method: onArticlePublish }
+            - { name: kernel.event_listener, event: swp.article.unpublished, method: onArticleUnpublish }
+            - { name: kernel.event_listener, event: swp.article.canceled, method: onArticleCancel }
 
     swp_multi_tenancy.tenant_context:
         class: '%swp_multi_tenancy.tenant_context.class%'

@@ -24,25 +24,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleService implements ArticleServiceInterface
 {
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * RouteService constructor.
-     *
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function publish(ArticleInterface $article)
+    public function publish(ArticleInterface $article): ArticleInterface
     {
         $this->checkIfCanBePublishedOrUnpublished($article, 'Article cannot be published');
 
@@ -58,10 +47,7 @@ class ArticleService implements ArticleServiceInterface
         return $article;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unpublish(ArticleInterface $article, string $status)
+    public function unpublish(ArticleInterface $article, string $status): ArticleInterface
     {
         $this->checkIfCanBePublishedOrUnpublished($article, 'Article cannot be unpublished');
 
@@ -74,25 +60,17 @@ class ArticleService implements ArticleServiceInterface
         return $article;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article)
+    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article): void
     {
         $newArticleStatus = $article->getStatus();
         if ($originalArticleStatus === $newArticleStatus) {
             return;
         }
 
-        switch ($newArticleStatus) {
-            case ArticleInterface::STATUS_PUBLISHED:
-                $this->publish($article);
-
-                break;
-            default:
-                $this->unpublish($article, $newArticleStatus);
-
-                break;
+        if (ArticleInterface::STATUS_PUBLISHED === $newArticleStatus) {
+            $this->publish($article);
+        } else {
+            $this->unpublish($article, $newArticleStatus);
         }
     }
 
