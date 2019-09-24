@@ -5,10 +5,10 @@ Articles by page views in last 7 days
 
 Articles by page views in between 3 and 7 days ago
 {% gimmelist article from articles|order('pageViews', 'desc')|dateRange('-3 days', '- 7 days') ignoreContext ['route'] %}
-    <a href="{{ url(article) }}">{{ article.title }}</a>
+    <a href="{{ url(article) }}">{{ article.title }}</a>  Page views count: {{ article.articleStatistics.pageViewsNumber }}
 {% endgimmelist %}
 
 Articles by page views from yesterday
 {% gimmelist article from articles|order('pageViews', 'desc')|dateRange('now', '-1 day') ignoreContext ['route'] %}
-    <a href="{{ url(article) }}">{{ article.title }}</a>
+    <a href="{{ url(article) }}">{{ article.title }}</a>  Page views count: {{ article.articleStatistics.pageViewsNumber }}
 {% endgimmelist %}

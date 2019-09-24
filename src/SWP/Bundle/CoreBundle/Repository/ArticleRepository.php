@@ -100,10 +100,22 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
         foreach ($sorting as $property => $order) {
             if ('pageViews' === $property && !empty($order)) {
                 if ($criteria instanceof Criteria && null !== $dateRange = $criteria->get('dateRange', null)) {
-                    // TODO: Limit on published articles by provided dates range
-                } else {
-                    $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
+                    $start = new \DateTime();
+                    $start->setTimestamp(strtotime($dateRange[0]));
+                    $start->setTime(23, 59, 59);
+                    $end = new \DateTime();
+                    $end->setTimestamp(strtotime($dateRange[1]));
+                    $end->setTime(0, 0, 0);
+
+                    $queryBuilder
+                        ->andWhere('a.publishedAt <= :start')
+                        ->andWhere('a.publishedAt >= :end')
+                        ->setParameter('start', $start)
+                        ->setParameter('end', $end);
                 }
+
+                $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
+
                 unset($sorting['pageViews']);
 
                 continue;

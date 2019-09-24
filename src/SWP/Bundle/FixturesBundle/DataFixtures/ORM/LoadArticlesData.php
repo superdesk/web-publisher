@@ -417,6 +417,7 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                     'route' => 'articles/features',
                     'locale' => 'en',
                     'pageViews' => 0,
+                    'publishedAt' => (new \DateTime())->modify('-3 days'),
                     'authors' => [
                         'Test Person',
                     ],
@@ -445,6 +446,10 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
+                if (isset($articleData['publishedAt'])) {
+                    $article->setPublishedAt($articleData['publishedAt']);
+                }
+
                 $manager->persist($article);
                 foreach ($persistedKeywords as $index => $persistedKeyword) {
                     if ($index < 3) {
