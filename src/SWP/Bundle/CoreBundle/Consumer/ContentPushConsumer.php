@@ -159,6 +159,7 @@ class ContentPushConsumer implements ConsumerInterface
 
             $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_UPDATE]));
             $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
+            $this->packageObjectManager->flush();
 
             $this->reset();
             $this->logger->info(sprintf('Package %s was updated', $existingPackage->getGuid()));
@@ -170,8 +171,10 @@ class ContentPushConsumer implements ConsumerInterface
         $this->packageRepository->add($package);
         $this->eventDispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));
         $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
-        $this->reset();
+        $this->packageObjectManager->flush();
+
         $this->logger->info(sprintf('Package %s was created', $package->getGuid()));
+        $this->reset();
 
         return ConsumerInterface::MSG_ACK;
     }
