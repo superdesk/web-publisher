@@ -135,6 +135,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
 
                 if ($destination->isPublished()) {
                     $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
+                    $this->eventDispatcher->dispatch(ArticleEvents::POST_PUBLISH, new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH));
                 }
 
                 $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));
@@ -167,6 +168,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
 
             if ($destination->isPublished()) {
                 $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
+                $this->eventDispatcher->dispatch(ArticleEvents::POST_PUBLISH, new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH));
             }
 
             $this->articleRepository->flush();
