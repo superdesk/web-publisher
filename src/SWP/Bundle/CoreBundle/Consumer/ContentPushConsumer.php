@@ -154,6 +154,10 @@ class ContentPushConsumer implements ConsumerInterface
                 'package' => $existingPackage,
             ]));
 
+            foreach ($package->getGroups() as $group) {
+                $this->packageObjectManager->merge($group);
+            }
+
             $package = $this->packageObjectManager->merge($package);
             $this->packageObjectManager->flush();
 
