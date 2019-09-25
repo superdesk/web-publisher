@@ -20,23 +20,15 @@ monolog:
         - swp_asset_download
         - swp_content_push
         - swp_image_conversion
+        - swp_rule
+        - swp_validators
     handlers:
-        main:
-            type:         fingers_crossed
-            action_level: error
-            handler:      nested
-            excluded_http_codes: [404]
-        nested:
-            type:  service
-            id:    monolog.gelf_handler
-            level: error
-            channels: ["!swp_send_webhook", "!swp_content_push", "!swp_image_conversion", "!swp_asset_download", "!swp_rule", "!swp_validators"]
         console:
             type:  console
-        gelf:
-            level: debug
-            type: service
-            id: monolog.gelf_handler
+        custom_channels:
+            type: fingers_crossed
+            action_level: debug
+            handler: grouped
             channels:
                 - swp_send_webhook
                 - swp_content_push
@@ -44,3 +36,20 @@ monolog:
                 - swp_asset_download
                 - swp_rule
                 - swp_validators
+        app:
+            type: fingers_crossed
+            action_level: error
+            handler: grouped
+            channels:
+                - app
+            excluded_http_codes: [404]
+        grouped:
+            type: whatfailuregroup
+            members: [streamed, gelf]
+        streamed:
+            type:  rotating_file
+            max_files: 7
+        gelf:
+            type: service
+            id: monolog.gelf_handler
+            include_stacktraces: true
