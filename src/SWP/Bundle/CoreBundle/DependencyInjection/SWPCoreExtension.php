@@ -68,6 +68,7 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
     {
         $config = $container->getExtensionConfig('doctrine_cache');
         $config[0]['providers']['main_cache']['type'] = '%env(DOCTRINE_CACHE_DRIVER)%';
+        $config[0]['providers']['main_cache']['namespace'] = '%kernel.project_dir%';
 
         $config = $container->resolveEnvPlaceholders(
             $config,
