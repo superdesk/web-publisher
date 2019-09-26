@@ -72,7 +72,7 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             $slideshow = $this->slideshowFactory->create();
             $slideshow->setCode($packageGroup->getCode());
 
-            foreach (array_reverse($packageGroup->getItems()->toArray()) as $item) {
+            foreach ($packageGroup->getItems() as $item) {
                 if ($this->isTypeAllowed($item->getType())) {
                     $slideshowItem = new SlideshowItem();
                     $articleMedia = $this->handleMedia($article, $item->getName(), $item);
