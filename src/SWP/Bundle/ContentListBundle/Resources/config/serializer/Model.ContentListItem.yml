@@ -3,7 +3,7 @@ SWP\Component\ContentList\Model\ContentListItem:
     properties:
         id:
             expose: true
-            groups: [api]
+            groups: [api, api_content_list_item_details]
             type: integer
         position:
             expose: true
@@ -11,20 +11,20 @@ SWP\Component\ContentList\Model\ContentListItem:
             type: integer
         content:
             expose: true
-            groups: [api]
+            groups: [api, api_content_list_item_details]
         enabled:
             expose: true
-            groups: [api]
+            groups: [api, api_content_list_item_details]
             type: boolean
         sticky:
             expose: true
-            groups: [api]
+            groups: [api, api_content_list_item_details]
             type: boolean
         createdAt:
             expose: true
-            groups: [api]
+            groups: [api, api_content_list_item_details]
             type: DateTime
         updatedAt:
             expose: true
-            groups: [api]
+            groups: [api, api_content_list_item_details]
             type: DateTime

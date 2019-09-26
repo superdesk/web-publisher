@@ -92,7 +92,20 @@ class ContentListItemController extends AbstractController
             new PaginationData($request)
         );
 
-        return new ResourcesListResponse($items);
+        $responseContext = new ResponseContext();
+        $responseContext->setSerializationGroups(
+            [
+                'Default',
+                'api_packages_list',
+                'api_content_list_item_details',
+                'api_articles_list',
+                'api_articles_featuremedia',
+                'api_image_details',
+                'api_routes_list',
+            ]
+        );
+
+        return new ResourcesListResponse($items, $responseContext);
     }
 
     /**
