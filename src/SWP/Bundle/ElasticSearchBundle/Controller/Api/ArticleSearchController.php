@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
-use Elastica\Query\Term;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
