@@ -80,6 +80,10 @@ fos_elastica:
                                 name: { type: string, analyzer: swp_author_name_analyzer }
                         extra:
                             type: object
+                        articleStatistics:
+                            type: "object"
+                            properties:
+                                pageViewsNumber: { type: integer }
                     persistence:
                         driver: orm
                         model: "%swp.model.article.class%"

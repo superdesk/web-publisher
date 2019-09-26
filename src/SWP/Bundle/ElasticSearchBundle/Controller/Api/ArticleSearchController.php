@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
+use Elastica\Query\Term;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
@@ -150,6 +151,10 @@ class ArticleSearchController extends Controller
 
         $extraFields = $this->get('service_container')->getParameter('env(ELASTICA_ARTICLE_EXTRA_FIELDS)');
 
+        $options = [
+            'sortNestedPath' => 'articleStatistics.pageViewsNumber',
+        ];
+
         $repositoryManager = $this->get('fos_elastica.manager');
         /** @var ArticleRepository $repository */
         $repository = $repositoryManager->getRepository($this->getParameter('swp.model.article.class'));
@@ -158,7 +163,8 @@ class ArticleSearchController extends Controller
         $pagination = $paginator->paginate(
             $articles,
             $request->query->get('page', 1),
-            $criteria->getPagination()->getItemsPerPage()
+            $criteria->getPagination()->getItemsPerPage(),
+            $options
         );
 
         return new ResourcesListResponse($pagination);
