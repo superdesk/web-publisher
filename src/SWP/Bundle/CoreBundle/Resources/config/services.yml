@@ -382,6 +382,12 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
+    SWP\Bundle\CoreBundle\Serializer\ArticleMediaSerializationSubscriber:
+        arguments:
+          - '%env(SUPERDESK_THUMBNAIL_RENDITION_NAME)%'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
     SWP\Bundle\CoreBundle\Serializer\ContentListAwareSerializationSubscriber:
         arguments:
             - '@swp.repository.content_list_item'
