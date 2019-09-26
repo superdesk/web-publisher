@@ -74,7 +74,7 @@ final class RelatedArticleLoader extends PaginatedLoader implements LoaderInterf
             }
 
             $this->applyPaginationToCriteria($criteria, $parameters);
-            $relatedArticles = $this->relatedArticleRepository->getByCriteria($criteria, $criteria->get('order', []));
+            $relatedArticles = $this->relatedArticleRepository->getByCriteria($criteria, $criteria->get('order', ['id' => 'desc']));
             $relatedArticlesCount = $this->relatedArticleRepository->countByCriteria($criteria);
 
             if (\count($relatedArticles) > 0) {

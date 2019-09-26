@@ -57,7 +57,9 @@ class ProcessRelatedArticlesListener
             return;
         }
 
-        foreach ($relatedItemsGroups as $item) {
+        $related = $this->reorderItems($relatedItemsGroups->toArray());
+
+        foreach ($related as $item) {
             if (null === ($existingArticle = $this->articleRepository->findOneBy(['code' => $item->getGuid()]))) {
                 continue;
             }
@@ -74,5 +76,24 @@ class ProcessRelatedArticlesListener
         foreach ($article->getRelatedArticles() as $relatedArticle) {
             $article->removeRelatedArticle($relatedArticle);
         }
+    }
+
+    private function reorderItems(array $relatedItemsGroups): array
+    {
+        $related = [];
+        foreach ($relatedItemsGroups as $item) {
+            $result = explode('--', $item->getName());
+
+            if (!isset($result[1])) {
+                continue;
+            }
+
+            $position = (int) $result[1];
+            $related[$position] = $item;
+        }
+
+        krsort($related);
+
+        return $related;
     }
 }
