@@ -1196,6 +1196,9 @@
                 "phpstan/phpstan": "^0.11.8",
                 "phpunit/phpunit": "^8.2"
             },
+            "require-dev": {
+                "phpunit/phpunit": "^4.5"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -9350,6 +9353,9 @@
             "require": {
                 "php": "^7.1.3"
             },
+            "conflict": {
+                "twig/twig": "<1.41|<2.10"
+            },
             "require-dev": {
                 "symfony/process": "~3.4|~4.0"
             },
@@ -12437,12 +12443,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/amp-library.git",
-                "reference": "b85e483d7c35149de1b9463a68001b6a64f133ef"
+                "reference": "548485d63e8773d65294020d56737a50d662eca6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/amp-library/zipball/b85e483d7c35149de1b9463a68001b6a64f133ef",
-                "reference": "b85e483d7c35149de1b9463a68001b6a64f133ef",
+                "url": "https://api.github.com/repos/takeit/amp-library/zipball/548485d63e8773d65294020d56737a50d662eca6",
+                "reference": "548485d63e8773d65294020d56737a50d662eca6",
                 "shasum": ""
             },
             "require": {
@@ -12485,7 +12491,7 @@
                 "drupal",
                 "mobile"
             ],
-            "time": "2019-09-20T07:44:59+00:00"
+            "time": "2019-09-25T12:59:50+00:00"
         },
         {
             "name": "takeit/amp-html-bundle",
@@ -16266,17 +16272,6 @@
         {
             "name": "roave/security-advisories",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "ea693fa060702164985511acc3ceb5389c9ac761"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ea693fa060702164985511acc3ceb5389c9ac761",
-                "reference": "ea693fa060702164985511acc3ceb5389c9ac761",
-                "shasum": ""
-            },
             "conflict": {
                 "3f/pygmentize": "<1.2",
                 "adodb/adodb-php": "<5.20.12",
