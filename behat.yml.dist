@@ -24,6 +24,9 @@ default:
                 - SWP\Behat\Contexts\WebhookContext
                 - SWP\Behat\Contexts\DateTimeContext
                 - SWP\Behat\Contexts\UserContext
+                - SWP\Behat\Contexts\SlideshowContext
+                - SWP\Behat\Contexts\SlideshowItemContext
+                - SWP\Behat\Contexts\ArticleMediaContext
                 - SWP\Behat\Contexts\Hook\DoctrineORMContext
 
     extensions:

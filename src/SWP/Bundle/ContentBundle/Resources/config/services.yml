@@ -354,3 +354,4 @@ services:
         public: true
 
     Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
+    SWP\Bundle\ContentBundle\Loader\ArticleLoader: '@swp_template_engine.loader.article'
