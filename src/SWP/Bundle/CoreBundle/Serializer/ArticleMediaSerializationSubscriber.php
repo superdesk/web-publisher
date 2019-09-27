@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Serializer;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
@@ -59,7 +60,7 @@ final class ArticleMediaSerializationSubscriber implements EventSubscriberInterf
                 return;
             }
 
-            /** @var ImageRenditionInterface[] $searchedRenditions */
+            /** @var ArrayCollection<ImageRenditionInterface> $searchedRenditions */
             $searchedRenditions = $data->getRenditions()
                 ->filter(function ($rendition) {
                     /* @var ImageRenditionInterface $rendition */
@@ -69,8 +70,7 @@ final class ArticleMediaSerializationSubscriber implements EventSubscriberInterf
             if (0 === count($searchedRenditions)) {
                 return;
             }
-
-            $thumbnailRendition = clone $searchedRenditions[0];
+            $thumbnailRendition = clone $searchedRenditions->first();
             $thumbnailRendition->setName(self::VIEW_IMAGE);
             $data->addRendition($thumbnailRendition);
         }
