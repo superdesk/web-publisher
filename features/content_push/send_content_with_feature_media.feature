@@ -115,4 +115,5 @@ Feature: Check if the featuremedia metadata are set properly
     And the JSON node "feature_media.copyright_notice" should be equal to "Notice"
     And the JSON node "feature_media.copyright_holder" should be equal to "Holder"
 
-    And the JSON node "feature_media.renditions[1].name" should be equal to "viewImage"
+    And the JSON node "feature_media.renditions[1].name" should be equal to "thumbnail"
+    And the JSON node "feature_media.renditions[2].name" should be equal to "viewImage"

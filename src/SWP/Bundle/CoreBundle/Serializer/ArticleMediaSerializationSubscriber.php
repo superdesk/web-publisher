@@ -26,6 +26,7 @@ use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
 final class ArticleMediaSerializationSubscriber implements EventSubscriberInterface
 {
     private const VIEW_IMAGE = 'viewImage';
+
     private const THUMBNAIL = 'thumbnail';
 
     private $thumbnailRenditionName;

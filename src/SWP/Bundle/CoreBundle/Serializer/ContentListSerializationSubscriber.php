@@ -78,8 +78,8 @@ final class ContentListSerializationSubscriber implements EventSubscriberInterfa
         foreach ($items as $item) {
             $data[] = [
                 'content' => [
-                    'id' => $item->getContent()->getId(),
-                    'title' => $item->getContent()->getTitle(),
+                    'id' => $item['id'],
+                    'title' => $item['title'],
                 ],
             ];
         }
