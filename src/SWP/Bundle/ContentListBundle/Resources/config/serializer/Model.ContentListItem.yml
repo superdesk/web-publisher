@@ -7,7 +7,7 @@ SWP\Component\ContentList\Model\ContentListItem:
             type: integer
         position:
             expose: true
-            groups: [api]
+            groups: [api, api_content_list_item_details]
             type: integer
         content:
             expose: true

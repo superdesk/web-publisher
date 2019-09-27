@@ -70,47 +70,14 @@ class ContentListItemControllerTest extends WebTestCase
                         "href": "/api/v2/content/articles/article-1"
                     }
                 },
-                "body": "art1",
-                "feature_media": null,
-                "id": 1,
-                "is_publishable": true,
-                "keywords": [
-                ],
-                "lead": null,
-                "media": [
-                ],
-                "metadata": {
-                    "byline": "John Smith",
-                    "located": "Berlin"
-                },
-                "publish_end_date": null,
-                "publish_start_date": null,
                 "route": {
                     "_links": {
                         "self": {
                             "href": "/api/v2/content/routes/3"
                         }
-                    },
-                    "articles_template_name": null,
-                    "cache_time_in_seconds": 0,
-                    "children": [
-                    ],
-                    "content": null,
-                    "id": 3,
-                    "lft": 3,
-                    "rgt": 4,
-                    "level": 0,
-                    "name": "news",
-                    "parent": null,
-                    "position": 1,
-                    "static_prefix": null,
-                    "template_name": null,
-                    "type": "collection",
-                    "variable_pattern": "/{slug}"
+                    }
                 },
-                "slug": "article-1",
                 "status": "published",
-                "template_name": null,
                 "title": "article1"
             },
             "enabled": true,
