@@ -26,12 +26,16 @@ use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
 final class ArticleMediaSerializationSubscriber implements EventSubscriberInterface
 {
     private const VIEW_IMAGE = 'viewImage';
+    private const THUMBNAIL = 'thumbnail';
 
     private $thumbnailRenditionName;
 
-    public function __construct(string $thumbnailRenditionName)
+    private $viewImageRenditionName;
+
+    public function __construct(string $thumbnailRenditionName, string $viewImageRenditionName)
     {
         $this->thumbnailRenditionName = $thumbnailRenditionName;
+        $this->viewImageRenditionName = $viewImageRenditionName;
     }
 
     public static function getSubscribedEvents(): array
@@ -51,28 +55,45 @@ final class ArticleMediaSerializationSubscriber implements EventSubscriberInterf
         $data = $event->getObject();
         /** @var ImageRenditionInterface[] $renditions */
         if (null !== ($renditions = $data->getRenditions()) && count($renditions) > 0) {
-            $existingThumbnailRendition = $data->getRenditions()
-                ->filter(static function ($rendition) {
-                    /* @var ImageRenditionInterface $rendition */
-                    return self::VIEW_IMAGE === $rendition->getName();
-                });
-            if (0 !== count($existingThumbnailRendition)) {
-                return;
+            $thumbnailRendition = $this->copyRendition($data, $this->thumbnailRenditionName, self::THUMBNAIL);
+            if ($thumbnailRendition) {
+                $data->addRendition($thumbnailRendition);
             }
 
-            /** @var ArrayCollection<ImageRenditionInterface> $searchedRenditions */
-            $searchedRenditions = $data->getRenditions()
-                ->filter(function ($rendition) {
-                    /* @var ImageRenditionInterface $rendition */
-                    return $rendition->getName() === $this->thumbnailRenditionName;
-                });
-
-            if (0 === count($searchedRenditions)) {
-                return;
+            $viewImageRendition = $this->copyRendition($data, $this->viewImageRenditionName, self::VIEW_IMAGE);
+            if ($viewImageRendition) {
+                $data->addRendition($viewImageRendition);
             }
-            $thumbnailRendition = clone $searchedRenditions->first();
-            $thumbnailRendition->setName(self::VIEW_IMAGE);
-            $data->addRendition($thumbnailRendition);
         }
+    }
+
+    private function copyRendition(ArticleMediaInterface $media, string $from, string $to): ?ImageRenditionInterface
+    {
+        // check if rendition we want to create don't exists already in package
+        $existingRendition = $media->getRenditions()
+            ->filter(static function ($rendition) use ($to) {
+                /* @var ImageRenditionInterface $rendition */
+                return $to === $rendition->getName();
+            });
+
+        if (0 !== count($existingRendition)) {
+            return null;
+        }
+
+        /** @var ArrayCollection<ImageRenditionInterface> $searchedRenditions */
+        $searchedRenditions = $media->getRenditions()
+            ->filter(static function ($rendition) use ($from) {
+                /* @var ImageRenditionInterface $rendition */
+                return $rendition->getName() === $from;
+            });
+
+        if (0 === count($searchedRenditions)) {
+            return null;
+        }
+
+        $copiedRendition = clone $searchedRenditions->first();
+        $copiedRendition->setName($to);
+
+        return $copiedRendition;
     }
 }

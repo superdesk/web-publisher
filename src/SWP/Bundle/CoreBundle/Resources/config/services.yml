@@ -385,6 +385,7 @@ services:
     SWP\Bundle\CoreBundle\Serializer\ArticleMediaSerializationSubscriber:
         arguments:
           - '%env(SUPERDESK_THUMBNAIL_RENDITION_NAME)%'
+          - '%env(SUPERDESK_VIEW_IMAGE_RENDITION_NAME)%'
         tags:
             - { name: jms_serializer.event_subscriber }
 
