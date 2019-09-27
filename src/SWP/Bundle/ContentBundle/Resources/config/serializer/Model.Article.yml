@@ -11,15 +11,15 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         lead:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_list]
             type: string
         body:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_list]
             type: string
         slug:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_list]
             type: string
         route:
             expose: true
