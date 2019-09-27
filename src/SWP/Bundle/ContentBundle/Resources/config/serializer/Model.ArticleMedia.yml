@@ -13,7 +13,7 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             groups: [api, api_article_media_list]
         renditions:
             expose: true
-            groups: [api]
+            groups: [api, api_article_media_renditions]
         byLine:
             expose: true
             groups: [api]

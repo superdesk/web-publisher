@@ -18,6 +18,7 @@ SWP\Bundle\ContentBundle\Model\ImageRendition:
         image:
             targetEntity: SWP\Bundle\ContentBundle\Model\ImageInterface
             inversedBy: renditions
+            fetch: EAGER
             joinColumn:
                 name: image_id
                 referencedColumnName: id

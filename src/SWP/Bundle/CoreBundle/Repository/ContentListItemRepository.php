@@ -22,7 +22,6 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\Common\Criteria\Criteria;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ContentListItemRepository extends BaseRepository implements ContentListItemRepositoryInterface
 {
@@ -55,7 +54,7 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
     {
         $query = $this->getEntityManager()->createQuery("
             SELECT 
-                cl
+                 partial c.{id, title} 
             from 
                 SWP\Bundle\CoreBundle\Model\ContentListItem cl
             LEFT JOIN
@@ -78,9 +77,8 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
 
         $query->setMaxResults(5);
         $query->setFirstResult(0);
-        $results = new Paginator($query, $fetchJoin = true);
 
-        return $results->getIterator()->getArrayCopy();
+        return $query->getArrayResult();
     }
 
     public function findItemsByArticle(ArticleInterface $article): array

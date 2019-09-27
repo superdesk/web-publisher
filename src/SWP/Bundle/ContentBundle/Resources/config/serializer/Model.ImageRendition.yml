@@ -3,23 +3,23 @@ SWP\Bundle\ContentBundle\Model\ImageRendition:
   properties:
     id:
       expose: true
-      groups: [api]
+      groups: [api, api_article_media_renditions]
       type: integer
     width:
       expose: true
-      groups: [api]
+      groups: [api, api_article_media_renditions]
       type: integer
     height:
       expose: true
-      groups: [api]
+      groups: [api, api_article_media_renditions]
       type: integer
     name:
       expose: true
-      groups: [api]
+      groups: [api, api_article_media_renditions]
     previewUrl:
       expose: true
-      groups: [api]
+      groups: [api, api_article_media_renditions]
       type: string
     image:
       expose: true
-      groups: [api]
+      groups: [api, api_article_media_renditions]

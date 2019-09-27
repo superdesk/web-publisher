@@ -21,6 +21,7 @@ use Swagger\Annotations as SWG;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResponseContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -166,6 +167,21 @@ class ArticleSearchController extends Controller
             $options
         );
 
-        return new ResourcesListResponse($pagination);
+        $responseContext = new ResponseContext();
+        $responseContext->setSerializationGroups(
+            [
+                'Default',
+                'api_articles_list',
+                'api_articles_featuremedia',
+                'api_article_media_list',
+                'api_article_media_renditions',
+                'api_image_details',
+                'api_routes_list',
+                'api_tenant_list',
+                'api_articles_statistics_list',
+            ]
+        );
+
+        return new ResourcesListResponse($pagination, $responseContext);
     }
 }

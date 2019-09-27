@@ -155,7 +155,7 @@ class ThemeSetupCommandTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertIsArray($content['feature_media']);
         self::assertCount(1, $content['media']);
-        self::assertCount(1, $content['media'][0]['renditions']);
+        self::assertCount(3, $content['media'][0]['renditions']);
         self::assertNotNull($content['route']);
         self::assertNotNull($content['article_statistics']);
 
