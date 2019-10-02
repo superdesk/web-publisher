@@ -135,6 +135,9 @@ swp_seo:
     persistence:
         orm: true
 
+sentry:
+    dsn: false
+
 services:
     _defaults:
         autowire: true
