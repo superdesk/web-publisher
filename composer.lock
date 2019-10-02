@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "305dd12dbb83e926f42255e86e097982",
+    "content-hash": "5e878c207c2635a30773e90fae646630",
     "packages": [
         {
             "name": "apache/log4php",
@@ -98,16 +98,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.112.4",
+            "version": "3.112.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "13e5e52f8ceccd7e476cc6caef3eed941797fd31"
+                "reference": "b8c1e71eaefe44342283ef7240efabcc87197dd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/13e5e52f8ceccd7e476cc6caef3eed941797fd31",
-                "reference": "13e5e52f8ceccd7e476cc6caef3eed941797fd31",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b8c1e71eaefe44342283ef7240efabcc87197dd4",
+                "reference": "b8c1e71eaefe44342283ef7240efabcc87197dd4",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +177,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-09-19T20:36:59+00:00"
+            "time": "2019-10-01T18:07:57+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -369,16 +369,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "fa4c4e861e809d6a1103bd620cce63ed91aedfeb"
+                "reference": "904dca4eb10715b92569fbcd79e201d5c349b6bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/fa4c4e861e809d6a1103bd620cce63ed91aedfeb",
-                "reference": "fa4c4e861e809d6a1103bd620cce63ed91aedfeb",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/904dca4eb10715b92569fbcd79e201d5c349b6bc",
+                "reference": "904dca4eb10715b92569fbcd79e201d5c349b6bc",
                 "shasum": ""
             },
             "require": {
@@ -387,7 +387,7 @@
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "^7.5@dev"
+                "phpunit/phpunit": "^7.5"
             },
             "type": "library",
             "extra": {
@@ -433,7 +433,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2019-08-08T18:11:40+00:00"
+            "time": "2019-10-01T18:55:10+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -1196,9 +1196,6 @@
                 "phpstan/phpstan": "^0.11.8",
                 "phpunit/phpunit": "^8.2"
             },
-            "require-dev": {
-                "phpunit/phpunit": "^4.5"
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1315,16 +1312,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "434820973cadf2da2d66e7184be370084cc32ca8"
+                "reference": "b52ef5a1002f99ab506a5a2d6dba5a2c236c5f43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
-                "reference": "434820973cadf2da2d66e7184be370084cc32ca8",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/b52ef5a1002f99ab506a5a2d6dba5a2c236c5f43",
+                "reference": "b52ef5a1002f99ab506a5a2d6dba5a2c236c5f43",
                 "shasum": ""
             },
             "require": {
@@ -1339,9 +1336,8 @@
                 "symfony/console": "~3.0|~4.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^1.0",
-                "phpunit/phpunit": "^6.5",
-                "squizlabs/php_codesniffer": "^3.2",
+                "doctrine/coding-standard": "^5.0",
+                "phpunit/phpunit": "^7.5",
                 "symfony/yaml": "~3.4|~4.0"
             },
             "suggest": {
@@ -1367,16 +1363,16 @@
             ],
             "authors": [
                 {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
                 {
                     "name": "Benjamin Eberlei",
                     "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
                 },
                 {
                     "name": "Jonathan Wage",
@@ -1393,7 +1389,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2018-11-20T23:46:46+00:00"
+            "time": "2019-09-20T14:30:26+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -4032,6 +4028,56 @@
             "time": "2017-01-10T10:39:54+00:00"
         },
         {
+            "name": "http-interop/http-factory-guzzle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/http-interop/http-factory-guzzle.git",
+                "reference": "34861658efb9899a6618cef03de46e2a52c80fc0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/http-interop/http-factory-guzzle/zipball/34861658efb9899a6618cef03de46e2a52c80fc0",
+                "reference": "34861658efb9899a6618cef03de46e2a52c80fc0",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/psr7": "^1.4.2",
+                "psr/http-factory": "^1.0"
+            },
+            "provide": {
+                "psr/http-factory-implementation": "^1.0"
+            },
+            "require-dev": {
+                "http-interop/http-factory-tests": "^0.5",
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Http\\Factory\\Guzzle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "An HTTP Factory using Guzzle PSR7",
+            "keywords": [
+                "factory",
+                "http",
+                "psr-17",
+                "psr-7"
+            ],
+            "time": "2018-07-31T19:32:56+00:00"
+        },
+        {
             "name": "jdorn/sql-formatter",
             "version": "v1.2.17",
             "source": {
@@ -4191,16 +4237,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "3.2.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "89fc2a7f53ae63b513e2339fdb6db6e49bfbc749"
+                "reference": "4c1e4296734385af7718ca71ec0febb4815b4a87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/89fc2a7f53ae63b513e2339fdb6db6e49bfbc749",
-                "reference": "89fc2a7f53ae63b513e2339fdb6db6e49bfbc749",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/4c1e4296734385af7718ca71ec0febb4815b4a87",
+                "reference": "4c1e4296734385af7718ca71ec0febb4815b4a87",
                 "shasum": ""
             },
             "require": {
@@ -4240,7 +4286,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -4271,7 +4317,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2019-09-04T10:17:24+00:00"
+            "time": "2019-09-20T14:24:07+00:00"
         },
         {
             "name": "jms/serializer-bundle",
@@ -6496,6 +6542,62 @@
             "time": "2019-02-02T07:03:15+00:00"
         },
         {
+            "name": "php-http/curl-client",
+            "version": "v1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-http/curl-client.git",
+                "reference": "6341a93d00e5d953fc868a3928b5167e6513f2b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-http/curl-client/zipball/6341a93d00e5d953fc868a3928b5167e6513f2b6",
+                "reference": "6341a93d00e5d953fc868a3928b5167e6513f2b6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": "^5.5 || ^7.0",
+                "php-http/discovery": "^1.0",
+                "php-http/httplug": "^1.0",
+                "php-http/message": "^1.2",
+                "php-http/message-factory": "^1.0.2"
+            },
+            "provide": {
+                "php-http/async-client-implementation": "1.0",
+                "php-http/client-implementation": "1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/psr7": "^1.0",
+                "php-http/client-integration-tests": "^0.6",
+                "phpunit/phpunit": "^4.8.27",
+                "zendframework/zend-diactoros": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Http\\Client\\Curl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Михаил Красильников",
+                    "email": "m.krasilnikov@yandex.ru"
+                }
+            ],
+            "description": "cURL client for PHP-HTTP",
+            "homepage": "http://php-http.org",
+            "keywords": [
+                "curl",
+                "http"
+            ],
+            "time": "2018-03-26T19:21:48+00:00"
+        },
+        {
             "name": "php-http/discovery",
             "version": "1.7.0",
             "source": {
@@ -7092,6 +7194,58 @@
                 "psr"
             ],
             "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "psr/http-factory",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-factory.git",
+                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for PSR-7 HTTP message factories",
+            "keywords": [
+                "factory",
+                "http",
+                "message",
+                "psr",
+                "psr-17",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2019-04-30T12:38:16+00:00"
         },
         {
             "name": "psr/http-message",
@@ -8003,49 +8157,95 @@
             "time": "2019-04-10T06:00:20+00:00"
         },
         {
-            "name": "sentry/sentry",
-            "version": "1.10.0",
+            "name": "sentry/sdk",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "b2b8ffe1560b9fb0110b02993594a4b04a511959"
+                "url": "https://github.com/getsentry/sentry-php-sdk.git",
+                "reference": "4c115873c86ad5bd0ac6d962db70ca53bf8fb874"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/b2b8ffe1560b9fb0110b02993594a4b04a511959",
-                "reference": "b2b8ffe1560b9fb0110b02993594a4b04a511959",
+                "url": "https://api.github.com/repos/getsentry/sentry-php-sdk/zipball/4c115873c86ad5bd0ac6d962db70ca53bf8fb874",
+                "reference": "4c115873c86ad5bd0ac6d962db70ca53bf8fb874",
                 "shasum": ""
             },
             "require": {
-                "ext-curl": "*",
-                "php": "^5.3|^7.0"
+                "http-interop/http-factory-guzzle": "^1.0",
+                "php-http/curl-client": "^1.0|^2.0",
+                "sentry/sentry": "^2.1.3"
+            },
+            "type": "metapackage",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sentry",
+                    "email": "accounts@sentry.io"
+                }
+            ],
+            "description": "This is a metapackage shipping sentry/sentry with a recommended http client.",
+            "time": "2019-09-09T19:54:44+00:00"
+        },
+        {
+            "name": "sentry/sentry",
+            "version": "2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getsentry/sentry-php.git",
+                "reference": "5896f9f0a00a7525797764ba42091dfbde22a746"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5896f9f0a00a7525797764ba42091dfbde22a746",
+                "reference": "5896f9f0a00a7525797764ba42091dfbde22a746",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/promises": "^1.3",
+                "jean85/pretty-package-versions": "^1.2",
+                "php": "^7.1",
+                "php-http/async-client-implementation": "^1.0",
+                "php-http/client-common": "^1.5|^2.0",
+                "php-http/discovery": "^1.6.1",
+                "php-http/httplug": "^1.1|^2.0",
+                "php-http/message": "^1.5",
+                "psr/http-message-implementation": "^1.0",
+                "ramsey/uuid": "^3.3",
+                "symfony/options-resolver": "^2.7|^3.0|^4.0",
+                "zendframework/zend-diactoros": "^1.4|^2.0"
             },
             "conflict": {
+                "php-http/client-common": "1.8.0",
                 "raven/raven": "*"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^1.8.0",
-                "monolog/monolog": "*",
-                "phpunit/phpunit": "^4.8.35 || ^5.7"
+                "friendsofphp/php-cs-fixer": "^2.13",
+                "monolog/monolog": "^1.3|^2.0",
+                "php-http/mock-client": "^1.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^7.5",
+                "symfony/phpunit-bridge": "^4.3",
+                "vimeo/psalm": "^3.4"
             },
-            "suggest": {
-                "ext-hash": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "monolog/monolog": "Automatically capture Monolog events as breadcrumbs"
-            },
-            "bin": [
-                "bin/sentry"
-            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10.x-dev"
+                    "dev-develop": "2.2-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Raven_": "lib/"
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Sentry\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -8054,56 +8254,64 @@
             ],
             "authors": [
                 {
-                    "name": "David Cramer",
-                    "email": "dcramer@gmail.com"
+                    "name": "Sentry",
+                    "email": "accounts@sentry.io"
                 }
             ],
-            "description": "A PHP client for Sentry (http://getsentry.com)",
-            "homepage": "http://getsentry.com",
+            "description": "A PHP SDK for Sentry (http://sentry.io)",
+            "homepage": "http://sentry.io",
             "keywords": [
+                "crash-reporting",
+                "crash-reports",
+                "error-handler",
+                "error-monitoring",
                 "log",
-                "logging"
+                "logging",
+                "sentry"
             ],
-            "time": "2018-11-09T12:27:19+00:00"
+            "time": "2019-09-23T11:52:12+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "2.3.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "a403d28f94c26bb3d1ed716d2522749625d62893"
+                "reference": "0a12cde953e60e35cdf2f6ca3a80a8def641ce33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/a403d28f94c26bb3d1ed716d2522749625d62893",
-                "reference": "a403d28f94c26bb3d1ed716d2522749625d62893",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/0a12cde953e60e35cdf2f6ca3a80a8def641ce33",
+                "reference": "0a12cde953e60e35cdf2f6ca3a80a8def641ce33",
                 "shasum": ""
             },
             "require": {
                 "jean85/pretty-package-versions": "^1.0",
                 "php": "^7.1",
-                "sentry/sentry": "^1.9",
-                "symfony/config": "^3.0||^4.0",
-                "symfony/console": "^3.3||^4.0",
-                "symfony/dependency-injection": "^3.0||^4.0",
-                "symfony/event-dispatcher": "^3.0||^4.0",
-                "symfony/http-kernel": "^3.0||^4.0",
-                "symfony/security-core": "^3.0||^4.0"
+                "sentry/sdk": "^2.0",
+                "symfony/config": "^2.8||^3.0||^4.0",
+                "symfony/console": "^2.8||^3.0||^4.0",
+                "symfony/dependency-injection": "^2.8||^3.0||^4.0",
+                "symfony/event-dispatcher": "^2.8||^3.0||^4.0",
+                "symfony/http-kernel": "^2.8||^3.0||^4.0",
+                "symfony/security-core": "^2.8||^3.0||^4.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.8",
-                "phpstan/phpstan": "^0.10",
-                "phpstan/phpstan-phpunit": "^0.10",
-                "phpunit/phpunit": "^7",
+                "jangregor/phpstan-prophecy": "^0.3.0",
+                "php-http/mock-client": "^1.0",
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^7.5",
                 "scrutinizer/ocular": "^1.4",
-                "symfony/expression-language": "^3.0||^4.0"
+                "symfony/expression-language": "^2.8||^3.0||^4.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "master": "2.1.x-dev",
-                    "releases/1.x": "1.1.x-dev"
+                    "master": "3.x-dev",
+                    "releases/2.x": "2.x-dev",
+                    "releases/1.x": "1.x-dev"
                 }
             },
             "autoload": {
@@ -8133,7 +8341,7 @@
                 "sentry",
                 "symfony"
             ],
-            "time": "2019-01-28T09:23:48+00:00"
+            "time": "2019-07-02T08:46:15+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -9352,9 +9560,6 @@
             },
             "require": {
                 "php": "^7.1.3"
-            },
-            "conflict": {
-                "twig/twig": "<1.41|<2.10"
             },
             "require-dev": {
                 "symfony/process": "~3.4|~4.0"
@@ -13048,6 +13253,72 @@
             "time": "2019-08-31T14:14:34+00:00"
         },
         {
+            "name": "zendframework/zend-diactoros",
+            "version": "2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-diactoros.git",
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/279723778c40164bcf984a2df12ff2c6ec5e61c1",
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0"
+            },
+            "provide": {
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "http-interop/http-factory-tests": "^0.5.0",
+                "php-http/psr7-integration-tests": "dev-master",
+                "phpunit/phpunit": "^7.0.2",
+                "zendframework/zend-coding-standard": "~1.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev",
+                    "dev-develop": "2.2.x-dev",
+                    "dev-release-1.8": "1.8.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions/create_uploaded_file.php",
+                    "src/functions/marshal_headers_from_sapi.php",
+                    "src/functions/marshal_method_from_sapi.php",
+                    "src/functions/marshal_protocol_version_from_sapi.php",
+                    "src/functions/marshal_uri_from_sapi.php",
+                    "src/functions/normalize_server.php",
+                    "src/functions/normalize_uploaded_files.php",
+                    "src/functions/parse_cookie_header.php"
+                ],
+                "psr-4": {
+                    "Zend\\Diactoros\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "PSR HTTP Message implementations",
+            "keywords": [
+                "http",
+                "psr",
+                "psr-7"
+            ],
+            "time": "2019-07-10T16:13:25+00:00"
+        },
+        {
             "name": "zendframework/zend-eventmanager",
             "version": "3.2.1",
             "source": {
@@ -16272,6 +16543,17 @@
         {
             "name": "roave/security-advisories",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Roave/SecurityAdvisories.git",
+                "reference": "3a9ab646603efdccb4f7c4acbb3b36974ef257d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/3a9ab646603efdccb4f7c4acbb3b36974ef257d8",
+                "reference": "3a9ab646603efdccb4f7c4acbb3b36974ef257d8",
+                "shasum": ""
+            },
             "conflict": {
                 "3f/pygmentize": "<1.2",
                 "adodb/adodb-php": "<5.20.12",
@@ -16293,6 +16575,7 @@
                 "contao/core-bundle": ">=4,<4.4.39|>=4.5,<4.7.5",
                 "contao/listing-bundle": ">=4,<4.4.8",
                 "contao/newsletter-bundle": ">=4,<4.1",
+                "datadog/dd-trace": ">=0.30,<0.30.2",
                 "david-garcia/phpwhois": "<=4.3.1",
                 "doctrine/annotations": ">=1,<1.2.7",
                 "doctrine/cache": ">=1,<1.3.2|>=1.4,<1.4.2",
@@ -16380,6 +16663,7 @@
                 "spoonity/tcpdf": "<6.2.22",
                 "squizlabs/php_codesniffer": ">=1,<2.8.1|>=3,<3.0.1",
                 "stormpath/sdk": ">=0,<9.9.99",
+                "studio-42/elfinder": "<2.1.48",
                 "swiftmailer/swiftmailer": ">=4,<5.4.5",
                 "sylius/admin-bundle": ">=1,<1.0.17|>=1.1,<1.1.9|>=1.2,<1.2.2",
                 "sylius/grid": ">=1,<1.1.19|>=1.2,<1.2.18|>=1.3,<1.3.13|>=1.4,<1.4.5|>=1.5,<1.5.1",
@@ -16471,7 +16755,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-07-18T15:17:58+00:00"
+            "time": "2019-09-26T17:56:56+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
