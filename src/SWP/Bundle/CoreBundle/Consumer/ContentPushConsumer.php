@@ -25,6 +25,8 @@ use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
+use Sentry\Breadcrumb;
+use Sentry\State\HubInterface;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
@@ -43,35 +45,19 @@ class ContentPushConsumer implements ConsumerInterface
 {
     protected $lockFactory;
 
-    /**
-     * @var LoggerInterface
-     */
     protected $logger;
 
-    /**
-     * @var PackageRepository
-     */
     protected $packageRepository;
 
-    /**
-     * @var EventDispatcherInterface
-     */
     protected $eventDispatcher;
 
-    /**
-     * @var DataTransformerInterface
-     */
     protected $jsonToPackageTransformer;
 
-    /**
-     * @var EntityManagerInterface
-     */
     protected $packageObjectManager;
 
-    /**
-     * @var TenantContextInterface
-     */
     protected $tenantContext;
+
+    protected $sentryHub;
 
     public function __construct(
         Factory $lockFactory,
@@ -80,7 +66,8 @@ class ContentPushConsumer implements ConsumerInterface
         EventDispatcherInterface $eventDispatcher,
         DataTransformerInterface $jsonToPackageTransformer,
         EntityManagerInterface $packageObjectManager,
-        TenantContextInterface $tenantContext
+        TenantContextInterface $tenantContext,
+        HubInterface $sentryHub
     ) {
         $this->lockFactory = $lockFactory;
         $this->logger = $logger;
@@ -89,6 +76,7 @@ class ContentPushConsumer implements ConsumerInterface
         $this->jsonToPackageTransformer = $jsonToPackageTransformer;
         $this->packageObjectManager = $packageObjectManager;
         $this->tenantContext = $tenantContext;
+        $this->sentryHub = $sentryHub;
     }
 
     public function execute(AMQPMessage $msg): int
@@ -105,21 +93,17 @@ class ContentPushConsumer implements ConsumerInterface
                 return ConsumerInterface::MSG_REJECT_REQUEUE;
             }
 
-            $result = $this->doExecute($tenant, $package);
-            $lock->release();
-
-            return $result;
+            return $this->doExecute($tenant, $package);
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
-            $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : 'Unhandled NonUnique or NotNullConstraint exception', ['trace' => $e->getTraceAsString()]);
+            $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
 
             return ConsumerInterface::MSG_REJECT;
         } catch (DBALException | ORMException $e) {
-            $lock->release();
+            $this->logException($e, $package);
 
             throw $e;
         } catch (Exception $e) {
-            $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : 'Unhandled exception', ['trace' => $e->getTraceAsString()]);
-            $lock->release();
+            $this->logException($e, $package);
 
             return ConsumerInterface::MSG_REJECT;
         } finally {
@@ -204,5 +188,21 @@ class ContentPushConsumer implements ConsumerInterface
         if ($this->tenantContext instanceof ResettableInterface) {
             $this->tenantContext->reset();
         }
+    }
+
+    private function logException(\Exception $e, PackageInterface $package, string $defaultMessage = 'Unhandled exception'): void
+    {
+        $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : $defaultMessage, ['trace' => $e->getTraceAsString()]);
+        $this->sentryHub->addBreadcrumb(new Breadcrumb(
+            Breadcrumb::LEVEL_DEBUG,
+            Breadcrumb::TYPE_DEFAULT,
+            'publishing',
+            'Package',
+            [
+                'guid' => $package->getGuid(),
+                'headline' => $package->getHeadline(),
+            ]
+        ));
+        $this->sentryHub->captureException($e);
     }
 }
