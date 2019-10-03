@@ -33,6 +33,12 @@ class UpdateApplicationVersion extends BaseAction
         $fileContent = preg_replace('/(.*private \$releaseDate = .*;)/', '    private $releaseDate = \''.date('Y-m-d').'\';', $fileContent);
         file_put_contents($appFile, $fileContent);
 
+        $sentryConfigFile = realpath(__DIR__.'/../config/packages/sentry.yaml');
+        Context::get('output')->writeln("Updating version [<yellow>$newVersion</yellow>] in $sentryConfigFile: ");
+        $fileContent = file_get_contents($sentryConfigFile);
+        $fileContent = preg_replace('/(.*release: \'.*.\')/', '        release: \''.$newVersion.'\'', $fileContent);
+        file_put_contents($sentryConfigFile, $fileContent);
+
         $this->confirmSuccess();
     }
 }
