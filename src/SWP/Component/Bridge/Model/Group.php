@@ -79,12 +79,12 @@ class Group implements GroupInterface
         $this->items = $items;
     }
 
-    public function getPackage(): PackageInterface
+    public function getPackage(): ?PackageInterface
     {
         return $this->package;
     }
 
-    public function setPackage(PackageInterface $package): void
+    public function setPackage(?PackageInterface $package): void
     {
         $this->package = $package;
     }

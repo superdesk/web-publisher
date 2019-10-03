@@ -139,10 +139,21 @@ class ContentPushConsumer implements ConsumerInterface
             ]));
 
             foreach ($existingPackage->getGroups() as $group) {
-                $this->packageObjectManager->remove($group);
+                $existingPackage->removeGroup($group);
+            }
+
+            $tempGroups = [];
+            foreach ($package->getGroups() as $group) {
+                $tempGroups[] = $group;
+                $package->removeGroup($group);
             }
 
             $package = $this->packageObjectManager->merge($package);
+
+            foreach ($tempGroups as $group) {
+                $package->addGroup($group);
+            }
+
             $this->packageObjectManager->flush();
 
             $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_UPDATE]));
