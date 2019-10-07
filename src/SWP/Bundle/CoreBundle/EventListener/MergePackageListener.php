@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
+use DateTime;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -33,5 +34,8 @@ final class MergePackageListener
         $existingPackage = $event->getArgument('package');
 
         $package->setStatus($existingPackage->getStatus());
+        $package->setId($existingPackage->getId());
+        $package->setCreatedAt($existingPackage->getCreatedAt());
+        $package->setUpdatedAt(new DateTime());
     }
 }
