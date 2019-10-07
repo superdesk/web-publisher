@@ -32,6 +32,7 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Bridge\Model\Package;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
@@ -130,29 +131,10 @@ class ContentPushConsumer implements ConsumerInterface
         /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);
         if (null !== $existingPackage) {
-            $package->setId($existingPackage->getId());
-            $package->setCreatedAt($existingPackage->getCreatedAt());
-            $package->setUpdatedAt(new \DateTime());
             $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, [
                 'eventName' => Events::PACKAGE_PRE_UPDATE,
                 'package' => $existingPackage,
             ]));
-
-            foreach ($existingPackage->getGroups() as $group) {
-                $existingPackage->removeGroup($group);
-            }
-
-            $tempGroups = [];
-            foreach ($package->getGroups() as $group) {
-                $tempGroups[] = $group;
-                $package->removeGroup($group);
-            }
-
-            $package = $this->packageObjectManager->merge($package);
-
-            foreach ($tempGroups as $group) {
-                $package->addGroup($group);
-            }
 
             $this->packageObjectManager->flush();
 
