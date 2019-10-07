@@ -32,7 +32,6 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
-use SWP\Component\Bridge\Model\Package;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
