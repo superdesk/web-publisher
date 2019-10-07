@@ -18,9 +18,6 @@ namespace SWP\Bundle\ContentBundle\Loader;
 
 use SWP\Component\Common\Criteria\Criteria;
 
-/**
- * Abstract class PaginatedLoader.
- */
 abstract class PaginatedLoader
 {
     public function applyPaginationToCriteria(Criteria $criteria, array $parameters): Criteria

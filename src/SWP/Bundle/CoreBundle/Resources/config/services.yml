@@ -313,7 +313,7 @@ services:
     swp.listener.remove_items:
         class: SWP\Bundle\CoreBundle\EventListener\RemoveItemsListener
         arguments:
-            - '@swp.remover.content_list_items_remover'
+            - '@SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover'
             - '@swp.repository.article'
             - '@swp.factory.content_list_item'
             - "@swp.provider.route"

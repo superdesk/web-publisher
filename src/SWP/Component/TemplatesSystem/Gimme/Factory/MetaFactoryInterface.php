@@ -18,11 +18,5 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 interface MetaFactoryInterface
 {
-    /**
-     * @param mixed      $value
-     * @param array|null $configuration
-     *
-     * @return Meta
-     */
-    public function create($value, array $configuration = null);
+    public function create($value, array $configuration = null): Meta;
 }

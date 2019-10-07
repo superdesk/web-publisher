@@ -29,33 +29,14 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
-/**
- * Class ContentListsItemLoader.
- */
 class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
 {
-    /**
-     * @var ContentListRepositoryInterface
-     */
     protected $contentListRepository;
 
-    /**
-     * @var ContentListItemRepositoryInterface
-     */
     protected $contentListItemsRepository;
 
-    /**
-     * @var MetaFactoryInterface
-     */
     protected $metaFactory;
 
-    /**
-     * ContentListsItemLoader constructor.
-     *
-     * @param ContentListRepositoryInterface     $contentListRepository
-     * @param ContentListItemRepositoryInterface $contentListItemRepository
-     * @param MetaFactoryInterface               $metaFactory
-     */
     public function __construct(
         ContentListRepositoryInterface $contentListRepository,
         ContentListItemRepositoryInterface $contentListItemRepository,
@@ -66,9 +47,6 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
         $this->metaFactory = $metaFactory;
     }
 
-    /**
-     *  {@inheritdoc}
-     */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
@@ -155,23 +133,11 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
         }
     }
 
-    /**
-     * Checks if Loader supports provided type.
-     *
-     * @param string $type
-     *
-     * @return bool
-     */
     public function isSupported(string $type): bool
     {
         return in_array($type, ['contentListItems', 'contentListItem']);
     }
 
-    /**
-     * @param mixed $item
-     *
-     * @return null|Meta
-     */
     private function getItemMeta($item)
     {
         if (null !== $item) {
