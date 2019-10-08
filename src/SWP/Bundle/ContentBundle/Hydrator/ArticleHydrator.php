@@ -64,6 +64,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         $article->setLocale($package->getLanguage());
         $article->setLead($package->getDescription());
         $article->setMetadata($package->getMetadata());
+        $article->setRoute($article->getRoute());
 
         return $article;
     }
