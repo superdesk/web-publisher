@@ -25,6 +25,8 @@ services:
             - '@swp_bridge.transformer.json_to_package'
             - '@swp.object_manager.package'
             - '@swp_multi_tenancy.tenant_context'
+            - '@Sentry\State\HubInterface'
+            - '@SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface'
 
     SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer:
         arguments:
