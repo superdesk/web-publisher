@@ -28,6 +28,7 @@ use Psr\Log\LoggerInterface;
 use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
+use SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
@@ -59,6 +60,8 @@ class ContentPushConsumer implements ConsumerInterface
 
     protected $sentryHub;
 
+    protected $packageHydrator;
+
     public function __construct(
         Factory $lockFactory,
         LoggerInterface $logger,
@@ -67,7 +70,8 @@ class ContentPushConsumer implements ConsumerInterface
         DataTransformerInterface $jsonToPackageTransformer,
         EntityManagerInterface $packageObjectManager,
         TenantContextInterface $tenantContext,
-        HubInterface $sentryHub
+        HubInterface $sentryHub,
+        PackageHydratorInterface $packageHydrator
     ) {
         $this->lockFactory = $lockFactory;
         $this->logger = $logger;
@@ -77,6 +81,7 @@ class ContentPushConsumer implements ConsumerInterface
         $this->packageObjectManager = $packageObjectManager;
         $this->tenantContext = $tenantContext;
         $this->sentryHub = $sentryHub;
+        $this->packageHydrator = $packageHydrator;
     }
 
     public function execute(AMQPMessage $msg): int
@@ -86,12 +91,12 @@ class ContentPushConsumer implements ConsumerInterface
         $tenant = $decodedMessage['tenant'];
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
-        $lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
+        //$lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
 
         try {
-            if (!$lock->acquire()) {
-                return ConsumerInterface::MSG_REJECT_REQUEUE;
-            }
+//            if (!$lock->acquire()) {
+//                return ConsumerInterface::MSG_REJECT_REQUEUE;
+//            }
 
             return $this->doExecute($tenant, $package);
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
@@ -107,7 +112,7 @@ class ContentPushConsumer implements ConsumerInterface
 
             return ConsumerInterface::MSG_REJECT;
         } finally {
-            $lock->release();
+            //$lock->release();
         }
     }
 
@@ -130,10 +135,9 @@ class ContentPushConsumer implements ConsumerInterface
         /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);
         if (null !== $existingPackage) {
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, [
-                'eventName' => Events::PACKAGE_PRE_UPDATE,
-                'package' => $existingPackage,
-            ]));
+            $package = $this->packageHydrator->hydrate($package, $existingPackage);
+
+            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
 
             $this->packageObjectManager->flush();
 
