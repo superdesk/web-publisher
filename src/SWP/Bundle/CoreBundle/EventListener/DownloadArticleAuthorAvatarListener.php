@@ -121,7 +121,6 @@ final class DownloadArticleAuthorAvatarListener
             $avatar = $this->createAuthorMedia($object, $image);
             $this->entityManager->persist($avatar);
             $this->entityManager->persist($image);
-            $this->entityManager->flush();
 
             $object->setAvatar($avatar);
             $object->setAvatarUrl((string) $image);
