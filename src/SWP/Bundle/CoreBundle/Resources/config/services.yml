@@ -264,6 +264,18 @@ services:
             - '%kernel.cache_dir%/twig'
             - '@swp_multi_tenancy.tenant_context'
 
+    SWP\Bundle\CoreBundle\Twig\Cache\Strategy\TagAwareIndexedChainingCacheStrategy:
+        arguments:
+            - '@SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollector'
+            - '@fos_http_cache.http.symfony_response_tagger'
+            -
+                gen: '@twig_cache.strategy.generational'
+                time: '@twig_cache.strategy.lifetime'
+
+    SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollector:
+        autowire: true
+    SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollectorInterface: '@SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollector'
+
     swp.facebook.service.instant_articles:
         class: SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService
         arguments:

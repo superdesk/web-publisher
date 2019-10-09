@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
+use SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -28,62 +29,36 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Class ArticleLoader.
- */
 class ArticleLoader extends PaginatedLoader implements LoaderInterface
 {
-    /**
-     * @var ArticleProviderInterface
-     */
     protected $articleProvider;
 
-    /**
-     * @var RouteProviderInterface
-     */
     protected $routeProvider;
 
-    /**
-     * @var ObjectManager
-     */
     protected $dm;
 
-    /**
-     * @var MetaFactoryInterface
-     */
     protected $metaFactory;
 
-    /**
-     * @var Context
-     */
     protected $context;
 
-    /**
-     * ArticleLoader constructor.
-     *
-     * @param ArticleProviderInterface $articleProvider
-     * @param RouteProviderInterface   $routeProvider
-     * @param ObjectManager            $dm
-     * @param MetaFactoryInterface     $metaFactory
-     * @param Context                  $context
-     */
+    private $cacheBlockTagsCollector;
+
     public function __construct(
         ArticleProviderInterface $articleProvider,
         RouteProviderInterface $routeProvider,
         ObjectManager $dm,
         MetaFactoryInterface $metaFactory,
-        Context $context
+        Context $context,
+        CacheBlockTagsCollectorInterface $cacheBlockTagsCollector
     ) {
         $this->articleProvider = $articleProvider;
         $this->routeProvider = $routeProvider;
         $this->dm = $dm;
         $this->metaFactory = $metaFactory;
         $this->context = $context;
+        $this->cacheBlockTagsCollector = $cacheBlockTagsCollector;
     }
 
-    /**
-     *  {@inheritdoc}
-     */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
@@ -167,33 +142,23 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSupported(string $type): bool
     {
         return in_array($type, ['articles', 'article']);
     }
 
-    /**
-     * @param Criteria $criteria
-     * @param array    $parameters
-     */
-    protected function setDateRangeToCriteria(Criteria $criteria, array $parameters)
+    protected function setDateRangeToCriteria(Criteria $criteria, array $parameters): void
     {
         if (isset($parameters['date_range']) && is_array($parameters['date_range']) && 2 === count($parameters['date_range'])) {
             $criteria->set('dateRange', $parameters['date_range']);
         }
     }
 
-    /**
-     * @param ArticleInterface|null $article
-     *
-     * @return \SWP\Component\TemplatesSystem\Gimme\Meta\Meta|bool
-     */
-    protected function getArticleMeta($article)
+    protected function getArticleMeta(?ArticleInterface $article)
     {
         if (null !== $article) {
+            $this->cacheBlockTagsCollector->addTagToCurrentCacheBlock('article-'.$article->getId());
+
             return $this->metaFactory->create($article);
         }
 

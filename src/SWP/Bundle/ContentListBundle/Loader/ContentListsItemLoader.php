@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentListBundle\Loader;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
@@ -37,14 +38,18 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
 
     protected $metaFactory;
 
+    private $cacheBlocksTagsCollector;
+
     public function __construct(
         ContentListRepositoryInterface $contentListRepository,
         ContentListItemRepositoryInterface $contentListItemRepository,
-        MetaFactoryInterface $metaFactory
+        MetaFactoryInterface $metaFactory,
+        CacheBlockTagsCollectorInterface $cacheBlocksTagsCollector
     ) {
         $this->contentListRepository = $contentListRepository;
         $this->contentListItemsRepository = $contentListItemRepository;
         $this->metaFactory = $metaFactory;
+        $this->cacheBlocksTagsCollector = $cacheBlocksTagsCollector;
     }
 
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
@@ -141,6 +146,10 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
     private function getItemMeta($item)
     {
         if (null !== $item) {
+            if ($item instanceof ContentListItemInterface) {
+                $this->cacheBlocksTagsCollector->addTagToCurrentCacheBlock('article-'.$item->getContent()->getId());
+            }
+
             return $this->metaFactory->create($item);
         }
     }

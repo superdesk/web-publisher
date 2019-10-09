@@ -14,6 +14,8 @@ services:
     context:
         alias: swp_template_engine_context
 
+    SWP\Component\TemplatesSystem\Gimme\Context\Context: '@swp_template_engine_context'
+
     swp_template_engine_context.factory.meta_factory:
         class: SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory
         arguments:
