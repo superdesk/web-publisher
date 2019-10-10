@@ -18,10 +18,7 @@ use Symfony\Component\EventDispatcher\Event;
 
 class HttpCacheEvent extends Event
 {
-    /**
-     * Event name.
-     */
-    const EVENT_NAME = 'swp_http_cache.clear';
+    public const EVENT_NAME = 'swp_http_cache.clear';
 
     protected $subject;
 

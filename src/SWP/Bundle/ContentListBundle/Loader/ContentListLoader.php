@@ -21,36 +21,18 @@ use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
-/**
- * Class ContentListLoader.
- */
 class ContentListLoader implements LoaderInterface
 {
-    /**
-     * @var ContentListRepositoryInterface
-     */
     protected $contentListRepository;
 
-    /**
-     * @var MetaFactoryInterface
-     */
     protected $metaFactory;
 
-    /**
-     * ContentListLoader constructor.
-     *
-     * @param ContentListRepositoryInterface $contentListRepository
-     * @param MetaFactoryInterface           $metaFactory
-     */
     public function __construct(ContentListRepositoryInterface $contentListRepository, MetaFactoryInterface $metaFactory)
     {
         $this->contentListRepository = $contentListRepository;
         $this->metaFactory = $metaFactory;
     }
 
-    /**
-     *  {@inheritdoc}
-     */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         if (LoaderInterface::SINGLE === $responseType) {
@@ -74,15 +56,8 @@ class ContentListLoader implements LoaderInterface
         return false;
     }
 
-    /**
-     * Checks if Loader supports provided type.
-     *
-     * @param string $type
-     *
-     * @return bool
-     */
     public function isSupported(string $type): bool
     {
-        return in_array($type, ['contentList']);
+        return 'contentList' === $type;
     }
 }

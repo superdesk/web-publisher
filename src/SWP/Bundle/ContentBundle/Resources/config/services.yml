@@ -13,14 +13,15 @@ services:
 
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
-        arguments:
-            - "@swp.provider.article"
-            - "@swp.provider.route"
-            - "@swp.object_manager.article"
-            - "@swp_template_engine_context.factory.meta_factory"
-            - "@swp_template_engine_context"
+        autowire: true
         tags:
             - { name: swp.meta_loader.add }
+    SWP\Bundle\ContentBundle\Loader\ArticleLoader: '@swp_template_engine.loader.article'
+
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector:
+        autowire: true
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface: '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector'
+
 
     swp_template_engine.loader.related_article:
         class: SWP\Bundle\ContentBundle\Loader\RelatedArticleLoader
@@ -354,4 +355,3 @@ services:
         public: true
 
     Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
-    SWP\Bundle\ContentBundle\Loader\ArticleLoader: '@swp_template_engine.loader.article'

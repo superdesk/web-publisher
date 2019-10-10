@@ -264,6 +264,18 @@ services:
             - '%kernel.cache_dir%/twig'
             - '@swp_multi_tenancy.tenant_context'
 
+    SWP\Bundle\CoreBundle\Twig\Cache\Strategy\TagAwareIndexedChainingCacheStrategy:
+        arguments:
+            - '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface'
+            - '@fos_http_cache.http.symfony_response_tagger'
+            -
+                gen: '@twig_cache.strategy.generational'
+                time: '@twig_cache.strategy.lifetime'
+
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector:
+        autowire: true
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface: '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector'
+
     swp.facebook.service.instant_articles:
         class: SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService
         arguments:
@@ -313,7 +325,7 @@ services:
     swp.listener.remove_items:
         class: SWP\Bundle\CoreBundle\EventListener\RemoveItemsListener
         arguments:
-            - '@swp.remover.content_list_items_remover'
+            - '@SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover'
             - '@swp.repository.article'
             - '@swp.factory.content_list_item'
             - "@swp.provider.route"

@@ -19,7 +19,6 @@ use FOS\HttpCacheBundle\CacheManager;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
-use SWP\Bundle\CoreBundle\Model\ContainerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -69,36 +68,33 @@ class HttpCacheSubscriber implements EventSubscriberInterface
     public function clearCache(HttpCacheEvent $event): void
     {
         $headers = ['host' => $this->getHostName($this->tenantContext->getTenant())];
-        switch (true) {
-            case $event->getSubject() instanceof ContainerInterface:
-                $this->cacheManager->invalidateRoute('swp_api_templates_list_containers', [], $headers);
-                $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
-                    'uuid' => $event->getSubject()->getUuid(),
-                ], $headers);
+        if ($event->getSubject() instanceof ArticleInterface) {
+            /** @var ArticleInterface $article */
+            $article = $event->getSubject();
+            if (
+                ArticleInterface::STATUS_PUBLISHED === $article->getStatus() &&
+                null !== $article->getId()
+            ) {
+                if (null !== $article->getRoute()) {
+                    $this->cacheManager->invalidateRoute($article, [], $headers);
+                    $this->cacheManager->invalidateRoute($article->getRoute(), [], $headers);
 
-                break;
-
-            case $event->getSubject() instanceof ArticleInterface:
-                /** @var ArticleInterface $article */
-                $article = $event->getSubject();
-                if (ArticleInterface::STATUS_PUBLISHED === $article->getStatus() &&
-                    null !== $article->getId() &&
-                    $article->getPublishedAt() >= (new \DateTime('now'))->modify('-1 hour')
-                ) {
-                    if (null !== $article->getRoute()) {
-                        $this->cacheManager->invalidateRoute($article, [], $headers);
-                        $this->cacheManager->invalidateRoute($article->getRoute(), [], $headers);
+                    if (null !== $article->getRoute()->getParent()) {
+                        $this->cacheManager->invalidateRoute($article->getRoute()->getParent(), [], $headers);
                     }
-
-                    $this->cacheManager->invalidateRoute('swp_api_content_list_articles', [], $headers);
-                    $this->cacheManager->invalidateRoute('swp_api_content_show_articles', [
-                        'id' => $article->getId(),
-                    ], $headers);
-
-                    $this->cacheManager->invalidateRoute('homepage', [], $headers);
                 }
 
-                break;
+                $this->cacheManager->invalidateRoute('swp_api_content_list_articles', [], $headers);
+                $this->cacheManager->invalidateRoute(
+                    'swp_api_content_show_articles',
+                    [
+                        'id' => $article->getId(),
+                    ],
+                    $headers
+                );
+
+                $this->cacheManager->invalidateRoute('homepage', [], $headers);
+            }
         }
 
         try {

@@ -24,6 +24,8 @@ services:
             - [setManagerName, ['%cmf_routing.dynamic.persistence.orm.manager_name%']]
             - [setRouteCollectionLimit, ['%cmf_routing.route_collection_limit%']]
 
+    SWP\Bundle\ContentBundle\Provider\RouteProviderInterface: '@swp.provider.route'
+
     swp.provider.media:
         class: '%swp.provider.media.class%'
         arguments:

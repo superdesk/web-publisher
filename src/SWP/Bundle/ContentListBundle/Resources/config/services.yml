@@ -1,34 +1,23 @@
 services:
     _defaults:
-        public: true
+        autowire: true
+        autoconfigure: true
 
-    swp.remover.content_list_items_remover:
-        class: SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover
-        arguments:
-            - '@swp.repository.content_list_item'
+    SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover: ~
 
     swp.service.content_list:
+        public: true
         class: SWP\Bundle\ContentListBundle\Services\ContentListService
         arguments:
             - '@event_dispatcher'
             - '@swp.factory.content_list_item'
             - '@swp.repository.content_list_item'
 
-    swp_content_list.loader.content_list_items:
-        class: SWP\Bundle\ContentListBundle\Loader\ContentListsItemLoader
-        arguments:
-            - "@swp.repository.content_list"
-            - "@swp.repository.content_list_item"
-            - "@swp_template_engine_context.factory.meta_factory"
+    SWP\Bundle\ContentListBundle\Loader\ContentListsItemLoader:
         tags:
             - { name: swp.meta_loader.add }
 
-    SWP\Bundle\ContentListBundle\Loader\ContentListLoader:
-        public: false
-        arguments:
-            - "@swp.repository.content_list"
-            - "@swp_template_engine_context.factory.meta_factory"
-
+    SWP\Bundle\ContentListBundle\Loader\ContentListLoader: ~
     swp_content_list.loader.content_list:
         class: SWP\Component\TemplatesSystem\Gimme\Loader\MemoryCachedLoader
         arguments:
