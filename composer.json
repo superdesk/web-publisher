@@ -94,6 +94,7 @@
     "masterminds/html5": "2.3.*",
     "nelmio/api-doc-bundle": "dev-master",
     "nelmio/cors-bundle": "^1.5",
+    "ocramius/generated-hydrator": "^3.0",
     "ocramius/proxy-manager": "<=2.1.1",
     "oneup/flysystem-bundle": "^3.1",
     "php-amqplib/rabbitmq-bundle": "^1.14",
