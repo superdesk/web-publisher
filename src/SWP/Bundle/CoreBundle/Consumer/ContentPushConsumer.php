@@ -141,6 +141,7 @@ class ContentPushConsumer implements ConsumerInterface
             $this->packageObjectManager->flush();
             $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_POST_UPDATE]));
             $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PROCESSED]));
+            $this->packageObjectManager->flush();
 
             $this->reset();
             $this->logger->info(sprintf('Package %s was updated', $existingPackage->getGuid()));
