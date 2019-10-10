@@ -29,23 +29,27 @@ final class PackageHydrator implements PackageHydratorInterface
         $hydratorClass = $config->createFactory()->getHydratorClass();
         $hydrator = new $hydratorClass();
 
-        $newPackage->setId($existingPackage->getId());
         $newPackage->setCreatedAt($existingPackage->getCreatedAt());
         $newPackage->setUpdatedAt(new DateTime());
         $newPackage->setStatus($existingPackage->getStatus());
 
-        $groups = $newPackage->getGroups()->toArray();
+        if (null !== $newPackage->getId()) {
+            return $existingPackage;
+        }
+
+        $newPackage->setId($existingPackage->getId());
+
+        // set package when the item or group is newly added
         foreach ($newPackage->getGroups() as $group) {
-            $newPackage->removeGroup($group);
+            $group->setPackage($existingPackage);
+        }
+
+        foreach ($newPackage->getItems() as $item) {
+            $item->setPackage($existingPackage);
         }
 
         $result = $hydrator->extract($newPackage);
         $hydrator->hydrate($result, $existingPackage);
-        $existingPackage->setUpdatedAt(new DateTime());
-
-        foreach ($groups as $group) {
-            $existingPackage->addGroup($group);
-        }
 
         return $existingPackage;
     }

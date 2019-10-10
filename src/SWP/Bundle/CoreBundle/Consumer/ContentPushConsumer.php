@@ -91,12 +91,12 @@ class ContentPushConsumer implements ConsumerInterface
         $tenant = $decodedMessage['tenant'];
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
-        $lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
+        //$lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
 
         try {
-            if (!$lock->acquire()) {
-                return ConsumerInterface::MSG_REJECT_REQUEUE;
-            }
+//            if (!$lock->acquire()) {
+//                return ConsumerInterface::MSG_REJECT_REQUEUE;
+//            }
 
             return $this->doExecute($tenant, $package);
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
@@ -112,7 +112,7 @@ class ContentPushConsumer implements ConsumerInterface
 
             return ConsumerInterface::MSG_REJECT;
         } finally {
-            $lock->release();
+            //$lock->release();
         }
     }
 
@@ -135,20 +135,12 @@ class ContentPushConsumer implements ConsumerInterface
         /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);
         if (null !== $existingPackage) {
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, [
-                'eventName' => Events::PACKAGE_PRE_UPDATE,
-                'package' => $existingPackage,
-            ]));
+            $existingPackage = $this->packageHydrator->hydrate($package, $existingPackage);
 
-            $package = $this->packageHydrator->hydrate($package, $existingPackage);
-
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
-
+            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
             $this->packageObjectManager->flush();
-
-            $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_UPDATE]));
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
-            $this->packageObjectManager->flush();
+            $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_POST_UPDATE]));
+            $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PROCESSED]));
 
             $this->reset();
             $this->logger->info(sprintf('Package %s was updated', $existingPackage->getGuid()));
