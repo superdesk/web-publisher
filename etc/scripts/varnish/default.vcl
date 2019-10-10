@@ -1,4 +1,5 @@
 vcl 4.0;
+import xkey;
 
 include "devicedetect.vcl";
 
@@ -35,7 +36,24 @@ sub vcl_recv {
         if (!client.ip ~ invalidators) {
             return (synth(405, "Not allowed"));
         }
-        return (purge);
+
+        # If neither of the headers are provided we return 400 to simplify detecting wrong configuration
+        if (!req.http.xkey-purge && !req.http.xkey-softpurge) {
+            return (synth(400, "Neither header XKey-Purge or XKey-SoftPurge set"));
+        }
+
+        # Based on provided header invalidate (purge) and/or expire (softpurge) the tagged content
+        set req.http.n-gone = 0;
+        set req.http.n-softgone = 0;
+        if (req.http.xkey-purge) {
+            set req.http.n-gone = xkey.purge(req.http.xkey-purge);
+        }
+
+        if (req.http.xkey-softpurge) {
+            set req.http.n-softgone = xkey.softpurge(req.http.xkey-softpurge);
+        }
+
+        return (synth(200, "Purged "+req.http.n-gone+" objects, expired "+req.http.n-softgone+" objects"));
     }
 
     # allow ban
@@ -48,7 +66,6 @@ sub vcl_recv {
             ban("obj.http.X-Host ~ " + req.http.X-Host
                 + " && obj.http.X-Url ~ " + req.http.X-Url
                 + " && obj.http.content-type ~ " + req.http.X-Content-Type
-                // the left side is the response header, the right side the invalidation header
                 + " && obj.http.X-Cache-Tags ~ " + req.http.X-Cache-Tags
             );
         } else {
@@ -149,6 +166,7 @@ sub vcl_deliver {
         # Remove ban-lurker friendly custom headers when delivering to client
         unset resp.http.X-Url;
         unset resp.http.X-Host;
+        unset resp.http.xkey;
 
         # Unset the tagged cache headers
         unset resp.http.X-Cache-Tags;

@@ -19,7 +19,7 @@ namespace SWP\Bundle\ContentListBundle\Loader;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
+use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;

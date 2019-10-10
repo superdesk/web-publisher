@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Twig\Cache;
+namespace SWP\Bundle\ContentBundle\Twig\Cache;
 
 interface CacheBlockTagsCollectorInterface
 {
@@ -20,7 +20,7 @@ interface CacheBlockTagsCollectorInterface
 
     public function addTagToCurrentCacheBlock(string $tag): void;
 
-    public function getTags(string $key): array;
+    public function getCurrentCacheBlockTags(): array;
 
     public function flushCurrentCacheBlockTags(): void;
 }

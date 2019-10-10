@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Twig\Cache;
+namespace SWP\Bundle\ContentBundle\Twig\Cache;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -52,7 +52,7 @@ class CacheBlockTagsCollector implements CacheBlockTagsCollectorInterface
         $this->currentCacheBlockKey = null;
     }
 
-    public function getTags(string $key): array
+    public function getCurrentCacheBlockTags(): array
     {
         return $this->currentCacheBlockTags->toArray();
     }

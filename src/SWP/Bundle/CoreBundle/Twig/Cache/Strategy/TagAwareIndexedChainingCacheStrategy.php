@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\Twig\Cache\Strategy;
 
 use Asm89\Twig\CacheExtension\CacheStrategy\IndexedChainingCacheStrategy as BaseIndexedChainingCacheStrategy;
 use FOS\HttpCache\ResponseTagger;
-use SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
+use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 
 class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrategy
 {
@@ -41,7 +41,7 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
         if (false === $fetchedBlock) {
             $this->tagsCollector->startNewCacheBlock($this->getKeyString($key));
         } else {
-            $this->responseTagger->addTags($this->tagsCollector->getTags($this->getKeyString($key)));
+            $this->responseTagger->addTags($this->tagsCollector->getCurrentCacheBlockTags());
         }
 
         return $fetchedBlock;
@@ -50,7 +50,7 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
     public function saveBlock($key, $block)
     {
         $this->tagsCollector->flushCurrentCacheBlockTags();
-        $this->responseTagger->addTags($this->tagsCollector->getTags($this->getKeyString($key)));
+        $this->responseTagger->addTags($this->tagsCollector->getCurrentCacheBlockTags());
 
         return parent::saveBlock($key, $block);
     }

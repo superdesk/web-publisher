@@ -18,7 +18,7 @@ namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
-use SWP\Bundle\CoreBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
+use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
