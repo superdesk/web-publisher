@@ -512,12 +512,6 @@
     "nikic/php-parser": {
         "version": "v4.2.1"
     },
-    "ocramius/code-generator-utils": {
-        "version": "1.0.0"
-    },
-    "ocramius/generated-hydrator": {
-        "version": "3.0.0"
-    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },

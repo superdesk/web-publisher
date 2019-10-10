@@ -32,9 +32,9 @@ interface GroupInterface extends PersistableInterface, SoftDeletableInterface
 
     public function setItems(Collection $items): void;
 
-    public function getPackage(): ?PackageInterface;
+    public function getPackage(): PackageInterface;
 
-    public function setPackage(?PackageInterface $package): void;
+    public function setPackage(PackageInterface $package): void;
 
     public function getType(): ?string;
 
