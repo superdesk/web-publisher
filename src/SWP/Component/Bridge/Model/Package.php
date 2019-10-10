@@ -124,22 +124,6 @@ class Package extends BaseContent implements PackageInterface
         return $this->groups;
     }
 
-    public function removeGroup(GroupInterface $group): void
-    {
-        if ($this->groups->contains($group)) {
-            $group->setPackage(null);
-            $this->groups->removeElement($group);
-        }
-    }
-
-    public function addGroup(GroupInterface $group): void
-    {
-        if (!$this->groups->contains($group)) {
-            $group->setPackage($this);
-            $this->groups->add($group);
-        }
-    }
-
     public function setGroups(?Collection $groups): void
     {
         $this->groups = $groups;
