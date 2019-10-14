@@ -20,11 +20,11 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 final class HttpCacheArticleTagGenerator implements HttpCacheArticleTagGeneratorInterface
 {
-    public function generateTag(ArticleInterface $article): array
+    public function generateTags(ArticleInterface $article): array
     {
-        $tags = ['a-'.$article->getId()];
-        if (null !== ($route = $article->getRoute())) {
-            $tags[] = 'r-'.$route->getId();
+        $tags = [];
+        if (null !== ($articleId = $article->getId())) {
+            $tags[] = 'a-'.$articleId;
         }
 
         return $tags;

@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\Service;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleService implements ArticleServiceInterface
@@ -42,7 +41,6 @@ class ArticleService implements ArticleServiceInterface
         }
 
         $this->dispatchArticleEvent(ArticleEvents::POST_PUBLISH, $article);
-        $this->eventDispatcher->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
 
         return $article;
     }
@@ -55,7 +53,6 @@ class ArticleService implements ArticleServiceInterface
         $article->setStatus($status);
 
         $this->dispatchArticleEvent(ArticleEvents::POST_UNPUBLISH, $article);
-        $this->eventDispatcher->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
 
         return $article;
     }

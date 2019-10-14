@@ -25,7 +25,6 @@ use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Model\ContentInterface;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -96,7 +95,6 @@ final class UpdatedPackageListener
         foreach ($this->articleRepository->getArticlesByPackage($package)->getQuery()->getResult() as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
-            $this->eventDispatcher->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
             // Flush in loop to emit POST_UPDATE article event
             $this->articleManager->flush();
             $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));

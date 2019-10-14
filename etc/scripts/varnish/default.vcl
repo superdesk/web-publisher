@@ -31,6 +31,13 @@ sub vcl_recv {
         set req.hash_always_miss = true;
     }
 
+    # Uncomment it when site requires authorization header (ex. staging)
+    # by default those requests are not cached
+
+    # if (req.method == "GET") {
+    #    unset req.http.Authorization;
+    # }
+
     # allow PURGE
     if (req.method == "PURGEKEYS") {
         if (!client.ip ~ invalidators) {

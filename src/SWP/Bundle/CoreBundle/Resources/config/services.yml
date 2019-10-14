@@ -202,18 +202,16 @@ services:
             - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
 
     SWP\Bundle\CoreBundle\EventListener\CustomPublisherHeaderListener:
+        public: false
         arguments:
             - '%kernel.debug%'
             - '@swp_core.factory.version'
         tags:
             - { name: kernel.event_listener, event: kernel.response, priority: 1 }
 
-    swp_core.subscriber.http_cache:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
-        arguments:
-            - "@fos_http_cache.cache_manager"
-            - "@logger"
-            - "@swp_multi_tenancy.tenant_context"
+    SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber:
+        public: false
+        autowire: true
         tags:
             - { name: kernel.event_subscriber }
 
@@ -685,15 +683,6 @@ services:
             - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator'
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
-    SWP\Bundle\CoreBundle\EventListener\InvalidateHttpCacheTagsListener:
-        arguments:
-            - '@fos_http_cache.cache_manager'
-            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGenerator'
-            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator'
-        tags:
-            - { name: kernel.event_listener, event: swp.article.post_update, method: onPostUpdate }
-            - { name: kernel.event_listener, event: swp.article.unpublished, method: onPostUpdate }
 
     SWP\Bundle\CoreBundle\EventListener\ImageToWebpConversionListener:
         autowire: true

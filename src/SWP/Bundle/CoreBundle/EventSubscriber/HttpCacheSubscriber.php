@@ -17,84 +17,75 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 use FOS\HttpCache\Exception\ExceptionCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Psr\Log\LoggerInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use SWP\Component\Common\Event\HttpCacheEvent;
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGeneratorInterface;
+use SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGeneratorInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class HttpCacheSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var CacheManager
-     */
     protected $cacheManager;
 
-    /**
-     * @var LoggerInterface
-     */
     protected $logger;
 
-    /**
-     * @var TenantContextInterface
-     */
     protected $tenantContext;
 
-    /**
-     * HttpCacheSubscriber constructor.
-     *
-     * @param CacheManager    $cacheManager
-     * @param LoggerInterface $logger
-     */
-    public function __construct(CacheManager $cacheManager, LoggerInterface $logger, TenantContextInterface $tenantContext)
-    {
+    private $articleTagGenerator;
+
+    private $routeTagGenerator;
+
+    public function __construct(
+        CacheManager $cacheManager,
+        LoggerInterface $logger,
+        TenantContextInterface $tenantContext,
+        HttpCacheArticleTagGeneratorInterface $articleTagGenerator,
+        HttpCacheRouteTagGeneratorInterface $routeTagGenerator
+    ) {
         $this->cacheManager = $cacheManager;
         $this->logger = $logger;
         $this->tenantContext = $tenantContext;
+        $this->articleTagGenerator = $articleTagGenerator;
+        $this->routeTagGenerator = $routeTagGenerator;
     }
 
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
-            HttpCacheEvent::EVENT_NAME => [
-                ['clearCache', 0],
-            ],
+            ArticleEvents::POST_UPDATE => 'clearCache',
         ];
     }
 
-    public function clearCache(HttpCacheEvent $event): void
+    public function clearCache(ArticleEvent $event): void
     {
         $headers = ['host' => $this->getHostName($this->tenantContext->getTenant())];
-        if ($event->getSubject() instanceof ArticleInterface) {
-            /** @var ArticleInterface $article */
-            $article = $event->getSubject();
-            if (
-                ArticleInterface::STATUS_PUBLISHED === $article->getStatus() &&
-                null !== $article->getId()
-            ) {
-                if (null !== $article->getRoute()) {
-                    $this->cacheManager->invalidateRoute($article, [], $headers);
-                    $this->cacheManager->invalidateRoute($article->getRoute(), [], $headers);
 
-                    if (null !== $article->getRoute()->getParent()) {
-                        $this->cacheManager->invalidateRoute($article->getRoute()->getParent(), [], $headers);
-                    }
+        $article = $event->getArticle();
+        if (
+            null !== $article->getId()
+        ) {
+            $tags = [
+                $this->articleTagGenerator->generateTags($article),
+            ];
+
+            // Clear article route page (usually article is listed there)
+            if (null !== $article->getRoute()) {
+                $tags[] = $this->routeTagGenerator->generateTags($article->getRoute());
+                if (null !== $article->getRoute()->getParent()) {
+                    $tags[] = $this->routeTagGenerator->generateTags($article->getRoute()->getParent());
                 }
-
-                $this->cacheManager->invalidateRoute('swp_api_content_list_articles', [], $headers);
-                $this->cacheManager->invalidateRoute(
-                    'swp_api_content_show_articles',
-                    [
-                        'id' => $article->getId(),
-                    ],
-                    $headers
-                );
-
-                $this->cacheManager->invalidateRoute('homepage', [], $headers);
             }
+
+            $this->cacheManager->invalidateTags($tags);
+
+            // Invalidate API responses
+            $this->cacheManager->invalidateRoute('swp_api_content_list_articles', [], $headers);
+            $this->cacheManager->invalidateRoute('swp_api_content_show_articles', ['id' => $article->getId()], $headers);
+
+            // To be sure that we have fresh front page - clear cache also there
+            $this->cacheManager->invalidateRoute('homepage', [], $headers);
         }
 
         try {

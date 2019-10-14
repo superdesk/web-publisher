@@ -20,5 +20,5 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface HttpCacheRouteTagGeneratorInterface
 {
-    public function generateTag(RouteInterface $route): array;
+    public function generateTags(RouteInterface $route): array;
 }

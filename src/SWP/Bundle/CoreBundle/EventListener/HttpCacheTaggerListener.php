@@ -51,7 +51,7 @@ class HttpCacheTaggerListener
         /** @var ArticleInterface $article */
         $article = $event->getRequest()->get(DynamicRouter::CONTENT_KEY);
         if (null !== $article) {
-            $this->responseTagger->addTags($this->articleTagGenerator->generateTag($article));
+            $this->responseTagger->addTags($this->articleTagGenerator->generateTags($article));
 
             return;
         }
@@ -59,7 +59,7 @@ class HttpCacheTaggerListener
         /** @var RouteInterface $routeObject */
         $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
         if (null !== $routeObject) {
-            $this->responseTagger->addTags($this->routeTagGenerator->generateTag($routeObject));
+            $this->responseTagger->addTags($this->routeTagGenerator->generateTags($routeObject));
         }
     }
 }
