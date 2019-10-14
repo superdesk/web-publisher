@@ -157,7 +157,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     protected function getArticleMeta(?ArticleInterface $article)
     {
         if (null !== $article) {
-            $this->cacheBlockTagsCollector->addTagToCurrentCacheBlock('article-'.$article->getId());
+            $this->cacheBlockTagsCollector->addTagToCurrentCacheBlock('a-'.$article->getId());
 
             return $this->metaFactory->create($article);
         }

@@ -44,7 +44,7 @@ Feature: Working with cache blocks http cache tags collector
      """
       {% cache 'v1' {time: 10} %}
         {% gimmelist article from articles %}
-            // remove id's but it should still pass ass cached version should be used
+            // remove id's but it should still pass as cached version should be used
             {{ article.title }}
         {% endgimmelist %}
       {% endcache %}

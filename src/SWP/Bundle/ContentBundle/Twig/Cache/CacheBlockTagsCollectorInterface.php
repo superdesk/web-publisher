@@ -3,12 +3,12 @@
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2017 Sourcefabric z.u. and contributors.
+ * Copyright 2019 Sourcefabric z.u. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2017 Sourcefabric z.ú
+ * @copyright 2019 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
@@ -23,4 +23,6 @@ interface CacheBlockTagsCollectorInterface
     public function getCurrentCacheBlockTags(): array;
 
     public function flushCurrentCacheBlockTags(): void;
+
+    public function getSavedCacheBlockTags(string $cacheKey);
 }

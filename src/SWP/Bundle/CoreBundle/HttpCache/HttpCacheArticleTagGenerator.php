@@ -22,9 +22,9 @@ final class HttpCacheArticleTagGenerator implements HttpCacheArticleTagGenerator
 {
     public function generateTag(ArticleInterface $article): array
     {
-        $tags = ['article-'.$article->getId()];
+        $tags = ['a-'.$article->getId()];
         if (null !== ($route = $article->getRoute())) {
-            $tags[] = 'route-'.$route->getId();
+            $tags[] = 'r-'.$route->getId();
         }
 
         return $tags;
