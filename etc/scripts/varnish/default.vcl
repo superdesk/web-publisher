@@ -34,7 +34,7 @@ sub vcl_recv {
     # Uncomment it when site requires authorization header (ex. staging)
     # by default those requests are not cached
 
-    # if (req.method == "GET") {
+    # if (req.method == "GET" && !req.url ~ "api") {
     #    unset req.http.Authorization;
     # }
 

@@ -673,8 +673,8 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
-    SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGenerator: ~
-    SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator: ~
+    SWP\Bundle\CoreBundle\HttpCache\:
+        resource: '../../HttpCache'
 
     SWP\Bundle\CoreBundle\EventListener\HttpCacheTaggerListener:
         arguments:
