@@ -17,7 +17,7 @@ namespace spec\SWP\Bundle\ContentBundle\Event;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @mixin ArticleEvent
