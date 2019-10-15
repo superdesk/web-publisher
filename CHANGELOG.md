@@ -6,8 +6,16 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+### 2.0.1
+
+ * improvement [#970, #973] Use varnish xtags instead cachetags
+ * fix [#969] Properly save slideshows when package is updated
+ * fix [#964] Fix slow content list items loading (internal api)
+ * fix [#963] Display slideshow's items in a proper order by default
+ * fix [#958] Log this same (and more) data to filesystem and graylog
+
 ### 2.0.0
- * feature [#942] redirect not found article request to route page  - controlled by ENV variable, disabled by default
+ * feature [#942] Redirect not found article request to route page  - controlled by ENV variable, disabled by default
  * feature [#925] oAuth client implementation
  * BC BREAK [#834] Changed query params publishedBefore and publishedAfter to published_before and published_after in ES bundle
  * feature [#787] Added support for SEO metadata
