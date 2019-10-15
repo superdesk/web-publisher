@@ -275,7 +275,7 @@ final class ContentPushTest extends WebTestCase
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
-        self::assertCount(3, $content['media'][0]['renditions']);
+        self::assertCount(5, $content['media'][0]['renditions']);
 
         self::assertArraySubset(['id' => 3, 'asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
 
@@ -302,7 +302,7 @@ final class ContentPushTest extends WebTestCase
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
-        self::assertCount(3, $content['media'][0]['renditions']);
+        self::assertCount(5, $content['media'][0]['renditions']);
         self::assertArraySubset(['asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
 
         // test resending modified content with media
@@ -326,7 +326,7 @@ final class ContentPushTest extends WebTestCase
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
-        self::assertCount(3, $content['media'][0]['renditions']);
+        self::assertCount(5, $content['media'][0]['renditions']);
         self::assertArraySubset(['asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
 
         self::assertArraySubset(['name' => '16-10'], $content['media'][0]['renditions'][0]);
@@ -378,7 +378,7 @@ final class ContentPushTest extends WebTestCase
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
-        self::assertCount(3, $content['media'][0]['renditions']);
+        self::assertCount(5, $content['media'][0]['renditions']);
         self::assertArraySubset(['id' => 1, 'asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

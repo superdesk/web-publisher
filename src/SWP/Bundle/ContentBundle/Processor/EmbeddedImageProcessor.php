@@ -76,7 +76,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
             /** @var ImageRendition $rendition */
             foreach ($articleMedia->getRenditions() as $rendition) {
                 if ($this->getDefaultImageRendition() === $rendition->getName()) {
-                    $this->processImageElement($imageElement, $rendition, $mediaId);
+                    $this->processImageElement($imageElement, $rendition, $articleMedia);
                 }
             }
         }
@@ -113,7 +113,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         return $articleMedia->getByLine();
     }
 
-    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, string $mediaId): void
+    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, ArticleMediaInterface $articleMedia): void
     {
         $attributes = $imageElement->attributes;
         $altAttribute = null;
@@ -126,14 +126,16 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         }
 
         $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
-        $imageElement->setAttribute('data-media-id', $mediaId);
+        $imageElement->setAttribute('data-media-id', $articleMedia->getKey());
         $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
         $imageElement->setAttribute('data-rendition-name', $this->getDefaultImageRendition());
         $imageElement->setAttribute('width', (string) $rendition->getWidth());
         $imageElement->setAttribute('height', (string) $rendition->getHeight());
 
-        if (null !== $altAttribute) {
+        if (null !== $altAttribute && '' !== $altAttribute->nodeValue) {
             $imageElement->setAttribute('alt', $altAttribute->nodeValue);
+        } else {
+            $imageElement->setAttribute('alt', $articleMedia->getHeadline());
         }
     }
 

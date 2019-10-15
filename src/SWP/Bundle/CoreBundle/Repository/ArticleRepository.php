@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Repository;
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ContentBundleArticleRepository;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleEvent;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Criteria\Criteria;
 
@@ -108,21 +107,15 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
                     $end->setTimestamp(strtotime($dateRange[1]));
                     $end->setTime(0, 0, 0);
 
-                    $articleEventsQuery = $this->_em->createQueryBuilder()
-                        ->from(ArticleEvent::class, 'ae')
-                        ->select('COUNT(ae.id)')
-                        ->where('ae.createdAt <= :start')
-                        ->andWhere('ae.createdAt >= :end')
-                        ->andWhere('ae.articleStatistics = stats.id');
-
                     $queryBuilder
-                        ->addSelect(sprintf('(%s) as HIDDEN events_count', $articleEventsQuery))
+                        ->andWhere('a.publishedAt <= :start')
+                        ->andWhere('a.publishedAt >= :end')
                         ->setParameter('start', $start)
                         ->setParameter('end', $end);
-                    $queryBuilder->addOrderBy('events_count', $sorting['pageViews']);
-                } else {
-                    $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
                 }
+
+                $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
+
                 unset($sorting['pageViews']);
 
                 continue;

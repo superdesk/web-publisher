@@ -26,10 +26,12 @@ fos_rest:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
             'SWP\Component\Common\Exception\NotFoundHttpException': 404
+            'SWP\Component\Common\Exception\ArticleNotFoundException': 404
             'SWP\Bundle\SettingsBundle\Exception\InvalidScopeException': 500
             'SWP\Component\MultiTenancy\Exception\TenantNotFoundException': 404
         messages:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
             'SWP\Component\Common\Exception\NotFoundHttpException': true
+            'SWP\Component\Common\Exception\ArticleNotFoundException': true
             'SWP\Bundle\SettingsBundle\Exception\InvalidScopeException': true
             'SWP\Component\MultiTenancy\Exception\TenantNotFoundException': true

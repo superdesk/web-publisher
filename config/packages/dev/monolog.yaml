@@ -4,6 +4,8 @@ monolog:
         - swp_asset_download
         - swp_content_push
         - swp_image_conversion
+        - swp_rule
+        - swp_validators
     handlers:
         main:
             type:   stream

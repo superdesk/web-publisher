@@ -16,12 +16,12 @@ namespace SWP\Component\Common\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * @deprecated HttpCacheEvent is deprecated from 2.0.1, will be removed in 3.0
+ */
 class HttpCacheEvent extends Event
 {
-    /**
-     * Event name.
-     */
-    const EVENT_NAME = 'swp_http_cache.clear';
+    public const EVENT_NAME = 'swp_http_cache.clear';
 
     protected $subject;
 

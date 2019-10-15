@@ -31,7 +31,9 @@ final class OverrideAssetLocationResolver extends AbstractOverridePass
         if (null !== $assetLocationResolverDefinition) {
             $assetLocationResolverDefinition
                 ->setClass(AssetLocationResolver::class)
-                ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')]);
+                ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
+            ;
+            $container->setAlias(AssetLocationResolver::class, 'swp.resolver.asset_location');
 
             $authorAssetLocationResolverDefinition = $this->getDefinitionIfExists($container, 'swp.resolver.author_asset_location');
             $authorAssetLocationResolverDefinition
@@ -40,6 +42,7 @@ final class OverrideAssetLocationResolver extends AbstractOverridePass
                 ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
                 ->setPublic(true)
             ;
+            $container->setAlias(AuthorAssetLocationResolver::class, 'swp.resolver.author_asset_location');
 
             $authorAssetLocationResolverDefinition = $this->getDefinitionIfExists($container, 'swp.resolver.seo_asset_location');
             $authorAssetLocationResolverDefinition
@@ -48,6 +51,7 @@ final class OverrideAssetLocationResolver extends AbstractOverridePass
                 ->addMethodCall('setTenantContext', [new Reference('swp_multi_tenancy.tenant_context')])
                 ->setPublic(true)
             ;
+            $container->setAlias(SeoAssetLocationResolver::class, 'swp.resolver.seo_asset_location');
         }
     }
 }

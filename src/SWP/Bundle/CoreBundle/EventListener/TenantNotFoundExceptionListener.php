@@ -18,11 +18,11 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 final class TenantNotFoundExceptionListener
 {
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
         $isApiRequest = $event->getRequest()->attributes->get('_fos_rest_zone');
         $exception = $event->getException();

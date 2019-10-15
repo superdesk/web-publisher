@@ -64,8 +64,8 @@ class RelatedArticleLoaderTest extends WebTestCase
         self::assertInstanceOf(Meta::class, $relatedArticles[1]);
         self::assertInstanceOf(Meta::class, $relatedArticles[0]->article);
         self::assertInstanceOf(Meta::class, $relatedArticles[1]->article);
-        self::assertEquals('Test article', $relatedArticles[0]->article->title);
-        self::assertEquals('Features', $relatedArticles[1]->article->title);
+        self::assertEquals('Features', $relatedArticles[0]->article->title);
+        self::assertEquals('Test article', $relatedArticles[1]->article->title);
     }
 
     public function testRelatedArticlesLoadingWithoutArticleParameterProvided(): void
@@ -80,7 +80,7 @@ class RelatedArticleLoaderTest extends WebTestCase
         self::assertInstanceOf(Meta::class, $relatedArticles[1]);
         self::assertInstanceOf(Meta::class, $relatedArticles[0]->article);
         self::assertInstanceOf(Meta::class, $relatedArticles[1]->article);
-        self::assertEquals('Test article', $relatedArticles[0]->article->title);
-        self::assertEquals('Features', $relatedArticles[1]->article->title);
+        self::assertEquals('Features', $relatedArticles[0]->article->title);
+        self::assertEquals('Test article', $relatedArticles[1]->article->title);
     }
 }

@@ -19,30 +19,18 @@ namespace SWP\Bundle\ContentBundle\Service;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleService implements ArticleServiceInterface
 {
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * RouteService constructor.
-     *
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function publish(ArticleInterface $article)
+    public function publish(ArticleInterface $article): ArticleInterface
     {
         $this->checkIfCanBePublishedOrUnpublished($article, 'Article cannot be published');
 
@@ -53,15 +41,11 @@ class ArticleService implements ArticleServiceInterface
         }
 
         $this->dispatchArticleEvent(ArticleEvents::POST_PUBLISH, $article);
-        $this->eventDispatcher->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
 
         return $article;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unpublish(ArticleInterface $article, string $status)
+    public function unpublish(ArticleInterface $article, string $status): ArticleInterface
     {
         $this->checkIfCanBePublishedOrUnpublished($article, 'Article cannot be unpublished');
 
@@ -69,30 +53,21 @@ class ArticleService implements ArticleServiceInterface
         $article->setStatus($status);
 
         $this->dispatchArticleEvent(ArticleEvents::POST_UNPUBLISH, $article);
-        $this->eventDispatcher->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
 
         return $article;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article)
+    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article): void
     {
         $newArticleStatus = $article->getStatus();
         if ($originalArticleStatus === $newArticleStatus) {
             return;
         }
 
-        switch ($newArticleStatus) {
-            case ArticleInterface::STATUS_PUBLISHED:
-                $this->publish($article);
-
-                break;
-            default:
-                $this->unpublish($article, $newArticleStatus);
-
-                break;
+        if (ArticleInterface::STATUS_PUBLISHED === $newArticleStatus) {
+            $this->publish($article);
+        } else {
+            $this->unpublish($article, $newArticleStatus);
         }
     }
 

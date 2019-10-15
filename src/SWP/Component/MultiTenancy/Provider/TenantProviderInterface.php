@@ -14,12 +14,11 @@
 
 namespace SWP\Component\MultiTenancy\Provider;
 
+use SWP\Component\MultiTenancy\Model\TenantInterface;
+
 interface TenantProviderInterface
 {
-    /**
-     * Gets all available tenants.
-     *
-     * @return array An array of tenants
-     */
-    public function getAvailableTenants();
+    public function getAvailableTenants(): array;
+
+    public function findOneByCode(string $tenantCode): ?TenantInterface;
 }

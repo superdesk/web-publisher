@@ -86,13 +86,11 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setBody('some package body')->shouldBeCalled();
         $article->setLead('package lead')->shouldBeCalled();
         $article->setLocale('en')->shouldBeCalled();
-        $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->getKeywords()->willReturn(new ArrayCollection());
         $articleKeywordAdder->add($article, 'key1')->shouldBeCalled();
         $articleKeywordAdder->add($article, 'key2')->shouldBeCalled();
         $article->setSlug('item headline')->shouldNotBeCalled();
-        $article->getRoute()->shouldBeCalled()->willReturn($route);
         $articleSourcesAdder->add($article, 'package_source')->shouldBeCalled();
 
         $this->hydrate($article, $package)->shouldReturn($article);
@@ -138,13 +136,11 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setBody('some package body')->shouldBeCalled();
         $article->setLead('package lead')->shouldBeCalled();
         $article->setLocale('en')->shouldBeCalled();
-        $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->setSlug('slugline')->shouldBeCalled();
         $article->getKeywords()->willReturn(new ArrayCollection());
         $articleKeywordAdder->add($article, 'key1')->shouldBeCalled();
         $articleKeywordAdder->add($article, 'key2')->shouldBeCalled();
-        $article->getRoute()->shouldBeCalled()->willReturn($route);
         $articleSourcesAdder->add($article, 'package_source')->shouldBeCalled();
 
         $this->hydrate($article, $package)->shouldReturn($article);

@@ -11,6 +11,7 @@ use SWP\Bundle\CoreBundle\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Factory\OrganizationFactoryInterface;
 use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
+use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 final class TenantContext extends AbstractContext implements Context
@@ -25,11 +26,14 @@ final class TenantContext extends AbstractContext implements Context
 
     private $entityManager;
 
+    private $organizationRepository;
+
     public function __construct(
         TenantContextInterface $tenantContext,
         OrganizationFactoryInterface $organizationFactory,
         TenantFactoryInterface $tenantFactory,
         TenantRepositoryInterface $tenantRepository,
+        OrganizationRepositoryInterface $organizationRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->tenantContext = $tenantContext;
@@ -37,6 +41,7 @@ final class TenantContext extends AbstractContext implements Context
         $this->tenantFactory = $tenantFactory;
         $this->tenantRepository = $tenantRepository;
         $this->entityManager = $entityManager;
+        $this->organizationRepository = $organizationRepository;
     }
 
     /**
@@ -45,6 +50,7 @@ final class TenantContext extends AbstractContext implements Context
     public function theFollowingTenants(TableNode $table)
     {
         $currentTenant = null;
+        $organizations = [];
 
         foreach ($table as $row => $columns) {
             if (array_key_exists('code', $columns)) {
@@ -63,11 +69,19 @@ final class TenantContext extends AbstractContext implements Context
             }
             $this->entityManager->persist($tenant);
 
-            /** @var OrganizationInterface $organization */
-            $organization = $this->organizationFactory->create();
-            $organization->setName($columns['organization']);
-            $organization->setCode('123456');
-            $this->entityManager->persist($organization);
+            $organization = $this->organizationRepository->findOneByName($columns['organization']);
+            if (array_key_exists($columns['organization'], $organizations)) {
+                $organization = $organizations[$columns['organization']];
+            }
+
+            if (null === $organization) {
+                /** @var OrganizationInterface $organization */
+                $organization = $this->organizationFactory->create();
+                $organization->setName($columns['organization']);
+                $organization->setCode('123456');
+                $this->entityManager->persist($organization);
+                $organizations[$organization->getName()] = $organization;
+            }
             $columns['organization'] = $organization;
 
             if ('null' === $columns['subdomain'] || 0 === strlen(trim($columns['subdomain']))) {

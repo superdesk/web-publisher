@@ -21,6 +21,8 @@ use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
+use SWP\Bundle\CoreBundle\Model\SlideshowInterface;
+use SWP\Component\Bridge\Model\GroupInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
@@ -98,7 +100,17 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 
     private function handleSlideshows(PackageInterface $package, ArticleInterface $article): void
     {
-        foreach ($package->getGroups()->toArray() as $packageSlideshow) {
+        $groups = ($package->getGroups() ?? new ArrayCollection())->filter(static function ($group) {
+            /* @var GroupInterface $group */
+            return GroupInterface::TYPE_RELATED !== $group->getType();
+        });
+
+        if (0 === count($groups)) {
+            return;
+        }
+
+        foreach ($groups->toArray() as $packageSlideshow) {
+            /** @var SlideshowInterface $slideshow */
             $slideshow = $this->slideshowFactory->create();
             $slideshow->setCode($packageSlideshow->getCode());
 

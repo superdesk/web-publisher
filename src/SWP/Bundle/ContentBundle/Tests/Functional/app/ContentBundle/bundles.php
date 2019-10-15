@@ -35,6 +35,7 @@ return [
     new Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle(),
     new Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle(),
     new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
+    new Sentry\SentryBundle\SentryBundle(),
 
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
     new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),

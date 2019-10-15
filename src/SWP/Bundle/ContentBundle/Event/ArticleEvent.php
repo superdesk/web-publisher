@@ -20,28 +20,12 @@ use Symfony\Component\EventDispatcher\Event;
 
 class ArticleEvent extends Event
 {
-    /**
-     * @var ArticleInterface
-     */
     protected $article;
 
-    /**
-     * @var PackageInterface
-     */
     protected $package;
 
-    /**
-     * @var string
-     */
     protected $eventName;
 
-    /**
-     * ArticleEvent constructor.
-     *
-     * @param ArticleInterface      $article
-     * @param PackageInterface|null $package
-     * @param string|null           $eventName
-     */
     public function __construct(ArticleInterface $article, PackageInterface $package = null, $eventName = null)
     {
         $this->article = $article;
@@ -49,26 +33,17 @@ class ArticleEvent extends Event
         $this->eventName = $eventName;
     }
 
-    /**
-     * @return ArticleInterface
-     */
-    public function getArticle()
+    public function getArticle(): ArticleInterface
     {
         return $this->article;
     }
 
-    /**
-     * @return PackageInterface
-     */
-    public function getPackage()
+    public function getPackage(): ?PackageInterface
     {
         return $this->package;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getEventName()
+    public function getEventName(): ?string
     {
         return $this->eventName;
     }

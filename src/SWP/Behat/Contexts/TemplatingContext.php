@@ -6,19 +6,36 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use SWP\Bundle\ContentBundle\Loader\ArticleLoader;
+use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
+use Twig\Environment;
 
 final class TemplatingContext implements Context
 {
     private $templating;
 
-    /**
-     * @var string
-     */
+    private $articleLoader;
+
     private $lastRenderedContent;
 
-    public function __construct(\Twig_Environment $templating)
-    {
+    private $cacheBlockTagsCollector;
+
+    public function __construct(
+        Environment $templating,
+        ArticleLoader $articleLoader,
+        CacheBlockTagsCollectorInterface $cacheBlockTagsCollector
+    ) {
         $this->templating = $templating;
+        $this->articleLoader = $articleLoader;
+        $this->cacheBlockTagsCollector = $cacheBlockTagsCollector;
+    }
+
+    /**
+     * @Given I set :slug as a current article in the context
+     */
+    public function ISetAsACurrentArticleInTheContext(string $slug): void
+    {
+        $this->articleLoader->load('article', ['slug' => $slug]);
     }
 
     /**
@@ -47,6 +64,32 @@ final class TemplatingContext implements Context
     {
         if (false !== \strpos($this->lastRenderedContent, $searchString)) {
             throw new \Exception('Searched string was found in rendered template (and was not expected).');
+        }
+    }
+
+    /**
+     * @Then rendered template should be equal to:
+     */
+    public function renderedTemplateShouldBeEqualTo(PyStringNode $templateContent): void
+    {
+        if ($this->lastRenderedContent !== $templateContent->getRaw()) {
+            throw new \Exception('The content is not equal!');
+        }
+    }
+
+    /**
+     * @Then CacheBlockTagsCollector should have tag :tagName
+     */
+    public function cacheblocktagscollectorShouldHaveTag(string $tagName)
+    {
+        if (!in_array($tagName, $this->cacheBlockTagsCollector->getCurrentCacheBlockTags())) {
+            throw new \Exception(
+                sprintf(
+                    'Tag %s was not found. Found tags: %s',
+                    $tagName,
+                    implode(', ', $this->cacheBlockTagsCollector->getCurrentCacheBlockTags())
+                )
+            );
         }
     }
 }

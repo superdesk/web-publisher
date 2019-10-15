@@ -53,9 +53,9 @@ final class EmbeddedImageProcessor extends BaseEmbeddedImageProcessor
         $this->tenantContext = $tenantContext;
     }
 
-    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, string $mediaId): void
+    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, ArticleMediaInterface $articleMedia): void
     {
-        parent::processImageElement($imageElement, $rendition, $mediaId);
+        parent::processImageElement($imageElement, $rendition, $articleMedia);
 
         if ($this->articlePreviewContext->isPreview()) {
             $imageElement->setAttribute('src', $rendition->getPreviewUrl());

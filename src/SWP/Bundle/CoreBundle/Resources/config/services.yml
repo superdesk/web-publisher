@@ -2,7 +2,7 @@ parameters:
     swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
     swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver
     swp_multi_tenancy.tenant_context.class: SWP\Bundle\CoreBundle\Context\CachedTenantContext
-    themes.upload_dir: "%kernel.project_dir%"
+    themes.upload_dir: "%kernel.project_dir%/public/uploads"
 
 services:
     _defaults:
@@ -73,7 +73,7 @@ services:
         class: SWP\Bundle\CoreBundle\Theme\Uploader\OrganizationAwareThemeUploader
         arguments:
             - '@swp_multi_tenancy.tenant_context'
-            - '%themes.upload_dir%/web/uploads'
+            - '%themes.upload_dir%'
 
     swp_core.uploader.theme_logo:
         class: SWP\Bundle\CoreBundle\Theme\Uploader\ThemeLogoUploader
@@ -202,18 +202,16 @@ services:
             - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
 
     SWP\Bundle\CoreBundle\EventListener\CustomPublisherHeaderListener:
+        public: false
         arguments:
             - '%kernel.debug%'
             - '@swp_core.factory.version'
         tags:
             - { name: kernel.event_listener, event: kernel.response, priority: 1 }
 
-    swp_core.subscriber.http_cache:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
-        arguments:
-            - "@fos_http_cache.cache_manager"
-            - "@logger"
-            - "@swp_multi_tenancy.tenant_context"
+    SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber:
+        public: false
+        autowire: true
         tags:
             - { name: kernel.event_subscriber }
 
@@ -264,6 +262,18 @@ services:
             - '%kernel.cache_dir%/twig'
             - '@swp_multi_tenancy.tenant_context'
 
+    SWP\Bundle\CoreBundle\Twig\Cache\Strategy\TagAwareIndexedChainingCacheStrategy:
+        arguments:
+            - '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface'
+            - '@fos_http_cache.http.symfony_response_tagger'
+            -
+                gen: '@twig_cache.strategy.generational'
+                time: '@twig_cache.strategy.lifetime'
+
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector:
+        autowire: true
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface: '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector'
+
     swp.facebook.service.instant_articles:
         class: SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService
         arguments:
@@ -313,7 +323,7 @@ services:
     swp.listener.remove_items:
         class: SWP\Bundle\CoreBundle\EventListener\RemoveItemsListener
         arguments:
-            - '@swp.remover.content_list_items_remover'
+            - '@SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover'
             - '@swp.repository.article'
             - '@swp.factory.content_list_item'
             - "@swp.provider.route"
@@ -360,10 +370,7 @@ services:
             - { name: kernel.event_subscriber }
 
     SWP\Bundle\CoreBundle\Serializer\TenantHandler:
-        arguments:
-          - '@swp.repository.tenant'
-          - '@router.default'
-          - '@swp_settings.manager.settings'
+        autowire: true
         tags:
             - { name: jms_serializer.subscribing_handler }
             - { name: jms_serializer.event_subscriber }
@@ -379,13 +386,23 @@ services:
     SWP\Bundle\CoreBundle\Serializer\TenantAwareArticleSerializationSubscriber:
         arguments:
           - '@swp_multi_tenancy.tenant_context'
-          - '@swp.repository.tenant'
+          - '@swp_multi_tenancy.tenant_provider'
+          - '@doctrine'
+          - '@event_dispatcher'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    SWP\Bundle\CoreBundle\Serializer\ArticleMediaSerializationSubscriber:
+        arguments:
+          - '%env(SUPERDESK_THUMBNAIL_RENDITION_NAME)%'
+          - '%env(SUPERDESK_VIEW_IMAGE_RENDITION_NAME)%'
         tags:
             - { name: jms_serializer.event_subscriber }
 
     SWP\Bundle\CoreBundle\Serializer\ContentListAwareSerializationSubscriber:
         arguments:
             - '@swp.repository.content_list_item'
+            - '@request_stack'
         tags:
             - { name: jms_serializer.event_subscriber }
 
@@ -445,9 +462,9 @@ services:
     swp_core.listener.package_status:
         class: SWP\Bundle\CoreBundle\EventListener\PackageStatusListener
         tags:
-            - { name: kernel.event_listener, event: swp.article.canceled, method: onArticleCancel }
-            - { name: kernel.event_listener, event: swp.article.unpublished, method: onArticleUnpublish }
             - { name: kernel.event_listener, event: swp.article.published, method: onArticlePublish }
+            - { name: kernel.event_listener, event: swp.article.unpublished, method: onArticleUnpublish }
+            - { name: kernel.event_listener, event: swp.article.canceled, method: onArticleCancel }
 
     swp_multi_tenancy.tenant_context:
         class: '%swp_multi_tenancy.tenant_context.class%'
@@ -531,6 +548,7 @@ services:
           - '@event_dispatcher'
           - '@swp.repository.article'
           - '@swp_multi_tenancy.tenant_context'
+          - '@doctrine.orm.default_entity_manager'
 
     SWP\Bundle\CoreBundle\Provider\ThemeSettingsProvider:
         arguments:
@@ -547,6 +565,11 @@ services:
             - '@swp_settings.manager.settings'
             - '@router.default'
             - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProvider:
+        arguments:
+            - '@swp_multi_tenancy.tenant_context'
+    SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProviderInterface: '@SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProvider'
 
     SWP\Bundle\CoreBundle\Processor\RulesProcessor:
         arguments:
@@ -611,10 +634,6 @@ services:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onPostUpdate, priority: -10 }
             - { name: kernel.event_listener, event: swp.bridge.package_post_create, method: onPostCreate, priority: -10 }
 
-    SWP\Bundle\CoreBundle\EventListener\MergePackageListener:
-        tags:
-            - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: preUpdate }
-
     SWP\Bundle\CoreBundle\EventListener\DownloadArticleAuthorAvatarListener:
         arguments:
                 - '@doctrine.orm.entity_manager'
@@ -650,8 +669,8 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
-    SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGenerator: ~
-    SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator: ~
+    SWP\Bundle\CoreBundle\HttpCache\:
+        resource: '../../HttpCache'
 
     SWP\Bundle\CoreBundle\EventListener\HttpCacheTaggerListener:
         arguments:
@@ -661,21 +680,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    SWP\Bundle\CoreBundle\EventListener\InvalidateHttpCacheTagsListener:
-        arguments:
-            - '@fos_http_cache.cache_manager'
-            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGenerator'
-            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator'
-        tags:
-            - { name: kernel.event_listener, event: swp.article.post_update, method: onPostUpdate }
-            - { name: kernel.event_listener, event: swp.article.unpublished, method: onPostUpdate }
-
     SWP\Bundle\CoreBundle\EventListener\ImageToWebpConversionListener:
         autowire: true
         arguments:
             - '@old_sound_rabbit_mq.image_conversion_producer'
             - '@swp_multi_tenancy.tenant_context'
             - '%env(bool:WEBP_CONVERSION_ENABLED)%'
+            - '@event_dispatcher'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
@@ -736,11 +747,8 @@ services:
     SWP\Bundle\CoreBundle\Service\ArticleStatisticsService:
         public: true
         arguments:
-            - '@swp.repository.article'
             - '@swp.repository.article_statistics'
-            - '@swp.repository.article_events'
             - '@swp.factory.article_statistics'
-            - '@swp.factory.article_events'
             - '@swp.object_manager.article'
 
     Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
@@ -755,3 +763,8 @@ services:
         alias: SWP\Bundle\CoreBundle\Service\SeoImageUploader
 
     SWP\Bundle\CoreBundle\Factory\ApiKeyFactory: '@swp.factory.api_key'
+
+    SWP\Bundle\CoreBundle\Hydrator\PackageHydrator: ~
+
+    SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface:
+        alias: SWP\Bundle\CoreBundle\Hydrator\PackageHydrator

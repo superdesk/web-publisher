@@ -81,7 +81,7 @@ final class SlideshowItemLoader extends PaginatedLoader implements LoaderInterfa
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
             $countCriteria = clone $criteria;
-            $slideshowItems = $this->slideshowItemRepository->getByCriteria($criteria, $criteria->get('order', []));
+            $slideshowItems = $this->slideshowItemRepository->getByCriteria($criteria, $criteria->get('order', ['id' => 'asc']));
             $itemsCollection = new ArrayCollection($slideshowItems);
 
             if ($itemsCollection->count() > 0) {

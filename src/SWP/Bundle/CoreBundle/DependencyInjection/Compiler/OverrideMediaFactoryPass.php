@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
+use Sentry\State\HubInterface;
 use SWP\Bundle\CoreBundle\Factory\MediaFactory;
 use SWP\Bundle\CoreBundle\Provider\ArticleMediaAssetProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -32,6 +33,7 @@ final class OverrideMediaFactoryPass extends AbstractOverridePass
         $mediaDefinition
             ->setClass(MediaFactory::class)
             ->setArgument(0, new Reference(ArticleMediaAssetProvider::class))
+            ->setArgument(6, new Reference(HubInterface::class))
         ;
     }
 }

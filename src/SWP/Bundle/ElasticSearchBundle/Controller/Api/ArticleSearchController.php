@@ -21,6 +21,7 @@ use Swagger\Annotations as SWG;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResponseContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -150,6 +151,10 @@ class ArticleSearchController extends Controller
 
         $extraFields = $this->get('service_container')->getParameter('env(ELASTICA_ARTICLE_EXTRA_FIELDS)');
 
+        $options = [
+            'sortNestedPath' => 'articleStatistics.pageViewsNumber',
+        ];
+
         $repositoryManager = $this->get('fos_elastica.manager');
         /** @var ArticleRepository $repository */
         $repository = $repositoryManager->getRepository($this->getParameter('swp.model.article.class'));
@@ -158,9 +163,25 @@ class ArticleSearchController extends Controller
         $pagination = $paginator->paginate(
             $articles,
             $request->query->get('page', 1),
-            $criteria->getPagination()->getItemsPerPage()
+            $criteria->getPagination()->getItemsPerPage(),
+            $options
         );
 
-        return new ResourcesListResponse($pagination);
+        $responseContext = new ResponseContext();
+        $responseContext->setSerializationGroups(
+            [
+                'Default',
+                'api_articles_list',
+                'api_articles_featuremedia',
+                'api_article_media_list',
+                'api_article_media_renditions',
+                'api_image_details',
+                'api_routes_list',
+                'api_tenant_list',
+                'api_articles_statistics_list',
+            ]
+        );
+
+        return new ResourcesListResponse($pagination, $responseContext);
     }
 }

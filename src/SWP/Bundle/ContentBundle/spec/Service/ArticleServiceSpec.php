@@ -6,7 +6,6 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleServiceSpec extends ObjectBehavior
@@ -31,7 +30,6 @@ class ArticleServiceSpec extends ObjectBehavior
         $article->getPublishEndDate()->shouldBeCalled();
 
         $dispatcher->dispatch('swp.article.published', Argument::type(ArticleEvent::class))->shouldBeCalled();
-        $dispatcher->dispatch('swp_http_cache.clear', Argument::type(HttpCacheEvent::class))->shouldBeCalled();
 
         $this->publish($article)->shouldReturn($article);
     }

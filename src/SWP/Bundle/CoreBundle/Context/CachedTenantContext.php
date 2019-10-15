@@ -50,8 +50,9 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         parent::setTenant($tenant);
         $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
-        $host = $tenant->getSubdomain() ? $tenant->getSubdomain().'.'.$tenant->getDomainName() : $tenant->getDomainName();
-        $this->resolvedTenants[self::getCacheKey($host)] = $tenant;
+        $this->resolvedTenants[self::getCacheKey(
+            $tenant->getSubdomain() ? $tenant->getSubdomain().'.'.$tenant->getDomainName() : $tenant->getDomainName()
+        )] = $tenant;
     }
 
     public function reset(): void

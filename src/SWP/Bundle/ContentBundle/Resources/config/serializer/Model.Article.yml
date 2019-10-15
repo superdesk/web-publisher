@@ -3,34 +3,34 @@ SWP\Bundle\ContentBundle\Model\Article:
     properties:
         id:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list, api_articles_list]
             type: integer
         title:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list, api_articles_list]
             type: string
         lead:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_list]
             type: string
         body:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_list]
             type: string
         slug:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_list]
             type: string
         route:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list, api_articles_list]
         publishedAt:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list, api_articles_list]
             type: DateTime
         status:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list, api_articles_list]
             type: string
         sources:
             expose: true
@@ -41,11 +41,11 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         createdAt:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list, api_articles_list]
             type: DateTime
         updatedAt:
             expose: true
-            groups: [api]
+            groups: [api, api_packages_list, api_articles_list]
             type: DateTime
         publishStartDate:
             expose: true
@@ -64,7 +64,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             groups: [api]
         featureMedia:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_featuremedia]
         metadata:
             expose: true
             groups: [api]
@@ -88,11 +88,11 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: array
         slideshows:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_slideshows]
             type: ArrayCollection
         seoMetadata:
             expose: true
-            groups: [api]
+            groups: [api, api_articles_seometadata]
     relations:
         -
             rel: self

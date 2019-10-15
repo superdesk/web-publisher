@@ -18,80 +18,60 @@ namespace SWP\Component\Common\Response;
 
 class ResponseContext implements ResponseContextInterface
 {
-    /**
-     * @var string
-     */
     protected $intention;
 
-    /**
-     * @var int
-     */
     protected $statusCode;
 
-    /**
-     * @var array
-     */
     protected $headers;
 
-    /**
-     * @var array
-     */
     protected $clearedCookies = [];
 
-    /**
-     * ResponseContext constructor.
-     *
-     * @param int    $statusCode
-     * @param string $intention
-     * @param array  $headers
-     */
+    protected $serializationGroups;
+
     public function __construct(
         int $statusCode = 200,
         string $intention = ResponseContextInterface::INTENTION_API,
-        array $headers = []
+        array $headers = [],
+        array $serializationGroups = ['Default', 'api']
     ) {
         $this->intention = $intention;
         $this->statusCode = $statusCode;
         $this->headers = $headers;
+        $this->serializationGroups = $serializationGroups;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIntention(): string
     {
         return $this->intention;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getStatusCode(): int
     {
         return $this->statusCode;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getHeaders(): array
     {
         return $this->headers;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getClearedCookies(): array
     {
         return $this->clearedCookies;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function clearCookie(string $key)
     {
         $this->clearedCookies[] = $key;
+    }
+
+    public function getSerializationGroups(): array
+    {
+        return $this->serializationGroups;
+    }
+
+    public function setSerializationGroups(array $serializationGroups): void
+    {
+        $this->serializationGroups = $serializationGroups;
     }
 }

@@ -17,30 +17,16 @@ namespace SWP\Component\TemplatesSystem\Gimme\Factory;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
-/**
- * Class MetaFactory.
- */
 class MetaFactory implements MetaFactoryInterface
 {
-    /**
-     * @var Context
-     */
     protected $context;
 
-    /**
-     * MetaFactory constructor.
-     *
-     * @param Context $context
-     */
     public function __construct(Context $context)
     {
         $this->context = $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create($value, array $configuration = null)
+    public function create($value, array $configuration = null): Meta
     {
         if (null === $configuration) {
             $configuration = $this->context->getConfigurationForValue($value);

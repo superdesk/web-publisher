@@ -7,7 +7,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             type: string
         organization:
             expose: true
-            groups: [api]
+            groups: [details_api]
             type: SWP\Bundle\CoreBundle\Model\Organization
         outputChannel:
             expose: true

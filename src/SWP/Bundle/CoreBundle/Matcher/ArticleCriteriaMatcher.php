@@ -68,13 +68,11 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
             }
         }
 
-        if ($criteria->has('metadata') && empty($criteria->get('metadata'))) {
-            return false;
-        }
-
-        foreach ((array) $criteria->get('metadata') as $key => $value) {
-            if ($value !== $article->getMetadataByKey($key)) {
-                return false;
+        if ($criteria->has('metadata') && !empty($criteria->get('metadata'))) {
+            foreach ((array) $criteria->get('metadata') as $key => $value) {
+                if ($value !== $article->getMetadataByKey($key)) {
+                    return false;
+                }
             }
         }
 

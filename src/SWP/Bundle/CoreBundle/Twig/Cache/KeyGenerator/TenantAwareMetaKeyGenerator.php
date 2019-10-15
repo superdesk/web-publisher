@@ -19,9 +19,6 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
 class TenantAwareMetaKeyGenerator extends MetaKeyGenerator
 {
-    /**
-     * @var TenantContextInterface
-     */
     protected $tenantContext;
 
     public function __construct(TenantContextInterface $tenantContext)

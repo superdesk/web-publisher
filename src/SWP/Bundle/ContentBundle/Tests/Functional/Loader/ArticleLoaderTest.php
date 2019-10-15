@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Tests\Loader;
 
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use SWP\Bundle\ContentBundle\Loader\ArticleLoader;
+use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class ArticleLoaderTest extends WebTestCase
@@ -45,7 +46,8 @@ class ArticleLoaderTest extends WebTestCase
             $this->getContainer()->get('swp.provider.route'),
             $this->getContainer()->get('swp.object_manager.article'),
             $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
-            $this->getContainer()->get('swp_template_engine_context')
+            $this->getContainer()->get('swp_template_engine_context'),
+            $this->getContainer()->get(CacheBlockTagsCollectorInterface::class)
         );
     }
 

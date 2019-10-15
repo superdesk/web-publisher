@@ -7,6 +7,7 @@ parameters:
     env(FS_AWS_S3_KEY): ''
     env(FS_AWS_S3_SECRET): ''
     env(BLACKLISTED_KEYWORDS): '[]'
+    env(REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE): false
 
 jms_serializer:
     metadata:

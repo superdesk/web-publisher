@@ -83,7 +83,6 @@ class ContentListItemController extends AbstractController
     public function listAction(Request $request, int $id): ResourcesListResponseInterface
     {
         $repository = $this->get('swp.repository.content_list_item');
-
         $items = $repository->getPaginatedByCriteria(
             new Criteria([
                 'contentList' => $id,
@@ -93,7 +92,24 @@ class ContentListItemController extends AbstractController
             new PaginationData($request)
         );
 
-        return new ResourcesListResponse($items);
+        $responseContext = new ResponseContext();
+        $responseContext->setSerializationGroups(
+            [
+                'Default',
+                'api_packages_list',
+                'api_content_list_item_details',
+                'api_articles_list',
+                'api_articles_featuremedia',
+                'api_article_media_list',
+                'api_article_media_renditions',
+                'api_articles_statistics_list',
+                'api_image_details',
+                'api_routes_list',
+                'api_tenant_list',
+            ]
+        );
+
+        return new ResourcesListResponse($items, $responseContext);
     }
 
     /**

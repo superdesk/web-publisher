@@ -144,3 +144,9 @@ Feature: Checking if package corrections work fine
       | headline                | testing correction corrected    |
       | status                  | published                       |
       | slugline                | abstract-html-test-corrected    |
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
+    Then the response status code should be 200
+    And the JSON node "title" should be equal to "testing correction corrected"

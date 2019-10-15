@@ -19,12 +19,12 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\SerializationContext;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use SWP\Component\Storage\Model\PersistableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class ArticlesCountHandler implements SubscribingHandlerInterface
@@ -69,18 +69,15 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
         JsonSerializationVisitor $visitor,
         $data,
         $type,
-        $context
+        SerializationContext $context
     ) {
         $object = $context->getObject();
         $criteria = new Criteria();
-        if ($object instanceof PersistableInterface && $object instanceof RouteInterface) {
+        if ($object instanceof RouteInterface) {
             return 0;
+        }
 
-            $id = $object->getId();
-            $criteria->set('route', $id);
-
-            return $this->articleRepository->countByCriteria($criteria, null);
-        } elseif ($object instanceof TenantInterface) {
+        if ($object instanceof TenantInterface) {
             $tenantCode = $object->getCode();
             $criteria->set('tenantCode', $tenantCode);
             $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);

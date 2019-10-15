@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\DependencyInjection\Compiler;
 
+use Sentry\State\HubInterface;
 use SWP\Bundle\ContentBundle\File\FileDownloader;
 use SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProvider;
 use SWP\Component\Storage\Factory\Factory;
@@ -50,6 +51,7 @@ class RegisterMediaFactoryPass implements CompilerPassInterface
                 new Reference('swp_content_bundle.manager.media'),
                 new Reference('monolog.logger.swp_asset_download'),
                 new Reference(FileDownloader::class),
+                new Reference(HubInterface::class),
             ]
         );
         $mediaFactoryDefinition->setPublic(true);

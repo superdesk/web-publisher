@@ -17,5 +17,6 @@ SWP\Bundle\CoreBundle\Model\Tenant:
                 nullable: true
         outputChannel:
             targetEntity: SWP\Component\OutputChannel\Model\OutputChannelInterface
+            fetch: EAGER
             cascade: ['persist', 'remove']
             mappedBy: tenant

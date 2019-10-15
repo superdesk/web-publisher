@@ -1,5 +1,6 @@
 @organization_commands
 @disable-fixtures
+@custom-env
 Feature: Reprocessing already send to publisher packages
   In order to apply new rules or content modifications to already pushed to publisher packages
   As a console command
@@ -85,6 +86,13 @@ Feature: Reprocessing already send to publisher packages
     Then I send a "GET" request to "/redirecting/extra/articleNumber/1"
     Then the response status code should be 301
     And the header "location" should contain "http://localhost/test/test-package"
+
+    Then I send a "GET" request to "http://localhost/test/test-package"
+    Then the response status code should be 200
+
+    Then I send a "GET" request to "http://localhost/test/test-package-wrong"
+    Then the response status code should be 301
+    And the header "location" should contain "http://localhost/test"
 
     When I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"

@@ -68,6 +68,7 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
     {
         $config = $container->getExtensionConfig('doctrine_cache');
         $config[0]['providers']['main_cache']['type'] = '%env(DOCTRINE_CACHE_DRIVER)%';
+        $config[0]['providers']['main_cache']['namespace'] = '%kernel.project_dir%';
 
         $config = $container->resolveEnvPlaceholders(
             $config,
@@ -75,12 +76,6 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
         );
 
         $container->prependExtensionConfig('doctrine_cache', $config[0]);
-
-        $fosHttpCacheConfig = [
-            'debug' => [
-                'enabled' => true,
-            ],
-        ];
 
         $fosHttpCacheConfig['proxy_client']['varnish']['http']['servers'] = '%env(json:resolve:CACHE_SERVERS)%';
         $fosHttpCacheConfig = $container->resolveEnvPlaceholders(

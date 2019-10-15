@@ -84,6 +84,12 @@ SWP\Bundle\ContentBundle\Model\Article:
                 name: feature_media
                 referencedColumnName: id
                 onDelete: "SET NULL"
+        seoMetadata:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface
+            joinColumn:
+                name: seo_metadata_id
+                referencedColumnName: id
+            cascade: ['all']
     oneToMany:
         media:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
@@ -96,6 +102,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         slideshows:
             targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
             mappedBy: article
+            fetch: "EAGER"
             cascade: ["all"]
             orphanRemoval: true
         relatedArticles:
@@ -126,10 +133,3 @@ SWP\Bundle\ContentBundle\Model\Article:
                 inverseJoinColumns:
                     keyword_id:
                         referencedColumnName: id
-    oneToOne:
-        seoMetadata:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSeoMetadataInterface
-            joinColumn:
-                name: seo_metadata_id
-                referencedColumnName: id
-            cascade: ['all']

@@ -3,7 +3,7 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
     properties:
         id:
             expose: true
-            groups: [api]
+            groups: [api, api_routes_list]
             type: integer
         content:
             expose: true

@@ -50,6 +50,37 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
             ->getOneOrNullResult();
     }
 
+    public function getItemsTitlesByList(ContentListInterface $list): array
+    {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT 
+                 partial c.{id, title} 
+            from 
+                SWP\Bundle\CoreBundle\Model\ContentListItem cl
+            LEFT JOIN
+                SWP\Bundle\CoreBundle\Model\ContentList l 
+            WITH 
+                l.id = cl.contentList
+            LEFT JOIN 
+                SWP\Bundle\CoreBundle\Model\Article c
+            WITH
+                c.id = cl.content
+            WHERE
+                l.id = :list 
+            AND
+                c.status = :status
+        ")
+            ->setParameters([
+                'list' => $list->getId(),
+                'status' => ArticleInterface::STATUS_PUBLISHED,
+            ]);
+
+        $query->setMaxResults(5);
+        $query->setFirstResult(0);
+
+        return $query->getArrayResult();
+    }
+
     public function findItemsByArticle(ArticleInterface $article): array
     {
         $queryBuilder = $this->createQueryBuilder('cl');

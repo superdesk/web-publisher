@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use Psr\Log\LoggerInterface;
+use Sentry\Breadcrumb;
+use Sentry\State\HubInterface;
 use SWP\Bundle\ContentBundle\File\FileDownloaderInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
@@ -43,13 +45,16 @@ class MediaFactory implements MediaFactoryInterface
 
     protected $fileDownloader;
 
+    private $sentryHub;
+
     public function __construct(
         ArticleMediaAssetProviderInterface $articleMediaAssetProvider,
         FactoryInterface $factory,
         ImageRenditionFactoryInterface $imageRenditionFactory,
         MediaManagerInterface $mediaManager,
         LoggerInterface $logger,
-        FileDownloaderInterface $fileDownloader
+        FileDownloaderInterface $fileDownloader,
+        HubInterface $sentryHub
     ) {
         $this->articleMediaAssetProvider = $articleMediaAssetProvider;
         $this->factory = $factory;
@@ -57,6 +62,7 @@ class MediaFactory implements MediaFactoryInterface
         $this->mediaManager = $mediaManager;
         $this->logger = $logger;
         $this->fileDownloader = $fileDownloader;
+        $this->sentryHub = $sentryHub;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
@@ -131,7 +137,7 @@ class MediaFactory implements MediaFactoryInterface
         try {
             return $this->downloadAsset($rendition->getHref(), $rendition->getMedia(), $rendition->getMimetype());
         } catch (\Exception $e) {
-            $this->logger->error(\sprintf('%s: %s', $rendition->getHref(), $e->getMessage()));
+            $this->logException($e, $rendition);
 
             return null;
         }
@@ -159,5 +165,21 @@ class MediaFactory implements MediaFactoryInterface
                 return 'original' === $rendition->getName();
             }
         )->first();
+    }
+
+    private function logException(\Exception $e, RenditionInterface $rendition): void
+    {
+        $this->logger->error(\sprintf('%s: %s', $rendition->getHref(), $e->getMessage()), ['trace' => $e->getTraceAsString()]);
+        $this->sentryHub->addBreadcrumb(new Breadcrumb(
+            Breadcrumb::LEVEL_DEBUG,
+            Breadcrumb::TYPE_DEFAULT,
+            'publishing',
+            'Media',
+            [
+                'rendition id' => $rendition->getId(),
+                'rendition media' => $rendition->getMedia(),
+            ]
+        ));
+        $this->sentryHub->captureException($e);
     }
 }

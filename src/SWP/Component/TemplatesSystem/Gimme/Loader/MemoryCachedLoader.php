@@ -14,6 +14,8 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
+use function json_encode;
+
 class MemoryCachedLoader implements LoaderInterface
 {
     private $decoratedLoader;
@@ -45,8 +47,8 @@ class MemoryCachedLoader implements LoaderInterface
 
     private function getCacheKey(string $metaType, array $withParameters, array $withoutParameters, int $responseType): string
     {
-        $keys = [\json_encode($metaType), \json_encode($withParameters), \json_encode($withoutParameters), \json_encode($responseType)];
+        $keys = json_encode([$metaType, $withParameters, $withoutParameters, $responseType], JSON_THROW_ON_ERROR, 512);
 
-        return base64_encode(\implode('::', $keys));
+        return md5($keys);
     }
 }

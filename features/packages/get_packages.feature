@@ -630,3 +630,8 @@ Feature: Getting package
       "status": "new"
     }
     """
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/packages/"
+    Then the response status code should be 200

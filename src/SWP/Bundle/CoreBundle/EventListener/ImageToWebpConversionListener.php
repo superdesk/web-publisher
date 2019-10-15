@@ -20,6 +20,9 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class ImageToWebpConversionListener
 {
@@ -29,11 +32,14 @@ class ImageToWebpConversionListener
 
     protected $isWebpConversionEnabled;
 
-    public function __construct(ProducerInterface $imageConversionProducer, TenantContextInterface $tenantContext, string $isWebpConversionEnabled)
+    protected $eventDispatcher;
+
+    public function __construct(ProducerInterface $imageConversionProducer, TenantContextInterface $tenantContext, string $isWebpConversionEnabled, EventDispatcherInterface $eventDispatcher)
     {
         $this->imageConversionProducer = $imageConversionProducer;
         $this->tenantContext = $tenantContext;
         $this->isWebpConversionEnabled = $isWebpConversionEnabled;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function postPersist(LifecycleEventArgs $args): void
@@ -43,9 +49,13 @@ class ImageToWebpConversionListener
             return;
         }
 
-        $this->imageConversionProducer->publish(serialize([
-            'image' => $rendition->getImage(),
-            'tenantId' => $this->tenantContext->getTenant()->getId(),
-        ]));
+        $tenantId = $this->tenantContext->getTenant()->getId();
+
+        $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (TerminateEvent $event) use ($rendition, $tenantId) {
+            $this->imageConversionProducer->publish(serialize([
+                'image' => $rendition->getImage(),
+                'tenantId' => $tenantId,
+            ]));
+        });
     }
 }

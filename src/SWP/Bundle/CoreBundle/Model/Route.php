@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsTrait;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Bundle\ContentBundle\Model\Route as BaseRoute;
@@ -28,7 +27,6 @@ class Route extends BaseRoute implements TenantAwareInterface, ArticlesCountInte
     use TenantAwareTrait;
     use ArticlesCountTrait;
     use PaywallSecuredTrait;
-    use ArticleEventsTrait;
 
     /**
      * {@inheritdoc}

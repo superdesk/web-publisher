@@ -9,14 +9,19 @@ Most important steps to do after updating code:
 * Run database migrations: `doctrine:migrations:migrate` command
 * Clear doctrine cache with `doctrine:cache:clear main_cache` and `doctrine:cache:clear-metadata` commands
 * Install themes assets with `sylius:theme:assets:install` command
+* Install project assets with `assets:install` command
 * (optionally) Clear memcached store (with `echo \'flush_all\' | nc localhost 11211` on ubuntu)
 
 ## Release 2.0
 
 * [BC] ```Unrecognized options "containers, widgets" under "sylius_theme.generatedData". Available options are "contentLists", "menus", "routes".```
 From your theme config file (`theme.json`) remove nodes: `generatedData.containers` and `generatedData.widgets`
-
 * [BC] Config values are moved from `app/config/parameters.yml` to `.env.local`. Default values were moved from `app/config/parameters.yml.dist` to `.env`
+* [BC] `app/console` file was moved to `bin/console`
+* [BC] `app/logs` directory was renamed to `var/logs`
+* [BC] `web/` directory was renamed to `public/`
+* New API version is now `v2`
+* In server vhost config change references to `app.php` into `index.php`. And there is no more `app_dev.php` - activate dev mode with env variables changes. 
 
 
 ## Release 1.4.0

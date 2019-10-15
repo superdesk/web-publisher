@@ -70,8 +70,6 @@ class ImageConversionConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $message): int
     {
-        sleep(1); // wait for data to be flushed (really) in database
-
         try {
             ['image' => $image, 'tenantId' => $tenantId] = unserialize($message->body, [false]);
             if (($tenant = $this->entityManager->find(Tenant::class, $tenantId)) instanceof TenantInterface) {

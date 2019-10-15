@@ -5,6 +5,7 @@ parameters:
     swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
     swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
+    swp.redirecting.notfound.section: '%env(bool:REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE)%'
 
 services:
     _defaults:
@@ -12,14 +13,15 @@ services:
 
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
-        arguments:
-            - "@swp.provider.article"
-            - "@swp.provider.route"
-            - "@swp.object_manager.article"
-            - "@swp_template_engine_context.factory.meta_factory"
-            - "@swp_template_engine_context"
+        autowire: true
         tags:
             - { name: swp.meta_loader.add }
+    SWP\Bundle\ContentBundle\Loader\ArticleLoader: '@swp_template_engine.loader.article'
+
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector:
+        autowire: true
+    SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface: '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector'
+
 
     swp_template_engine.loader.related_article:
         class: SWP\Bundle\ContentBundle\Loader\RelatedArticleLoader
@@ -271,6 +273,13 @@ services:
             - { name: kernel.event_listener, event: swp.article.publish, method: publish }
             - { name: kernel.event_listener, event: swp.article.unpublish, method: unpublish }
             - { name: kernel.event_listener, event: swp.article.canceled, method: cancel }
+
+    SWP\Bundle\ContentBundle\EventListener\ArticleNotFoundListener:
+        arguments:
+            - '@router'
+            - '%swp.redirecting.notfound.section%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
 
     swp_content_bundle.listener.route_remove:
         class: SWP\Bundle\ContentBundle\EventListener\RouteRemoveListener

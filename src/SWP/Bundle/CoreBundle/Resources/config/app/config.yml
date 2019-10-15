@@ -298,8 +298,6 @@ swp_analytics:
             classes:
                 article_statistics:
                     model: SWP\Bundle\CoreBundle\Model\ArticleStatistics
-                article_events:
-                    model: SWP\Bundle\CoreBundle\Model\ArticleEvent
 
 swp_output_channel:
     persistence:

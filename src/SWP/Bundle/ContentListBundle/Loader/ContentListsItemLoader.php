@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentListBundle\Loader;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
@@ -29,46 +30,28 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
-/**
- * Class ContentListsItemLoader.
- */
 class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
 {
-    /**
-     * @var ContentListRepositoryInterface
-     */
     protected $contentListRepository;
 
-    /**
-     * @var ContentListItemRepositoryInterface
-     */
     protected $contentListItemsRepository;
 
-    /**
-     * @var MetaFactoryInterface
-     */
     protected $metaFactory;
 
-    /**
-     * ContentListsItemLoader constructor.
-     *
-     * @param ContentListRepositoryInterface     $contentListRepository
-     * @param ContentListItemRepositoryInterface $contentListItemRepository
-     * @param MetaFactoryInterface               $metaFactory
-     */
+    private $cacheBlocksTagsCollector;
+
     public function __construct(
         ContentListRepositoryInterface $contentListRepository,
         ContentListItemRepositoryInterface $contentListItemRepository,
-        MetaFactoryInterface $metaFactory
+        MetaFactoryInterface $metaFactory,
+        CacheBlockTagsCollectorInterface $cacheBlocksTagsCollector
     ) {
         $this->contentListRepository = $contentListRepository;
         $this->contentListItemsRepository = $contentListItemRepository;
         $this->metaFactory = $metaFactory;
+        $this->cacheBlocksTagsCollector = $cacheBlocksTagsCollector;
     }
 
-    /**
-     *  {@inheritdoc}
-     */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
@@ -155,26 +138,18 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
         }
     }
 
-    /**
-     * Checks if Loader supports provided type.
-     *
-     * @param string $type
-     *
-     * @return bool
-     */
     public function isSupported(string $type): bool
     {
         return in_array($type, ['contentListItems', 'contentListItem']);
     }
 
-    /**
-     * @param mixed $item
-     *
-     * @return null|Meta
-     */
     private function getItemMeta($item)
     {
         if (null !== $item) {
+            if ($item instanceof ContentListItemInterface) {
+                $this->cacheBlocksTagsCollector->addTagToCurrentCacheBlock('a-'.$item->getContent()->getId());
+            }
+
             return $this->metaFactory->create($item);
         }
     }

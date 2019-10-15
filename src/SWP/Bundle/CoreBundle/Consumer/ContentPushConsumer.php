@@ -25,7 +25,10 @@ use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
+use Sentry\Breadcrumb;
+use Sentry\State\HubInterface;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
+use SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
@@ -43,35 +46,21 @@ class ContentPushConsumer implements ConsumerInterface
 {
     protected $lockFactory;
 
-    /**
-     * @var LoggerInterface
-     */
     protected $logger;
 
-    /**
-     * @var PackageRepository
-     */
     protected $packageRepository;
 
-    /**
-     * @var EventDispatcherInterface
-     */
     protected $eventDispatcher;
 
-    /**
-     * @var DataTransformerInterface
-     */
     protected $jsonToPackageTransformer;
 
-    /**
-     * @var EntityManagerInterface
-     */
     protected $packageObjectManager;
 
-    /**
-     * @var TenantContextInterface
-     */
     protected $tenantContext;
+
+    protected $sentryHub;
+
+    protected $packageHydrator;
 
     public function __construct(
         Factory $lockFactory,
@@ -80,7 +69,9 @@ class ContentPushConsumer implements ConsumerInterface
         EventDispatcherInterface $eventDispatcher,
         DataTransformerInterface $jsonToPackageTransformer,
         EntityManagerInterface $packageObjectManager,
-        TenantContextInterface $tenantContext
+        TenantContextInterface $tenantContext,
+        HubInterface $sentryHub,
+        PackageHydratorInterface $packageHydrator
     ) {
         $this->lockFactory = $lockFactory;
         $this->logger = $logger;
@@ -89,6 +80,8 @@ class ContentPushConsumer implements ConsumerInterface
         $this->jsonToPackageTransformer = $jsonToPackageTransformer;
         $this->packageObjectManager = $packageObjectManager;
         $this->tenantContext = $tenantContext;
+        $this->sentryHub = $sentryHub;
+        $this->packageHydrator = $packageHydrator;
     }
 
     public function execute(AMQPMessage $msg): int
@@ -105,21 +98,17 @@ class ContentPushConsumer implements ConsumerInterface
                 return ConsumerInterface::MSG_REJECT_REQUEUE;
             }
 
-            $result = $this->doExecute($tenant, $package);
-            $lock->release();
-
-            return $result;
+            return $this->doExecute($tenant, $package);
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
 
             return ConsumerInterface::MSG_REJECT;
         } catch (DBALException | ORMException $e) {
-            $lock->release();
+            $this->logException($e, $package);
 
             throw $e;
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-            $lock->release();
+            $this->logException($e, $package);
 
             return ConsumerInterface::MSG_REJECT;
         } finally {
@@ -146,19 +135,13 @@ class ContentPushConsumer implements ConsumerInterface
         /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);
         if (null !== $existingPackage) {
-            $package->setId($existingPackage->getId());
-            $package->setCreatedAt($existingPackage->getCreatedAt());
-            $package->setUpdatedAt(new \DateTime());
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, [
-                'eventName' => Events::PACKAGE_PRE_UPDATE,
-                'package' => $existingPackage,
-            ]));
+            $existingPackage = $this->packageHydrator->hydrate($package, $existingPackage);
 
-            $package = $this->packageObjectManager->merge($package);
+            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
             $this->packageObjectManager->flush();
-
-            $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_UPDATE]));
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
+            $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_POST_UPDATE]));
+            $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PROCESSED]));
+            $this->packageObjectManager->flush();
 
             $this->reset();
             $this->logger->info(sprintf('Package %s was updated', $existingPackage->getGuid()));
@@ -170,23 +153,24 @@ class ContentPushConsumer implements ConsumerInterface
         $this->packageRepository->add($package);
         $this->eventDispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));
         $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
-        $this->reset();
+        $this->packageObjectManager->flush();
+
         $this->logger->info(sprintf('Package %s was created', $package->getGuid()));
+        $this->reset();
 
         return ConsumerInterface::MSG_ACK;
     }
 
     protected function findExistingPackage(PackageInterface $package)
     {
-        $existingPackage = null;
-        if (null === $package->getEvolvedFrom()) {
-            $existingPackage = $this->packageRepository->findOneBy([
-                'evolvedFrom' => $package->getGuid(),
-            ]);
+        $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getEvolvedFrom() ?? $package->getGuid()]);
+        if (null === $existingPackage && null !== $package->getEvolvedFrom()) {
+            $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getGuid()]);
         }
 
         if (null === $existingPackage) {
-            $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getEvolvedFrom() ?? $package->getGuid()]);
+            // check for updated items (with evolved from)
+            $existingPackage = $this->packageRepository->findOneBy(['evolvedFrom' => $package->getGuid()]);
         }
 
         return $existingPackage;
@@ -198,5 +182,21 @@ class ContentPushConsumer implements ConsumerInterface
         if ($this->tenantContext instanceof ResettableInterface) {
             $this->tenantContext->reset();
         }
+    }
+
+    private function logException(\Exception $e, PackageInterface $package, string $defaultMessage = 'Unhandled exception'): void
+    {
+        $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : $defaultMessage, ['trace' => $e->getTraceAsString()]);
+        $this->sentryHub->addBreadcrumb(new Breadcrumb(
+            Breadcrumb::LEVEL_DEBUG,
+            Breadcrumb::TYPE_DEFAULT,
+            'publishing',
+            'Package',
+            [
+                'guid' => $package->getGuid(),
+                'headline' => $package->getHeadline(),
+            ]
+        ));
+        $this->sentryHub->captureException($e);
     }
 }

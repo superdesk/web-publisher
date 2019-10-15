@@ -2,6 +2,8 @@ parameters:
     env(CACHE_SERVERS): '["localhost"]'
 
 fos_http_cache:
+    debug:
+        enabled: false
     user_context:
         enabled: false
     tags:
@@ -11,8 +13,10 @@ fos_http_cache:
         generate_url_type: 0
     proxy_client:
         varnish:
+            tag_mode: purgekeys
             http:
                 base_url: "%env(SWP_DOMAIN)%"
+
     invalidation:
         rules:
             -

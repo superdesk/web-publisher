@@ -6,13 +6,13 @@ SWP\Bundle\ContentBundle\Model\Route:
             groups: [api]
         type:
             expose: true
-            groups: [api]
+            groups: [api, api_routes_list]
         name:
             expose: true
-            groups: [api]
+            groups: [api, api_routes_list]
         slug:
             expose: true
-            groups: [api]
+            groups: [api, api_routes_list]
         cacheTimeInSeconds:
             expose: true
             groups: [api]

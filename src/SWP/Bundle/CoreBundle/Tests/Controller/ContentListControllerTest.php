@@ -173,13 +173,13 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"route":[3,4]}',
+                    'filters' => '{"metadata":{},"author":[],"route":[3,4]}',
             ]);
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"route":[3,4]}', $content);
+        self::assertContains('"filters":{"metadata":[],"author":[],"route":[3,4]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -260,7 +260,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
     }
 
-    public function testEmbedingFirstCOntentListItemsInCOntentList()
+    public function testEmbedingFirstContentListItemsInContentList()
     {
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
