@@ -36,15 +36,15 @@ Feature: Working with cache blocks http cache tags collector
     Then rendered template should contain "First Test Article-1"
     Then rendered template should contain "Second Test Article-2"
     Then rendered template should contain "Third Test Article-3"
-    Then CacheBlockTagsCollector should have tag "article-1"
-    Then CacheBlockTagsCollector should have tag "article-2"
-    Then CacheBlockTagsCollector should have tag "article-3"
+    Then CacheBlockTagsCollector should have tag "a-1"
+    Then CacheBlockTagsCollector should have tag "a-2"
+    Then CacheBlockTagsCollector should have tag "a-3"
 
     And I render a template with content:
      """
       {% cache 'v1' {time: 10} %}
         {% gimmelist article from articles %}
-            // remove id's but it should still pass ass cached version should be used
+            // remove id's but it should still pass as cached version should be used
             {{ article.title }}
         {% endgimmelist %}
       {% endcache %}
@@ -52,6 +52,6 @@ Feature: Working with cache blocks http cache tags collector
     Then rendered template should contain "First Test Article-1"
     Then rendered template should contain "Second Test Article-2"
     Then rendered template should contain "Third Test Article-3"
-    Then CacheBlockTagsCollector should have tag "article-1"
-    Then CacheBlockTagsCollector should have tag "article-2"
-    Then CacheBlockTagsCollector should have tag "article-3"
+    Then CacheBlockTagsCollector should have tag "a-1"
+    Then CacheBlockTagsCollector should have tag "a-2"
+    Then CacheBlockTagsCollector should have tag "a-3"

@@ -31,8 +31,15 @@ sub vcl_recv {
         set req.hash_always_miss = true;
     }
 
+    # Uncomment it when site requires authorization header (ex. staging)
+    # by default those requests are not cached
+
+    # if (req.method == "GET" && !req.url ~ "api") {
+    #    unset req.http.Authorization;
+    # }
+
     # allow PURGE
-    if (req.method == "PURGE") {
+    if (req.method == "PURGEKEYS") {
         if (!client.ip ~ invalidators) {
             return (synth(405, "Not allowed"));
         }
@@ -167,6 +174,7 @@ sub vcl_deliver {
         unset resp.http.X-Url;
         unset resp.http.X-Host;
         unset resp.http.xkey;
+        unset resp.http.X-UA-Device;
 
         # Unset the tagged cache headers
         unset resp.http.X-Cache-Tags;

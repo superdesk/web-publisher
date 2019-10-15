@@ -20,13 +20,11 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 final class HttpCacheRouteTagGenerator implements HttpCacheRouteTagGeneratorInterface
 {
-    public function generateTag(RouteInterface $route): array
+    public function generateTags(RouteInterface $route): array
     {
         $tags = [];
-
-        $routeId = $route->getId();
-        if (null !== $routeId) {
-            $tags[] = "route-$routeId";
+        if (null !== ($routeId = $route->getId())) {
+            $tags[] = "r-$routeId";
         }
 
         return $tags;

@@ -20,5 +20,5 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface HttpCacheArticleTagGeneratorInterface
 {
-    public function generateTag(ArticleInterface $article): array;
+    public function generateTags(ArticleInterface $article): array;
 }

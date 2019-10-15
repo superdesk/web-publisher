@@ -41,7 +41,7 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
         if (false === $fetchedBlock) {
             $this->tagsCollector->startNewCacheBlock($this->getKeyString($key));
         } else {
-            $this->responseTagger->addTags($this->tagsCollector->getCurrentCacheBlockTags());
+            $this->responseTagger->addTags($this->tagsCollector->getSavedCacheBlockTags($this->getKeyString($key)));
         }
 
         return $fetchedBlock;

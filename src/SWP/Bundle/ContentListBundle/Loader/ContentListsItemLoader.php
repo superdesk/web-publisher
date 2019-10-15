@@ -147,7 +147,7 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
     {
         if (null !== $item) {
             if ($item instanceof ContentListItemInterface) {
-                $this->cacheBlocksTagsCollector->addTagToCurrentCacheBlock('article-'.$item->getContent()->getId());
+                $this->cacheBlocksTagsCollector->addTagToCurrentCacheBlock('a-'.$item->getContent()->getId());
             }
 
             return $this->metaFactory->create($item);
