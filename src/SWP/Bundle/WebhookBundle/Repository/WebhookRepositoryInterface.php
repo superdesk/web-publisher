@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Repository;
+namespace SWP\Bundle\WebhookBundle\Repository;
 
 use Doctrine\ORM\Query;
 
