@@ -1,4 +1,4 @@
-WebhookBundle [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/WebhookBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/WebhookBundle)
+WebhookBundle [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPWebhookBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPWebhookBundle)
 =======================================================================================================================================================================
 
 This bundle provides tools to for webhooks system implementation in symfony based apllication.

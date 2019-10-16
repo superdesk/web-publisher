@@ -1,5 +1,5 @@
-Webhook component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/webhook.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/webhook) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/?branch=master) 
-========================================================================================================================================================================================================================================================================================================================================================================================
+Webhook component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/webhook.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/webhook)  
+================================================================================================================================================================
 
 This component provides tools to for webhooks system implementation in php application.
 
