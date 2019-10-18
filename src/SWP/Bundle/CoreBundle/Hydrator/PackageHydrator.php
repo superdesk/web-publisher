@@ -23,9 +23,17 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 final class PackageHydrator implements PackageHydratorInterface
 {
+    private $generatedClassesTargetDir;
+
+    public function __construct(string $generatedClassesTargetDir)
+    {
+        $this->generatedClassesTargetDir = $generatedClassesTargetDir;
+    }
+
     public function hydrate(PackageInterface $newPackage, PackageInterface $existingPackage): PackageInterface
     {
         $config = new Configuration(Package::class);
+        $config->setGeneratedClassesTargetDir($this->generatedClassesTargetDir);
         $hydratorClass = $config->createFactory()->getHydratorClass();
         $hydrator = new $hydratorClass();
 

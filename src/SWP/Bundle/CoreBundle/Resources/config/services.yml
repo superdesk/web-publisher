@@ -764,7 +764,9 @@ services:
 
     SWP\Bundle\CoreBundle\Factory\ApiKeyFactory: '@swp.factory.api_key'
 
-    SWP\Bundle\CoreBundle\Hydrator\PackageHydrator: ~
+    SWP\Bundle\CoreBundle\Hydrator\PackageHydrator:
+        arguments:
+            - '%kernel.cache_dir%'
 
     SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface:
         alias: SWP\Bundle\CoreBundle\Hydrator\PackageHydrator
