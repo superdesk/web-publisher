@@ -30,11 +30,11 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
         articleMedia:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             cascade: ["remove"]
-            orphanRemoval: true
             joinColumn:
                 name: article_media_id
                 referencedColumnName: id
                 nullable: false
+                onDelete: CASCADE
 
         slideshow:
             targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
