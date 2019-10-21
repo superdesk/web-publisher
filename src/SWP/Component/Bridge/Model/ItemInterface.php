@@ -33,6 +33,10 @@ interface ItemInterface extends ContentInterface
 
     const TYPE_AUDIO = 'audio';
 
+    public function getName(): string;
+
+    public function setName(string $name);
+
     /**
      * @return string
      */

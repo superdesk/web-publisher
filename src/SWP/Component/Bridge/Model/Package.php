@@ -51,6 +51,8 @@ class Package extends BaseContent implements PackageInterface
      */
     protected $relatedItems;
 
+    protected $featureMedia;
+
     public function __construct()
     {
         parent::__construct();
@@ -137,5 +139,15 @@ class Package extends BaseContent implements PackageInterface
     public function setRelatedItems(Collection $relatedItems): void
     {
         $this->relatedItems = $relatedItems;
+    }
+
+    public function getFeatureMedia(): ?ItemInterface
+    {
+        return $this->featureMedia;
+    }
+
+    public function setFeatureMedia(ItemInterface $featureMedia): void
+    {
+        $this->featureMedia = $featureMedia;
     }
 }

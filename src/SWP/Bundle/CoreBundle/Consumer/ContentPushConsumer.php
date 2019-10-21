@@ -186,6 +186,8 @@ class ContentPushConsumer implements ConsumerInterface
 
     private function logException(\Exception $e, PackageInterface $package, string $defaultMessage = 'Unhandled exception'): void
     {
+        dump($e);
+        die;
         $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : $defaultMessage, ['trace' => $e->getTraceAsString()]);
         $this->sentryHub->addBreadcrumb(new Breadcrumb(
             Breadcrumb::LEVEL_DEBUG,
