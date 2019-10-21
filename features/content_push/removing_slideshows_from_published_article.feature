@@ -1,10 +1,10 @@
 @content_push
-Feature: Removing existing slideshow from already published article on correction
+Feature: Removing existing slideshow from the already published article on correction
   If the slideshow is not needed in the article anymore
   As a HTTP Client
   I should be able to remove slideshow from already published article
 
-  Scenario: Remove existing slideshow from already published article
+  Scenario: Remove existing slideshow from the already published article
     Given I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/content/push" with body:
     """
