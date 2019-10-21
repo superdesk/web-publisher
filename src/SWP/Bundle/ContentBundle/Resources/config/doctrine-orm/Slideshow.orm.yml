@@ -21,9 +21,6 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             gedmo:
                 timestampable:
                     on: update
-        deletedAt:
-            type: datetime
-            nullable: true
     manyToOne:
         article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
