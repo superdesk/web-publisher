@@ -7,10 +7,6 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             id: true
             generator:
                 strategy: IDENTITY
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
     fields:
         code:
             type: string
@@ -25,9 +21,6 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             gedmo:
                 timestampable:
                     on: update
-        deletedAt:
-            type: datetime
-            nullable: true
     manyToOne:
         article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
