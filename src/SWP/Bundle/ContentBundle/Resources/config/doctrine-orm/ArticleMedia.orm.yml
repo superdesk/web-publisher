@@ -8,10 +8,6 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             id: true
             generator:
                 strategy: IDENTITY
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
     fields:
         key:
             type: string
@@ -52,9 +48,6 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             gedmo:
                 timestampable:
                     on: update
-        deletedAt:
-            type: datetime
-            nullable: true
     oneToMany:
         renditions:
             targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface
