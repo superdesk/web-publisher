@@ -6,6 +6,12 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+### 2.0.2
+
+ * improvement [#981] clean up old slideshows on article update
+ * fix [#980] Fix tags generation for cache invalidation requests
+ * improvement [#979] set generated classes target dir to var/cache in PackageHydrator
+
 ### 2.0.1
 
  * improvement [#970, #973] Use varnish xtags instead cachetags
