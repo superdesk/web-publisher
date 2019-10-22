@@ -31,12 +31,10 @@ class PackageSubscriber implements EventSubscriberInterface
         return [
             [
                 'event' => 'serializer.post_deserialize',
-                'class' => Package::class,
                 'method' => 'onPostDeserialize',
             ],
             [
                 'event' => 'serializer.pre_serialize',
-                'class' => Package::class,
                 'method' => 'onPreSerialize',
             ],
         ];
@@ -70,7 +68,9 @@ class PackageSubscriber implements EventSubscriberInterface
         /** @var PackageInterface $package */
         $package = $event->getObject();
 
-        $this->setFeatureMedia($package);
+        if ($package instanceof PackageInterface) {
+            $this->setFeatureMedia($package);
+        }
     }
 
     private function processGroups(PackageInterface $package): void
@@ -91,12 +91,12 @@ class PackageSubscriber implements EventSubscriberInterface
 
     private function setFeatureMedia(PackageInterface $package)
     {
-//        /** @var ItemInterface $item */
-//        foreach ($package->getItems() as $item) {
-//            if (MediaAwareInterface::KEY_FEATURE_MEDIA === $item->getName()) {
-//                $package->setFeatureMedia($item);
-//            }
-//        }
+        /** @var ItemInterface $item */
+        foreach ($package->getItems() as $item) {
+            if (MediaAwareInterface::KEY_FEATURE_MEDIA === $item->getName()) {
+                $package->setFeatureMedia($item);
+            }
+        }
     }
 
     private function processRenditions(ItemInterface $item)
