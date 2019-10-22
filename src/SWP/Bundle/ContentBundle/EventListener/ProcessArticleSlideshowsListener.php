@@ -46,6 +46,8 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
         $package = $event->getPackage();
         $article = $event->getArticle();
 
+        $this->removeOldArticleSlideshows($article);
+
         if (null === ($groups = $package->getGroups())) {
             return;
         }
@@ -54,6 +56,7 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             /* @var GroupInterface $group */
             return GroupInterface::TYPE_RELATED !== $group->getType();
         });
+
         if (null === $package || (null !== $package && 0 === count($groups))) {
             return;
         }
@@ -65,8 +68,6 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
                 }
             }
         }
-
-        $this->removeOldArticleSlideshows($article);
 
         foreach ($groups as $packageGroup) {
             $slideshow = $this->slideshowFactory->create();

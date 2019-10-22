@@ -212,7 +212,6 @@ swp_webhook:
                 webhook:
                     model: SWP\Bundle\CoreBundle\Model\Webhook
                     interface: SWP\Bundle\CoreBundle\Model\WebhookInterface
-                    repository: SWP\Bundle\CoreBundle\Repository\WebhookRepository
 
 swp_settings:
     persistence:

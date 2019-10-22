@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\WebhookBundle\DependencyInjection;
 
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Bundle\WebhookBundle\Model\Webhook;
+use SWP\Bundle\WebhookBundle\Repository\WebhookRepository;
 use SWP\Component\Storage\Factory\Factory;
 use SWP\Component\Webhook\Model\WebhookInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -52,7 +52,7 @@ class Configuration implements ConfigurationInterface
                                         ->addDefaultsIfNotSet()
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(Webhook::class)->end()
-                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('repository')->defaultValue(WebhookRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('interface')->defaultValue(WebhookInterface::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
-use SWP\Bundle\CoreBundle\Repository\WebhookRepositoryInterface;
+use SWP\Bundle\WebhookBundle\Repository\WebhookRepositoryInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
