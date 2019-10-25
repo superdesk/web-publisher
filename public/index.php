@@ -8,6 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 require dirname(__DIR__).'/config/bootstrap.php';
 
+if ('prod' === $_SERVER['APP_ENV']) {
+    $_SERVER['APP_DEBUG'] = 0;
+    $_ENV['APP_DEBUG'] = 0;
+}
+
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 

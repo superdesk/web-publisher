@@ -39,6 +39,14 @@ sub vcl_recv {
     # }
 
     # allow PURGE
+    if (req.method == "PURGE") {
+        if (!client.ip ~ invalidators) {
+            return (synth(405, "Not allowed"));
+        }
+        return (purge);
+    }
+
+    # allow PURGEKEYS
     if (req.method == "PURGEKEYS") {
         if (!client.ip ~ invalidators) {
             return (synth(405, "Not allowed"));
