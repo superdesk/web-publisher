@@ -44,6 +44,10 @@ final class ArticlePublishListener
     {
         $article = $event->getArticle();
 
+        if (isset($article->getExtra()['update_date'])) {
+            $article->setModifiedAt($article->getUpdatedAt());
+        }
+
         if ($article->isPublished()) {
             return;
         }
