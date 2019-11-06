@@ -90,6 +90,11 @@ class Article implements ArticleInterface
     protected $publishEndDate;
 
     /**
+     * @var \DateTime
+     */
+    protected $modifiedAt;
+
+    /**
      * @var bool
      */
     protected $isPublishable;
@@ -154,6 +159,16 @@ class Article implements ArticleInterface
     public function getPublishEndDate()
     {
         return $this->publishEndDate;
+    }
+
+    public function setModifiedAt(\DateTime $modifiedDate = null)
+    {
+        $this->modifiedAt = $modifiedDate;
+    }
+
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
     }
 
     public function isPublishable()
