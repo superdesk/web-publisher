@@ -159,7 +159,6 @@ class MediaFactory implements MediaFactoryInterface
             if (null !== $size) {
                 $file->setLength($size);
             }
-
         }
 
         return $file;
