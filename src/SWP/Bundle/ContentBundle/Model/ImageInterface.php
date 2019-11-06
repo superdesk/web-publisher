@@ -26,6 +26,8 @@ interface ImageInterface extends FileInterface
 
     public function setWidth(int $width): void;
 
+    public function setLength(string $length): void;
+
     public function getVariants(): array;
 
     public function setVariants(array $variants): void;

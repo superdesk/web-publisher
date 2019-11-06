@@ -19,6 +19,9 @@ SWP\Bundle\ContentBundle\Model\Image:
         height:
             type: integer
             nullable: true
+        length:
+            type: string
+            nullable: true
         createdAt:
             type: date
         updatedAt:
