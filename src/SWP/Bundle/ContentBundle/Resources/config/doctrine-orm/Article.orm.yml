@@ -60,6 +60,9 @@ SWP\Bundle\ContentBundle\Model\Article:
         publishedAt:
             type: datetime
             nullable: true
+        modifiedAt:
+            type: datetime
+            nullable: true
         isPublishable:
             type: boolean
         metadata:

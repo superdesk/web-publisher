@@ -55,6 +55,10 @@ SWP\Bundle\ContentBundle\Model\Article:
             expose: true
             groups: [api]
             type: DateTime
+        modifiedAt:
+            expose: true
+            groups: [api]
+            type: DateTime
         isPublishable:
             expose: true
             groups: [api]
