@@ -156,7 +156,7 @@ class MediaFactory implements MediaFactoryInterface
             $size = \filesize($uploadedFile->getRealPath());
             $size = $size / 1024;
             $size = (string) number_format($size);
-            if($size !== null){
+            if (null !== $size) {
                 $file->setLength($size);
             }
 
