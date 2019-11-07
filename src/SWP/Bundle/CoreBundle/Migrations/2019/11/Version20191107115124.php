@@ -28,4 +28,3 @@ final class Version20191107115124 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_image DROP COLUMN length;');
     }
 }
-
