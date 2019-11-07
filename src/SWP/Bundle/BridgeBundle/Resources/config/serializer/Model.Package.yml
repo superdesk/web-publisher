@@ -11,6 +11,10 @@ SWP\Component\Bridge\Model\Package:
             serialized_name: body_html
             type: string
             groups: [api, api_packages_list]
+        featuredMedia:
+            expose: true
+            serialized_name: featured_media
+            groups: [api, api_packages_list]
         createdAt:
             expose: true
             type: DateTime
