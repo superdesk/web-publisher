@@ -55,7 +55,7 @@ class Image implements ImageInterface
     protected $height;
 
     /**
-     * @var int
+     * @var float
      */
     protected $length;
 
