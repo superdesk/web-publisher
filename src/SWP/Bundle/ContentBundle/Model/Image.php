@@ -187,6 +187,7 @@ class Image implements ImageInterface
     {
         return $this->length;
     }
+
     public function setLength(string $length): void
     {
         $this->length = $length;
