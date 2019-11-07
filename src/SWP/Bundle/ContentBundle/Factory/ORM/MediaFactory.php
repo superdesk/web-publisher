@@ -153,6 +153,12 @@ class MediaFactory implements MediaFactoryInterface
             [$width, $height] = \getimagesize($uploadedFile->getRealPath());
             $file->setWidth($width);
             $file->setHeight($height);
+            $size = \filesize($uploadedFile->getRealPath());
+            $size = $size / 1024;
+            $size = (string) number_format($size);
+            if (null !== $size) {
+                $file->setLength($size);
+            }
         }
 
         return $file;
