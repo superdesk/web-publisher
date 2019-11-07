@@ -55,7 +55,7 @@ class Image implements ImageInterface
     protected $height;
 
     /**
-     * @var string
+     * @var int
      */
     protected $length;
 
@@ -183,12 +183,12 @@ class Image implements ImageInterface
         $this->height = $height;
     }
 
-    public function getLength(): string
+    public function getLength(): float
     {
         return $this->length;
     }
 
-    public function setLength(string $length): void
+    public function setLength(float $length): void
     {
         $this->length = $length;
     }

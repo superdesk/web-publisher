@@ -22,11 +22,13 @@ interface ImageInterface extends FileInterface
 
     public function getHeight(): int;
 
+    public function getLength(): float;
+
     public function setHeight(int $height): void;
 
     public function setWidth(int $width): void;
 
-    public function setLength(string $length): void;
+    public function setLength(float $length): void;
 
     public function getVariants(): array;
 

@@ -20,7 +20,7 @@ SWP\Bundle\ContentBundle\Model\Image:
             type: integer
             nullable: true
         length:
-            type: string
+            type: float
             nullable: true
         createdAt:
             type: date
