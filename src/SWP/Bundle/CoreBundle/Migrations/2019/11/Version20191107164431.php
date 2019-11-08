@@ -25,4 +25,5 @@ final class Version20191107164431 extends AbstractMigration
             'Migration can only be executed safely on \'postgresql\'.');
         $this->addSql('ALTER TABLE swp_route COLUMN description');
     }
+
 }

@@ -91,6 +91,7 @@ trait RouteTrait
     {
         return $this->description;
     }
+
     /**
      * @param string|null $description
      */
