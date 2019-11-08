@@ -53,7 +53,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertEquals(
             json_decode(
-                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","description":"simple route description","cache_time_in_seconds":0,"name":"simple-test-route","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2}',
+                '{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[], "lft":1, "rgt": 2, "description":"simple route description",}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
