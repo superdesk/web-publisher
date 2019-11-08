@@ -42,9 +42,8 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testRenderingRouteParent()
     {
-        $template = '{% gimmelist article from articles with {"route": ["/sports"]} %} {{ article.route.parent.name }}  {% endgimmelist %}';
+        $template = '{% gimmelist article from articles with {"route": ["/news/sports"]} %} {{ article.route.parent.name }}  {% endgimmelist %}';
         $result = $this->getRendered($template);
-
         self::assertContains('news', $result);
     }
 
