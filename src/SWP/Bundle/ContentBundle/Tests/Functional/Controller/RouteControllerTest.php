@@ -10,16 +10,20 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Controller;
+
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
+
 class RouteControllerTest extends WebTestCase
 {
     /**
      * @var RouterInterface
      */
     protected $router;
+
     /**
      * {@inheritdoc}
      */
@@ -29,6 +33,7 @@ class RouteControllerTest extends WebTestCase
         $this->initDatabase();
         $this->router = $this->getContainer()->get('router');
     }
+
     public function testCreateEmptyContentRoutesApi()
     {
         $client = static::createClient();
@@ -50,6 +55,7 @@ class RouteControllerTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true)
         );
     }
+
     public function testCreateContentRoutesApi()
     {
         $this->loadFixtureFiles(
@@ -77,6 +83,7 @@ class RouteControllerTest extends WebTestCase
             $content
         );
     }
+
     public function testCreateAndUpdateRoutesApi()
     {
         $client = static::createClient();
@@ -111,6 +118,7 @@ class RouteControllerTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true)
         );
     }
+
     public function testCreateAndUpdateAndDeleteRoutesApi()
     {
         $this->loadFixtureFiles(
@@ -163,6 +171,7 @@ class RouteControllerTest extends WebTestCase
         $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => $content['id']]));
         self::assertEquals(204, $client->getResponse()->getStatusCode());
     }
+
     public function testWithCustomTemplatesRoutesApi()
     {
         $client = static::createClient();
@@ -185,6 +194,7 @@ class RouteControllerTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true)
         );
     }
+
     public function testSettingNotSupportedRouteType()
     {
         $client = static::createClient();
@@ -207,6 +217,7 @@ class RouteControllerTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true)
         );
     }
+
     public function testRemovingParent()
     {
         $client = static::createClient();
@@ -243,6 +254,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertEquals(0, $content['level']);
     }
+
     public function testNestedRoutes()
     {
         $client = static::createClient();
@@ -294,6 +306,7 @@ class RouteControllerTest extends WebTestCase
         );
         self::assertEquals(409, $client->getResponse()->getStatusCode());
     }
+
     public function testAssigningNotExistingRoute()
     {
         $client = static::createClient();
@@ -316,6 +329,7 @@ class RouteControllerTest extends WebTestCase
             $content
         );
     }
+
     public function testFilterRoutesByType()
     {
         $client = static::createClient();
@@ -404,6 +418,7 @@ class RouteControllerTest extends WebTestCase
             $content
         );
     }
+
     public function testRemoveParentRoute()
     {
         $this->loadFixtures(
