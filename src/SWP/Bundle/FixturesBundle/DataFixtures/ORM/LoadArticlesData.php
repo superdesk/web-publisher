@@ -446,6 +446,19 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
+                $article->setMetadata([
+                    'located' => 'Sydney',
+                    'byline' => 'Jhon Doe',
+                    'place' => [
+                        [
+                            'qcode' => 'AUS',
+                            'world_region' => 'Rest Of World',
+                        ], [
+                            'qcode' => 'EUR',
+                            'world_region' => 'Europe',
+                        ],
+                    ],
+                ]);
                 if (isset($articleData['publishedAt'])) {
                     $article->setPublishedAt($articleData['publishedAt']);
                 }
