@@ -69,8 +69,8 @@ Feature: As a user I want to be able to unpublish from superdesk previously publ
       }
      """
 
-#    When I go to "/test/lorem"
-#    Then the response status code should be 200
+    When I go to "/test/lorem"
+    Then the response status code should be 200
 
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
