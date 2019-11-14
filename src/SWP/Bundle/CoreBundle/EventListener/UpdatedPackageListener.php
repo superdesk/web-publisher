@@ -31,40 +31,16 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class UpdatedPackageListener
 {
-    /**
-     * @var ArticleHydratorInterface
-     */
     private $articleHydrator;
 
-    /**
-     * @var ObjectManager
-     */
     private $articleManager;
 
-    /**
-     * @var ArticleRepositoryInterface
-     */
     private $articleRepository;
 
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * @var ObjectPersisterInterface
-     */
     private $elasticaObjectPersister;
 
-    /**
-     * UpdatedPackageListener constructor.
-     *
-     * @param ArticleHydratorInterface   $articleHydrator
-     * @param ObjectManager              $articleManager
-     * @param ArticleRepositoryInterface $articleRepository
-     * @param EventDispatcherInterface   $eventDispatcher
-     * @param ObjectPersisterInterface   $elasticaObjectPersister
-     */
     public function __construct(
         ArticleHydratorInterface $articleHydrator,
         ObjectManager $articleManager,
@@ -79,18 +55,24 @@ final class UpdatedPackageListener
         $this->elasticaObjectPersister = $elasticaObjectPersister;
     }
 
-    /**
-     * @param GenericEvent $event
-     */
-    public function onUpdated(GenericEvent $event)
+    public function onUpdated(GenericEvent $event): void
     {
         $package = $this->getPackage($event);
         $this->elasticaObjectPersister->replaceOne($package);
 
-        if (ContentInterface::STATUS_USABLE !== $package->getPubStatus()) {
-            return;
+        if (ContentInterface::STATUS_USABLE === $package->getPubStatus()) {
+            $this->handleArticlesUpdate($package);
         }
 
+        if (in_array($package->getPubStatus(), [ContentInterface::STATUS_CANCELED, ContentInterface::STATUS_UNPUBLISHED], true)) {
+            $this->handleCancelationAndUnpublishing($package);
+
+            return;
+        }
+    }
+
+    private function handleArticlesUpdate(PackageInterface $package)
+    {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         foreach ($this->articleRepository->getArticlesByPackage($package)->getQuery()->getResult() as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
@@ -100,6 +82,28 @@ final class UpdatedPackageListener
             $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));
         }
 
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+    }
+
+    private function handleCancelationAndUnpublishing(PackageInterface $package)
+    {
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+
+        foreach ($this->articleRepository->findBy(['package' => $package]) as $article) {
+            if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
+                $this->eventDispatcher->dispatch(
+                    ArticleEvents::CANCELED,
+                    new ArticleEvent($article, null, ArticleEvents::CANCELED)
+                );
+            } elseif (ContentInterface::STATUS_UNPUBLISHED === $package->getPubStatus()) {
+                $this->eventDispatcher->dispatch(
+                    ArticleEvents::UNPUBLISH,
+                    new ArticleEvent($article, null, ArticleEvents::UNPUBLISH)
+                );
+            }
+        }
+
+        $this->articleManager->flush();
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 
