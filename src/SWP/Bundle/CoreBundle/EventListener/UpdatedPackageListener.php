@@ -111,10 +111,7 @@ final class UpdatedPackageListener
     {
         /** @var PackageInterface $package */
         if (!($package = $event->getSubject()) instanceof PackageInterface) {
-            throw UnexpectedTypeException::unexpectedType(
-                is_object($package) ? get_class($package) : gettype($package),
-                PackageInterface::class
-            );
+            throw UnexpectedTypeException::unexpectedType(is_object($package) ? get_class($package) : gettype($package), PackageInterface::class);
         }
 
         return $package;
