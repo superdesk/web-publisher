@@ -66,6 +66,7 @@ final class UpdatedPackageListener
 
         if (in_array($package->getPubStatus(), [ContentInterface::STATUS_CANCELED, ContentInterface::STATUS_UNPUBLISHED], true)) {
             $this->handleCancelationAndUnpublishing($package);
+            $event->stopPropagation();
 
             return;
         }
