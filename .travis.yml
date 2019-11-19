@@ -105,3 +105,4 @@ script:
 cache:
   directories:
   - node_modules
+  - "$HOME/.composer/cache/files"
