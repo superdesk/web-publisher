@@ -58,85 +58,51 @@ class Author implements AuthorInterface
      */
     protected $facebook;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRole(): ?string
     {
         return $this->role;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setRole(?string $role): void
     {
         $this->role = $role;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getJobTitle(): array
     {
         return $this->jobTitle;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setJobTitle(array $jobTitle): void
     {
         $this->jobTitle = $jobTitle;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setBiography(?string $biography): void
     {
-        if (\is_string($biography) && \strlen($biography) > 460) {
-            $biography = mb_substr($biography, 0, 460);
-        }
-
         $this->biography = $biography;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBiography(): ?string
     {
         return $this->biography;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAvatarUrl(): ?string
     {
         return $this->avatarUrl;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAvatarUrl(?string $avatarUrl)
     {
         $this->avatarUrl = $avatarUrl;

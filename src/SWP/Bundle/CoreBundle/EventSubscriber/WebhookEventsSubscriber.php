@@ -20,7 +20,7 @@ use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\CoreBundle\Model\WebhookInterface;
-use SWP\Bundle\CoreBundle\Repository\WebhookRepositoryInterface;
+use SWP\Bundle\WebhookBundle\Repository\WebhookRepositoryInterface;
 use SWP\Bundle\CoreBundle\Webhook\WebhookEvents;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 use SWP\Component\Common\Serializer\SerializerInterface;

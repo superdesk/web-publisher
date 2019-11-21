@@ -53,7 +53,16 @@ final class ContentListAwareSerializationSubscriber implements EventSubscriberIn
     public function onPreSerialize(ObjectEvent $event)
     {
         $masterRequest = $this->requestStack->getMasterRequest();
-        if (!$masterRequest || 'swp_api_content_show_articles' !== $masterRequest->get('_route')) {
+        if (
+            !$masterRequest ||
+            !in_array(
+                $masterRequest->get('_route'),
+                [
+                    'swp_api_content_show_articles',
+                    'swp_api_core_show_package',
+                ],
+                true
+            )) {
             return;
         }
 
@@ -70,7 +79,7 @@ final class ContentListAwareSerializationSubscriber implements EventSubscriberIn
         $contentLists = [];
         /** @var ContentListItemInterface $contentListItem */
         foreach ($contentListItems as $contentListItem) {
-            if (!in_array($contentList = $contentListItem->getContentList(), $contentLists)) {
+            if (!in_array($contentList = $contentListItem->getContentList(), $contentLists, true)) {
                 $contentLists[] = $contentList;
             }
         }

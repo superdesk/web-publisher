@@ -55,6 +55,11 @@ class Image implements ImageInterface
     protected $height;
 
     /**
+     * @var float
+     */
+    protected $length;
+
+    /**
      * @var ArrayCollection
      */
     protected $renditions;
@@ -176,6 +181,16 @@ class Image implements ImageInterface
     public function setHeight(int $height): void
     {
         $this->height = $height;
+    }
+
+    public function getLength(): float
+    {
+        return $this->length;
+    }
+
+    public function setLength(float $length): void
+    {
+        $this->length = $length;
     }
 
     public function getVariants(): array

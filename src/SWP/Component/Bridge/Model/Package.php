@@ -16,6 +16,7 @@ namespace SWP\Component\Bridge\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use SWP\Component\Bridge\Model\Item as BridgeItem;
 use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -51,6 +52,8 @@ class Package extends BaseContent implements PackageInterface
      */
     protected $relatedItems;
 
+    protected $featureMedia;
+
     public function __construct()
     {
         parent::__construct();
@@ -81,7 +84,7 @@ class Package extends BaseContent implements PackageInterface
         $this->items = $items;
     }
 
-    public function addItem(\SWP\Component\Bridge\Model\Item $item)
+    public function addItem(BridgeItem $item)
     {
         if (!$this->items->contains($item)) {
             $this->items->add($item);
@@ -91,7 +94,7 @@ class Package extends BaseContent implements PackageInterface
         return $this;
     }
 
-    public function removeItem(\SWP\Component\Bridge\Model\Item $item)
+    public function removeItem(BridgeItem $item)
     {
         if ($this->items->contains($item)) {
             $this->items->removeElement($item);
@@ -137,5 +140,15 @@ class Package extends BaseContent implements PackageInterface
     public function setRelatedItems(Collection $relatedItems): void
     {
         $this->relatedItems = $relatedItems;
+    }
+
+    public function getFeatureMedia(): ?ItemInterface
+    {
+        return $this->featureMedia;
+    }
+
+    public function setFeatureMedia(ItemInterface $featureMedia): void
+    {
+        $this->featureMedia = $featureMedia;
     }
 }

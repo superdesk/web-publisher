@@ -7,10 +7,6 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
             id: true
             generator:
                 strategy: IDENTITY
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
     fields:
         createdAt:
             type: datetime
@@ -23,18 +19,16 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
             gedmo:
                 timestampable:
                     on: update
-        deletedAt:
-             type: datetime
-             nullable: true
     manyToOne:
         articleMedia:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            cascade: ["remove"]
             joinColumn:
                 name: article_media_id
                 referencedColumnName: id
                 nullable: false
                 onDelete: CASCADE
-                orphanRemoval: true
+
         slideshow:
             targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
             cascade: ["all"]

@@ -172,17 +172,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             foreach ($criteria->get($name) as $key => $value) {
                 $search = ('***' !== $value) ? [$key => $value] : $key;
                 if ('metadata' === $name || 'exclude_metadata' === $name) {
-                    $valueExpression = \str_replace('{', '',
-                        \str_replace('}', '',
-                            '%'.\json_encode($search).'%'
-                        )
-                    );
+                    $valueExpression = '%'.\rtrim(\ltrim(\json_encode($search), '{'), '}').'%';
                 } else {
-                    $valueExpression = '%'.\str_replace('a:1:{', '',
-                        \str_replace(';}', ';',
-                            \serialize($search).'%'
-                        )
-                    );
+                    $valueExpression = '%'.\rtrim(\ltrim(\serialize($search), 'a:1:{'), ';}').'%';
                 }
 
                 $valueExpression = $queryBuilder->expr()->literal($valueExpression);
@@ -192,7 +184,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                     $orX->add($queryBuilder->expr()->notLike('a.'.\str_replace('exclude_', '', $name), $valueExpression));
                 }
             }
-
             $queryBuilder->andWhere($orX);
             $criteria->remove($name);
         }

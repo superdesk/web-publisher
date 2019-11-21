@@ -9,7 +9,6 @@ use Behat\Gherkin\Node\TableNode;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Provider\Lorem;
 use Faker\Provider\Uuid;
-use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -20,8 +19,6 @@ final class ArticleContext extends AbstractContext implements Context
 {
     private $articleFactory;
 
-    private $articleRepository;
-
     private $entityManager;
 
     private $routeFactory;
@@ -30,13 +27,11 @@ final class ArticleContext extends AbstractContext implements Context
 
     public function __construct(
         ArticleFactoryInterface $articleFactory,
-        ArticleRepositoryInterface $articleRepository,
         EntityManagerInterface $entityManager,
         RouteFactoryInterface $routeFactory,
         RouteRepositoryInterface $routeRepository
     ) {
         $this->articleFactory = $articleFactory;
-        $this->articleRepository = $articleRepository;
         $this->entityManager = $entityManager;
         $this->routeFactory = $routeFactory;
         $this->routeRepository = $routeRepository;

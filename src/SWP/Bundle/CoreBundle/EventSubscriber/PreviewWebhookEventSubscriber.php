@@ -19,7 +19,7 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 use GuzzleHttp\Client;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\CoreBundle\Model\ArticlePreview;
-use SWP\Bundle\CoreBundle\Repository\WebhookRepositoryInterface;
+use SWP\Bundle\WebhookBundle\Repository\WebhookRepositoryInterface;
 use SWP\Bundle\CoreBundle\Webhook\WebhookEvents;
 use SWP\Bundle\WebhookBundle\Model\WebhookInterface;
 use SWP\Component\Common\Serializer\SerializerInterface;

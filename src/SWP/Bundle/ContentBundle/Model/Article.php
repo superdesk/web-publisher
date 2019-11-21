@@ -206,6 +206,16 @@ class Article implements ArticleInterface
         return $this->title;
     }
 
+    public function getPlace(): ?array
+    {
+        $metadata = $this->getMetadata();
+        if (is_array($metadata['place']) && count($metadata['place']) > 0) {
+            return $metadata['place'][array_key_first($metadata['place'])];
+        }
+
+        return null;
+    }
+
     public function setTitle($title)
     {
         $this->title = $title;

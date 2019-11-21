@@ -66,18 +66,14 @@ class HttpCacheSubscriber implements EventSubscriberInterface
         if (
             null !== $article->getId()
         ) {
-            $tags = [
-                $this->articleTagGenerator->generateTags($article),
-            ];
-
+            $tags = $this->articleTagGenerator->generateTags($article);
             // Clear article route page (usually article is listed there)
             if (null !== $article->getRoute()) {
-                $tags[] = $this->routeTagGenerator->generateTags($article->getRoute());
+                $tags = array_merge($tags, $this->routeTagGenerator->generateTags($article->getRoute()));
                 if (null !== $article->getRoute()->getParent()) {
-                    $tags[] = $this->routeTagGenerator->generateTags($article->getRoute()->getParent());
+                    $tags = array_merge($this->routeTagGenerator->generateTags($article->getRoute()->getParent()));
                 }
             }
-
             $this->cacheManager->invalidateTags($tags);
 
             // Invalidate API responses

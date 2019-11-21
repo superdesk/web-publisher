@@ -11,6 +11,9 @@ SWP\Bundle\ContentBundle\Model\Image:
         height:
             expose: true
             groups: [api, api_image_details]
+        length:
+            expose: true
+            groups: [api, api_image_details]
         fileExtension:
             expose: true
             groups: [api, api_image_details]
