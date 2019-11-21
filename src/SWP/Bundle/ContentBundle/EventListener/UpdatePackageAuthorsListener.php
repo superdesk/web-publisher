@@ -52,7 +52,7 @@ final class UpdatePackageAuthorsListener
                 $author->setInstagram($packageAuthor->getInstagram());
                 $author->setTwitter($packageAuthor->getTwitter());
                 $author->setFacebook($packageAuthor->getFacebook());
-                $authors[] = $author;
+                $authors[$packageAuthor->getName()] = $author;
 
                 continue;
             }

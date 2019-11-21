@@ -90,7 +90,8 @@ class NinjsValidator extends JsonValidator
       "enum":[
         "usable",
         "withheld",
-        "canceled"
+        "canceled",
+        "unpublished"
       ]
     },
     "urgency":{
