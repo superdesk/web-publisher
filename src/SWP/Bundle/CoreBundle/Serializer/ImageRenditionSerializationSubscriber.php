@@ -54,7 +54,7 @@ final class ImageRenditionSerializationSubscriber implements EventSubscriberInte
         $visitor->visitProperty(
             new StaticPropertyMetadata('', '_links', null),
             [
-                'publicUrl' => [
+                'public_url' => [
                     'href' => $this->mediaManager->getMediaPublicUrl($rendition->getImage()),
                 ],
             ]
