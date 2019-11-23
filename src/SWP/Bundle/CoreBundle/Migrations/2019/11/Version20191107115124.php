@@ -17,7 +17,7 @@ final class Version20191107115124 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_image ADD COLUMN length NUMERIC;');
+        $this->addSql('ALTER TABLE swp_image ADD COLUMN length NUMERIC SET DEFAULT 0 NOT NULL;');
     }
 
     public function down(Schema $schema): void
