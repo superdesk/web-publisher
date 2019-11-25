@@ -48,6 +48,11 @@ class Article implements ArticleInterface
     /**
      * @var string
      */
+    protected $familyId;
+
+    /**
+     * @var string
+     */
     protected $title;
 
     /**
@@ -401,5 +406,16 @@ class Article implements ArticleInterface
             $slideshow->setArticle(null);
             $this->slideshows->removeElement($slideshow);
         }
+    }
+
+    public function getFamilyId()
+    {
+        return $this->familyId;
+    }
+
+
+    public function setFamilyId($familyId)
+    {
+        $this->familyId = $familyId;
     }
 }
