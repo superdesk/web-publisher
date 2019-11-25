@@ -18,6 +18,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         body:
             type: text
+        familyId:
+            type: string
+            nullable: true
         title:
             type: string
         lead:

@@ -44,6 +44,12 @@ final class ArticlePublishListener
     {
         $article = $event->getArticle();
 
+        if (isset($article->getExtra()['family_id'])) {
+            $familyId = $article->getExtra()['family_id'];
+            if ($familyId !== '')
+                $article->setFamilyId($familyId);
+        }
+
         if ($article->isPublished()) {
             return;
         }
