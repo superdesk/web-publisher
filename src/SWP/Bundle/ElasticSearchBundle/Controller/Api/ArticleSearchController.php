@@ -63,6 +63,14 @@ class ArticleSearchController extends Controller
      *         @SWG\Items(type="string")
      *     ),
      *     @SWG\Parameter(
+     *         name="keywords",
+     *         in="query",
+     *         description="Article keywords",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
      *         name="term",
      *         in="query",
      *         description="Search phrase",
