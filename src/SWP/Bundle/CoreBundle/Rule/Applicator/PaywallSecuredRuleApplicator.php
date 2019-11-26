@@ -55,17 +55,17 @@ final class PaywallSecuredRuleApplicator extends AbstractRuleApplicator
     private function validateRuleConfiguration(array $configuration): array
     {
         $resolver = new OptionsResolver();
-        $this->configureOptions($resolver);
+        $this->configureOptions($resolver, $configuration);
 
         return $this->resolveConfig($resolver, $configuration);
     }
 
-    private function configureOptions(OptionsResolver $resolver): void
+    private function configureOptions(OptionsResolver $resolver, array $configuration): void
     {
         $resolver->setDefaults([
             $this->supportedKeys[0] => false,
         ]);
-        $resolver->setDefined($this->supportedKeys[0]);
+        $resolver->setDefined(array_keys($configuration));
     }
 
     private function isAllowedType(RuleSubjectInterface $subject): bool
