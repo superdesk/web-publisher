@@ -36,7 +36,7 @@ class ArticleRepository extends Repository
         $boolFilter = new BoolQuery();
 
         if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $searchBy = ['title', 'lead', 'keywords.name'];
+            $searchBy = ['title', 'lead'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
@@ -60,6 +60,15 @@ class ArticleRepository extends Repository
             $boolFilter->addMust($query);
         } else {
             $boolFilter->addMust(new MatchAll());
+        }
+
+        if (null !== $fields->get('keywords') && !empty($fields->get('keywords'))) {
+            $bool = new BoolQuery();
+            $bool->addFilter(new Query\Terms('keywords.name', $fields->get('keywords')));
+            $nested = new Nested();
+            $nested->setPath('keywords');
+            $nested->setQuery($bool);
+            $boolFilter->addMust($nested);
         }
 
         if (null !== $fields->get('authors') && !empty($fields->get('authors'))) {
