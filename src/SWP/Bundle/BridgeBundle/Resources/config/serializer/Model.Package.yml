@@ -11,7 +11,7 @@ SWP\Component\Bridge\Model\Package:
             serialized_name: body_html
             type: string
             groups: [api, api_packages_list]
-        featuredMedia:
+        featureMedia:
             expose: true
             serialized_name: featured_media
             groups: [api, api_packages_list]
