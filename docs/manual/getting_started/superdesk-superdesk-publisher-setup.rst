@@ -99,14 +99,14 @@ Clear the Publisher server cache for the change to take effect:
 
 	php bin/console cache:clear
 
-That’s it! Now, when you log in to Superdesk in the left hamburger menu, you will see the Publisher menu item available:
+That’s it! Now, when you log in to Superdesk in the left hamburger menu, you will see the Publisher Settings menu item available:
 
 .. image:: superdesk-publisher-menu.png
   :alt: Superdesk Publisher
   :align: center
 
-2. Configure Subscriber to Publish Content from Superdesk to Superdesk Publisher
---------------------------------------------------------------------------------
+Configure Subscriber to Publish Content from Superdesk to Superdesk Publisher
+-----------------------------------------------------------------------------
 
 You can read more about this in the official Superdesk Publisher `documentation`_.
 
