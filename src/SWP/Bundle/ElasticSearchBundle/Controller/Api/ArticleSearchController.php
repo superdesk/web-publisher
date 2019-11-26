@@ -146,6 +146,7 @@ class ArticleSearchController extends Controller
                 'tenantCode' => $currentTenant->getCode(),
                 'sources' => array_filter((array) $request->query->get('source', [])),
                 'metadata' => array_filter((array) $request->query->get('metadata', [])),
+                'keywords' => array_filter((array) $request->query->get('keywords', [])),
             ]
         );
 
