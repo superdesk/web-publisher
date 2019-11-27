@@ -190,9 +190,6 @@
     "facebook/graph-sdk": {
         "version": "5.7.0"
     },
-    "fig/link-util": {
-        "version": "1.0.0"
-    },
     "friends-of-behat/service-container-extension": {
         "version": "v1.0.1"
     },
@@ -596,6 +593,9 @@
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
     },
+    "phpseclib/phpseclib": {
+        "version": "2.0.23"
+    },
     "phpspec/php-diff": {
         "version": "v1.1.0"
     },
@@ -872,6 +872,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.2.7"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.0"
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.7"
