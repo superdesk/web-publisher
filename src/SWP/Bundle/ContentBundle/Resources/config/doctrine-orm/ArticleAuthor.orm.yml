@@ -13,8 +13,7 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
         role:
             type: string
         biography:
-            type: string
-            length: 460
+            type: text
             nullable: true
         avatarUrl:
             type: string

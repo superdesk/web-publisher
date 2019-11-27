@@ -16,7 +16,9 @@ namespace SWP\Bundle\BridgeBundle\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Bridge\Model\Package;
 use SWP\Component\Bridge\Model\PackageInterface;
 
 class PackageSubscriber implements EventSubscriberInterface
@@ -31,18 +33,18 @@ class PackageSubscriber implements EventSubscriberInterface
                 'event' => 'serializer.post_deserialize',
                 'method' => 'onPostDeserialize',
             ],
+            [
+                'event' => 'serializer.pre_serialize',
+                'method' => 'onPreSerialize',
+            ],
         ];
     }
 
-    /**
-     * @param ObjectEvent $event
-     */
     public function onPostDeserialize(ObjectEvent $event)
     {
-        if ($event->getObject() instanceof PackageInterface) {
-            /** @var PackageInterface $package */
-            $package = $event->getObject();
-
+        /** @var PackageInterface $package */
+        $package = $event->getObject();
+        if ($package instanceof PackageInterface) {
             foreach ($package->getItems() as $item) {
                 $this->processRenditions($item);
 
@@ -56,6 +58,18 @@ class PackageSubscriber implements EventSubscriberInterface
             foreach ($package->getItems() as $key => $item) {
                 $item->setName($key);
             }
+
+            $this->setFeatureMedia($package);
+        }
+    }
+
+    public function onPreSerialize(ObjectEvent $event)
+    {
+        /** @var PackageInterface $package */
+        $package = $event->getObject();
+
+        if ($package instanceof PackageInterface) {
+            $this->setFeatureMedia($package);
         }
     }
 
@@ -71,6 +85,16 @@ class PackageSubscriber implements EventSubscriberInterface
                 }
 
                 $group->setPackage($package);
+            }
+        }
+    }
+
+    private function setFeatureMedia(PackageInterface $package)
+    {
+        /** @var ItemInterface $item */
+        foreach ($package->getItems() as $item) {
+            if (MediaAwareInterface::KEY_FEATURE_MEDIA === $item->getName()) {
+                $package->setFeatureMedia($item);
             }
         }
     }

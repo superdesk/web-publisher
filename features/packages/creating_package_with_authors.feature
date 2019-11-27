@@ -370,6 +370,11 @@ Feature: Checking if the package authors are saved properly
           "name":"vincer vincer",
           "role":"subeditor",
           "avatar_url":"http://via.placeholder.com/95x95.jpg"
+        },
+        {
+          "biography":"ed bio",
+          "name":"ed",
+          "role":"maineditor"
         }
       ],
       "copyrightholder":"",
@@ -418,7 +423,7 @@ Feature: Checking if the package authors are saved properly
     And the JSON nodes should contain:
       | authors[1].name                | ed                                              |
       | authors[1].biography           | ed bio                                          |
-      | authors[1].role                | subeditor                                       |
+      | authors[1].role                | maineditor                                       |
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |
       | authors[0].role                | subeditor                                       |
@@ -432,7 +437,7 @@ Feature: Checking if the package authors are saved properly
     And the JSON nodes should contain:
       | authors[1].name                | ed                                              |
       | authors[1].biography           | ed bio                                          |
-      | authors[1].role                | subeditor                                       |
+      | authors[1].role                | maineditor                                       |
       | authors[1].slug                | ed                                              |
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |

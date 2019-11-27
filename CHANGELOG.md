@@ -6,6 +6,15 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+### 2.0.3
+
+ * fix [#997] fix duplicated authors in package handling
+ * feature [#996] handle new superdesk ways for unpublishing content
+ * improvement [#994] change author biography from string to text in database
+ * improvement [#993] expose article place for templators
+ * improvement [#989] add images length to the Image model
+ * improvement [#984] expose route parent for templators
+
 ### 2.0.2
 
  * improvement [#981] clean up old slideshows on article update
