@@ -175,6 +175,10 @@ Feature: Marking article as paywall-secured using rules
             {
               "key":"route",
               "value":7
+            },
+            {
+              "key":"isPublishedFbia",
+              "value":false
             }
           ]
       }

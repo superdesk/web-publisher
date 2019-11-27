@@ -77,9 +77,7 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
     {
         $tenant = $this->tenantRepository->findOneByCode($code);
         if (!$tenant instanceof TenantInterface) {
-            throw UnexpectedTypeException::unexpectedType(
-                is_object($tenant) ? get_class($tenant) : gettype($tenant),
-                TenantInterface::class);
+            throw UnexpectedTypeException::unexpectedType(is_object($tenant) ? get_class($tenant) : gettype($tenant), TenantInterface::class);
         }
 
         return $tenant;
