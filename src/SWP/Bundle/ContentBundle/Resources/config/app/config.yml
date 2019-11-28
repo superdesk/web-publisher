@@ -6,6 +6,7 @@ parameters:
     env(FS_AWS_S3_REGION): ''
     env(FS_AWS_S3_KEY): ''
     env(FS_AWS_S3_SECRET): ''
+    env(FS_AWS_S3_ENDPOINT): ''
     env(BLACKLISTED_KEYWORDS): '[]'
     env(REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE): false
 
