@@ -28,7 +28,7 @@ Superdesk Publisher repository:
 
 	"dependencies": {
 		....,
-		"superdesk-publisher": "superdesk/superdesk-publisher#master"
+		"superdesk-publisher": "superdesk/superdesk-publisher#2.0"
 	}
 
 You can replace master with whichever branch you require.
@@ -83,7 +83,7 @@ Login to the server where Publisher is installed.
 
 Edit (or create, if it doesn't already exist) the file ``/var/www/publisher/.env.local`` and add the following:
 
-.. code-block:: env
+.. code-block:: default
 
 	SUPERDESK_SERVERS='["superdesk.example.com"]'
 	CORS_ALLOW_ORIGIN=http://superdesk.example.com

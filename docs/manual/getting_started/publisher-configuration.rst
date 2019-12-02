@@ -12,7 +12,7 @@ the default configuration values for Publisher. Edits SHOULD NOT be made directl
 called `.env.local` in `/var/www/publisher` and add your custom values there. To start, let's switch the Publisher 
 environment from dev to prod and turn off debug mode. Edit `/var/www/publisher/.env.local` and add the following values:
 
-.. code-block::
+.. code-block:: default
 
 	APP_ENV=prod
 	APP_DEBUG=0
@@ -25,7 +25,7 @@ You can view `/var/www/publisher/.env` for a full list of configurable values.
 
 Another important configuration option is your `SWP_DOMAIN`. Add it to your `.env.local`:
 
-.. code-block::
+.. code-block:: default
 
 	SWP_DOMAIN=example.com
 
@@ -36,7 +36,7 @@ Your app secret is by default set to a static value and checked-in to source con
 secure your Publisher instance. You can use a service like `Nux`_ to generate a random secret key. Once you have your 
 secret key, add it to your `.env.local`:
 
-.. code-block::
+.. code-block:: default
 
 	APP_SECRET=pasteYourSecretKeyHere
 
@@ -53,7 +53,7 @@ Next, `add a password`_ to your root PostgreSQL account.
 
 Once your root user has a password, update the connection string by adding to your `.env.local`:
 
-.. code-block::
+.. code-block:: default
 
 	DATABASE_URL=pgsql://root:yourPasswordHere@127.0.0.1/publisher_%kernel.environment%?charset=utf8&serverVersion=9
 

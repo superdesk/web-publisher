@@ -107,7 +107,7 @@ Install Nginx:
 Configure Nginx ``site-enabled`` by editing the file ``/etc/nginx/sites-enabled/default``. Paste in the following
 configuration:
 
-.. code-block::
+.. code-block:: default
 
 	server {
 		server_name example.com
