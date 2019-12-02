@@ -244,6 +244,9 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
+    "geoip2/geoip2": {
+        "version": "v2.9.0"
+    },
     "gesdinet/jwt-refresh-token-bundle": {
         "version": "v0.5.4"
     },
@@ -435,6 +438,12 @@
     },
     "matthiasnoback/symfony-dependency-injection-test": {
         "version": "v1.2.0"
+    },
+    "maxmind-db/reader": {
+        "version": "v1.5.0"
+    },
+    "maxmind/web-service-common": {
+        "version": "v0.5.0"
     },
     "monolog/monolog": {
         "version": "1.24.0"
@@ -840,9 +849,6 @@
             "config/bootstrap.php"
         ]
     },
-    "symfony/contracts": {
-        "version": "v1.0.2"
-    },
     "symfony/css-selector": {
         "version": "v4.2.7"
     },
@@ -878,9 +884,6 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.7"
-    },
-    "symfony/event-dispatcher-contracts": {
-        "version": "v1.1.1"
     },
     "symfony/expression-language": {
         "version": "v4.2.7"
@@ -1061,9 +1064,6 @@
     "symfony/serializer": {
         "version": "v4.2.7"
     },
-    "symfony/service-contracts": {
-        "version": "v1.1.2"
-    },
     "symfony/stopwatch": {
         "version": "v4.2.7"
     },
@@ -1096,9 +1096,6 @@
             "config/packages/translation.yaml",
             "translations/.gitignore"
         ]
-    },
-    "symfony/translation-contracts": {
-        "version": "v1.1.2"
     },
     "symfony/twig-bridge": {
         "version": "v4.2.7"

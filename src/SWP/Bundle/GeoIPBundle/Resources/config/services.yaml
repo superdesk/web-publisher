@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    SWP\Bundle\GeoIPBundle\EventSubscriber\GeoIPSubscriber: ~
+    SWP\Bundle\GeoIPBundle\Checker\GeoIPChecker: ~
+    SWP\Bundle\GeoIPBundle\Reader\GeoIPReaderAdapter: ~
+
+    SWP\Bundle\GeoIPBundle\Reader\ReaderInterface:
+        alias: SWP\Bundle\GeoIPBundle\Reader\GeoIPReaderAdapter
+
+    GeoIp2\Database\Reader:
+        arguments: [ '%kernel.cache_dir%/GeoLite2-City.mmdb' ]
+        public: true
