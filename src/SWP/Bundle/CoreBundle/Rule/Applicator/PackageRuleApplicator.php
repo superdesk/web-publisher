@@ -53,7 +53,6 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
     public function apply(RuleInterface $rule, RuleSubjectInterface $subject): void
     {
         $configuration = $this->validateRuleConfiguration($rule->getConfiguration());
-
         if ($subject instanceof PackageInterface && !empty($configuration)) {
             if (ContentInterface::STATUS_CANCELED === $subject->getPubStatus()) {
                 return;
@@ -78,9 +77,7 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
     {
         $tenant = $this->tenantRepository->findOneByCode($code);
         if (!$tenant instanceof TenantInterface) {
-            throw UnexpectedTypeException::unexpectedType(
-                is_object($tenant) ? get_class($tenant) : gettype($tenant),
-                TenantInterface::class);
+            throw UnexpectedTypeException::unexpectedType(is_object($tenant) ? get_class($tenant) : gettype($tenant), TenantInterface::class);
         }
 
         return $tenant;
