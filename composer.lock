@@ -8719,35 +8719,35 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "v1.5.0",
+            "version": "v1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "9a8de4918be48b968bd22213bcfc5464f9887cb4"
+                "reference": "c98d300f2e6a80d9b89810d87c165ffe242ebc82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/9a8de4918be48b968bd22213bcfc5464f9887cb4",
-                "reference": "9a8de4918be48b968bd22213bcfc5464f9887cb4",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/c98d300f2e6a80d9b89810d87c165ffe242ebc82",
+                "reference": "c98d300f2e6a80d9b89810d87c165ffe242ebc82",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.5",
                 "php": "^7.2",
-                "symfony/asset": "^3.4|^4.3",
-                "symfony/config": "^3.4|^4.3",
-                "symfony/console": "^3.4|^4.3",
-                "symfony/dependency-injection": "^3.4|^4.3",
-                "symfony/filesystem": "^3.4|^4.3",
-                "symfony/finder": "^3.4|^4.3",
-                "symfony/form": "^3.4|^4.3",
-                "symfony/framework-bundle": "^3.4|^4.3",
-                "symfony/http-foundation": "^3.4|^4.3",
-                "symfony/http-kernel": "^3.4|^4.3",
-                "symfony/options-resolver": "^3.4|^4.3",
-                "symfony/templating": "^3.4|^4.3",
-                "symfony/translation": "^3.4|^4.3",
-                "symfony/translation-contracts": "^1.0",
+                "symfony/asset": "^3.4|^4.1.1",
+                "symfony/config": "^3.4|^4.1.1",
+                "symfony/console": "^3.4|^4.1.1",
+                "symfony/contracts": "^1.0",
+                "symfony/dependency-injection": "^3.4|^4.1.1",
+                "symfony/filesystem": "^3.4|^4.1.1",
+                "symfony/finder": "^3.4|^4.1.1",
+                "symfony/form": "^3.4|^4.1.1",
+                "symfony/framework-bundle": "^3.4|^4.1.1",
+                "symfony/http-foundation": "^3.4|^4.1.1",
+                "symfony/http-kernel": "^3.4|^4.1.1",
+                "symfony/options-resolver": "^3.4|^4.1.1",
+                "symfony/templating": "^3.4|^4.1.1",
+                "symfony/translation": "^3.4|^4.1.1",
                 "zendframework/zend-hydrator": "^2.2"
             },
             "conflict": {
@@ -8758,22 +8758,21 @@
                 "matthiasnoback/symfony-dependency-injection-test": "^3.0",
                 "mikey179/vfsstream": "^1.6",
                 "phpspec/phpspec": "^5.0",
-                "phpstan/phpstan": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-webmozart-assert": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.10",
+                "phpstan/phpstan-shim": "^0.10",
+                "phpstan/phpstan-webmozart-assert": "^0.10",
                 "phpunit/phpunit": "^7.0",
-                "proget-hq/phpstan-phpspec": "^0.2",
+                "proget-hq/phpstan-phpspec": "^0.1.1",
                 "sylius-labs/coding-standard": "^3.0",
-                "symfony/browser-kit": "^3.4|^4.3",
-                "symfony/security-csrf": "^3.4|^4.3",
-                "symfony/twig-bundle": "^3.4|^4.3",
-                "twig/twig": "^2.0",
-                "vimeo/psalm": "^3.5"
+                "symfony/browser-kit": "^3.4|^4.1.1",
+                "symfony/security-csrf": "^3.4|^4.1.1",
+                "symfony/twig-bundle": "^3.4|^4.1.1",
+                "twig/twig": "^2.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -8787,16 +8786,16 @@
             ],
             "authors": [
                 {
+                    "name": "Community contributions",
+                    "homepage": "http://github.com/Sylius/Sylius/contributors"
+                },
+                {
                     "name": "Kamil Kokot",
                     "homepage": "http://kamil.kokot.me"
                 },
                 {
                     "name": "Sylius project",
                     "homepage": "http://sylius.com"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "http://github.com/Sylius/Sylius/contributors"
                 }
             ],
             "description": "Themes management for Symfony projects.",
@@ -8805,7 +8804,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2019-10-10T16:03:29+00:00"
+            "time": "2019-05-17T03:52:38+00:00"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -9339,26 +9338,97 @@
             "time": "2019-12-01T10:06:17+00:00"
         },
         {
-            "name": "symfony/css-selector",
-            "version": "v3.4.36",
+            "name": "symfony/contracts",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/css-selector.git",
-                "reference": "f819f71ae3ba6f396b4c015bd5895de7d2f1f85f"
+                "url": "https://github.com/symfony/contracts.git",
+                "reference": "d3636025e8253c6144358ec0a62773cae588395b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/f819f71ae3ba6f396b4c015bd5895de7d2f1f85f",
-                "reference": "f819f71ae3ba6f396b4c015bd5895de7d2f1f85f",
+                "url": "https://api.github.com/repos/symfony/contracts/zipball/d3636025e8253c6144358ec0a62773cae588395b",
+                "reference": "d3636025e8253c6144358ec0a62773cae588395b",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8"
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "psr/cache": "^1.0",
+                "psr/container": "^1.0",
+                "symfony/polyfill-intl-idn": "^1.10"
+            },
+            "suggest": {
+                "psr/cache": "When using the Cache contracts",
+                "psr/container": "When using the Service contracts",
+                "symfony/cache-contracts-implementation": "",
+                "symfony/event-dispatcher-implementation": "",
+                "symfony/http-client-contracts-implementation": "",
+                "symfony/service-contracts-implementation": "",
+                "symfony/translation-contracts-implementation": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\": ""
+                },
+                "exclude-from-classmap": [
+                    "**/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "A set of abstractions extracted out of the Symfony components",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "time": "2019-04-27T14:29:50+00:00"
+        },
+        {
+            "name": "symfony/css-selector",
+            "version": "v4.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/css-selector.git",
+                "reference": "64acec7e0d67125e9f4656c68d4a38a42ab5a0b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/64acec7e0d67125e9f4656c68d4a38a42ab5a0b7",
+                "reference": "64acec7e0d67125e9f4656c68d4a38a42ab5a0b7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -9389,7 +9459,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-01T11:57:37+00:00"
+            "time": "2019-10-12T00:35:04+00:00"
         },
         {
             "name": "symfony/debug",
@@ -12328,20 +12398,20 @@
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v1.1.7",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "364518c132c95642e530d9b2d217acbc2ccac3e6"
+                "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/364518c132c95642e530d9b2d217acbc2ccac3e6",
-                "reference": "364518c132c95642e530d9b2d217acbc2ccac3e6",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/8cc682ac458d75557203b2f2f14b0b92e1c744ed",
+                "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3"
+                "php": "^7.2.5"
             },
             "suggest": {
                 "symfony/translation-implementation": ""
@@ -12349,7 +12419,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -12381,7 +12451,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2019-09-17T11:12:18+00:00"
+            "time": "2019-11-18T17:27:11+00:00"
         },
         {
             "name": "symfony/twig-bridge",
@@ -12929,12 +12999,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/amp-library.git",
-                "reference": "a11de4739a7268b432df49dc81c5b8b37b44360e"
+                "reference": "beab5f685fbcd794e836241f9092c5bb99d13505"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/amp-library/zipball/a11de4739a7268b432df49dc81c5b8b37b44360e",
-                "reference": "a11de4739a7268b432df49dc81c5b8b37b44360e",
+                "url": "https://api.github.com/repos/takeit/amp-library/zipball/beab5f685fbcd794e836241f9092c5bb99d13505",
+                "reference": "beab5f685fbcd794e836241f9092c5bb99d13505",
                 "shasum": ""
             },
             "require": {
@@ -12977,7 +13047,7 @@
                 "drupal",
                 "mobile"
             ],
-            "time": "2019-12-03T13:14:35+00:00"
+            "time": "2019-12-03T14:52:06+00:00"
         },
         {
             "name": "takeit/amp-html-bundle",
@@ -13960,30 +14030,31 @@
         },
         {
             "name": "behat/mink",
-            "version": "v1.7.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "e6930b9c74693dff7f4e58577e1b1743399f3ff9"
+                "reference": "a534fe7dac9525e8e10ca68e737c3d7e5058ec83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/e6930b9c74693dff7f4e58577e1b1743399f3ff9",
-                "reference": "e6930b9c74693dff7f4e58577e1b1743399f3ff9",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/a534fe7dac9525e8e10ca68e737c3d7e5058ec83",
+                "reference": "a534fe7dac9525e8e10ca68e737c3d7e5058ec83",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.1",
-                "symfony/css-selector": "~2.1|~3.0"
+                "symfony/css-selector": "^2.7|^3.0|^4.0"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "~2.7|~3.0"
+                "symfony/phpunit-bridge": "^4.2"
             },
             "suggest": {
                 "behat/mink-browserkit-driver": "extremely fast headless driver for Symfony\\Kernel-based apps (Sf2, Silex)",
                 "behat/mink-goutte-driver": "fast headless driver for any app without JS emulation",
                 "behat/mink-selenium2-driver": "slow, but JS-enabled driver for any app (requires Selenium2)",
-                "behat/mink-zombie-driver": "fast and JS-enabled headless driver for any app (requires node.js)"
+                "behat/mink-zombie-driver": "fast and JS-enabled headless driver for any app (requires node.js)",
+                "dmore/chrome-mink-driver": "fast and JS-enabled driver for any app (requires chromium or google chrome)"
             },
             "type": "library",
             "extra": {
@@ -14014,7 +14085,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2016-03-05T08:26:18+00:00"
+            "time": "2019-07-15T12:45:29+00:00"
         },
         {
             "name": "behat/mink-browserkit-driver",
