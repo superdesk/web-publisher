@@ -176,7 +176,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        if ($this->security->getUser() || !$token = $this->getToken($request)) {
+        if (!$this->getToken($request) || ($this->getToken($request) && $this->security->getUser())) {
             return false;
         }
 

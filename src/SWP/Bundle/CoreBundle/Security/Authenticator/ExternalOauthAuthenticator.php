@@ -39,7 +39,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
 
     public function supports(Request $request): bool
     {
-        if (!$this->security->getUser() && ($request->query->get('code') && $request->get('state'))) {
+        if (($request->query->get('code') && $request->get('state')) && !$this->security->getUser()) {
             return true;
         }
 
