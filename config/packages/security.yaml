@@ -72,8 +72,11 @@ security:
             logout:
                 path: security_logout
             guard:
+                entry_point: swp.security.external_oauth_authenticator
                 authenticators:
                     - swp.security.external_oauth_authenticator
+                    - lexik_jwt_authentication.jwt_token_authenticator
+                    - swp.security.token_authenticator
             anonymous: true
 
     access_control:

@@ -102,10 +102,12 @@ class AuthControllerTest extends WebTestCase
         $domain = $client->getContainer()->getParameter('env(SWP_DOMAIN)');
 
         $client2 = static::createClient([], [
+            'Content-Type' => 'application/json',
             'HTTP_HOST' => 'client2.'.$domain,
             'HTTP_Authorization' => base64_encode('client2_token'),
         ]);
         $client2->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 3]));
+
         self::assertEquals(200, $client2->getResponse()->getStatusCode());
 
         $client1 = static::createClient([], [
