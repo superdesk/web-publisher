@@ -8,11 +8,11 @@ How it works?
 
 When this feature is enabled, the reader's IP address is read on the visited article page.
 Then, the IP address is checked in the GeoIP2 database to check which country or state it comes from.
-The GeoIP database has to be downloaded fist.
+The GeoIP database has to be downloaded first.
 If the article place metadata matches the IP country or state, access to the articles is denied.
 
 The GeoIP features are disabled by default.
-To enable the GeoIP features ou have to set the ``GEO_IP_ENABLED`` environment variable to ``true`` (``GEO_IP_ENABLED=true``)
+To enable the GeoIP features you have to set the ``GEO_IP_ENABLED`` environment variable to ``true`` (``GEO_IP_ENABLED=true``)
 in your .env.local file.
 
 Before enabling this feature, the GeoIP2 database must be downloaded:
