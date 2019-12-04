@@ -77,7 +77,7 @@ security:
                     - swp.security.external_oauth_authenticator
                     - lexik_jwt_authentication.jwt_token_authenticator
                     - swp.security.token_authenticator
-            anonymous: true
+            anonymous: lazy
 
     access_control:
         - { path: "^/preview/article", roles: ROLE_EDITOR }
