@@ -43,7 +43,7 @@ security:
             stateless: true
             anonymous: true
         internal_api:
-            pattern: ^/api
+            pattern: ^/api/(?![v0-9]{2}/users/profile/*)
             anonymous: false
             logout: false
             guard:
@@ -72,9 +72,12 @@ security:
             logout:
                 path: security_logout
             guard:
+                entry_point: swp.security.external_oauth_authenticator
                 authenticators:
                     - swp.security.external_oauth_authenticator
-            anonymous: true
+                    - lexik_jwt_authentication.jwt_token_authenticator
+                    - swp.security.token_authenticator
+            anonymous: lazy
 
     access_control:
         - { path: "^/preview/article", roles: ROLE_EDITOR }

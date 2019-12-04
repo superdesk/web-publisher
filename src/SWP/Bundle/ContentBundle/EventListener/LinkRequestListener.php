@@ -20,8 +20,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
@@ -53,7 +54,7 @@ class LinkRequestListener
      *
      * @return array
      */
-    public function onKernelRequest(GetResponseEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function onKernelRequest(RequestEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if (!$event->getRequest()->headers->has('link')) {
             return;
@@ -121,8 +122,8 @@ class LinkRequestListener
                 continue;
             }
 
-            $subEvent = new FilterControllerEvent($event->getKernel(), $controller, $stubRequest, HttpKernelInterface::SUB_REQUEST);
-            $kernelSubEvent = new GetResponseEvent($event->getKernel(), $stubRequest, HttpKernelInterface::SUB_REQUEST);
+            $subEvent = new ControllerEvent($event->getKernel(), $controller, $stubRequest, HttpKernelInterface::SUB_REQUEST);
+            $kernelSubEvent = new RequestEvent($event->getKernel(), $stubRequest, HttpKernelInterface::SUB_REQUEST);
             $dispatcher->dispatch(KernelEvents::REQUEST, $kernelSubEvent);
             $dispatcher->dispatch(KernelEvents::CONTROLLER, $subEvent);
             $controller = $subEvent->getController();
