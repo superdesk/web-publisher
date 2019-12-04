@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Paywall Bundle.
+ * This file is part of the Superdesk Publisher Geo IP Bundle.
  *
- * Copyright 2018 Sourcefabric z.ú. and contributors.
+ * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2018 Sourcefabric z.ú
+ * @copyright 2019 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
@@ -30,5 +30,8 @@ class SWPGeoIPExtension extends Extension
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
+
+        $container->setParameter('swp.geo_ip.database_url', $config['database_url']);
+        $container->setParameter('swp.geo_ip.database_path', $config['database_path']);
     }
 }

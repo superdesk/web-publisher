@@ -1,8 +1,8 @@
 {
   "name": "swp/geo-ip-bundle",
   "type": "symfony-bundle",
-  "description": "Paywall implementation for Symfony applications.",
-  "keywords": ["paywall", "subscriptions", "billing", "superdesk", "publisher", "publishing"],
+  "description": "Geo IP bundle.",
+  "keywords": ["geoip", "publisher", "publishing"],
   "license":"AGPL-3.0",
   "minimum-stability": "dev",
   "authors": [
@@ -21,8 +21,8 @@
     "php": "^7.3",
     "symfony/dependency-injection": "^4.2",
     "symfony/config": "^4.2",
-    "swp/paywall": "^2.0",
-    "swp/common": "^2.0"
+    "swp/geo-ip": "^2.0",
+    "swp/archiver": "^2.0"
   },
   "autoload": {
     "psr-4": { "SWP\\Bundle\\GeoIPBundle\\": "" }

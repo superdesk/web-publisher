@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
 /*
- * This file is part of the Superdesk Publisher Geo IP Bundle.
+ * This file is part of the Superdesk Publisher Geo IP Component.
  *
  * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
@@ -14,10 +12,11 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\GeoIPBundle;
+declare(strict_types=1);
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+namespace SWP\Component\GeoIP\Model;
 
-class SWPGeoIPBundle extends Bundle
+interface GeoIpPlaceInterface
 {
+    public function getGeoIpPlace(): Place;
 }

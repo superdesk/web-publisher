@@ -766,3 +766,6 @@ services:
 
     SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface:
         alias: SWP\Bundle\CoreBundle\Hydrator\PackageHydrator
+
+    SWP\Bundle\CoreBundle\GeoIp\CachedGeoIpChecker:
+        autowire: true

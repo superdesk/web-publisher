@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Publisher Geo IP Bundle.
+ * This file is part of the Superdesk Publisher Archiver Component.
  *
  * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
@@ -14,10 +14,9 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\GeoIPBundle;
+namespace SWP\Component\Archiver\Archiver;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class SWPGeoIPBundle extends Bundle
+interface ArchiverInterface
 {
+    public function unarchive(string $source, string $target): bool;
 }

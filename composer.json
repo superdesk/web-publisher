@@ -73,7 +73,6 @@
     "friendsofsymfony/rest-bundle": "^2.5",
     "friendsofsymfony/user-bundle": "dev-master",
     "fzaninotto/faker": "^1.8",
-    "geoip2/geoip2": "^2.0",
     "gesdinet/jwt-refresh-token-bundle": "^0.5.0",
     "gos/react-amqp": "^0.3.0",
     "gos/web-socket-bundle": "^v1.9.0",
@@ -184,6 +183,8 @@
     "swp/seo": "self.version",
     "swp/seo-bundle": "self.version",
     "swp/geo-ip-bundle": "self.version",
+    "swp/geo-ip": "self.version",
+    "swp/archiver": "self.version",
     "lullabot/amp": "^1.0"
   },
   "conflict": {

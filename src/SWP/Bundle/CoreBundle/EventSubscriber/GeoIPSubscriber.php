@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SWP\Bundle\GeoIPBundle\EventSubscriber;
+namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
 use SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer;
-use SWP\Bundle\GeoIPBundle\Checker\GeoIPChecker;
+use SWP\Bundle\CoreBundle\GeoIp\CachedGeoIpChecker;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -14,11 +15,16 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class GeoIPSubscriber implements EventSubscriberInterface
 {
+    /** @var CachedGeoIpChecker */
     private $geoIpChecker;
 
-    public function __construct(GeoIPChecker $geoIpChecker)
+    /** @var bool */
+    private $isGeoIpEnabled;
+
+    public function __construct(CachedGeoIpChecker $geoIpChecker, bool $isGeoIPEnabled = false)
     {
         $this->geoIpChecker = $geoIpChecker;
+        $this->isGeoIpEnabled = $isGeoIPEnabled;
     }
 
     public static function getSubscribedEvents(): array
@@ -32,15 +38,24 @@ final class GeoIPSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event): void
     {
-        if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+        if (false === $this->isGeoIpEnabled || HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
         }
 
         $request = $event->getRequest();
-        $content = $request->attributes->get(RouteEnhancer::ARTICLE_META);
 
-        if (null !== $content && $this->geoIpChecker->isGranted($request->getClientIp(), $content->getValues())) {
-            $request->attributes->set('_geo_ip_is_granted', false);
+        if (!$request->attributes->has(RouteEnhancer::ARTICLE_META)) {
+            return;
+        }
+
+        $content = $request->attributes->get(RouteEnhancer::ARTICLE_META);
+        $object = $content->getValues();
+
+        if (!$object instanceof ArticleInterface) {
+            return;
+        }
+
+        if (null !== $content && !$this->geoIpChecker->isGranted($request->getClientIp(), $object)) {
             throw new AccessDeniedHttpException('Access denied');
         }
     }

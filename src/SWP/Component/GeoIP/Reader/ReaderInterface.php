@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Publisher Geo IP Bundle.
+ * This file is part of the Superdesk Publisher Geo IP Component.
  *
  * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
@@ -14,10 +14,11 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\GeoIPBundle;
+namespace SWP\Component\GeoIP\Reader;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class SWPGeoIPBundle extends Bundle
+interface ReaderInterface
 {
+    public function getCountry(string $ipAddress): string;
+
+    public function getState(string $ipAddress): string;
 }

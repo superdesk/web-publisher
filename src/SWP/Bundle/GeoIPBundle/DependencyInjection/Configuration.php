@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher GeoIP Bundle.
+ * This file is part of the Superdesk Publisher Geo IP Bundle.
  *
  * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\GeoIPBundle\DependencyInjection;
 
-use SWP\Component\Paywall\Adapter\PaymentsHubAdapter;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -28,13 +27,19 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('swp_geo_ip');
-        $treeBuilder->getRootNode();
-//            ->children()
-//                ->scalarNode('adapter')
-//                    ->defaultValue(PaymentsHubAdapter::class)
-//                    ->info('Subscriptions System Adapter')
-//                ->end()
-//            ->end();
+        $treeBuilder->getRootNode()
+            ->children()
+                ->scalarNode('database_url')
+                    ->cannotBeEmpty()
+                    ->defaultValue('https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz')
+                    ->info('GeoIP2 database URL')
+                ->end()
+                ->scalarNode('database_path')
+                    ->cannotBeEmpty()
+                    ->defaultValue('%kernel.cache_dir%/GeoLite2-City.mmdb')
+                    ->info('Path to the downloaded GeoIP2 database')
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

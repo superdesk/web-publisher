@@ -1,0 +1,38 @@
+{
+    "name": "swp/geo-ip",
+    "type": "library",
+    "description": "Geo IP component.",
+    "keywords": ["geoip", "geolocation", "geo", "library", "publisher"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"AGPL-3.0-only",
+    "require": {
+        "php": "^7.3",
+        "geoip2/geoip2": "^2.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^5.1"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\GeoIP\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\GeoIP\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1-dev"
+        }
+    }
+}

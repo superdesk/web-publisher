@@ -4,13 +4,21 @@ services:
         autoconfigure: true
         public: false
 
-    SWP\Bundle\GeoIPBundle\EventSubscriber\GeoIPSubscriber: ~
-    SWP\Bundle\GeoIPBundle\Checker\GeoIPChecker: ~
-    SWP\Bundle\GeoIPBundle\Reader\GeoIPReaderAdapter: ~
+    SWP\Component\GeoIP\Reader\GeoIPReaderAdapter: ~
+    SWP\Component\GeoIP\Reader\ReaderInterface:
+        alias: SWP\Component\GeoIP\Reader\GeoIPReaderAdapter
 
-    SWP\Bundle\GeoIPBundle\Reader\ReaderInterface:
-        alias: SWP\Bundle\GeoIPBundle\Reader\GeoIPReaderAdapter
+    SWP\Component\GeoIP\Checker\GeoIPChecker: ~
+
+    SWP\Bundle\GeoIPBundle\:
+        resource: '../../*'
+
+    SWP\Bundle\GeoIPBundle\Command\UpdateGeoIPDatabaseCommand:
+        arguments:
+            - '%kernel.cache_dir%'
+            - '%swp.geo_ip.database_url%'
+            - '%swp.geo_ip.database_path%'
 
     GeoIp2\Database\Reader:
-        arguments: [ '%kernel.cache_dir%/GeoLite2-City.mmdb' ]
+        arguments: [ '%swp.geo_ip.database_path%' ]
         public: true
