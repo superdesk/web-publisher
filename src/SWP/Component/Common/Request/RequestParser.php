@@ -18,9 +18,6 @@ namespace SWP\Component\Common\Request;
 
 final class RequestParser implements RequestParserInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function getNotConvertedLinks(array $requestLinks)
     {
         $links = [];
@@ -30,7 +27,7 @@ final class RequestParser implements RequestParserInterface
                 $resourceType = null;
                 if (count($linkParams) > 1) {
                     $resourceType = trim(preg_replace('/<|>/', '', $linkParams[1]));
-                    $resourceType = str_replace('"', '', str_replace('rel=', '', $resourceType));
+                    $resourceType = str_replace(['rel=', '"'], '', $resourceType);
                 }
                 $resource = array_shift($linkParams);
                 $resource = preg_replace('/<|>/', '', $resource);

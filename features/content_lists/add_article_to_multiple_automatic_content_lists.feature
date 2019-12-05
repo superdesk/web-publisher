@@ -14,7 +14,7 @@ Feature: Add article to multiple automated content lists
       | name                  | type      | filters                           |
       | first content list    | automatic | {"metadata":{}, "route": [1]}     |
       | second content list   | automatic | {"route":[1]}                     |
-      | second content list   | automatic | {"metadata":{"subject":[{"name":"lawyer","code":"02002001"}]}} |
+      | third content list   | automatic | {"metadata":{"subject":[{"name":"lawyer","code":"02002001"}]}} |
 
 
     Given the following Users:
@@ -93,3 +93,4 @@ Feature: Add article to multiple automated content lists
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/lists/3/items/"
     And the JSON node "total" should be equal to "1"
+

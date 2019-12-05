@@ -61,7 +61,7 @@ cmf_core:
         enabled:                 true
         checker_service:         cmf_core.publish_workflow.checker.default
         view_non_published_role: ROLE_CAN_VIEW_NON_PUBLISHED
-        request_listener:        true
+        request_listener:        false
 
 oneup_flysystem:
     adapters:
