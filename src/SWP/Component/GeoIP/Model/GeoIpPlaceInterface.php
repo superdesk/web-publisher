@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Publisher Geo IP Component.
  *
@@ -12,11 +14,9 @@
  * @license http://www.superdesk.org/license
  */
 
-declare(strict_types=1);
-
 namespace SWP\Component\GeoIP\Model;
 
 interface GeoIpPlaceInterface
 {
-    public function getGeoIpPlace(): Place;
+    public function getGeoIpPlaces(): array;
 }

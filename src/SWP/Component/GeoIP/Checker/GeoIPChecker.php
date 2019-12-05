@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Component\GeoIP\Checker;
 
 use GeoIp2\Exception\AddressNotFoundException;
-use SWP\Component\GeoIP\Model\Place;
 use SWP\Component\GeoIP\Reader\ReaderInterface;
 
 class GeoIPChecker
@@ -30,19 +29,21 @@ class GeoIPChecker
         $this->reader = $reader;
     }
 
-    public function isGranted(string $ipAddress, Place $place): bool
+    public function isGranted(string $ipAddress, array $places): bool
     {
         try {
-            $state = $place->getState();
+            foreach ($places as $place) {
+                $state = $place->getState();
 
-            if ($state === $this->reader->getState($ipAddress)) {
-                return false;
-            }
+                if ($state === $this->reader->getState($ipAddress)) {
+                    return false;
+                }
 
-            $country = $place->getCountry();
+                $country = $place->getCountry();
 
-            if ($country === $this->reader->getCountry($ipAddress)) {
-                return false;
+                if ($country === $this->reader->getCountry($ipAddress)) {
+                    return false;
+                }
             }
 
             return true;

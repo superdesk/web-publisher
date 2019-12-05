@@ -160,10 +160,15 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
         $this->commentsCount = $commentsCount;
     }
 
-    public function getGeoIpPlace(): Place
+    public function getGeoIpPlaces(): array
     {
-        $place = $this->getPlace();
+        $places = $this->getPlaces();
 
-        return new Place($place['country'] ?? '', $place['state'] ?? '');
+        $geoPlaces = [];
+        foreach($places as $place) {
+            $geoPlaces[] = new Place($place['country'] ?? '', $place['state'] ?? '');
+        }
+
+        return $geoPlaces;
     }
 }

@@ -44,22 +44,22 @@ class CachedGeoIpChecker
             return false;
         }
 
-        $geoIpPlace = $article->getGeoIpPlace();
+        $geoIpPlaces = $article->getGeoIpPlaces();
 
-        $cacheKey = $this->generateCacheKey($ipAddress, $article, $geoIpPlace);
+        $cacheKey = $this->generateCacheKey($ipAddress, $article, $geoIpPlaces);
         if (true === $this->cacheProvider->contains($cacheKey)) {
             return $this->cacheProvider->fetch($cacheKey);
         }
 
-        $isGranted = $this->geoIpChecker->isGranted($ipAddress, $geoIpPlace);
+        $isGranted = $this->geoIpChecker->isGranted($ipAddress, $geoIpPlaces);
 
         $this->cacheProvider->save($cacheKey, $isGranted);
 
         return $isGranted;
     }
 
-    private function generateCacheKey(string $ipAddress, ArticleInterface $article, Place $geoIpPlace): string
+    private function generateCacheKey(string $ipAddress, ArticleInterface $article, array $geoIpPlaces): string
     {
-        return self::CACHE_KEY_GEO_IP.sha1($article->getId().$ipAddress.json_encode($geoIpPlace->toArray(), JSON_THROW_ON_ERROR, 512));
+        return self::CACHE_KEY_GEO_IP.sha1($article->getId().$ipAddress.json_encode($geoIpPlaces, JSON_THROW_ON_ERROR, 512));
     }
 }
