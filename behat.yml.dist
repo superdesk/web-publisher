@@ -27,6 +27,7 @@ default:
                 - SWP\Behat\Contexts\SlideshowContext
                 - SWP\Behat\Contexts\SlideshowItemContext
                 - SWP\Behat\Contexts\ArticleMediaContext
+                - GeoLocationContext
                 - SWP\Behat\Contexts\Hook\DoctrineORMContext
 
     extensions:

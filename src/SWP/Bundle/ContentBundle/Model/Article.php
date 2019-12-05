@@ -209,7 +209,8 @@ class Article implements ArticleInterface
     public function getPlace(): ?array
     {
         $metadata = $this->getMetadata();
-        if (is_array($metadata['place']) && count($metadata['place']) > 0) {
+
+        if (isset($metadata['place']) && is_array($metadata['place']) && count($metadata['place']) > 0) {
             return $metadata['place'][array_key_first($metadata['place'])];
         }
 
