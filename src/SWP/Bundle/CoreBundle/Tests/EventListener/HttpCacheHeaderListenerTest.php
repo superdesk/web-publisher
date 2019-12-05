@@ -59,16 +59,17 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     {
         $routeProvider = $this->getContainer()->get('swp.provider.route');
         $route = $routeProvider->getRouteByName($name);
-        $this->assertNotNull($route);
-        $this->assertEquals($route->getName(), $name);
+        self::assertNotNull($route);
+        self::assertEquals($route->getName(), $name);
 
-        $client = static::createClient();
+        $client = static::createClient([], [
+            'HTTP_Authorization' => null,
+        ]);
         $client->request('GET', $this->router->generate($route));
         $response = $client->getResponse();
 
         self::assertEquals(200, $response->getStatusCode());
-        $headers = $response->headers;
 
-        return $headers;
+        return $response->headers;
     }
 }
