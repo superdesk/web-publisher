@@ -20,7 +20,6 @@ use Doctrine\Common\Cache\Cache;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\GeoIP\Checker\GeoIPChecker;
 use SWP\Component\GeoIP\Model\GeoIpPlaceInterface;
-use SWP\Component\GeoIP\Model\Place;
 
 class CachedGeoIpChecker
 {

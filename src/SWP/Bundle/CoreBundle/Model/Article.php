@@ -165,7 +165,7 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
         $places = $this->getPlaces();
 
         $geoPlaces = [];
-        foreach($places as $place) {
+        foreach ($places as $place) {
             $geoPlaces[] = new Place($place['country'] ?? '', $place['state'] ?? '');
         }
 

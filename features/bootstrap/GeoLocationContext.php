@@ -1,12 +1,12 @@
 <?php
 
+use Behat\Mink\Element\ElementInterface;
 use Behatch\Context\BaseContext;
-use Behatch\Context\RestContext;
 use Behatch\HttpCall\Request;
 
 class GeoLocationContext extends BaseContext
 {
-    /** @var Request  */
+    /** @var Request */
     protected $request;
 
     public function __construct(Request $request)
@@ -17,7 +17,7 @@ class GeoLocationContext extends BaseContext
     /**
      * @Given I visit :url page with :ipAddress IP address
      */
-    public function iVisitPageWithIPAddress(string $url, string $ipAddress)
+    public function iVisitPageWithIPAddress(string $url, string $ipAddress): ElementInterface
     {
         return $this->request->send(
             'GET',
@@ -26,7 +26,7 @@ class GeoLocationContext extends BaseContext
             [],
             null,
             [
-                'REMOTE_ADDR' => $ipAddress
+                'REMOTE_ADDR' => $ipAddress,
             ]
         );
     }
