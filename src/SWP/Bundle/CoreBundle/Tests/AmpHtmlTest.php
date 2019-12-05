@@ -49,6 +49,7 @@ final class AmpHtmlTest extends WebTestCase
 
         $client = static::createClient([], [
             'HTTP_HOST' => 'client1.'.$client->getContainer()->getParameter('env(SWP_DOMAIN)'),
+            'HTTP_Authorization' => null,
         ]);
 
         // get amp page from another tenant

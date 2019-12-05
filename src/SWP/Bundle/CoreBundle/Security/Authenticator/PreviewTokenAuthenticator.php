@@ -17,24 +17,19 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class PreviewTokenAuthenticator extends TokenAuthenticator
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         throw new AccessDeniedHttpException(strtr($exception->getMessageKey(), $exception->getMessageData()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): Response
     {
         throw new UnauthorizedHttpException('Authentication Required');
     }
