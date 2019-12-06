@@ -56,8 +56,8 @@ class TraceableChainLoader extends ChainLoader
 
                 $this->data['calledLoaders'][$loaderClass]['calls'][] = [
                     'type' => $type,
-                    'parameters' => $parameters,
-                    'withoutParameters' => $withoutParameters,
+                    'parameters' => json_encode($parameters, JSON_THROW_ON_ERROR, 512),
+                    'withoutParameters' => json_encode($withoutParameters, JSON_THROW_ON_ERROR, 512),
                     'responseType' => $responseType,
                     'duration' => $event->getDuration(),
                     'found' => false !== $meta,
