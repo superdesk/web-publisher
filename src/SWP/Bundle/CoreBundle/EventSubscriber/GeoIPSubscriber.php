@@ -7,6 +7,7 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 use SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer;
 use SWP\Bundle\CoreBundle\GeoIp\CachedGeoIpChecker;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -44,11 +45,10 @@ final class GeoIPSubscriber implements EventSubscriberInterface
 
         $request = $event->getRequest();
 
-        if (!$request->attributes->has(RouteEnhancer::ARTICLE_META)) {
+        if (!($content = $request->attributes->get(RouteEnhancer::ARTICLE_META)) instanceof Meta) {
             return;
         }
 
-        $content = $request->attributes->get(RouteEnhancer::ARTICLE_META);
         $object = $content->getValues();
 
         if (!$object instanceof ArticleInterface) {

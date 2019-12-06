@@ -8,13 +8,29 @@ use SWP\Component\GeoIP\Reader\ReaderInterface;
 
 class GeoIPReaderAdapterStub implements ReaderInterface
 {
+    /** @var string */
+    private static $country = '';
+
+    /** @var string */
+    private static $state = '';
+
     public function getCountry(string $ipAddress): string
     {
-        return 'United States';
+        return static::$country;
     }
 
     public function getState(string $ipAddress): string
     {
-        return 'Texas';
+        return static::$state;
+    }
+
+    public function setCountry(string $country): void
+    {
+        static::$country = $country;
+    }
+
+    public function setState(string $state): void
+    {
+        static::$state = $state;
     }
 }

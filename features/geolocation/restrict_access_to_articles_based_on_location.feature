@@ -133,11 +133,19 @@ Feature: Restricting access to articles based on reader's location
       ],
       "place":[
         {
-          "country":"United States",
-          "world_region":"America",
+          "country":"Australia",
+          "world_region":"Oceania",
           "state":"Australian Capital Territory",
           "qcode":"ACT",
           "name":"ACT",
+          "group":"Australia"
+        },
+        {
+          "country":"United States",
+          "world_region":"America",
+          "state":"Minnesota",
+          "qcode":"MN",
+          "name":"MN",
           "group":"America"
         }
       ],
@@ -157,5 +165,11 @@ Feature: Restricting access to articles based on reader's location
     """
     Then the response status code should be 201
 
-    Then I visit "/test/lorem" page with "128.101.101.101" IP address
+    Then I visit "/test/lorem" page with "20.191.192.0" IP address from "Australia" country
     Then the response status code should be 403
+
+    Then I visit "/test/lorem" page with "128.101.101.101" IP address from "Minnesota" state
+    Then the response status code should be 403
+
+    Then I visit "/test/lorem" page with "15.107.141.0" IP address from "Texas" state
+    Then the response status code should be 200
