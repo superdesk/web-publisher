@@ -262,6 +262,9 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.38"
     },
+    "geoip2/geoip2": {
+        "version": "v2.9.0"
+    },
     "gesdinet/jwt-refresh-token-bundle": {
         "version": "v0.5.4"
     },
@@ -458,6 +461,12 @@
     },
     "matthiasnoback/symfony-dependency-injection-test": {
         "version": "v3.1.0"
+    },
+    "maxmind-db/reader": {
+        "version": "v1.5.0"
+    },
+    "maxmind/web-service-common": {
+        "version": "v0.5.0"
     },
     "monolog/monolog": {
         "version": "2.0.1"

@@ -11,6 +11,8 @@ default:
                     userProvider: '@swp.security.user_provider'
                     apiKeyRepository: '@swp.repository.api_key'
                     apiKeyFactory: '@swp.factory.api_key'
+                - GeoLocationContext:
+                    geoIpReader: '@SWP\Component\GeoIP\Reader\ReaderInterface'
                 - Behat\MinkExtension\Context\MinkContext
                 - SWP\Behat\Contexts\TenantContext
                 - SWP\Behat\Contexts\ContentListContext
