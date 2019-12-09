@@ -12,10 +12,10 @@ class GeoIPReaderAdapterStub implements ReaderInterface
     private const LOCALHOST = '127.0.0.1';
 
     /** @var string */
-    private static $country = '';
+    protected static $country = '';
 
     /** @var string */
-    private static $state = '';
+    protected static $state = '';
 
     public function getCountry(string $ipAddress): string
     {

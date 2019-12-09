@@ -66,7 +66,7 @@ class UpdateGeoIPDatabaseCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $archiver = new GzipArchiver();
-        $url = $input->getArgument('url');
+        $url = (string) $input->getArgument('url');
 
         $zipFile = $this->targetDir.'/'.basename($url);
 
