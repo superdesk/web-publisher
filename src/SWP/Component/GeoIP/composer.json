@@ -15,7 +15,7 @@
         "geoip2/geoip2": "^2.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "^5.1"
+        "phpspec/phpspec": "^6.0"
     },
     "config": {
         "bin-dir": "bin"

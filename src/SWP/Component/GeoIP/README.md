@@ -1,4 +1,4 @@
-Geo IP Component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/seo.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/seo)
+Geo IP Component
 ================
 
 Geo IP component. Provides tools for detecting country, state based on IP address.
