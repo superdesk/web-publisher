@@ -36,3 +36,6 @@ services:
     SWP\Behat\EventSubscriber\SQLiteForeignKeyEnabler:
         tags:
             - { name: doctrine.event_subscriber }
+
+    SWP\Component\GeoIP\Reader\ReaderInterface:
+        class: SWP\Behat\Service\GeoIPReaderAdapterStub

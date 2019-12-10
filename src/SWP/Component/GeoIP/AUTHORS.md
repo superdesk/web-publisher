@@ -1,0 +1,4 @@
+AUTHORS
+=======
+
+ - Rafał Muszyński (takeit)
