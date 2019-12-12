@@ -382,3 +382,12 @@ gos_web_socket:
             vhost: '%env(RABBIT_MQ_VHOST)%'
             queue_name: '%env(WEBSOCKET_QUEUE_NAME)%'
             exchange_name: '%env(WEBSOCKET_EXCHANGE_NAME)%'
+
+swp_redirect_route:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                redirect_route:
+                    model: SWP\Bundle\ContentBundle\Model\RedirectRoute
+                    interface: SWP\Bundle\ContentBundle\Model\RedirectRouteInterface

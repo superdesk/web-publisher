@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPRedirectRouteBundle:
+                namespace_prefix: "SWP\\Bundle\\RedirectRoute"
+                path: "@SWPRedirectRouteBundle/Resources/config/serializer"

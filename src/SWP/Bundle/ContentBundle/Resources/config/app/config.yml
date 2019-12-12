@@ -51,6 +51,8 @@ cmf_routing:
     dynamic:
         route_collection_limit: 100
         route_provider_service_id: swp.provider.route
+        controllers_by_class:
+            Symfony\Cmf\Component\Routing\RedirectRouteInterface: cmf_routing.redirect_controller:redirectAction
         persistence:
             orm:
                 enabled: true
