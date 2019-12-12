@@ -39,6 +39,7 @@ class Package extends BasePackage implements PackageInterface
     {
         parent::__construct();
 
+        $this->createdAt = new \DateTime();
         $this->articles = new ArrayCollection();
     }
 
