@@ -25,10 +25,6 @@ use SWP\Component\Storage\Model\PersistableInterface;
  */
 interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInterface, TimestampableInterface
 {
-    const PATH_MEDIA = 'media';
-
-    const PATH_RENDITIONS = 'renditions';
-
     /**
      * @return ArrayCollection
      */
