@@ -1,12 +1,7 @@
-GeoIPBundle
-===========
+RedirectRouteBundle
+===================
 
-Geo-location tools.
-
-Documentation
--------------
-
-Documentation is available here: [http://superdesk-publisher.readthedocs.org](http://superdesk-publisher.readthedocs.org/en/latest/bundles/SWPGeoIPBundle/index.html)
+Redirect Route Bundle allows to create redirect routes where it's possible to redirect from one URL to an external URL.
 
 How to Contribute
 -----------------

@@ -46,7 +46,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     private $candidatesStrategy;
 
     /** @var RepositoryInterface */
-    private redirectRouteRepository;
+    private $redirectRouteRepository;
 
     public function __construct(RouteRepositoryInterface $routeRepository, ManagerRegistry $managerRegistry, CandidatesInterface $candidatesStrategy, string $className, RepositoryInterface $redirectRouteRepository)
     {

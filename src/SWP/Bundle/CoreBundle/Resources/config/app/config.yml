@@ -389,5 +389,5 @@ swp_redirect_route:
             enabled: true
             classes:
                 redirect_route:
-                    model: SWP\Bundle\ContentBundle\Model\RedirectRoute
-                    interface: SWP\Bundle\ContentBundle\Model\RedirectRouteInterface
+                    model: SWP\Bundle\CoreBundle\Model\RedirectRoute
+                    interface: SWP\Bundle\CoreBundle\Model\RedirectRouteInterface

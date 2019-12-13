@@ -1,9 +1,9 @@
-@routes.management
+@redirect-routes
 @disable-fixtures
-Feature: Manage Routes
-  In order to work with routes
+Feature: Redirecting to an external URL
+  In order to redirect readers to the external URL
   As a HTTP Client
-  I want to be able to manage them by API
+  I want to be able to define the redirect route
 
   Background:
     Given the following Tenants:

@@ -1,9 +1,9 @@
-@routes.management
+@redirect-routes
 @disable-fixtures
-Feature: Manage Routes
-  In order to work with routes
+Feature: Redirecting readers from already existing routes to other existing routes
+  In order to redirect readers from existing routes
   As a HTTP Client
-  I want to be able to manage them by API
+  I want to be able to create a redirect route which will redirect from already existing route to other routes
 
   Background:
     Given the following Tenants:
@@ -30,6 +30,18 @@ Feature: Manage Routes
       }
     """
     Then the response status code should be 201
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v2/redirects/" with body:
+     """
+      {
+          "route_source": 1,
+          "route_target": 2,
+          "permanent": false
+      }
+    """
+    Then the response status code should be 400
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"

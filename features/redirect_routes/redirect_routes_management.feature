@@ -1,4 +1,4 @@
-@routes.management
+@redirect-routes
 @disable-fixtures
 Feature: Manage Redirect Routes
   In order manage redirect routes

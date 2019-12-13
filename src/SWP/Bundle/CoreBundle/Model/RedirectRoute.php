@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Content Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2019 Sourcefabric z.u. and contributors.
  *
@@ -14,25 +14,12 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Model;
+namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\RedirectRouteBundle\Model\RedirectRoute as BaseRedirectRoute;
+use SWP\Bundle\ContentBundle\Model\RedirectRoute as BaseRedirectRoute;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class RedirectRoute extends BaseRedirectRoute implements RedirectRouteInterface
 {
     use TenantAwareTrait;
-
-    /** @var RouteInterface|null */
-    protected $routeSource;
-
-    public function getRouteSource(): ?RouteInterface
-    {
-        return $this->routeSource;
-    }
-
-    public function setRouteSource(?RouteInterface $route): void
-    {
-        $this->routeSource = $route;
-    }
 }

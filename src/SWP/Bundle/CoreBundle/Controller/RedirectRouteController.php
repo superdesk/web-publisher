@@ -5,12 +5,12 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2019 Sourcefabric z.u. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú
+ * @copyright 2019 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
@@ -127,12 +127,12 @@ class RedirectRouteController extends AbstractController
 
         $form->handleRequest($request);
 
-        if (null === $redirectRoute->getRouteSource()) {
+        if ($this->checkIfSourceRouteExists($redirectRoute)) {
             $this->ensureRedirectRouteExists($redirectRoute->getRouteName());
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (null === $redirectRoute->getRouteSource()) {
+            if ($this->checkIfSourceRouteExists($redirectRoute)) {
                 $redirectRoute->setStaticPrefix($redirectRoute->getRouteName());
             } else {
                 $redirectRoute->setStaticPrefix($redirectRoute->getRouteSource()->getStaticPrefix());
@@ -210,5 +210,10 @@ class RedirectRouteController extends AbstractController
         if (null !== $this->get('swp.repository.redirect_route')->findOneBy(['routeName' => $name])) {
             throw new ConflictHttpException(sprintf('Redirect route "%s" already exists!', $name));
         }
+    }
+
+    private function checkIfSourceRouteExists(RedirectRouteInterface $redirectRoute): bool
+    {
+        return null === $redirectRoute->getRouteSource();
     }
 }

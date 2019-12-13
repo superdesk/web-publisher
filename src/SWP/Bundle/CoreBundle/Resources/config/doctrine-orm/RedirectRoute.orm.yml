@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\RedirectRoute:
+    type: entity
+    table: swp_redirect_route
+    fields:
+        tenantCode:
+            type: string
