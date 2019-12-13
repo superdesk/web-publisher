@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  SWP\Bundle\CoreBundle\EventListener\DoctrineMetadataListener:
+      tags:
+        - { name: doctrine.event_listener, event: loadClassMetadata, lazy: true }
