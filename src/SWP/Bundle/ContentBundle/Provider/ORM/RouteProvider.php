@@ -17,7 +17,6 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
-use SWP\Bundle\RedirectRouteBundle\Model\RedirectRouteInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,11 +81,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
 
         /** @var $route Route */
         foreach ($routes as $route) {
-            if ($route instanceof RedirectRouteInterface) {
-                $collection->add($route->getRouteName(), $route);
-            } else {
-                $collection->add($route->getName(), $route);
-            }
+            $collection->add($route->getName(), $route);
         }
 
         return $collection;
