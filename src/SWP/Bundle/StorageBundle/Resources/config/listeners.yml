@@ -4,4 +4,4 @@ services:
         arguments:
             - '%swp.resources%'
         tags:
-            - { name: doctrine.event_subscriber, priority: 9000 }
+            - { name: doctrine.event_subscriber, priority: 8192 }

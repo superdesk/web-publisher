@@ -36,9 +36,6 @@ final class ORMMappedSuperclassSubscriber extends AbstractDoctrineSubscriber
         ];
     }
 
-    /**
-     * @param LoadClassMetadataEventArgs $eventArgs
-     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
     {
         /** @var ClassMetadataInfo $metadata */
@@ -53,9 +50,6 @@ final class ORMMappedSuperclassSubscriber extends AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param ClassMetadataInfo $metadata
-     */
     private function convertToEntityIfNeeded(ClassMetadataInfo $metadata)
     {
         if (false === $metadata->isMappedSuperclass) {
@@ -85,7 +79,6 @@ final class ORMMappedSuperclassSubscriber extends AbstractDoctrineSubscriber
     }
 
     /**
-     * @param ClassMetadataInfo $metadata
      * @param $configuration
      */
     private function setAssociationMappings(ClassMetadataInfo $metadata, $configuration)
@@ -103,12 +96,12 @@ final class ORMMappedSuperclassSubscriber extends AbstractDoctrineSubscriber
             // Wakeup Reflection
             $parentMetadata->wakeupReflection($this->getReflectionService());
 
+            // Load Metadata
+            $configuration->getMetadataDriverImpl()->loadMetadataForClass($parent, $parentMetadata);
+
             if (false === $this->isResource($parentMetadata)) {
                 continue;
             }
-
-            // Load Metadata
-            $configuration->getMetadataDriverImpl()->loadMetadataForClass($parent, $parentMetadata);
 
             if ($parentMetadata->isMappedSuperclass) {
                 foreach ($parentMetadata->getAssociationMappings() as $key => $value) {
@@ -120,9 +113,6 @@ final class ORMMappedSuperclassSubscriber extends AbstractDoctrineSubscriber
         }
     }
 
-    /**
-     * @param ClassMetadataInfo $metadata
-     */
     private function unsetAssociationMappings(ClassMetadataInfo $metadata)
     {
         if (false === $this->isResource($metadata)) {

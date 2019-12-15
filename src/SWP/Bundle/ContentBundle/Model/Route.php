@@ -67,22 +67,11 @@ class Route extends BaseRoute implements RouteInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
-    {
-        return parent::getId();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteName()
     {
         return $this->getName();
     }
 
-    /**
-     * @param ArticleInterface $article
-     */
     public function addArticle(ArticleInterface $article): void
     {
         if (!$this->articles->contains($article)) {
@@ -185,9 +174,6 @@ class Route extends BaseRoute implements RouteInterface
         return $this->rgt;
     }
 
-    /**
-     * @param int $right
-     */
     public function setRight(int $right)
     {
         $this->rgt = $right;

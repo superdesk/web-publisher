@@ -63,7 +63,7 @@
     "doctrine/doctrine-cache-bundle": "1.3.*",
     "doctrine/doctrine-migrations-bundle": "^1.3",
     "doctrine/inflector": "^1.3",
-    "doctrine/orm": "2.6.3",
+    "doctrine/orm": "^2.6",
     "emanueleminotto/twig-cache-bundle": "dev-master",
     "evenement/evenement": "^3.0",
     "facebook/facebook-instant-articles-sdk-php": "^v1.10",

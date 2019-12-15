@@ -16,8 +16,8 @@
 namespace SWP\Bundle\StorageBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
@@ -35,34 +35,21 @@ abstract class AbstractDoctrineSubscriber implements EventSubscriber
      */
     private $reflectionService;
 
-    /**
-     * AbstractDoctrineSubscriber constructor.
-     *
-     * @param array $resources
-     */
     public function __construct(array $resources)
     {
         $this->resources = $resources;
     }
 
-    /**
-     * @param ClassMetadata $metadata
-     *
-     * @return bool
-     */
-    protected function isResource(ClassMetadata $metadata)
+    protected function isResource(ClassMetadata $metadata): bool
     {
-        if (!$reflClass = $metadata->getReflectionClass()) {
+        if (!$reflectionClass = $metadata->getReflectionClass()) {
             return false;
         }
 
-        return $reflClass->implementsInterface(PersistableInterface::class);
+        return $reflectionClass->implementsInterface(PersistableInterface::class);
     }
 
-    /**
-     * @return RuntimeReflectionService
-     */
-    protected function getReflectionService()
+    protected function getReflectionService(): RuntimeReflectionService
     {
         if (null === $this->reflectionService) {
             $this->reflectionService = new RuntimeReflectionService();
