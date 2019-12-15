@@ -16,14 +16,14 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
+use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
 use SWP\Component\Common\Criteria\Criteria;
-use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;

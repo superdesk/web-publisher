@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\GroupInterface;
@@ -91,6 +92,7 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
 
     public function removeOldArticleSlideshows(ArticleInterface $article): void
     {
+        /** @var SlideshowInterface $slideshow */
         foreach ($article->getSlideshows() as $slideshow) {
             $article->removeSlideshow($slideshow);
         }

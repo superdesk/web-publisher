@@ -53,6 +53,10 @@ SWP\Bundle\ContentBundle\Model\Route:
         articles:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
             mappedBy: route
+        packagePreviewToken:
+            targetEntity: SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface
+            mappedBy: route
+            cascade: ["remove"]
         children:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
             mappedBy: parent

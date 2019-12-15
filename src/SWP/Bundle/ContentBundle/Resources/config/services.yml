@@ -112,16 +112,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    swp_content_bundle.listener.article_media:
-        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
-        arguments:
-            - '@swp.repository.media'
-            - '@swp.factory.media'
-            - '@swp_content_bundle.processor.article_body'
-        tags:
-            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
-            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
-
     SWP\Bundle\ContentBundle\EventListener\ProcessArticleSlideshowsListener:
         arguments:
             - '@swp.repository.media'
@@ -129,8 +119,18 @@ services:
             - '@swp_content_bundle.processor.article_body'
             - '@swp.factory.slideshow'
         tags:
-            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
-            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate, priority: 20}
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate, priority: 20 }
+
+    swp_content_bundle.listener.article_media:
+        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
+        arguments:
+            - '@swp.repository.media'
+            - '@swp.factory.media'
+            - '@swp_content_bundle.processor.article_body'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate, priority: 19 }
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate, priority: 19 }
 
     SWP\Bundle\ContentBundle\EventListener\ProcessRelatedArticlesListener:
         arguments:

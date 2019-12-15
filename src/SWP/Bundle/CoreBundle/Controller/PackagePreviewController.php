@@ -19,11 +19,10 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Context\ArticlePreviewContext;
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticlePreview;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface;
@@ -36,6 +35,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PackagePreviewController extends Controller
@@ -66,9 +66,7 @@ class PackagePreviewController extends Controller
         try {
             return $this->render($route->getArticlesTemplateName());
         } catch (\Exception $e) {
-            throw $this->createNotFoundException(
-                sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
-            );
+            throw $this->createNotFoundException(sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName()));
         }
     }
 
@@ -189,9 +187,8 @@ class PackagePreviewController extends Controller
         $articlePreviewContext = $this->get(ArticlePreviewContext::class);
 
         $articlePreviewContext->setIsPreview(true);
-        $article = $articlePreviewer->preview($package, $packagePreviewToken->getRoute());
 
-        return $article;
+        return $articlePreviewer->preview($package, $packagePreviewToken->getRoute());
     }
 
     private function renderTemplateOr404(RouteInterface $route): Response
@@ -199,9 +196,7 @@ class PackagePreviewController extends Controller
         try {
             return $this->render($templateName = $route->getArticlesTemplateName());
         } catch (\InvalidArgumentException $e) {
-            throw $this->createNotFoundException(
-                sprintf('Template %s for route with id "%d" (%s) not found!', $templateName, $route->getId(), $route->getName())
-            );
+            throw $this->createNotFoundException(sprintf('Template %s for route with id "%d" (%s) not found!', $templateName, $route->getId(), $route->getName()));
         }
     }
 
@@ -216,8 +211,6 @@ class PackagePreviewController extends Controller
     }
 
     /**
-     * @param int $id
-     *
      * @return object|null
      */
     private function findRouteOr404(int $id)
@@ -230,8 +223,6 @@ class PackagePreviewController extends Controller
     }
 
     /**
-     * @param string $id
-     *
      * @return object|null
      */
     private function findPackageOr404(string $id)

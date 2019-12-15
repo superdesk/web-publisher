@@ -681,20 +681,20 @@ Feature: Handling the custom media fields
     Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-without-slideshow"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[1].image.asset_id                 | 1234567890987654321c                   |
+      | media[0].image.asset_id                 | 1234567890987654321c                   |
+      | media[0].renditions[0].name            | 16-9                                   |
+      | media[0].renditions[0].image.asset_id   | 1234567890987654321a                   |
+      | media[0].renditions[1].name            | 4-3                                    |
+      | media[0].renditions[1].image.asset_id   | 1234567890987654321b                   |
+      | media[0].renditions[2].name            | original                               |
+      | media[0].renditions[2].image.asset_id   | 1234567890987654321c                   |
+      | media[1].image.asset_id                 | 2234567890987654321c                   |
       | media[1].renditions[0].name            | 16-9                                   |
-      | media[1].renditions[0].image.asset_id   | 1234567890987654321a                   |
+      | media[1].renditions[0].image.asset_id   | 2234567890987654321a                   |
       | media[1].renditions[1].name            | 4-3                                    |
-      | media[1].renditions[1].image.asset_id   | 1234567890987654321b                   |
+      | media[1].renditions[1].image.asset_id   | 2234567890987654321b                   |
       | media[1].renditions[2].name            | original                               |
-      | media[1].renditions[2].image.asset_id   | 1234567890987654321c                   |
-      | media[2].image.asset_id                 | 2234567890987654321c                   |
-      | media[2].renditions[0].name            | 16-9                                   |
-      | media[2].renditions[0].image.asset_id   | 2234567890987654321a                   |
-      | media[2].renditions[1].name            | 4-3                                    |
-      | media[2].renditions[1].image.asset_id   | 2234567890987654321b                   |
-      | media[2].renditions[2].name            | original                               |
-      | media[2].renditions[2].image.asset_id   | 2234567890987654321c                   |
+      | media[1].renditions[2].image.asset_id   | 2234567890987654321c                   |
       | slideshows[0].code                     | slideshow1                             |
       | slideshows[0].id                       | 2                                      |
       | _links.slideshows.href                 | /api/v2/content/slideshows/6           |

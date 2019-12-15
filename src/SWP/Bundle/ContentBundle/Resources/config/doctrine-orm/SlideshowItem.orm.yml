@@ -22,6 +22,7 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
     manyToOne:
         articleMedia:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            cascade: ["remove"]
             joinColumn:
                 name: article_media_id
                 referencedColumnName: id

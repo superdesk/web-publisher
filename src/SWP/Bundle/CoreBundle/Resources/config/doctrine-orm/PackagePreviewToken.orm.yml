@@ -28,7 +28,8 @@ SWP\Bundle\CoreBundle\Model\PackagePreviewToken:
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            inversedBy: packagePreviewToken
             joinColumn:
                 name: route_id
                 referencedColumnName: id
-                onDelete: "CASCADE"
+                onDelete: cascade
