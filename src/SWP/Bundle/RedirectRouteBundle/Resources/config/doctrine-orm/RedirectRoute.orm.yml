@@ -20,6 +20,3 @@ SWP\Bundle\RedirectRouteBundle\Model\RedirectRoute:
         updatedAt:
             type: datetime
             nullable: true
-    indexes:
-        swp_redirect_route_prefix:
-            columns: [staticPrefix]

@@ -4,3 +4,6 @@ SWP\Bundle\CoreBundle\Model\RedirectRoute:
     fields:
         tenantCode:
             type: string
+    indexes:
+        swp_redirect_route_prefix:
+            columns: [staticprefix, tenant_code]

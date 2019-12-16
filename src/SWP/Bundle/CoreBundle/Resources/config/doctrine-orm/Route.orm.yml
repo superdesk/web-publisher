@@ -16,4 +16,4 @@ SWP\Bundle\CoreBundle\Model\Route:
         swp_route_name_idx:
             columns: [ name, tenant_code ]
         prefix_idx:
-            columns: [ staticPrefix ]
+            columns: [ staticprefix, tenant_code ]
