@@ -4,6 +4,6 @@ services:
     autoconfigure: true
     public: false
 
-  SWP\Bundle\CoreBundle\EventListener\DoctrineMetadataListener:
+  SWP\Bundle\ContentBundle\EventListener\DoctrineMetadataListener:
       tags:
         - { name: doctrine.event_listener, event: loadClassMetadata, lazy: true }

@@ -17,12 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Bundle\RedirectRouteBundle\Model\RedirectRoute as BaseRedirectRoute;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class RedirectRoute extends BaseRedirectRoute implements RedirectRouteInterface
 {
-    use TenantAwareTrait;
-
     /** @var RouteInterface|null */
     protected $routeSource;
 

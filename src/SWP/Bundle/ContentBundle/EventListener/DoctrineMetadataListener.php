@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\EventListener;
+namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route;
