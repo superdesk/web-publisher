@@ -1,0 +1,68 @@
+SWP\Component\Bridge\Model\BaseContent:
+    type: mappedSuperclass
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        byline:
+            type: string
+            nullable: true
+        headline:
+            type: string
+        slugline:
+            type: string
+            nullable: true
+        guid:
+            type: string
+            length: 400
+        language:
+            type: string
+        subjects:
+            type: array
+        places:
+            type: array
+        type:
+            type: string
+        services:
+            type: array
+            nullable: true
+        copyrightNotice:
+            type: string
+            nullable: true
+        copyrightHolder:
+            type: string
+            nullable: true
+        extra:
+            type: array
+            nullable: true
+        firstPublishedAt:
+            type: datetime
+            nullable: true
+        source:
+            type: string
+            nullable: true
+        pubStatus:
+            type: string
+        evolvedFrom:
+            type: string
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        genre:
+            type: array
+            nullable: true
+        keywords:
+            type: array
+        located:
+            type: string
+            nullable: true
+        urgency:
+            type: integer
+        priority:
+            type: integer
+        version:
+            type: integer

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34cd12ef5d5ca587038789b5990304e5",
+    "content-hash": "27c3493e4fcedd2b1bba855f8937afe0",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2424,16 +2424,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.38",
+            "version": "dev-patch-1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "81681364331b131518060e4776300a5346df1eb5"
+                "url": "https://github.com/ahilles107/DoctrineExtensions.git",
+                "reference": "3173bab66a5c7f8bec5984e4dff6dd44b849b340"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/81681364331b131518060e4776300a5346df1eb5",
-                "reference": "81681364331b131518060e4776300a5346df1eb5",
+                "url": "https://api.github.com/repos/ahilles107/DoctrineExtensions/zipball/3173bab66a5c7f8bec5984e4dff6dd44b849b340",
+                "reference": "3173bab66a5c7f8bec5984e4dff6dd44b849b340",
                 "shasum": ""
             },
             "require": {
@@ -2450,7 +2450,7 @@
                 "doctrine/mongodb-odm": ">=1.0.2 <2.0",
                 "doctrine/orm": ">=2.5.0",
                 "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5",
-                "symfony/yaml": "~2.6 || ~3.0 || ~4.0"
+                "symfony/yaml": "^2.6 || ^3.0 || ^4.0 || ^5.0"
             },
             "suggest": {
                 "doctrine/mongodb-odm": "to use the extensions with the MongoDB ODM",
@@ -2467,7 +2467,6 @@
                     "Gedmo\\": "lib/Gedmo"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2488,8 +2487,8 @@
             "description": "Doctrine2 behavioral extensions",
             "homepage": "http://gediminasm.org/",
             "keywords": [
-                "Blameable",
                 "behaviors",
+                "blameable",
                 "doctrine2",
                 "extensions",
                 "gedmo",
@@ -2502,7 +2501,12 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2019-11-08T22:33:07+00:00"
+            "support": {
+                "email": "gediminas.morkevicius@gmail.com",
+                "wiki": "https://github.com/Atlantic18/DoctrineExtensions/tree/master/doc",
+                "source": "https://github.com/ahilles107/DoctrineExtensions/tree/patch-1"
+            },
+            "time": "2019-12-16T13:26:36+00:00"
         },
         {
             "name": "gesdinet/jwt-refresh-token-bundle",
@@ -8952,37 +8956,39 @@
         },
         {
             "name": "symfony-cmf/routing-bundle",
-            "version": "2.1.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony-cmf/routing-bundle.git",
-                "reference": "9200b91d2985f9634f2a64536279aee6a1e1a0d8"
+                "reference": "9e113de47f64d1f2e51552eb1a630cbaeea75f90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/routing-bundle/zipball/9200b91d2985f9634f2a64536279aee6a1e1a0d8",
-                "reference": "9200b91d2985f9634f2a64536279aee6a1e1a0d8",
+                "url": "https://api.github.com/repos/symfony-cmf/routing-bundle/zipball/9e113de47f64d1f2e51552eb1a630cbaeea75f90",
+                "reference": "9e113de47f64d1f2e51552eb1a630cbaeea75f90",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1",
                 "symfony-cmf/routing": "^2.1.0",
-                "symfony/framework-bundle": "^2.8 || ^3.3 || ^4.0",
-                "twig/twig": "^1.35 || ^2.4.4"
+                "symfony/framework-bundle": "^3.4 || ^4.3",
+                "twig/twig": "^2.4.4 || ^3.0"
             },
             "conflict": {
                 "doctrine/phpcr-odm": "<1.4",
-                "phpunit/phpunit": "<5.7"
+                "phpunit/phpunit": "<6"
             },
             "require-dev": {
                 "doctrine/data-fixtures": "^1.0.0",
                 "doctrine/orm": "^2.5",
                 "doctrine/phpcr-odm": "^1.4|^2.0",
-                "matthiasnoback/symfony-config-test": "^2.2",
-                "matthiasnoback/symfony-dependency-injection-test": "^1.0",
-                "symfony-cmf/testing": "^2.1.0",
-                "symfony/phpunit-bridge": "^3.3 || ^4.0",
-                "symfony/validator": "^2.8 || ^3.3 || ^4.0"
+                "matthiasnoback/symfony-config-test": "^3.1.1",
+                "matthiasnoback/symfony-dependency-injection-test": "^2.3.1",
+                "symfony-cmf/testing": "^3@dev",
+                "symfony/form": "^3.4 || ^4.3",
+                "symfony/phpunit-bridge": "^4.2.2",
+                "symfony/translation": "^3.4 || ^4.3",
+                "symfony/validator": "^3.4 || ^4.3"
             },
             "suggest": {
                 "doctrine/orm": "To enable support for the ORM entities (^2.5)",
@@ -8992,7 +8998,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -9016,7 +9022,7 @@
                 "database",
                 "routing"
             ],
-            "time": "2018-09-24T06:49:35+00:00"
+            "time": "2019-12-16T08:45:55+00:00"
         },
         {
             "name": "symfony/asset",
@@ -15179,16 +15185,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.9.3",
+            "version": "1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea"
+                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/007c053ae6f31bba39dfa19a7726f56e9763bbea",
-                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/579bb7356d91f9456ccd505f24ca8b667966a0a7",
+                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7",
                 "shasum": ""
             },
             "require": {
@@ -15223,7 +15229,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2019-08-09T12:45:53+00:00"
+            "time": "2019-12-15T19:12:40+00:00"
         },
         {
             "name": "nelmio/alice",
@@ -18520,12 +18526,20 @@
             "time": "2017-07-11T09:53:59+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "v2.4.x-dev",
+            "alias_normalized": "2.4.9999999.9999999-dev",
+            "version": "dev-patch-1",
+            "package": "gedmo/doctrine-extensions"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "emanueleminotto/twig-cache-bundle": 20,
         "friendsofsymfony/user-bundle": 20,
         "nelmio/api-doc-bundle": 20,
+        "gedmo/doctrine-extensions": 20,
         "takeit/amp": 20,
         "takeit/stringy": 20,
         "roave/security-advisories": 20,

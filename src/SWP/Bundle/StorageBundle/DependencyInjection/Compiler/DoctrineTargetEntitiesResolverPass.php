@@ -55,8 +55,6 @@ final class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
     }
 
     /**
-     * @param array $resources
-     *
      * @return array
      */
     private function getInterfacesMapping(array $resources)
@@ -78,8 +76,7 @@ final class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $key
+     * @param string $key
      *
      * @return string
      *
@@ -95,14 +92,11 @@ final class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
             return $key;
         }
 
-        throw new \InvalidArgumentException(
-            sprintf('The interface %s does not exist.', $key)
-        );
+        throw new \InvalidArgumentException(sprintf('The interface %s does not exist.', $key));
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $key
+     * @param string $key
      *
      * @return string
      *
@@ -118,8 +112,6 @@ final class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
             return $key;
         }
 
-        throw new \InvalidArgumentException(
-            sprintf('The class %s does not exist.', $key)
-        );
+        throw new \InvalidArgumentException(sprintf('The class %s does not exist.', $key));
     }
 }

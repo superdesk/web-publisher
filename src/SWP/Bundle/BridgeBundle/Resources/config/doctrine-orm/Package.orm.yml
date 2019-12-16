@@ -6,73 +6,9 @@ SWP\Component\Bridge\Model\Package:
         soft_deleteable:
             field_name: deletedAt
             time_aware: false
-    id:
-        id:
-            type: integer
-            id: true
-            generator:
-                strategy: AUTO
     fields:
-        headline:
-            type: string
-        slugline:
-            type: string
-            nullable: true
-        guid:
-            type: string
-        evolvedFrom:
-            type: string
-            nullable: true
-        byline:
-            type: string
-            nullable: true
-        language:
-            type: string
-        description:
-            type: text
-            nullable: true
-        subjects:
-            type: array
-        services:
-            type: array
-            nullable: true
-        keywords:
-            type: array
-        places:
-            type: array
-        type:
-            type: string
-        located:
-            type: string
-            nullable: true
-        source:
-            type: string
-            nullable: true
-        edNote:
-            type: text
-            nullable: true
-        genre:
-            type: array
-            nullable: true
-        pubStatus:
-            type: string
-        urgency:
-            type: integer
-        priority:
-            type: integer
-        version:
-            type: integer
-        body:
-            type: text
-            nullable: true
         enabled:
             type: boolean
-        extra:
-            type: array
-            nullable: true
-        firstPublishedAt:
-            type: datetime
-            nullable: true
         createdAt:
             type: datetime
             gedmo:

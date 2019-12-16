@@ -2,63 +2,10 @@ SWP\Component\Bridge\Model\Item:
     type: mappedSuperclass
     table: swp_item
     repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\ItemRepository
-    id:
-        id:
-            type: integer
-            id: true
-            generator:
-                strategy: AUTO
     fields:
         name:
             type: string
             nullable: true
-        headline:
-            type: string
-        slugline:
-            type: string
-            nullable: true
-        guid:
-            type: string
-            length: 400
-        evolvedFrom:
-            type: string
-            nullable: true
-        byline:
-            type: string
-            nullable: true
-        language:
-            type: string
-        description:
-            type: text
-            nullable: true
-        subjects:
-            type: array
-        services:
-            type: array
-            nullable: true
-        genre:
-            type: array
-            nullable: true
-        keywords:
-            type: array
-        places:
-            type: array
-        type:
-            type: string
-        located:
-            type: string
-            nullable: true
-        source:
-            type: string
-            nullable: true
-        pubStatus:
-            type: string
-        urgency:
-            type: integer
-        priority:
-            type: integer
-        version:
-            type: integer
         body:
             type: text
             nullable: true
@@ -67,18 +14,6 @@ SWP\Component\Bridge\Model\Item:
             nullable: true
         usageTerms:
             type: string
-            nullable: true
-        copyrightNotice:
-            type: string
-            nullable: true
-        copyrightHolder:
-            type: string
-            nullable: true
-        extra:
-            type: array
-            nullable: true
-        firstPublishedAt:
-            type: datetime
             nullable: true
         createdAt:
             type: datetime

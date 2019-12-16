@@ -8,28 +8,7 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
             generator:
                 strategy: AUTO
     fields:
-        name:
-            type: string
-        role:
-            type: string
-        biography:
-            type: text
-            nullable: true
-        avatarUrl:
-            type: string
-            nullable: true
-        jobTitle:
-            type: array
         slug:
-            type: string
-            nullable: true
-        twitter:
-            type: string
-            nullable: true
-        facebook:
-            type: string
-            nullable: true
-        instagram:
             type: string
             nullable: true
     oneToOne:

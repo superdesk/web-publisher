@@ -32,4 +32,4 @@ SWP\Bundle\CoreBundle\Model\PackagePreviewToken:
             joinColumn:
                 name: route_id
                 referencedColumnName: id
-                onDelete: cascade
+                onDelete: "CASCADE"
