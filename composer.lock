@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27c3493e4fcedd2b1bba855f8937afe0",
+    "content-hash": "250df3cb0c77dba48345607b24954891",
     "packages": [
         {
             "name": "apache/log4php",
@@ -98,16 +98,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.129.0",
+            "version": "3.129.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "bd41c4a70e914c8b18c940f2cde19097dd83bd51"
+                "reference": "4e326d030ef7c82585d276969b3079169b4806e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/bd41c4a70e914c8b18c940f2cde19097dd83bd51",
-                "reference": "bd41c4a70e914c8b18c940f2cde19097dd83bd51",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4e326d030ef7c82585d276969b3079169b4806e2",
+                "reference": "4e326d030ef7c82585d276969b3079169b4806e2",
                 "shasum": ""
             },
             "require": {
@@ -178,7 +178,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-12-13T19:47:53+00:00"
+            "time": "2019-12-16T19:10:16+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -2428,12 +2428,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ahilles107/DoctrineExtensions.git",
-                "reference": "3173bab66a5c7f8bec5984e4dff6dd44b849b340"
+                "reference": "680d573848f734830691a96865a8c821328db14c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ahilles107/DoctrineExtensions/zipball/3173bab66a5c7f8bec5984e4dff6dd44b849b340",
-                "reference": "3173bab66a5c7f8bec5984e4dff6dd44b849b340",
+                "url": "https://api.github.com/repos/ahilles107/DoctrineExtensions/zipball/680d573848f734830691a96865a8c821328db14c",
+                "reference": "680d573848f734830691a96865a8c821328db14c",
                 "shasum": ""
             },
             "require": {
@@ -2503,10 +2503,9 @@
             ],
             "support": {
                 "email": "gediminas.morkevicius@gmail.com",
-                "wiki": "https://github.com/Atlantic18/DoctrineExtensions/tree/master/doc",
-                "source": "https://github.com/ahilles107/DoctrineExtensions/tree/patch-1"
+                "wiki": "https://github.com/Atlantic18/DoctrineExtensions/tree/master/doc"
             },
-            "time": "2019-12-16T13:26:36+00:00"
+            "time": "2019-12-16T14:51:29+00:00"
         },
         {
             "name": "gesdinet/jwt-refresh-token-bundle",
@@ -7668,22 +7667,22 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "3.9.1",
+            "version": "3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "5ac2740e0c8c599d2bbe7f113a939f2b5b216c67"
+                "reference": "7779489a47d443f845271badbdcedfe4df8e06fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/5ac2740e0c8c599d2bbe7f113a939f2b5b216c67",
-                "reference": "5ac2740e0c8c599d2bbe7f113a939f2b5b216c67",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/7779489a47d443f845271badbdcedfe4df8e06fb",
+                "reference": "7779489a47d443f845271badbdcedfe4df8e06fb",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "paragonie/random_compat": "^1 | ^2 | 9.99.99",
-                "php": "^5.4 | ^7",
+                "php": "^5.4 | ^7 | ^8",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "replace": {
@@ -7693,13 +7692,13 @@
                 "codeception/aspect-mock": "^1 | ^2",
                 "doctrine/annotations": "^1.2",
                 "goaop/framework": "1.0.0-alpha.2 | ^1 | ^2.1",
-                "jakub-onderka/php-parallel-lint": "^0.9.0",
-                "mockery/mockery": "^0.9.9",
+                "jakub-onderka/php-parallel-lint": "^1",
+                "mockery/mockery": "^0.9.11 | ^1",
                 "moontoast/math": "^1.1",
                 "paragonie/random-lib": "^2",
                 "php-mock/php-mock-phpunit": "^0.3 | ^1.1",
                 "phpunit/phpunit": "^4.8 | ^5.4 | ^6.5",
-                "squizlabs/php_codesniffer": "^2.3"
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "suggest": {
                 "ext-ctype": "Provides support for PHP Ctype functions",
@@ -7751,20 +7750,20 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2019-12-01T04:55:27+00:00"
+            "time": "2019-12-17T08:18:51+00:00"
         },
         {
             "name": "ratchet/rfc6455",
-            "version": "v0.2.5",
+            "version": "v0.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ratchetphp/RFC6455.git",
-                "reference": "c62f7cd95ffbb6e94fd657be694fc7372ecd6e62"
+                "reference": "879e48c840f8dbc296d68d6a5030673df79bd916"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/RFC6455/zipball/c62f7cd95ffbb6e94fd657be694fc7372ecd6e62",
-                "reference": "c62f7cd95ffbb6e94fd657be694fc7372ecd6e62",
+                "url": "https://api.github.com/repos/ratchetphp/RFC6455/zipball/879e48c840f8dbc296d68d6a5030673df79bd916",
+                "reference": "879e48c840f8dbc296d68d6a5030673df79bd916",
                 "shasum": ""
             },
             "require": {
@@ -7773,8 +7772,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "4.8.*",
-                "react/http": "^0.4.1",
-                "react/socket-client": "^0.4.3"
+                "react/socket": "^1.3"
             },
             "type": "library",
             "autoload": {
@@ -7800,7 +7798,7 @@
                 "rfc6455",
                 "websocket"
             ],
-            "time": "2019-03-10T17:10:42+00:00"
+            "time": "2019-12-15T10:18:18+00:00"
         },
         {
             "name": "react/cache",
