@@ -29,7 +29,7 @@ final class TestProducer implements ProducerInterface
         $this->consumer = $consumer;
     }
 
-    public function publish($msgBody, $routingKey = '', $additionalProperties = array())
+    public function publish($msgBody, $routingKey = '', $additionalProperties = [])
     {
         $this->consumer->execute(new AMQPMessage($msgBody, $additionalProperties));
     }

@@ -25,11 +25,6 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
 
     public function setItems(Collection $items);
 
-    /**
-     * @return string
-     */
-    public function getBody();
-
     public function getExternalData(): ?Collection;
 
     public function setExternalData(Collection $externalData): void;

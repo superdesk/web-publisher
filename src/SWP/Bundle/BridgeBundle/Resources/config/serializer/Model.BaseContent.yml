@@ -13,6 +13,16 @@ SWP\Component\Bridge\Model\BaseContent:
             expose: true
             type: string
             groups: [api, api_packages_list]
+        body:
+            expose: true
+            serialized_name: body_html
+            type: string
+            groups: [api]
+        bodyText:
+            expose: true
+            serialized_name: body_text
+            type: string
+            groups: [api]
         byline:
             expose: true
             type: string

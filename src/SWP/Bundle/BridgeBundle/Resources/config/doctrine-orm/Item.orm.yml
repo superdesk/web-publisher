@@ -6,13 +6,13 @@ SWP\Component\Bridge\Model\Item:
         name:
             type: string
             nullable: true
-        body:
-            type: text
-            nullable: true
-        bodyText:
-            type: text
-            nullable: true
         usageTerms:
+            type: string
+            nullable: true
+        copyrightNotice:
+            type: string
+            nullable: true
+        copyrightHolder:
             type: string
             nullable: true
         createdAt:

@@ -7,6 +7,12 @@ SWP\Component\Bridge\Model\BaseContent:
             generator:
                 strategy: AUTO
     fields:
+        body:
+            type: text
+            nullable: true
+        bodyText:
+            type: text
+            nullable: true
         byline:
             type: string
             nullable: true
@@ -28,12 +34,6 @@ SWP\Component\Bridge\Model\BaseContent:
             type: string
         services:
             type: array
-            nullable: true
-        copyrightNotice:
-            type: string
-            nullable: true
-        copyrightHolder:
-            type: string
             nullable: true
         extra:
             type: array

@@ -80,7 +80,7 @@ class RenditionLoader implements LoaderInterface
                 $renditionName = $fallbackRenditionName;
             }
 
-            /** @var ImageRenditionInterface $rendition */
+            /* @var ImageRenditionInterface $rendition */
             foreach ($articleMedia->getRenditions() as $rendition) {
                 if ($rendition->getName() === $renditionName) {
                     return $this->metaFactory->create($rendition);

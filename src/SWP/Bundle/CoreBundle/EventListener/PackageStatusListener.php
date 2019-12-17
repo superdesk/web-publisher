@@ -24,9 +24,6 @@ use SWP\Component\Common\Exception\UnexpectedTypeException;
 
 final class PackageStatusListener
 {
-    /**
-     * @param ArticleEvent $event
-     */
     public function onArticleUnpublish(ArticleEvent $event)
     {
         /** @var ArticleInterface $article */
@@ -41,15 +38,11 @@ final class PackageStatusListener
         $package->setStatus(ContentInterface::STATUS_UNPUBLISHED);
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
     public function onArticlePublish(ArticleEvent $event)
     {
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
         $package = $this->getPackage($article);
-
         if (ContentInterface::STATUS_USABLE !== $package->getPubStatus()) {
             return;
         }
@@ -57,9 +50,6 @@ final class PackageStatusListener
         $package->setStatus(ContentInterface::STATUS_PUBLISHED);
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
     public function onArticleCancel(ArticleEvent $event)
     {
         /** @var ArticleInterface $article */
@@ -74,18 +64,13 @@ final class PackageStatusListener
     }
 
     /**
-     * @param ArticleInterface $article
-     *
      * @return PackageInterface
      */
     private function getPackage(ArticleInterface $article)
     {
         /** @var PackageInterface $package */
         if (!($package = $article->getPackage()) instanceof PackageInterface) {
-            throw UnexpectedTypeException::unexpectedType(
-                is_object($package) ? get_class($package) : gettype($package),
-                PackageInterface::class
-            );
+            throw UnexpectedTypeException::unexpectedType(is_object($package) ? get_class($package) : gettype($package), PackageInterface::class);
         }
 
         return $package;

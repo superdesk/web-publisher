@@ -1,16 +1,6 @@
 SWP\Component\Bridge\Model\Item:
     exclusion_policy: ALL
     properties:
-        body:
-            expose: true
-            serialized_name: body_html
-            type: string
-            groups: [api]
-        bodyText:
-            expose: true
-            serialized_name: body_text
-            type: string
-            groups: [api]
         usageTerms:
             expose: true
             type: string

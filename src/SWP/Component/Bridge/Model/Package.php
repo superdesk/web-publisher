@@ -32,11 +32,6 @@ class Package extends BaseContent implements PackageInterface
     protected $items;
 
     /**
-     * @var string
-     */
-    protected $body;
-
-    /**
      * @var Collection
      */
     protected $externalData;
@@ -97,16 +92,6 @@ class Package extends BaseContent implements PackageInterface
             $this->items->removeElement($item);
             $item->setPackage(null);
         }
-    }
-
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    public function setBody($body)
-    {
-        $this->body = $body;
     }
 
     public function getExternalData(): ?Collection

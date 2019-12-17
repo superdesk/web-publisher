@@ -36,21 +36,6 @@ interface ItemInterface extends ContentInterface
     /**
      * @return string
      */
-    public function getBody();
-
-    /**
-     * @param string $body
-     */
-    public function setBody($body);
-
-    /**
-     * @return string
-     */
-    public function getBodyText();
-
-    /**
-     * @return string
-     */
     public function getUsageTerms();
 
     /**
@@ -58,13 +43,7 @@ interface ItemInterface extends ContentInterface
      */
     public function setPackage(PackageInterface $package = null);
 
-    /**
-     * @param Collection $renditions
-     */
     public function setRenditions(Collection $renditions);
 
-    /**
-     * @return Collection
-     */
     public function getRenditions(): Collection;
 }

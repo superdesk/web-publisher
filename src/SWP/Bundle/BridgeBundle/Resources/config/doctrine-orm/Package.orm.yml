@@ -23,6 +23,9 @@ SWP\Component\Bridge\Model\Package:
         deletedAt:
             type: datetime
             nullable: true
+        edNote:
+            type: text
+            nullable: true
     uniqueConstraints:
         swp_package_guid_idx:
             columns: [ guid ]

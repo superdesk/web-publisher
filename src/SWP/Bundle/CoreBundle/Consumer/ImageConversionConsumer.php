@@ -18,9 +18,9 @@ namespace SWP\Bundle\CoreBundle\Consumer;
 
 use BadFunctionCallException;
 use DateTime;
-use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use function imagewebp;
 use InvalidArgumentException;
 use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
@@ -89,7 +89,6 @@ class ImageConversionConsumer implements ConsumerInterface
         $image = $this->entityManager->merge($image);
         $mediaId = $image->getAssetId();
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
-
         try {
             if (!function_exists('imagewebp')) {
                 throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
@@ -137,13 +136,13 @@ class ImageConversionConsumer implements ConsumerInterface
         $size = getimagesize($tempLocation);
         switch ($size['mime']) {
             case 'image/jpeg':
-                $resource = imagecreatefromjpeg($tempLocation); //jpeg file
+                $resource = \imagecreatefromjpeg($tempLocation); //jpeg file
                 break;
             case 'image/gif':
-                $resource = imagecreatefromgif($tempLocation); //gif file
+                $resource = \imagecreatefromgif($tempLocation); //gif file
                 break;
             case 'image/png':
-                $resource = imagecreatefrompng($tempLocation); //png file
+                $resource = \imagecreatefrompng($tempLocation); //png file
                 break;
         }
         $filesystem->remove($tempLocation);

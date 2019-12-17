@@ -88,9 +88,6 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      */
     public function getSubjects();
 
-    /**
-     * @param array $subjects
-     */
     public function setSubjects(array $subjects = []);
 
     /**
@@ -158,19 +155,10 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      */
     public function getServices();
 
-    /**
-     * @return array
-     */
     public function getServicesNames(): array;
 
-    /**
-     * @return array
-     */
     public function getServicesCodes(): array;
 
-    /**
-     * @param array $services
-     */
     public function setServices(array $services = []);
 
     /**
@@ -208,9 +196,6 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      */
     public function getKeywords();
 
-    /**
-     * @param array $keywords
-     */
     public function setKeywords(array $keywords);
 
     /**
@@ -218,9 +203,6 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      */
     public function getPubStatus();
 
-    /**
-     * @param string $pubStatus
-     */
     public function setPubStatus(string $pubStatus);
 
     /**
@@ -228,9 +210,6 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      */
     public function getEvolvedFrom();
 
-    /**
-     * @param string $evolvedFrom
-     */
     public function setEvolvedFrom(string $evolvedFrom);
 
     /**
@@ -243,14 +222,8 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      */
     public function setSource($source);
 
-    /**
-     * @return array|null
-     */
     public function getExtra(): ?array;
 
-    /**
-     * @param array|null $extra
-     */
     public function setExtra(?array $extra): void;
 
     public function getFirstPublishedAt(): ?\DateTimeInterface;
@@ -260,6 +233,14 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
     public function getSubjectsSchemes(): array;
 
     public function getSubjectsNames(): array;
+
+    public function getBody(): ?string;
+
+    public function setBody(string $body): void;
+
+    public function getBodyText(): ?string;
+
+    public function setBodyText(string $bodyText): void;
 
     public function getCopyrightNotice(): ?string;
 

@@ -29,16 +29,6 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     protected $name;
 
     /**
-     * @var string
-     */
-    protected $body;
-
-    /**
-     * @var string
-     */
-    protected $bodyText;
-
-    /**
      * Collection.
      */
     protected $renditions;
@@ -70,36 +60,14 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
         $this->items = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
     }
 
     /**
@@ -132,22 +100,6 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function setItems($items)
     {
         $this->items = $items;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBodyText()
-    {
-        return $this->bodyText;
-    }
-
-    /**
-     * @param string $bodyText
-     */
-    public function setBodyText($bodyText)
-    {
-        $this->bodyText = $bodyText;
     }
 
     /**

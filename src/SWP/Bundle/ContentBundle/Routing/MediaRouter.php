@@ -46,7 +46,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
     }
 
-    public function getRouteDebugMessage($meta, array $parameters = array()): string
+    public function getRouteDebugMessage($meta, array $parameters = []): string
     {
         return 'Route for media '.$meta->getValues()->getId().' not found';
     }
@@ -70,12 +70,14 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
             return null;
         }
 
-        if ($meta->getValues() instanceof ImageRenditionInterface && null !== ($previewUrl = $meta->getValues()->getPreviewUrl())) {
-            return $previewUrl;
-        }
+        if ($meta->getContext()->isPreviewMode()) {
+            if ($meta->getValues() instanceof ImageRenditionInterface && null !== ($previewUrl = $meta->getValues()->getPreviewUrl())) {
+                return $previewUrl;
+            }
 
-        if ($item instanceof PreviewUrlAwareInterface && null !== ($previewUrl = $item->getPreviewUrl())) {
-            return $previewUrl;
+            if ($item instanceof PreviewUrlAwareInterface && null !== ($previewUrl = $item->getPreviewUrl())) {
+                return $previewUrl;
+            }
         }
 
         return $this->getUrlWithCorrectExtension($item, $parameters);

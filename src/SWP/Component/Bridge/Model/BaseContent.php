@@ -28,6 +28,16 @@ class BaseContent implements ContentInterface
     /**
      * @var string
      */
+    protected $body;
+
+    /**
+     * @var string
+     */
+    protected $bodyText;
+
+    /**
+     * @var string
+     */
     protected $guid;
 
     /**
@@ -594,6 +604,26 @@ class BaseContent implements ContentInterface
     public function setFirstPublishedAt(?\DateTimeInterface $firstPublishedAt): void
     {
         $this->firstPublishedAt = $firstPublishedAt;
+    }
+
+    public function getBody(): ?string
+    {
+        return $this->body;
+    }
+
+    public function setBody(string $body): void
+    {
+        $this->body = $body;
+    }
+
+    public function getBodyText(): ?string
+    {
+        return $this->bodyText;
+    }
+
+    public function setBodyText(string $bodyText): void
+    {
+        $this->bodyText = $bodyText;
     }
 
     public function getCopyrightNotice(): ?string
