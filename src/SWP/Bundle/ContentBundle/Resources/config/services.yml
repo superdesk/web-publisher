@@ -327,14 +327,14 @@ services:
             - '%env(json:BLACKLISTED_KEYWORDS)%'
 
     Aws\S3\S3Client:
+        factory: ['SWP\Bundle\ContentBundle\Factory\S3ClientFactory', 'createS3Client']
         arguments:
-            -
-                version: '%env(resolve:FS_AWS_S3_VERSION)%'
-                region: '%env(resolve:FS_AWS_S3_REGION)%'
-                endpoint: '%env(resolve:FS_AWS_S3_ENDPOINT)%'
-                credentials:
-                    key: '%env(resolve:FS_AWS_S3_KEY)%'
-                    secret: '%env(resolve:FS_AWS_S3_SECRET)%'
+            - '%env(resolve:FS_AWS_S3_VERSION)%'
+            - '%env(resolve:FS_AWS_S3_REGION)%'
+            - '%env(resolve:FS_AWS_S3_ENDPOINT)%'
+            - '%env(resolve:FS_AWS_S3_KEY)%'
+            - '%env(resolve:FS_AWS_S3_SECRET)%'
+            
 
     swp.resolver.asset_location:
         class: SWP\Bundle\ContentBundle\Resolver\AssetLocationResolver
