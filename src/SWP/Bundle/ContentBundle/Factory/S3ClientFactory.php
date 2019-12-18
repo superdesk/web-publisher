@@ -29,7 +29,7 @@ class S3ClientFactory
             'endpoint' => !empty($endpoint) ? $endpoint : null,
             'credentials' => new Credentials($key, $secret),
         ];
-        
+
         $s3Client = new S3Client($options);
 
         return $s3Client;
