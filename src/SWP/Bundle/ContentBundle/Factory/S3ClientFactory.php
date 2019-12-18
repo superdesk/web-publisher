@@ -26,7 +26,7 @@ class S3ClientFactory
         $options = [
             'region' => $region,
             'version' => $version,
-            'endpoint' => !empty($endpoint) ? $endpoint : NULL,
+            'endpoint' => !empty($endpoint) ? $endpoint : null,
             'credentials' => new Credentials($key, $secret)
         ];
         
