@@ -186,6 +186,7 @@
     "swp/geo-ip-bundle": "self.version",
     "swp/geo-ip": "self.version",
     "swp/archiver": "self.version",
+    "swp/redirect-route-bundle": "self.version",
     "lullabot/amp": "^1.0"
   },
   "conflict": {

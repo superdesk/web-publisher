@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -43,19 +44,15 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
      */
     private $candidatesStrategy;
 
-    /**
-     * RouteProvider constructor.
-     *
-     * @param RouteRepositoryInterface $routeRepository
-     * @param ManagerRegistry          $managerRegistry
-     * @param CandidatesInterface      $candidatesStrategy
-     * @param string                   $className
-     */
-    public function __construct(RouteRepositoryInterface $routeRepository, ManagerRegistry $managerRegistry, CandidatesInterface $candidatesStrategy, string $className)
+    /** @var RepositoryInterface */
+    private $redirectRouteRepository;
+
+    public function __construct(RouteRepositoryInterface $routeRepository, ManagerRegistry $managerRegistry, CandidatesInterface $candidatesStrategy, string $className, RepositoryInterface $redirectRouteRepository)
     {
         $this->routeRepository = $routeRepository;
         $this->internalRoutesCache = [];
         $this->candidatesStrategy = $candidatesStrategy;
+        $this->redirectRouteRepository = $redirectRouteRepository;
 
         parent::__construct($managerRegistry, $candidatesStrategy, $className);
     }
@@ -69,6 +66,14 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
 
         $candidates = $this->candidatesStrategy->getCandidates($request);
         if (0 === count($candidates)) {
+            return $collection;
+        }
+
+        $redirectRoute = $this->redirectRouteRepository->findOneBy(['staticPrefix' => $candidates[0]]);
+
+        if (null !== $redirectRoute) {
+            $collection->add($redirectRoute->getRouteName(), $redirectRoute);
+
             return $collection;
         }
         // As we use Gedmo Sortable on position field, we need to reverse sorting to get child routes first

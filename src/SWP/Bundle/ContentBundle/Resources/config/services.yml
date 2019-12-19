@@ -356,3 +356,7 @@ services:
         public: true
 
     Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
+
+    SWP\Bundle\ContentBundle\Form\Extension\RedirectRouteTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: SWP\Bundle\RedirectRouteBundle\Form\RedirectRouteType }

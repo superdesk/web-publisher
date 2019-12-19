@@ -48,6 +48,7 @@ return [
     SWP\Bundle\PaywallBundle\SWPPaywallBundle::class => ['all' => true],
     SWP\Bundle\SeoBundle\SWPSeoBundle::class => ['all' => true],
     SWP\Bundle\GeoIPBundle\SWPGeoIPBundle::class => ['all' => true],
+    SWP\Bundle\RedirectRouteBundle\SWPRedirectRouteBundle::class => ['all' => true],
     SWP\Bundle\CoreBundle\SWPCoreBundle::class => ['all' => true],
     FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
     SWP\Bundle\ElasticSearchBundle\SWPElasticSearchBundle::class => ['all' => true],

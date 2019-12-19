@@ -57,7 +57,8 @@
     "symfony/translation": "^4.2",
     "swp/seo-bundle": "^2.0",
     "symfony/templating": "^4.2",
-    "sentry/sentry-symfony": "^3.0"
+    "sentry/sentry-symfony": "^3.0",
+    "swp/redirect-route-bundle": "^2.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",

@@ -15,6 +15,7 @@
 namespace SWP\Bundle\AnalyticsBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 
@@ -31,6 +32,11 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
     protected $pageViewsNumber = 0;
 
     protected $internalClickRate = 0;
+
+    public function __construct()
+    {
+        $this->createdAt = DateTime::getCurrentDateTime();
+    }
 
     public function getId()
     {

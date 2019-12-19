@@ -154,3 +154,12 @@ services:
             - "@fos_rest.view_handler"
         tags:
             - { name: kernel.event_listener, event: kernel.view }
+
+swp_redirect_route:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                redirect_route:
+                    model: SWP\Bundle\ContentBundle\Model\RedirectRoute
+                    interface: SWP\Bundle\ContentBundle\Model\RedirectRouteInterface
