@@ -68,7 +68,7 @@ oneup_flysystem:
     adapters:
         aws_adapter:
             awss3v3:
-                client: S3Client
+                client: SWP\Bundle\ContentBundle\Factory\S3ClientFactory
                 bucket: '%env(resolve:FS_AWS_S3_BUCKET)%'
                 prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
                 options:

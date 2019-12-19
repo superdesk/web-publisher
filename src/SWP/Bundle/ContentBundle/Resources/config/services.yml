@@ -326,7 +326,7 @@ services:
         arguments:
             - '%env(json:BLACKLISTED_KEYWORDS)%'
 
-    S3Client:
+    SWP\Bundle\ContentBundle\Factory\S3ClientFactory:
         class: Aws\S3\S3Client
         factory: ['SWP\Bundle\ContentBundle\Factory\S3ClientFactory', 'createS3Client']
         arguments:
@@ -343,7 +343,7 @@ services:
             - '%env(resolve:FS_MAIN_ADAPTER)%'
             - '%env(resolve:FS_AWS_S3_BUCKET)%'
             - '%env(resolve:FS_AWS_S3_PREFIX)%'
-            - '@S3Client'
+            - '@SWP\Bundle\ContentBundle\Factory\S3ClientFactory'
             - 'uploads'
 
     swp.resolver.author_asset_location:
