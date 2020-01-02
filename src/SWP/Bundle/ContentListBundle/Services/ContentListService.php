@@ -73,6 +73,7 @@ final class ContentListService implements ContentListServiceInterface
             ContentListEvents::POST_ITEM_ADD,
             new ContentListEvent($contentList, $contentListItem)
         );
+        $contentList->setUpdatedAt(new \DateTime());
 
         return $contentListItem;
     }

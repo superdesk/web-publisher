@@ -95,11 +95,11 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     private static function exec_timeout($cmd, $timeout)
     {
         // File descriptors passed to the process.
-        $descriptors = array(
-            0 => array('pipe', 'r'),  // stdin
-            1 => array('pipe', 'w'),  // stdout
-            2 => array('pipe', 'w'),   // stderr
-        );
+        $descriptors = [
+            0 => ['pipe', 'r'],  // stdin
+            1 => ['pipe', 'w'],  // stdout
+            2 => ['pipe', 'w'],   // stderr
+        ];
 
         // Start the process.
         $process = proc_open('exec '.$cmd, $descriptors, $pipes);
@@ -122,8 +122,8 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
             $start = microtime(true);
 
             // Wait until we have output or the timer expired.
-            $read = array($pipes[1]);
-            $other = array();
+            $read = [$pipes[1]];
+            $other = [];
             stream_select($read, $other, $other, 0, (int) $timeout);
 
             // Get the status of the process.
