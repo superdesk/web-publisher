@@ -28,6 +28,6 @@ class TenantAwareMetaKeyGenerator extends MetaKeyGenerator
 
     public function generateKey($meta): string
     {
-        return $this->tenantContext->getTenant()->getCode().'_'.md5(parent::generateKey($meta));
+        return $this->tenantContext->getTenant()->getCode().'_'.parent::generateKey($meta);
     }
 }

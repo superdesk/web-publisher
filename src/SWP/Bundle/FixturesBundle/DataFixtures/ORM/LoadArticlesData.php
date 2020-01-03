@@ -23,14 +23,15 @@ use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\AuthorMedia;
-use SWP\Bundle\ContentBundle\Model\RelatedArticle;
-use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
+use SWP\Bundle\ContentBundle\Model\RelatedArticle;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\FixturesBundle\Faker\Provider\ArticleDataProvider;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
+use SWP\Component\Bridge\Model\Rendition;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterface
@@ -309,7 +310,7 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                     $articleMedia->setMimetype('image/jpeg');
                     $manager->persist($articleMedia);
 
-                    $randNumber = rand(1, 9);
+                    $randNumber = random_int(1, 9);
                     /* @var $rendition Rendition */
                     foreach ($renditions as $key => $rendition) {
                         if ('original' === $key) {
@@ -321,7 +322,7 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                             $fakeImage = '/tmp/'.$randNumber.'org'.$key.'.jpg';
                         }
 
-                        $mediaId = uniqid();
+                        $mediaId = uniqid('', true);
                         $uploadedFile = new UploadedFile(
                             $fakeImage,
                             $mediaId,
@@ -542,9 +543,9 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
 
             $article->addRelatedArticle($related1);
             $article->addRelatedArticle($related2);
-
-            $manager->flush();
         }
+
+        $manager->flush();
     }
 
     private function createPackage(array $articleData): PackageInterface
