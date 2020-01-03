@@ -58,7 +58,7 @@ class AssetLocationResolver implements AssetLocationResolverInterface
 
     private function getAwsUrl(FileInterface $file): string
     {
-        return  $this->awsClient->getObjectUrl($this->awsBucket, $this->awsPrefix.DIRECTORY_SEPARATOR.$this->getMediaBasePath().DIRECTORY_SEPARATOR.$file->getAssetId().'.'.$file->getFileExtension());
+        return  $this->awsClient->getObjectUrl($this->awsBucket, ($this->awsPrefix ?? $this->awsPrefix.DIRECTORY_SEPARATOR).$this->getMediaBasePath().DIRECTORY_SEPARATOR.$file->getAssetId().'.'.$file->getFileExtension());
     }
 
     private function getLocalUrl(FileInterface $file): string

@@ -36,7 +36,7 @@ class LifetimeCacheStrategy extends BaseLifetimeCacheStrategy
      */
     public function generateKey($annotation, $value)
     {
-        $annotation = $this->tenantContext->getTenant()->getCode().'__'.md5($annotation);
+        $annotation = $this->tenantContext->getTenant()->getCode().'__'.sha1($annotation);
 
         return parent::generateKey($annotation, $value);
     }
