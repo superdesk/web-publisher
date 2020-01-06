@@ -39,7 +39,7 @@ use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use SWP\Component\Bridge\Events;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Lock\Factory;
+use Symfony\Component\Lock\LockFactory;
 use function unserialize;
 
 class ContentPushConsumer implements ConsumerInterface
@@ -63,7 +63,7 @@ class ContentPushConsumer implements ConsumerInterface
     protected $packageHydrator;
 
     public function __construct(
-        Factory $lockFactory,
+        LockFactory $lockFactory,
         LoggerInterface $logger,
         PackageRepository $packageRepository,
         EventDispatcherInterface $eventDispatcher,
@@ -102,7 +102,10 @@ class ContentPushConsumer implements ConsumerInterface
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
             $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
 
-            return ConsumerInterface::MSG_REJECT;
+            $cacheDriver = $this->packageObjectManager->getConfiguration()->getMetadataCacheImpl();
+            $cacheDriver->flushAll();
+
+            throw $e;
         } catch (DBALException | ORMException $e) {
             $this->logException($e, $package);
 

@@ -545,6 +545,9 @@
     "phar-io/version": {
         "version": "2.0.1"
     },
+    "php": {
+        "version": "7.3"
+    },
     "php-amqplib/php-amqplib": {
         "version": "v2.9.1"
     },
@@ -595,6 +598,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpseclib/phpseclib": {
+        "version": "2.0.23"
     },
     "phpspec/php-diff": {
         "version": "v1.1.0"
@@ -841,7 +847,7 @@
         ]
     },
     "symfony/contracts": {
-        "version": "v1.0.2"
+        "version": "v1.1.0"
     },
     "symfony/css-selector": {
         "version": "v4.2.7"
@@ -872,6 +878,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.2.7"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.1"
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.7"
@@ -921,6 +930,12 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client": {
+        "version": "v5.0.1"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.0.1"
     },
     "symfony/http-foundation": {
         "version": "v4.2.7"

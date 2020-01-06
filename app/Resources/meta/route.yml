@@ -11,6 +11,9 @@ properties:
     name:
         description: "Route name"
         type: text
+    description:
+        description: "Route description"
+        type: text
     slug:
         description: "Route slug"
         type: text
@@ -23,4 +26,7 @@ properties:
     paywallSecured:
         description: "Is secured by the paywall?"
         type: bool
+    parent:
+        description: "Parent route meta"
+        type: meta
 to_string: path

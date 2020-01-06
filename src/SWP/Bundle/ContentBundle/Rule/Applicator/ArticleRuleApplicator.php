@@ -107,18 +107,18 @@ final class ArticleRuleApplicator extends AbstractRuleApplicator
     private function validateRuleConfiguration(array $configuration)
     {
         $resolver = new OptionsResolver();
-        $this->configureOptions($resolver);
+        $this->configureOptions($resolver, $configuration);
 
         return $this->resolveConfig($resolver, $configuration);
     }
 
-    private function configureOptions(OptionsResolver $resolver)
+    private function configureOptions(OptionsResolver $resolver, array $configuration)
     {
         $resolver->setDefaults([
             $this->supportedKeys[1] => null,
             $this->supportedKeys[2] => null,
         ]);
-        $resolver->setDefined($this->supportedKeys[0]);
+        $resolver->setDefined(array_keys($configuration));
     }
 
     private function isAllowedType(RuleSubjectInterface $subject)

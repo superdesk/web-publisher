@@ -222,7 +222,6 @@ services:
             - "@swp_multi_tenancy.tenant_context"
             - "@swp.repository.tenant"
             - "@event_dispatcher"
-            - "@security.helper"
 
     swp.security.preview_token_authenticator:
         class: SWP\Bundle\CoreBundle\Security\Authenticator\PreviewTokenAuthenticator
@@ -438,15 +437,6 @@ services:
           - '@swp.repository.content_list'
           - '@swp.repository.content_list_item'
           - '@swp.service.content_list'
-
-    swp_core.listener.canceled_package:
-        class: SWP\Bundle\CoreBundle\EventListener\CanceledPackageListener
-        arguments:
-            - '@event_dispatcher'
-            - '@swp.repository.article'
-            - '@swp.object_manager.article'
-        tags:
-            - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onCanceled, priority: 10 }
 
     swp_core.listener.updated_package:
         class: SWP\Bundle\CoreBundle\EventListener\UpdatedPackageListener

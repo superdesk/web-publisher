@@ -68,4 +68,7 @@ properties:
     seoMetadata:
         description: "SEO metadata"
         type: Meta
+    place:
+        description: "The first place from the article's metadata"
+        type: array
 to_string: title
