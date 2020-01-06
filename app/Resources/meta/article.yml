@@ -5,6 +5,9 @@ properties:
     title:
         description: "Article title"
         type: text
+    familyId:
+        description: "Article family ID"
+        type: text
     slug:
         description: "Article slug used for url"
         type: text
