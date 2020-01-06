@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Model;
 
+use SWP\Component\Common\ArrayHelper;
 use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -171,6 +172,9 @@ class ContentList implements ContentListInterface
      */
     public function setFilters(array $filters)
     {
+        if (isset($filters['metadata'])) {
+            $filters['metadata'] = ArrayHelper::sortNestedArrayAssocAlphabeticallyByKey($filters['metadata']);
+        }
         $this->filters = $filters;
     }
 

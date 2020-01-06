@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Model;
 
+use DateTime;
 use Gedmo\Sortable\Sortable;
 use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
@@ -57,7 +58,7 @@ class ContentListItem implements ContentListItemInterface, Sortable
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
         $this->position = 0;
     }
 

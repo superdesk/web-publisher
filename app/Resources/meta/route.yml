@@ -26,4 +26,7 @@ properties:
     paywallSecured:
         description: "Is secured by the paywall?"
         type: bool
+    parent:
+        description: "Parent route meta"
+        type: meta
 to_string: path

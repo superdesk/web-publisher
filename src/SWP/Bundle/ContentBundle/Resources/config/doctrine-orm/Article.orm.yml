@@ -12,7 +12,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         soft_deleteable:
             field_name: deletedAt
             time_aware: false
-        loggable: true
     fields:
         slug:
             type: string

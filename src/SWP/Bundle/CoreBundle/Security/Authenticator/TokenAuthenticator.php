@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
+use SWP\Bundle\CoreBundle\Model\User;
+use Symfony\Component\HttpFoundation\Response;
 use function stripslashes;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
@@ -26,7 +28,6 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -35,62 +36,34 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    /**
-     * @var ApiKeyRepository
-     */
     protected $apiKeyRepository;
 
-    /**
-     * @var TenantContextInterface
-     */
     protected $tenantContext;
 
-    /**
-     * @var TenantRepositoryInterface
-     */
     protected $tenantRepository;
 
-    /**
-     * @var EventDispatcherInterface
-     */
     protected $eventDispatcher;
-
-    /**
-     * @var Security
-     */
-    protected $security;
 
     public function __construct(
         ApiKeyRepository $apiKeyRepository,
         TenantContextInterface $tenantContext,
         TenantRepositoryInterface $tenantRepository,
-        EventDispatcherInterface $eventDispatcher,
-        Security $security
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->apiKeyRepository = $apiKeyRepository;
         $this->tenantContext = $tenantContext;
         $this->tenantRepository = $tenantRepository;
         $this->eventDispatcher = $eventDispatcher;
-        $this->security = $security;
     }
 
-    /**
-     * Called on every request. Return whatever credentials you want,
-     * or null to stop authentication.
-     *
-     * {@inheritdoc}
-     */
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): array
     {
         return [
             'token' => $this->getToken($request),
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
@@ -102,7 +75,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
         if (null === $apiKey) {
-            return;
+            return null;
         }
 
         // extend valid time after login
@@ -114,15 +87,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return $user;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         if ($user instanceof CoreUserInterface) {
             $currentOrganization = $this->tenantContext->getTenant()->getOrganization();
             $userOrganization = $user->getOrganization();
-
             if ($currentOrganization->getId() === $userOrganization->getId()) {
                 return true;
             }
@@ -131,67 +100,45 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
+        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         $data = [
-            'status' => 403,
+            'status' => Response::HTTP_FORBIDDEN,
             'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
         ];
 
-        return new JsonResponse($data, 403);
+        return new JsonResponse($data, Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): Response
     {
         $data = [
-            'status' => 401,
+            'status' => Response::HTTP_UNAUTHORIZED,
             'message' => 'Authentication Required',
         ];
 
-        return new JsonResponse($data, 401);
+        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsRememberMe()
+    public function supportsRememberMe(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
-        if ($this->security->getUser() || !$token = $this->getToken($request)) {
-            return false;
-        }
+        $token = $this->getToken($request);
 
-        return true;
+        return $token && false === strpos($token, 'Bearer ');
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return string
-     */
-    private function getToken(Request $request)
+    private function getToken(Request $request): ?string
     {
-        // Check query first in case Authorization header used for Basic Auth
-        return $request->query->get('auth_token', $request->headers->get('Authorization'));
+        return $request->query->get('auth_token', $request->headers->get('Authorization', null));
     }
 }

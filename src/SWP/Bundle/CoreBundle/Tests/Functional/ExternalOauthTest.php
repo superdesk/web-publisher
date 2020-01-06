@@ -33,7 +33,9 @@ final class ExternalOauthTest extends WebTestCase
 
     private function authorizeWithCode(string $code): Client
     {
-        $client = static::createClient();
+        $client = static::createClient([], [
+            'HTTP_Authorization' => null,
+        ]);
 
         // Initalize and get the parameters
         $client->request('GET', $this->router->generate('connect_oauth_start'));

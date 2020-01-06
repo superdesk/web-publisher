@@ -40,6 +40,21 @@ class ArticleLoaderTest extends WebTestCase
         self::assertContains('my custom field', $result);
     }
 
+    public function testRenderingPlace()
+    {
+        $template = '{% gimmelist article from articles|limit(1) %} {{ article.place.qcode }} - {{ article.place.world_region }}  {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('AUS - Rest Of World', $result);
+    }
+
+    public function testRenderingRouteParent()
+    {
+        $template = '{% gimmelist article from articles with {"route": ["/news/sports"]} %} {{ article.route.parent.name }}  {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertContains('news', $result);
+    }
+
     public function testFilteringByKeyword()
     {
         $template = '{% gimmelist article from articles with {keywords: ["car"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';

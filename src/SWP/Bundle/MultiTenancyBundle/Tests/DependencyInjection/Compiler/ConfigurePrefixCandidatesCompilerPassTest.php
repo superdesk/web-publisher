@@ -73,6 +73,9 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
         $collectingService = new Definition();
         $this->setDefinition('cmf_routing.phpcr_candidates_prefix', $collectingService);
 
+        $pathBuilderService = new Definition();
+        $this->setDefinition('swp_multi_tenancy.path_builder', $pathBuilderService);
+
         $this->compile();
 
         $this->assertContainerBuilderHasService(
