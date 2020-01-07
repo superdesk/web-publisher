@@ -84,18 +84,18 @@ class AddArticleToListListener
         ]);
 
         foreach ($contentLists as $contentList) {
-            $filters = $contentList->getFilters();
-            if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
-                $this->createAndAddItem($article, $contentList);
-
-                continue;
-            }
-
             $item = $this->contentListItemRepository->findItemByArticleAndList(
                 $article,
                 $contentList,
                 ContentListInterface::TYPE_AUTOMATIC
             );
+
+            $filters = $contentList->getFilters();
+            if (null === $item && $this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
+                $this->createAndAddItem($article, $contentList);
+
+                continue;
+            }
 
             if (null !== $item) {
                 $this->contentListItemRepository->remove($item);
