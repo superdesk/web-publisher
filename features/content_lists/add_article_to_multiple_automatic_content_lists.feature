@@ -94,3 +94,27 @@ Feature: Add article to multiple automated content lists
     Then I send a "GET" request to "/api/v2/content/lists/3/items/"
     And the JSON node "total" should be equal to "1"
 
+    When I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "PATCH" request to "/api/v2/content/articles/1" with body:
+     """
+      {
+          "status": "unpublished"
+      }
+     """
+    Then the response status code should be 200
+
+    When I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "PATCH" request to "/api/v2/content/articles/1" with body:
+     """
+      {
+          "status": "published"
+      }
+     """
+    Then the response status code should be 200
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/1/items/"
+    And the JSON node "total" should be equal to "0"
