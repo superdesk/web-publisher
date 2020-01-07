@@ -97,7 +97,7 @@ class AddArticleToListListener
                 continue;
             }
 
-            if (null !== $item) {
+            if (null !== $item && count($filters) > 0 && !$this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
                 $this->contentListItemRepository->remove($item);
                 $contentList->setUpdatedAt(new \DateTime());
             }
