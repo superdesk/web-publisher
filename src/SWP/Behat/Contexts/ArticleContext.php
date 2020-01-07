@@ -60,8 +60,6 @@ final class ArticleContext extends AbstractContext implements Context
         $this->entityManager->flush();
     }
 
-
-
     private function getRoute(string $routeName): RouteInterface
     {
         /** @var RouteInterface $route */
