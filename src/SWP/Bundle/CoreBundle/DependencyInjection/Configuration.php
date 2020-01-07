@@ -15,6 +15,8 @@
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
 use SWP\Bundle\CoreBundle\Factory\PackagePreviewTokenFactory;
+use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
+use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
@@ -115,6 +117,16 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('interface')->defaultValue(PackagePreviewTokenInterface::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(PackagePreviewTokenFactory::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('analytics_report')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(AnalyticsReport::class)->end()
+                                            ->scalarNode('interface')->defaultValue(AnalyticsReportInterface::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

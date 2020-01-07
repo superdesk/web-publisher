@@ -1,0 +1,32 @@
+SWP\Bundle\CoreBundle\Model\AnalyticsReport:
+    type: entity
+    table: swp_analytics_report
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        assetId:
+            type: string
+        fileExtension:
+            type: string
+        status:
+            type: string
+        tenantCode:
+            type: string
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        user:
+            targetEntity: SWP\Bundle\CoreBundle\Model\UserInterface
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    uniqueConstraints:
+        analytics_report_asset_id:
+            columns: [ asset_id, tenant_code ]

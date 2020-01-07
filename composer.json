@@ -113,6 +113,8 @@
     "symfony/flex": "^1.4",
     "symfony/framework-bundle": "^4.3",
     "symfony/lock": "^4.3",
+    "symfony/mailer": "^4.3",
+    "symfony/messenger": "^4.3",
     "symfony/monolog-bundle": "~3.4",
     "symfony/routing": "^4.3",
     "symfony/serializer": "^4.3.2",
