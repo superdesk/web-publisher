@@ -29,3 +29,5 @@ SWP\Bundle\CoreBundle\Model\AnalyticsReport:
                 absolute: true
                 parameters:
                     fileName: expr(object.getAssetId())
+            exclusion:
+                exclude_if: expr(object.getStatus() !== "completed")

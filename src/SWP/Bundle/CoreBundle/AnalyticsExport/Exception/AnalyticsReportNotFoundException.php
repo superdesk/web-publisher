@@ -14,18 +14,12 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\AnalyticsExport;
+namespace SWP\Bundle\CoreBundle\AnalyticsExport\Exception;
 
-class CsvFileWriter
+class AnalyticsReportNotFoundException extends \RuntimeException
 {
-    public function write(string $fileSourcePath, array $data): void
+    public function __construct($message = null, \Exception $previous = null, $code = 0)
     {
-        $fp = fopen($fileSourcePath, 'w');
-
-        foreach ($data as $fields) {
-            fputcsv($fp, $fields);
-        }
-
-        fclose($fp);
+        parent::__construct(404, $message, $previous, [], $code);
     }
 }

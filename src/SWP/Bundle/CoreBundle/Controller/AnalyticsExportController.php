@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2020 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2020 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\Operation;
@@ -28,17 +40,23 @@ use Symfony\Component\Routing\Annotation\Route;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
+use SWP\Component\Common\Model\DateTime as PublisherDateTime;
 
 class AnalyticsExportController extends AbstractController
 {
+    /** @var Cache */
     protected $cacheProvider;
 
+    /** @var RepositoryInterface */
     protected $analyticsReportRepository;
 
+    /** @var Filesystem */
     protected $filesystem;
 
+    /** @var CsvReportFileLocationResolver */
     protected $csvReportFileLocationResolver;
 
+    /** @var CachedTenantContextInterface */
     protected $cachedTenantContext;
 
     public function __construct(
@@ -57,8 +75,26 @@ class AnalyticsExportController extends AbstractController
 
     /**
      * @Operation(
-     *     tags={"analytics"},
-     *     summary="Export analytics data"
+     *     tags={"export"},
+     *     summary="Export analytics data",
+     *     @SWG\Parameter(
+     *         name="start",
+     *         in="query",
+     *         description="Export start date, e.g. 20150101",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="end",
+     *         in="query",
+     *         description="Export end date, e.g. 20160101",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Returned on success."
+     *     )
      * )
      *
      * @Route("/api/{version}/export/analytics", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
@@ -76,7 +112,8 @@ class AnalyticsExportController extends AbstractController
         $end = new DateTime($request->query->get('end', '-30 days'));
         $tenantCode = $this->cachedTenantContext->getTenant()->getCode();
         $userEmail = $currentlyLoggedInUser->getEmail();
-        $fileName = 'analytics-'.date('Y-m-d-H:i:s').'.csv';
+        $now = PublisherDateTime::getCurrentDateTime();
+        $fileName = 'analytics-'.$now->format('Y-m-d-H:i:s').'.csv';
 
         $analyticsReport = new AnalyticsReport();
         $analyticsReport->setAssetId($fileName);

@@ -1,16 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2020 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2020 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\CoreBundle\AnalyticsExport;
 
 use DateTime;
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
-use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
+use RuntimeException;
+use SWP\Bundle\CoreBundle\AnalyticsExport\Exception\AnalyticsReportNotFoundException;
+use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
-use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Throwable;
 
 final class ExportAnalyticsHandler implements MessageHandlerInterface
 {
@@ -32,13 +49,21 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
     /** @var RepositoryInterface */
     private $analyticsReportRepository;
 
+    /** @var CachedTenantContextInterface */
+    private $cachedTenantContext;
+
+    /** @var TenantRepositoryInterface */
+    private $tenantRepository;
+
     public function __construct(
         RepositoryManagerInterface $elasticaRepositoryManager,
         string $cacheDir,
         ReportMailer $mailer,
         ReportFileUploader $reportFileUploader,
         CsvFileWriter $csvFileWriter,
-        RepositoryInterface $analyticsReportRepository
+        RepositoryInterface $analyticsReportRepository,
+        CachedTenantContextInterface $cachedTenantContext,
+        TenantRepositoryInterface $tenantRepository
     ) {
         $this->elasticaRepositoryManager = $elasticaRepositoryManager;
         $this->cacheDir = $cacheDir;
@@ -46,45 +71,60 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
         $this->reportFileUploader = $reportFileUploader;
         $this->csvFileWriter = $csvFileWriter;
         $this->analyticsReportRepository = $analyticsReportRepository;
+        $this->cachedTenantContext = $cachedTenantContext;
+        $this->tenantRepository = $tenantRepository;
     }
 
     public function __invoke(ExportAnalytics $exportAnalytics)
     {
-        $criteria = Criteria::fromQueryParameters(
-            '',
-            [
-                'sort' => ['articleStatistics.pageViewsNumber' => 'desc'],
-                'publishedBefore' => $exportAnalytics->getEnd(),
-                'publishedAfter' => $exportAnalytics->getStart(),
-                'tenantCode' => $exportAnalytics->getTenantCode(),
-            ]
-        );
-
-        //$this->tenantContext->setTenant($this->packageObjectManager->findOneBy(Tenant::class, $exportAnalytics->getTenantCode())));
-
-        $articleRepository = $this->elasticaRepositoryManager->getRepository(Article::class);
-
-        $articles = $articleRepository->findByCriteria($criteria);
-        $total = $articles->getTotalHits();
-        $articles = $articles->getResults(0, $total);
-        $data = $this->objectsToArray($articles->toArray());
-
         $fileName = $exportAnalytics->getFileName();
-        $path = $this->cacheDir.'/'.$fileName;
-
-        $this->csvFileWriter->write($path, $data);
 
         /** @var AnalyticsReportInterface $analyticsReport */
         $analyticsReport = $this->analyticsReportRepository->findOneBy(['assetId' => $fileName]);
 
-        $url = $this->reportFileUploader->upload($analyticsReport, $path);
+        if (null === $analyticsReport) {
+            throw new AnalyticsReportNotFoundException("Analytics report $fileName not found.");
+        }
 
-        $analyticsReport->setStatus(AnalyticsReportInterface::STATUS_COMPLETED);
+        try {
+            $tenantCode = $exportAnalytics->getTenantCode();
+            $criteria = Criteria::fromQueryParameters(
+                '',
+                [
+                    'sort' => ['articleStatistics.pageViewsNumber' => 'desc'],
+                    'publishedBefore' => $exportAnalytics->getEnd(),
+                    'publishedAfter' => $exportAnalytics->getStart(),
+                    'tenantCode' => $tenantCode,
+                ]
+            );
+
+            $tenant = $this->tenantRepository->findOneBy(['code' => $tenantCode]);
+            if (null === $tenant) {
+                throw new RuntimeException("Tenant with code $tenantCode not found");
+            }
+
+            $this->cachedTenantContext->setTenant($tenant);
+
+            $articleRepository = $this->elasticaRepositoryManager->getRepository(Article::class);
+
+            $articles = $articleRepository->findByCriteria($criteria);
+            $total = $articles->getTotalHits();
+            $articles = $articles->getResults(0, $total);
+            $data = $this->objectsToArray($articles->toArray());
+            $path = $this->cacheDir.'/'.$fileName;
+
+            $this->csvFileWriter->write($path, $data);
+
+            $url = $this->reportFileUploader->upload($analyticsReport, $path);
+
+            $this->mailer->sendReportReadyEmailNotification($exportAnalytics->getUserEmail(), $url);
+            $analyticsReport->setStatus(AnalyticsReportInterface::STATUS_COMPLETED);
+        } catch (Throwable $e) {
+            $analyticsReport->setStatus(AnalyticsReportInterface::STATUS_ERRORED);
+        }
+
         $analyticsReport->setUpdatedAt(new DateTime());
-
         $this->analyticsReportRepository->flush();
-
-        $this->mailer->sendReportReadyEmailNotification($exportAnalytics->getUserEmail(), $url);
     }
 
     private function objectsToArray(array $rows): array

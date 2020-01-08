@@ -36,5 +36,5 @@ if ($_SERVER['APP_DEBUG']) {
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $application = new Application($kernel);
-$application->getDefinition()->addOption(new InputOption('--tenant', '-t', InputOption::VALUE_REQUIRED, 'The tenant code'));
+$application->getDefinition()->addOption(new InputOption('--tenant', null, InputOption::VALUE_REQUIRED, 'The tenant code'));
 $application->run($input);
