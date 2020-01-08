@@ -29,7 +29,7 @@ class AssetLocationResolver implements AssetLocationResolverInterface
 
     private $localDirectory;
 
-    public function __construct(string $mainAdapter, string $awsBucket, ?string $awsPrefix, S3Client $awsClient, string $localDirectory)
+    public function __construct(string $mainAdapter, string $awsBucket = null, string $awsPrefix = null, S3Client $awsClient = null, string $localDirectory = null)
     {
         $this->mainAdapter = $mainAdapter;
         $this->awsBucket = $awsBucket;
@@ -63,6 +63,6 @@ class AssetLocationResolver implements AssetLocationResolverInterface
 
     private function getLocalUrl(FileInterface $file): string
     {
-        return  $this->localDirectory.DIRECTORY_SEPARATOR.$this->getMediaBasePath().DIRECTORY_SEPARATOR.$file->getAssetId().'.'.$file->getFileExtension();
+        return  ($this->localDirectory ? $this->localDirectory.DIRECTORY_SEPARATOR : null).$this->getMediaBasePath().DIRECTORY_SEPARATOR.$file->getAssetId().'.'.$file->getFileExtension();
     }
 }
