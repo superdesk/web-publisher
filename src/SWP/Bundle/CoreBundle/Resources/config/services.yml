@@ -181,6 +181,7 @@ services:
             - '@swp.repository.content_list_item'
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
+            - { name: kernel.event_listener, event: swp.article.post_update, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToBucket }
 
     SWP\Bundle\CoreBundle\EventSubscriber\HandleArticleChangeSubscriber:
