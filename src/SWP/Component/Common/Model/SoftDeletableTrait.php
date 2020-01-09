@@ -15,32 +15,25 @@ namespace SWP\Component\Common\Model;
 
 trait SoftDeletableTrait
 {
-    /**
-     * @var \DateTime|null
-     */
     protected $deletedAt;
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDeletedAt()
+    public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
 
-    /**
-     * @param \DateTime|null $deletedAt
-     */
-    public function setDeletedAt(\DateTime $deletedAt = null)
+    public function setDeletedAt(\DateTime $deletedAt = null): void
     {
         $this->deletedAt = $deletedAt;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDeleted()
+    public function isDeleted(): bool
     {
         return null !== $this->deletedAt;
+    }
+
+    public function restore(): void
+    {
+        $this->deletedAt = null;
     }
 }

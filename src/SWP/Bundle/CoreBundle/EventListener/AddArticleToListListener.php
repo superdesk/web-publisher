@@ -123,11 +123,11 @@ class AddArticleToListListener
         foreach ($buckets as $bucket) {
             $item = $this->contentListItemRepository->findItemByArticleAndList($article, $bucket);
 
-            if ($article->isPublishedFBIA() && null === $item) {
+            if ((null === $item) && $article->isPublishedFBIA()) {
                 $this->createAndAddItem($article, $bucket);
             }
 
-            if (!$article->isPublishedFBIA() && null !== $item && $item->getContentList() === $bucket) {
+            if ((null !== $item) && !$article->isPublishedFBIA() && $item->getContentList() === $bucket) {
                 $this->listRepository->remove($item);
                 $bucket->setUpdatedAt(new \DateTime());
             }
