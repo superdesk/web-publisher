@@ -73,7 +73,8 @@ final class RemoveItemsListener
             );
         }
 
-        if ($contentList->getFilters() !== $event->getArgument('filters')) {
+        if (($event->getArgument('previousLimit') !== $contentList->getLimit())
+            || ($contentList->getFilters() !== $event->getArgument('filters'))) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
             $filters = $contentList->getFilters();
             $filters = $this->determineLimit($contentList, $filters);
