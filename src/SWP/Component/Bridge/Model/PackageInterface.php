@@ -41,8 +41,4 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
     public function getRelatedItems(): Collection;
 
     public function setRelatedItems(Collection $relatedItems): void;
-
-    public function getFeatureMedia(): ?ItemInterface;
-
-    public function setFeatureMedia(ItemInterface $featureMedia): void;
 }

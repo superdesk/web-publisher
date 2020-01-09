@@ -131,7 +131,6 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         $imageElement->setAttribute('data-rendition-name', $this->getDefaultImageRendition());
         $imageElement->setAttribute('width', (string) $rendition->getWidth());
         $imageElement->setAttribute('height', (string) $rendition->getHeight());
-        $imageElement->setAttribute('loading', 'lazy');
 
         if (null !== $altAttribute && '' !== $altAttribute->nodeValue) {
             $imageElement->setAttribute('alt', $altAttribute->nodeValue);

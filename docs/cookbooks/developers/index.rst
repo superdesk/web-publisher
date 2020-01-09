@@ -12,4 +12,3 @@ Technical Cookbooks
    output_channels_adapters
    websocket
    paywall
-   geoip

@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: SWP\Component\GeoIP
-        psr4_prefix: SWP\Component\GeoIP
-        src_path: .

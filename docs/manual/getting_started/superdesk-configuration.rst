@@ -93,7 +93,7 @@ So we can configure only one *subscriber* with one website, or more subscribers 
    :alt: Subscriber settings
    :align: center
 
-Explanation of options (Publisher-desired values are marked with \*):
+Explanation of options (Publisher-desired values are marked with *):
 
 - Status: active or not
 - Name

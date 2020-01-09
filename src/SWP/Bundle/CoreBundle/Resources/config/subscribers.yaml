@@ -1,9 +1,0 @@
-services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-    public: false
-
-  SWP\Bundle\CoreBundle\EventSubscriber\GeoIPSubscriber:
-      arguments:
-          $isGeoIPEnabled: '%env(bool:GEO_IP_ENABLED)%'

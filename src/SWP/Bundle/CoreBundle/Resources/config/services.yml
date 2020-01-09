@@ -398,11 +398,6 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
-    SWP\Bundle\CoreBundle\Serializer\ImageRenditionSerializationSubscriber:
-        autowire: true
-        tags:
-            - { name: jms_serializer.event_subscriber }
-
     SWP\Bundle\CoreBundle\Serializer\ContentListAwareSerializationSubscriber:
         arguments:
             - '@swp.repository.content_list_item'
@@ -765,6 +760,3 @@ services:
 
     SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface:
         alias: SWP\Bundle\CoreBundle\Hydrator\PackageHydrator
-
-    SWP\Bundle\CoreBundle\GeoIp\CachedGeoIpChecker:
-        autowire: true

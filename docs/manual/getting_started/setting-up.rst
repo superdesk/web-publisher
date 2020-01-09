@@ -1,5 +1,5 @@
-Setting up a new template project
-=================================
+Setting up a new project
+========================
 
 Demo Superdesk Publisher themes use Gulp workflow automation (http://gulpjs.com/). 
 

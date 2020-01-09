@@ -4,7 +4,7 @@ WebSocket Communication
 There is a WebSocket server where the push notifications can be sent to the connected clients. These push notifications
 are used to refresh the views or in other words, keeps everything synchronized.
 
-In the background, the WebSocket server is using AMQP queue (`WAMP sub-protocol and PubSub patterns<http://socketo.me/docs/wamp>`_)
+In the background, the WebSocket server is using ZeroMQ queue (`WAMP sub-protocol and PubSub patterns<http://socketo.me/docs/wamp>`_)
 and from there it sends everything to clients. There is no communication from client to server, all changes are handled via API.
 For example, if the new content is pushed to Publisher, it is immediately sent to all the clients, meaning that the new content has been delivered.
 

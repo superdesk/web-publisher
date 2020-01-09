@@ -20,7 +20,6 @@ services:
             - '@doctrine'
             - '@SWP\Bundle\ContentBundle\Routing\Candidates\Candidates'
             - '%cmf_routing.dynamic.persistence.orm.route_class%'
-            - '@swp.repository.redirect_route'
         calls:
             - [setManagerName, ['%cmf_routing.dynamic.persistence.orm.manager_name%']]
             - [setRouteCollectionLimit, ['%cmf_routing.route_collection_limit%']]

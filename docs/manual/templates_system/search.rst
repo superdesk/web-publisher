@@ -35,7 +35,6 @@ Example search template which loads search and its results when filtered by crit
             authors: app.request.get('author', []),
             statuses: app.request.get('status', []),
             metadata: app.request.get('metadata', []),
-            keywords: app.request.get('keywords', []),
         } %}
             <h4>{{ article.title }}</h4>
             <p>{{ article.lead }}</p>
@@ -86,6 +85,4 @@ Based on the above template.
 | statuses        |     An array of statues    |status[]=new&status[]=published      | status[]=new&status[]=published    |
 +-----------------+----------------------------+-------------------------------------+------------------------------------+
 | metadata        |     An array metadata      |metadata[located]=Sydney             | metadata[<field>]=<value>          |
-+-----------------+----------------------------+-------------------------------------+------------------------------------+
-| keywords        |     An array of keywords   |  keywords[]=Joe&keywords[]=Doe      |keywords[]=<key1>&keywords[]=<key2> |
 +-----------------+----------------------------+-------------------------------------+------------------------------------+

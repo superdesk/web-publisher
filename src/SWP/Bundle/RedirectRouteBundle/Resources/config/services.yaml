@@ -1,9 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
-
-    SWP\Bundle\RedirectRouteBundle\:
-        resource: '../../*'
-        exclude: '../../{DependencyInjection,Model}'

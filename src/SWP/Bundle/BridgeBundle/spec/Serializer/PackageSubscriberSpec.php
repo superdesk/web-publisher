@@ -41,10 +41,6 @@ final class PackageSubscriberSpec extends ObjectBehavior
                 'event' => 'serializer.post_deserialize',
                 'method' => 'onPostDeserialize',
             ],
-            [
-                'event' => 'serializer.pre_serialize',
-                'method' => 'onPreSerialize',
-            ],
         ]);
     }
 

@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: SWP\Component\Archiver
-        psr4_prefix: SWP\Component\Archiver
-        src_path: .

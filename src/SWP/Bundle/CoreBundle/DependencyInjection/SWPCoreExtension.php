@@ -45,7 +45,6 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
         $loader->load('commands.yml');
         $loader->load('controllers.yaml');
         $loader->load('consumers.yml');
-        $loader->load('subscribers.yaml');
 
         $this->loadDeviceListener($config, $loader);
 
