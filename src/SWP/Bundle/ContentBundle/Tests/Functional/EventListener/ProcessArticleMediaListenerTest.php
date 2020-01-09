@@ -100,11 +100,11 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $item));
 
         $embed1 = <<<'EOT'
-<!-- EMBED START Image {id: "embedded11331114891"} --> <figure><img src="/uploads/swp/media/58512be6c3a5be49fdca1178.jpeg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" data-rendition-name="original" width="1200" height="797" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded11331114891"} -->
+<!-- EMBED START Image {id: "embedded11331114891"} --> <figure><img src="/uploads/swp/media/58512be6c3a5be49fdca1178.jpeg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" data-rendition-name="original" width="1200" height="797" loading="lazy" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded11331114891"} -->
 EOT;
 
         $embed2 = <<<'EOT'
-<!-- EMBED START Image {id: "embedded5366428123"} --> <figure><img src="/uploads/swp/media/58512be4c3a5be49fdca1168.jpeg" data-media-id="embedded5366428123" data-image-id="58512be4c3a5be49fdca1168" data-rendition-name="original" width="1200" height="900" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded5366428123"} -->
+<!-- EMBED START Image {id: "embedded5366428123"} --> <figure><img src="/uploads/swp/media/58512be4c3a5be49fdca1168.jpeg" data-media-id="embedded5366428123" data-image-id="58512be4c3a5be49fdca1168" data-rendition-name="original" width="1200" height="900" loading="lazy" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded5366428123"} -->
 EOT;
         self::assertContains($embed1, $article->getBody());
         self::assertContains($embed2, $article->getBody());

@@ -6,6 +6,7 @@ parameters:
     env(FS_AWS_S3_REGION): ''
     env(FS_AWS_S3_KEY): ''
     env(FS_AWS_S3_SECRET): ''
+    env(FS_AWS_S3_ENDPOINT): ''
     env(BLACKLISTED_KEYWORDS): '[]'
     env(REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE): false
 
@@ -51,6 +52,8 @@ cmf_routing:
     dynamic:
         route_collection_limit: 100
         route_provider_service_id: swp.provider.route
+        controllers_by_class:
+            Symfony\Cmf\Component\Routing\RedirectRouteInterface: cmf_routing.redirect_controller:redirectAction
         persistence:
             orm:
                 enabled: true
@@ -67,7 +70,7 @@ oneup_flysystem:
     adapters:
         aws_adapter:
             awss3v3:
-                client: Aws\S3\S3Client
+                client: SWP\Bundle\ContentBundle\Factory\S3ClientFactory
                 bucket: '%env(resolve:FS_AWS_S3_BUCKET)%'
                 prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
                 options:

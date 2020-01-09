@@ -1,0 +1,37 @@
+{
+    "name": "swp/archiver",
+    "type": "library",
+    "description": "Gzip, Zip etc. archiver and unarchiver",
+    "keywords": ["gzip", "zip", "publisher", "library", "archiver", "unarchiver"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"AGPL-3.0-only",
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^5.1"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\Archiver\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\Archiver\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1-dev"
+        }
+    }
+}

@@ -32,9 +32,4 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/ContentBundle/config.yml');
     }
-
-    protected function getKernelParameters()
-    {
-        return parent::getKernelParameters();
-    }
 }

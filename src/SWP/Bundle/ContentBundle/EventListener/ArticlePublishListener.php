@@ -33,6 +33,10 @@ final class ArticlePublishListener
     {
         $article = $event->getArticle();
 
+        if (isset($article->getExtra()['dont_update_date'])) {
+            $article->cancelTimestampable();
+        }
+
         if ($article->isPublished()) {
             return;
         }

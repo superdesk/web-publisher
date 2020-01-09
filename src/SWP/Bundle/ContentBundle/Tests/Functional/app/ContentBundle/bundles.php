@@ -41,5 +41,6 @@ return [
     new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
     new SWP\Bundle\MenuBundle\SWPMenuBundle(),
     new SWP\Bundle\SeoBundle\SWPSeoBundle(),
+    new SWP\Bundle\RedirectRouteBundle\SWPRedirectRouteBundle(),
     new SWP\Bundle\ContentBundle\SWPContentBundle(),
 ];
