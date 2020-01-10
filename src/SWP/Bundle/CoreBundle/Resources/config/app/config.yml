@@ -148,7 +148,7 @@ fos_user:
     firewall_name: main
     user_class: SWP\Bundle\CoreBundle\Model\User
     from_email:
-        address: contact@publisher.test
+        address: '%env(FROM_EMAIL)%'
         sender_name: Publisher
     registration:
         confirmation:
