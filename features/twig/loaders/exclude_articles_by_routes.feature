@@ -16,7 +16,7 @@ Feature: Exclude articles by routes
       | Third Test Article   | Politics | published |
       | Health Test Article  | Health   | published |
 
-  Scenario: Render all articles
+  Scenario: Exclude articles by routes
     Given I render a template with content:
      """
      {% gimmelist article from articles %}
@@ -28,10 +28,9 @@ Feature: Exclude articles by routes
     Then rendered template should contain "Third Test Article-3-Politics"
     Then rendered template should contain "Health Test Article-4-Health"
 
-  Scenario: Exclude articles by Politics route
     And I render a template with content:
      """
-     {% gimmelist article from articles without { route: [2] } %}
+     {% gimmelist article from articles without { route: [2] } ignoreContext ['route'] %}
         {{ article.title }}-{{ article.id }}-{{ article.route.name }}
      {% endgimmelist %}
      """
@@ -40,10 +39,9 @@ Feature: Exclude articles by routes
     Then rendered template should not contain "Third Test Article-3-Politics"
     Then rendered template should contain "Health Test Article-4-Health"
 
-  Scenario: Exclude articles by Sports route
     And I render a template with content:
      """
-     {% gimmelist article from articles without { route: [1] } %}
+     {% gimmelist article from articles without { route: [1] } ignoreContext ['route'] %}
         {{ article.title }}-{{ article.id }}-{{ article.route.name }}
      {% endgimmelist %}
      """
@@ -52,10 +50,9 @@ Feature: Exclude articles by routes
     Then rendered template should contain "Third Test Article-3-Politics"
     Then rendered template should contain "Health Test Article-4-Health"
 
-  Scenario: Exclude articles by Health route
     And I render a template with content:
      """
-     {% gimmelist article from articles without { route: [3,4] } %}
+     {% gimmelist article from articles without { route: [2,3] } ignoreContext ['route'] %}
         {{ article.title }}-{{ article.id }}-{{ article.route.name }}
      {% endgimmelist %}
      """
