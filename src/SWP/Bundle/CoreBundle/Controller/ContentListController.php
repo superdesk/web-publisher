@@ -169,6 +169,7 @@ class ContentListController extends Controller
         /** @var ContentListInterface $contentList */
         $contentList = $this->findOr404($id);
         $filters = $contentList->getFilters();
+        $listLimit = $contentList->getLimit();
 
         $form = $form = $this->get('form.factory')->createNamed('', ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
@@ -176,7 +177,7 @@ class ContentListController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('event_dispatcher')->dispatch(
                 ContentListEvents::LIST_CRITERIA_CHANGE,
-                new GenericEvent($contentList, ['filters' => $filters])
+                new GenericEvent($contentList, ['filters' => $filters, 'previousLimit' => $listLimit])
             );
 
             $objectManager->flush();
