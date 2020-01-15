@@ -69,6 +69,8 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
                 l.id = :list 
             AND
                 c.status = :status
+            ORDER BY 
+                cl.position ASC
         ")
             ->setParameters([
                 'list' => $list->getId(),
