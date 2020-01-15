@@ -19,9 +19,9 @@ namespace SWP\Bundle\ContentBundle\Factory\ORM;
 use Psr\Log\LoggerInterface;
 use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\File\FileDownloaderInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
@@ -93,8 +93,7 @@ class MediaFactory implements MediaFactoryInterface
         $originalRendition = $this->findOriginalRendition($item);
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
-        $file = $this->articleMediaAssetProvider->getFile($originalRendition);
-        $articleMedia->setFile($this->getFile($originalRendition, $file));
+        $articleMedia->setFile($this->getFile($originalRendition));
 
         return $articleMedia;
     }
@@ -110,14 +109,14 @@ class MediaFactory implements MediaFactoryInterface
         $originalRendition = $this->findOriginalRendition($item);
         $articleMedia->setMimetype($originalRendition->getMimetype());
         /** @var ImageInterface $image */
-        $image = $this->getFile($originalRendition, $this->articleMediaAssetProvider->getImage($originalRendition));
+        $image = $this->getFile($originalRendition);
         if (!$image instanceof ImageInterface) {
             return $articleMedia;
         }
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $itemRendition) {
-            $image = $this->getFile($itemRendition, $this->articleMediaAssetProvider->getImage($itemRendition));
+            $image = $this->getFile($itemRendition);
             if (null === $image || !$image instanceof ImageInterface) {
                 continue;
             }
@@ -128,9 +127,9 @@ class MediaFactory implements MediaFactoryInterface
         return $articleMedia;
     }
 
-    private function getFile(RenditionInterface $rendition, ?FileInterface $file): ?FileInterface
+    private function getFile(RenditionInterface $rendition): ?FileInterface
     {
-        if (null !== $file) {
+        if (null !== ($file = $this->articleMediaAssetProvider->getImage($rendition))) {
             return $file;
         }
 
@@ -147,21 +146,10 @@ class MediaFactory implements MediaFactoryInterface
     {
         $this->logger->info(\sprintf('Downloading %s for media %s', $url, $media));
         $uploadedFile = $this->fileDownloader->download($url, $media, $mimetype);
-        $file = $this->mediaManager->handleUploadedFile($uploadedFile, $media);
 
-        if ($file instanceof ImageInterface) {
-            [$width, $height] = \getimagesize($uploadedFile->getRealPath());
-            $file->setWidth($width);
-            $file->setHeight($height);
-            $size = \filesize($uploadedFile->getRealPath());
-            $size = $size / 1024;
-            $size = round($size);
-            if (null !== $size) {
-                $file->setLength($size);
-            }
-        }
+        $this->logger->info(\sprintf('Uploading %s for media %s', $url, $media));
 
-        return $file;
+        return $this->mediaManager->handleUploadedFile($uploadedFile, $media);
     }
 
     private function findOriginalRendition(ItemInterface $item): RenditionInterface

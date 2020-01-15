@@ -179,6 +179,7 @@ services:
             - '@swp.matcher.article_criteria'
             - '@event_dispatcher'
             - '@swp.repository.content_list_item'
+            - '@swp.service.content_list'
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.post_update, method: addArticleToList }
