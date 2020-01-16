@@ -93,7 +93,7 @@ class MediaFactory implements MediaFactoryInterface
         $originalRendition = $this->findOriginalRendition($item);
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
-        $articleMedia->setFile($this->getFile($originalRendition));
+        $articleMedia->setFile($this->getFile($originalRendition, $this->articleMediaAssetProvider->getFile($originalRendition)));
 
         return $articleMedia;
     }
@@ -109,14 +109,14 @@ class MediaFactory implements MediaFactoryInterface
         $originalRendition = $this->findOriginalRendition($item);
         $articleMedia->setMimetype($originalRendition->getMimetype());
         /** @var ImageInterface $image */
-        $image = $this->getFile($originalRendition);
+        $image = $this->getFile($originalRendition, $this->articleMediaAssetProvider->getImage($originalRendition));
         if (!$image instanceof ImageInterface) {
             return $articleMedia;
         }
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $itemRendition) {
-            $image = $this->getFile($itemRendition);
+            $image = $this->getFile($itemRendition, $this->articleMediaAssetProvider->getImage($originalRendition));
             if (null === $image || !$image instanceof ImageInterface) {
                 continue;
             }
@@ -127,9 +127,9 @@ class MediaFactory implements MediaFactoryInterface
         return $articleMedia;
     }
 
-    private function getFile(RenditionInterface $rendition): ?FileInterface
+    private function getFile(RenditionInterface $rendition, ?FileInterface $file): ?FileInterface
     {
-        if (null !== ($file = $this->articleMediaAssetProvider->getImage($rendition))) {
+        if (null !== $file) {
             return $file;
         }
 
