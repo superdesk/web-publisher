@@ -19,9 +19,9 @@ namespace SWP\Bundle\ContentBundle\Factory\ORM;
 use Psr\Log\LoggerInterface;
 use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\File\FileDownloaderInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
@@ -93,7 +93,8 @@ class MediaFactory implements MediaFactoryInterface
         $originalRendition = $this->findOriginalRendition($item);
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
-        $articleMedia->setFile($this->getFile($originalRendition, $this->articleMediaAssetProvider->getFile($originalRendition)));
+        $file = $this->articleMediaAssetProvider->getFile($originalRendition);
+        $articleMedia->setFile($this->getFile($originalRendition, $file));
 
         return $articleMedia;
     }
@@ -116,7 +117,7 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $itemRendition) {
-            $image = $this->getFile($itemRendition, $this->articleMediaAssetProvider->getImage($originalRendition));
+            $image = $this->getFile($itemRendition, $this->articleMediaAssetProvider->getImage($itemRendition));
             if (null === $image || !$image instanceof ImageInterface) {
                 continue;
             }
@@ -146,10 +147,21 @@ class MediaFactory implements MediaFactoryInterface
     {
         $this->logger->info(\sprintf('Downloading %s for media %s', $url, $media));
         $uploadedFile = $this->fileDownloader->download($url, $media, $mimetype);
+        $file = $this->mediaManager->handleUploadedFile($uploadedFile, $media);
 
-        $this->logger->info(\sprintf('Uploading %s for media %s', $url, $media));
+        if ($file instanceof ImageInterface) {
+            [$width, $height] = \getimagesize($uploadedFile->getRealPath());
+            $file->setWidth($width);
+            $file->setHeight($height);
+            $size = \filesize($uploadedFile->getRealPath());
+            $size = $size / 1024;
+            $size = round($size);
+            if (null !== $size) {
+                $file->setLength($size);
+            }
+        }
 
-        return $this->mediaManager->handleUploadedFile($uploadedFile, $media);
+        return $file;
     }
 
     private function findOriginalRendition(ItemInterface $item): RenditionInterface
