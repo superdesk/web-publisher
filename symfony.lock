@@ -45,6 +45,9 @@
     "behatch/contexts": {
         "version": "3.2.0"
     },
+    "blackfire/php-sdk": {
+        "version": "v1.21.0"
+    },
     "burgov/key-value-form-bundle": {
         "version": "1.4.3"
     },

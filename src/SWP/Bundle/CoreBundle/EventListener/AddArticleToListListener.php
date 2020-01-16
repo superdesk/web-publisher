@@ -33,29 +33,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AddArticleToListListener
 {
-    /**
-     * @var ContentListRepositoryInterface
-     */
     private $listRepository;
 
-    /**
-     * @var FactoryInterface
-     */
     private $listItemFactory;
 
-    /**
-     * @var ArticleCriteriaMatcherInterface
-     */
     private $articleCriteriaMatcher;
 
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * @var ContentListItemRepositoryInterface
-     */
     private $contentListItemRepository;
 
     public function __construct(

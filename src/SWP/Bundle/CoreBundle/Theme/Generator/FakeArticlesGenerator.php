@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Generator;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Faker;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
@@ -29,7 +30,6 @@ use SWP\Bundle\CoreBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
-use Faker;
 use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -74,14 +74,6 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
 
     /**
      * FakeArticlesGenerator constructor.
-     *
-     * @param ArticleFactoryInterface    $articleFactory
-     * @param MediaManagerInterface      $mediaManager
-     * @param MediaFactoryInterface      $articleMediaFactory
-     * @param ArticleRepositoryInterface $articleRepository
-     * @param FactoryInterface           $articleStatisticsFactory
-     * @param FactoryInterface           $packageFactory
-     * @param FactoryInterface           $itemFactory
      */
     public function __construct(
         ArticleFactoryInterface $articleFactory,
@@ -167,11 +159,6 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
         return $articles;
     }
 
-    /**
-     * @param ArticleInterface $article
-     *
-     * @return ArticleStatisticsInterface
-     */
     protected function createArticleStatistics(ArticleInterface $article): ArticleStatisticsInterface
     {
         /** @var ArticleStatisticsInterface $articleStatistics */
@@ -183,24 +170,17 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
         return $articleStatistics;
     }
 
-    /**
-     * @param ArticleInterface $article
-     *
-     * @return Collection
-     */
     protected function createArticleMedia(ArticleInterface $article): Collection
     {
         $mediaId = \uniqid('', false);
-        $faker = Faker\Factory::create();
-        $fakeImage = $faker->image(sys_get_temp_dir(), 800, 800, 'cats', true, true, $article->getSlug());
-        if (!is_string($fakeImage)) {
-            $im = imagecreatetruecolor(800, 800);
-            $textColor = imagecolorallocate($im, 233, 14, 91);
-            imagestring($im, 1, 5, 5, $article->getTitle(), $textColor);
-            $fakeImage = sys_get_temp_dir().'/'.$article->getSlug().'.jpg';
-            imagejpeg($im, $fakeImage);
-            imagedestroy($im);
-        }
+
+        $im = imagecreatetruecolor(800, 800);
+        $textColor = imagecolorallocate($im, 233, 14, 91);
+        imagestring($im, 1, 5, 5, $article->getTitle(), $textColor);
+        $fakeImage = sys_get_temp_dir().'/'.$article->getSlug().'.jpg';
+        imagejpeg($im, $fakeImage);
+        imagedestroy($im);
+
         $uploadedFile = new UploadedFile($fakeImage, $mediaId, 'image/jpeg', filesize($fakeImage), null, true);
         /** @var Image $image */
         $image = $this->mediaManager->handleUploadedFile($uploadedFile, $mediaId);

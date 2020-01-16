@@ -155,10 +155,6 @@ EOT
         }
     }
 
-    /**
-     * @param string                         $tenantCode
-     * @param ThemeAwareTenantInterface|null $tenant
-     */
     private function assertTenantIsFound(string $tenantCode, ThemeAwareTenantInterface $tenant = null)
     {
         if (null === $tenant) {
