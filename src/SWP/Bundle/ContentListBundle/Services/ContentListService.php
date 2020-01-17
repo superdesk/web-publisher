@@ -72,6 +72,7 @@ final class ContentListService implements ContentListServiceInterface
     {
         $items = $this->contentListItemRepository
             ->getSortedItems(new Criteria(['contentList' => $contentList]), [], ['contentList' => $contentList])
+            ->setMaxResults(null)
             ->getQuery()
             ->getResult();
 
