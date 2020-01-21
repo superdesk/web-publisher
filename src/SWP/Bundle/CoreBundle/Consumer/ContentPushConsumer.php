@@ -115,6 +115,7 @@ class ContentPushConsumer implements ConsumerInterface
 
             return ConsumerInterface::MSG_REJECT;
         } finally {
+            $this->reset();
             $lock->release();
         }
     }

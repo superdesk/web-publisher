@@ -221,7 +221,7 @@ class Article implements ArticleInterface
     {
         $this->title = $title;
 
-        if (null !== $this->slug) {
+        if (null !== $this->slug && '' !== $this->slug) {
             $this->setSlug($this->slug);
 
             return;

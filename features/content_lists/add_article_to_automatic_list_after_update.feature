@@ -96,3 +96,20 @@ Feature: Add article to automatic list after update (when criteria are matched)
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/lists/1/items/"
     And the JSON node "total" should be equal to "1"
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v2/content/push" with body:
+    """
+    {
+        "language":"en","headline updated":"Test Package","version":"3","guid":"16e111d5","priority":6,"type":"text",
+        "authors":[{"name":"Tom Doe","role":"editor"}],
+        "byline":"Admin",
+        "subject":[{"name":"lawyer","code":"02002001"}]
+    }
+    """
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/1/items/"
+    And the JSON node "total" should be equal to "1"
