@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AnalyticsExport;
 
-use DateTime;
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use RuntimeException;
 use SWP\Bundle\CoreBundle\AnalyticsExport\Exception\AnalyticsReportNotFoundException;
@@ -24,6 +23,7 @@ use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
+use SWP\Component\Common\Model\DateTime;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -95,6 +95,8 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
                     'publishedBefore' => $exportAnalytics->getEnd(),
                     'publishedAfter' => $exportAnalytics->getStart(),
                     'tenantCode' => $tenantCode,
+                    'routes' => $exportAnalytics->getRouteIds(),
+                    'authors' => $exportAnalytics->getAuthors(),
                 ]
             );
 
@@ -123,7 +125,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
             $analyticsReport->setStatus(AnalyticsReportInterface::STATUS_ERRORED);
         }
 
-        $analyticsReport->setUpdatedAt(new DateTime());
+        $analyticsReport->setUpdatedAt(DateTime::getCurrentDateTime());
         $this->analyticsReportRepository->flush();
     }
 
@@ -138,7 +140,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
             $data[] = [
                 $article->getId(),
                 $article->getPublishedAt()->format('Y-m-d H:i'),
-                $article->getArticleStatistics()->getPageViewsNumber(),
+                null !== $article->getArticleStatistics() ? $article->getArticleStatistics()->getPageViewsNumber() : 0,
                 $article->getRoute()->getName(),
                 $article->getTitle(),
                 implode(', ', $article->getAuthorsNames()),

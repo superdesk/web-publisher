@@ -11,6 +11,7 @@ use Faker\Provider\Lorem;
 use Faker\Provider\Uuid;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
@@ -53,6 +54,10 @@ final class ArticleContext extends AbstractContext implements Context
                 $columns['body'] = implode(' ', Lorem::paragraphs(3));
             }
 
+            if (isset($columns['authors'])) {
+                $columns['authors'] = $this->createAuthors(explode(',', $columns['authors']));
+            }
+
             $this->fillObject($article, $columns);
             $this->entityManager->persist($article);
         }
@@ -76,5 +81,21 @@ final class ArticleContext extends AbstractContext implements Context
         $this->entityManager->flush();
 
         return $route;
+    }
+
+    private function createAuthors(array $authors): array
+    {
+        $articleAuthors = [];
+        foreach ($authors as $author) {
+            $articleAuthor = new ArticleAuthor();
+            $articleAuthor->setName($author);
+            $articleAuthor->setRole('writer');
+            $this->entityManager->persist($articleAuthor);
+            $articleAuthors[] = $articleAuthor;
+        }
+
+        $this->entityManager->flush();
+
+        return $articleAuthors;
     }
 }

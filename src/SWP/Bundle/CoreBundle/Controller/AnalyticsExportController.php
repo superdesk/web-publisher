@@ -112,6 +112,8 @@ class AnalyticsExportController extends AbstractController
         $end = new DateTime($request->query->get('end', '-30 days'));
         $tenantCode = $this->cachedTenantContext->getTenant()->getCode();
         $userEmail = $currentlyLoggedInUser->getEmail();
+        $routeIds = (array) $request->query->get('route', []);
+        $authors = (array) $request->query->get('author', []);
         $now = PublisherDateTime::getCurrentDateTime();
         $fileName = 'analytics-'.$now->format('Y-m-d-H:i:s').'.csv';
 
@@ -121,7 +123,15 @@ class AnalyticsExportController extends AbstractController
         $analyticsReport->setUser($currentlyLoggedInUser);
         $this->analyticsReportRepository->add($analyticsReport);
 
-        $this->dispatchMessage(new ExportAnalytics($start, $end, $tenantCode, $fileName, $userEmail));
+        $this->dispatchMessage(new ExportAnalytics(
+            $start,
+            $end,
+            $tenantCode,
+            $fileName,
+            $userEmail,
+            $routeIds,
+            $authors
+        ));
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
