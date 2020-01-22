@@ -111,7 +111,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
 
             $articles = $articleRepository->findByCriteria($criteria);
             $total = $articles->getTotalHits();
-            $articles = $articles->getResults(0, $total !== 0 ? $total : 1 );
+            $articles = $articles->getResults(0, 0 !== $total ? $total : 1);
             $data = $this->objectsToArray($articles->toArray());
             $path = $this->cacheDir.'/'.$fileName;
 
