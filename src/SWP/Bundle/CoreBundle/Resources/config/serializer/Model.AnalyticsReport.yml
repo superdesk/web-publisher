@@ -22,6 +22,9 @@ SWP\Bundle\CoreBundle\Model\AnalyticsReport:
         user:
             expose: true
             groups: [api]
+        filters:
+            expose: true
+            groups: [api]
     relations:
         -   rel: download
             href:

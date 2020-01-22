@@ -23,6 +23,7 @@ use DateTime;
 use Doctrine\Common\Cache\Cache;
 use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\AnalyticsExport\CsvReportFileLocationResolver;
 use SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
@@ -59,18 +60,23 @@ class AnalyticsExportController extends AbstractController
     /** @var CachedTenantContextInterface */
     protected $cachedTenantContext;
 
+    /** @var RouteRepositoryInterface */
+    protected $routeRepository;
+
     public function __construct(
         Cache $cacheProvider,
         RepositoryInterface $analyticsReportRepository,
         Filesystem $filesystem,
         CsvReportFileLocationResolver $csvReportFileLocationResolver,
-        CachedTenantContextInterface $cachedTenantContext
+        CachedTenantContextInterface $cachedTenantContext,
+        RouteRepositoryInterface $routeRepository
     ) {
         $this->cacheProvider = $cacheProvider;
         $this->analyticsReportRepository = $analyticsReportRepository;
         $this->filesystem = $filesystem;
         $this->csvReportFileLocationResolver = $csvReportFileLocationResolver;
         $this->cachedTenantContext = $cachedTenantContext;
+        $this->routeRepository = $routeRepository;
     }
 
     /**
@@ -140,9 +146,8 @@ class AnalyticsExportController extends AbstractController
         $analyticsReport->setAssetId($fileName);
         $analyticsReport->setFileExtension('csv');
         $analyticsReport->setUser($currentlyLoggedInUser);
-        $this->analyticsReportRepository->add($analyticsReport);
 
-        $this->dispatchMessage(new ExportAnalytics(
+        $exportAnalytics = new ExportAnalytics(
             $start,
             $end,
             $this->cachedTenantContext->getTenant()->getCode(),
@@ -151,7 +156,14 @@ class AnalyticsExportController extends AbstractController
             (array) $request->query->get('route', []),
             (array) $request->query->get('author', []),
             $request->query->get('term', ''),
-        ));
+        );
+
+        $filters = $this->processFilters($exportAnalytics);
+        $analyticsReport->setFilters($filters);
+
+        $this->analyticsReportRepository->add($analyticsReport);
+
+        $this->dispatchMessage($exportAnalytics);
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
@@ -224,5 +236,24 @@ class AnalyticsExportController extends AbstractController
         $response->setContent($this->filesystem->read($this->csvReportFileLocationResolver->getMediaBasePath().'/'.$analyticsReport->getAssetId()));
 
         return $response;
+    }
+
+    private function processFilters(ExportAnalytics $exportAnalytics): array
+    {
+        $filters = $exportAnalytics->getFilters();
+        $routeNames = [];
+        foreach ($exportAnalytics->getRouteIds() as $routeId) {
+            $route = $this->routeRepository->findOneBy(['id' => $routeId]);
+
+            if (null === $route) {
+                continue;
+            }
+
+            $routeNames[] = $route->getName();
+        }
+
+        $filters['routes'] = $routeNames;
+
+        return $filters;
     }
 }

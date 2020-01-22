@@ -103,4 +103,15 @@ class ExportAnalytics
     {
         return $this->term;
     }
+
+    public function getFilters(): array
+    {
+        return [
+            'term' => $this->term,
+            'start' => $this->start,
+            'end' => $this->end,
+            'routes' => array_map('intval', $this->routeIds),
+            'authors' => $this->authors,
+        ];
+    }
 }
