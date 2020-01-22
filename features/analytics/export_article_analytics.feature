@@ -110,3 +110,17 @@ Feature: Export articles analytics report
     And I send a "POST" request to "/api/v2/export/analytics?start=2020-01-20&end=2020-01-23&author[]=Adam"
     Then the response status code should be 201
     And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-13:00:00.csv" should contain 4 rows
+
+    Given the current date time is "2019-03-10 14:00"
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v2/export/analytics?start=2020-01-20&end=2020-01-23&term=second"
+    Then the response status code should be 201
+    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-14:00:00.csv" should contain 3 rows
+
+    Given the current date time is "2019-03-10 15:00"
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v2/export/analytics?start=2020-01-20&end=2020-01-23&term=fake"
+    Then the response status code should be 201
+    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-15:00:00.csv" should contain 2 rows

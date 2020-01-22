@@ -107,6 +107,13 @@ class AnalyticsExportController extends AbstractController
      *         type="array",
      *         @SWG\Items(type="string")
      *     ),
+     *     @SWG\Parameter(
+     *         name="term",
+     *         in="query",
+     *         description="Search phrase",
+     *         required=false,
+     *         type="string"
+     *     ),
      *     @SWG\Response(
      *         response="200",
      *         description="Returned on success."
@@ -126,10 +133,6 @@ class AnalyticsExportController extends AbstractController
 
         $start = new DateTime($request->query->get('start', 'now'));
         $end = new DateTime($request->query->get('end', '-30 days'));
-        $tenantCode = $this->cachedTenantContext->getTenant()->getCode();
-        $userEmail = $currentlyLoggedInUser->getEmail();
-        $routeIds = (array) $request->query->get('route', []);
-        $authors = (array) $request->query->get('author', []);
         $now = PublisherDateTime::getCurrentDateTime();
         $fileName = 'analytics-'.$now->format('Y-m-d-H:i:s').'.csv';
 
@@ -142,11 +145,12 @@ class AnalyticsExportController extends AbstractController
         $this->dispatchMessage(new ExportAnalytics(
             $start,
             $end,
-            $tenantCode,
+            $this->cachedTenantContext->getTenant()->getCode(),
             $fileName,
-            $userEmail,
-            $routeIds,
-            $authors
+            $currentlyLoggedInUser->getEmail(),
+            (array) $request->query->get('route', []),
+            (array) $request->query->get('author', []),
+            $request->query->get('term', ''),
         ));
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));

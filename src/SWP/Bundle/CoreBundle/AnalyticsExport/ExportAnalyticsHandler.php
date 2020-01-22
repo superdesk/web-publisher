@@ -89,7 +89,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
         try {
             $tenantCode = $exportAnalytics->getTenantCode();
             $criteria = Criteria::fromQueryParameters(
-                '',
+                $exportAnalytics->getTerm(),
                 [
                     'sort' => ['articleStatistics.pageViewsNumber' => 'desc'],
                     'publishedBefore' => $exportAnalytics->getEnd(),

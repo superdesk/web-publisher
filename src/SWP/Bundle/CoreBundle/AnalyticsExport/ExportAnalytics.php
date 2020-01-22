@@ -41,6 +41,9 @@ class ExportAnalytics
     /** @var array */
     private $authors;
 
+    /** @var string */
+    private $term;
+
     public function __construct(
         DateTimeInterface $start,
         DateTimeInterface $end,
@@ -48,7 +51,8 @@ class ExportAnalytics
         string $fileName,
         string $userEmail,
         array $routeIds,
-        array $authors
+        array $authors,
+        string $term
     ) {
         $this->start = $start;
         $this->end = $end;
@@ -57,6 +61,7 @@ class ExportAnalytics
         $this->userEmail = $userEmail;
         $this->routeIds = $routeIds;
         $this->authors = $authors;
+        $this->term = $term;
     }
 
     public function getStart(): DateTimeInterface
@@ -92,5 +97,10 @@ class ExportAnalytics
     public function getAuthors(): array
     {
         return array_filter($this->authors);
+    }
+
+    public function getTerm(): string
+    {
+        return $this->term;
     }
 }
