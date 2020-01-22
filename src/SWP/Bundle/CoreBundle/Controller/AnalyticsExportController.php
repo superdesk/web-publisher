@@ -91,6 +91,22 @@ class AnalyticsExportController extends AbstractController
      *         required=false,
      *         type="string"
      *     ),
+     *     @SWG\Parameter(
+     *         name="author",
+     *         in="query",
+     *         description="Authors names",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="route",
+     *         in="query",
+     *         description="Routes ids",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
      *     @SWG\Response(
      *         response="200",
      *         description="Returned on success."

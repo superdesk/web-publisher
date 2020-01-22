@@ -88,14 +88,14 @@ Feature: Export articles analytics report
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/export/analytics?start=2020-01-20&end=2020-01-23&route[]=2"
     Then the response status code should be 201
-    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-10:00:00.csv" should contain 3 row
+    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-10:00:00.csv" should contain 3 rows
 
     Given the current date time is "2019-03-10 11:00"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/export/analytics?start=2020-01-20&end=2020-01-23&author[]=Tom"
     Then the response status code should be 201
-    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-11:00:00.csv" should contain 5 rows
+    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-11:00:00.csv" should contain 2 rows
 
     Given the current date time is "2019-03-10 12:00"
     Given I am authenticated as "test.user"
