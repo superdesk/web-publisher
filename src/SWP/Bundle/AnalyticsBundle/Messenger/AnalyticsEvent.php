@@ -7,9 +7,6 @@ namespace SWP\Bundle\AnalyticsBundle\Messenger;
 class AnalyticsEvent
 {
     /** @var string */
-    private $data;
-
-    /** @var string */
     private $httpReferrer;
 
     /** @var int|null */
@@ -18,17 +15,11 @@ class AnalyticsEvent
     /** @var string|null */
     private $pageViewReferrer;
 
-    public function __construct(string $data, string $httpReferrer, ?string $articleId, ?string $pageViewReferrer)
+    public function __construct(string $httpReferrer, ?string $articleId, ?string $pageViewReferrer)
     {
-        $this->data = $data;
         $this->httpReferrer = $httpReferrer;
         $this->articleId = $articleId;
         $this->pageViewReferrer = $pageViewReferrer;
-    }
-
-    public function getData(): string
-    {
-        return $this->data;
     }
 
     public function getArticleId(): ?int

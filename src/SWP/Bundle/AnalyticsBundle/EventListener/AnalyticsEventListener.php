@@ -44,16 +44,9 @@ class AnalyticsEventListener
         if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT) &&
             in_array($request->getMethod(), ['POST', 'GET'])
         ) {
-            if (null !== ($json = file_get_contents('php://input')) && '' !== $json) {
-                $request->attributes->set('data', \json_decode($json, true));
-            } elseif (null !== $json = $request->getContent()) {
-                $request->attributes->set('data', \json_decode($json, true));
-            }
-
             $httpReferrer = $request->server->get('HTTP_REFERER', $request->query->get('host', $request->getHost()));
 
             $this->messageBus->dispatch(new AnalyticsEvent(
-                json_decode($json, true, 512, JSON_THROW_ON_ERROR),
                 $httpReferrer,
                 $request->query->get('articleId', null),
                 $request->query->get('ref', null)
