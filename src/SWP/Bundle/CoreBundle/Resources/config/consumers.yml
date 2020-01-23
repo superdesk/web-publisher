@@ -9,13 +9,6 @@ services:
             - '@jms_serializer'
             - '@monolog.logger.swp_send_webhook'
 
-    SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer:
-        arguments:
-            - '@SWP\Bundle\CoreBundle\Service\ArticleStatisticsService'
-            - '@swp_multi_tenancy.tenant_resolver'
-            - '@swp_multi_tenancy.tenant_context'
-            - '@swp.object_manager.article_statistics'
-
     SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
         arguments:
             - '@lock.factory'

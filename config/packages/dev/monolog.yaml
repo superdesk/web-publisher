@@ -48,6 +48,12 @@ monolog:
             path:      '%kernel.logs_dir%/swp_validators_%kernel.environment%.log'
             max_files: 7
             channels:  swp_validators
+        swp_analytics:
+            type:      stream
+            level:     debug
+            max_files: 7
+            path:      '%kernel.logs_dir%/swp_analytics_%kernel.environment%.log'
+            channels:  swp_analytics
         console:
             type:   console
             bubble: false

@@ -16,40 +16,28 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\AnalyticsBundle\EventListener;
 
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
+use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-/**
- * Class AnalyticsEventListener.
- */
 class AnalyticsEventListener
 {
     const TERMINATE_IMMEDIATELY = 'terminate-immediately';
 
     const EVENT_ENDPOINT = '_swp_analytics';
 
-    /**
-     * @var ProducerInterface
-     */
-    protected $producer;
+    /** @var MessageBusInterface */
+    protected $messageBus;
 
-    /**
-     * AnalyticsEventListener constructor.
-     *
-     * @param ProducerInterface $producer
-     */
-    public function __construct(ProducerInterface $producer)
+    public function __construct(MessageBusInterface $messageBus)
     {
-        $this->producer = $producer;
+        $this->messageBus = $messageBus;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -62,7 +50,14 @@ class AnalyticsEventListener
                 $request->attributes->set('data', \json_decode($json, true));
             }
 
-            $this->producer->publish(serialize($request));
+            $httpReferrer = $request->server->get('HTTP_REFERER', $request->query->get('host', $request->getHost()));
+
+            $this->messageBus->dispatch(new AnalyticsEvent(
+                json_decode($json, true, 512, JSON_THROW_ON_ERROR),
+                $httpReferrer,
+                $request->query->get('articleId', null),
+                $request->query->get('ref', null)
+            ));
 
             $response = new Response();
             $response->headers->add([self::TERMINATE_IMMEDIATELY => true]);
@@ -71,9 +66,6 @@ class AnalyticsEventListener
         }
     }
 
-    /**
-     * @param FilterResponseEvent $event
-     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
@@ -83,9 +75,6 @@ class AnalyticsEventListener
         }
     }
 
-    /**
-     * @param FinishRequestEvent $event
-     */
     public function onKernelFinishRequest(FinishRequestEvent $event)
     {
         $request = $event->getRequest();
@@ -94,9 +83,6 @@ class AnalyticsEventListener
         }
     }
 
-    /**
-     * @param PostResponseEvent $event
-     */
     public function onKernelTerminate(PostResponseEvent $event)
     {
         $response = $event->getResponse();

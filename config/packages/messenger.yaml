@@ -4,7 +4,17 @@ framework:
         # failure_transport: failed
 
         transports:
-            async: "%env(MESSENGER_TRANSPORT_DSN)%"
+            async_priority_high:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: high
+            async_priority_low:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: low
 
         routing:
-            'SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics': async
+            'SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics': async_priority_low
+            'SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent': async_priority_low

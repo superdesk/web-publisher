@@ -36,6 +36,7 @@ monolog:
                 - swp_asset_download
                 - swp_rule
                 - swp_validators
+                - swp_analytics
         app:
             type: fingers_crossed
             action_level: error
