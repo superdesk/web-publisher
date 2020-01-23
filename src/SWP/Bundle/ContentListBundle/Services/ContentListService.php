@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentListBundle\Services;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
@@ -28,19 +29,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class ContentListService implements ContentListServiceInterface
 {
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * @var FactoryInterface
-     */
     private $listItemFactory;
 
-    /**
-     * @var ContentListItemRepositoryInterface
-     */
     private $contentListItemRepository;
 
     public function __construct(EventDispatcherInterface $eventDispatcher, FactoryInterface $listItemFactory, ContentListItemRepositoryInterface $contentListItemRepository)
@@ -50,9 +42,6 @@ final class ContentListService implements ContentListServiceInterface
         $this->contentListItemRepository = $contentListItemRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null): ContentListItemInterface
     {
         /* @var ContentListItemInterface $contentListItem */
@@ -68,12 +57,31 @@ final class ContentListService implements ContentListServiceInterface
 
         $contentListItem->setPosition((int) $position);
         $contentListItem->setContentList($contentList);
-        $this->contentListItemRepository->persist($contentListItem);
+        $this->contentListItemRepository->add($contentListItem);
+
         $this->eventDispatcher->dispatch(
             ContentListEvents::POST_ITEM_ADD,
             new ContentListEvent($contentList, $contentListItem)
         );
+        $contentList->setUpdatedAt(new \DateTime());
 
         return $contentListItem;
+    }
+
+    public function removeListItemsAboveTheLimit(ContentListInterface $contentList): void
+    {
+        $items = $this->contentListItemRepository
+            ->getSortedItems(new Criteria(['contentList' => $contentList]), [], ['contentList' => $contentList])
+            ->setMaxResults(null)
+            ->getQuery()
+            ->getResult();
+
+        if (null !== $contentList->getLimit() && \count($items) > $contentList->getLimit()) {
+            foreach ($items as $key => $item) {
+                if ($key + 1 > $contentList->getLimit()) {
+                    $this->contentListItemRepository->remove($item);
+                }
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Repository;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
@@ -26,14 +27,8 @@ interface ContentListItemRepositoryInterface extends RepositoryInterface
 {
     public function removeItems(ContentListInterface $contentList);
 
-    /**
-     * @return mixed
-     */
-    public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = []);
+    public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = []): QueryBuilder;
 
-    /**
-     * @return mixed
-     */
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
 
     public function getCountByCriteria(Criteria $criteria): int;
