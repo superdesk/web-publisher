@@ -9,20 +9,20 @@ class AnalyticsEvent
     /** @var string */
     private $httpReferrer;
 
-    /** @var int|null */
+    /** @var int */
     private $articleId;
 
     /** @var string|null */
     private $pageViewReferrer;
 
-    public function __construct(string $httpReferrer, ?string $articleId, ?string $pageViewReferrer)
+    public function __construct(string $httpReferrer, int $articleId, ?string $pageViewReferrer)
     {
         $this->httpReferrer = $httpReferrer;
         $this->articleId = $articleId;
         $this->pageViewReferrer = $pageViewReferrer;
     }
 
-    public function getArticleId(): ?int
+    public function getArticleId(): int
     {
         return $this->articleId;
     }

@@ -18,10 +18,7 @@ namespace SWP\Bundle\AnalyticsBundle\EventListener;
 
 use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class AnalyticsEventListener
@@ -38,7 +35,7 @@ class AnalyticsEventListener
         $this->messageBus = $messageBus;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
         if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT) &&
@@ -48,39 +45,13 @@ class AnalyticsEventListener
 
             $this->messageBus->dispatch(new AnalyticsEvent(
                 $httpReferrer,
-                $request->query->get('articleId', null),
+                (int) $request->query->get('articleId', null),
                 $request->query->get('ref', null)
             ));
 
             $response = new Response();
             $response->headers->add([self::TERMINATE_IMMEDIATELY => true]);
             $event->setResponse($response);
-            $event->stopPropagation();
-        }
-    }
-
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-        $response = $event->getResponse();
-
-        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
-            $event->stopPropagation();
-        }
-    }
-
-    public function onKernelFinishRequest(FinishRequestEvent $event)
-    {
-        $request = $event->getRequest();
-        if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT)) {
-            $event->stopPropagation();
-        }
-    }
-
-    public function onKernelTerminate(PostResponseEvent $event)
-    {
-        $response = $event->getResponse();
-        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
-            $event->stopPropagation();
         }
     }
 }

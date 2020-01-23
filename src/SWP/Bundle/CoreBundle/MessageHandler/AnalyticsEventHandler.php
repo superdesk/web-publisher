@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
@@ -34,25 +35,29 @@ class AnalyticsEventHandler implements MessageHandlerInterface
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
         TenantContextInterface $tenantContext,
-        ObjectManager $articleStatisticsObjectManager,
-        LoggerInterface $logger
+        ObjectManager $articleStatisticsObjectManager
     ) {
         $this->articleStatisticsService = $articleStatisticsService;
         $this->tenantResolver = $tenantResolver;
         $this->tenantContext = $tenantContext;
         $this->articleStatisticsObjectManager = $articleStatisticsObjectManager;
-        $this->logger = $logger;
     }
 
     public function __invoke(AnalyticsEvent $analyticsEvent)
     {
         $this->setTenant($analyticsEvent->getHttpReferrer());
 
-        if (null !== ($articleId = $analyticsEvent->getArticleId())) {
-            $this->handleArticlePageViews($articleId, $analyticsEvent->getPageViewReferrer());
+        $articleId = $analyticsEvent->getArticleId();
+        $this->handleArticlePageViews($articleId, $analyticsEvent->getPageViewReferrer());
 
+        if (null !== $this->logger) {
             $this->logger->info("Pageview for article $articleId was processed");
         }
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     private function handleArticlePageViews(int $articleId, ?string $pageViewReferrer): void
@@ -106,6 +111,8 @@ class AnalyticsEventHandler implements MessageHandlerInterface
         $tenant = $this->tenantResolver->resolve($httpReferrer);
         $this->tenantContext->setTenant($tenant);
 
-        $this->logger->info('Set tenant: '.$tenant->getCode());
+        if (null !== $this->logger) {
+            $this->logger->info('Set tenant: '.$tenant->getCode());
+        }
     }
 }
