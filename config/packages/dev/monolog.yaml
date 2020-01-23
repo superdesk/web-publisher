@@ -6,6 +6,7 @@ monolog:
         - swp_image_conversion
         - swp_rule
         - swp_validators
+        - swp_analytics
     handlers:
         main:
             type:   stream
