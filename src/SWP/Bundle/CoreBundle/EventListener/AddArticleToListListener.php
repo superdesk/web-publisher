@@ -33,29 +33,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AddArticleToListListener
 {
-    /**
-     * @var ContentListRepositoryInterface
-     */
     private $listRepository;
 
-    /**
-     * @var FactoryInterface
-     */
     private $listItemFactory;
 
-    /**
-     * @var ArticleCriteriaMatcherInterface
-     */
     private $articleCriteriaMatcher;
 
-    /**
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     * @var ContentListItemRepositoryInterface
-     */
     private $contentListItemRepository;
 
     public function __construct(
@@ -84,20 +69,20 @@ class AddArticleToListListener
         ]);
 
         foreach ($contentLists as $contentList) {
-            $filters = $contentList->getFilters();
-            if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
-                $this->createAndAddItem($article, $contentList);
-
-                continue;
-            }
-
             $item = $this->contentListItemRepository->findItemByArticleAndList(
                 $article,
                 $contentList,
                 ContentListInterface::TYPE_AUTOMATIC
             );
 
-            if (null !== $item) {
+            $filters = $contentList->getFilters();
+            if (null === $item && $this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
+                $this->createAndAddItem($article, $contentList);
+
+                continue;
+            }
+
+            if (null !== $item && count($filters) > 0 && !$this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
                 $this->contentListItemRepository->remove($item);
                 $contentList->setUpdatedAt(new \DateTime());
             }
@@ -123,11 +108,11 @@ class AddArticleToListListener
         foreach ($buckets as $bucket) {
             $item = $this->contentListItemRepository->findItemByArticleAndList($article, $bucket);
 
-            if ($article->isPublishedFBIA() && null === $item) {
+            if ((null === $item) && $article->isPublishedFBIA()) {
                 $this->createAndAddItem($article, $bucket);
             }
 
-            if (!$article->isPublishedFBIA() && null !== $item && $item->getContentList() === $bucket) {
+            if ((null !== $item) && !$article->isPublishedFBIA() && $item->getContentList() === $bucket) {
                 $this->listRepository->remove($item);
                 $bucket->setUpdatedAt(new \DateTime());
             }

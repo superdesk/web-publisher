@@ -16,12 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\File;
 
-use function rtrim;
-use function sha1;
-use function sprintf;
-use function strlen;
-use function sys_get_temp_dir;
-use function pathinfo;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
@@ -31,8 +25,14 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Hoa\Mime\Mime;
+use function pathinfo;
 use Psr\Log\LoggerInterface;
+use function rtrim;
+use function sha1;
+use function sprintf;
+use function strlen;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use function sys_get_temp_dir;
 
 final class FileDownloader implements FileDownloaderInterface
 {
@@ -55,11 +55,11 @@ final class FileDownloader implements FileDownloaderInterface
 
         $handlerStack = HandlerStack::create(new CurlHandler());
         $handlerStack->push(Middleware::retry($this->retryDecider(), $this->retryDelay()));
-        $client = new Client(array('handler' => $handlerStack));
+        $client = new Client(['handler' => $handlerStack]);
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId.date('his'));
         $client->request('GET', $url, ['sink' => $tempLocation]);
 
-        return new UploadedFile($tempLocation, $mediaId, $mimeType, strlen($tempLocation), null, true);
+        return new UploadedFile($tempLocation, $mediaId, $mimeType, strlen($tempLocation), true);
     }
 
     private function retryDecider(): callable

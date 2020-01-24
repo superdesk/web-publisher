@@ -24,3 +24,8 @@ services:
             - '@SWP\Bundle\ContentListBundle\Loader\ContentListLoader'
         tags:
             - { name: swp.meta_loader.add }
+
+    SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface: '@swp.service.content_list'
+    SWP\Bundle\ContentListBundle\EventSubscriber\ContentListSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }

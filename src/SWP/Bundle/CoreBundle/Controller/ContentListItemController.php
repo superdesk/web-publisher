@@ -16,30 +16,47 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use DateTime;
 use DateTimeZone;
+use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
-use SWP\Component\Common\Response\ResourcesListResponseInterface;
-use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
+use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
+use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
+use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ContentListItemController extends AbstractController
 {
+    private $contentListItemRepository;
+
+    private $entityManager;
+
+    public function __construct(ContentListItemRepositoryInterface $contentListItemRepository, EntityManagerInterface $entityManager)
+    {
+        $this->contentListItemRepository = $contentListItemRepository;
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * List all items of content list.
      *
@@ -82,8 +99,7 @@ class ContentListItemController extends AbstractController
      */
     public function listAction(Request $request, int $id): ResourcesListResponseInterface
     {
-        $repository = $this->get('swp.repository.content_list_item');
-        $items = $repository->getPaginatedByCriteria(
+        $items = $this->contentListItemRepository->getPaginatedByCriteria(
             new Criteria([
                 'contentList' => $id,
                 'sticky' => $request->query->get('sticky', ''),
@@ -158,11 +174,10 @@ class ContentListItemController extends AbstractController
      *
      * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
      */
-    public function updateAction(Request $request, $listId, $id): SingleResourceResponseInterface
+    public function updateAction(Request $request, FormFactoryInterface $formFactory, $listId, $id): SingleResourceResponseInterface
     {
-        $objectManager = $this->get('swp.object_manager.content_list_item');
         $contentListItem = $this->findOr404($listId, $id);
-        $form = $this->get('form.factory')->createNamed('',
+        $form = $formFactory->createNamed('',
             ContentListItemType::class,
             $contentListItem,
             ['method' => $request->getMethod()]
@@ -172,7 +187,7 @@ class ContentListItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contentListItem->getContentList()->setUpdatedAt(new DateTime());
-            $objectManager->flush();
+            $this->entityManager->flush();
 
             return new SingleResourceResponse($contentListItem);
         }
@@ -214,19 +229,22 @@ class ContentListItemController extends AbstractController
      *
      * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
      */
-    public function batchUpdateAction(Request $request, int $listId): SingleResourceResponseInterface
-    {
+    public function batchUpdateAction(
+        Request $request,
+        FormFactoryInterface $formFactory,
+        ContentListRepositoryInterface $contentListRepository,
+        ArticleRepositoryInterface $articleRepository,
+        ContentListServiceInterface $contentListService,
+        EventDispatcherInterface $eventDispatcher,
+        int $listId
+    ): SingleResourceResponseInterface {
         /** @var ContentListInterface $list */
-        $list = $this->get('swp.repository.content_list')->findOneBy([
-            'id' => $listId,
-        ]);
-
+        $list = $contentListRepository->findOneBy(['id' => $listId]);
         if (null === $list) {
             throw new NotFoundHttpException(sprintf('Content list with id "%s" was not found.', $list));
         }
 
-        $objectManager = $this->get('swp.object_manager.content_list_item');
-        $form = $this->get('form.factory')->createNamed('', ContentListItemsType::class, [], ['method' => $request->getMethod()]);
+        $form = $formFactory->createNamed('', ContentListItemsType::class, [], ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -254,25 +272,21 @@ class ContentListItemController extends AbstractController
                         $contentListItem = $this->findByContentOr404($list, $item['contentId']);
                         $contentListItem->setPosition($item['position']);
                         $list->setUpdatedAt(new DateTime('now'));
-                        $objectManager->flush();
+                        $this->entityManager->flush();
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
                     case 'add':
-                        $object = $this->get('swp.repository.article')->findOneById($item['contentId']);
-                        $contentListItem = $this->get('swp.service.content_list')
-                            ->addArticleToContentList($list, $object, $item['position']);
-                        $objectManager->persist($contentListItem);
-                        $list->setUpdatedAt(new DateTime('now'));
-                        $objectManager->flush();
+                        $object = $articleRepository->findOneById($item['contentId']);
+                        $contentListItem = $contentListService->addArticleToContentList($list, $object, $item['position']);
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
                     case 'delete':
                         $contentListItem = $this->findByContentOr404($list, $item['contentId']);
-                        $objectManager->remove($contentListItem);
+                        $this->entityManager->remove($contentListItem);
                         $list->setUpdatedAt(new DateTime('now'));
-                        $objectManager->flush();
+                        $this->entityManager->flush();
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
@@ -280,7 +294,7 @@ class ContentListItemController extends AbstractController
             }
 
             foreach ($updatedArticles as $updatedArticle) {
-                $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
+                $eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
                     $updatedArticle,
                     $updatedArticle->getPackage(),
                     ArticleEvents::POST_UPDATE
@@ -295,7 +309,8 @@ class ContentListItemController extends AbstractController
 
     private function findByContentOr404($listId, $contentId): ContentListItemInterface
     {
-        $listItem = $this->get('swp.repository.content_list_item')->findOneBy([
+        /** @var ContentListItemInterface $listItem */
+        $listItem = $this->contentListItemRepository->findOneBy([
             'contentList' => $listId,
             'content' => $contentId,
         ]);
@@ -309,7 +324,8 @@ class ContentListItemController extends AbstractController
 
     private function findOr404($listId, $id): ContentListItemInterface
     {
-        $listItem = $this->get('swp.repository.content_list_item')->findOneBy([
+        /** @var ContentListItemInterface $listItem */
+        $listItem = $this->contentListItemRepository->findOneBy([
             'contentList' => $listId,
             'id' => $id,
         ]);
