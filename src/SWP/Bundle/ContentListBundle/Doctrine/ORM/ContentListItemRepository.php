@@ -16,13 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentListBundle\Doctrine\ORM;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\CoreBundle\Pagination\Paginator;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
-use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 class ContentListItemRepository extends SortableEntityRepository implements ContentListItemRepositoryInterface
@@ -43,7 +44,7 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     /**
      * {@inheritdoc}
      */
-    public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = [])
+    public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = []): QueryBuilder
     {
         $queryBuilder = parent::getBySortableGroupsQueryBuilder($groupValues);
         $this->applyCriteria($queryBuilder, $criteria, 'n');

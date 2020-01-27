@@ -70,6 +70,7 @@ SWP\Bundle\ContentBundle\Model\Route:
         parent:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
             inversedBy: children
+            fetch: EAGER
             joinColumn:
                 referencedColumnName: id
                 onDelete: CASCADE

@@ -14,14 +14,16 @@
 
 namespace SWP\Bundle\ContentBundle\Manager;
 
+use League\Flysystem\FileExistsException;
+use League\Flysystem\Filesystem;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
+use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Resolver\AssetLocationResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
 
 class MediaManager implements MediaManagerInterface
@@ -54,6 +56,16 @@ class MediaManager implements MediaManagerInterface
     {
         $mediaId = ArticleMedia::handleMediaId($mediaId);
         $asset = $this->fileFactory->createWith($mediaId, $this->guessExtension($uploadedFile));
+        if ($asset instanceof ImageInterface) {
+            [$width, $height] = getimagesize($uploadedFile->getRealPath());
+            $asset->setWidth($width);
+            $asset->setHeight($height);
+            $size = filesize($uploadedFile->getRealPath());
+            if ($size) {
+                $asset->setLength(round($size / 1024));
+            }
+        }
+
         $this->mediaRepository->persist($asset);
         $this->saveFile($uploadedFile, $mediaId);
 
@@ -93,9 +105,18 @@ class MediaManager implements MediaManagerInterface
             return;
         }
 
-        $stream = fopen($uploadedFile->getRealPath(), 'rb+');
-        $this->filesystem->writeStream($filePath, $stream);
-        fclose($stream);
+        try {
+            $stream = fopen($uploadedFile->getRealPath(), 'rb+');
+            $this->filesystem->writeStream($filePath, $stream);
+            fclose($stream);
+        } catch (FileExistsException $e) {
+            /*
+            Handle case when multiple instances work with this same storage
+            As content push is async then there can be a situation when other instance
+            will save that file in between of file exist check and actual saving
+            */
+            return;
+        }
     }
 
     private function guessExtension(UploadedFile $uploadedFile): string
