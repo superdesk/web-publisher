@@ -6,9 +6,11 @@ services:
         ports:
             - "5433:5432"
         environment:
-            - POSTGRES_DATABASE=publisher_${APP_ENV-dev}
+            - POSTGRES_DB=publisher_dev
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
+        volumes:
+            - ../../../pg_data:/var/lib/postgresql/data
     memcached:
         image: memcached
         ports:
@@ -30,10 +32,11 @@ services:
             - elasticsearch
             - rabbitmq
         volumes:
-            - ../../:/var/www/publisher:cached
+            - ../../:/var/www/publisher
             - publisher_logs:/var/www/publisher/var/log:rw
         env_file:
             - .env
+        privileged: true
     nginx:
         build: nginx
         ports:
@@ -43,14 +46,22 @@ services:
         volumes:
             - nginx_logs:/var/log/nginx:rw
     rabbitmq:
-        image: rabbitmq
+        image: rabbitmq:management
         ports:
             - 5672:5672
+            - 15672:15672
     supervisor:
         build: supervisor
         ports:
             - "8081:8080"
             - "5555:5555"
+        volumes:
+            - ../../:/var/www/publisher
+        env_file:
+            - .env
+        environment:
+            - WEBSOCKET_PORT=8080
+            - WEBSOCKET_HOST=0.0.0.0
 volumes:
     publisher_logs:
         driver: local
