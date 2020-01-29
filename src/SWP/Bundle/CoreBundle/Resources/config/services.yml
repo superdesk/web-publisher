@@ -322,12 +322,13 @@ services:
         class: SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcher
 
     swp.listener.remove_items:
-        class: SWP\Bundle\CoreBundle\EventListener\RemoveItemsListener
+        class: SWP\Bundle\CoreBundle\EventListener\UpdateContentListItemsListener
         arguments:
             - '@SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover'
             - '@swp.repository.article'
             - '@swp.factory.content_list_item'
-            - "@swp.provider.route"
+            - '@swp.provider.route'
+            - '@SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface'
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
 

@@ -20,44 +20,37 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemoverInterface;
+use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-final class RemoveItemsListener
+final class UpdateContentListItemsListener
 {
-    /**
-     * @var ContentListItemsRemoverInterface
-     */
     private $contentListItemsRemover;
 
-    /**
-     * @var ArticleRepositoryInterface
-     */
     private $articleRepository;
 
-    /**
-     * @var FactoryInterface
-     */
     private $contentListItemFactory;
 
-    /**
-     * @var RouteProviderInterface
-     */
     private $routeProvider;
+
+    private $contentListService;
 
     public function __construct(
         ContentListItemsRemoverInterface $contentListItemsRemover,
         ArticleRepositoryInterface $articleRepository,
         FactoryInterface $contentListItemFactory,
-        RouteProviderInterface $routeProvider
+        RouteProviderInterface $routeProvider,
+        ContentListServiceInterface $contentListService
     ) {
         $this->contentListItemsRemover = $contentListItemsRemover;
         $this->articleRepository = $articleRepository;
         $this->contentListItemFactory = $contentListItemFactory;
         $this->routeProvider = $routeProvider;
+        $this->contentListService = $contentListService;
     }
 
     public function onListCriteriaChange(GenericEvent $event): void
@@ -67,12 +60,13 @@ final class RemoveItemsListener
             throw new \InvalidArgumentException(sprintf('Expected argument of type "%s", "%s" given.', ContentListInterface::class, is_object($contentList) ? get_class($contentList) : gettype($contentList)));
         }
 
-        if (($contentList->getFilters() !== $event->getArgument('filters') ||
-            ($event->hasArgument('previousLimit') && $event->getArgument('previousLimit') !== $contentList->getLimit()))
-        ) {
+        if ($event->hasArgument('previousLimit') && $event->getArgument('previousLimit') !== $contentList->getLimit()) {
+            $this->contentListService->removeListItemsAboveTheLimit($contentList);
+        }
+
+        if (ContentListInterface::TYPE_AUTOMATIC === $contentList->getType() && $contentList->getFilters() !== $event->getArgument('filters')) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
-            $filters = $contentList->getFilters();
-            $filters = $this->determineLimit($contentList, $filters);
+            $filters = $this->determineLimit($contentList, $contentList->getFilters());
 
             $criteria = new Criteria($filters);
             $criteria->set('status', ArticleInterface::STATUS_PUBLISHED);
