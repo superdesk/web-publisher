@@ -16,10 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\CoreBundle\Model\WebhookInterface;
+use SWP\Bundle\CoreBundle\Webhook\Message\WebhookMessage;
 use SWP\Bundle\WebhookBundle\Repository\WebhookRepositoryInterface;
 use SWP\Bundle\CoreBundle\Webhook\WebhookEvents;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
@@ -28,21 +28,24 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
 {
-    private $producer;
+    /** @var MessageBusInterface */
+    private $messageBus;
 
+    /** @var SerializerInterface */
     private $serializer;
 
     public function __construct(
-        ProducerInterface $producer,
+        MessageBusInterface $messageBus,
         SerializerInterface $serializer,
         WebhookRepositoryInterface $webhooksRepository,
         TenantContext $tenantContext,
         TenantRepositoryInterface $tenantRepository
     ) {
-        $this->producer = $producer;
+        $this->messageBus = $messageBus;
         $this->serializer = $serializer;
 
         parent::__construct($webhooksRepository, $tenantContext, $tenantRepository);
@@ -75,18 +78,14 @@ final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
         $serializedSubject = $this->serializer->serialize($subject, 'json');
         /** @var WebhookInterface $webhook */
         foreach ($webhooks as $webhook) {
-            $payload = $this->serializer->serialize([
-                'url' => $webhook->getUrl(),
-                'metadata' => [
+            $this->messageBus->dispatch(new WebhookMessage(
+                $webhook->getUrl(),
+                $serializedSubject,
+                [
                     'event' => $webhookEventName,
                     'tenant' => $webhook->getTenantCode(),
-                ],
-                'subject' => '___SUBJECT___',
-            ], 'json');
-
-            // Do not serialize subject in a loop - serialize it before and inject in string here.
-            $payload = str_replace('"___SUBJECT___"', $serializedSubject, $payload);
-            $this->producer->publish($payload);
+                ]
+            ));
         }
     }
 

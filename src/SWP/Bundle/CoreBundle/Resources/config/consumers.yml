@@ -4,11 +4,6 @@ services:
         autoconfigure: true
         autowire: true
 
-    SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer:
-        arguments:
-            - '@jms_serializer'
-            - '@monolog.logger.swp_send_webhook'
-
     SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
         arguments:
             - '@lock.factory'

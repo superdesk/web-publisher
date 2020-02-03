@@ -4,6 +4,9 @@ services:
         autoconfigure: true
         autowire: true
 
+    SWP\Bundle\CoreBundle\MessageHandler\:
+        resource: '../../MessageHandler/*'
+
     SWP\Bundle\CoreBundle\MessageHandler\AnalyticsEventHandler:
         arguments:
             - '@SWP\Bundle\CoreBundle\Service\ArticleStatisticsService'
