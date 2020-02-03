@@ -21,7 +21,6 @@ use FOS\RestBundle\EventListener\BodyListener as FosRestBodyListener;
 use FOS\RestBundle\Normalizer\ArrayNormalizerInterface;
 use FOS\RestBundle\Normalizer\Exception\NormalizationException;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class BodyListener extends FosRestBodyListener
@@ -35,7 +34,7 @@ class BodyListener extends FosRestBodyListener
         parent::__construct($decoderProvider, $throwExceptionOnUnsupportedContentType, $arrayNormalizer, $normalizeForms);
     }
 
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest($event): void
     {
         parent::onKernelRequest($event);
 
