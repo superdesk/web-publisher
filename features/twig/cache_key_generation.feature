@@ -28,6 +28,9 @@ Feature: Working with twig cache blocks
               {{ article.title }}-{{ article.id }}
           {% endgimmelist %}
         {% endcache %}
+        {% cache 'v1'~route.name { time: 1200 } %}
+          {% gimmelist article from articles %}{{ article.id }}{% endgimmelist %}
+        {% endcache %}
       {% endgimme %}
      """
     Then rendered template should contain "First Test Article-1"
