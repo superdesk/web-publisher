@@ -37,7 +37,7 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
 
     public function fetchBlock($key)
     {
-        self::hashCacheKeys($key);
+        $key = self::hashCacheKeys($key);
         $fetchedBlock = parent::fetchBlock($key);
         if (false === $fetchedBlock) {
             $this->tagsCollector->startNewCacheBlock(self::getKeyString($key));
@@ -50,14 +50,14 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
 
     public function saveBlock($key, $block)
     {
-        self::hashCacheKeys($key);
+        $key = self::hashCacheKeys($key);
         $this->tagsCollector->flushCurrentCacheBlockTags();
         $this->responseTagger->addTags($this->tagsCollector->getCurrentCacheBlockTags());
 
         return parent::saveBlock($key, $block);
     }
 
-    private static function hashCacheKeys($key): void
+    private static function hashCacheKeys($key): array
     {
         if (isset($key['key'])) {
             if (is_string($key['key'])) {
@@ -67,6 +67,8 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
                 $key['key']['key'] = self::getKeyString($key);
             }
         }
+
+        return $key;
     }
 
     private static function getKeyString(array $key): string
