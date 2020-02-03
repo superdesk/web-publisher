@@ -35,13 +35,33 @@ class ExportAnalytics
     /** @var string */
     private $userEmail;
 
-    public function __construct(DateTimeInterface $start, DateTimeInterface $end, string $tenantCode, string $fileName, string $userEmail)
-    {
+    /** @var array */
+    private $routeIds;
+
+    /** @var array */
+    private $authors;
+
+    /** @var string */
+    private $term;
+
+    public function __construct(
+        DateTimeInterface $start,
+        DateTimeInterface $end,
+        string $tenantCode,
+        string $fileName,
+        string $userEmail,
+        array $routeIds,
+        array $authors,
+        string $term
+    ) {
         $this->start = $start;
         $this->end = $end;
         $this->tenantCode = $tenantCode;
         $this->fileName = $fileName;
         $this->userEmail = $userEmail;
+        $this->routeIds = $routeIds;
+        $this->authors = $authors;
+        $this->term = $term;
     }
 
     public function getStart(): DateTimeInterface
@@ -67,5 +87,31 @@ class ExportAnalytics
     public function getUserEmail(): string
     {
         return $this->userEmail;
+    }
+
+    public function getRouteIds(): array
+    {
+        return array_filter($this->routeIds);
+    }
+
+    public function getAuthors(): array
+    {
+        return array_filter($this->authors);
+    }
+
+    public function getTerm(): string
+    {
+        return $this->term;
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            'term' => $this->term,
+            'start' => $this->start,
+            'end' => $this->end,
+            'routes' => array_map('intval', $this->routeIds),
+            'authors' => $this->authors,
+        ];
     }
 }
