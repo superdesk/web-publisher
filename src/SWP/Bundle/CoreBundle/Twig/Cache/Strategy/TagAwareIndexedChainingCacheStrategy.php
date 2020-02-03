@@ -37,6 +37,7 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
 
     public function fetchBlock($key)
     {
+        $key['key'] = $this->getKeyString($key);
         $fetchedBlock = parent::fetchBlock($key);
         if (false === $fetchedBlock) {
             $this->tagsCollector->startNewCacheBlock($this->getKeyString($key));
@@ -51,6 +52,7 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
     {
         $this->tagsCollector->flushCurrentCacheBlockTags();
         $this->responseTagger->addTags($this->tagsCollector->getCurrentCacheBlockTags());
+        $key['key'] = $this->getKeyString($key);
 
         return parent::saveBlock($key, $block);
     }
