@@ -64,6 +64,7 @@ final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
     public function handleEvent(Event $event, string $dispatcherEventName, EventDispatcherInterface $dispatcher): void
     {
         $webhookEventName = $this->getEventName($event);
+
         if (!is_string($webhookEventName)) {
             return;
         }

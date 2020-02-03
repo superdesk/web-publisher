@@ -27,6 +27,13 @@ class WebhookMessage
     /** @var array */
     private $metadata;
 
+    public function __construct(string $url, string $body, array $metadata)
+    {
+        $this->url = $url;
+        $this->body = $body;
+        $this->metadata = $metadata;
+    }
+
     public function getUrl(): string
     {
         return $this->url;
