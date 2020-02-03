@@ -20,24 +20,13 @@ namespace SWP\Component\Common\Model;
  */
 interface SoftDeletableInterface
 {
-    /**
-     * Check whether the object is deleted or not.
-     *
-     * @return bool Returns true if deleted else false
-     */
-    public function isDeleted();
+    public const SOFT_DELETEABLE_FILTER_NAME = 'soft_deleteable';
 
-    /**
-     * Gets the deleted at datetime.
-     *
-     * @return \DateTime The DateTime instance
-     */
-    public function getDeletedAt();
+    public function isDeleted(): bool;
 
-    /**
-     * Sets the deleted at datetime.
-     *
-     * @param \DateTime $deletedAt The DateTime instance
-     */
-    public function setDeletedAt(\DateTime $deletedAt);
+    public function getDeletedAt(): ?\DateTimeInterface;
+
+    public function setDeletedAt(\DateTime $deletedAt): void;
+
+    public function restore(): void;
 }

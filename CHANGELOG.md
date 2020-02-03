@@ -6,6 +6,22 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+### 2.0.4
+
+ * fix [#1039] handle items with slugline property set to empty string
+ * improvement [#1038] search articles by exact author name
+ * feature [#0134] remove items exceeding content list limit automatically
+ * feature [#1033] exclude articles by routes
+ * fix [#1030] fix content push performance with many gallery items
+ * fix [#1026] fix asset location resolver logic
+ * improvement [#1021] update content list when new item is added to it
+ * fix [#1020] handle case when multiple instances work with this same storage
+ * fix [#1016] fix cache key generation (in twig)
+ * improvement [#1015] make article media timestampable
+ * fix [#1013] safely save loader parameters (in dev mode)
+ * improvement [#1010] improve metadata matching in content lists filters
+ * fix [#1005] fix article publishing with multiple tenant rules]
+
 ### 2.0.3
 
  * fix [#997] fix duplicated authors in package handling

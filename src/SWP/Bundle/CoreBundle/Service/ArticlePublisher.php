@@ -128,7 +128,6 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $article->setRoute($destination->getRoute());
                 $article->setPublishedFBIA($destination->isPublishedFbia());
                 $article->setPaywallSecured($destination->isPaywallSecured());
-                $this->addToContentLists($destination->getContentLists(), $article);
                 $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
                 $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
                 $this->articleRepository->flush();
@@ -137,6 +136,8 @@ final class ArticlePublisher implements ArticlePublisherInterface
                     $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
                     $this->eventDispatcher->dispatch(ArticleEvents::POST_PUBLISH, new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH));
                 }
+
+                $this->addToContentLists($destination->getContentLists(), $article);
 
                 $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));
                 $this->articleRepository->flush();
@@ -160,7 +161,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $article->setPublishedFBIA($destination->isPublishedFbia());
             $article->setPaywallSecured($destination->isPaywallSecured());
             $article->setArticleStatistics($articleStatistics);
-            $this->addToContentLists($destination->getContentLists(), $article);
+
             $this->articleRepository->persist($article);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
             $this->articleRepository->flush();
@@ -170,6 +171,8 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
                 $this->eventDispatcher->dispatch(ArticleEvents::POST_PUBLISH, new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH));
             }
+
+            $this->addToContentLists($destination->getContentLists(), $article);
 
             $this->articleRepository->flush();
         }
@@ -200,9 +203,6 @@ final class ArticlePublisher implements ArticlePublisherInterface
     }
 
     /**
-     * @param string $tenantCode
-     * @param string $code
-     *
      * @return object
      */
     private function findArticleByTenantAndCode(string $tenantCode, string $code)

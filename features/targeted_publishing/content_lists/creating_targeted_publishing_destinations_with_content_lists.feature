@@ -31,6 +31,7 @@ Feature: Managing targeted publishing destinations with content lists
       }
     """
     Then the response status code should be 200
+    Then I wait 1 second
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -44,6 +45,13 @@ Feature: Managing targeted publishing destinations with content lists
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/lists/1/items/"
     And the JSON node "total" should be equal to "1"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/1"
+    And the JSON node "updated_at" should not be equal to "<<updated_at>>"
+    And we save it into "updated_at"
+
 
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"

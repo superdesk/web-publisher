@@ -6,6 +6,7 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Provider\Lorem;
 use Faker\Provider\Uuid;
@@ -15,6 +16,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
+use SWP\Bundle\ContentBundle\Service\RouteServiceInterface;
 
 final class ArticleContext extends AbstractContext implements Context
 {
@@ -26,16 +28,20 @@ final class ArticleContext extends AbstractContext implements Context
 
     private $routeRepository;
 
+    private $routeService;
+
     public function __construct(
         ArticleFactoryInterface $articleFactory,
         EntityManagerInterface $entityManager,
         RouteFactoryInterface $routeFactory,
-        RouteRepositoryInterface $routeRepository
+        RouteRepositoryInterface $routeRepository,
+        RouteServiceInterface $routeService
     ) {
         $this->articleFactory = $articleFactory;
         $this->entityManager = $entityManager;
         $this->routeFactory = $routeFactory;
         $this->routeRepository = $routeRepository;
+        $this->routeService = $routeService;
     }
 
     /**
@@ -76,7 +82,9 @@ final class ArticleContext extends AbstractContext implements Context
         /** @var RouteInterface $route */
         $route = $this->routeFactory->create();
         $route->setName($routeName);
+        $route->setSlug(Transliterator::urlize($routeName));
         $route->setType(RouteInterface::TYPE_COLLECTION);
+        $this->routeService->createRoute($route);
         $this->entityManager->persist($route);
         $this->entityManager->flush();
 

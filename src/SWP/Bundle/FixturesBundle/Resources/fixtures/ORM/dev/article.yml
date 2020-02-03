@@ -1,5 +1,5 @@
 SWP\Bundle\CoreBundle\Model\Article:
-    article{1..20}:
+    article{1..10}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: '<paragraph(10)> <articleEmbed()> <paragraph(10)>'
         route: "<getRouteByName('politics')>"
@@ -12,7 +12,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         keywords: "<articleKeywords()>"
         code: "<uuid()>"
         package: "@package*"
-    article{21..40}:
+    article{11..20}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: '<paragraph(10)> <articleEmbed()> <paragraph(10)>'
         route: "<getRouteByName('business')>"
@@ -25,7 +25,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         keywords: "<articleKeywords()>"
         code: "<uuid()>"
         package: "@package*"
-    article{41..60}:
+    article{21..30}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: '<paragraph(10)> <articleEmbed()> <paragraph(10)>'
         route: "<getRouteByName('scitech')>"
@@ -38,7 +38,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         keywords: "<articleKeywords()>"
         code: "<uuid()>"
         package: "@package*"
-    article{61..80}:
+    article{31..40}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: '<paragraph(10)> <articleEmbed()> <paragraph(10)>'
         route: "<getRouteByName('health')>"
@@ -51,7 +51,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         keywords: "<articleKeywords()>"
         code: "<uuid()>"
         package: "@package*"
-    article{81..100}:
+    article{41..50}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: '<paragraph(10)> <articleEmbed()> <paragraph(10)>'
         route: "<getRouteByName('entertainment')>"
@@ -64,7 +64,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         keywords: "<articleKeywords()>"
         code: "<uuid()>"
         package: "@package*"
-    article{101..120}:
+    article{51..65}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: '<paragraph(10)> <articleEmbed()> <paragraph(10)>'
         route: "<getRouteByName('sports')>"
