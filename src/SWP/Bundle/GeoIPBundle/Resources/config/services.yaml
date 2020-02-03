@@ -8,7 +8,8 @@ services:
     SWP\Component\GeoIP\Reader\ReaderInterface:
         alias: SWP\Component\GeoIP\Reader\GeoIPReaderAdapter
 
-    SWP\Component\GeoIP\Checker\GeoIPChecker: ~
+    SWP\Component\GeoIP\Checker\GeoIPChecker:
+        lazy: true
 
     SWP\Bundle\GeoIPBundle\:
         resource: '../../*'

@@ -51,8 +51,6 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
         foreach ($items as $packageItem) {
             $key = $packageItem->getName();
             if ($this->isTypeAllowed($packageItem->getType())) {
-                $this->removeArticleMediaIfNeeded($key, $article);
-
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
                 $this->articleMediaRepository->persist($articleMedia);
 

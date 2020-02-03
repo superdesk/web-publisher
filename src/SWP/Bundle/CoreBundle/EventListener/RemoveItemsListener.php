@@ -64,16 +64,12 @@ final class RemoveItemsListener
     {
         $contentList = $event->getSubject();
         if (!$contentList instanceof ContentListInterface) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Expected argument of type "%s", "%s" given.',
-                    ContentListInterface::class,
-                    is_object($contentList) ? get_class($contentList) : gettype($contentList)
-                )
-            );
+            throw new \InvalidArgumentException(sprintf('Expected argument of type "%s", "%s" given.', ContentListInterface::class, is_object($contentList) ? get_class($contentList) : gettype($contentList)));
         }
 
-        if ($contentList->getFilters() !== $event->getArgument('filters')) {
+        if (($contentList->getFilters() !== $event->getArgument('filters') ||
+            ($event->hasArgument('previousLimit') && $event->getArgument('previousLimit') !== $contentList->getLimit()))
+        ) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
             $filters = $contentList->getFilters();
             $filters = $this->determineLimit($contentList, $filters);

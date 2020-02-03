@@ -34,4 +34,8 @@ interface AnalyticsReportInterface extends FileInterface, TenantAwareInterface
     public function getStatus(): string;
 
     public function setStatus(string $status): void;
+
+    public function getFilters(): array;
+
+    public function setFilters(array $filters): void;
 }

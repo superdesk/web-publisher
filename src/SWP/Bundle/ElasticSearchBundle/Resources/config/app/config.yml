@@ -17,7 +17,7 @@ fos_elastica:
                             filter: [lowercase]
                         swp_author_name_analyzer:
                             type: custom
-                            tokenizer: standard
+                            tokenizer: keyword
                         swp_sources_analyzer:
                             type: custom
                             tokenizer: keyword

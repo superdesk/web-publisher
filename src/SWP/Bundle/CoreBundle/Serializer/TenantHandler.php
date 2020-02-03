@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Serializer;
 
+use JMS\Serializer\Context;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
@@ -23,18 +24,20 @@ use JMS\Serializer\GraphNavigatorInterface;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\Metadata\StaticPropertyMetadata;
-use JMS\Serializer\Context;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContext;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class TenantHandler implements EventSubscriberInterface, SubscribingHandlerInterface
@@ -55,6 +58,8 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
     private $tenantProvider;
 
+    private $dispatcher;
+
     public function __construct(
         SettingsManagerInterface $settingsManager,
         RequestStack $requestStack,
@@ -62,7 +67,8 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         ContentListRepositoryInterface $contentListRepository,
         TenantContextInterface $tenantContext,
         TenantProviderInterface $tenantProvider,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->settingsManager = $settingsManager;
         $this->requestStack = $requestStack;
@@ -71,6 +77,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         $this->tenantContext = $tenantContext;
         $this->serializer = $serializer;
         $this->tenantProvider = $tenantProvider;
+        $this->dispatcher = $dispatcher;
     }
 
     public static function getSubscribedEvents(): array
@@ -137,6 +144,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
         $masterRequest = $this->requestStack->getMasterRequest();
         if (null !== $masterRequest && (null !== $masterRequest->get('withRoutes') || null !== $masterRequest->get('withContentLists'))) {
+            $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE, new GenericEvent($tenant));
             if (null !== $masterRequest->get('withRoutes')) {
                 $routes = $this->routeRepository->getQueryByCriteria(new Criteria(['maxResults' => 9999]), [], 'r')->getQuery()->getResult();
                 $routesArray = $this->serializer->toArray($routes, SerializationContext::create()->setGroups(['Default', 'api_routes_list']));

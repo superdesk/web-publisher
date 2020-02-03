@@ -13,6 +13,7 @@ default:
                     apiKeyFactory: '@swp.factory.api_key'
                 - GeoLocationContext:
                     geoIpReader: '@SWP\Component\GeoIP\Reader\ReaderInterface'
+                - SWP\Behat\Contexts\CsvFileContext
                 - Behat\MinkExtension\Context\MinkContext
                 - SWP\Behat\Contexts\TenantContext
                 - SWP\Behat\Contexts\ContentListContext

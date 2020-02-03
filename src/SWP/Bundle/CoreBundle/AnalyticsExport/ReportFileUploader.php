@@ -45,6 +45,10 @@ final class ReportFileUploader
     {
         $uploadPath = $this->assetLocationResolver->getMediaBasePath().'/'.$file->getAssetId();
 
+        if ($this->filesystem->has($uploadPath)) {
+            $this->filesystem->delete($uploadPath);
+        }
+
         $stream = fopen($sourcePath, 'rb+');
         $this->filesystem->writeStream($uploadPath, $stream);
         fclose($stream);

@@ -27,9 +27,6 @@ final class ValidationListener
      */
     private $validator;
 
-    /**
-     * @param ValidatorInterface $validator
-     */
     public function __construct(ValidatorInterface $validator)
     {
         $this->validator = $validator;

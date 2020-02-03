@@ -23,4 +23,6 @@ use SWP\Component\ContentList\Model\ContentListItemInterface;
 interface ContentListServiceInterface
 {
     public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null): ContentListItemInterface;
+
+    public function removeListItemsAboveTheLimit(ContentListInterface $contentList): void;
 }

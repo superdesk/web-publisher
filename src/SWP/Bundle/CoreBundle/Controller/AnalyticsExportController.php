@@ -23,6 +23,7 @@ use DateTime;
 use Doctrine\Common\Cache\Cache;
 use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\AnalyticsExport\CsvReportFileLocationResolver;
 use SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
@@ -59,18 +60,23 @@ class AnalyticsExportController extends AbstractController
     /** @var CachedTenantContextInterface */
     protected $cachedTenantContext;
 
+    /** @var RouteRepositoryInterface */
+    protected $routeRepository;
+
     public function __construct(
         Cache $cacheProvider,
         RepositoryInterface $analyticsReportRepository,
         Filesystem $filesystem,
         CsvReportFileLocationResolver $csvReportFileLocationResolver,
-        CachedTenantContextInterface $cachedTenantContext
+        CachedTenantContextInterface $cachedTenantContext,
+        RouteRepositoryInterface $routeRepository
     ) {
         $this->cacheProvider = $cacheProvider;
         $this->analyticsReportRepository = $analyticsReportRepository;
         $this->filesystem = $filesystem;
         $this->csvReportFileLocationResolver = $csvReportFileLocationResolver;
         $this->cachedTenantContext = $cachedTenantContext;
+        $this->routeRepository = $routeRepository;
     }
 
     /**
@@ -88,6 +94,29 @@ class AnalyticsExportController extends AbstractController
      *         name="end",
      *         in="query",
      *         description="Export end date, e.g. 20160101",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="author",
+     *         in="query",
+     *         description="Authors names",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="route",
+     *         in="query",
+     *         description="Routes ids",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="term",
+     *         in="query",
+     *         description="Search phrase",
      *         required=false,
      *         type="string"
      *     ),
@@ -110,8 +139,6 @@ class AnalyticsExportController extends AbstractController
 
         $start = new DateTime($request->query->get('start', 'now'));
         $end = new DateTime($request->query->get('end', '-30 days'));
-        $tenantCode = $this->cachedTenantContext->getTenant()->getCode();
-        $userEmail = $currentlyLoggedInUser->getEmail();
         $now = PublisherDateTime::getCurrentDateTime();
         $fileName = 'analytics-'.$now->format('Y-m-d-H:i:s').'.csv';
 
@@ -119,9 +146,24 @@ class AnalyticsExportController extends AbstractController
         $analyticsReport->setAssetId($fileName);
         $analyticsReport->setFileExtension('csv');
         $analyticsReport->setUser($currentlyLoggedInUser);
+
+        $exportAnalytics = new ExportAnalytics(
+            $start,
+            $end,
+            $this->cachedTenantContext->getTenant()->getCode(),
+            $fileName,
+            $currentlyLoggedInUser->getEmail(),
+            (array) $request->query->get('route', []),
+            (array) $request->query->get('author', []),
+            $request->query->get('term', ''),
+        );
+
+        $filters = $this->processFilters($exportAnalytics);
+        $analyticsReport->setFilters($filters);
+
         $this->analyticsReportRepository->add($analyticsReport);
 
-        $this->dispatchMessage(new ExportAnalytics($start, $end, $tenantCode, $fileName, $userEmail));
+        $this->dispatchMessage($exportAnalytics);
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
@@ -194,5 +236,24 @@ class AnalyticsExportController extends AbstractController
         $response->setContent($this->filesystem->read($this->csvReportFileLocationResolver->getMediaBasePath().'/'.$analyticsReport->getAssetId()));
 
         return $response;
+    }
+
+    private function processFilters(ExportAnalytics $exportAnalytics): array
+    {
+        $filters = $exportAnalytics->getFilters();
+        $routeNames = [];
+        foreach ($exportAnalytics->getRouteIds() as $routeId) {
+            $route = $this->routeRepository->findOneBy(['id' => $routeId]);
+
+            if (null === $route) {
+                continue;
+            }
+
+            $routeNames[] = $route->getName();
+        }
+
+        $filters['routes'] = $routeNames;
+
+        return $filters;
     }
 }

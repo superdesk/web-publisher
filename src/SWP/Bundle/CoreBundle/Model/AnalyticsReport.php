@@ -40,6 +40,9 @@ class AnalyticsReport implements AnalyticsReportInterface
     /** @var string */
     protected $status = AnalyticsReportInterface::STATUS_PROCESSING;
 
+    /** @var array */
+    protected $filters;
+
     public function __construct()
     {
         $this->createdAt = DateTime::getCurrentDateTime();
@@ -88,5 +91,15 @@ class AnalyticsReport implements AnalyticsReportInterface
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    public function getFilters(): array
+    {
+        return $this->filters;
+    }
+
+    public function setFilters(array $filters): void
+    {
+        $this->filters = $filters;
     }
 }
