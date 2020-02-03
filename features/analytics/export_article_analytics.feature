@@ -20,6 +20,7 @@ Feature: Export articles analytics report
       | First Test Article  | Sports     | published | true           | 2020-01-20  | Adam    |
       | Second Test Article | Politics   | published | true           | 2020-01-20  | Rafal   |
       | Third Test Article  | Sports     | published | true           | 2020-01-20  | Adam    |
+    And I wait 2 seconds
 
   Scenario: Export analytics data by different filters
     Given I am authenticated as "test.user"
