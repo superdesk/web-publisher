@@ -37,11 +37,12 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
 
     public function fetchBlock($key)
     {
+        $key = self::hashCacheKeys($key);
         $fetchedBlock = parent::fetchBlock($key);
         if (false === $fetchedBlock) {
-            $this->tagsCollector->startNewCacheBlock($this->getKeyString($key));
+            $this->tagsCollector->startNewCacheBlock(self::getKeyString($key));
         } else {
-            $this->responseTagger->addTags($this->tagsCollector->getSavedCacheBlockTags($this->getKeyString($key)));
+            $this->responseTagger->addTags($this->tagsCollector->getSavedCacheBlockTags(self::getKeyString($key)));
         }
 
         return $fetchedBlock;
@@ -49,13 +50,28 @@ class TagAwareIndexedChainingCacheStrategy extends BaseIndexedChainingCacheStrat
 
     public function saveBlock($key, $block)
     {
+        $key = self::hashCacheKeys($key);
         $this->tagsCollector->flushCurrentCacheBlockTags();
         $this->responseTagger->addTags($this->tagsCollector->getCurrentCacheBlockTags());
 
         return parent::saveBlock($key, $block);
     }
 
-    private function getKeyString(array $key): string
+    private static function hashCacheKeys($key): array
+    {
+        if (isset($key['key'])) {
+            if (is_string($key['key'])) {
+                $key['key'] = self::getKeyString($key);
+            }
+            if (is_array($key['key']) && isset($key)) {
+                $key['key']['key'] = self::getKeyString($key);
+            }
+        }
+
+        return $key;
+    }
+
+    private static function getKeyString(array $key): string
     {
         return md5(json_encode($key, JSON_THROW_ON_ERROR, 512));
     }
