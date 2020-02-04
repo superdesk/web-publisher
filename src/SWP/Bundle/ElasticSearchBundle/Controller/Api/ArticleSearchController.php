@@ -182,6 +182,7 @@ class ArticleSearchController extends Controller
                 'Default',
                 'api_articles_list',
                 'api_articles_featuremedia',
+                'api_article_authors',
                 'api_article_media_list',
                 'api_article_media_renditions',
                 'api_image_details',
