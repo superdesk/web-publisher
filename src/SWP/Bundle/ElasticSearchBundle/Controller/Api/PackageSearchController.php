@@ -175,6 +175,7 @@ class PackageSearchController extends Controller
                 'api_articles_slideshows',
                 'api_articles_featuremedia',
                 'api_articles_statistics_list',
+                'api_article_authors',
                 'api_article_media_list',
                 'api_article_media_renditions',
                 'api_image_details',
