@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use SWP\Bundle\CoreBundle\Webhook\Message\WebhookMessage;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -31,7 +32,7 @@ class WebhookHandler implements MessageHandlerInterface
             }
         }
 
-        $webhookRequest = new GuzzleHttp\Psr7\Request(
+        $webhookRequest = new Request(
             'POST',
             $webhookMessage->getUrl(),
             $headers,
