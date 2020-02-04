@@ -1,10 +1,10 @@
 @disable-fixtures
 Feature: Working with cache blocks http cache tags collector
-  In order to allways have correct http cache tags with used on page articles
+  In order to always have correct http cache tags with used on page articles
   As a template implementator
   I want to be able to have http response tags set when content is cached and not cached
 
-  Scenario: Getting next article from content list
+  Scenario: Working with saved cache tags with twig cache used
     Given the following Tenants:
       | organization | name | subdomain | domain_name | enabled | default |
       | Default      | test |           | localhost   | true    | true    |
