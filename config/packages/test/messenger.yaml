@@ -7,8 +7,10 @@ framework:
             sync_analytics_event: 'sync://'
             sync_analytics_export: 'sync://'
             sync_webhooks: 'sync://'
+            sync_content_push: 'sync://'
 
         routing:
             'SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics': sync_analytics_export
             'SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent': sync_analytics_event
             'SWP\Bundle\CoreBundle\Webhook\Message\WebhookMessage': sync_webhooks
+            'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage': sync_content_push

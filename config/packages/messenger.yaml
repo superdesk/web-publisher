@@ -4,11 +4,11 @@ framework:
         # failure_transport: failed
 
         transports:
-            async_priority_high:
+            async_content_push:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: high
+                        name: '%kernel.environment%_%env(APP_SECRET)%_content_push'
             async_analytics_event:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
@@ -29,3 +29,4 @@ framework:
             'SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics': async_analytics_export
             'SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent': async_analytics_event
             'SWP\Bundle\CoreBundle\Webhook\Message\WebhookMessage': async_webhooks
+            'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage': async_content_push

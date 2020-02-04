@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;
+use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;
 use SWP\Component\Bridge\Events;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
@@ -59,11 +60,9 @@ class ContentPushController extends AbstractController
         $package = $this->container->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
         $this->container->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-        $payload = \serialize([
-            'package' => $package,
-            'tenant' => $this->container->get('swp_multi_tenancy.tenant_context')->getTenant(),
-        ]);
-        $this->container->get('old_sound_rabbit_mq.content_push_producer')->publish($payload);
+        $currentTenant = $this->container->get('swp_multi_tenancy.tenant_context')->getTenant();
+
+        $this->dispatchMessage(new ContentPushMessage($currentTenant->getId(), $request->getContent()));
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }

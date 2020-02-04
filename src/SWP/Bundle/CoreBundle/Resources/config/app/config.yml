@@ -322,9 +322,6 @@ old_sound_rabbit_mq:
             keepalive: false
             heartbeat: 0
     producers:
-        content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
         image_conversion:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
@@ -332,21 +329,16 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
     consumers:
-        content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_content_push'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
         image_conversion:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
             queue_options:    {name: '%kernel.environment%_%kernel.secret%_image_conversion'}
             callback:         SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer
-        migration_content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_migration_content_push'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
+#        migration_content_push:
+#            connection:       default
+#            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
+#            queue_options:    {name: '%kernel.environment%_%kernel.secret%_migration_content_push'}
+#            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
 
 bazinga_hateoas:
     twig_extension:

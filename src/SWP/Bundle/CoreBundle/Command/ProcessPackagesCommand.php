@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;
 use function explode;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
@@ -134,12 +135,11 @@ EOT
                 continue;
             }
 
-            //send package to content push
-            $payload = \serialize([
-                'package' => $package,
-                'tenant' => $currentTenant,
-            ]);
-            $this->migrationContentPushProducer->publish($payload);
+            // TODO create ContentPushMigrationMessage and handler
+//            $this->messageBus->disptach(new ContentPushMessage(
+//                $currentTenant->getTenant()->getId(),
+//                $package
+//            ));
         }
     }
 }

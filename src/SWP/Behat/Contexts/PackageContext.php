@@ -6,8 +6,8 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
+use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;
 use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
 use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
@@ -19,6 +19,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class PackageContext extends AbstractContext implements Context
 {
@@ -28,7 +29,7 @@ final class PackageContext extends AbstractContext implements Context
 
     private $eventDispatcher;
 
-    private $contentPushProducer;
+    private $messageBus;
 
     private $articlePublisher;
 
@@ -40,7 +41,7 @@ final class PackageContext extends AbstractContext implements Context
         TenantContextInterface $tenantContext,
         JsonToPackageTransformer $jsonToPackageTransformer,
         EventDispatcherInterface $eventDispatcher,
-        ProducerInterface $contentPushProducer,
+        MessageBusInterface $messageBus,
         ArticlePublisherInterface $articlePublisher,
         FormFactoryInterface $formFactory,
         PackageRepositoryInterface $packageRepository
@@ -48,7 +49,7 @@ final class PackageContext extends AbstractContext implements Context
         $this->tenantContext = $tenantContext;
         $this->jsonToPackageTransformer = $jsonToPackageTransformer;
         $this->eventDispatcher = $eventDispatcher;
-        $this->contentPushProducer = $contentPushProducer;
+        $this->messageBus = $messageBus;
         $this->articlePublisher = $articlePublisher;
         $this->formFactory = $formFactory;
         $this->packageRepository = $packageRepository;
@@ -61,13 +62,7 @@ final class PackageContext extends AbstractContext implements Context
     {
         $package = $this->jsonToPackageTransformer->transform($node->getRaw());
         $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
-
-        $payload = \serialize([
-            'package' => $package,
-            'tenant' => $this->tenantContext->getTenant(),
-        ]);
-
-        $this->contentPushProducer->publish($payload);
+        $this->messageBus->disptach(new ContentPushMessage($this->tenantContext->getTenant()->getId(), $node->getRaw()));
     }
 
     /**

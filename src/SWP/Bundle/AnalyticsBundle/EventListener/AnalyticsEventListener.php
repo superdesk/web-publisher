@@ -18,6 +18,9 @@ namespace SWP\Bundle\AnalyticsBundle\EventListener;
 
 use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -52,6 +55,31 @@ class AnalyticsEventListener
             $response = new Response();
             $response->headers->add([self::TERMINATE_IMMEDIATELY => true]);
             $event->setResponse($response);
+        }
+    }
+
+    public function onKernelResponse(FilterResponseEvent $event)
+    {
+        $response = $event->getResponse();
+
+        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
+            $event->stopPropagation();
+        }
+    }
+
+    public function onKernelFinishRequest(FinishRequestEvent $event)
+    {
+        $request = $event->getRequest();
+        if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT)) {
+            $event->stopPropagation();
+        }
+    }
+
+    public function onKernelTerminate(PostResponseEvent $event)
+    {
+        $response = $event->getResponse();
+        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
+            $event->stopPropagation();
         }
     }
 }
