@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Psr\Log\LoggerInterface;
 use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
@@ -28,9 +27,6 @@ class AnalyticsEventHandler implements MessageHandlerInterface
     /** @var ObjectManager */
     private $articleStatisticsObjectManager;
 
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
@@ -49,15 +45,6 @@ class AnalyticsEventHandler implements MessageHandlerInterface
 
         $articleId = $analyticsEvent->getArticleId();
         $this->handleArticlePageViews($articleId, $analyticsEvent->getPageViewReferrer());
-
-        if (null !== $this->logger) {
-            $this->logger->info("Pageview for article $articleId was processed");
-        }
-    }
-
-    public function setLogger(LoggerInterface $logger): void
-    {
-        $this->logger = $logger;
     }
 
     private function handleArticlePageViews(int $articleId, ?string $pageViewReferrer): void
@@ -110,9 +97,5 @@ class AnalyticsEventHandler implements MessageHandlerInterface
     {
         $tenant = $this->tenantResolver->resolve($httpReferrer);
         $this->tenantContext->setTenant($tenant);
-
-        if (null !== $this->logger) {
-            $this->logger->info('Set tenant: '.$tenant->getCode());
-        }
     }
 }

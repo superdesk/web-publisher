@@ -1,24 +1,16 @@
 monolog:
     channels:
-        - swp_send_webhook
         - swp_asset_download
         - swp_content_push
         - swp_image_conversion
         - swp_rule
         - swp_validators
-        - swp_analytics
     handlers:
         main:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
-            channels: ["!swp_send_webhook", "!swp_content_push", "!swp_image_conversion", "!swp_asset_download", "!swp_rule", "!swp_validators"]
-        swp_send_webhook:
-            type:      stream
-            level:     debug
-            max_files: 7
-            path:      '%kernel.logs_dir%/swp_send_webhook_%kernel.environment%.log'
-            channels:  swp_send_webhook
+            channels: ["!swp_content_push", "!swp_image_conversion", "!swp_asset_download", "!swp_rule", "!swp_validators"]
         swp_content_push:
             type:      stream
             level:     debug
@@ -49,12 +41,6 @@ monolog:
             path:      '%kernel.logs_dir%/swp_validators_%kernel.environment%.log'
             max_files: 7
             channels:  swp_validators
-        swp_analytics:
-            type:      stream
-            level:     debug
-            max_files: 7
-            path:      '%kernel.logs_dir%/swp_analytics_%kernel.environment%.log'
-            channels:  swp_analytics
         console:
             type:   console
             bubble: false

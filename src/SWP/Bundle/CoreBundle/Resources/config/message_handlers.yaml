@@ -13,5 +13,3 @@ services:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
             - '@swp.object_manager.article_statistics'
-        calls:
-            - [setLogger, ['@?monolog.logger.swp_analytics']]
