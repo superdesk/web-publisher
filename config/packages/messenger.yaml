@@ -9,6 +9,11 @@ framework:
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_content_push'
+            async_migration_content_push:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: '%kernel.environment%_%env(APP_SECRET)%_migration_content_push'
             async_analytics_event:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
@@ -30,3 +35,4 @@ framework:
             'SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent': async_analytics_event
             'SWP\Bundle\CoreBundle\Webhook\Message\WebhookMessage': async_webhooks
             'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage': async_content_push
+            'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage': async_migration_content_push

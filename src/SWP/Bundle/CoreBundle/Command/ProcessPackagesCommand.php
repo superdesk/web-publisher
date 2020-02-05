@@ -16,7 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
-use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;
+use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage;
+use Symfony\Component\Messenger\MessageBusInterface;
 use function explode;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
@@ -50,13 +51,15 @@ class ProcessPackagesCommand extends Command
 
     private $migrationContentPushProducer;
 
+    private $messageBus;
+
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         TenantContextInterface $tenantContext,
         PackageRepositoryInterface $packageRepository,
         PaginatorInterface $paginator,
         RequestStack $requestStack,
-        ProducerInterface $migrationContentPushProducer
+        MessageBusInterface $messageBus
     ) {
         parent::__construct();
 
@@ -65,7 +68,7 @@ class ProcessPackagesCommand extends Command
         $this->packageRepository = $packageRepository;
         $this->paginator = $paginator;
         $this->requestStack = $requestStack;
-        $this->migrationContentPushProducer = $migrationContentPushProducer;
+        $this->messageBus = $messageBus;
     }
 
     protected function configure(): void
@@ -135,11 +138,10 @@ EOT
                 continue;
             }
 
-            // TODO create ContentPushMigrationMessage and handler
-//            $this->messageBus->disptach(new ContentPushMessage(
-//                $currentTenant->getTenant()->getId(),
-//                $package
-//            ));
+            $this->messageBus->disptach(new ContentPushMigrationMessage(
+                $currentTenant->getTenant()->getId(),
+                $package->getId()
+            ));
         }
     }
 }
