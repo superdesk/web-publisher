@@ -126,7 +126,7 @@ class AnalyticsExportController extends AbstractController
      *     )
      * )
      *
-     * @Route("/api/{version}/export/analytics", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
+     * @Route("/api/{version}/export/analytics/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
      *
      * @return SingleResourceResponse
      *
@@ -189,7 +189,7 @@ class AnalyticsExportController extends AbstractController
      *     )
      * )
      *
-     * @Route("/api/{version}/export/analytics", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
+     * @Route("/api/{version}/export/analytics/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
      */
     public function listAction(Request $request)
     {
