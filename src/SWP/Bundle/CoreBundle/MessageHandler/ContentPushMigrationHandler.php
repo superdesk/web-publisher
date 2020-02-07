@@ -19,7 +19,7 @@ namespace SWP\Bundle\CoreBundle\MessageHandler;
 use SWP\Bundle\CoreBundle\Exception\PackageNotFoundException;
 use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage;
 
-class ContentPushMessageHandler extends AbstractContentPushHandler
+class ContentPushMigrationHandler extends AbstractContentPushHandler
 {
     public function __invoke(ContentPushMigrationMessage $contentPushMessage)
     {

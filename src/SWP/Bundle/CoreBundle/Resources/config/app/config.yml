@@ -308,30 +308,6 @@ swp_output_channel:
                     model: SWP\Bundle\CoreBundle\Model\ExternalArticle
                     interface: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
 
-old_sound_rabbit_mq:
-    connections:
-        default:
-            host:     '%env(RABBIT_MQ_HOST)%'
-            port:     '%env(RABBIT_MQ_PORT)%'
-            user:     '%env(RABBIT_MQ_USER)%'
-            password: '%env(RABBIT_MQ_PASSWORD)%'
-            vhost:    '%env(RABBIT_MQ_VHOST)%'
-            lazy:     true
-            connection_timeout: 3
-            read_write_timeout: 3
-            keepalive: false
-            heartbeat: 0
-    producers:
-        image_conversion:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
-    consumers:
-        image_conversion:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_image_conversion'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer
-
 bazinga_hateoas:
     twig_extension:
         enabled: false

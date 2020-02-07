@@ -49,8 +49,6 @@ class ProcessPackagesCommand extends Command
 
     private $requestStack;
 
-    private $migrationContentPushProducer;
-
     private $messageBus;
 
     public function __construct(

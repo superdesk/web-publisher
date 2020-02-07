@@ -681,7 +681,7 @@ services:
     SWP\Bundle\CoreBundle\EventListener\ImageToWebpConversionListener:
         autowire: true
         arguments:
-            - '@old_sound_rabbit_mq.image_conversion_producer'
+            - '@messenger.default_bus'
             - '@swp_multi_tenancy.tenant_context'
             - '%env(bool:WEBP_CONVERSION_ENABLED)%'
             - '@event_dispatcher'

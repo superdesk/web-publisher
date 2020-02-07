@@ -97,7 +97,6 @@
     "ocramius/generated-hydrator": "^3.0",
     "ocramius/proxy-manager": "<=2.1.1",
     "oneup/flysystem-bundle": "^3.1",
-    "php-amqplib/rabbitmq-bundle": "^1.14",
     "php-http/guzzle6-adapter": "^v1.1",
     "phpdocumentor/reflection-docblock": "^4.3",
     "ramsey/uuid": "^3.8",

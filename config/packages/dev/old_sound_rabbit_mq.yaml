@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-
-    old_sound_rabbit_mq.image_conversion_producer:
-        class: SWP\Bundle\CoreBundle\Tests\Producer\TestProducer
-        arguments:
-            - '@SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer'

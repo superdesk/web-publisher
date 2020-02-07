@@ -52,7 +52,6 @@ return [
     SWP\Bundle\CoreBundle\SWPCoreBundle::class => ['all' => true],
     FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
     SWP\Bundle\ElasticSearchBundle\SWPElasticSearchBundle::class => ['all' => true],
-    OldSound\RabbitMqBundle\OldSoundRabbitMqBundle::class => ['all' => true],
     Gos\Bundle\WebSocketBundle\GosWebSocketBundle::class => ['all' => true],
     Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle::class => ['all' => true],
     Sentry\SentryBundle\SentryBundle::class => ['all' => true],

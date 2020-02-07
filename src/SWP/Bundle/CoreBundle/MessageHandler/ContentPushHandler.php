@@ -16,18 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
-use Sentry\State\HubInterface;
-use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
-use SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface;
 use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;
-use SWP\Component\Bridge\Transformer\DataTransformerInterface;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class ContentPushHandler implements MessageHandlerInterface
+class ContentPushHandler extends AbstractContentPushHandler
 {
     public function __invoke(ContentPushMessage $contentPushMessage)
     {
