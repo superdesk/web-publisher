@@ -92,8 +92,8 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
                 $exportAnalytics->getTerm(),
                 [
                     'sort' => ['articleStatistics.pageViewsNumber' => 'desc'],
-                    'publishedBefore' => $exportAnalytics->getEnd(),
-                    'publishedAfter' => $exportAnalytics->getStart(),
+                    'publishedBefore' => new \DateTime($exportAnalytics->getEnd()),
+                    'publishedAfter' => new \DateTime($exportAnalytics->getStart()),
                     'tenantCode' => $tenantCode,
                     'routes' => $exportAnalytics->getRouteIds(),
                     'authors' => $exportAnalytics->getAuthors(),
