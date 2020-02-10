@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use DateTime;
 use Doctrine\Common\Cache\Cache;
 use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
@@ -27,6 +26,7 @@ use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\AnalyticsExport\CsvReportFileLocationResolver;
 use SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
+use SWP\Bundle\CoreBundle\Form\Type\ExportAnalyticsType;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
@@ -84,44 +84,14 @@ class AnalyticsExportController extends AbstractController
      *     tags={"export"},
      *     summary="Export analytics data",
      *     @SWG\Parameter(
-     *         name="start",
-     *         in="query",
-     *         description="Export start date, e.g. 20150101",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="end",
-     *         in="query",
-     *         description="Export end date, e.g. 20160101",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="author",
-     *         in="query",
-     *         description="Authors names",
-     *         required=false,
-     *         type="array",
-     *         @SWG\Items(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="route",
-     *         in="query",
-     *         description="Routes ids",
-     *         required=false,
-     *         type="array",
-     *         @SWG\Items(type="string")
-     *     ),
-     *     @SWG\Parameter(
-     *         name="term",
-     *         in="query",
-     *         description="Search phrase",
-     *         required=false,
-     *         type="string"
+     *         name="body",
+     *         in="body",
+     *         @SWG\Schema(
+     *             ref=@Model(type=SWP\Bundle\CoreBundle\Form\Type\ExportAnalyticsType::class)
+     *         )
      *     ),
      *     @SWG\Response(
-     *         response="200",
+     *         response="201",
      *         description="Returned on success."
      *     )
      * )
@@ -137,35 +107,42 @@ class AnalyticsExportController extends AbstractController
         /** @var UserInterface $currentlyLoggedInUser */
         $currentlyLoggedInUser = $this->getUser();
 
-        $start = new DateTime($request->query->get('start', 'now'));
-        $end = new DateTime($request->query->get('end', '-30 days'));
         $now = PublisherDateTime::getCurrentDateTime();
         $fileName = 'analytics-'.$now->format('Y-m-d-H:i:s').'.csv';
 
-        $analyticsReport = new AnalyticsReport();
-        $analyticsReport->setAssetId($fileName);
-        $analyticsReport->setFileExtension('csv');
-        $analyticsReport->setUser($currentlyLoggedInUser);
+        $form = $this->get('form.factory')->createNamed('', ExportAnalyticsType::class, null, ['method' => $request->getMethod()]);
+        $form->handleRequest($request);
 
-        $exportAnalytics = new ExportAnalytics(
-            $start,
-            $end,
-            $this->cachedTenantContext->getTenant()->getCode(),
-            $fileName,
-            $currentlyLoggedInUser->getEmail(),
-            (array) $request->query->get('route', []),
-            (array) $request->query->get('author', []),
-            $request->query->get('term', ''),
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-        $filters = $this->processFilters($exportAnalytics);
-        $analyticsReport->setFilters($filters);
+            $analyticsReport = new AnalyticsReport();
+            $analyticsReport->setAssetId($fileName);
+            $analyticsReport->setFileExtension('csv');
+            $analyticsReport->setUser($currentlyLoggedInUser);
 
-        $this->analyticsReportRepository->add($analyticsReport);
+            $exportAnalytics = new ExportAnalytics(
+                $data['start'],
+                $data['end'],
+                $this->cachedTenantContext->getTenant()->getCode(),
+                $fileName,
+                $currentlyLoggedInUser->getEmail(),
+                !empty($data['routes']) ? $this->processRoutesToIds($data['routes'][0]) : [],
+                $data['authors'],
+                $data['term'] ?? ''
+            );
 
-        $this->dispatchMessage($exportAnalytics);
+            $filters = $this->processFilters($exportAnalytics->getFilters(), !empty($data['routes']) ? $data['routes'][0] : []);
+            $analyticsReport->setFilters($filters);
 
-        return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
+            $this->analyticsReportRepository->add($analyticsReport);
+
+            $this->dispatchMessage($exportAnalytics);
+
+            return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
+        }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -238,17 +215,21 @@ class AnalyticsExportController extends AbstractController
         return $response;
     }
 
-    private function processFilters(ExportAnalytics $exportAnalytics): array
+    private function processRoutesToIds(array $routes): array
     {
-        $filters = $exportAnalytics->getFilters();
+        $routeIds = [];
+
+        foreach ($routes as $route) {
+            $routeIds[] = $route->getId();
+        }
+
+        return $routeIds;
+    }
+
+    private function processFilters(array $filters, array $routes): array
+    {
         $routeNames = [];
-        foreach ($exportAnalytics->getRouteIds() as $routeId) {
-            $route = $this->routeRepository->findOneBy(['id' => $routeId]);
-
-            if (null === $route) {
-                continue;
-            }
-
+        foreach ($routes as $route) {
             $routeNames[] = $route->getName();
         }
 

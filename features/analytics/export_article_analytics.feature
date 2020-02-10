@@ -25,7 +25,18 @@ Feature: Export articles analytics report
   Scenario: Export analytics data by different filters
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v2/export/analytics/?start=2020-01-20&end=2020-01-23&route[]=1"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "routes": [
+            {
+                "id": 1
+            }
+        ]
+    }
+    """
     Then the response status code should be 201
 
     And I am authenticated as "test.user"
@@ -72,8 +83,8 @@ Feature: Export articles analytics report
                 "status":"completed",
                 "filters": {
                     "term": "",
-                    "start": "2020-01-20T00:00:00+00:00",
-                    "end": "2020-01-23T00:00:00+00:00",
+                    "start": "2020-01-20",
+                    "end": "2020-01-23",
                     "routes": [
                         "Sports"
                     ],
@@ -96,14 +107,32 @@ Feature: Export articles analytics report
     Given the current date time is "2019-03-10 10:00"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v2/export/analytics/?start=2020-01-20&end=2020-01-23&route[]=2"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "routes": [
+            {
+                "id": 2
+            }
+        ]
+    }
+    """
     Then the response status code should be 201
     And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-10:00:00.csv" should contain 3 rows
 
     Given the current date time is "2019-03-10 11:00"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v2/export/analytics/?start=2020-01-20&end=2020-01-23&author[]=Tom"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "authors": ["Tom"]
+    }
+    """
     Then the response status code should be 201
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -149,8 +178,8 @@ Feature: Export articles analytics report
                 "status":"completed",
                 "filters":{
                    "term":"",
-                   "start":"2020-01-20T00:00:00+00:00",
-                   "end":"2020-01-23T00:00:00+00:00",
+                   "start":"2020-01-20",
+                   "end":"2020-01-23",
                    "routes":[
                       "Sports"
                    ],
@@ -186,8 +215,8 @@ Feature: Export articles analytics report
                 "status":"completed",
                 "filters":{
                    "term":"",
-                   "start":"2020-01-20T00:00:00+00:00",
-                   "end":"2020-01-23T00:00:00+00:00",
+                   "start":"2020-01-20",
+                   "end":"2020-01-23",
                    "routes":[
                       "Politics"
                    ],
@@ -223,8 +252,8 @@ Feature: Export articles analytics report
                 "status":"completed",
                 "filters":{
                    "term":"",
-                   "start":"2020-01-20T00:00:00+00:00",
-                   "end":"2020-01-23T00:00:00+00:00",
+                   "start":"2020-01-20",
+                   "end":"2020-01-23",
                    "routes":[
 
                    ],
@@ -249,27 +278,55 @@ Feature: Export articles analytics report
     Given the current date time is "2019-03-10 12:00"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v2/export/analytics/?start=2020-01-20&end=2020-01-23&author[]=Rafal"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "authors": ["Rafal"]
+    }
+    """
     Then the response status code should be 201
     And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-12:00:00.csv" should contain 3 rows
 
     Given the current date time is "2019-03-10 13:00"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v2/export/analytics/?start=2020-01-20&end=2020-01-23&author[]=Adam"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "authors": ["Adam"]
+    }
+    """
     Then the response status code should be 201
     And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-13:00:00.csv" should contain 4 rows
 
     Given the current date time is "2019-03-10 14:00"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v2/export/analytics/?start=2020-01-20&end=2020-01-23&term=second"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "term": "second"
+    }
+    """
     Then the response status code should be 201
     And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-14:00:00.csv" should contain 3 rows
 
     Given the current date time is "2019-03-10 15:00"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/v2/export/analytics/?start=2020-01-20&end=2020-01-23&term=fake"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "term": "fake"
+    }
+    """
     Then the response status code should be 201
     And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-15:00:00.csv" should contain 2 rows

@@ -16,14 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AnalyticsExport;
 
-use DateTimeInterface;
-
 class ExportAnalytics
 {
-    /** @var DateTimeInterface */
+    /** @var string */
     private $start;
 
-    /** @var DateTimeInterface */
+    /** @var string */
     private $end;
 
     /** @var string */
@@ -45,8 +43,8 @@ class ExportAnalytics
     private $term;
 
     public function __construct(
-        DateTimeInterface $start,
-        DateTimeInterface $end,
+        string $start,
+        string $end,
         string $tenantCode,
         string $fileName,
         string $userEmail,
@@ -64,12 +62,12 @@ class ExportAnalytics
         $this->term = $term;
     }
 
-    public function getStart(): DateTimeInterface
+    public function getStart(): string
     {
         return $this->start;
     }
 
-    public function getEnd(): DateTimeInterface
+    public function getEnd(): string
     {
         return $this->end;
     }
