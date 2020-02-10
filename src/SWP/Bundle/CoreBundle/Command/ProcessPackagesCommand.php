@@ -21,7 +21,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use function explode;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Model\PackageInterface;

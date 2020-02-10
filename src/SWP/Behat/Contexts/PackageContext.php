@@ -62,7 +62,7 @@ final class PackageContext extends AbstractContext implements Context
     {
         $package = $this->jsonToPackageTransformer->transform($node->getRaw());
         $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
-        $this->messageBus->disptach(new ContentPushMessage($this->tenantContext->getTenant()->getId(), $node->getRaw()));
+        $this->messageBus->dispatch(new ContentPushMessage($this->tenantContext->getTenant()->getId(), $node->getRaw()));
     }
 
     /**
