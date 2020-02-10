@@ -135,7 +135,7 @@ EOT
                 continue;
             }
 
-            $this->messageBus->disptach(new ContentPushMigrationMessage(
+            $this->messageBus->dispatch(new ContentPushMigrationMessage(
                 $currentTenant->getTenant()->getId(),
                 $package->getId()
             ));
