@@ -24,8 +24,10 @@ Most important steps to do after updating code:
 * [BC BREAK] Removed `SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer`. Use `SWP\Bundle\CoreBundle\MessageHandler\ImageConversionHandler` instead.
 * [BC BREAK] Removed `SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer`. Use `SWP\Bundle\CoreBundle\MessageHandler\WebhookHandler` instead.
 * [BC BREAK] Removed `old_sound_rabbit_mq.content_push_producer` service. Use `messenger.default_bus` instead.
-* Added `SWP\Bundle\CoreBundle\MessageHandler\ContentPushMigrationHandler` class to handle separate content push migration tasks.
-* Added new Supervisor config. See `supervisor.md` for more details.
+* [BC BREAK] Added `SWP\Bundle\CoreBundle\MessageHandler\ContentPushMigrationHandler` class to handle separate content push migration tasks.
+* [BC BREAK] Added new Supervisor config. See `supervisor.md` for more details.
+* [BC BREAK] Added new env variable `MESSENGER_TRANSPORT_DSN` to `.env` file.
+* [BC BREAK] Removed `RABBITMQ_URL` env variable from `.env.` file.
 
 ## Release 2.0
 
@@ -37,7 +39,6 @@ From your theme config file (`theme.json`) remove nodes: `generatedData.containe
 * [BC] `web/` directory was renamed to `public/`
 * New API version is now `v2`
 * In server vhost config change references to `app.php` into `index.php`. And there is no more `app_dev.php` - activate dev mode with env variables changes. 
-
 
 ## Release 1.4.0
 
