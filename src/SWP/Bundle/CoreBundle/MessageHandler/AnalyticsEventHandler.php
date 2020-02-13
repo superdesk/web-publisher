@@ -2,39 +2,29 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the Superdesk Web Publisher Core Bundle.
- *
- * Copyright 2017 Sourcefabric z.ú. and contributors.
- *
- * For the full copyright and license information, please see the
- * AUTHORS and LICENSE files distributed with this source code.
- *
- * @copyright 2017 Sourcefabric z.ú
- * @license http://www.superdesk.org/license
- */
-
-namespace SWP\Bundle\CoreBundle\Consumer;
+namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
-use PhpAmqpLib\Message\AMQPMessage;
+use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleStatistics;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class AnalyticsEventConsumer implements ConsumerInterface
+class AnalyticsEventHandler implements MessageHandlerInterface
 {
+    /** @var ArticleStatisticsServiceInterface */
     private $articleStatisticsService;
 
+    /** @var TenantResolver */
     private $tenantResolver;
 
+    /** @var TenantContextInterface */
     private $tenantContext;
 
+    /** @var ObjectManager */
     private $articleStatisticsObjectManager;
 
     public function __construct(
@@ -49,38 +39,19 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         $this->articleStatisticsObjectManager = $articleStatisticsObjectManager;
     }
 
-    public function execute(AMQPMessage $message)
+    public function __invoke(AnalyticsEvent $analyticsEvent)
     {
-        /** @var Request $request */
-        $request = unserialize($message->getBody());
-        if (!$request instanceof Request) {
-            return ConsumerInterface::MSG_REJECT;
-        }
+        $this->setTenant($analyticsEvent->getHttpReferrer());
 
-        try {
-            $this->setTenant($request);
-        } catch (TenantNotFoundException $e) {
-            echo $e->getMessage()."\n";
-
-            return ConsumerInterface::MSG_REJECT;
-        }
-        echo 'Set tenant: '.$this->tenantContext->getTenant()->getCode()."\n";
-
-        if ($request->query->has('articleId')) {
-            $this->handleArticlePageViews($request);
-
-            echo 'Pageview for article '.$request->query->get('articleId')." was processed \n";
-        }
-
-        return ConsumerInterface::MSG_ACK;
+        $articleId = $analyticsEvent->getArticleId();
+        $this->handleArticlePageViews($articleId, $analyticsEvent->getPageViewReferrer());
     }
 
-    private function handleArticlePageViews(Request $request): void
+    private function handleArticlePageViews(int $articleId, ?string $pageViewReferrer): void
     {
-        $articleId = $request->query->get('articleId', null);
-        if (null !== $articleId && 0 !== (int) $articleId) {
-            $articleStatistics = $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW, [
-                'pageViewSource' => $this->getPageViewSource($request),
+        if (0 !== $articleId) {
+            $articleStatistics = $this->articleStatisticsService->addArticleEvent($articleId, ArticleEventInterface::ACTION_PAGEVIEW, [
+                'pageViewSource' => $this->getPageViewSource($pageViewReferrer),
             ]);
 
             $query = $this->articleStatisticsObjectManager->createQuery('UPDATE '.ArticleStatistics::class.' s SET s.pageViewsNumber = s.pageViewsNumber + 1 WHERE s.id = :id');
@@ -89,9 +60,8 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
     }
 
-    private function getPageViewSource(Request $request): string
+    private function getPageViewSource(?string $pageViewReferer): string
     {
-        $pageViewReferer = $request->query->get('ref', null);
         if (null !== $pageViewReferer) {
             $refererHost = $this->getFragmentFromUrl($pageViewReferer, 'host');
             if ($refererHost && $this->isHostMatchingTenant($refererHost)) {
@@ -123,16 +93,9 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         return $host === $tenantHost;
     }
 
-    private function setTenant(Request $request): void
+    private function setTenant(string $httpReferrer): void
     {
-        $this->tenantContext->setTenant(
-            $this->tenantResolver->resolve(
-                $request->server->get('HTTP_REFERER',
-                    $request->query->get('host',
-                        $request->getHost()
-                    )
-                )
-            )
-        );
+        $tenant = $this->tenantResolver->resolve($httpReferrer);
+        $this->tenantContext->setTenant($tenant);
     }
 }

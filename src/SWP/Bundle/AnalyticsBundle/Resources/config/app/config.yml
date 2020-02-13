@@ -1,5 +1,0 @@
-old_sound_rabbit_mq:
-    producers:
-        analytics_event:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_analytics_event', type: direct}

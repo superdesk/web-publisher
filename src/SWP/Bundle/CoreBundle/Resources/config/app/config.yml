@@ -308,59 +308,6 @@ swp_output_channel:
                     model: SWP\Bundle\CoreBundle\Model\ExternalArticle
                     interface: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
 
-old_sound_rabbit_mq:
-    connections:
-        default:
-            host:     '%env(RABBIT_MQ_HOST)%'
-            port:     '%env(RABBIT_MQ_PORT)%'
-            user:     '%env(RABBIT_MQ_USER)%'
-            password: '%env(RABBIT_MQ_PASSWORD)%'
-            vhost:    '%env(RABBIT_MQ_VHOST)%'
-            lazy:     true
-            connection_timeout: 3
-            read_write_timeout: 3
-            keepalive: false
-            heartbeat: 0
-    producers:
-        send_webhook:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
-        content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
-        image_conversion:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
-        migration_content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
-    consumers:
-        send_webhook:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_send_webhook'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
-        content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_content_push'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
-        image_conversion:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_image_conversion'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer
-        migration_content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_migration_content_push'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
-        analytics_event:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_analytics_event', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_analytics_event'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer
-
 bazinga_hateoas:
     twig_extension:
         enabled: false

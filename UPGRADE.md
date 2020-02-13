@@ -12,6 +12,23 @@ Most important steps to do after updating code:
 * Install project assets with `assets:install` command
 * (optionally) Clear memcached store (with `echo \'flush_all\' | nc localhost 11211` on ubuntu)
 
+## Release 2.1
+
+* [BC BREAK] Removed OldSoundRabbitMqBundle.
+* [BC BREAK] Removed `rabbitmq:consumer content_push` command. Use `messenger:consume async_content_push` instead.
+* [BC BREAK] Removed `rabbitmq:consumer analytics_event` command. Use `messenger:consume async_analytics_event` instead.
+* [BC BREAK] Removed `rabbitmq:consumer image_conversion` command. Use `messenger:consume async_image_conversion` instead.
+* [BC BREAK] Removed `rabbitmq:consumer send_webhook` command. Use `messenger:consume async_webhooks` instead.
+* [BC BREAK] Removed `SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer`. Use `SWP\Bundle\CoreBundle\MessageHandler\AnalyticsEventHandler` instead.
+* [BC BREAK] Removed `SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer`. Use `SWP\Bundle\CoreBundle\MessageHandler\ContentPushHandler` instead.
+* [BC BREAK] Removed `SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer`. Use `SWP\Bundle\CoreBundle\MessageHandler\ImageConversionHandler` instead.
+* [BC BREAK] Removed `SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer`. Use `SWP\Bundle\CoreBundle\MessageHandler\WebhookHandler` instead.
+* [BC BREAK] Removed `old_sound_rabbit_mq.content_push_producer` service. Use `messenger.default_bus` instead.
+* [BC BREAK] Added `SWP\Bundle\CoreBundle\MessageHandler\ContentPushMigrationHandler` class to handle separate content push migration tasks.
+* [BC BREAK] Added new Supervisor config. See `supervisor.md` for more details.
+* [BC BREAK] Added new env variable `MESSENGER_TRANSPORT_DSN` to `.env` file.
+* [BC BREAK] Removed `RABBITMQ_URL` env variable from `.env.` file.
+
 ## Release 2.0
 
 * [BC] ```Unrecognized options "containers, widgets" under "sylius_theme.generatedData". Available options are "contentLists", "menus", "routes".```
@@ -22,7 +39,6 @@ From your theme config file (`theme.json`) remove nodes: `generatedData.containe
 * [BC] `web/` directory was renamed to `public/`
 * New API version is now `v2`
 * In server vhost config change references to `app.php` into `index.php`. And there is no more `app_dev.php` - activate dev mode with env variables changes. 
-
 
 ## Release 1.4.0
 
