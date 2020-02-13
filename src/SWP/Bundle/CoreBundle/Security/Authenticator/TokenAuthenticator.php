@@ -139,11 +139,15 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return true;
         }
 
+        if (false === $isApi && null !== $token && false === strpos($token, 'Bearer ') && !$request->query->has('auth_token')) {
+            return false;
+        }
+
         if (false === $isApi) {
             return false;
         }
 
-        return null !== $token && false === strpos($token, 'Bearer ');
+        return true;
     }
 
     private function getToken(Request $request): ?string
