@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\MessageHandler\Message;
 
-class ConvertImageMessage
+class ConvertImageMessage implements MessageInterface
 {
     /** @var int */
     private $imageId;
@@ -38,5 +38,13 @@ class ConvertImageMessage
     public function getTenantId(): int
     {
         return $this->tenantId;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'tenantId' => $this->tenantId,
+            'imageId' => $this->imageId,
+        ];
     }
 }

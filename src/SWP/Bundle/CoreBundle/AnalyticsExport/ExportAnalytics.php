@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AnalyticsExport;
 
-class ExportAnalytics
+use SWP\Bundle\CoreBundle\MessageHandler\Message\MessageInterface;
+
+class ExportAnalytics implements MessageInterface
 {
     /** @var string */
     private $start;
@@ -110,6 +112,20 @@ class ExportAnalytics
             'end' => $this->end,
             'routes' => array_map('intval', $this->routeIds),
             'authors' => $this->authors,
+        ];
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'start' => $this->start,
+            'end' => $this->end,
+            'tenantCode' => $this->tenantCode,
+            'fileName' => $this->fileName,
+            'userEmail' => $this->userEmail,
+            'routeIds' => $this->routeIds,
+            'authors' => $this->authors,
+            'term' => $this->term,
         ];
     }
 }
