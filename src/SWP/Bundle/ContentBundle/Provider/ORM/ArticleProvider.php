@@ -20,10 +20,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use function iterator_to_array;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -38,8 +38,6 @@ class ArticleProvider implements ArticleProviderInterface
 
     /**
      * ArticleProvider constructor.
-     *
-     * @param ArticleRepositoryInterface $articleRepository
      */
     public function __construct(ArticleRepositoryInterface $articleRepository)
     {

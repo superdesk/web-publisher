@@ -1,0 +1,21 @@
+SWP\Bundle\ContentBundle\Model\ArticleAuthorReference:
+    type: entity
+    table: swp_article_author
+    id:
+        article:
+            associationKey: true
+        author:
+            associationKey: true
+    manyToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                nullable: false
+        author:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
+            joinColumn:
+                name: author_id
+                referencedColumnName: id
+                nullable: false

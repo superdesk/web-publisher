@@ -17,11 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorReference;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
@@ -117,11 +118,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         return $articlesQueryBuilder;
     }
 
-    /**
-     * @param Criteria $criteria
-     *
-     * @return QueryBuilder
-     */
     public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('a')
@@ -275,12 +271,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         }
 
         if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {
-            $andX = $queryBuilder->expr()->andX();
-            foreach ((array) $criteria->get('exclude_author') as $value) {
-                $andX->add($queryBuilder->expr()->neq('au.name', $queryBuilder->expr()->literal($value)));
-            }
+            $excludedAuthors = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->from(ArticleAuthorReference::class, 'article_author')
+                ->select('aa.id')
+                ->join('article_author.author', 'aaa')
+                ->join('article_author.article', 'aa')
+                ->where('aaa.name IN (:authors)');
 
-            $queryBuilder->andWhere($andX);
+            $queryBuilder->setParameter('authors', array_values((array) $criteria->get('exclude_author')));
+            $queryBuilder->andWhere($queryBuilder->expr()->not($queryBuilder->expr()->in('a.id', $excludedAuthors->getQuery()->getDQL())));
+
             $criteria->remove('exclude_author');
         }
 

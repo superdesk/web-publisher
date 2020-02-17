@@ -10,6 +10,7 @@ use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Provider\Lorem;
 use Faker\Provider\Uuid;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleAuthorRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
@@ -30,18 +31,22 @@ final class ArticleContext extends AbstractContext implements Context
 
     private $routeService;
 
+    private $articleAuthorRepository;
+
     public function __construct(
         ArticleFactoryInterface $articleFactory,
         EntityManagerInterface $entityManager,
         RouteFactoryInterface $routeFactory,
         RouteRepositoryInterface $routeRepository,
-        RouteServiceInterface $routeService
+        RouteServiceInterface $routeService,
+        ArticleAuthorRepositoryInterface $articleAuthorRepository
     ) {
         $this->articleFactory = $articleFactory;
         $this->entityManager = $entityManager;
         $this->routeFactory = $routeFactory;
         $this->routeRepository = $routeRepository;
         $this->routeService = $routeService;
+        $this->articleAuthorRepository = $articleAuthorRepository;
     }
 
     /**
@@ -95,7 +100,10 @@ final class ArticleContext extends AbstractContext implements Context
     {
         $articleAuthors = [];
         foreach ($authors as $author) {
-            $articleAuthor = new ArticleAuthor();
+            $articleAuthor = $this->articleAuthorRepository->findOneBy(['name' => $author]);
+            if (null === $articleAuthor) {
+                $articleAuthor = new ArticleAuthor();
+            }
             $articleAuthor->setName($author);
             $articleAuthor->setRole('writer');
             $this->entityManager->persist($articleAuthor);
