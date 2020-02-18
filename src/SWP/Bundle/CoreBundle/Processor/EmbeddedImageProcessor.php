@@ -1,165 +1,75 @@
 <?php
 
-declare(strict_types=1);
-
 /*
- * This file is part of the Superdesk Web Publisher Content Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2018 Sourcefabric z.ú. and contributors.
+ * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2018 Sourcefabric z.ú
+ * @copyright 2019 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Processor;
+namespace SWP\Bundle\CoreBundle\Processor;
 
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
-use Symfony\Component\DomCrawler\Crawler;
+use SWP\Bundle\ContentBundle\Processor\EmbeddedImageProcessor as BaseEmbeddedImageProcessor;
+use SWP\Bundle\CoreBundle\Context\ArticlePreviewContextInterface;
+use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
-class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
+final class EmbeddedImageProcessor extends BaseEmbeddedImageProcessor
 {
-    private const DEFAULT_ARTICLE_BODY_IMAGE_RENDITION = 'original';
+    /**
+     * @var ArticlePreviewContextInterface
+     */
+    private $articlePreviewContext;
 
     /**
-     * @var MediaManagerInterface
+     * @var SettingsManagerInterface
      */
-    private $mediaManager;
+    private $settingsManager;
 
     /**
-     * @var FileExtensionCheckerInterface
+     * @var TenantContextInterface
      */
-    private $fileExtensionChecker;
+    private $tenantContext;
 
-    /**
-     * @var string
-     */
-    private $defaultImageRendition;
-
-    public function __construct(MediaManagerInterface $mediaManager, FileExtensionCheckerInterface $fileExtensionChecker)
-    {
-        $this->mediaManager = $mediaManager;
-        $this->fileExtensionChecker = $fileExtensionChecker;
-    }
-
-    public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
-    {
-        if (null === $article->getBody()) {
-            return;
-        }
-
-        $body = preg_replace('/\s+/', ' ', trim($article->getBody()));
-        $mediaId = str_replace('/', '\\/', $articleMedia->getKey());
-
-        preg_match(
-            "/(<!-- ?EMBED START Image {id: \"$mediaId\"} ?-->)(.+?)(<!-- ?EMBED END Image {id: \"$mediaId\"} ?-->)/im",
-            str_replace(PHP_EOL, '', $body),
-            $embeds
-        );
-
-        if (empty($embeds)) {
-            return;
-        }
-
-        $figureString = trim($embeds[2]);
-        $crawler = new Crawler($figureString);
-        $images = $crawler->filter('figure img');
-
-        /** @var \DOMElement $imageElement */
-        foreach ($images as $imageElement) {
-            /** @var ImageRendition $rendition */
-            foreach ($articleMedia->getRenditions() as $rendition) {
-                if ($this->getDefaultImageRendition() === $rendition->getName()) {
-                    $this->processImageElement($imageElement, $rendition, $articleMedia);
-                }
-            }
-        }
-
-        $figCaptionNode = $crawler->filter('figure figcaption')->getNode(0);
-        if (null !== $figCaptionNode) {
-           /** $this->appendImageByline($articleMedia, $figCaptionNode);*/
-            $this->appendCopyrightNotice($articleMedia, $figCaptionNode);
-        }
-
-        $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
-    }
-
-    public function setDefaultImageRendition(string $renditionName): void
-    {
-        $this->defaultImageRendition = $renditionName;
-    }
-
-    public function supports(string $type): bool
-    {
-        return $this->fileExtensionChecker->isImage($type);
-    }
-
-    private function appendImageByline(ArticleMediaInterface $articleMedia, \DOMElement $figCaptionNode): void
-    {
-        $element = new \DOMElement('span');
-        $figCaptionNode->appendChild($element);
-
-        $authorDiv = $figCaptionNode->childNodes[1];
-        $authorDiv->textContent = $this->applyByline($articleMedia);
-    }
-
-    public function applyByline(ArticleMediaInterface $articleMedia): string
-    {
-        return $articleMedia->getByLine();
-    }
-
-    private function appendCopyrightNotice(ArticleMediaInterface $articleMedia, \DOMElement $figCaptionNode): void
-    {
-        $element = new \DOMElement('span');
-        $figCaptionNode->appendChild($element);
-
-        $authorDiv = $figCaptionNode->childNodes[1];
-        $authorDiv->textContent = $this->applyCopyrightNotice($articleMedia);
-    }
-
-    public function applyCopyrightNotice(ArticleMediaInterface $articleMedia): string
-    {
-        return $articleMedia->getCopyrightNotice();
+    public function __construct(
+        MediaManagerInterface $mediaManager,
+        FileExtensionCheckerInterface $fileExtensionChecker,
+        ArticlePreviewContextInterface $articlePreviewContext,
+        SettingsManagerInterface $settingsManager,
+        TenantContextInterface $tenantContext
+    ) {
+        parent::__construct($mediaManager, $fileExtensionChecker);
+        $this->articlePreviewContext = $articlePreviewContext;
+        $this->settingsManager = $settingsManager;
+        $this->tenantContext = $tenantContext;
     }
 
     protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, ArticleMediaInterface $articleMedia): void
     {
-        $attributes = $imageElement->attributes;
-        $altAttribute = null;
-        if ($imageElement->hasAttribute('alt')) {
-            $altAttribute = $attributes->getNamedItem('alt');
-        }
+        parent::processImageElement($imageElement, $rendition, $articleMedia);
 
-        while ($attributes->length) {
-            $imageElement->removeAttribute($attributes->item(0)->name);
-        }
-
-        $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
-        $imageElement->setAttribute('data-media-id', $articleMedia->getKey());
-        $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
-        $imageElement->setAttribute('data-rendition-name', $this->getDefaultImageRendition());
-        $imageElement->setAttribute('width', (string) $rendition->getWidth());
-        $imageElement->setAttribute('height', (string) $rendition->getHeight());
-
-        if (null !== $altAttribute && '' !== $altAttribute->nodeValue) {
-            $imageElement->setAttribute('alt', $altAttribute->nodeValue);
-        } else {
-            $imageElement->setAttribute('alt', $articleMedia->getHeadline());
+        if ($this->articlePreviewContext->isPreview()) {
+            $imageElement->setAttribute('src', $rendition->getPreviewUrl());
         }
     }
 
-    protected function getDefaultImageRendition(): string
+    public function applyByline(ArticleMediaInterface $articleMedia): string
     {
-        if (null === $this->defaultImageRendition) {
-            return self::DEFAULT_ARTICLE_BODY_IMAGE_RENDITION;
+        $imageAuthorTemplate = $this->settingsManager->get('embedded_image_author_template', 'tenant', $this->tenantContext->getTenant());
+
+        if (null === ($byline = $articleMedia->getByLine())) {
+            return '';
         }
 
-        return $this->defaultImageRendition;
+        return str_replace('{{ author }}', $byline, $imageAuthorTemplate);
     }
 }
