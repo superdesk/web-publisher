@@ -109,11 +109,18 @@ SWP\Bundle\ContentBundle\Model\Article:
             mappedBy: relatesTo
             cascade: ["all"]
             orphanRemoval: true
-        authors:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorReference
-            mappedBy: article
-            cascade: ["remove"]
     manyToMany:
+        authors:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
+            cascade: ["all"]
+            joinTable:
+                name: swp_article_author
+                joinColumns:
+                    article_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    author_id:
+                        referencedColumnName: id
         keywords:
             targetEntity: SWP\Bundle\ContentBundle\Model\KeywordInterface
             cascade: ["all"]

@@ -1,5 +1,5 @@
 SWP\Bundle\ContentBundle\Model\ArticleAuthorReference:
-    type: entity
+    type: mappedSuperclass
     table: swp_article_author
     id:
         article:
