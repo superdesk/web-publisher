@@ -11,8 +11,11 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
 final class RedeliveryStamp implements StampInterface
 {
     private $retryCount;
+
     private $redeliveredAt;
+
     private $exceptionMessage;
+
     private $flattenException;
 
     public function __construct(int $retryCount, string $exceptionMessage = null, FlattenException $flattenException = null)
