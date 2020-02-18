@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\MessageHandler\Message;
 
-class ContentPushMessage
+class ContentPushMessage implements MessageInterface
 {
     /** @var int */
     private $tenantId;
@@ -38,5 +38,13 @@ class ContentPushMessage
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function toArray(): array
+    {
+        return [
+          'tenant' => $this->tenantId,
+          'content' => $this->content,
+        ];
     }
 }

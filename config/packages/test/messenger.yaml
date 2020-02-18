@@ -1,9 +1,10 @@
 framework:
     messenger:
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
+        failure_transport: failed
 
         transports:
+            failed: 'doctrine://default?table_name=swp_failed_queue&queue_name=failed'
             sync_analytics_event: 'sync://'
             sync_analytics_export: 'sync://'
             sync_webhooks: 'sync://'

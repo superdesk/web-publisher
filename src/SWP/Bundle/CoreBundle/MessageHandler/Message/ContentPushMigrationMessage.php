@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\MessageHandler\Message;
 
-class ContentPushMigrationMessage
+class ContentPushMigrationMessage implements MessageInterface
 {
     /** @var int */
     private $tenantId;
@@ -38,5 +38,13 @@ class ContentPushMigrationMessage
     public function getPackageId(): int
     {
         return $this->packageId;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'tenantId' => $this->tenantId,
+            'packageId' => $this->packageId,
+        ];
     }
 }
