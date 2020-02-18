@@ -795,3 +795,7 @@ services:
         public: false
         autoconfigure: true
         autowire: true
+
+    SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
+        arguments:
+            - '@messenger.transport.failed'

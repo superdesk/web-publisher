@@ -31,6 +31,7 @@ default:
                 - SWP\Behat\Contexts\SlideshowItemContext
                 - SWP\Behat\Contexts\ArticleMediaContext
                 - SWP\Behat\Contexts\Hook\DoctrineORMContext
+                - SWP\Behat\Contexts\MessengerContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~

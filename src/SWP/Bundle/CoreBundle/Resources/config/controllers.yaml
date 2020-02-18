@@ -20,9 +20,6 @@ services:
   SWP\Bundle\CoreBundle\Controller\ExternalOauthController: ~
   SWP\Bundle\CoreBundle\Controller\ContentListItemController: ~
   SWP\Bundle\CoreBundle\Controller\FailedQueueController: ~
-  SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
-      arguments:
-          - '@messenger.transport.failed'
 
   takeit_amp_html.amp_controller:
     class: SWP\Bundle\CoreBundle\Controller\AmpController
