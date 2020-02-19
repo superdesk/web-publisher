@@ -338,3 +338,7 @@ swp_redirect_route:
                 redirect_route:
                     model: SWP\Bundle\CoreBundle\Model\RedirectRoute
                     interface: SWP\Bundle\CoreBundle\Model\RedirectRouteInterface
+
+swp_geo_ip:
+    license_key: '%env(GEO_IP_LICENSE_KEY)%'
+    edition_id: '%env(GEO_IP_EDITION_ID)%'
