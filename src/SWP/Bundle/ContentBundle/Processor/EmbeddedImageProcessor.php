@@ -105,7 +105,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         $element = new \DOMElement('span');
         $figCaptionNode->appendChild($element);
 
-        $authorDiv = $figCaptionNode->childNodes[2];
+        $authorDiv = $figCaptionNode->childNodes[1];
         $authorDiv->textContent = $this->applyByline($articleMedia);
     }
 
@@ -119,7 +119,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         $element = new \DOMElement('span');
         $figCaptionNode->appendChild($element);
 
-        $authorDiv = $figCaptionNode->childNodes[1];
+        $authorDiv = $figCaptionNode->childNodes[2];
         $authorDiv->textContent = $this->applyCopyrightNotice($articleMedia);
     }
 
