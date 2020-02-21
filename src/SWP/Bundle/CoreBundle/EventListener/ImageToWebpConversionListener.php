@@ -19,10 +19,10 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
+use SWP\Component\Bridge\Events as PackageEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpKernel\Event\TerminateEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ImageToWebpConversionListener
 {
@@ -51,7 +51,7 @@ class ImageToWebpConversionListener
 
         $tenantId = $this->tenantContext->getTenant()->getId();
 
-        $this->eventDispatcher->addListener(KernelEvents::TERMINATE, function (TerminateEvent $event) use ($rendition, $tenantId) {
+        $this->eventDispatcher->addListener(PackageEvents::PACKAGE_PROCESSED, function (GenericEvent $event) use ($rendition, $tenantId) {
             $this->imageConversionProducer->publish(serialize([
                 'image' => $rendition->getImage(),
                 'tenantId' => $tenantId,
