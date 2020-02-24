@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\GeoIPBundle\Command;
 
-use RuntimeException;
-use SWP\Component\Archiver\Archiver\GzipArchiver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -65,22 +63,37 @@ class UpdateGeoIPDatabaseCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $archiver = new GzipArchiver();
         $url = (string) $input->getArgument('url');
-
-        $zipFile = $this->targetDir.'/'.basename($url);
+        $zipFile = $this->targetDir.'/GeoLite2.tar.gz';
+        $tarFile = $this->targetDir.'/GeoLite2.tar';
+        $tempUntar = $this->targetDir.'/GeoLite2';
+        $this->filesystem->remove([$tempUntar, $tarFile]);
 
         $this->filesystem->copy($url, $zipFile, true);
-        $output->writeln('Database has been downloaded!');
+        $output->writeln('GeoLite2 database has been downloaded!');
 
-        $isUnArchived = $archiver->unarchive($zipFile, $this->databasePath);
+        $zip = new \PharData($zipFile);
+        $tar = $zip->decompress();
+        $output->writeln('De-compression has been completed!');
 
-        if (false === $isUnArchived) {
-            throw new RuntimeException('Failed to unarchive the database file.');
+        $tar->extractTo($tempUntar);
+
+        $output->writeln("Gzip extracted to $tempUntar!");
+
+        $database = '';
+        $files = glob(sprintf('%s/**/*.mmdb', $tempUntar)) ?: [];
+        foreach ($files as $file) {
+            if (preg_match('/(?<database>[^\/]+)_(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})/', $file, $match)) {
+                $database = $file;
+            }
         }
 
-        $this->filesystem->remove($zipFile);
+        if (!$database) {
+            throw new \RuntimeException('GeoLite2 database not found in the gzip file.');
+        }
 
-        $output->writeln('Success!');
+        $this->filesystem->copy($database, $this->databasePath, true);
+        $this->filesystem->remove([$zipFile, $tempUntar, $tarFile]);
+        $output->writeln("GeoLite2 database has been copied to $this->databasePath!");
     }
 }
