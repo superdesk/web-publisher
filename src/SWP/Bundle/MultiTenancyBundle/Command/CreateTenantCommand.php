@@ -99,7 +99,9 @@ EOT
         }
 
         $tenant = $this->createTenant($domain, $subdomain, $name, $disabled, $organization);
-
+        if ($default) {
+            $tenant->setCode(TenantInterface::DEFAULT_TENANT_CODE);
+        }
         $this->getObjectManager()->persist($tenant);
         $this->getObjectManager()->flush();
 
@@ -124,9 +126,7 @@ EOT
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $name
+     * @param string $name
      */
     protected function askAndValidateInteract(InputInterface $input, OutputInterface $output, $name)
     {
