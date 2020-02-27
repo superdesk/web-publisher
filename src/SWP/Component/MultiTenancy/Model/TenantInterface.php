@@ -19,12 +19,11 @@ use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-/**
- * Defines the interface of tenants.
- */
 interface TenantInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface, PersistableInterface
 {
     const DEFAULT_TENANT_NAME = 'Default tenant';
+
+    const DEFAULT_TENANT_CODE = '123abc';
 
     /**
      * Gets the tenant identifier.
@@ -83,9 +82,6 @@ interface TenantInterface extends TimestampableInterface, EnableableInterface, S
      */
     public function getOrganization();
 
-    /**
-     * @param OrganizationInterface $organization
-     */
     public function setOrganization(OrganizationInterface $organization);
 
     /**
