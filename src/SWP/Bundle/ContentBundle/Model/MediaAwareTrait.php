@@ -54,4 +54,24 @@ trait MediaAwareTrait
     {
         $this->mediaUpdatedAt = $mediaUpdatedAt;
     }
+
+    public function hasArticleMedia(ArticleMediaInterface $articleMedia): bool
+    {
+        return $this->media->contains($articleMedia);
+    }
+
+    public function removeEmbeddedImages(): void
+    {
+        /** @var ArticleMediaInterface[] $embeddedImagesMedia */
+        $embeddedImagesMedia = $this->media->filter(static function ($media) {
+            /* @var ArticleMediaInterface $media */
+            return ArticleMediaInterface::TYPE_EMBEDDED_IMAGE === $media->getMediaType();
+        });
+
+        foreach ($embeddedImagesMedia as $embeddedImageMedia) {
+            if ($this->hasArticleMedia($embeddedImageMedia)) {
+                $this->media->removeElement($embeddedImageMedia);
+            }
+        }
+    }
 }

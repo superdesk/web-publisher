@@ -114,6 +114,7 @@ services:
     swp_content_bundle.listener.article_media:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
         arguments:
+            - '@swp.object_manager.article'
             - '@swp.repository.media'
             - '@swp.factory.media'
             - '@swp_content_bundle.processor.article_body'

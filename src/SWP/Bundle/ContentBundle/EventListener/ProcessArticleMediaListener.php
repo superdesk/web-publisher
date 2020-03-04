@@ -16,21 +16,41 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use function in_array;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 
 class ProcessArticleMediaListener extends AbstractArticleMediaListener
 {
+    /** @var EntityManagerInterface */
+    private $objectManager;
+
+    public function __construct(
+        EntityManagerInterface $objectManager,
+        ArticleMediaRepositoryInterface $articleMediaRepository,
+        MediaFactoryInterface $mediaFactory,
+        ArticleBodyProcessorInterface $articleBodyProcessor
+    ) {
+        $this->objectManager = $objectManager;
+        parent::__construct($articleMediaRepository, $mediaFactory, $articleBodyProcessor);
+    }
+
     public function onArticleCreate(ArticleEvent $event): void
     {
         $package = $event->getPackage();
+        /** @var ArticleInterface $article */
         $article = $event->getArticle();
 
         if (null === $package || (null !== $package && 0 === \count($package->getItems()))) {
             return;
         }
 
+        $article->removeEmbeddedImages();
         $this->removeOldArticleMedia($article);
 
         $guids = [];
@@ -58,6 +78,18 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
                     $article->setFeatureMedia($articleMedia);
                 }
             }
+        }
+    }
+
+    private function removeOldArticleMedia(ArticleInterface $article): void
+    {
+        $existingArticleMedia = $this->articleMediaRepository->findEmbeddedImagesAndFeatureMediaByArticle($article);
+
+        foreach ($existingArticleMedia as $articleMedia) {
+            if ($articleMedia === $article->getFeatureMedia()) {
+                $article->setFeatureMedia(null);
+            }
+            $this->objectManager->remove($articleMedia);
         }
     }
 }
