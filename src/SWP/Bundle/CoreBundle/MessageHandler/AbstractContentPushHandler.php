@@ -24,7 +24,6 @@ use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface;
-use SWP\Bundle\CoreBundle\MessageHandler\Message\PackageCreated;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\Bridge\Events;
@@ -34,10 +33,7 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
 
 abstract class AbstractContentPushHandler implements MessageHandlerInterface
 {
@@ -133,14 +129,6 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
 
         $this->logger->info(sprintf('Package %s was created', $package->getGuid()));
         $this->reset();
-
-        // forward to another handler
-
-//        $event = new PackageCreated((string) $package->getGuid());
-//        $this->eventBus->dispatch(
-//            (new Envelope($event))
-//                ->with(new DispatchAfterCurrentBusStamp())
-//        );
     }
 
     protected function findExistingPackage(PackageInterface $package)
