@@ -50,7 +50,6 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
             return;
         }
 
-        $article->removeEmbeddedImages();
         $this->removeOldArticleMedia($article);
 
         $guids = [];
@@ -72,7 +71,7 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
             $key = $packageItem->getName();
             if ($this->isTypeAllowed($packageItem->getType())) {
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
-                $this->articleMediaRepository->persist($articleMedia);
+                $this->objectManager->persist($articleMedia);
 
                 if (MediaAwareInterface::KEY_FEATURE_MEDIA === $key) {
                     $article->setFeatureMedia($articleMedia);

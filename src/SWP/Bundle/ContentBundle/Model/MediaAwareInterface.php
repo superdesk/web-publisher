@@ -32,8 +32,4 @@ interface MediaAwareInterface
     public function getMediaUpdatedAt(): ?DateTime;
 
     public function setMediaUpdatedAt(DateTime $mediaUpdatedAt): void;
-
-    public function hasArticleMedia(ArticleMediaInterface $articleMedia): bool;
-
-    public function removeEmbeddedImages(): void;
 }

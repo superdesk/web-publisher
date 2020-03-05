@@ -205,5 +205,5 @@ Feature: Correcting existing article.
       | slug                          | rafal-testing-dont-touch |
       | route.id                      | 6                        |
       | status                        | published                |
-      | feature_media.id              | 1                        |
+      | feature_media.id              | 3                        |
       | feature_media.image.asset_id  | 5d53fcc00ce79a4a20508a88 |
