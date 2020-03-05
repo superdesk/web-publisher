@@ -163,6 +163,10 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('route', $route);
             }
 
+            if (isset($withoutParameters['route'])) {
+                $criteria->set('exclude_route', $withoutParameters['route']);
+            }
+
             foreach (['metadata', 'extra', 'keywords', 'source', 'author', 'article', 'publishedAfter', 'publishedBefore'] as $item) {
                 if (isset($parameters[$item])) {
                     $criteria->set($item, $parameters[$item]);

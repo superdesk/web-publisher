@@ -14,13 +14,14 @@
 
 namespace spec\SWP\Bundle\CoreBundle\EventListener;
 
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\EventListener\AddArticleToListListener;
-use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
@@ -69,6 +70,11 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $listRepository->findByTypes(['automatic'])->willReturn([$list]);
         $listItemRepository->persist(Argument::any())->shouldBeCalled();
+        $listItemRepository->findItemByArticleAndList(
+            Argument::type(ArticleInterface::class),
+            Argument::type(ContentListInterface::class),
+            'automatic'
+        )->willReturn(null);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(true);
 

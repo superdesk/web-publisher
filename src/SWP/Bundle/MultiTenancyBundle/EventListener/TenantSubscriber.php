@@ -33,8 +33,6 @@ final class TenantSubscriber implements EventSubscriber
 
     /**
      * Constructor.
-     *
-     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -52,31 +50,20 @@ final class TenantSubscriber implements EventSubscriber
         ];
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $this->addTenant($args);
     }
 
-    /**
-     * @param PreUpdateEventArgs $args
-     */
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
 
-        if ($entity instanceof TenantAwareInterface) {
-            if (null === $entity->getTenantCode()) {
-                return;
-            }
+        if (($entity instanceof TenantAwareInterface) && null === $entity->getTenantCode()) {
+            return;
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     protected function addTenant(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
