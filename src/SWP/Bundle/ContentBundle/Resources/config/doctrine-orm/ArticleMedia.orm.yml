@@ -37,6 +37,9 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
         copyrightHolder:
             type: string
             nullable: true
+        mediaType:
+            type: string
+            nullable: true
         createdAt:
             type: datetime
             gedmo:

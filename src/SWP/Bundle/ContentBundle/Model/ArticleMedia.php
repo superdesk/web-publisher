@@ -101,6 +101,9 @@ class ArticleMedia implements ArticleMediaInterface
      */
     protected $copyrightNotice;
 
+    /** @var string|null */
+    protected $mediaType = ArticleMediaInterface::TYPE_EMBEDDED_IMAGE;
+
     /**
      * ArticleMedia constructor.
      */
@@ -361,6 +364,16 @@ class ArticleMedia implements ArticleMediaInterface
     public function setCopyrightHolder(?string $copyrightHolder): void
     {
         $this->copyrightHolder = $copyrightHolder;
+    }
+
+    public function getMediaType(): ?string
+    {
+        return $this->mediaType;
+    }
+
+    public function setMediaType(?string $mediaType): void
+    {
+        $this->mediaType = $mediaType;
     }
 
     /**

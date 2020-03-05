@@ -204,5 +204,5 @@ Feature: Updating existing article.
       | slug                          | feature-media-test-rafal-2-0123456789abc |
       | route.id                      | 6                                        |
       | status                        | published                                |
-      | feature_media.id              | 1                                        |
+      | feature_media.id              | 3                                        |
       | feature_media.image.asset_id  | 5d53ed7f59fd39020063e6f1                 |
