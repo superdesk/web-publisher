@@ -129,7 +129,8 @@ Feature: Handling the custom media fields
               "usageterms":"indefinite-usage",
               "mimetype":"image/jpeg",
               "headline":"test image",
-              "located":"Porto"
+              "located":"Porto",
+              "order":0
             },
             {
               "renditions":{
@@ -175,7 +176,8 @@ Feature: Handling the custom media fields
               "usageterms":"indefinite-usage",
               "mimetype":"image/jpeg",
               "headline":"test image",
-              "located":"Porto"
+              "located":"Porto",
+              "order":1
             }
           ]
         }
@@ -251,7 +253,8 @@ Feature: Handling the custom media fields
           "usageterms":"indefinite-usage",
           "mimetype":"image/jpeg",
           "headline":"test image",
-          "located":"Porto"
+          "located":"Porto",
+          "order":0
         },
         "slideshow1--2":{
           "renditions":{
@@ -297,7 +300,8 @@ Feature: Handling the custom media fields
           "usageterms":"indefinite-usage",
           "mimetype":"image/jpeg",
           "headline":"test image",
-          "located":"Porto"
+          "located":"Porto",
+          "order":1
         }
       }
     }
@@ -342,6 +346,17 @@ Feature: Handling the custom media fields
       | slideshows[0].code                     | slideshow1                             |
       | slideshows[0].id                       | 1                                      |
       | _links.slideshows.href                 | /api/v2/content/slideshows/6           |
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/slideshows/6/1/items/"
+    Then the response status code should be 200
+    And the JSON node "total" should be equal to 2
+    And the JSON nodes should contain:
+      | _embedded._items[0].article_media.image.asset_id   | 1234567890987654321c |
+      | _embedded._items[1].article_media.image.asset_id   | 2234567890987654321c |
+      | _embedded._items[0].position                       | 0                    |
+      | _embedded._items[1].position                       | 1                    |
 
     Given I add "Content-Type" header equal to "multipart/form-data"
     And I send a "POST" request to "/api/v2/assets/push" with parameters:
@@ -452,7 +467,8 @@ Feature: Handling the custom media fields
               "usageterms":"indefinite-usage",
               "mimetype":"image/jpeg",
               "headline":"test image",
-              "located":"Porto"
+              "located":"Porto",
+              "order":0
             },
             {
               "renditions":{
@@ -498,7 +514,8 @@ Feature: Handling the custom media fields
               "usageterms":"indefinite-usage",
               "mimetype":"image/jpeg",
               "headline":"test image",
-              "located":"Porto"
+              "located":"Porto",
+              "order":1
             }
           ]
         }
@@ -575,7 +592,8 @@ Feature: Handling the custom media fields
           "usageterms":"indefinite-usage",
           "mimetype":"image/jpeg",
           "headline":"test image",
-          "located":"Porto"
+          "located":"Porto",
+          "order":0
         },
         "slideshow1--2":{
           "renditions":{
@@ -621,7 +639,8 @@ Feature: Handling the custom media fields
           "usageterms":"indefinite-usage",
           "mimetype":"image/jpeg",
           "headline":"test image",
-          "located":"Porto"
+          "located":"Porto",
+          "order":1
         },
         "featuremedia":{
           "subject":[
@@ -717,6 +736,8 @@ Feature: Handling the custom media fields
     And the JSON nodes should contain:
       | _embedded._items[0].article_media.image.asset_id   | 1234567890987654321c |
       | _embedded._items[1].article_media.image.asset_id   | 2234567890987654321c |
+      | _embedded._items[0].position                       | 0                    |
+      | _embedded._items[1].position                       | 1                    |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
@@ -955,7 +976,8 @@ Feature: Handling the custom media fields
                             "href":"\/media\/1234567890987654321c.jpeg"
                          }
                       }
-                   }
+                   },
+                   "position":0
                 },
                 {
                    "article_media":{
@@ -1080,7 +1102,8 @@ Feature: Handling the custom media fields
                             "href":"\/media\/2234567890987654321c.jpeg"
                          }
                       }
-                   }
+                   },
+                   "position":1
                 }
              ],
              "created_at":"2019-03-10T09:00:00+00:00",
