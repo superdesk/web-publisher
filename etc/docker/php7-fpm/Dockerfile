@@ -57,6 +57,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
 COPY . /var/www/publisher/
+WORKDIR /var/www/publisher/
 RUN php /usr/bin/composer dump-autoload \
  && php /usr/bin/composer install \
  && php /usr/bin/composer dump-env dev
