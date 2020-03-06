@@ -54,6 +54,10 @@ RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer &
 RUN rm -f /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
+COPY ../../../ /var/www/publisher/
+RUN php /usr/bin/composer dump-autoload \
+ && php /usr/bin/composer install \
+ && php /usr/bin/composer dump-env dev
 COPY supervisor.ini /etc/supervisor.d/supervisor.ini
 
 CMD ["supervisord"]
