@@ -22,16 +22,53 @@ use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 
 final class ArticlePublishListener
 {
+    /**
+     * @var ArticleServiceInterface
+     */
     private $articleService;
 
+    /**
+     * ArticlePublishListener constructor.
+     *
+     * @param ArticleServiceInterface $articleService
+     */
     public function __construct(ArticleServiceInterface $articleService)
     {
         $this->articleService = $articleService;
     }
 
-    public function publish(ArticleEvent $event): void
+    /**
+     * @param ArticleEvent $event
+     */
+    public function publish(ArticleEvent $event)
     {
+
         $article = $event->getArticle();
+
+        $articleSlug = $article->getSlug();
+
+        if (null !== $article->getExtra()) {
+            if (isset($article->getExtra()['unique_name']))
+                $uniqueId = $article->getExtra()['unique_name'];
+            if (isset($article->getExtra()['family_id']))
+                $article->setFamilyId($article->getExtra()['family_id']);
+        }
+
+        // assign a id at the end of the url
+        if (null !== $uniqueId) {
+
+            $uniqueId = '-id' . $uniqueId;
+
+            //if there is an old id clear it
+            if (preg_match('/(-id)[0-9]+$/', $articleSlug)) {
+                $articleSlug = preg_replace('/(-id)[0-9]+$/', "", $articleSlug);
+            }
+
+            //add the id if it doesn't already exist in the url
+            if (!preg_match("/{$uniqueId}/i", $articleSlug)) {
+                $article->setSlug($articleSlug . $uniqueId);
+            }
+        }
 
         if ($article->isPublished()) {
             return;
@@ -40,7 +77,11 @@ final class ArticlePublishListener
         $this->articleService->publish($article);
     }
 
-    public function unpublish(ArticleEvent $event): void
+
+    /**
+     * @param ArticleEvent $event
+     */
+    public function unpublish(ArticleEvent $event)
     {
         $article = $event->getArticle();
 
@@ -49,7 +90,10 @@ final class ArticlePublishListener
         }
     }
 
-    public function cancel(ArticleEvent $event): void
+    /**
+     * @param ArticleEvent $event
+     */
+    public function cancel(ArticleEvent $event)
     {
         $this->articleService->unpublish($event->getArticle(), ArticleInterface::STATUS_CANCELED);
     }

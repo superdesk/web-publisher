@@ -13,6 +13,9 @@ SWP\Bundle\ContentBundle\Model\Route:
         slug:
             expose: true
             groups: [api, api_routes_list]
+        description:
+            expose: true
+            groups: [api]
         cacheTimeInSeconds:
             expose: true
             groups: [api]

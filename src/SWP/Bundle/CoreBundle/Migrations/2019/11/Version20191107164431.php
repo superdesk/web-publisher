@@ -10,15 +10,14 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20191107115124 extends AbstractMigration
+final class Version20191107164431 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_image ADD COLUMN length NUMERIC DEFAULT 0 NOT NULL;');
-
+        $this->addSql('ALTER TABLE swp_route ADD COLUMN description VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -26,6 +25,6 @@ final class Version20191107115124 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_image DROP COLUMN length;');
+        $this->addSql('ALTER TABLE swp_route COLUMN description');
     }
 }
