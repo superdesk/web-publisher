@@ -55,6 +55,7 @@ RUN rm -f /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 COPY . /var/www/publisher/
+WORKDIR /var/www/publisher/
 RUN php /usr/bin/composer dump-autoload \
  && php /usr/bin/composer install \
  && php /usr/bin/composer dump-env dev
