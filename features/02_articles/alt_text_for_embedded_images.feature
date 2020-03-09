@@ -75,6 +75,7 @@ Feature: Set alt text fallback value based on the value from headline field.
           "headline":"Bell Peppers",
           "guid":"tag:localhost:2016:a5199d69-1dce-4572-bb1a-34ed2953ea72",
           "byline":"Ljub. Z. Rankovi\u0107",
+          "copyrightnotice":"Copyright sourcefabric",
           "versioncreated":"2016-12-06T17:13:18+0000"
         }
       },
