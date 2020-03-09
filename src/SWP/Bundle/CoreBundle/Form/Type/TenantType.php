@@ -78,6 +78,10 @@ final class TenantType extends AbstractType
             ->add('outputChannel', OutputChannelType::class, [
                 'required' => false,
                 'help' => 'Output Channel',
+            ])
+            ->add('defaultLanguage', TextType::class, [
+                'required' => false,
+                'help' => 'Default language',
             ]);
     }
 

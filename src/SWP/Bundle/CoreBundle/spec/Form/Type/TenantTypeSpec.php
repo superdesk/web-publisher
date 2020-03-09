@@ -128,6 +128,14 @@ class TenantTypeSpec extends ObjectBehavior
             ->willReturn($builder)
         ;
 
+        $builder
+            ->add('defaultLanguage', TextType::class, [
+                'required' => false,
+                'help' => 'Default language',
+            ])
+            ->willReturn($builder)
+        ;
+
         $this->buildForm($builder, []);
     }
 
