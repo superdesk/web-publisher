@@ -95,7 +95,7 @@ Feature: Set alt text fallback value based on the value from headline field.
       "language":"en",
       "headline":"headline",
       "byline":"ADmin",
-      "copyrightnotice":"Copyright sourcefabric",
+      "copyrightnotice":"Copyright sourcefabric.",
       "versioncreated":"2017-02-07T07:49:48+0000"
     }
     """
