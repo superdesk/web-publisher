@@ -7,11 +7,9 @@ Feature: Filtering packages by language
       | organization | name | subdomain | domainName | enabled | default  | themeName      | code   |
       | Default      | test |           | localhost  | true    | true     | swp/test-theme | 123abc |
 
-
     Given the following Users:
       | username   | email                      | token      | plainPassword | role                | enabled |
       | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
-
 
     Given the following Package ninjs:
     """
@@ -81,6 +79,8 @@ Feature: Filtering packages by language
       "versioncreated":"2017-02-07T07:49:48+0000"
     }
     """
+    And I run "fos:elastica:populate --env=test" command
+    Then I should see "Refreshing swp" in the output
 
   Scenario: Filter packages by language
     Given I am authenticated as "test.user"
