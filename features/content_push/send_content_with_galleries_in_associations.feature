@@ -1568,6 +1568,7 @@ Feature: Handling the custom media fields
                 "href":"\/api\/v2\/tenants\/123abc"
              }
           },
+          "default_language":"en",
           "fbia_enabled":false,
           "paywall_enabled":false
        },
