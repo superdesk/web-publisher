@@ -63,6 +63,9 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
      */
     protected $group;
 
+    /** @var int|null */
+    protected $position;
+
     public function __construct()
     {
         parent::__construct();
@@ -215,5 +218,15 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function getRenditionsArray(): array
     {
         return $this->renditions->toArray();
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): void
+    {
+        $this->position = $position;
     }
 }

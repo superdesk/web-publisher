@@ -72,6 +72,7 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
                     $articleMedia = $this->handleMedia($article, $item->getName(), $item, ArticleMediaInterface::TYPE_SLIDE_SHOW);
 
                     $slideshowItem->setArticleMedia($articleMedia);
+                    $slideshowItem->setPosition($item->getPosition() ?? 0);
                     $slideshow->addItem($slideshowItem);
                 }
             }
