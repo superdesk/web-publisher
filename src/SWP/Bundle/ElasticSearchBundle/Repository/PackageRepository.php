@@ -92,6 +92,10 @@ class PackageRepository extends Repository
             $bool->addFilter(new Query\Terms('articles.route.id', $fields->get('routes')));
         }
 
+        if (null !== $fields->get('language') && '' !== $fields->get('language')) {
+            $boolFilter->addFilter(new Term(['language' => $fields->get('language')]));
+        }
+
         if (!empty($bool->getParams())) {
             $nested = new Nested();
             $nested->setPath('articles');
