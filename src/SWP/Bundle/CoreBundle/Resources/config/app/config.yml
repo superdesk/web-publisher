@@ -288,6 +288,10 @@ swp_settings:
             type: boolean
             scope: tenant
             value: false
+        default_language:
+            type: string
+            scope: tenant
+            value: "en"
 
 swp_analytics:
     persistence:
