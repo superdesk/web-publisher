@@ -17,4 +17,8 @@ interface SlideshowItemInterface extends PersistableInterface, TimestampableInte
     public function getSlideshow(): SlideshowInterface;
 
     public function setSlideshow(SlideshowInterface $slideshow): void;
+
+    public function getPosition(): ?int;
+
+    public function setPosition(?int $position): void;
 }

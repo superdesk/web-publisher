@@ -8,6 +8,9 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
             generator:
                 strategy: IDENTITY
     fields:
+        position:
+            type: integer
+            nullable: true
         createdAt:
             type: datetime
             gedmo:

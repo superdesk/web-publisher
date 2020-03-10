@@ -109,6 +109,13 @@ class PackageSearchController extends Controller
      *         @SWG\Items(type="string")
      *     ),
      *     @SWG\Parameter(
+     *         name="language",
+     *         in="query",
+     *         description="Language code, e.g. en",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
      *         name="route",
      *         in="query",
      *         description="Routes ids",
@@ -151,6 +158,7 @@ class PackageSearchController extends Controller
                 'tenants' => array_filter((array) $request->query->get('tenant', [])),
                 'routes' => array_filter((array) $request->query->get('route', [])),
                 'statuses' => array_filter((array) $request->query->get('status', [])),
+                'language' => $request->query->get('language', ''),
             ]
         );
 
