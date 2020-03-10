@@ -118,6 +118,12 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"paywall_enabled"
       },
       {
+          "type": "string",
+          "scope": "tenant",
+          "value": "en",
+          "name": "default_language"
+      },
+      {
           "scope": "global",
           "value": null,
           "type": "string",
@@ -346,6 +352,12 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"paywall_enabled"
       },
       {
+          "type": "string",
+          "scope": "tenant",
+          "value": "en",
+          "name": "default_language"
+      },
+      {
           "scope": "global",
           "value": null,
           "type": "string",
@@ -545,6 +557,12 @@ Feature: Checking if restoring settings by scope works correctly
         "scope":"tenant",
         "value":false,
         "name":"paywall_enabled"
+      },
+      {
+          "type": "string",
+          "scope": "tenant",
+          "value": "en",
+          "name": "default_language"
       },
       {
           "scope": "global",

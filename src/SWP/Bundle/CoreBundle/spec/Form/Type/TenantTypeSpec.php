@@ -130,6 +130,7 @@ class TenantTypeSpec extends ObjectBehavior
 
         $builder
             ->add('defaultLanguage', TextType::class, [
+                'mapped' => false,
                 'required' => false,
                 'help' => 'Default language',
             ])

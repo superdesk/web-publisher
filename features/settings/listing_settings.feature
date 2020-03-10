@@ -119,6 +119,12 @@ Feature: Checking if settings work correctly
         "name":"paywall_enabled"
       },
       {
+          "type": "string",
+          "scope": "tenant",
+          "value": "en",
+          "name": "default_language"
+      },
+      {
           "scope": "global",
           "value": null,
           "type": "string",
