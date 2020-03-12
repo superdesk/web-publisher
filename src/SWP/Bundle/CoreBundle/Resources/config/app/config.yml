@@ -291,7 +291,7 @@ swp_settings:
         default_language:
             type: string
             scope: tenant
-            value: "en"
+            value: ""
 
 swp_analytics:
     persistence:

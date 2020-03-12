@@ -259,7 +259,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
                 "href":"\/api\/v2\/tenants\/123abc"
              }
           },
-          "default_language":"en",
+          "default_language":"",
           "fbia_enabled":false,
           "paywall_enabled":false
        },

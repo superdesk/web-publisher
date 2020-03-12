@@ -137,7 +137,7 @@ Feature: Settings bulk update
       {
           "type": "string",
           "scope": "tenant",
-          "value": "en",
+          "value": "",
           "name": "default_language"
       },
       {
@@ -362,7 +362,7 @@ Feature: Settings bulk update
       {
           "type": "string",
           "scope": "tenant",
-          "value": "en",
+          "value": "",
           "name": "default_language"
       },
       {
