@@ -413,7 +413,6 @@ Feature: Handling the custom media fields
       "place":[
         {
           "country":"Australia",
-          "country":"Australia",
           "world_region":"Oceania",
           "state":"Australian Capital Territory",
           "qcode":"ACT",
