@@ -413,6 +413,7 @@ Feature: Handling the custom media fields
       "place":[
         {
           "country":"Australia",
+          "country":"Australia",
           "world_region":"Oceania",
           "state":"Australian Capital Territory",
           "qcode":"ACT",
@@ -1568,7 +1569,7 @@ Feature: Handling the custom media fields
                 "href":"\/api\/v2\/tenants\/123abc"
              }
           },
-          "default_language":"en",
+          "default_language":"",
           "fbia_enabled":false,
           "paywall_enabled":false
        },

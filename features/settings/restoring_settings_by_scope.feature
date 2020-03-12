@@ -120,7 +120,7 @@ Feature: Checking if restoring settings by scope works correctly
       {
           "type": "string",
           "scope": "tenant",
-          "value": "en",
+          "value": "",
           "name": "default_language"
       },
       {
@@ -354,7 +354,7 @@ Feature: Checking if restoring settings by scope works correctly
       {
           "type": "string",
           "scope": "tenant",
-          "value": "en",
+          "value": "",
           "name": "default_language"
       },
       {
@@ -561,7 +561,7 @@ Feature: Checking if restoring settings by scope works correctly
       {
           "type": "string",
           "scope": "tenant",
-          "value": "en",
+          "value": "",
           "name": "default_language"
       },
       {

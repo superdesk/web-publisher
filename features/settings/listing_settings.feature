@@ -121,7 +121,7 @@ Feature: Checking if settings work correctly
       {
           "type": "string",
           "scope": "tenant",
-          "value": "en",
+          "value": "",
           "name": "default_language"
       },
       {
