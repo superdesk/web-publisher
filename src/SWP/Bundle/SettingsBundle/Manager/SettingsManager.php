@@ -57,7 +57,7 @@ class SettingsManager implements SettingsManagerInterface
 
     public function get(string $name, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null, $default = null)
     {
-        $cacheKey = md5(json_encode([$name, $scope, $owner, $default, $this->scopeContext], JSON_THROW_ON_ERROR, 512));
+        $cacheKey = md5(json_encode([$name, $scope, $owner->getId(), $default, $this->scopeContext->getScopes()], JSON_THROW_ON_ERROR, 512));
         if (isset($this->internalCache[$cacheKey])) {
             return $this->internalCache[$cacheKey];
         }
