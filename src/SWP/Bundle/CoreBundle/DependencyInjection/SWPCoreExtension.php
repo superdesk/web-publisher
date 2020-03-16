@@ -88,7 +88,7 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
         $nelmioCorsConfig = [
             'defaults' => [
                 'allow_origin' => [
-                    '%env(CORS_ALLOW_ORIGIN)%',
+                    'https://superdesk.cloud.funkedigital.de',
                 ],
             ],
         ];
