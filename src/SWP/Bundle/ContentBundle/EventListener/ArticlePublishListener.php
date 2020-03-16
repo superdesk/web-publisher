@@ -45,31 +45,6 @@ final class ArticlePublishListener
 
         $article = $event->getArticle();
 
-        $articleSlug = $article->getSlug();
-
-        if (null !== $article->getExtra()) {
-            if (isset($article->getExtra()['unique_name']))
-                $uniqueId = $article->getExtra()['unique_name'];
-            if (isset($article->getExtra()['family_id']))
-                $article->setFamilyId($article->getExtra()['family_id']);
-        }
-
-        // assign a id at the end of the url
-        if (null !== $uniqueId) {
-
-            $uniqueId = '-id' . $uniqueId;
-
-            //if there is an old id clear it
-            if (preg_match('/(-id)[0-9]+$/', $articleSlug)) {
-                $articleSlug = preg_replace('/(-id)[0-9]+$/', "", $articleSlug);
-            }
-
-            //add the id if it doesn't already exist in the url
-            if (!preg_match("/{$uniqueId}/i", $articleSlug)) {
-                $article->setSlug($articleSlug . $uniqueId);
-            }
-        }
-
         if ($article->isPublished()) {
             return;
         }
