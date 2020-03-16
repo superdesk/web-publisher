@@ -149,6 +149,10 @@ class CreateOrganizationCommandTest extends TestCase
             ->method('createWithCode')
             ->willReturn($mockedOrganizationInFactory);
 
+        $mockFactory->expects($this->any())
+            ->method('create')
+            ->willReturn(new Organization());
+
         $mockContainer = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')
             ->getMock();
 

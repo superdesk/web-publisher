@@ -14,8 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Command;
 
-use SWP\Bundle\CoreBundle\Model\OrganizationInterface;
 use SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand as BaseCreateOrganizationCommand;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -34,14 +35,11 @@ class CreateOrganizationCommand extends BaseCreateOrganizationCommand
             ->addOption('secretToken', 's', InputOption::VALUE_REQUIRED, 'Organization secret token');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createOrganization($name, $input)
+    public function createOrganization(string $name, InputInterface $input, string $code = null): OrganizationInterface
     {
         $secretToken = $input->getOption('secretToken');
-        /** @var OrganizationInterface $organization */
-        $organization = parent::createOrganization($name, $input);
+
+        $organization = parent::createOrganization($name, $input, $code);
         if ($secretToken) {
             $organization->setSecretToken($secretToken);
         }
@@ -49,11 +47,7 @@ class CreateOrganizationCommand extends BaseCreateOrganizationCommand
         return $organization;
     }
 
-    /**
-     * @param OutputInterface       $output
-     * @param OrganizationInterface $organization
-     */
-    protected function sendOutput(OutputInterface $output, $organization)
+    protected function sendOutput(OutputInterface $output, OrganizationInterface $organization)
     {
         $output->writeln(
             sprintf(

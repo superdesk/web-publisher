@@ -18,9 +18,9 @@ namespace SWP\Bundle\CoreBundle\Consumer;
 
 use BadFunctionCallException;
 use DateTime;
-use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use function imagewebp;
 use InvalidArgumentException;
 use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
@@ -94,7 +94,11 @@ class ImageConversionConsumer implements ConsumerInterface
             if (!function_exists('imagewebp')) {
                 throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
             }
-            imagewebp($this->getImageAsResource($image), $tempLocation);
+            $imageAsResource = $this->getImageAsResource($image);
+            if (null === $imageAsResource) {
+                throw new Exception('Could not get resource from provided images');
+            }
+            imagewebp($imageAsResource, $tempLocation);
             $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
             $this->mediaManager->saveFile($uploadedFile, $mediaId);
 
