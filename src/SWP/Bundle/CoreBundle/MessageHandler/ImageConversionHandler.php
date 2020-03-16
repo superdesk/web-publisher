@@ -18,24 +18,24 @@ namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use BadFunctionCallException;
 use DateTime;
-use SWP\Bundle\CoreBundle\MessageHandler\Message\ConvertImageMessage;
-use SWP\Bundle\CoreBundle\Model\Image;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use function imagewebp;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use function imagewebp;
 use InvalidArgumentException;
 use JMS\Serializer\SerializerInterface;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
+use SWP\Bundle\CoreBundle\MessageHandler\Message\ConvertImageMessage;
+use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\CoreBundle\Model\ImageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class ImageConversionHandler implements MessageHandlerInterface
 {
@@ -90,7 +90,11 @@ class ImageConversionHandler implements MessageHandlerInterface
             if (!function_exists('imagewebp')) {
                 throw new BadFunctionCallException('"imagewebp" function is missing. Looks like GD was compiled without webp support');
             }
-            imagewebp($this->getImageAsResource($image), $tempLocation);
+            $imageAsResource = $this->getImageAsResource($image);
+            if (null === $imageAsResource) {
+                throw new Exception('Could not get resource from provided images');
+            }
+            imagewebp($imageAsResource, $tempLocation);
             $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
             $this->mediaManager->saveFile($uploadedFile, $mediaId);
 

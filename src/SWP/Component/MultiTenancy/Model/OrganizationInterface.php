@@ -23,6 +23,8 @@ interface OrganizationInterface extends PersistableInterface, SoftDeletableInter
 {
     const DEFAULT_NAME = 'default';
 
+    const DEFAULT_CODE = '123456';
+
     /**
      * Gets the organization identifier.
      *
@@ -67,19 +69,11 @@ interface OrganizationInterface extends PersistableInterface, SoftDeletableInter
     public function getTenants();
 
     /**
-     * @param TenantInterface $tenant
-     *
      * @return bool
      */
     public function hasTenant(TenantInterface $tenant);
 
-    /**
-     * @param TenantInterface $tenant
-     */
     public function addTenant(TenantInterface $tenant);
 
-    /**
-     * @param TenantInterface $tenant
-     */
     public function removeTenant(TenantInterface $tenant);
 }
