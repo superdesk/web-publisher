@@ -27,6 +27,9 @@ class SlideshowItem implements SlideshowItemInterface
      */
     protected $slideshow;
 
+    /** @var int|null */
+    protected $position = 0;
+
     public function getId()
     {
         return $this->id;
@@ -50,5 +53,15 @@ class SlideshowItem implements SlideshowItemInterface
     public function setSlideshow(SlideshowInterface $slideshow): void
     {
         $this->slideshow = $slideshow;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): void
+    {
+        $this->position = $position;
     }
 }

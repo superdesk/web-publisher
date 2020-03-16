@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage;
+use Symfony\Component\Messenger\MessageBusInterface;
 use function explode;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -47,7 +48,7 @@ class ProcessPackagesCommand extends Command
 
     private $requestStack;
 
-    private $migrationContentPushProducer;
+    private $messageBus;
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
@@ -55,7 +56,7 @@ class ProcessPackagesCommand extends Command
         PackageRepositoryInterface $packageRepository,
         PaginatorInterface $paginator,
         RequestStack $requestStack,
-        ProducerInterface $migrationContentPushProducer
+        MessageBusInterface $messageBus
     ) {
         parent::__construct();
 
@@ -64,7 +65,7 @@ class ProcessPackagesCommand extends Command
         $this->packageRepository = $packageRepository;
         $this->paginator = $paginator;
         $this->requestStack = $requestStack;
-        $this->migrationContentPushProducer = $migrationContentPushProducer;
+        $this->messageBus = $messageBus;
     }
 
     protected function configure(): void
@@ -134,12 +135,10 @@ EOT
                 continue;
             }
 
-            //send package to content push
-            $payload = \serialize([
-                'package' => $package,
-                'tenant' => $currentTenant,
-            ]);
-            $this->migrationContentPushProducer->publish($payload);
+            $this->messageBus->dispatch(new ContentPushMigrationMessage(
+                $currentTenant->getId(),
+                $package->getId()
+            ));
         }
     }
 }

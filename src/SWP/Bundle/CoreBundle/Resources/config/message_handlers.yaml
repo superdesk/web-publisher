@@ -4,21 +4,21 @@ services:
         autoconfigure: true
         autowire: true
 
-    SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer:
-        arguments:
-            - '@jms_serializer'
-            - '@monolog.logger.swp_send_webhook'
+    SWP\Bundle\CoreBundle\MessageHandler\:
+        resource: '../../MessageHandler/*'
+        exclude: '../../MessageHandler/Message/*'
+        bind:
+            $jsonToPackageTransformer: '@swp_bridge.transformer.json_to_package'
 
-    SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer:
+    SWP\Bundle\CoreBundle\MessageHandler\AnalyticsEventHandler:
         arguments:
             - '@SWP\Bundle\CoreBundle\Service\ArticleStatisticsService'
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
             - '@swp.object_manager.article_statistics'
 
-    SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
+    SWP\Bundle\CoreBundle\MessageHandler\ContentPushHandler:
         arguments:
-            - '@lock.factory'
             - '@monolog.logger.swp_content_push'
             - '@swp.repository.package'
             - '@event_dispatcher'
@@ -28,7 +28,7 @@ services:
             - '@Sentry\State\HubInterface'
             - '@SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface'
 
-    SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer:
+    SWP\Bundle\CoreBundle\MessageHandler\ImageConversionHandler:
         arguments:
             - '@jms_serializer'
             - '@monolog.logger.swp_image_conversion'

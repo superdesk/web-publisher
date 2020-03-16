@@ -42,7 +42,7 @@ class SettingsControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertCount(25, $data);
+        self::assertCount(26, $data);
     }
 
     public function testSettingsUpdate()

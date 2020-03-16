@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use function count;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
@@ -62,25 +63,16 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
         }
 
         foreach ($groups as $packageGroup) {
-            foreach ($packageGroup->getItems() as $item) {
-                if ($this->isTypeAllowed($item->getType())) {
-                    $this->removeArticleMediaIfNeeded($item->getName(), $article);
-                }
-            }
-        }
-
-        foreach ($groups as $packageGroup) {
             $slideshow = $this->slideshowFactory->create();
             $slideshow->setCode($packageGroup->getCode());
 
             foreach ($packageGroup->getItems() as $item) {
                 if ($this->isTypeAllowed($item->getType())) {
                     $slideshowItem = new SlideshowItem();
-                    $articleMedia = $this->handleMedia($article, $item->getName(), $item);
-
-                    $this->articleMediaRepository->persist($articleMedia);
+                    $articleMedia = $this->handleMedia($article, $item->getName(), $item, ArticleMediaInterface::TYPE_SLIDE_SHOW);
 
                     $slideshowItem->setArticleMedia($articleMedia);
+                    $slideshowItem->setPosition($item->getPosition() ?? 0);
                     $slideshow->addItem($slideshowItem);
                 }
             }
@@ -89,7 +81,7 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
         }
     }
 
-    public function removeOldArticleSlideshows(ArticleInterface $article): void
+    private function removeOldArticleSlideshows(ArticleInterface $article): void
     {
         foreach ($article->getSlideshows() as $slideshow) {
             $article->removeSlideshow($slideshow);

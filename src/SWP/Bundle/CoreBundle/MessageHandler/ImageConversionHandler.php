@@ -5,16 +5,16 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2017 Sourcefabric z.ú. and contributors.
+ * Copyright 2020 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2017 Sourcefabric z.ú
+ * @copyright 2020 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Consumer;
+namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use BadFunctionCallException;
 use DateTime;
@@ -23,22 +23,21 @@ use Exception;
 use function imagewebp;
 use InvalidArgumentException;
 use JMS\Serializer\SerializerInterface;
-use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
-use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
+use SWP\Bundle\CoreBundle\MessageHandler\Message\ConvertImageMessage;
+use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\CoreBundle\Model\ImageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Throwable;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class ImageConversionConsumer implements ConsumerInterface
+class ImageConversionHandler implements MessageHandlerInterface
 {
     protected $serializer;
 
@@ -68,21 +67,18 @@ class ImageConversionConsumer implements ConsumerInterface
         $this->entityManager = $entityManager;
     }
 
-    public function execute(AMQPMessage $message): int
+    public function __invoke(ConvertImageMessage $message)
     {
-        try {
-            ['image' => $image, 'tenantId' => $tenantId] = unserialize($message->body, [false]);
-            if (($tenant = $this->entityManager->find(Tenant::class, $tenantId)) instanceof TenantInterface) {
-                $this->tenantContext->setTenant($tenant);
-            }
+        $tenant = $this->entityManager->find(Tenant::class, $message->getTenantId());
+        if (null === $tenant) {
+            throw new InvalidArgumentException('Tenant not found');
+        }
 
-            if (null === $image) {
-                throw new InvalidArgumentException('Missing image data');
-            }
-        } catch (Throwable $e) {
-            $this->logger->error('Message REJECTED: '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
+        $this->tenantContext->setTenant($tenant);
 
-            return ConsumerInterface::MSG_REJECT;
+        $image = $this->entityManager->find(Image::class, $message->getImageId());
+        if (null === $image) {
+            throw new InvalidArgumentException('Missing image data');
         }
 
         /** @var ImageInterface $image */
@@ -111,15 +107,13 @@ class ImageConversionConsumer implements ConsumerInterface
         } catch (Exception $e) {
             $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
-            return ConsumerInterface::MSG_REJECT;
+            return;
         } finally {
             $filesystem = new Filesystem();
             if ($filesystem->exists($tempLocation)) {
                 $filesystem->remove($tempLocation);
             }
         }
-
-        return ConsumerInterface::MSG_ACK;
     }
 
     private function markArticlesMediaAsUpdated($image)
