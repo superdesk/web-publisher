@@ -26,6 +26,11 @@ SWP\Component\Bridge\Model\Item:
             serialized_name: renditions
             type: ArrayCollection<string,SWP\Component\Bridge\Model\Rendition>
             groups: [deserialization]
+        position:
+            expose: true
+            serialized_name: order
+            type: integer
+            groups: [api]
 
     virtual_properties:
         getItemsArray:

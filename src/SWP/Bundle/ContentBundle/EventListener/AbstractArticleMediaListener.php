@@ -52,9 +52,9 @@ abstract class AbstractArticleMediaListener
         $this->articleBodyProcessor = $articleBodyProcessor;
     }
 
-    public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
+    public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item, string $type = ArticleMediaInterface::TYPE_EMBEDDED_IMAGE): ArticleMediaInterface
     {
-        $articleMedia = $this->mediaFactory->create($article, $key, $item);
+        $articleMedia = $this->mediaFactory->create($article, $key, $item, $type);
 
         foreach ($articleMedia->getRenditions() as $rendition) {
             $this->articleMediaRepository->persist($rendition);
@@ -63,20 +63,6 @@ abstract class AbstractArticleMediaListener
         $this->articleBodyProcessor->process($article, $articleMedia);
 
         return $articleMedia;
-    }
-
-    public function removeOldArticleMedia(ArticleInterface $article): void
-    {
-        $existingArticleMedia = $this->articleMediaRepository->findBy([
-            'article' => $article->getId(),
-        ]);
-
-        foreach ($existingArticleMedia as $articleMedia) {
-            if ($articleMedia === $article->getFeatureMedia()) {
-                $article->setFeatureMedia(null);
-            }
-            $this->articleMediaRepository->remove($articleMedia);
-        }
     }
 
     public function removeArticleMediaIfNeeded($key, ArticleInterface $article): void

@@ -83,13 +83,7 @@ final class TemplatingContext implements Context
     public function cacheblocktagscollectorShouldHaveTag(string $tagName)
     {
         if (!in_array($tagName, $this->cacheBlockTagsCollector->getCurrentCacheBlockTags())) {
-            throw new \Exception(
-                sprintf(
-                    'Tag %s was not found. Found tags: %s',
-                    $tagName,
-                    implode(', ', $this->cacheBlockTagsCollector->getCurrentCacheBlockTags())
-                )
-            );
+            throw new \Exception(sprintf('Tag %s was not found. Found tags: %s', $tagName, implode(', ', $this->cacheBlockTagsCollector->getCurrentCacheBlockTags())));
         }
     }
 }

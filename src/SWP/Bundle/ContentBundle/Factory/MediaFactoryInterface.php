@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -20,17 +22,7 @@ use SWP\Component\Bridge\Model\ItemInterface;
 
 interface MediaFactoryInterface
 {
-    /**
-     * @param ArticleInterface $article
-     * @param string           $key
-     * @param ItemInterface    $item
-     *
-     * @return ArticleMediaInterface
-     */
-    public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface;
+    public function create(ArticleInterface $article, string $key, ItemInterface $item, string $type = ArticleMediaInterface::TYPE_EMBEDDED_IMAGE): ArticleMediaInterface;
 
-    /**
-     * @return ArticleMediaInterface
-     */
     public function createEmpty(): ArticleMediaInterface;
 }

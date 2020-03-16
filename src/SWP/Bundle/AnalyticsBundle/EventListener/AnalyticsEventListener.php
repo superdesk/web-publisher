@@ -16,64 +16,48 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\AnalyticsBundle\EventListener;
 
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
+use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-/**
- * Class AnalyticsEventListener.
- */
 class AnalyticsEventListener
 {
     const TERMINATE_IMMEDIATELY = 'terminate-immediately';
 
     const EVENT_ENDPOINT = '_swp_analytics';
 
-    /**
-     * @var ProducerInterface
-     */
-    protected $producer;
+    /** @var MessageBusInterface */
+    protected $messageBus;
 
-    /**
-     * AnalyticsEventListener constructor.
-     *
-     * @param ProducerInterface $producer
-     */
-    public function __construct(ProducerInterface $producer)
+    public function __construct(MessageBusInterface $messageBus)
     {
-        $this->producer = $producer;
+        $this->messageBus = $messageBus;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
         if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT) &&
             in_array($request->getMethod(), ['POST', 'GET'])
         ) {
-            if (null !== ($json = file_get_contents('php://input')) && '' !== $json) {
-                $request->attributes->set('data', \json_decode($json, true));
-            } elseif (null !== $json = $request->getContent()) {
-                $request->attributes->set('data', \json_decode($json, true));
-            }
+            $httpReferrer = $request->server->get('HTTP_REFERER', $request->query->get('host', $request->getHost()));
 
-            $this->producer->publish(serialize($request));
+            $this->messageBus->dispatch(new AnalyticsEvent(
+                $httpReferrer,
+                (int) $request->query->get('articleId', null),
+                $request->query->get('ref', null)
+            ));
 
             $response = new Response();
             $response->headers->add([self::TERMINATE_IMMEDIATELY => true]);
             $event->setResponse($response);
-            $event->stopPropagation();
         }
     }
 
-    /**
-     * @param FilterResponseEvent $event
-     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
@@ -83,9 +67,6 @@ class AnalyticsEventListener
         }
     }
 
-    /**
-     * @param FinishRequestEvent $event
-     */
     public function onKernelFinishRequest(FinishRequestEvent $event)
     {
         $request = $event->getRequest();
@@ -94,9 +75,6 @@ class AnalyticsEventListener
         }
     }
 
-    /**
-     * @param PostResponseEvent $event
-     */
     public function onKernelTerminate(PostResponseEvent $event)
     {
         $response = $event->getResponse();

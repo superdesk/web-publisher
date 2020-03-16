@@ -1,5 +1,4 @@
 imports:
-  - { resource: "@SWPAnalyticsBundle/Resources/config/app/config.yml" }
   - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
   - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
   - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }

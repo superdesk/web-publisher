@@ -353,7 +353,7 @@ services:
     swp_core.webhook.subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\WebhookEventsSubscriber
         arguments:
-            - '@old_sound_rabbit_mq.send_webhook_producer'
+            - '@messenger.default_bus'
             - '@swp.serializer'
             - '@swp.repository.webhook'
             - '@swp_multi_tenancy.tenant_context'
@@ -681,7 +681,7 @@ services:
     SWP\Bundle\CoreBundle\EventListener\ImageToWebpConversionListener:
         autowire: true
         arguments:
-            - '@old_sound_rabbit_mq.image_conversion_producer'
+            - '@messenger.default_bus'
             - '@swp_multi_tenancy.tenant_context'
             - '%env(bool:WEBP_CONVERSION_ENABLED)%'
             - '@event_dispatcher'
@@ -795,3 +795,7 @@ services:
         public: false
         autoconfigure: true
         autowire: true
+
+    SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
+        arguments:
+            - '@messenger.transport.failed'

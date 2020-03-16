@@ -18,6 +18,8 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
@@ -46,5 +48,16 @@ class ArticleMediaRepository extends EntityRepository implements ArticleMediaRep
             ->setParameter('assetId', $assetId)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findEmbeddedImagesAndFeatureMediaByArticle(ArticleInterface $article): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.article = :article')
+            ->andWhere('m.key != :key')
+            ->setParameter('article', $article->getId())
+            ->setParameter('key', ArticleMediaInterface::TYPE_SLIDE_SHOW)
+            ->getQuery()
+            ->getResult();
     }
 }

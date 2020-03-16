@@ -12,8 +12,7 @@
     }
   ],
   "require": {
-    "php": "^7.3",
-    "php-amqplib/rabbitmq-bundle": "^1.10"
+    "php": "^7.3"
   },
   "require-dev": {
     "phpunit/phpunit": "5.*"

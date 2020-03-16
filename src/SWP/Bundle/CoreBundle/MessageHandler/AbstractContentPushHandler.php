@@ -5,25 +5,20 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2017 Sourcefabric z.ú. and contributors.
+ * Copyright 2020 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2017 Sourcefabric z.ú
+ * @copyright 2020 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Consumer;
+namespace SWP\Bundle\CoreBundle\MessageHandler;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\ORMException;
-use Exception;
-use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
-use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
@@ -31,7 +26,6 @@ use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
-use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
@@ -39,13 +33,10 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Lock\LockFactory;
-use function unserialize;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class ContentPushConsumer implements ConsumerInterface
+abstract class AbstractContentPushHandler implements MessageHandlerInterface
 {
-    protected $lockFactory;
-
     protected $logger;
 
     protected $packageRepository;
@@ -58,12 +49,9 @@ class ContentPushConsumer implements ConsumerInterface
 
     protected $tenantContext;
 
-    protected $sentryHub;
-
     protected $packageHydrator;
 
     public function __construct(
-        LockFactory $lockFactory,
         LoggerInterface $logger,
         PackageRepository $packageRepository,
         EventDispatcherInterface $eventDispatcher,
@@ -73,7 +61,6 @@ class ContentPushConsumer implements ConsumerInterface
         HubInterface $sentryHub,
         PackageHydratorInterface $packageHydrator
     ) {
-        $this->lockFactory = $lockFactory;
         $this->logger = $logger;
         $this->packageRepository = $packageRepository;
         $this->eventDispatcher = $eventDispatcher;
@@ -84,21 +71,10 @@ class ContentPushConsumer implements ConsumerInterface
         $this->packageHydrator = $packageHydrator;
     }
 
-    public function execute(AMQPMessage $msg): int
+    public function execute(int $tenantId, PackageInterface $package): void
     {
-        $decodedMessage = unserialize($msg->body, [true]);
-        /** @var TenantInterface $tenant */
-        $tenant = $decodedMessage['tenant'];
-        /** @var PackageInterface $package */
-        $package = $decodedMessage['package'];
-        $lock = $this->lockFactory->createLock(md5(json_encode(['type' => 'package', 'guid' => $package->getGuid()])), 120);
-
         try {
-            if (!$lock->acquire()) {
-                return ConsumerInterface::MSG_REJECT_REQUEUE;
-            }
-
-            return $this->doExecute($tenant, $package);
+            $this->doExecute($tenantId, $package);
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
             $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
 
@@ -113,28 +89,20 @@ class ContentPushConsumer implements ConsumerInterface
         } catch (Exception $e) {
             $this->logException($e, $package);
 
-            return ConsumerInterface::MSG_REJECT;
+            throw $e;
         } finally {
             $this->reset();
-            $lock->release();
         }
     }
 
-    /**
-     * @throws NonUniqueResultException
-     * @throws NotNullConstraintViolationException
-     * @throws DBALException
-     * @throws ORMException
-     * @throws Exception
-     */
-    public function doExecute(TenantInterface $tenant, PackageInterface $package): int
+    private function doExecute(int $tenantId, PackageInterface $package): void
     {
         $packageType = $package->getType();
         if (ItemInterface::TYPE_TEXT !== $packageType && ItemInterface::TYPE_COMPOSITE !== $packageType) {
-            return ConsumerInterface::MSG_REJECT;
+            return;
         }
 
-        $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $tenant->getId()));
+        $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $tenantId));
 
         /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);
@@ -150,7 +118,7 @@ class ContentPushConsumer implements ConsumerInterface
             $this->reset();
             $this->logger->info(sprintf('Package %s was updated', $existingPackage->getGuid()));
 
-            return ConsumerInterface::MSG_ACK;
+            return;
         }
 
         $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_CREATE]));
@@ -161,8 +129,6 @@ class ContentPushConsumer implements ConsumerInterface
 
         $this->logger->info(sprintf('Package %s was created', $package->getGuid()));
         $this->reset();
-
-        return ConsumerInterface::MSG_ACK;
     }
 
     protected function findExistingPackage(PackageInterface $package)
@@ -180,7 +146,7 @@ class ContentPushConsumer implements ConsumerInterface
         return $existingPackage;
     }
 
-    private function reset(): void
+    protected function reset(): void
     {
         $this->packageObjectManager->clear();
         if ($this->tenantContext instanceof ResettableInterface) {
@@ -188,7 +154,7 @@ class ContentPushConsumer implements ConsumerInterface
         }
     }
 
-    private function logException(\Exception $e, PackageInterface $package, string $defaultMessage = 'Unhandled exception'): void
+    protected function logException(\Exception $e, PackageInterface $package, string $defaultMessage = 'Unhandled exception'): void
     {
         $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : $defaultMessage, ['trace' => $e->getTraceAsString()]);
         $this->sentryHub->addBreadcrumb(new Breadcrumb(

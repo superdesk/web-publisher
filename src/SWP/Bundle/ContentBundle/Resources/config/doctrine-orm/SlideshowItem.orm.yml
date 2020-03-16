@@ -8,6 +8,9 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
             generator:
                 strategy: IDENTITY
     fields:
+        position:
+            type: integer
+            nullable: true
         createdAt:
             type: datetime
             gedmo:
@@ -22,7 +25,7 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
     manyToOne:
         articleMedia:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
-            cascade: ["remove"]
+            cascade: ["all"]
             joinColumn:
                 name: article_media_id
                 referencedColumnName: id

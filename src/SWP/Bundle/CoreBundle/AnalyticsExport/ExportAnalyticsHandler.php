@@ -22,6 +22,7 @@ use SWP\Bundle\CoreBundle\AnalyticsExport\Exception\AnalyticsReportNotFoundExcep
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -92,11 +93,12 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
                 $exportAnalytics->getTerm(),
                 [
                     'sort' => ['articleStatistics.pageViewsNumber' => 'desc'],
-                    'publishedBefore' => $exportAnalytics->getEnd(),
-                    'publishedAfter' => $exportAnalytics->getStart(),
+                    'publishedBefore' => '' !== $exportAnalytics->getEnd() ? new \DateTime($exportAnalytics->getEnd()) : null,
+                    'publishedAfter' => '' !== $exportAnalytics->getStart() ? new \DateTime($exportAnalytics->getStart()) : null,
                     'tenantCode' => $tenantCode,
                     'routes' => $exportAnalytics->getRouteIds(),
                     'authors' => $exportAnalytics->getAuthors(),
+                    'statuses' => [ArticleInterface::STATUS_PUBLISHED],
                 ]
             );
 
@@ -123,6 +125,9 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
             $analyticsReport->setStatus(AnalyticsReportInterface::STATUS_COMPLETED);
         } catch (Throwable $e) {
             $analyticsReport->setStatus(AnalyticsReportInterface::STATUS_ERRORED);
+            $this->analyticsReportRepository->flush();
+
+            throw $e;
         }
 
         $analyticsReport->setUpdatedAt(DateTime::getCurrentDateTime());
