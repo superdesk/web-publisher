@@ -1,21 +1,11 @@
 _default:
-
-    # VCS CONFIG
     vcs: git
-
-    # PREREQUISITES
-    #  Actions executed before any questions get asked to the user.
-    #  Custom action can be added by provided a relative path the the php script. Example:
-    #   - relative/path/to/your-own-sript.php
+    
     prerequisites:
         - working-copy-check
         - display-last-changes
         - composer-security-check
 
-    # GENERAL CONFIG
-    #  Apply to all branches except the one from the 'branch-specific' section
-    #  Like prerequisites, you can add your own script. Example:
-    #   - relative/path/to/your-own-sript.php
     version-generator:
         semantic:
             allow-label: true
