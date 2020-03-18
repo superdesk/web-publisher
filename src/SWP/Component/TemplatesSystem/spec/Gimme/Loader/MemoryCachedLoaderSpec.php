@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\TemplatesSystem\spec\Gimme\Loader;
+namespace spec\SWP\Component\TemplatesSystem\Gimme\Loader;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;

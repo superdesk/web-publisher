@@ -23,7 +23,7 @@
         "symfony/event-dispatcher": "^4.2"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.4",
+        "phpspec/phpspec": "^6.1",
         "phpunit/phpunit": "5.*"
     },
     "autoload": {
