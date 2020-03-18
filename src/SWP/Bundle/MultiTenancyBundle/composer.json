@@ -19,8 +19,8 @@
     ],
     "require": {
         "php": "^7.3",
-        "swp/multi-tenancy": "^2.0",
-        "swp/storage-bundle": "^2.0",
+        "swp/multi-tenancy": "^2.1",
+        "swp/storage-bundle": "^2.1",
         "doctrine/doctrine-bundle": "^1.10",
         "twig/twig": "^2.7",
         "ocramius/proxy-manager": "^1.0",
