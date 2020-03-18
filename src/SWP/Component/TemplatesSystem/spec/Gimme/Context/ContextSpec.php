@@ -12,11 +12,11 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\TemplatesSystem\spec\Gimme\Context;
+namespace spec\SWP\Component\TemplatesSystem\Gimme\Context;
 
+use Doctrine\Common\Cache\Cache;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
-use Doctrine\Common\Cache\Cache;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
