@@ -26,4 +26,6 @@ before_script:
   - composer $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
-    - bin/phpspec run -fpretty --verbose
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - phpenv rehash
+  - bin/phpspec run -fpretty --verbose
