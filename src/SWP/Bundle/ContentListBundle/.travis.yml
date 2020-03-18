@@ -23,9 +23,9 @@ env:
   - COMPOSER_FLAGS='install'
 
 before_script:
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - phpenv rehash
   - composer $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
-  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - phpenv rehash
   - bin/phpspec run -fpretty --verbose
