@@ -19,8 +19,8 @@ before_install:
   - composer self-update
 
 env:
-  - COMPOSER_FLAGS='update --prefer-stable'
-  - COMPOSER_FLAGS='install'
+  - COMPOSER_FLAGS='update --prefer-stable -vvv'
+  - COMPOSER_FLAGS='install -vvv'
 
 before_script:
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
