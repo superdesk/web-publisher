@@ -2,3 +2,4 @@ FROM nginx:latest
 
 COPY default.conf /etc/nginx/conf.d/
 #COPY nginx.conf /etc/nginx/nginx.conf
+CMD ["/usr/sbin/nginx"]
