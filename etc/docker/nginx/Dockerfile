@@ -2,7 +2,8 @@ FROM nginx:latest
 
 COPY default.conf /etc/nginx/conf.d/
 #COPY nginx.conf /etc/nginx/nginx.conf
-RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev && \
+RUN apt-get update
+RUN apt-get install --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev && \
   docker-php-ext-configure gd \
     --with-gd \
     --with-freetype-dir=/usr/include/ \
