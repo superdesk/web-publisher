@@ -13,6 +13,10 @@ SWP\Bundle\CoreBundle\Model\Article:
         commentsCount:
             type: integer
             nullable: true
+        isPublishedToAppleNews:
+            type: boolean
+            options:
+                default: false
     manyToOne:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
@@ -32,6 +36,9 @@ SWP\Bundle\CoreBundle\Model\Article:
         externalArticle:
             targetEntity: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
             mappedBy: article
+        appleNewsArticle:
+            targetEntity: SWP\Bundle\CoreBundle\Model\AppleNewsArticleInterface
+            mappedBy: appleNewsArticle
     uniqueConstraints:
         swp_article_slug_not_null_deleted_at_idx:
             columns: [ slug, tenant_code, organization_id, deleted_at ]

@@ -26,6 +26,9 @@ SWP\Bundle\CoreBundle\Model\Article:
             expose: true
             groups: [api, api_articles_list]
             access_type: public_method
+        isPublishedToAppleNews:
+            expose: true
+            groups: [api, api_articles_list]
     relations:
         -
             rel: slideshows

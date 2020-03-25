@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    public: true
+    autoconfigure: true
+    autowire: true
+
+  SWP\Bundle\CoreBundle\AppleNews\Converter\ArticleToAppleNewsFormatConverter:
+    arguments:
+      - '@serializer'

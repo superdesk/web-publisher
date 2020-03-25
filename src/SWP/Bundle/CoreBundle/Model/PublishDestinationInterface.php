@@ -46,4 +46,8 @@ interface PublishDestinationInterface extends TimestampableInterface, Persistabl
     public function getContentLists(): array;
 
     public function setContentLists(array $contentLists): void;
+
+    public function isPublishedToAppleNews(): bool;
+
+    public function setIsPublishedToAppleNews(bool $isPublishedToAppleNews): void;
 }

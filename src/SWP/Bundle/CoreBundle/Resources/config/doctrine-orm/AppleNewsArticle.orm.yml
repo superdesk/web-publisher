@@ -1,0 +1,23 @@
+SWP\Bundle\CoreBundle\Model\AppleNewsArticle:
+    type: mappedSuperclass
+    table: swp_article_apple_news
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        articleId:
+            type: string
+        revisionId:
+            type: string
+        shareUrl:
+            type: string
+    oneToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            inversedBy: appleNewsArticle
+            cascade: ['all']
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
