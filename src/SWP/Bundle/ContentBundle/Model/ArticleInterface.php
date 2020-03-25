@@ -179,14 +179,4 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     public function addSlideshow(SlideshowInterface $slideshow): void;
 
     public function removeSlideshow(SlideshowInterface $slideshow): void;
-
-    /**
-     * @return string
-     */
-    public function getFamilyId();
-
-    /**
-     * @param string $familyId
-     */
-    public function setFamilyId($familyId);
 }

@@ -26,9 +26,6 @@ SWP\Bundle\CoreBundle\Model\Article:
             expose: true
             groups: [api, api_articles_list]
             access_type: public_method
-        familyId:
-            expose: true
-            groups: [api]
     relations:
         -
             rel: slideshows
