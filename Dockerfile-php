@@ -1,10 +1,10 @@
 FROM php:7.3-fpm
 
 RUN apt update
-RUN apt add curl-dev
+RUN apt install curl-dev
 
 RUN set -ex \
-    && apk --no-cache add \
+    && apt --no-cache install \
         postgresql-dev \
         zlib-dev \
         libxml2-dev \
