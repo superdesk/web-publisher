@@ -1,7 +1,7 @@
 FROM php:7.3-fpm
 
-RUN apk update
-RUN apk add curl-dev
+RUN apt update
+RUN apt add curl-dev
 
 RUN set -ex \
     && apk --no-cache add \
