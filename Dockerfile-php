@@ -4,24 +4,9 @@ RUN apt update
 RUN apt install curl
 
 RUN set -ex \
-    && apt install \
-        postgresql-dev \
-        zlib-dev \
+    && apt install -y \
         libxml2-dev \
-        freetype \
-        libpng \
-        libjpeg-turbo \
-        freetype-dev \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        libintl \
-        icu \
-        icu-dev \
-        git \
-        libmemcached-dev \
-        autoconf \
-        build-base \
-        rabbitmq-c-dev \
+     
         libzip-dev \
         zip \
     && docker-php-ext-configure intl \
