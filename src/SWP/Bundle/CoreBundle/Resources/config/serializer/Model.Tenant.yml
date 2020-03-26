@@ -19,6 +19,9 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             expose: true
             groups: [api]
             type: SWP\Bundle\CoreBundle\Model\ArticlesCountInterface
+        appleNewsConfig:
+            expose: true
+            groups: [api]
     relations:
         - rel: self
           href:

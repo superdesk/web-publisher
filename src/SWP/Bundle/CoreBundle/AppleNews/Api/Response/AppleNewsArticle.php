@@ -42,7 +42,7 @@ final class AppleNewsArticle
         return new self(
             $response['data']['id'],
             $response['data']['shareUrl'],
-            $response['revision']
+            $response['data']['revision']
         );
     }
 }

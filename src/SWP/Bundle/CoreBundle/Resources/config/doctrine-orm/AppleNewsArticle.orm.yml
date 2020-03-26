@@ -9,6 +9,7 @@ SWP\Bundle\CoreBundle\Model\AppleNewsArticle:
     fields:
         articleId:
             type: string
+            column: apple_news_article_id
         revisionId:
             type: string
         shareUrl:

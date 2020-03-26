@@ -11,6 +11,8 @@ use SWP\Bundle\CoreBundle\AppleNews\Component\Figure;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Gallery;
 use SWP\Bundle\CoreBundle\AppleNews\Component\GalleryItem;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Heading;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Instagram;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Tweet;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ArticleDocument;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentTextStyle;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentTextStyles;
@@ -79,10 +81,11 @@ final class ArticleToAppleNewsFormatConverter
 
         $featureMedia = $article->getFeatureMedia();
         if (null !== $featureMedia) {
-            $featureMediaUrl = $this->router->generate('swp_media_get', [
-                'mediaId' => $featureMedia->getImage()->getAssetId(),
-                'extension' => $featureMedia->getImage()->getFileExtension(),
-            ], RouterInterface::ABSOLUTE_URL);
+//            $featureMediaUrl = $this->router->generate('swp_media_get', [
+//                'mediaId' => $featureMedia->getImage()->getAssetId(),
+//                'extension' => $featureMedia->getImage()->getFileExtension(),
+//            ], RouterInterface::ABSOLUTE_URL);
+            $featureMediaUrl = 'https://superdesk-pro-b.s3-eu-west-1.amazonaws.com/sd-vijesti-prod/20200326120356/fd56ce3a-a60d-49fd-b2bb-559f1f23e6cf.jpg';
             $metadata->setThumbnailURL($featureMediaUrl);
         }
 
@@ -93,9 +96,7 @@ final class ArticleToAppleNewsFormatConverter
 
     public function stripHtmlTags(string $html): string
     {
-        $html = preg_replace('/<script.*>.*<\/script>/isU', '', $html);
-
-        return $html;
+        return preg_replace('/<script.*>.*<\/script>/isU', '', $html);
     }
 
     private function processArticleBody(array $components = [], string $html): array
@@ -145,13 +146,32 @@ final class ArticleToAppleNewsFormatConverter
 
                     break;
                 case 'div':
-                    if ($node->hasAttribute('class')) {
-                        $webVideoUrl = $node->getElementsByTagName('iframe')
-                            ->item(0)
-                            ->getAttribute('src');
+                    if (!$node->hasAttribute('class')) {
+                        break;
+                    }
 
+                    $iframeElement = $node->getElementsByTagName('iframe')
+                        ->item(0);
+
+                    if (null !== $iframeElement) {
+                        $webVideoUrl = $iframeElement->getAttribute('src');
                         $url = str_replace('\"', '', $webVideoUrl);
-                        $components[] = new EmbedWebVideo($url);
+                        if (false !== strpos($url, 'twitter.com')) {
+                            $components[] = new Tweet('https:'.$url);
+                        } else {
+                            $components[] = new EmbedWebVideo($url);
+                        }
+
+                        break;
+                    }
+
+                    $instagramElement = $node->getElementsByTagName('blockquote')
+                        ->item(0);
+
+                    if (null !== $instagramElement) {
+                        $instagramUrl = $instagramElement->getAttribute('data-instgrm-permalink');
+                        $url = str_replace('\"', '', $instagramUrl);
+                        $components[] = new Instagram($url);
                     }
 
                     break;
