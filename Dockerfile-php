@@ -1,12 +1,27 @@
-FROM php:7.3-fpm
+FROM php:7.3-fpm-alpine
 
-RUN apt update
-RUN apt install curl
+RUN apk update
+RUN apk add curl-dev
 
 RUN set -ex \
-    && apt install -y \
+    && apk --no-cache add \
+        postgresql-dev \
+        zlib-dev \
         libxml2-dev \
-     
+        freetype \
+        libpng \
+        libjpeg-turbo \
+        freetype-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        libintl \
+        icu \
+        icu-dev \
+        git \
+        libmemcached-dev \
+        autoconf \
+        build-base \
+        rabbitmq-c-dev \
         libzip-dev \
         zip \
     && docker-php-ext-configure intl \
