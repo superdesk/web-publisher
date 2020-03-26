@@ -18,6 +18,7 @@ RUN set -ex \
         icu \
         icu-dev \
         git \
+        nginx \
         libmemcached-dev \
         autoconf \
         build-base \
