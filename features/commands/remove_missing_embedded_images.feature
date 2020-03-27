@@ -73,6 +73,7 @@ Feature: Removing missing embedded images from article bodies
       | term         | www.example.com/images |
       | parent       | a                      |
       | --tenant     | 123abc                 |
+      | --limit      | 10                     |
     Then the command output should be "Done. In total processed 1 articles"
 
     And I am authenticated as "test.user"

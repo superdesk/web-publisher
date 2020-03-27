@@ -18,10 +18,12 @@ namespace SWP\Bundle\CoreBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -48,16 +50,22 @@ class RemoveMissingEmbeddedImagesCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription('Remove from article body missing embedded images')
-            ->addOption('dry-run', null, InputArgument::OPTIONAL, 'Do not execute anything, just show what was found', false)
+            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Do not execute anything, just show what was found')
+            ->addOption('limit', null, InputOption::VALUE_REQUIRED, 'Limit for searched articles')
             ->addArgument('term', InputArgument::REQUIRED, 'Article body fragment')
-            ->addArgument('parent', InputArgument::REQUIRED, 'Fount element parent to be removed');
+            ->addArgument('parent', InputArgument::REQUIRED, 'Found element parent to be removed');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $limit = 2000;
+        if (null !== $input->getOption('limit')) {
+            $limit = (int) $input->getOption('limit');
+        }
         /** @var ArticleInterface[] $brokenArticles */
-        $brokenArticles = $this->articleRepository->getArticlesByBodyContent($input->getArgument('term'));
+        $brokenArticles = $this->getArticlesByBodyContent($this->entityManager, $input->getArgument('term'), $limit);
         foreach ($brokenArticles as $article) {
+            $output->writeln(sprintf('Cleaning article: %s', $article->getTitle()));
             $articleBody = $article->getBody();
             $crawler = new Crawler($articleBody);
             $crawler->filter('img')
@@ -67,8 +75,11 @@ class RemoveMissingEmbeddedImagesCommand extends Command
                     }
                 })
                 ->each(static function (Crawler $crawler, $i) use ($input) {
-                    foreach ($crawler->closest($input->getArgument('parent')) as $node) {
-                        $node->parentNode->removeChild($node);
+                    $closest = $crawler->closest($input->getArgument('parent'));
+                    if (is_iterable($closest)) {
+                        foreach ($closest as $node) {
+                            $node->parentNode->removeChild($node);
+                        }
                     }
                 });
 
@@ -84,5 +95,18 @@ class RemoveMissingEmbeddedImagesCommand extends Command
         }
 
         $output->writeln('<bg=green;options=bold>Done. In total processed '.\count($brokenArticles).' articles.</>');
+
+        return 0;
+    }
+
+    private function getArticlesByBodyContent(EntityManagerInterface $manager, string $content, int $limit): array
+    {
+        $queryBuilder = $manager->createQueryBuilder();
+        $queryBuilder->select('a')->from(Article::class, 'a');
+        $like = $queryBuilder->expr()->like('a.body', $queryBuilder->expr()->literal('%'.$content.'%'));
+        $queryBuilder->andWhere($like);
+        $queryBuilder->setMaxResults($limit);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }
