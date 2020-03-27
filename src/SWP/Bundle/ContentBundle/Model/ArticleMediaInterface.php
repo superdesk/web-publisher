@@ -25,6 +25,12 @@ use SWP\Component\Storage\Model\PersistableInterface;
  */
 interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInterface, TimestampableInterface
 {
+    public const TYPE_SLIDE_SHOW = 'slide_show';
+
+    public const TYPE_FEATURE_MEDIA = 'feature_media';
+
+    public const TYPE_EMBEDDED_IMAGE = 'embedded_image';
+
     /**
      * @return ArrayCollection
      */

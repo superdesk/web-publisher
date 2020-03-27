@@ -11,6 +11,9 @@ default:
                     userProvider: '@swp.security.user_provider'
                     apiKeyRepository: '@swp.repository.api_key'
                     apiKeyFactory: '@swp.factory.api_key'
+                - GeoLocationContext:
+                    geoIpReader: '@SWP\Component\GeoIP\Reader\ReaderInterface'
+                - SWP\Behat\Contexts\CsvFileContext
                 - Behat\MinkExtension\Context\MinkContext
                 - SWP\Behat\Contexts\TenantContext
                 - SWP\Behat\Contexts\ContentListContext
@@ -28,6 +31,7 @@ default:
                 - SWP\Behat\Contexts\SlideshowItemContext
                 - SWP\Behat\Contexts\ArticleMediaContext
                 - SWP\Behat\Contexts\Hook\DoctrineORMContext
+                - SWP\Behat\Contexts\MessengerContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~

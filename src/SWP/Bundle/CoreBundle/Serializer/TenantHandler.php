@@ -112,6 +112,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
         if (isset($this->internalCache[$tenant->getCode()])) {
             $cachedData = $this->internalCache[$tenant->getCode()];
+            $visitor->visitProperty(new StaticPropertyMetadata('', 'default_language', null), $cachedData['settings']['defaultLanguage']);
             $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $cachedData['settings']['fbiaEnabled']);
             $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $cachedData['settings']['paywallEnabled']);
             if (isset($cachedData['routes'])) {
@@ -132,13 +133,16 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
             $this->tenantContext->setTenant($tenant);
         }
 
+        $defaultLanguage = $this->settingsManager->get('default_language', ScopeContext::SCOPE_TENANT, $tenant);
         $fbiaEnabled = $this->settingsManager->get('fbia_enabled', ScopeContext::SCOPE_TENANT, $tenant, false);
         $paywallEnabled = $this->settingsManager->get('paywall_enabled', ScopeContext::SCOPE_TENANT, $tenant, false);
         $this->internalCache[$tenant->getCode()]['settings'] = [
+            'defaultLanguage' => $defaultLanguage,
             'fbiaEnabled' => $fbiaEnabled,
             'paywallEnabled' => $paywallEnabled,
         ];
 
+        $visitor->visitProperty(new StaticPropertyMetadata('', 'default_language', null), $defaultLanguage);
         $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $fbiaEnabled);
         $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $paywallEnabled);
 

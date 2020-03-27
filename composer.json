@@ -73,6 +73,7 @@
     "friendsofsymfony/rest-bundle": "^2.5",
     "friendsofsymfony/user-bundle": "dev-master",
     "fzaninotto/faker": "^1.8",
+    "geoip2/geoip2": "^2.0",
     "gesdinet/jwt-refresh-token-bundle": "^0.5.0",
     "gos/react-amqp": "^0.3.0",
     "gos/web-socket-bundle": "^v1.9.0",
@@ -96,7 +97,6 @@
     "ocramius/generated-hydrator": "^3.0",
     "ocramius/proxy-manager": "<=2.1.1",
     "oneup/flysystem-bundle": "^3.1",
-    "php-amqplib/rabbitmq-bundle": "^1.14",
     "php-http/guzzle6-adapter": "^v1.1",
     "phpdocumentor/reflection-docblock": "^4.3",
     "ramsey/uuid": "^3.8",
@@ -111,12 +111,14 @@
     "symfony/dom-crawler": "^4.3.",
     "symfony/dotenv": "^4.3",
     "symfony/flex": "^1.4",
+    "symfony/framework-bundle": "^4.3",
     "symfony/lock": "^4.3",
+    "symfony/mailer": "^4.3",
+    "symfony/messenger": "^4.3",
     "symfony/monolog-bundle": "~3.4",
     "symfony/routing": "^4.3",
     "symfony/serializer": "^4.3.2",
     "symfony/swiftmailer-bundle": "~3.2",
-    "symfony/framework-bundle": "^4.3",
     "symfony/translation": "^4.3",
     "symfony/validator": "^4.3",
     "symfony/web-link": "^4.3",
@@ -185,6 +187,10 @@
     "swp/content-list": "self.version",
     "swp/seo": "self.version",
     "swp/seo-bundle": "self.version",
+    "swp/geo-ip-bundle": "self.version",
+    "swp/geo-ip": "self.version",
+    "swp/archiver": "self.version",
+    "swp/redirect-route-bundle": "self.version",
     "lullabot/amp": "^1.0"
   },
   "conflict": {
@@ -199,7 +205,7 @@
   "prefer-stable": true,
   "extra": {
     "branch-alias": {
-      "dev-master": "2.0-dev"
+      "dev-master": "2.1-dev"
     }
   },
   "repositories": [

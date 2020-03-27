@@ -40,6 +40,7 @@ final class ArticlePublishListenerSpec extends ObjectBehavior
         ArticleInterface $article
     ) {
         $event->getArticle()->willReturn($article);
+        $article->getExtra();
         $articleService->publish($article)->shouldBeCalled()->willReturn($article);
         $article->isPublished()->willReturn(false);
 
@@ -52,6 +53,7 @@ final class ArticlePublishListenerSpec extends ObjectBehavior
         ArticleInterface $article
     ) {
         $event->getArticle()->willReturn($article);
+        $article->getExtra();
         $articleService->publish($article)->shouldNotBeCalled();
         $article->isPublished()->willReturn(true);
 

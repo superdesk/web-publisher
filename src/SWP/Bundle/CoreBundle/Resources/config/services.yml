@@ -353,7 +353,7 @@ services:
     swp_core.webhook.subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\WebhookEventsSubscriber
         arguments:
-            - '@old_sound_rabbit_mq.send_webhook_producer'
+            - '@messenger.default_bus'
             - '@swp.serializer'
             - '@swp.repository.webhook'
             - '@swp_multi_tenancy.tenant_context'
@@ -398,6 +398,11 @@ services:
         arguments:
           - '%env(SUPERDESK_THUMBNAIL_RENDITION_NAME)%'
           - '%env(SUPERDESK_VIEW_IMAGE_RENDITION_NAME)%'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    SWP\Bundle\CoreBundle\Serializer\ImageRenditionSerializationSubscriber:
+        autowire: true
         tags:
             - { name: jms_serializer.event_subscriber }
 
@@ -676,7 +681,7 @@ services:
     SWP\Bundle\CoreBundle\EventListener\ImageToWebpConversionListener:
         autowire: true
         arguments:
-            - '@old_sound_rabbit_mq.image_conversion_producer'
+            - '@messenger.default_bus'
             - '@swp_multi_tenancy.tenant_context'
             - '%env(bool:WEBP_CONVERSION_ENABLED)%'
             - '@event_dispatcher'
@@ -763,3 +768,34 @@ services:
 
     SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface:
         alias: SWP\Bundle\CoreBundle\Hydrator\PackageHydrator
+
+    SWP\Bundle\CoreBundle\GeoIp\CachedGeoIpChecker:
+        autowire: true
+
+    League\Flysystem\Filesystem:
+        alias: oneup_flysystem.swp_filesystem_filesystem
+
+    SWP\Bundle\CoreBundle\AnalyticsExport\:
+        resource: '../../AnalyticsExport/*'
+        exclude: '../../AnalyticsExport/{ExportAnalytics,CsvReportFileLocationResolver}'
+        public: false
+        autoconfigure: true
+        autowire: true
+        bind:
+            $cacheDir: '%kernel.cache_dir%'
+            $analyticsReportRepository: '@swp.repository.analytics_report'
+            $fromEmail: '%env(FROM_EMAIL)%'
+            $tenantRepository: '@swp.repository.tenant'
+
+    SWP\Bundle\CoreBundle\AnalyticsExport\CsvReportFileLocationResolver:
+        parent: swp.resolver.asset_location
+        public: true
+
+    SWP\Bundle\CoreBundle\Controller\AnalyticsExportController:
+        public: false
+        autoconfigure: true
+        autowire: true
+
+    SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
+        arguments:
+            - '@messenger.transport.failed'

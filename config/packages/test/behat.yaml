@@ -5,9 +5,11 @@ services:
         bind:
             $contentListFactory: '@swp.factory.content_list'
             $contentListItemFactory: '@swp.factory.content_list_item'
-            $contentPushProducer: '@old_sound_rabbit_mq.content_push_producer'
+            $messageBus: '@messenger.default_bus'
             $ruleFactory: '@swp.factory.rule'
             $routeService: '@swp.service.route'
+            $projectDir: '%kernel.project_dir%'
+            $failureTransport: '@messenger.transport.failed'
 
     swp.random_string_generator:
         class: SWP\Behat\Service\RandomStringGeneratorStub
@@ -36,3 +38,11 @@ services:
     SWP\Behat\EventSubscriber\SQLiteForeignKeyEnabler:
         tags:
             - { name: doctrine.event_subscriber }
+
+    SWP\Component\GeoIP\Reader\ReaderInterface:
+        class: SWP\Behat\Service\GeoIPReaderAdapterStub
+
+    SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
+        class: SWP\Behat\Service\FailedEntriesProvider
+        arguments:
+            - '@messenger.transport.failed'

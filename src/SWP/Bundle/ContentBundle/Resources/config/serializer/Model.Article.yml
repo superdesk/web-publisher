@@ -81,7 +81,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         authors:
             expose: true
-            groups: [api]
+            groups: [api, api_article_authors]
         extra:
             expose: true
             groups: [api]

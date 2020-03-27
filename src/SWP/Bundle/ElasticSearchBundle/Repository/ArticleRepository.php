@@ -62,6 +62,15 @@ class ArticleRepository extends Repository
             $boolFilter->addMust(new MatchAll());
         }
 
+        if (null !== $fields->get('keywords') && !empty($fields->get('keywords'))) {
+            $bool = new BoolQuery();
+            $bool->addFilter(new Query\Terms('keywords.name', $fields->get('keywords')));
+            $nested = new Nested();
+            $nested->setPath('keywords');
+            $nested->setQuery($bool);
+            $boolFilter->addMust($nested);
+        }
+
         if (null !== $fields->get('authors') && !empty($fields->get('authors'))) {
             $bool = new BoolQuery();
             foreach ($fields->get('authors') as $author) {

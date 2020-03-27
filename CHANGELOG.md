@@ -6,6 +6,26 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+### 2.1.0-RC
+
+* improvement [#1062] Add "default language" to tenant configuration
+* improvement [#0161] Allow filtering packages by language
+* fix [#1060] Handle slideshow items position
+* improvement [#1059] Improve media processing on article update
+* feature [#1051] Failure Queue API
+* improvement [#1050] Improve articles excluding by authors
+* feature [#1041] Rewrite consumers implementation to one based on Symfony Messenger
+* fix [#1049] Support Token Authenticator only in the API
+* feature [#1025] Add analytics export 
+* feature [#1017] Add redirect routes
+* feature [#1009] Restrict access to articles based on geo-location
+* improvement [#1008] Add env variable to customize S3 endpoint
+* improvement [#1003] @mikeavena Improve install docs
+* improvement [#1006] Filter articles by keywords
+* improvement [#1001] Add public url to rendition
+* improvement [#985]  @kottkrig  Add lazy load attribute to embedded images.
+* improvement [#982] Add feature media to package endpoint response
+
 ### 2.0.4
 
  * fix [#1039] handle items with slugline property set to empty string

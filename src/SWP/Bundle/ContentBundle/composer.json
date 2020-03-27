@@ -56,6 +56,7 @@
     "zendframework/zend-stdlib": "^3.2@dev",
     "symfony/translation": "^4.3",
     "swp/seo-bundle": "^2.0",
+    "swp/redirect-route-bundle": "^2.0",
     "symfony/templating": "^4.3",
     "sentry/sentry-symfony": "^3.3 >3.3.1"
   },
@@ -101,7 +102,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "2.0-dev"
+      "dev-master": "2.1-dev"
     }
   }
 }

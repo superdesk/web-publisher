@@ -58,8 +58,10 @@ EOT
     {
         $name = $input->getArgument('name');
         $default = $input->getOption('default');
+        $code = null;
         if ($default) {
             $name = OrganizationInterface::DEFAULT_NAME;
+            $code = OrganizationInterface::DEFAULT_CODE;
         }
 
         $organization = $this->getOrganizationRepository()->findOneByName($name);
@@ -68,7 +70,7 @@ EOT
             throw new \InvalidArgumentException(sprintf('"%s" organization already exists!', $name));
         }
 
-        $organization = $this->createOrganization($name, $input);
+        $organization = $this->createOrganization($name, $input, $code);
 
         $this->getObjectManager()->persist($organization);
         $this->getObjectManager()->flush();
@@ -76,11 +78,7 @@ EOT
         $this->sendOutput($output, $organization);
     }
 
-    /**
-     * @param OutputInterface       $output
-     * @param OrganizationInterface $organization
-     */
-    protected function sendOutput(OutputInterface $output, $organization)
+    protected function sendOutput(OutputInterface $output, OrganizationInterface $organization)
     {
         $output->writeln(
             sprintf(
@@ -92,10 +90,6 @@ EOT
         );
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $default = $input->getOption('default');
@@ -105,9 +99,7 @@ EOT
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $name
+     * @param string $name
      */
     protected function askAndValidateInteract(InputInterface $input, OutputInterface $output, $name)
     {
@@ -129,17 +121,17 @@ EOT
         }
     }
 
-    /**
-     * @param string $name
-     * @param bool   $disabled
-     *
-     * @return OrganizationInterface
-     */
-    protected function createOrganization($name, $input)
+    protected function createOrganization(string $name, InputInterface $input, string $code = null): OrganizationInterface
     {
         $organizationFactory = $this->getContainer()->get('swp.factory.organization');
-        /** @var OrganizationInterface $organization */
-        $organization = $organizationFactory->createWithCode();
+        /* @var OrganizationInterface $organization */
+        if (null !== $code) {
+            $organization = $organizationFactory->create();
+            $organization->setCode($code);
+        } else {
+            $organization = $organizationFactory->createWithCode();
+        }
+
         $organization->setName($name);
         $organization->setEnabled(!$input->getOption('disabled'));
 

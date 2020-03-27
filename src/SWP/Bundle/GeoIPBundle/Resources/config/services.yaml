@@ -1,0 +1,25 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    SWP\Component\GeoIP\Reader\GeoIPReaderAdapter: ~
+    SWP\Component\GeoIP\Reader\ReaderInterface:
+        alias: SWP\Component\GeoIP\Reader\GeoIPReaderAdapter
+
+    SWP\Component\GeoIP\Checker\GeoIPChecker:
+        lazy: true
+
+    SWP\Bundle\GeoIPBundle\:
+        resource: '../../*'
+
+    SWP\Bundle\GeoIPBundle\Command\UpdateGeoIPDatabaseCommand:
+        arguments:
+            - '%kernel.cache_dir%'
+            - '%swp.geo_ip.database_url%'
+            - '%swp.geo_ip.database_path%'
+
+    GeoIp2\Database\Reader:
+        arguments: [ '%swp.geo_ip.database_path%' ]
+        public: true

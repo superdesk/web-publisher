@@ -1,4 +1,5 @@
 @organization_commands
+@disable-fixtures
 Feature: Checking if create and update organization commands working properly
   In order to create and update organization
   As a console command
@@ -43,3 +44,9 @@ Feature: Checking if create and update organization commands working properly
       | --disabled    | true             |
     Then the command output should be "Organization TestOrganization (code: "
     And the command output should be ", secret token: new_secret_token) has been updated and is disabled!"
+
+  Scenario: Create default organization
+    When I run the "swp:organization:create" command with options:
+      | --env         | test             |
+      | --default     |                  |
+    Then the command output should be "Organization default (code: 123456)"

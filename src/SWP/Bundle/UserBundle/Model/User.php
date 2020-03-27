@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Model;
 
 use FOS\UserBundle\Model\User as BaseUser;
+use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 class User extends BaseUser implements UserInterface
@@ -48,7 +49,7 @@ class User extends BaseUser implements UserInterface
      */
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTime());
+        $this->createdAt = DateTime::getCurrentDateTime();
 
         parent::__construct();
     }

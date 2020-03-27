@@ -63,6 +63,14 @@ class ArticleSearchController extends Controller
      *         @SWG\Items(type="string")
      *     ),
      *     @SWG\Parameter(
+     *         name="keywords",
+     *         in="query",
+     *         description="Article keywords",
+     *         required=false,
+     *         type="array",
+     *         @SWG\Items(type="string")
+     *     ),
+     *     @SWG\Parameter(
      *         name="term",
      *         in="query",
      *         description="Search phrase",
@@ -146,6 +154,7 @@ class ArticleSearchController extends Controller
                 'tenantCode' => $currentTenant->getCode(),
                 'sources' => array_filter((array) $request->query->get('source', [])),
                 'metadata' => array_filter((array) $request->query->get('metadata', [])),
+                'keywords' => array_filter((array) $request->query->get('keywords', [])),
             ]
         );
 
@@ -173,6 +182,7 @@ class ArticleSearchController extends Controller
                 'Default',
                 'api_articles_list',
                 'api_articles_featuremedia',
+                'api_article_authors',
                 'api_article_media_list',
                 'api_article_media_renditions',
                 'api_image_details',

@@ -1,13 +1,16 @@
 Navigation management
 =====================
 
-**Navigations** are menus that you can use on your websites. Advantage of creating them here (and not building navigation menu only in template) is that it can later be managed (meaning menu items added, removed and reordered) even by website editors, and not template developers. And when we say managed, we mean managed either in superdesk Publisher interface, on directly on website frontend, using :doc:`LiveSite Editing </manual/editorial_tools/livesite_editor>`. 
+**Navigations** are menus that you can use on your websites. Advantage of creating them here (and not building navigation menu 
+only in template) is that it can later be managed (meaning menu items added, removed and reordered) even by website editors, 
+and not template developers. And when we say managed, we mean managed in Superdesk's Publisher Settings interface.
 
 .. image:: navigation-management-01.png
    :alt: Navigation management
    :align: center
 
-Only after configuring *Routes*, we can proceed to configure *Navigation*. That's because navigation is built of **menu items**, and menu items are partly defined by routes.
+Only after configuring *Routes*, we can proceed to configure *Navigation*. That's because navigation is built 
+of **menu items**, and menu items are partly defined by routes.
 
 .. image:: navigation-management-02.png
    :alt: Navigation management

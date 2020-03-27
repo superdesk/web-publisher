@@ -133,8 +133,17 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function supports(Request $request): bool
     {
         $token = $this->getToken($request);
+        $isApi = $request->attributes->get('_fos_rest_zone');
 
-        return $token && false === strpos($token, 'Bearer ');
+        if (false === $isApi && $request->query->has('auth_token')) {
+            return true;
+        }
+
+        if (false === $isApi) {
+            return false;
+        }
+
+        return null !== $token && false === strpos($token, 'Bearer ');
     }
 
     private function getToken(Request $request): ?string

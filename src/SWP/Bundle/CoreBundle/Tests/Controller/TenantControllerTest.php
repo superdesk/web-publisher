@@ -242,6 +242,17 @@ class TenantControllerTest extends WebTestCase
         $this->assertArraySubset(json_decode(
             '{"amp_enabled":true, "fbia_enabled": true, "paywall_enabled": false}', true),
             json_decode($client->getResponse()->getContent(), true));
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
+            'code' => '123abc',
+        ]), [
+            'defaultLanguage' => 'pl',
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertArraySubset(json_decode(
+            '{"amp_enabled":true, "fbia_enabled": true, "paywall_enabled": false, "default_language": "pl"}', true),
+            json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testCreateTwoNewTenantsWithCustomOrganization()
