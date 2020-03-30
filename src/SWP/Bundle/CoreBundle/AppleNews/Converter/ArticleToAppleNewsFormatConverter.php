@@ -96,11 +96,10 @@ final class ArticleToAppleNewsFormatConverter
 
         $featureMedia = $article->getFeatureMedia();
         if (null !== $featureMedia) {
-//            $featureMediaUrl = $this->router->generate('swp_media_get', [
-//                'mediaId' => $featureMedia->getImage()->getAssetId(),
-//                'extension' => $featureMedia->getImage()->getFileExtension(),
-//            ], RouterInterface::ABSOLUTE_URL);
-            $featureMediaUrl = 'https://superdesk-pro-b.s3-eu-west-1.amazonaws.com/sd-vijesti-prod/20200326120356/fd56ce3a-a60d-49fd-b2bb-559f1f23e6cf.jpg';
+            $featureMediaUrl = $this->router->generate('swp_media_get', [
+                'mediaId' => $featureMedia->getImage()->getAssetId(),
+                'extension' => $featureMedia->getImage()->getFileExtension(),
+            ], RouterInterface::ABSOLUTE_URL);
 
             $metadata->setThumbnailURL($featureMediaUrl);
         }

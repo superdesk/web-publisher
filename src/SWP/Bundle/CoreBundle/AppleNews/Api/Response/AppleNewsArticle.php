@@ -27,8 +27,8 @@ final class AppleNewsArticle
     public function __construct(
         string $articleId,
         string $shareUrl,
-        string $revisionId)
-    {
+        string $revisionId
+    ) {
         $this->articleId = $articleId;
         $this->shareUrl = $shareUrl;
         $this->revisionId = $revisionId;
