@@ -38,7 +38,11 @@ SWP\Bundle\CoreBundle\Model\Article:
             mappedBy: article
         appleNewsArticle:
             targetEntity: SWP\Bundle\CoreBundle\Model\AppleNewsArticleInterface
-            mappedBy: article
+            cascade: ['remove', 'persist']
+            joinColumn:
+                name: apple_news_article_id
+                referencedColumnName: id
+                onDelete: "SET NULL"
     uniqueConstraints:
         swp_article_slug_not_null_deleted_at_idx:
             columns: [ slug, tenant_code, organization_id, deleted_at ]

@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2020 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2020 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\CoreBundle\AppleNews\Converter;
 
 use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
@@ -19,6 +31,7 @@ use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentTextStyles;
 use SWP\Bundle\CoreBundle\AppleNews\Document\Layout;
 use SWP\Bundle\CoreBundle\AppleNews\Document\LinkedArticle;
 use SWP\Bundle\CoreBundle\AppleNews\Document\Metadata;
+use SWP\Bundle\CoreBundle\Factory\VersionFactory;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -29,14 +42,19 @@ final class ArticleToAppleNewsFormatConverter
 
     private $router;
 
-    public function __construct(SerializerInterface $serializer, RouterInterface $router)
+    private $versionFactory;
+
+    public function __construct(VersionFactory $versionFactory, SerializerInterface $serializer, RouterInterface $router)
     {
+        $this->versionFactory = $versionFactory;
         $this->serializer = $serializer;
         $this->router = $router;
     }
 
     public function convert(ArticleInterface $article): string
     {
+        $version = $this->versionFactory->create();
+
         $articleDocument = new ArticleDocument();
         $articleDocument->setTitle($article->getTitle());
         $articleDocument->setIdentifier((string) $article->getId());
@@ -46,9 +64,6 @@ final class ArticleToAppleNewsFormatConverter
         $components = $this->processArticleBody($components, $article->getBody());
         $components = $this->processGalleries($components, $article);
         $links = $this->processRelatedArticles($article);
-
-        // handle twitter embeds
-        // handle facebook embeds and other embeds
 
         foreach ($components as $component) {
             $articleDocument->addComponent($component);
@@ -74,7 +89,7 @@ final class ArticleToAppleNewsFormatConverter
 
         $metadata->setGeneratorIdentifier('publisher');
         $metadata->setGeneratorName('Publisher');
-        $metadata->setGeneratorVersion('2.1');
+        $metadata->setGeneratorVersion($version->getVersion());
 
         $metadata->setKeywords($article->getKeywordsNames());
         $metadata->setLinks($links);
@@ -86,12 +101,13 @@ final class ArticleToAppleNewsFormatConverter
 //                'extension' => $featureMedia->getImage()->getFileExtension(),
 //            ], RouterInterface::ABSOLUTE_URL);
             $featureMediaUrl = 'https://superdesk-pro-b.s3-eu-west-1.amazonaws.com/sd-vijesti-prod/20200326120356/fd56ce3a-a60d-49fd-b2bb-559f1f23e6cf.jpg';
+
             $metadata->setThumbnailURL($featureMediaUrl);
         }
 
         $articleDocument->setMetadata($metadata);
 
-        return $this->serializer->serialize($articleDocument, 'json');
+        return str_replace('"url":', '"URL":', $this->serializer->serialize($articleDocument, 'json'));
     }
 
     public function stripHtmlTags(string $html): string

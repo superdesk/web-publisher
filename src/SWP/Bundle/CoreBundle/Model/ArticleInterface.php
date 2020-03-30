@@ -77,4 +77,8 @@ interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, L
     public function isPublishedToAppleNews(): bool;
 
     public function setPublishedToAppleNews(bool $isPublished): void;
+
+    public function getAppleNewsArticle(): ?AppleNewsArticleInterface;
+
+    public function setAppleNewsArticle(AppleNewsArticleInterface $appleNewsArticle): void;
 }

@@ -14,8 +14,8 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\AppleNews\Component;
+namespace SWP\Bundle\CoreBundle\MessageHandler\Message;
 
-interface ComponentInterface
+class UnpublishFromAppleNews extends AppleNewsMessage
 {
 }

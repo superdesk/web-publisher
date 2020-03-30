@@ -193,7 +193,7 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
         return $this->appleNewsArticle;
     }
 
-    public function setAppleNewsArticle(AppleNewsArticleInterface $appleNewsArticle): void
+    public function setAppleNewsArticle(?AppleNewsArticleInterface $appleNewsArticle): void
     {
         $this->appleNewsArticle = $appleNewsArticle;
     }

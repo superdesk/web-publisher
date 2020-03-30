@@ -17,15 +17,16 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use SWP\Bundle\CoreBundle\AppleNews\AppleNewsPublisher;
-use SWP\Bundle\CoreBundle\MessageHandler\Message\PublishToAppleNews;
+use SWP\Bundle\CoreBundle\MessageHandler\Message\UnpublishFromAppleNews;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
+use SWP\Component\Common\Exception\ArticleNotFoundException;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class PublishToAppleNewsHandler implements MessageHandlerInterface
+class UnpublishFromAppleNewsHandler implements MessageHandlerInterface
 {
     private $appleNewsPublisher;
 
@@ -43,10 +44,10 @@ class PublishToAppleNewsHandler implements MessageHandlerInterface
         $this->tenantRepository = $tenantRepository;
     }
 
-    public function __invoke(PublishToAppleNews $publishToAppleNews)
+    public function __invoke(UnpublishFromAppleNews $unpublishFromAppleNews)
     {
-        $articleId = $publishToAppleNews->getArticleId();
-        $tenantId = $publishToAppleNews->getTenantId();
+        $articleId = $unpublishFromAppleNews->getArticleId();
+        $tenantId = $unpublishFromAppleNews->getTenantId();
 
         /** @var ArticleInterface $article */
         $article = $this->articleRepository->findOneBy(['id' => $articleId]);
@@ -62,7 +63,9 @@ class PublishToAppleNewsHandler implements MessageHandlerInterface
             throw new TenantNotFoundException($tenant->getName());
         }
 
-        $this->appleNewsPublisher->publish($article, $tenant);
+        $this->appleNewsPublisher->unpublish($article, $tenant);
+        $article->setAppleNewsArticle(null);
+
         $this->articleRepository->flush();
     }
 }

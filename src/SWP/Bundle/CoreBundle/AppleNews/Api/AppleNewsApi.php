@@ -2,10 +2,23 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2020 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2020 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\CoreBundle\AppleNews\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\MultipartStream;
+use Psr\Http\Message\ResponseInterface;
 use SWP\Bundle\CoreBundle\AppleNews\Api\Response\AppleNewsArticle;
 
 final class AppleNewsApi
@@ -29,36 +42,31 @@ final class AppleNewsApi
     public function createArticle(string $channelId, string $json, array $metadata = []): AppleNewsArticle
     {
         $path = "/channels/$channelId/articles";
-
-        $multipartStream = new MultipartStream($this->generateData($json, $metadata), $this->boundary);
-
-        $response = $this->httpClient->post($path, [
-            'body' => $multipartStream,
-            'headers' => [
-                'Authorization' => $this->getAuthorizationSignature('POST', $path, $this->getContentType().$multipartStream->getContents()),
-                'Content-Type' => $this->getContentType(),
-                'Content-Length' => strlen($json),
-             ],
-        ]);
+        $response = $this->post($path, $json, $metadata);
 
         $jsonResponse = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         return AppleNewsArticle::fromRawResponse($jsonResponse);
     }
 
-    public function updateArticle(string $channelId, string $articleId, string $json, array $metadata = []): AppleNewsArticle
+    public function updateArticle(string $articleId, string $json, array $metadata = []): AppleNewsArticle
     {
-        $path = "/channels/$channelId/articles/{$articleId}";
-        $response = $this->httpClient->post($path, [
-            'multipart' => $this->generateData($json, $metadata),
-            'headers' => [
-                'Authorization' => $this->getAuthorizationSignature('POST', $path, ''),
-            ],
-        ]);
+        $path = "/articles/$articleId";
+        $response = $this->post($path, $json, $metadata);
 
         $jsonResponse = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         return AppleNewsArticle::fromRawResponse($jsonResponse);
+    }
+
+    public function deleteArticle(string $articleId): void
+    {
+        $path = "/articles/$articleId";
+        $this->httpClient->delete($path, [
+            'headers' => [
+                'Authorization' => $this->getAuthorizationSignature('DELETE', $path),
+            ],
+        ]);
     }
 
     private function generateData(string $json, array $metadata): array
@@ -109,5 +117,19 @@ final class AppleNewsApi
     private function getContentType(): string
     {
         return 'multipart/form-data; boundary='.$this->boundary;
+    }
+
+    public function post(string $path, $json, array $metadata = []): ResponseInterface
+    {
+        $multipartStream = new MultipartStream($this->generateData($json, $metadata), $this->boundary);
+
+        return $this->httpClient->post($path, [
+            'body' => $multipartStream,
+            'headers' => [
+                'Authorization' => $this->getAuthorizationSignature('POST', $path, $this->getContentType().$multipartStream->getContents()),
+                'Content-Type' => $this->getContentType(),
+                'Content-Length' => strlen($json),
+            ],
+        ]);
     }
 }
