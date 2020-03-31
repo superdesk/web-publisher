@@ -24,7 +24,7 @@ RUN set -ex \
         rabbitmq-c-dev \
         libzip-dev \
         zip \
-	libzmq \
+	    libzmq \
         zeromq-dev \
         supervisor \
     && docker-php-ext-configure intl \
