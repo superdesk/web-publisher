@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200330123142 extends AbstractMigration
+final class Version20200331075145 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -24,9 +24,10 @@ final class Version20200330123142 extends AbstractMigration
         $this->addSql('CREATE TABLE swp_article_apple_news (id INT NOT NULL, apple_news_article_id VARCHAR(255) NOT NULL, revision_id VARCHAR(255) NOT NULL, share_url VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('ALTER TABLE swp_apple_news_config ADD CONSTRAINT FK_C308F3089033212A FOREIGN KEY (tenant_id) REFERENCES swp_tenant (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_article ADD apple_news_article_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_article ALTER is_published_to_apple_news SET NOT NULL');
-        $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E858790923B6 FOREIGN KEY (apple_news_article_id) REFERENCES swp_article_apple_news (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_article ADD is_published_to_apple_news BOOLEAN DEFAULT \'false\' NOT NULL');
+        $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E858790923B6 FOREIGN KEY (apple_news_article_id) REFERENCES swp_article_apple_news (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_FB21E858790923B6 ON swp_article (apple_news_article_id)');
+        $this->addSql('ALTER TABLE swp_publish_destination ADD is_published_to_apple_news BOOLEAN DEFAULT \'false\' NOT NULL');
     }
 
     public function down(Schema $schema): void
@@ -41,6 +42,7 @@ final class Version20200330123142 extends AbstractMigration
         $this->addSql('DROP TABLE swp_article_apple_news');
         $this->addSql('DROP INDEX UNIQ_FB21E858790923B6');
         $this->addSql('ALTER TABLE swp_article DROP apple_news_article_id');
-        $this->addSql('ALTER TABLE swp_article ALTER is_published_to_apple_news DROP NOT NULL');
+        $this->addSql('ALTER TABLE swp_article DROP is_published_to_apple_news');
+        $this->addSql('ALTER TABLE swp_publish_destination DROP is_published_to_apple_news');
     }
 }
