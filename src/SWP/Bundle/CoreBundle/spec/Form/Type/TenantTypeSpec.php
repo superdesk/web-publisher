@@ -146,7 +146,6 @@ class TenantTypeSpec extends ObjectBehavior
             ->willReturn($builder)
         ;
 
-
         $this->buildForm($builder, []);
     }
 

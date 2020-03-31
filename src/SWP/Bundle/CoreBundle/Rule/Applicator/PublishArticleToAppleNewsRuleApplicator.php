@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Rule\Applicator;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Processor\RulesProcessorInterface;
 use SWP\Component\Rule\Applicator\AbstractRuleApplicator;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Model\RuleInterface;
