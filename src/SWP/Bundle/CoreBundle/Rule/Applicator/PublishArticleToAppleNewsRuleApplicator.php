@@ -36,7 +36,7 @@ final class PublishArticleToAppleNewsRuleApplicator extends AbstractRuleApplicat
     /**
      * @var array
      */
-    private $supportedKeys = [RulesProcessorInterface::KEY_APPLE_NEWS];
+    private $supportedKeys = ['isPublishedToAppleNews'];
 
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
@@ -51,7 +51,7 @@ final class PublishArticleToAppleNewsRuleApplicator extends AbstractRuleApplicat
             return;
         }
 
-        if ($isPublishedToAppleNews = (bool) $configuration['isPublishedToAppleNews']) {
+        if ($isPublishedToAppleNews = (bool) $configuration[$this->supportedKeys[0]]) {
             $subject->setPublishedToAppleNews($isPublishedToAppleNews);
             $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($subject, null, ArticleEvents::PUBLISH));
 

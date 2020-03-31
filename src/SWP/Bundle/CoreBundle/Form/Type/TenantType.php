@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Form\Type;
 
-use SWP\Bundle\CoreBundle\Model\AppleNewsConfig;
 use SWP\Bundle\OutputChannelBundle\Form\Type\OutputChannelType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -85,7 +84,7 @@ final class TenantType extends AbstractType
                 'required' => false,
                 'help' => 'Default language',
             ])
-            ->add('appleNewsConfig', AppleNewsConfig::class, [
+            ->add('appleNewsConfig', AppleNewsConfigType::class, [
                 'required' => false,
                 'help' => 'Apple News Config',
             ]);

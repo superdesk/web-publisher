@@ -8,15 +8,15 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface AppleNewsConfigInterface extends PersistableInterface
 {
-    public function getApiKeyId(): string;
+    public function getApiKeyId(): ?string;
 
     public function setApiKeyId(string $apiKeyId): void;
 
-    public function getApiKeySecret(): string;
+    public function getApiKeySecret(): ?string;
 
     public function setApiKeySecret(string $apiKeySecret): void;
 
-    public function getChannelId(): string;
+    public function getChannelId(): ?string;
 
     public function setChannelId(string $channelId): void;
 

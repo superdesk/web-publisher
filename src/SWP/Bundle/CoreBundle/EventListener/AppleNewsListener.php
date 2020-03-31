@@ -46,7 +46,7 @@ final class AppleNewsListener
         /** @var TenantInterface $currentTenant */
         $currentTenant = $this->tenantContext->getTenant();
 
-        if (false === $article->isPublishedToAppleNews() && (null === $currentTenant->getAppleNewsConfig())) {
+        if (false === $article->isPublishedToAppleNews() || (null === $currentTenant->getAppleNewsConfig())) {
             return;
         }
 
@@ -58,7 +58,7 @@ final class AppleNewsListener
         $article = $articleEvent->getArticle();
 
         $currentTenant = $this->tenantContext->getTenant();
-        if (false === $article->isPublishedToAppleNews() && (null === $currentTenant->getAppleNewsConfig())) {
+        if (false === $article->isPublishedToAppleNews() || (null === $currentTenant->getAppleNewsConfig())) {
             return;
         }
 
