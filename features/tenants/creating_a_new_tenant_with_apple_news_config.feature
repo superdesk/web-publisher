@@ -3,7 +3,7 @@ Feature: Adding a new tenant with Apple News config
   As a HTTP Client
   I want to add a new tenant with Apple News config via API
 
-  Scenario: Adding a new tenant with Wordpress output channel
+  Scenario: Adding a new tenant with Apple News integration
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/tenants/" with body:
