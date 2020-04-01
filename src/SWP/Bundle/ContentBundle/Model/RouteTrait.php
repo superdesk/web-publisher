@@ -44,11 +44,6 @@ trait RouteTrait
     /**
      * @var string
      */
-    protected $description;
-
-    /**
-     * @var string
-     */
     protected $slug;
 
     /**
@@ -82,22 +77,6 @@ trait RouteTrait
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string|null $description
-     */
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
     }
 
     /**

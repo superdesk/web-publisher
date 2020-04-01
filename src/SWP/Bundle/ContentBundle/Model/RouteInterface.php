@@ -124,16 +124,6 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
     /**
      * @return string
      */
-    public function getDescription(): ?string;
-
-    /**
-     * @param string|null $description
-     */
-    public function setDescription(?string $description): void;
-
-    /**
-     * @return string
-     */
     public function getSlug(): ?string;
 
     /**

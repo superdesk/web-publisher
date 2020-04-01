@@ -22,27 +22,15 @@ use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 
 final class ArticlePublishListener
 {
-    /**
-     * @var ArticleServiceInterface
-     */
     private $articleService;
 
-    /**
-     * ArticlePublishListener constructor.
-     *
-     * @param ArticleServiceInterface $articleService
-     */
     public function __construct(ArticleServiceInterface $articleService)
     {
         $this->articleService = $articleService;
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
-    public function publish(ArticleEvent $event)
+    public function publish(ArticleEvent $event): void
     {
-
         $article = $event->getArticle();
 
         if (isset($article->getExtra()['dont_update_date'])) {
@@ -56,11 +44,7 @@ final class ArticlePublishListener
         $this->articleService->publish($article);
     }
 
-
-    /**
-     * @param ArticleEvent $event
-     */
-    public function unpublish(ArticleEvent $event)
+    public function unpublish(ArticleEvent $event): void
     {
         $article = $event->getArticle();
 
@@ -69,10 +53,7 @@ final class ArticlePublishListener
         }
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
-    public function cancel(ArticleEvent $event)
+    public function cancel(ArticleEvent $event): void
     {
         $this->articleService->unpublish($event->getArticle(), ArticleInterface::STATUS_CANCELED);
     }
