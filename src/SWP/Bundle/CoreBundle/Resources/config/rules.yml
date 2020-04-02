@@ -46,6 +46,14 @@ services:
         tags:
             - { name: applicator.rule_applicator }
 
+    SWP\Bundle\CoreBundle\Rule\Applicator\PublishArticleToAppleNewsRuleApplicator:
+        arguments:
+            - '@event_dispatcher'
+        calls:
+            - [setLogger, ['@logger']]
+        tags:
+            - { name: applicator.rule_applicator }
+
     SWP\Bundle\CoreBundle\Rule\Applicator\PaywallSecuredRuleApplicator:
         calls:
              - [setLogger, ['@logger']]

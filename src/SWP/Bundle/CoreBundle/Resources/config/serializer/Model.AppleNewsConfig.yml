@@ -1,0 +1,15 @@
+SWP\Bundle\CoreBundle\Model\AppleNewsConfig:
+    exclusion_policy: ALL
+    properties:
+        channelId:
+            expose: true
+            groups: [api]
+            type: string
+        apiKeyId:
+            expose: true
+            groups: [api]
+            type: string
+        apiKeySecret:
+            expose: true
+            groups: [api]
+            type: string

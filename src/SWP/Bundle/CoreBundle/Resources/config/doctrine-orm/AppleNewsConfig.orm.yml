@@ -1,0 +1,23 @@
+SWP\Bundle\CoreBundle\Model\AppleNewsConfig:
+    type: mappedSuperclass
+    table: swp_apple_news_config
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        channelId:
+            type: string
+        apiKeyId:
+            type: string
+        apiKeySecret:
+            type: string
+    oneToOne:
+        tenant:
+            targetEntity: SWP\Component\MultiTenancy\Model\TenantInterface
+            inversedBy: appleNewsConfig
+            cascade: ['all']
+            joinColumn:
+                name: tenant_id
+                referencedColumnName: id

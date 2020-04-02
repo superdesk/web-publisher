@@ -20,3 +20,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             fetch: EAGER
             cascade: ['persist', 'remove']
             mappedBy: tenant
+        appleNewsConfig:
+            targetEntity: SWP\Bundle\CoreBundle\Model\AppleNewsConfig
+            cascade: ['persist', 'remove']
+            mappedBy: tenant

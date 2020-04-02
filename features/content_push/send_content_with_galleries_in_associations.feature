@@ -1557,6 +1557,7 @@ Feature: Handling the custom media fields
           "updated_at":"2019-03-10T09:00:00+00:00"
        },
        "comments_count":0,
+       "is_published_to_apple_news":false,
        "tenant":{
           "id":1,
           "domain_name":"localhost",

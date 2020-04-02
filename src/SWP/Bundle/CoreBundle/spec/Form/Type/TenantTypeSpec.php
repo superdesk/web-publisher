@@ -15,6 +15,7 @@
 namespace spec\SWP\Bundle\CoreBundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\CoreBundle\Form\Type\AppleNewsConfigType;
 use SWP\Bundle\CoreBundle\Form\Type\BooleanType;
 use SWP\Bundle\CoreBundle\Form\Type\OrganizationCodeChoiceType;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
@@ -133,6 +134,14 @@ class TenantTypeSpec extends ObjectBehavior
                 'mapped' => false,
                 'required' => false,
                 'help' => 'Default language',
+            ])
+            ->willReturn($builder)
+        ;
+
+        $builder
+            ->add('appleNewsConfig', AppleNewsConfigType::class, [
+                'required' => false,
+                'help' => 'Apple News Config',
             ])
             ->willReturn($builder)
         ;

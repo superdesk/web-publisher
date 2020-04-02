@@ -35,6 +35,7 @@ final class PublishDestinationType extends AbstractType
             ->add('tenant', TenantSelectorType::class)
             ->add('route', TenantAwareRouteSelectorType::class)
             ->add('isPublishedFbia', BooleanType::class)
+            ->add('isPublishedToAppleNews', BooleanType::class)
             ->add('packageGuid', TextType::class)
             ->add('published', BooleanType::class)
             ->add('paywallSecured', BooleanType::class)
