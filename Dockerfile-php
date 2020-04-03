@@ -45,6 +45,9 @@ RUN set -ex \
 
 RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
 
+# customize php-fpm-pool-settings
+COPY ./php-fpm.conf /usr/local/etc/php-fpm.d/publisher.conf
+
 # Set timezone
 RUN rm -f /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
