@@ -43,8 +43,8 @@ final class ArticlePublishListener
             if ($uniqueId != '') {
                 $uniqueId = '-id' . $uniqueId;
                 $articleSlug = $article->getSlug();
-                //if there is an old id clear it
-                if (preg_match('/(-id)[0-9]+$/', $articleSlug)) {
+                //if there is no id, insert it
+                if (!preg_match('/(-id)[0-9]+$/', $articleSlug)) {
                     $article->setSlug($articleSlug . $uniqueId);
                 }
             }
