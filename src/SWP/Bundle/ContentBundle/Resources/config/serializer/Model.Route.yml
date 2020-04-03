@@ -10,6 +10,9 @@ SWP\Bundle\ContentBundle\Model\Route:
         name:
             expose: true
             groups: [api, api_routes_list]
+        description:
+            expose: true
+            groups: [api]
         slug:
             expose: true
             groups: [api, api_routes_list]
