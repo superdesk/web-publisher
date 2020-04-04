@@ -104,7 +104,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                         $familyId = 'urn:newsml:localhost:' . $href;
 
                         //get the referenced article
-                        $refArticle = $this->articleRepository->findOneBy(['familyId' => $familyId, 'status' => 'published']);
+                        $refArticle = $this->articleRepository->findOneBy(['code' => $familyId, 'status' => 'published']);
 
 
                         if ($refArticle != null && $refArticle->getRoute()) {
