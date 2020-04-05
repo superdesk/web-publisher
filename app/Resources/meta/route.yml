@@ -11,9 +11,6 @@ properties:
     name:
         description: "Route name"
         type: text
-    description:
-        description: "Route description"
-        type: text
     slug:
         description: "Route slug"
         type: text
