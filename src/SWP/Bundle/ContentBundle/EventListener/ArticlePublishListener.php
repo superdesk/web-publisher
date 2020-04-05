@@ -37,6 +37,19 @@ final class ArticlePublishListener
             $article->cancelTimestampable();
         }
 
+        // assign a id at the end of the url
+        if (isset($article->getExtra()['uniqueName'])) {
+            $uniqueId = $article->getExtra()['uniqueName'];
+            if ($uniqueId != '') {
+                $uniqueId = '-id' . $uniqueId;
+                $articleSlug = $article->getSlug();
+                //if there is no id, insert it
+                if (!preg_match('/(-id)[0-9]+$/', $articleSlug)) {
+                    $article->setSlug($articleSlug . $uniqueId);
+                }
+            }
+        }
+
         if ($article->isPublished()) {
             return;
         }
