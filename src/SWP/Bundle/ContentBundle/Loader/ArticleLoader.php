@@ -28,6 +28,9 @@ use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 
 class ArticleLoader extends PaginatedLoader implements LoaderInterface
 {
@@ -43,13 +46,19 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
     private $cacheBlockTagsCollector;
 
+    private $articleRepository;
+
+    protected $router;
+
     public function __construct(
         ArticleProviderInterface $articleProvider,
         RouteProviderInterface $routeProvider,
         ObjectManager $dm,
         MetaFactoryInterface $metaFactory,
         Context $context,
-        CacheBlockTagsCollectorInterface $cacheBlockTagsCollector
+        CacheBlockTagsCollectorInterface $cacheBlockTagsCollector,
+        ArticleRepositoryInterface $articleRepository,
+        RouterInterface $router
     ) {
         $this->articleProvider = $articleProvider;
         $this->routeProvider = $routeProvider;
@@ -57,6 +66,8 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
         $this->metaFactory = $metaFactory;
         $this->context = $context;
         $this->cacheBlockTagsCollector = $cacheBlockTagsCollector;
+        $this->articleRepository = $articleRepository;
+        $this->router = $router;
     }
 
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
@@ -80,7 +91,52 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             try {
                 $article = $this->articleProvider->getOneByCriteria($criteria);
 
-                return $this->getArticleMeta($article);
+                $articleBody = $article->getBody();
+                $res = $this->getArticleMeta($article);
+
+                //find local links in the article body
+                if (preg_match_all('/<a\s+href=["\']urn:newsml:localhost:([^"\']+)["\']/i', $articleBody, $links, PREG_PATTERN_ORDER)) {
+                    $all_hrefs = array_unique($links[1]);
+
+                    //replace local links
+                    foreach ($all_hrefs as $href) {
+
+                        $familyId = 'urn:newsml:localhost:' . $href;
+
+                        //get the referenced article
+                        $refArticle = $this->articleRepository->findOneBy(['code' => $familyId, 'status' => 'published']);
+
+
+                        if ($refArticle != null && $refArticle->getRoute()) {
+
+                            $slugName = $refArticle->getSlug();
+
+                            $parameters = ['slug' => $slugName];
+
+                            $realUrl = $this->router->generate($refArticle->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+
+                            $articleBody = preg_replace('#urn:newsml:localhost:' . $href . '#is', $realUrl, $articleBody);
+
+
+
+                        } else {
+
+                            // the article familyId is not valid - delete the link
+
+                            $re = "/(<a[^href]href=[\"']" . $familyId . "[^>]*>)([^<>]*|.*)(<\/a>)/m";
+
+                            $subst = "$2";
+
+                            $articleBody = preg_replace($re, $subst, $articleBody);
+
+                        }
+                    }
+
+                    $article->setBody($articleBody);
+                    $res->__set("body", $articleBody);
+                }
+
+                return $res;
             } catch (NotFoundHttpException $e) {
                 return false;
             }
