@@ -33,8 +33,8 @@ final class ArticlePublishListener
     {
         $article = $event->getArticle();
 
-        if (isset($article->getExtra()['dont_update_date'])) {
-            $article->cancelTimestampable();
+        if (isset($article->getExtra()['republish']) && $article->getExtra()['republish'] == True) {
+            $article->setPublishedAt($article->getUpdatedAt());
         }
 
         // assign a id at the end of the url
