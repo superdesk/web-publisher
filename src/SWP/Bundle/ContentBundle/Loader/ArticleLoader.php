@@ -95,13 +95,13 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 $res = $this->getArticleMeta($article);
 
                 //find local links in the article body
-                if (preg_match_all('/<a\s+href=["\']urn:newsml:localhost:([^"\']+)["\']/i', $articleBody, $links, PREG_PATTERN_ORDER)) {
+                if (preg_match_all('/<a\s+href=["\']urn:newsml:([^"\']+)["\']/i', $articleBody, $links, PREG_PATTERN_ORDER)) {
                     $all_hrefs = array_unique($links[1]);
 
                     //replace local links
                     foreach ($all_hrefs as $href) {
 
-                        $familyId = 'urn:newsml:localhost:' . $href;
+                        $familyId = 'urn:newsml:' . $href;
 
                         //get the referenced article
                         $refArticle = $this->articleRepository->findOneBy(['code' => $familyId, 'status' => 'published']);
@@ -115,7 +115,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
                             $realUrl = $this->router->generate($refArticle->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
 
-                            $articleBody = preg_replace('#urn:newsml:localhost:' . $href . '#is', $realUrl, $articleBody);
+                            $articleBody = preg_replace('#urn:newsml:' . $href . '#is', $realUrl, $articleBody);
 
 
 
