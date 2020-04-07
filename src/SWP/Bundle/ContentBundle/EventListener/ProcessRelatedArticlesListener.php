@@ -21,6 +21,8 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use DateTime;
+use DateTimeZone;
 
 class ProcessRelatedArticlesListener
 {
@@ -46,7 +48,9 @@ class ProcessRelatedArticlesListener
     {
         $package = $event->getPackage();
         $article = $event->getArticle();
-
+        if (isset($article->getExtra()['republish']) && $article->getExtra()['republish'] == True) {
+            $article->setPublishedAt(new DateTime('now'));
+        }
         $this->removeOldRelatedArticles($article);
 
         $relatedItemsGroups = $package->getItems()->filter(static function ($item) {
