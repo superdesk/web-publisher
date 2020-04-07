@@ -121,6 +121,7 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
 
     public function setAppleNewsConfig(?AppleNewsConfig $appleNewsConfig): void
     {
+        $appleNewsConfig->setTenant($this);
         $this->appleNewsConfig = $appleNewsConfig;
     }
 }

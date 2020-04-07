@@ -23,3 +23,9 @@ Feature: Adding a new tenant with Apple News config
     And the JSON node "apple_news_config.channel_id" should be equal to "channelId"
     And the JSON node "apple_news_config.api_key_id" should be equal to "apiKeyId"
     And the JSON node "apple_news_config.api_key_secret" should be equal to "apiKeySecret"
+
+    Given I am authenticated as "test.user"
+    And I send a "GET" request to "/api/v2/tenants/"
+    And the JSON node "_embedded._items[3].apple_news_config.channel_id" should be equal to "channelId"
+    And the JSON node "_embedded._items[3].apple_news_config.api_key_id" should be equal to "apiKeyId"
+    And the JSON node "_embedded._items[3].apple_news_config.api_key_secret" should be equal to "apiKeySecret"
