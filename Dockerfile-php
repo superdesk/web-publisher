@@ -24,7 +24,6 @@ RUN set -ex \
         rabbitmq-c-dev \
         libzip-dev \
         zip \
-        tzdata \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -50,6 +49,7 @@ RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer &
 COPY ./php-fpm.conf /usr/local/etc/php-fpm.d/publisher.conf
 
 # Set timezone
+RUN apk add --no-cache tzdata
 RUN rm -f /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN "date"
