@@ -50,9 +50,11 @@ RUN set -ex \
 
 RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
 
+RUN apk add --no-cache tzdata
+
 # Set timezone
-RUN rm -f /etc/localtime
-RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+#RUN rm -f /etc/localtime
+#RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 COPY . /var/www/publisher/
 WORKDIR /var/www/publisher/
