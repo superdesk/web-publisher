@@ -27,6 +27,7 @@ RUN set -ex \
 	    libzmq \
         zeromq-dev \
         supervisor \
+        tzdata \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
