@@ -20,8 +20,8 @@ Be sure to adjust (to your real publisher location) directory and logs paths inf
 Good configuration should give you similar output from command `supervisorctl status`:
 
 ```bash
-publisher_analytics              RUNNING   pid 77111, uptime 0:00:04
-publisher_webhooks               RUNNING   pid 77112, uptime 0:00:04
+messenger-consume      RUNNING   pid 77111, uptime 0:00:04
+publisher-websocket    RUNNING   pid 77112, uptime 0:00:04
 ```
 
 #### Running WebSocket Server
@@ -39,4 +39,4 @@ sudo mv rabbitmqadmin /etc/rabbitmq
 /etc/rabbitmq/rabbitmqadmin --vhost=/ declare binding source="swp_websocket_exchange" destination="swp_websocket"
 ```
 
-Supervisor config file for running WebSocket server can be found in [scripts/supervisor/supervisor_websocket.conf](scripts/supervisor/supervisor_websocket.conf)
+Supervisor config file for running WebSocket server can be found in [scripts/supervisor/supervisor_websocket.conf](scripts/supervisor/supervisor-websocket.conf)

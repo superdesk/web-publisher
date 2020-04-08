@@ -19,6 +19,9 @@ SWP\Bundle\ContentBundle\Model\Image:
         height:
             type: integer
             nullable: true
+        length:
+            type: float
+            nullable: true
         createdAt:
             type: date
         updatedAt:
@@ -34,3 +37,6 @@ SWP\Bundle\ContentBundle\Model\Image:
         renditions:
             targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface
             mappedBy: image
+    indexes:
+        swp_asset_image:
+            columns: [asset_id]

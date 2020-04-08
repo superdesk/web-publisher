@@ -105,7 +105,7 @@ SWP\Component\Bridge\Model\BaseContent:
         authors:
             expose: true
             type: ArrayCollection<SWP\Bundle\ContentBundle\Model\ArticleAuthor>
-            groups: [api]
+            groups: [api, api_packages_list]
         extra:
             expose: true
             type: array

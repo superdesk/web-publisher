@@ -17,16 +17,19 @@ namespace SWP\Bundle\ContentBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Common\Model\SoftDeletableInterface;
+use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
  * Interface ArticleMediaInterface.
  */
-interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInterface
+interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInterface, TimestampableInterface
 {
-    const PATH_MEDIA = 'media';
+    public const TYPE_SLIDE_SHOW = 'slide_show';
 
-    const PATH_RENDITIONS = 'renditions';
+    public const TYPE_FEATURE_MEDIA = 'feature_media';
+
+    public const TYPE_EMBEDDED_IMAGE = 'embedded_image';
 
     /**
      * @return ArrayCollection

@@ -1,0 +1,15 @@
+SWP\Bundle\RedirectRouteBundle\Model\RedirectRoute:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: ["api"]
+            type: string
+        routeName:
+            expose: true
+            groups: ["api"]
+            type: string
+        uri:
+            expose: true
+            groups: ["api"]
+            type: bool

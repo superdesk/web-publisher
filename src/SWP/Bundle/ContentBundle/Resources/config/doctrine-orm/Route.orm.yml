@@ -24,6 +24,9 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
         name:
             type: string
+        description:
+            type: string
+            nullable: true
         slug:
             type: string
             nullable: true
@@ -70,6 +73,7 @@ SWP\Bundle\ContentBundle\Model\Route:
         parent:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
             inversedBy: children
+            fetch: EAGER
             joinColumn:
                 referencedColumnName: id
                 onDelete: CASCADE

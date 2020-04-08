@@ -32,49 +32,17 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      */
     public function findOneBySlug($slug);
 
-    /**
-     * Finds all articles.
-     *
-     * @return mixed
-     */
     public function findAllArticles();
 
-    /**
-     * @param string $identifier
-     * @param array  $order
-     *
-     * @return object
-     */
     public function getQueryForRouteArticles(string $identifier, array $order);
 
-    /**
-     * @param Criteria $criteria
-     * @param array    $sorting
-     *
-     * @return mixed
-     */
     public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder;
 
-    /**
-     * @param Criteria $criteria
-     * @param string   $status
-     *
-     * @return int
-     */
     public function countByCriteria(Criteria $criteria, $status = ArticleInterface::STATUS_PUBLISHED): int;
 
-    /**
-     * @param Criteria $criteria
-     * @param array    $sorting
-     *
-     * @return QueryBuilder
-     */
     public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder;
 
-    /**
-     * @param Criteria $criteria
-     *
-     * @return QueryBuilder
-     */
     public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder;
+
+    public function getArticlesByBodyContent(string $content): array;
 }

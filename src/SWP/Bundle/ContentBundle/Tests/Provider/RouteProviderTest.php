@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
 use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Provider\ORM\RouteProvider;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Cmf\Component\Routing\Candidates\Candidates;
 
 class RouteProviderTest extends TestCase
@@ -27,6 +28,10 @@ class RouteProviderTest extends TestCase
     public function testGetWithChildrenByStaticPrefix()
     {
         $routeRepository = $this->getMockBuilder(RouteRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $redirectRouteRepository = $this->getMockBuilder(EntityRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -70,7 +75,7 @@ class RouteProviderTest extends TestCase
             ->getMock();
 
         $routeProvider = $this->getMockBuilder(RouteProvider::class)
-            ->setConstructorArgs([$routeRepository, $managerRegistry, $candidatesStrategy, Route::class])
+            ->setConstructorArgs([$routeRepository, $managerRegistry, $candidatesStrategy, Route::class, $redirectRouteRepository])
             ->setMethods(['getChildrenByStaticPrefix'])
             ->getMock();
 

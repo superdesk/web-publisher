@@ -50,7 +50,7 @@ class HttpCacheTaggerListener
 
         /** @var ArticleInterface $article */
         $article = $event->getRequest()->get(DynamicRouter::CONTENT_KEY);
-        if (null !== $article) {
+        if ($article instanceof ArticleInterface) {
             $this->responseTagger->addTags($this->articleTagGenerator->generateTags($article));
 
             return;
@@ -58,7 +58,7 @@ class HttpCacheTaggerListener
 
         /** @var RouteInterface $routeObject */
         $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
-        if (null !== $routeObject) {
+        if ($routeObject instanceof RouteInterface) {
             $this->responseTagger->addTags($this->routeTagGenerator->generateTags($routeObject));
         }
     }

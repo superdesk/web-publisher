@@ -34,6 +34,7 @@
     "jms/serializer-bundle": "Useful if you want to serialize bundle models. Config for them already exists in bundle"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "symfony/framework-bundle": "^4.2",
     "symfony/twig-bridge": "^4.2",
     "symfony/monolog-bundle": "^3.4",
@@ -71,7 +72,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "2.0-dev"
+      "dev-master": "2.1-dev"
     }
   }
 }

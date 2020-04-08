@@ -1,0 +1,9 @@
+SWP\Bundle\ContentBundle\Model\RedirectRoute:
+    exclusion_policy: ALL
+    properties:
+        routeSource:
+            expose: true
+            groups: ["api"]
+        routeTarget:
+            expose: true
+            groups: ["api"]

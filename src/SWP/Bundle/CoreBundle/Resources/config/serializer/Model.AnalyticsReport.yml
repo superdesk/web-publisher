@@ -1,0 +1,36 @@
+SWP\Bundle\CoreBundle\Model\AnalyticsReport:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [api]
+            type: integer
+        assetId:
+            expose: true
+            groups: [api]
+            type: string
+        status:
+            expose: true
+            groups: [api]
+            type: string
+        createdAt:
+            expose: true
+            groups: [api]
+        updatedAt:
+            expose: true
+            groups: [api]
+        user:
+            expose: true
+            groups: [api]
+        filters:
+            expose: true
+            groups: [api]
+    relations:
+        -   rel: download
+            href:
+                route: swp_export_analytics_download
+                absolute: true
+                parameters:
+                    fileName: expr(object.getAssetId())
+            exclusion:
+                exclude_if: expr(object.getStatus() !== "completed")

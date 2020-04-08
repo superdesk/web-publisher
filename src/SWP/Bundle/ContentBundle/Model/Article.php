@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\Bridge\Model\AuthorsAwareTrait;
+use SWP\Component\Common\ArrayHelper;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -206,11 +207,33 @@ class Article implements ArticleInterface
         return $this->title;
     }
 
+    public function getPlace(): ?array
+    {
+        $metadata = $this->getMetadata();
+
+        if (isset($metadata['place']) && is_array($metadata['place']) && count($metadata['place']) > 0) {
+            return $metadata['place'][array_key_first($metadata['place'])];
+        }
+
+        return null;
+    }
+
+    public function getPlaces(): array
+    {
+        $metadata = $this->getMetadata();
+
+        if (isset($metadata['place']) && is_array($metadata['place']) && count($metadata['place']) > 0) {
+            return $metadata['place'];
+        }
+
+        return [];
+    }
+
     public function setTitle($title)
     {
         $this->title = $title;
 
-        if (null !== $this->slug) {
+        if (null !== $this->slug && '' !== $this->slug) {
             $this->setSlug($this->slug);
 
             return;
@@ -284,7 +307,7 @@ class Article implements ArticleInterface
 
     public function setMetadata(array $metadata)
     {
-        $this->metadata = $metadata;
+        $this->metadata = ArrayHelper::sortNestedArrayAssocAlphabeticallyByKey($metadata);
     }
 
     public function getSubjectType()

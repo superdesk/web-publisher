@@ -4,7 +4,7 @@ services:
         autoconfigure: true
         public: false
         bind:
-            $migrationContentPushProducer: '@old_sound_rabbit_mq.migration_content_push_producer'
+            $messageBus: '@messenger.default_bus'
             $filesystem: '@oneup_flysystem.swp_filesystem_filesystem'
 
     SWP\Component\MultiTenancy\Context\TenantContextInterface: '@swp_multi_tenancy.tenant_context'

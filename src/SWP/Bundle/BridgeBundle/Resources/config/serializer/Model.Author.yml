@@ -3,28 +3,28 @@ SWP\Component\Bridge\Model\Author:
     properties:
         name:
             type: string
-            groups: [api]
+            groups: [api, api_article_authors]
         biography:
             type: string
-            groups: [api]
+            groups: [api, api_article_authors]
         role:
             type: string
-            groups: [api]
+            groups: [api, api_article_authors]
         avatarUrl:
             type: string
             serialized_name: avatar_url
             access_type: public_method
-            groups: [api]
+            groups: [api, api_article_authors]
         jobTitle:
             serialized_name: jobtitle
             type: array
-            groups: [api]
+            groups: [api, api_article_authors]
         twitter:
             type: string
-            groups: [api]
+            groups: [api, api_article_authors]
         facebook:
             type: string
-            groups: [api]
+            groups: [api, api_article_authors]
         instagram:
             type: string
-            groups: [api]
+            groups: [api, api_article_authors]

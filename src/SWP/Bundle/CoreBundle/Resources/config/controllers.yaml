@@ -18,6 +18,8 @@ services:
   SWP\Bundle\CoreBundle\Controller\RedirectingController: ~
   SWP\Bundle\CoreBundle\Controller\SettingsController: ~
   SWP\Bundle\CoreBundle\Controller\ExternalOauthController: ~
+  SWP\Bundle\CoreBundle\Controller\ContentListItemController: ~
+  SWP\Bundle\CoreBundle\Controller\FailedQueueController: ~
 
   takeit_amp_html.amp_controller:
     class: SWP\Bundle\CoreBundle\Controller\AmpController

@@ -90,7 +90,8 @@ class NinjsValidator extends JsonValidator
       "enum":[
         "usable",
         "withheld",
-        "canceled"
+        "canceled",
+        "unpublished"
       ]
     },
     "urgency":{
@@ -298,7 +299,8 @@ class NinjsValidator extends JsonValidator
     },
     "headline":{
       "description":"A brief and snappy introduction to the content, designed to catch the reader\'s attention",
-      "type":"string"
+      "type":"string",
+      "minLength": 1
     },
     "located":{
       "description":"The name of the location from which the content originates.",

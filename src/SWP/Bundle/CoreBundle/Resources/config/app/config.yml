@@ -148,7 +148,7 @@ fos_user:
     firewall_name: main
     user_class: SWP\Bundle\CoreBundle\Model\User
     from_email:
-        address: contact@publisher.test
+        address: '%env(FROM_EMAIL)%'
         sender_name: Publisher
     registration:
         confirmation:
@@ -179,7 +179,6 @@ stof_doctrine_extensions:
         default:
             timestampable: true
             softdeleteable: true
-            loggable: true
             sortable: true
             tree: true
     class:
@@ -289,6 +288,10 @@ swp_settings:
             type: boolean
             scope: tenant
             value: false
+        default_language:
+            type: string
+            scope: tenant
+            value: ""
 
 swp_analytics:
     persistence:
@@ -308,59 +311,6 @@ swp_output_channel:
                 external_article:
                     model: SWP\Bundle\CoreBundle\Model\ExternalArticle
                     interface: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
-
-old_sound_rabbit_mq:
-    connections:
-        default:
-            host:     '%env(RABBIT_MQ_HOST)%'
-            port:     '%env(RABBIT_MQ_PORT)%'
-            user:     '%env(RABBIT_MQ_USER)%'
-            password: '%env(RABBIT_MQ_PASSWORD)%'
-            vhost:    '%env(RABBIT_MQ_VHOST)%'
-            lazy:     true
-            connection_timeout: 3
-            read_write_timeout: 3
-            keepalive: false
-            heartbeat: 0
-    producers:
-        send_webhook:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
-        content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
-        image_conversion:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
-        migration_content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
-    consumers:
-        send_webhook:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_send_webhook'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
-        content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_content_push'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
-        image_conversion:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_image_conversion', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_image_conversion'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ImageConversionConsumer
-        migration_content_push:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_migration_content_push', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_migration_content_push'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
-        analytics_event:
-            connection:       default
-            exchange_options: {name: '%kernel.environment%_%kernel.secret%_analytics_event', type: direct}
-            queue_options:    {name: '%kernel.environment%_%kernel.secret%_analytics_event'}
-            callback:         SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer
 
 bazinga_hateoas:
     twig_extension:
@@ -383,3 +333,16 @@ gos_web_socket:
             vhost: '%env(RABBIT_MQ_VHOST)%'
             queue_name: '%env(WEBSOCKET_QUEUE_NAME)%'
             exchange_name: '%env(WEBSOCKET_EXCHANGE_NAME)%'
+
+swp_redirect_route:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                redirect_route:
+                    model: SWP\Bundle\CoreBundle\Model\RedirectRoute
+                    interface: SWP\Bundle\CoreBundle\Model\RedirectRouteInterface
+
+swp_geo_ip:
+    license_key: '%env(GEO_IP_LICENSE_KEY)%'
+    edition_id: '%env(GEO_IP_EDITION_ID)%'

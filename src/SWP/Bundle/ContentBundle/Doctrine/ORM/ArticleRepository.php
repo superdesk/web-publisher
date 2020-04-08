@@ -17,11 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorReference;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
@@ -117,11 +118,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         return $articlesQueryBuilder;
     }
 
-    /**
-     * @param Criteria $criteria
-     *
-     * @return QueryBuilder
-     */
     public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('a')
@@ -130,6 +126,15 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
 
         return $queryBuilder;
+    }
+
+    public function getArticlesByBodyContent(string $content): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $like = $queryBuilder->expr()->like('a.body', $queryBuilder->expr()->literal('%'.$content.'%'));
+        $queryBuilder->andWhere($like);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
@@ -172,17 +177,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             foreach ($criteria->get($name) as $key => $value) {
                 $search = ('***' !== $value) ? [$key => $value] : $key;
                 if ('metadata' === $name || 'exclude_metadata' === $name) {
-                    $valueExpression = \str_replace('{', '',
-                        \str_replace('}', '',
-                            '%'.\json_encode($search).'%'
-                        )
-                    );
+                    $valueExpression = '%'.\rtrim(\ltrim(\json_encode($search), '{'), '}').'%';
                 } else {
-                    $valueExpression = '%'.\str_replace('a:1:{', '',
-                        \str_replace(';}', ';',
-                            \serialize($search).'%'
-                        )
-                    );
+                    $valueExpression = '%'.\rtrim(\ltrim(\serialize($search), 'a:1:{'), ';}').'%';
                 }
 
                 $valueExpression = $queryBuilder->expr()->literal($valueExpression);
@@ -192,7 +189,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                     $orX->add($queryBuilder->expr()->notLike('a.'.\str_replace('exclude_', '', $name), $valueExpression));
                 }
             }
-
             $queryBuilder->andWhere($orX);
             $criteria->remove($name);
         }
@@ -284,12 +280,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         }
 
         if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {
-            $andX = $queryBuilder->expr()->andX();
-            foreach ((array) $criteria->get('exclude_author') as $value) {
-                $andX->add($queryBuilder->expr()->neq('au.name', $queryBuilder->expr()->literal($value)));
-            }
+            $excludedAuthors = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->from(ArticleAuthorReference::class, 'article_author')
+                ->select('aa.id')
+                ->join('article_author.author', 'aaa')
+                ->join('article_author.article', 'aa')
+                ->where('aaa.name IN (:authors)');
 
-            $queryBuilder->andWhere($andX);
+            $queryBuilder->setParameter('authors', array_values((array) $criteria->get('exclude_author')));
+            $queryBuilder->andWhere($queryBuilder->expr()->not($queryBuilder->expr()->in('a.id', $excludedAuthors->getQuery()->getDQL())));
+
             $criteria->remove('exclude_author');
         }
 
@@ -306,6 +307,14 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $queryBuilder->andWhere('a.id NOT IN (:excludedArticles)')
                 ->setParameter('excludedArticles', $excludedArticles);
             $criteria->remove('exclude_article');
+        }
+
+        if ($criteria->has('exclude_route') && !empty($criteria->get('exclude_route'))) {
+            $andX = $queryBuilder->expr()->andX();
+            $andX->add($queryBuilder->expr()->notIn('a.route', (array) $criteria->get('exclude_route')));
+            $queryBuilder->andWhere($andX);
+
+            $criteria->remove('exclude_route');
         }
     }
 }

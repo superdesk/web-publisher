@@ -22,27 +22,33 @@ use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 
 final class ArticlePublishListener
 {
-    /**
-     * @var ArticleServiceInterface
-     */
     private $articleService;
 
-    /**
-     * ArticlePublishListener constructor.
-     *
-     * @param ArticleServiceInterface $articleService
-     */
     public function __construct(ArticleServiceInterface $articleService)
     {
         $this->articleService = $articleService;
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
-    public function publish(ArticleEvent $event)
+    public function publish(ArticleEvent $event): void
     {
         $article = $event->getArticle();
+
+        if (isset($article->getExtra()['republish']) && $article->getExtra()['republish'] == True) {
+            $article->setPublishedAt($article->getUpdatedAt());
+        }
+
+        // assign a id at the end of the url
+        if (isset($article->getExtra()['uniqueName'])) {
+            $uniqueId = $article->getExtra()['uniqueName'];
+            if ($uniqueId != '') {
+                $uniqueId = '-id' . $uniqueId;
+                $articleSlug = $article->getSlug();
+                //if there is no id, insert it
+                if (!preg_match('/(-id)[0-9]+$/', $articleSlug)) {
+                    $article->setSlug($articleSlug . $uniqueId);
+                }
+            }
+        }
 
         if ($article->isPublished()) {
             return;
@@ -51,10 +57,7 @@ final class ArticlePublishListener
         $this->articleService->publish($article);
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
-    public function unpublish(ArticleEvent $event)
+    public function unpublish(ArticleEvent $event): void
     {
         $article = $event->getArticle();
 
@@ -63,10 +66,7 @@ final class ArticlePublishListener
         }
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
-    public function cancel(ArticleEvent $event)
+    public function cancel(ArticleEvent $event): void
     {
         $this->articleService->unpublish($event->getArticle(), ArticleInterface::STATUS_CANCELED);
     }

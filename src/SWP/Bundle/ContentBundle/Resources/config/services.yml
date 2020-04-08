@@ -2,7 +2,7 @@ parameters:
     swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
     swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
     swp.service.article.class: SWP\Bundle\ContentBundle\Service\ArticleService
-    swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
+    swp_content_bundle.listener.http_cache_header.class:
     swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
     swp.redirecting.notfound.section: '%env(bool:REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE)%'
@@ -102,8 +102,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-    swp_content_bundle.listener.http_cache_header:
-        class: '%swp_content_bundle.listener.http_cache_header.class%'
+    SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
@@ -115,6 +114,7 @@ services:
     swp_content_bundle.listener.article_media:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
         arguments:
+            - '@swp.object_manager.media'
             - '@swp.repository.media'
             - '@swp.factory.media'
             - '@swp_content_bundle.processor.article_body'
@@ -327,14 +327,16 @@ services:
         arguments:
             - '%env(json:BLACKLISTED_KEYWORDS)%'
 
-    Aws\S3\S3Client:
+    SWP\Bundle\ContentBundle\Factory\S3ClientFactory:
+        class: Aws\S3\S3Client
+        factory: ['SWP\Bundle\ContentBundle\Factory\S3ClientFactory', 'createS3Client']
         arguments:
-            -
-                version: '%env(resolve:FS_AWS_S3_VERSION)%'
-                region: '%env(resolve:FS_AWS_S3_REGION)%'
-                credentials:
-                    key: '%env(resolve:FS_AWS_S3_KEY)%'
-                    secret: '%env(resolve:FS_AWS_S3_SECRET)%'
+            - '%env(resolve:FS_AWS_S3_VERSION)%'
+            - '%env(resolve:FS_AWS_S3_REGION)%'
+            - '%env(resolve:FS_AWS_S3_ENDPOINT)%'
+            - '%env(resolve:FS_AWS_S3_KEY)%'
+            - '%env(resolve:FS_AWS_S3_SECRET)%'
+            
 
     swp.resolver.asset_location:
         class: SWP\Bundle\ContentBundle\Resolver\AssetLocationResolver
@@ -342,7 +344,7 @@ services:
             - '%env(resolve:FS_MAIN_ADAPTER)%'
             - '%env(resolve:FS_AWS_S3_BUCKET)%'
             - '%env(resolve:FS_AWS_S3_PREFIX)%'
-            - '@Aws\S3\S3Client'
+            - '@SWP\Bundle\ContentBundle\Factory\S3ClientFactory'
             - 'uploads'
 
     swp.resolver.author_asset_location:
@@ -355,3 +357,7 @@ services:
         public: true
 
     Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
+
+    SWP\Bundle\ContentBundle\Form\Extension\RedirectRouteTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: SWP\Bundle\RedirectRouteBundle\Form\RedirectRouteType }

@@ -10,6 +10,9 @@ SWP\Bundle\ContentBundle\Model\Route:
         name:
             expose: true
             groups: [api, api_routes_list]
+        description:
+            expose: true
+            groups: [api]
         slug:
             expose: true
             groups: [api, api_routes_list]
@@ -49,13 +52,13 @@ SWP\Bundle\ContentBundle\Model\Route:
     relations:
         - rel: self
           href:
-                route: swp_api_content_show_routes
-                parameters:
-                    id: expr(object.getId())
+              route: swp_api_content_show_routes
+              parameters:
+                  id: expr(object.getId())
         - rel: parent
           href:
-                route: swp_api_content_show_routes
-                parameters:
-                    id: expr(object.getParent().getId())
+              route: swp_api_content_show_routes
+              parameters:
+                  id: expr(object.getParent().getId())
           exclusion:
-                exclude_if: expr(null === object.getParent())
+              exclude_if: expr(null === object.getParent())

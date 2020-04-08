@@ -6,6 +6,51 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+### 2.1.0-RC
+
+* improvement [#1062] Add "default language" to tenant configuration
+* improvement [#0161] Allow filtering packages by language
+* fix [#1060] Handle slideshow items position
+* improvement [#1059] Improve media processing on article update
+* feature [#1051] Failure Queue API
+* improvement [#1050] Improve articles excluding by authors
+* feature [#1041] Rewrite consumers implementation to one based on Symfony Messenger
+* fix [#1049] Support Token Authenticator only in the API
+* feature [#1025] Add analytics export 
+* feature [#1017] Add redirect routes
+* feature [#1009] Restrict access to articles based on geo-location
+* improvement [#1008] Add env variable to customize S3 endpoint
+* improvement [#1003] @mikeavena Improve install docs
+* improvement [#1006] Filter articles by keywords
+* improvement [#1001] Add public url to rendition
+* improvement [#985]  @kottkrig  Add lazy load attribute to embedded images.
+* improvement [#982] Add feature media to package endpoint response
+
+### 2.0.4
+
+ * fix [#1039] handle items with slugline property set to empty string
+ * improvement [#1038] search articles by exact author name
+ * feature [#0134] remove items exceeding content list limit automatically
+ * feature [#1033] exclude articles by routes
+ * fix [#1030] fix content push performance with many gallery items
+ * fix [#1026] fix asset location resolver logic
+ * improvement [#1021] update content list when new item is added to it
+ * fix [#1020] handle case when multiple instances work with this same storage
+ * fix [#1016] fix cache key generation (in twig)
+ * improvement [#1015] make article media timestampable
+ * fix [#1013] safely save loader parameters (in dev mode)
+ * improvement [#1010] improve metadata matching in content lists filters
+ * fix [#1005] fix article publishing with multiple tenant rules]
+
+### 2.0.3
+
+ * fix [#997] fix duplicated authors in package handling
+ * feature [#996] handle new superdesk ways for unpublishing content
+ * improvement [#994] change author biography from string to text in database
+ * improvement [#993] expose article place for templators
+ * improvement [#989] add images length to the Image model
+ * improvement [#984] expose route parent for templators
+
 ### 2.0.2
 
  * improvement [#981] clean up old slideshows on article update

@@ -108,11 +108,9 @@ final class CommandContext implements Context
     }
 
     /**
-     * @param string $expectedException
-     *
      * @Then /^the command exception should be "([^"]*)"$/
      */
-    public function theCommandExceptionShouldBe(string  $expectedException)
+    public function theCommandExceptionShouldBe(string $expectedException)
     {
         if (null === $this->commandException) {
             throw new LogicException('Exception was not registered');
@@ -137,7 +135,7 @@ final class CommandContext implements Context
     {
         $options = [];
         foreach ($tableNode->getRowsHash() as $key => $value) {
-            $options[$key] = $value;
+            $options[$key] = '' === $value ? null : $value;
         }
 
         $this->options = $options;

@@ -77,6 +77,9 @@ SWP\Component\Bridge\Model\Item:
         extra:
             type: array
             nullable: true
+        position:
+            type: integer
+            nullable: true
         firstPublishedAt:
             type: datetime
             nullable: true

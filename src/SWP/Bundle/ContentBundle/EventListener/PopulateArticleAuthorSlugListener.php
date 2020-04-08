@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Processor\ArticleAuthorProcessor;
+use SWP\Component\Common\Model\TimestampableInterface;
 
 final class PopulateArticleAuthorSlugListener
 {
@@ -28,6 +29,11 @@ final class PopulateArticleAuthorSlugListener
     public function prePersist(LifecycleEventArgs $event): void
     {
         $object = $event->getObject();
+
+        // HACK: FIX: for not set created at
+        if ($object instanceof TimestampableInterface && null === $object->getCreatedAt()) {
+            $object->setCreatedAt(new \DateTime());
+        }
 
         if (!$object instanceof ArticleAuthorInterface) {
             return;

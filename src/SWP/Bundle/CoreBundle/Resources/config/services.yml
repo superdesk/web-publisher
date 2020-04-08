@@ -179,8 +179,10 @@ services:
             - '@swp.matcher.article_criteria'
             - '@event_dispatcher'
             - '@swp.repository.content_list_item'
+            - '@swp.service.content_list'
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
+            - { name: kernel.event_listener, event: swp.article.post_update, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToBucket }
 
     SWP\Bundle\CoreBundle\EventSubscriber\HandleArticleChangeSubscriber:
@@ -222,7 +224,6 @@ services:
             - "@swp_multi_tenancy.tenant_context"
             - "@swp.repository.tenant"
             - "@event_dispatcher"
-            - "@security.helper"
 
     swp.security.preview_token_authenticator:
         class: SWP\Bundle\CoreBundle\Security\Authenticator\PreviewTokenAuthenticator
@@ -321,12 +322,13 @@ services:
         class: SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcher
 
     swp.listener.remove_items:
-        class: SWP\Bundle\CoreBundle\EventListener\RemoveItemsListener
+        class: SWP\Bundle\CoreBundle\EventListener\UpdateContentListItemsListener
         arguments:
             - '@SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover'
             - '@swp.repository.article'
             - '@swp.factory.content_list_item'
-            - "@swp.provider.route"
+            - '@swp.provider.route'
+            - '@SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface'
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
 
@@ -351,7 +353,7 @@ services:
     swp_core.webhook.subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\WebhookEventsSubscriber
         arguments:
-            - '@old_sound_rabbit_mq.send_webhook_producer'
+            - '@messenger.default_bus'
             - '@swp.serializer'
             - '@swp.repository.webhook'
             - '@swp_multi_tenancy.tenant_context'
@@ -399,6 +401,11 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
+    SWP\Bundle\CoreBundle\Serializer\ImageRenditionSerializationSubscriber:
+        autowire: true
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
     SWP\Bundle\CoreBundle\Serializer\ContentListAwareSerializationSubscriber:
         arguments:
             - '@swp.repository.content_list_item'
@@ -438,15 +445,6 @@ services:
           - '@swp.repository.content_list'
           - '@swp.repository.content_list_item'
           - '@swp.service.content_list'
-
-    swp_core.listener.canceled_package:
-        class: SWP\Bundle\CoreBundle\EventListener\CanceledPackageListener
-        arguments:
-            - '@event_dispatcher'
-            - '@swp.repository.article'
-            - '@swp.object_manager.article'
-        tags:
-            - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onCanceled, priority: 10 }
 
     swp_core.listener.updated_package:
         class: SWP\Bundle\CoreBundle\EventListener\UpdatedPackageListener
@@ -683,7 +681,7 @@ services:
     SWP\Bundle\CoreBundle\EventListener\ImageToWebpConversionListener:
         autowire: true
         arguments:
-            - '@old_sound_rabbit_mq.image_conversion_producer'
+            - '@messenger.default_bus'
             - '@swp_multi_tenancy.tenant_context'
             - '%env(bool:WEBP_CONVERSION_ENABLED)%'
             - '@event_dispatcher'
@@ -770,3 +768,34 @@ services:
 
     SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface:
         alias: SWP\Bundle\CoreBundle\Hydrator\PackageHydrator
+
+    SWP\Bundle\CoreBundle\GeoIp\CachedGeoIpChecker:
+        autowire: true
+
+    League\Flysystem\Filesystem:
+        alias: oneup_flysystem.swp_filesystem_filesystem
+
+    SWP\Bundle\CoreBundle\AnalyticsExport\:
+        resource: '../../AnalyticsExport/*'
+        exclude: '../../AnalyticsExport/{ExportAnalytics,CsvReportFileLocationResolver}'
+        public: false
+        autoconfigure: true
+        autowire: true
+        bind:
+            $cacheDir: '%kernel.cache_dir%'
+            $analyticsReportRepository: '@swp.repository.analytics_report'
+            $fromEmail: '%env(FROM_EMAIL)%'
+            $tenantRepository: '@swp.repository.tenant'
+
+    SWP\Bundle\CoreBundle\AnalyticsExport\CsvReportFileLocationResolver:
+        parent: swp.resolver.asset_location
+        public: true
+
+    SWP\Bundle\CoreBundle\Controller\AnalyticsExportController:
+        public: false
+        autoconfigure: true
+        autowire: true
+
+    SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
+        arguments:
+            - '@messenger.transport.failed'

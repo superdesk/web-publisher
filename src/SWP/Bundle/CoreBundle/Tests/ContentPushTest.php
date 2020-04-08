@@ -606,6 +606,9 @@ final class ContentPushTest extends WebTestCase
 
         // test package preview
         $client->request('GET', $this->router->generate('swp_package_preview', ['routeId' => 3, 'id' => 1]));
+        self::assertEquals(401, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_package_preview', ['routeId' => 3, 'id' => 1, 'auth_token' => base64_encode('test_token:')]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
         self::assertContains('<figure><img src="/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpeg"', $content);
