@@ -118,9 +118,11 @@ SWP\Bundle\ContentBundle\Model\Article:
                 joinColumns:
                     article_id:
                         referencedColumnName: id
+                        onDelete: "CASCADE"
                 inverseJoinColumns:
                     author_id:
                         referencedColumnName: id
+                        onDelete: "CASCADE"
         keywords:
             targetEntity: SWP\Bundle\ContentBundle\Model\KeywordInterface
             cascade: ["all"]
