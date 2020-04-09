@@ -113,6 +113,20 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         return $articleMedia->getByLine();
     }
 
+    private function appendImageCopyrightNotice(ArticleMediaInterface $articleMedia, \DOMElement $figCaptionNode): void
+    {
+        $element = new \DOMElement('span');
+        $figCaptionNode->appendChild($element);
+
+        $authorDiv = $figCaptionNode->childNodes[2];
+        $authorDiv->textContent = $this->applyCopyrightNotice($articleMedia);
+    }
+
+    public function applyCopyrightNotice(ArticleMediaInterface $articleMedia): string
+    {
+        return $articleMedia->getCopyrightNotice();
+    }
+
     protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, ArticleMediaInterface $articleMedia): void
     {
         $attributes = $imageElement->attributes;
