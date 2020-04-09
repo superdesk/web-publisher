@@ -14,6 +14,7 @@ RUN set -ex \
         freetype-dev \
         libpng-dev \
         libjpeg-turbo-dev \
+        libwebp-dev \
         libintl \
         icu \
         icu-dev \
@@ -40,6 +41,7 @@ RUN set -ex \
     && docker-php-ext-configure gd \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
+        --with-webp-dir \
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip xml gd mbstring curl bcmath
 
