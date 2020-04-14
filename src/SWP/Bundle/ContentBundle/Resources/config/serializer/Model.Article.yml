@@ -93,6 +93,9 @@ SWP\Bundle\ContentBundle\Model\Article:
         seoMetadata:
             expose: true
             groups: [api, api_articles_seometadata]
+        slugs:
+            expose: true
+            groups: [api]
     relations:
         -
             rel: self

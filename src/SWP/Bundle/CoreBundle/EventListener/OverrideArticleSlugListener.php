@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleSlug;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
@@ -46,7 +48,16 @@ final class OverrideArticleSlugListener
         $overrideSlugOnCorrection = $this->settingsManager->get('override_slug_on_correction', 'tenant', $this->tenantContext->getTenant());
 
         if ($overrideSlugOnCorrection && null !== $article->getSlug()) {
+            $this->savePreviousSlug($article);
             $article->setSlug($package->getSlugline());
         }
+    }
+
+    private function savePreviousSlug(ArticleInterface $article): void
+    {
+        $articleSlug = new ArticleSlug();
+        $articleSlug->setSlug($article->getSlug());
+
+        $article->addSlug($articleSlug);
     }
 }

@@ -1,0 +1,19 @@
+SWP\Bundle\ContentBundle\Model\ArticleSlug:
+  type: mappedSuperclass
+  table: swp_article_slug
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    slug:
+      type: string
+  manyToOne:
+    article:
+      targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+      inversedBy: slugs
+      joinColumn:
+        referencedColumnName: id
+        onDelete: CASCADE

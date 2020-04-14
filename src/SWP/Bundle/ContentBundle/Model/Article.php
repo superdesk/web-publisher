@@ -125,6 +125,9 @@ class Article implements ArticleInterface
      */
     protected $slideshows;
 
+    /** @var Collection|ArticleSlugInterface[] * */
+    protected $slugs;
+
     public function __construct()
     {
         $this->createdAt = DateTime::getCurrentDateTime();
@@ -135,6 +138,7 @@ class Article implements ArticleInterface
         $this->keywords = new ArrayCollection();
         $this->slideshows = new ArrayCollection();
         $this->relatedArticles = new ArrayCollection();
+        $this->slugs = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)
@@ -400,6 +404,32 @@ class Article implements ArticleInterface
         if ($this->hasSlideshow($slideshow)) {
             $slideshow->setArticle(null);
             $this->slideshows->removeElement($slideshow);
+        }
+    }
+
+    public function getSlugs(): Collection
+    {
+        return $this->slugs;
+    }
+
+    public function hasSlug(ArticleSlugInterface $slug): bool
+    {
+        return $this->slugs->contains($slug);
+    }
+
+    public function addSlug(ArticleSlugInterface $slug): void
+    {
+        if (!$this->hasSlug($slug)) {
+            $slug->setArticle($this);
+            $this->slugs->add($slug);
+        }
+    }
+
+    public function removeSlug(ArticleSlugInterface $slug): void
+    {
+        if ($this->hasSlug($slug)) {
+            $slug->setArticle(null);
+            $this->slugs->removeElement($slug);
         }
     }
 }

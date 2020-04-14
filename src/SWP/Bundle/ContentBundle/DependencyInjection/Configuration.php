@@ -33,6 +33,8 @@ use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleSlug;
+use SWP\Bundle\ContentBundle\Model\ArticleSlugInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSource;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
@@ -236,13 +238,13 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
-                                        ->arrayNode('keyword')
+                                        ->arrayNode('slug')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Keyword::class)->end()
-                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(KeywordInterface::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleSlug::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleSlugInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(KeywordFactory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

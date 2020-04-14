@@ -1,0 +1,7 @@
+SWP\Bundle\ContentBundle\Model\ArticleSlug:
+  exclusion_policy: ALL
+  properties:
+    slug:
+      expose: true
+      groups: [api]
+      type: string

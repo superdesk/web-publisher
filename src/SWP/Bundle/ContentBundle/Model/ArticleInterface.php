@@ -179,4 +179,12 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     public function addSlideshow(SlideshowInterface $slideshow): void;
 
     public function removeSlideshow(SlideshowInterface $slideshow): void;
+
+    public function getSlugs(): Collection;
+
+    public function hasSlug(ArticleSlugInterface $slug): bool;
+
+    public function addSlug(ArticleSlugInterface $slug): void;
+
+    public function removeSlug(ArticleSlugInterface $slug): void;
 }
