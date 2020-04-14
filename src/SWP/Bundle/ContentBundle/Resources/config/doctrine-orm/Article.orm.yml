@@ -109,6 +109,12 @@ SWP\Bundle\ContentBundle\Model\Article:
             mappedBy: relatesTo
             cascade: ["all"]
             orphanRemoval: true
+        slugs:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSlugInterface
+            mappedBy: article
+            fetch: "EAGER"
+            cascade: ["all"]
+            orphanRemoval: true
     manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
