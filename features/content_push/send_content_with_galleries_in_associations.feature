@@ -1115,6 +1115,9 @@ Feature: Handling the custom media fields
              }
           }
        },
+       "slugs":[
+
+       ],
        "created_at":"2019-03-10T09:00:00+00:00",
        "updated_at":"2019-03-10T09:00:00+00:00",
        "authors":[
