@@ -16,6 +16,19 @@ fos_http_cache:
             tag_mode: purgekeys
             http:
                 base_url: "%env(SWP_DOMAIN)%"
+    cache_control:
+        defaults:
+            overwrite: false
+        rules:
+            - match:
+                  path: ^/
+              headers:
+                  cache_control:
+                      public: true
+                      max_age: 30
+                      s_maxage: 60
+                  etag: true
+                  vary: [Accept-Encoding, Accept-Language]
 
     invalidation:
         rules:
