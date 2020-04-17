@@ -22,14 +22,12 @@ fos_http_cache:
         rules:
             - match:
                   path: ^/
-              headers:
-                  cache_control:
-                      public: true
-                      max_age: 30
-                      s_maxage: 60
-                  etag: true
-                  vary: [Accept-Encoding, Accept-Language]
-
+                  headers:
+                      cache_control:
+                          public: true
+                          max_age: 15
+                          s_maxage: 30
+                      etag: true
     invalidation:
         rules:
             -
