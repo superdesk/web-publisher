@@ -20,14 +20,26 @@ fos_http_cache:
         defaults:
             overwrite: false
         rules:
-            - match:
-                  path: ^/
-                  headers:
-                      cache_control:
-                          public: true
-                          max_age: 15
-                          s_maxage: 30
-                      etag: true
+            # match everything to set defaults
+            -
+                match:
+                    path: ^/
+                headers:
+                    cache_control:
+                        public: true
+                        max_age: 900
+                        s_maxage: 900
+                    etag: true
+            # dont cache search
+            -
+                match:
+                    query_string: (^|&)q=
+                headers:
+                    cache_control:
+                        private: true
+                        no_store: true
+            # TODO check if some more cache controls necessary for proxy cache
+            # https://foshttpcachebundle.readthedocs.io/en/latest/reference/configuration/headers.html#rules
     invalidation:
         rules:
             -
