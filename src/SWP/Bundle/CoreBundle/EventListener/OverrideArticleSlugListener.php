@@ -21,23 +21,24 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSlug;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 final class OverrideArticleSlugListener
 {
-    /**
-     * @var SettingsManagerInterface
-     */
     private $settingsManager;
 
-    /**
-     * @var TenantContextInterface
-     */
     private $tenantContext;
 
-    public function __construct(SettingsManagerInterface $settingsManager, TenantContextInterface $tenantContext)
-    {
+    private $router;
+
+    public function __construct(
+        SettingsManagerInterface $settingsManager,
+        TenantContextInterface $tenantContext,
+        RouterInterface $router
+    ) {
         $this->settingsManager = $settingsManager;
         $this->tenantContext = $tenantContext;
+        $this->router = $router;
     }
 
     public function overrideSlugIfNeeded(ArticleEvent $event): void
@@ -55,8 +56,9 @@ final class OverrideArticleSlugListener
 
     private function savePreviousSlug(ArticleInterface $article): void
     {
+        $route = $article->getRoute();
         $articleSlug = new ArticleSlug();
-        $articleSlug->setSlug($article->getSlug());
+        $articleSlug->setSlug($this->router->generate($route->getName(), ['slug' => $article->getSlug()]));
 
         $article->addSlug($articleSlug);
     }
