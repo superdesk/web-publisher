@@ -207,4 +207,12 @@ Feature: Allow to change the article's slug based on settings.
       | title                   | Richtlinien zum Datenschutz     |
       | status                  | published                       |
     And the JSON node "slug" should be equal to "datenschutz"
-    And the JSON node "slugs[0].slug" should be equal to "richtlinien-zum-datenschutz"
+    And the JSON node "slugs[0].slug" should be equal to "/news/sports/richtlinien-zum-datenschutz"
+
+    When I go to "/news/sports/datenschutz"
+    Then the response status code should be 200
+
+    When I send a GET request to "/news/sports/richtlinien-zum-datenschutz"
+    Then the response status code should be 301
+    And I follow the redirection
+    Then the response status code should be 200

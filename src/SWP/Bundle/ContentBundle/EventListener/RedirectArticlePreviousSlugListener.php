@@ -55,9 +55,9 @@ final class RedirectArticlePreviousSlugListener
                     $article->getRoute()->getName(),
                     [
                         'slug' => $article->getSlug(),
-                    ],
-                    Response::HTTP_MOVED_PERMANENTLY
-                )
+                    ]
+                ),
+                Response::HTTP_MOVED_PERMANENTLY
             ));
         }
     }
