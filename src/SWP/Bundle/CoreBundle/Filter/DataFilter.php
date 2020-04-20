@@ -25,7 +25,7 @@ class DataFilter
 
     protected $initialData;
 
-    public function loadData(array $data): DataFilter
+    public function loadData(array $data): self
     {
         $this->initialData = $data;
         $this->currentData = $data;
@@ -38,7 +38,7 @@ class DataFilter
         $this->currentData = $this->initialData;
     }
 
-    public function contains(string $key): DataFilter
+    public function contains(string $key): self
     {
         if (!array_key_exists($key, $this->currentData)) {
             throw new KeyNotExistsException($key, \array_keys($this->currentData));
@@ -49,7 +49,7 @@ class DataFilter
         return $this;
     }
 
-    public function containsItem(string $key, $value): DataFilter
+    public function containsItem(string $key, $value): self
     {
         $found = false;
         foreach ($this->currentData as $item) {

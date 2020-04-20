@@ -54,6 +54,10 @@ Possible methods are:
 
 - ``containsItem`` - checks if current base is an array and looks for provided key and value match
 
+.. tip::
+
+    Filtering based on expression don't work in case of rebuilding list by filter.
+
 
 All criteria can be combined together which in the result it will add articles to the list (on publish) depending on your needs.
 

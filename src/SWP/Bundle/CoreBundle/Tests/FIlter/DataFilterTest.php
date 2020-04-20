@@ -34,8 +34,8 @@ final class DataFilterTest extends TestCase
     public function testFiltering()
     {
         $data = \json_decode('{"subject":[{"code":"02002001","scheme":"test","name":"lawyer"}]}', true);
-
         $result = false;
+
         try {
             $this->dataFilter->loadData($data);
             $this->dataFilter->contains('subject');
