@@ -33,7 +33,7 @@ class DataFilter
         return $this;
     }
 
-    public function reset(): DataFilter
+    public function reset(): self
     {
         $this->currentData = $this->initialData;
     }
