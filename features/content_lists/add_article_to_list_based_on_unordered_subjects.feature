@@ -14,7 +14,8 @@ Feature: Add article to automated content lists
     | name                  | type      | filters                           |
     | first content list    | automatic | {"metadata":{}, "route": [1]}     |
     | second content list   | automatic | {"route":[1]}                     |
-    | third content list   | automatic | {"metadata":{"subject":[{"name":"lawyer","scheme":"test","code":"02002001"}]}} |
+    | third content list   | automatic | {"metadata":{"subject":[{"name":"lawyer","scheme":"test","code":"02002001"}, {"code":"001","scheme":"test2","name":"priest"}]}} |
+    | forth content list   | automatic | {"metadata": "filter.contains('subject').containsItem('code', '02002001').containsItem('name', 'priest')"} |
 
 
     Given the following Users:
@@ -74,11 +75,16 @@ Feature: Add article to automated content lists
             "language":"en","headline":"Test Package","version":"2","guid":"16e111d5","priority":6,"type":"text",
             "authors":[{"name":"Tom Doe","role":"editor"}],
             "byline":"Admin",
-            "subject":[{"code":"02002001","scheme":"test","name":"lawyer"}]
+            "subject":[{"code":"02002001","scheme":"test","name":"lawyer"}, {"code":"001","scheme":"test2","name":"priest"}]
         }
         """
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/lists/3/items/"
+    And the JSON node "total" should be equal to "1"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/4/items/"
     And the JSON node "total" should be equal to "1"
