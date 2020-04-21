@@ -109,8 +109,8 @@ SWP\Bundle\ContentBundle\Model\Article:
             mappedBy: relatesTo
             cascade: ["all"]
             orphanRemoval: true
-        slugs:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSlugInterface
+        previousRelativeUrls:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrlInterface
             mappedBy: article
             fetch: "EAGER"
             cascade: ["all"]

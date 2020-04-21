@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-use SWP\Component\Common\Exception\ArticleNotFoundException;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,31 +23,31 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
-final class RedirectArticlePreviousSlugListener
+final class ArticlePreviousRelativeUrlListener
 {
     private $router;
 
-    private $articleSlugRepository;
+    private $articlePreviousUrlRepository;
 
-    public function __construct(RouterInterface $router, RepositoryInterface $articleSlugRepository)
+    public function __construct(RouterInterface $router, RepositoryInterface $articlePreviousUrlRepository)
     {
         $this->router = $router;
-        $this->articleSlugRepository = $articleSlugRepository;
+        $this->articlePreviousUrlRepository = $articlePreviousUrlRepository;
     }
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
         $request = $event->getRequest();
 
-        if (!$exception instanceof NotFoundHttpException && !$exception instanceof ArticleNotFoundException) {
+        if (!$exception instanceof NotFoundHttpException) {
             return;
         }
 
-        $articleSlug = $this->articleSlugRepository->findOneBy(['slug' => $request->getRequestUri()]);
+        $articleRelativeUrl = $this->articlePreviousUrlRepository->findOneBy(['relativeUrl' => $request->getRequestUri()]);
 
-        if (null !== $articleSlug) {
-            $article = $articleSlug->getArticle();
+        if (null !== $articleRelativeUrl) {
+            $article = $articleRelativeUrl->getArticle();
 
             $event->setResponse(new RedirectResponse(
                 $this->router->generate(

@@ -18,7 +18,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleSlug;
+use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -49,17 +49,17 @@ final class OverrideArticleSlugListener
         $overrideSlugOnCorrection = $this->settingsManager->get('override_slug_on_correction', 'tenant', $this->tenantContext->getTenant());
 
         if ($overrideSlugOnCorrection && null !== $article->getSlug()) {
-            $this->savePreviousSlug($article);
+            $this->savePreviousRelativeUrl($article);
             $article->setSlug($package->getSlugline());
         }
     }
 
-    private function savePreviousSlug(ArticleInterface $article): void
+    private function savePreviousRelativeUrl(ArticleInterface $article): void
     {
         $route = $article->getRoute();
-        $articleSlug = new ArticleSlug();
-        $articleSlug->setSlug($this->router->generate($route->getName(), ['slug' => $article->getSlug()]));
+        $relativeUrl = new ArticlePreviousRelativeUrl();
+        $relativeUrl->setRelativeUrl($this->router->generate($route->getName(), ['slug' => $article->getSlug()]));
 
-        $article->addSlug($articleSlug);
+        $article->addPreviousRelativeUrl($relativeUrl);
     }
 }

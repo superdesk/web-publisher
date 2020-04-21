@@ -281,10 +281,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
 
-    SWP\Bundle\ContentBundle\EventListener\RedirectArticlePreviousSlugListener:
+    SWP\Bundle\ContentBundle\EventListener\ArticlePreviousRelativeUrlListener:
         arguments:
             - '@router'
-            - '@swp.repository.slug'
+            - '@swp.repository.previous_relative_url'
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 110 }
 

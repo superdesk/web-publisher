@@ -180,11 +180,11 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
 
     public function removeSlideshow(SlideshowInterface $slideshow): void;
 
-    public function getSlugs(): Collection;
+    public function getPreviousRelativeUrl(): Collection;
 
-    public function hasSlug(ArticleSlugInterface $slug): bool;
+    public function hasPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): bool;
 
-    public function addSlug(ArticleSlugInterface $slug): void;
+    public function addPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
 
-    public function removeSlug(ArticleSlugInterface $slug): void;
+    public function removePreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
 }

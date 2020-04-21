@@ -125,8 +125,8 @@ class Article implements ArticleInterface
      */
     protected $slideshows;
 
-    /** @var Collection|ArticleSlugInterface[] * */
-    protected $slugs;
+    /** @var Collection|ArticlePreviousRelativeUrlInterface[] * */
+    protected $previousRelativeUrls;
 
     public function __construct()
     {
@@ -138,7 +138,7 @@ class Article implements ArticleInterface
         $this->keywords = new ArrayCollection();
         $this->slideshows = new ArrayCollection();
         $this->relatedArticles = new ArrayCollection();
-        $this->slugs = new ArrayCollection();
+        $this->previousRelativeUrls = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)
@@ -407,29 +407,29 @@ class Article implements ArticleInterface
         }
     }
 
-    public function getSlugs(): Collection
+    public function getPreviousRelativeUrl(): Collection
     {
-        return $this->slugs;
+        return $this->previousRelativeUrls;
     }
 
-    public function hasSlug(ArticleSlugInterface $slug): bool
+    public function hasPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): bool
     {
-        return $this->slugs->contains($slug);
+        return $this->previousRelativeUrls->contains($previousRelativeUrl);
     }
 
-    public function addSlug(ArticleSlugInterface $slug): void
+    public function addPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void
     {
-        if (!$this->hasSlug($slug)) {
-            $slug->setArticle($this);
-            $this->slugs->add($slug);
+        if (!$this->hasPreviousRelativeUrl($previousRelativeUrl)) {
+            $previousRelativeUrl->setArticle($this);
+            $this->previousRelativeUrls->add($previousRelativeUrl);
         }
     }
 
-    public function removeSlug(ArticleSlugInterface $slug): void
+    public function removePreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void
     {
-        if ($this->hasSlug($slug)) {
-            $slug->setArticle(null);
-            $this->slugs->removeElement($slug);
+        if ($this->hasPreviousRelativeUrl($previousRelativeUrl)) {
+            $previousRelativeUrl->setArticle(null);
+            $this->previousRelativeUrls->removeElement($previousRelativeUrl);
         }
     }
 }

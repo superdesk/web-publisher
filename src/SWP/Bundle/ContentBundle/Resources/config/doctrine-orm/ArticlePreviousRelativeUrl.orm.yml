@@ -1,6 +1,6 @@
-SWP\Bundle\ContentBundle\Model\ArticleSlug:
+SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl:
   type: mappedSuperclass
-  table: swp_article_slug
+  table: swp_article_previous_relative_url
   id:
     id:
       type: integer
@@ -8,12 +8,12 @@ SWP\Bundle\ContentBundle\Model\ArticleSlug:
       generator:
         strategy: IDENTITY
   fields:
-    slug:
+    relativeUrl:
       type: string
   manyToOne:
     article:
       targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
-      inversedBy: slugs
+      inversedBy: previousRelativeUrls
       joinColumn:
         referencedColumnName: id
         onDelete: CASCADE
