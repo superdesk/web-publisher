@@ -281,6 +281,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
 
+    SWP\Bundle\ContentBundle\EventListener\RedirectArticlePreviousSlugListener:
+        arguments:
+            - '@router'
+            - '@swp.repository.slug'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 110 }
+
     swp_content_bundle.listener.route_remove:
         class: SWP\Bundle\ContentBundle\EventListener\RouteRemoveListener
         arguments:
