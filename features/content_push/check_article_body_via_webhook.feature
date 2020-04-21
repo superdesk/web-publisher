@@ -219,7 +219,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
        "slideshows":[
 
        ],
-       "previousRelativeUrls":[
+       "previous_relative_urls":[
 
        ],
        "created_at":"2019-03-10T09:00:00+00:00",
