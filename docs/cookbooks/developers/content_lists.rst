@@ -44,4 +44,21 @@ Built in criteria:
 
 - ``metadata`` - metadata field is json string, e.g. ``{"metadata":{"language":"en"}}``. It matches article's metadata, and you can use all metadata fields that are defined for the article, i.e.: language, located etc.
 
+``metadata`` allows also filtering based on expression. It uses DataFilter class (SWP\Bundle\CoreBundle\Filter\DataFilter) methods for metadata checking.
+
+Example usage: ``{"metadata": "filter.contains('subject').containsItem('code', '001').containsItem('code', '123')"}``
+
+Possible methods are:
+
+- ``contains`` - checks if metadata have provided key and sets is as a base for next methods calls.
+
+- ``containsItem`` - checks if current base is an array and looks for provided key and value match
+
+.. tip::
+
+    Filtering based on expression don't work in case of rebuilding list by filter.
+
+
 All criteria can be combined together which in the result it will add articles to the list (on publish) depending on your needs.
+
+
