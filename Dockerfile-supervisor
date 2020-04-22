@@ -15,6 +15,7 @@ RUN set -ex \
         libpng-dev \
         libjpeg-turbo-dev \
         libintl \
+	    libwebp-dev \
         icu \
         icu-dev \
         git \
@@ -41,6 +42,7 @@ RUN set -ex \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
     && docker-php-ext-configure gd \
+   	    --with-webp-dir \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-configure zip --with-libzip \
@@ -55,6 +57,12 @@ RUN apk add --no-cache tzdata
 RUN rm -f /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN "date"
+
+COPY --from=composer:1.6 /usr/bin/composer /usr/bin/composer
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER 1
+# create composer cache directory
+RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
 COPY . /var/www/publisher/
 WORKDIR /var/www/publisher/
