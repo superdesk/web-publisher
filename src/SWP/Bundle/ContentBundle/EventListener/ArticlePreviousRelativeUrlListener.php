@@ -37,7 +37,7 @@ final class ArticlePreviousRelativeUrlListener
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getThrowable();
+        $exception = $event->getException();
         $request = $event->getRequest();
 
         if (!$exception instanceof NotFoundHttpException) {
