@@ -15,7 +15,7 @@ RUN set -ex \
         libpng-dev \
         libjpeg-turbo-dev \
         libintl \
-	    libwebp-dev \
+	libwebp-dev \
         icu \
         icu-dev \
         git \
@@ -42,7 +42,7 @@ RUN set -ex \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
     && docker-php-ext-configure gd \
-   	    --with-webp-dir \
+   	 --with-webp-dir \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-configure zip --with-libzip \
@@ -68,7 +68,7 @@ COPY . /var/www/publisher/
 WORKDIR /var/www/publisher/
 RUN php /usr/bin/composer install \
  && php /usr/bin/composer dump-autoload \
- && php /usr/bin/composer dump-env dev
+ && php /usr/bin/composer dump-env prod
  
 COPY supervisor.ini /etc/supervisor.d/supervisor.ini
 
