@@ -125,6 +125,9 @@ class Article implements ArticleInterface
      */
     protected $slideshows;
 
+    /** @var Collection|ArticlePreviousRelativeUrlInterface[] * */
+    protected $previousRelativeUrls;
+
     public function __construct()
     {
         $this->createdAt = DateTime::getCurrentDateTime();
@@ -135,6 +138,7 @@ class Article implements ArticleInterface
         $this->keywords = new ArrayCollection();
         $this->slideshows = new ArrayCollection();
         $this->relatedArticles = new ArrayCollection();
+        $this->previousRelativeUrls = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)
@@ -400,6 +404,32 @@ class Article implements ArticleInterface
         if ($this->hasSlideshow($slideshow)) {
             $slideshow->setArticle(null);
             $this->slideshows->removeElement($slideshow);
+        }
+    }
+
+    public function getPreviousRelativeUrl(): Collection
+    {
+        return $this->previousRelativeUrls;
+    }
+
+    public function hasPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): bool
+    {
+        return $this->previousRelativeUrls->contains($previousRelativeUrl);
+    }
+
+    public function addPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void
+    {
+        if (!$this->hasPreviousRelativeUrl($previousRelativeUrl)) {
+            $previousRelativeUrl->setArticle($this);
+            $this->previousRelativeUrls->add($previousRelativeUrl);
+        }
+    }
+
+    public function removePreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void
+    {
+        if ($this->hasPreviousRelativeUrl($previousRelativeUrl)) {
+            $previousRelativeUrl->setArticle(null);
+            $this->previousRelativeUrls->removeElement($previousRelativeUrl);
         }
     }
 }

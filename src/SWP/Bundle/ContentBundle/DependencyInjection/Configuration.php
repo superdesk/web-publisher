@@ -33,6 +33,8 @@ use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl;
+use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrlInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSource;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
@@ -236,13 +238,13 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
-                                        ->arrayNode('keyword')
+                                        ->arrayNode('previous_relative_url')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Keyword::class)->end()
-                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(KeywordInterface::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticlePreviousRelativeUrl::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticlePreviousRelativeUrlInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(KeywordFactory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
