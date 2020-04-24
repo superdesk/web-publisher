@@ -116,6 +116,7 @@
     "symfony/mailer": "^4.3",
     "symfony/messenger": "^4.3",
     "symfony/monolog-bundle": "~3.4",
+    "symfony/proxy-manager-bridge": "^4.3",
     "symfony/routing": "^4.3",
     "symfony/serializer": "^4.3.2",
     "symfony/swiftmailer-bundle": "~3.2",
