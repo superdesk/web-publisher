@@ -83,6 +83,10 @@ final class TenantType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'help' => 'Default language',
+            ])
+            ->add('appleNewsConfig', AppleNewsConfigType::class, [
+                'required' => false,
+                'help' => 'Apple News Config',
             ]);
     }
 

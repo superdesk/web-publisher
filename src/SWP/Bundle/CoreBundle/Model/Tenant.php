@@ -43,6 +43,9 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
      */
     protected $outputChannel;
 
+    /** @var AppleNewsConfig|null */
+    protected $appleNewsConfig;
+
     /**
      * {@inheritdoc}
      */
@@ -109,5 +112,16 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
         if ($outputChannel instanceof OutputChannelInterface) {
             $outputChannel->setTenant($this);
         }
+    }
+
+    public function getAppleNewsConfig(): ?AppleNewsConfig
+    {
+        return $this->appleNewsConfig;
+    }
+
+    public function setAppleNewsConfig(?AppleNewsConfig $appleNewsConfig): void
+    {
+        $appleNewsConfig->setTenant($this);
+        $this->appleNewsConfig = $appleNewsConfig;
     }
 }

@@ -20,6 +20,10 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
         contentLists:
             nullable: true
             type: array
+        isPublishedToAppleNews:
+            type: boolean
+            options:
+                default: false
         createdAt:
             type: datetime
             gedmo:

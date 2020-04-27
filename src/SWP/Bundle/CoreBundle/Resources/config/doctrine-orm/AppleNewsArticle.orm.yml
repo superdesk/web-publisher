@@ -1,0 +1,16 @@
+SWP\Bundle\CoreBundle\Model\AppleNewsArticle:
+    type: mappedSuperclass
+    table: swp_article_apple_news
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        articleId:
+            type: string
+            column: apple_news_article_id
+        revisionId:
+            type: string
+        shareUrl:
+            type: string

@@ -739,6 +739,7 @@ services:
         arguments:
             - '@swp_settings.manager.settings'
             - '@swp_multi_tenancy.tenant_context'
+            - '@router'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_update, method: overrideSlugIfNeeded }
 

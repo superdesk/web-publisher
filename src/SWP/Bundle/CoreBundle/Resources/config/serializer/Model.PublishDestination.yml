@@ -9,6 +9,10 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
             expose: true
             groups: [api]
             type: boolean
+        isPublishedToAppleNews:
+            expose: true
+            groups: [api]
+            type: boolean
         published:
             expose: true
             groups: [api]

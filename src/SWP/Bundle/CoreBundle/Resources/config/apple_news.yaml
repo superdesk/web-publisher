@@ -1,0 +1,21 @@
+services:
+  _defaults:
+    public: true
+    autoconfigure: true
+    autowire: true
+
+  SWP\Bundle\CoreBundle\AppleNews\:
+      resource: '../../AppleNews/*'
+      exclude: '../../AppleNews/{Api,Component,Document}/*'
+
+  SWP\Bundle\CoreBundle\AppleNews\Converter\ArticleToAppleNewsFormatConverter:
+    arguments:
+      - '@swp_core.factory.version'
+      - '@serializer'
+
+  SWP\Bundle\CoreBundle\EventListener\AppleNewsListener:
+    arguments:
+      - "@messenger.default_bus"
+      - "@swp_multi_tenancy.tenant_context"
+    tags:
+      - { name: kernel.event_listener, event: swp.article.publish, method: publish }
