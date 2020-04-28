@@ -24,7 +24,7 @@
         "symfony/doctrine-bridge": "^4.2 | ^5.0",
         "symfony/property-info": "^4.2 | ^5.0",
         "doctrine/orm": "^2.6",
-        "doctrine/doctrine-bundle": "^1.10 | ^2.12"
+        "doctrine/doctrine-bundle": "^1.10 | ^2.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^5.1",
