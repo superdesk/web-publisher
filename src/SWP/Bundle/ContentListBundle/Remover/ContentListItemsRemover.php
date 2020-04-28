@@ -21,22 +21,13 @@ use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 
 final class ContentListItemsRemover implements ContentListItemsRemoverInterface
 {
-    /**
-     * @var ContentListItemRepositoryInterface
-     */
     private $contentListItemRepository;
 
-    /**
-     * @param ContentListItemRepositoryInterface $contentListItemRepository
-     */
     public function __construct(ContentListItemRepositoryInterface $contentListItemRepository)
     {
         $this->contentListItemRepository = $contentListItemRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeContentListItems(ContentListInterface $contentList)
     {
         $this->contentListItemRepository->removeItems($contentList);

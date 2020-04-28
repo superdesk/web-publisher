@@ -76,7 +76,7 @@ final class ContentListService implements ContentListServiceInterface
             ->getQuery()
             ->getResult();
 
-        if (null !== $contentList->getLimit() && \count($items) > $contentList->getLimit()) {
+        if (null !== $contentList->getLimit() && $contentList->getLimit() > 0 && \count($items) > $contentList->getLimit()) {
             foreach ($items as $key => $item) {
                 if ($key + 1 > $contentList->getLimit()) {
                     $this->contentListItemRepository->remove($item);
