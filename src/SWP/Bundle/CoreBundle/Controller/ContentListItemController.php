@@ -188,6 +188,9 @@ class ContentListItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contentListItem->getContentList()->setUpdatedAt(new DateTime());
+
+            $contentListItem->setPosition($contentListItem->getStickyPosition());
+
             $this->entityManager->flush();
 
             return new SingleResourceResponse($contentListItem);

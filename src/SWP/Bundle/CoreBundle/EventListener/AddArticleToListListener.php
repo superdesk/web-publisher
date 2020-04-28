@@ -88,6 +88,12 @@ class AddArticleToListListener
             }
         }
 
+        $this->contentListItemRepository->flush();
+
+        foreach ($contentLists as $contentList) {
+            $this->repositionStickyItems($contentList);
+        }
+
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
     }
 
@@ -131,10 +137,23 @@ class AddArticleToListListener
 
         $contentListItem->setPosition(0);
         $contentListItem->setContentList($bucket);
+
         $bucket->setUpdatedAt(new \DateTime());
         $this->eventDispatcher->dispatch(
             ContentListEvents::POST_ITEM_ADD,
             new ContentListEvent($bucket, $contentListItem)
         );
+    }
+
+    private function repositionStickyItems(ContentListInterface $contentList): void
+    {
+        $stickyItems = $this->contentListItemRepository->findBy([
+            'sticky' => true,
+            'contentList' => $contentList,
+        ]);
+
+        foreach ($stickyItems as $stickyItem) {
+            $stickyItem->setPosition($stickyItem->getStickyPosition());
+        }
     }
 }
