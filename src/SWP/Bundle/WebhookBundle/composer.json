@@ -21,7 +21,7 @@
     "php": "^7.3",
     "swp/webhook": "^2.0",
     "swp/storage-bundle": "^2.0",
-    "symfony/form": "^4.2"
+    "symfony/form": "^4.2 || ^5.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
