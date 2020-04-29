@@ -145,7 +145,7 @@
     "liip/rmt": "^1.5",
     "matthiasnoback/symfony-dependency-injection-test": "^3.1",
     "nelmio/alice": "^3.5",
-    "phpspec/phpspec": "^5.1",
+    "phpspec/phpspec": "^6.1",
     "phpspec/prophecy": "1.9.0",
     "phpstan/phpstan": "^0.11.5",
     "phpunit/phpunit": "^7.5",

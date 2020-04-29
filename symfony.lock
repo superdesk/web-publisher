@@ -196,6 +196,9 @@
     "facebook/graph-sdk": {
         "version": "5.7.0"
     },
+    "friends-of-behat/mink-extension": {
+        "version": "v2.4.0"
+    },
     "friends-of-behat/service-container-extension": {
         "version": "v1.0.1"
     },
@@ -585,7 +588,7 @@
         "version": "2.0.1"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "php-http/client-common": {
         "version": "1.10.0"
