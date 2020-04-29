@@ -26,8 +26,13 @@ final class DoctrineORMContext implements Context
         if (\in_array('disable-fixtures', $scope->getFeature()->getTags(), true)) {
             self::$entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
             $purger = new ORMPurger(self::$entityManager);
+            $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
             $purger->purge();
             self::$entityManager->clear();
+
+            foreach (self::$entityManager->getConnection()->getSchemaManager()->listTableNames() as $tableName) {
+                self::$entityManager->getConnection()->executeQuery('DELETE FROM sqlite_sequence WHERE name="'.$tableName.'"');
+            }
         }
     }
 }
