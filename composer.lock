@@ -6347,32 +6347,32 @@
         },
         {
             "name": "ocramius/generated-hydrator",
-            "version": "3.1.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/GeneratedHydrator.git",
-                "reference": "7fd2f5655e10b8fdaff3be739ce700fa68ef4dbc"
+                "reference": "5838d24f9b5c4749bec03ea04782d72f49ee5e0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/GeneratedHydrator/zipball/7fd2f5655e10b8fdaff3be739ce700fa68ef4dbc",
-                "reference": "7fd2f5655e10b8fdaff3be739ce700fa68ef4dbc",
+                "url": "https://api.github.com/repos/Ocramius/GeneratedHydrator/zipball/5838d24f9b5c4749bec03ea04782d72f49ee5e0b",
+                "reference": "5838d24f9b5c4749bec03ea04782d72f49ee5e0b",
                 "shasum": ""
             },
             "require": {
-                "nikic/php-parser": "^4.2.3",
+                "nikic/php-parser": "^4.2.1",
                 "ocramius/code-generator-utils": "^1.0.0",
-                "php": "^7.4",
+                "php": "^7.3",
                 "zendframework/zend-hydrator": "^2.4.1"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^6.0.0",
+                "doctrine/coding-standard": "^5.0.1",
                 "infection/infection": "^0.12.2",
-                "phpbench/phpbench": "^0.17.0",
-                "phpunit/phpunit": "^8.5.2",
-                "roave/backward-compatibility-check": "^4.2.0",
-                "squizlabs/php_codesniffer": "^3.5.4",
-                "zendframework/zend-filter": "^2.9.2",
+                "phpbench/phpbench": "^0.16.1",
+                "phpunit/phpunit": "^8.0.4",
+                "roave/backward-compatibility-check": "^2.1.0",
+                "squizlabs/php_codesniffer": "^3.4.0",
+                "zendframework/zend-filter": "^2.9.1",
                 "zendframework/zend-servicemanager": "^3.4.0",
                 "zendframework/zend-stdlib": "^3.2.1"
             },
@@ -6402,7 +6402,7 @@
                 "performance",
                 "serializer"
             ],
-            "time": "2020-02-21T12:49:41+00:00"
+            "time": "2019-03-04T19:52:51+00:00"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -8776,51 +8776,54 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "dev-master",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "0cd4c8af53627b7d53bb8ae0802acfaecd2e5302"
+                "reference": "9a8de4918be48b968bd22213bcfc5464f9887cb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/0cd4c8af53627b7d53bb8ae0802acfaecd2e5302",
-                "reference": "0cd4c8af53627b7d53bb8ae0802acfaecd2e5302",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/9a8de4918be48b968bd22213bcfc5464f9887cb4",
+                "reference": "9a8de4918be48b968bd22213bcfc5464f9887cb4",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.5",
                 "php": "^7.2",
-                "symfony/asset": "^4.4",
-                "symfony/config": "^4.4",
-                "symfony/console": "^4.4",
-                "symfony/dependency-injection": "^4.4",
-                "symfony/dom-crawler": "^4.4",
-                "symfony/filesystem": "^4.4",
-                "symfony/finder": "^4.4",
-                "symfony/form": "^4.4",
-                "symfony/framework-bundle": "^4.4",
-                "symfony/http-foundation": "^4.4",
-                "symfony/http-kernel": "^4.4",
-                "symfony/options-resolver": "^4.4",
-                "symfony/templating": "^4.4",
-                "symfony/translation": "^4.4",
-                "symfony/translation-contracts": "^1.1|^2.0",
+                "symfony/asset": "^3.4|^4.3",
+                "symfony/config": "^3.4|^4.3",
+                "symfony/console": "^3.4|^4.3",
+                "symfony/dependency-injection": "^3.4|^4.3",
+                "symfony/filesystem": "^3.4|^4.3",
+                "symfony/finder": "^3.4|^4.3",
+                "symfony/form": "^3.4|^4.3",
+                "symfony/framework-bundle": "^3.4|^4.3",
+                "symfony/http-foundation": "^3.4|^4.3",
+                "symfony/http-kernel": "^3.4|^4.3",
+                "symfony/options-resolver": "^3.4|^4.3",
+                "symfony/templating": "^3.4|^4.3",
+                "symfony/translation": "^3.4|^4.3",
+                "symfony/translation-contracts": "^1.0",
                 "zendframework/zend-hydrator": "^2.2"
             },
+            "conflict": {
+                "twig/twig": "^1.0"
+            },
             "require-dev": {
-                "matthiasnoback/symfony-config-test": "^4.1",
-                "matthiasnoback/symfony-dependency-injection-test": "^4.1",
+                "matthiasnoback/symfony-config-test": "^4.0",
+                "matthiasnoback/symfony-dependency-injection-test": "^3.0",
                 "mikey179/vfsstream": "^1.6",
-                "phpspec/phpspec": "^6.1",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpstan/phpstan-webmozart-assert": "^0.12",
-                "phpunit/phpunit": "^8.5",
+                "phpspec/phpspec": "^5.0",
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-webmozart-assert": "^0.11",
+                "phpunit/phpunit": "^7.0",
+                "proget-hq/phpstan-phpspec": "^0.2",
                 "sylius-labs/coding-standard": "^3.0",
-                "symfony/browser-kit": "^4.4",
-                "symfony/security-csrf": "^4.4",
-                "symfony/twig-bundle": "^4.4",
+                "symfony/browser-kit": "^3.4|^4.3",
+                "symfony/security-csrf": "^3.4|^4.3",
+                "symfony/twig-bundle": "^3.4|^4.3",
                 "twig/twig": "^2.0",
                 "vimeo/psalm": "^3.5"
             },
@@ -8859,7 +8862,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2020-02-20T19:51:14+00:00"
+            "time": "2019-10-10T16:03:29+00:00"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -13336,20 +13339,20 @@
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v2.0.1",
+            "version": "v1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed"
+                "reference": "364518c132c95642e530d9b2d217acbc2ccac3e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/8cc682ac458d75557203b2f2f14b0b92e1c744ed",
-                "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/364518c132c95642e530d9b2d217acbc2ccac3e6",
+                "reference": "364518c132c95642e530d9b2d217acbc2ccac3e6",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.1.3"
             },
             "suggest": {
                 "symfony/translation-implementation": ""
@@ -13357,7 +13360,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -13389,7 +13392,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2019-11-18T17:27:11+00:00"
+            "time": "2019-09-17T11:12:18+00:00"
         },
         {
             "name": "symfony/twig-bridge",
