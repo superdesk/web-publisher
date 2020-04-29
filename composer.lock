@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d4a85c7c73437465deccf3c2fd4074a",
+    "content-hash": "f42670895161d7ace7d8d3e5dc61a1f7",
     "packages": [
         {
             "name": "apache/log4php",
@@ -880,28 +880,31 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "1.12.0",
+            "version": "1.12.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "a374f3bc54fe7c23ddb722ef6b9ddd2d9dcb9115"
+                "reference": "65bb2ebc96bcb9207ee56bb17f6c0251ec358380"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/a374f3bc54fe7c23ddb722ef6b9ddd2d9dcb9115",
-                "reference": "a374f3bc54fe7c23ddb722ef6b9ddd2d9dcb9115",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/65bb2ebc96bcb9207ee56bb17f6c0251ec358380",
+                "reference": "65bb2ebc96bcb9207ee56bb17f6c0251ec358380",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^2.5.12",
                 "doctrine/doctrine-cache-bundle": "~1.2",
+                "doctrine/persistence": "^1.3.3",
                 "jdorn/sql-formatter": "^1.2.16",
                 "php": "^7.1",
+                "symfony/cache": "^3.4.30|^4.3.3",
                 "symfony/config": "^3.4.30|^4.3.3",
                 "symfony/console": "^3.4.30|^4.3.3",
                 "symfony/dependency-injection": "^3.4.30|^4.3.3",
                 "symfony/doctrine-bridge": "^3.4.30|^4.3.3",
-                "symfony/framework-bundle": "^3.4.30|^4.3.3"
+                "symfony/framework-bundle": "^3.4.30|^4.3.3",
+                "symfony/service-contracts": "^1.1.1|^2.0"
             },
             "conflict": {
                 "doctrine/orm": "<2.6",
@@ -910,11 +913,12 @@
             "require-dev": {
                 "doctrine/coding-standard": "^6.0",
                 "doctrine/orm": "^2.6",
+                "ocramius/proxy-manager": "^2.1",
                 "php-coveralls/php-coveralls": "^2.1",
                 "phpunit/phpunit": "^7.5",
-                "symfony/cache": "^3.4.30|^4.3.3",
                 "symfony/phpunit-bridge": "^4.2",
                 "symfony/property-info": "^3.4.30|^4.3.3",
+                "symfony/proxy-manager-bridge": "^3.4|^4|^5",
                 "symfony/twig-bridge": "^3.4|^4.1",
                 "symfony/validator": "^3.4.30|^4.3.3",
                 "symfony/web-profiler-bundle": "^3.4.30|^4.3.3",
@@ -966,7 +970,21 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-11-19T11:42:20+00:00"
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdoctrine-bundle",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-04-23T10:38:48+00:00"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -6329,32 +6347,32 @@
         },
         {
             "name": "ocramius/generated-hydrator",
-            "version": "3.1.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/GeneratedHydrator.git",
-                "reference": "7fd2f5655e10b8fdaff3be739ce700fa68ef4dbc"
+                "reference": "5838d24f9b5c4749bec03ea04782d72f49ee5e0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/GeneratedHydrator/zipball/7fd2f5655e10b8fdaff3be739ce700fa68ef4dbc",
-                "reference": "7fd2f5655e10b8fdaff3be739ce700fa68ef4dbc",
+                "url": "https://api.github.com/repos/Ocramius/GeneratedHydrator/zipball/5838d24f9b5c4749bec03ea04782d72f49ee5e0b",
+                "reference": "5838d24f9b5c4749bec03ea04782d72f49ee5e0b",
                 "shasum": ""
             },
             "require": {
-                "nikic/php-parser": "^4.2.3",
+                "nikic/php-parser": "^4.2.1",
                 "ocramius/code-generator-utils": "^1.0.0",
-                "php": "^7.4",
+                "php": "^7.3",
                 "zendframework/zend-hydrator": "^2.4.1"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^6.0.0",
+                "doctrine/coding-standard": "^5.0.1",
                 "infection/infection": "^0.12.2",
-                "phpbench/phpbench": "^0.17.0",
-                "phpunit/phpunit": "^8.5.2",
-                "roave/backward-compatibility-check": "^4.2.0",
-                "squizlabs/php_codesniffer": "^3.5.4",
-                "zendframework/zend-filter": "^2.9.2",
+                "phpbench/phpbench": "^0.16.1",
+                "phpunit/phpunit": "^8.0.4",
+                "roave/backward-compatibility-check": "^2.1.0",
+                "squizlabs/php_codesniffer": "^3.4.0",
+                "zendframework/zend-filter": "^2.9.1",
                 "zendframework/zend-servicemanager": "^3.4.0",
                 "zendframework/zend-stdlib": "^3.2.1"
             },
@@ -6384,7 +6402,7 @@
                 "performance",
                 "serializer"
             ],
-            "time": "2020-02-21T12:49:41+00:00"
+            "time": "2019-03-04T19:52:51+00:00"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -9125,29 +9143,29 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v5.0.8",
+            "version": "v4.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "0c5f5b1882dc82b255a4bdead4ed3c7738cddc04"
+                "reference": "ba0aa1738d04df338c0fabdbecf9cf5fddcdb63f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/0c5f5b1882dc82b255a4bdead4ed3c7738cddc04",
-                "reference": "0c5f5b1882dc82b255a4bdead4ed3c7738cddc04",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/ba0aa1738d04df338c0fabdbecf9cf5fddcdb63f",
+                "reference": "ba0aa1738d04df338c0fabdbecf9cf5fddcdb63f",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5",
+                "php": "^7.1.3",
                 "psr/cache": "~1.0",
                 "psr/log": "~1.0",
                 "symfony/cache-contracts": "^1.1.7|^2",
                 "symfony/service-contracts": "^1.1|^2",
-                "symfony/var-exporter": "^4.4|^5.0"
+                "symfony/var-exporter": "^4.2|^5.0"
             },
             "conflict": {
                 "doctrine/dbal": "<2.5",
-                "symfony/dependency-injection": "<4.4",
+                "symfony/dependency-injection": "<3.4",
                 "symfony/http-kernel": "<4.4",
                 "symfony/var-dumper": "<4.4"
             },
@@ -9162,14 +9180,14 @@
                 "doctrine/dbal": "~2.5",
                 "predis/predis": "~1.1",
                 "psr/simple-cache": "^1.0",
-                "symfony/config": "^4.4|^5.0",
-                "symfony/dependency-injection": "^4.4|^5.0",
+                "symfony/config": "^4.2|^5.0",
+                "symfony/dependency-injection": "^3.4|^4.1|^5.0",
                 "symfony/var-dumper": "^4.4|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.0-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -9214,7 +9232,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-28T17:58:55+00:00"
+            "time": "2020-04-28T17:55:16+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -17208,35 +17226,38 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "5.1.2",
+            "version": "6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "ff4119650a76de25eb674530547f1924082d3703"
+                "reference": "486aaa736e9e24f3e22a6545f6affb88f98e2602"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/ff4119650a76de25eb674530547f1924082d3703",
-                "reference": "ff4119650a76de25eb674530547f1924082d3703",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/486aaa736e9e24f3e22a6545f6affb88f98e2602",
+                "reference": "486aaa736e9e24f3e22a6545f6affb88f98e2602",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.5",
                 "ext-tokenizer": "*",
-                "php": "^7.1, <7.4",
+                "php": "^7.2, <7.5",
                 "phpspec/php-diff": "^1.0.0",
-                "phpspec/prophecy": "^1.7",
+                "phpspec/prophecy": "^1.9",
                 "sebastian/exporter": "^1.0 || ^2.0 || ^3.0",
-                "symfony/console": "^3.4 || ^4.0",
-                "symfony/event-dispatcher": "^3.4 || ^4.0",
-                "symfony/finder": "^3.4 || ^4.0",
-                "symfony/process": "^3.4 || ^4.0",
-                "symfony/yaml": "^3.4 || ^4.0"
+                "symfony/console": "^3.4 || ^4.0 || ^5.0",
+                "symfony/event-dispatcher": "^3.4 || ^4.0 || ^5.0",
+                "symfony/finder": "^3.4 || ^4.0 || ^5.0",
+                "symfony/process": "^3.4 || ^4.0 || ^5.0",
+                "symfony/yaml": "^3.4 || ^4.0 || ^5.0"
+            },
+            "conflict": {
+                "sebastian/comparator": "<1.2.4"
             },
             "require-dev": {
                 "behat/behat": "^3.3",
-                "phpunit/phpunit": "^5.7 || ^6.0",
-                "symfony/filesystem": "^3.4 || ^4.0"
+                "phpunit/phpunit": "^7.0",
+                "symfony/filesystem": "^3.4 || ^4.0 || ^5.0"
             },
             "suggest": {
                 "phpspec/nyan-formatters": "Adds Nyan formatters"
@@ -17247,7 +17268,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.1.x-dev"
+                    "dev-master": "6.1.x-dev"
                 }
             },
             "autoload": {
@@ -17285,7 +17306,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2019-10-02T09:45:39+00:00"
+            "time": "2019-12-17T10:23:12+00:00"
         },
         {
             "name": "phpspec/prophecy",
