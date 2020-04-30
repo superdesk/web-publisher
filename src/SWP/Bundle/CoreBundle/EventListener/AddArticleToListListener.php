@@ -69,7 +69,7 @@ class AddArticleToListListener
 
     public function addArticleToList(ArticleEvent $event): void
     {
-        $this->entityManager->getConnection()->beginTransaction();
+        $this->entityManager->beginTransaction();
 
         try {
             /** @var ArticleInterface $article */
@@ -110,9 +110,9 @@ class AddArticleToListListener
             $this->contentListItemRepository->flush();
 
             $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-            $this->entityManager->getConnection()->commit();
+            $this->entityManager->commit();
         } catch (\Exception $e) {
-            $this->entityManager->getConnection()->rollBack();
+            $this->entityManager->rollback();
 
             throw $e;
         }
