@@ -18,6 +18,7 @@ use Prophecy\Argument;
 use SWP\Bundle\CoreBundle\Form\Type\BooleanType;
 use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use PhpSpec\ObjectBehavior;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -58,6 +59,12 @@ final class ContentListItemTypeSpec extends ObjectBehavior
     {
         $builder
             ->add('sticky', BooleanType::class, Argument::any())
+            ->shouldBeCalled()
+            ->willReturn($builder)
+        ;
+
+        $builder
+            ->add('stickyPosition', IntegerType::class, Argument::any())
             ->shouldBeCalled()
             ->willReturn($builder)
         ;

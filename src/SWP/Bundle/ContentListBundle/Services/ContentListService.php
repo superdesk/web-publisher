@@ -65,7 +65,7 @@ final class ContentListService implements ContentListServiceInterface
         );
         $contentList->setUpdatedAt(new \DateTime());
 
-        $this->toggleStickOnItemPosition($contentListItem, $isSticky, $position);
+        $this->toggleStickOnItemPosition($contentListItem, $isSticky, (int) $position);
 
         return $contentListItem;
     }
