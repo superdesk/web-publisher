@@ -184,7 +184,8 @@ class ContentListItemController extends AbstractController
     public function updateAction(Request $request, FormFactoryInterface $formFactory, $listId, $id): SingleResourceResponseInterface
     {
         $contentListItem = $this->findOr404($listId, $id);
-        $form = $formFactory->createNamed('',
+        $form = $formFactory->createNamed(
+            '',
             ContentListItemType::class,
             $contentListItem,
             ['method' => $request->getMethod()]
