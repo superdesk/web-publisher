@@ -16,8 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
+use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
@@ -43,58 +45,77 @@ class AddArticleToListListener
 
     private $contentListItemRepository;
 
+    private $contentListService;
+
+    private $entityManager;
+
     public function __construct(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         EventDispatcherInterface $eventDispatcher,
-        ContentListItemRepositoryInterface $contentListItemRepository
+        ContentListItemRepositoryInterface $contentListItemRepository,
+        ContentListServiceInterface $contentListService,
+        EntityManagerInterface $entityManager
     ) {
         $this->listRepository = $listRepository;
         $this->listItemFactory = $listItemFactory;
         $this->articleCriteriaMatcher = $articleCriteriaMatcher;
         $this->eventDispatcher = $eventDispatcher;
         $this->contentListItemRepository = $contentListItemRepository;
+        $this->contentListService = $contentListService;
+        $this->entityManager = $entityManager;
     }
 
     public function addArticleToList(ArticleEvent $event): void
     {
-        /** @var ArticleInterface $article */
-        $article = $event->getArticle();
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->entityManager->getConnection()->beginTransaction();
 
-        /** @var ContentListInterface[] $contentLists */
-        $contentLists = $this->listRepository->findByTypes([
-            ContentListInterface::TYPE_AUTOMATIC,
-        ]);
+        try {
+            /** @var ArticleInterface $article */
+            $article = $event->getArticle();
+            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
-        foreach ($contentLists as $contentList) {
-            $item = $this->contentListItemRepository->findItemByArticleAndList(
-                $article,
-                $contentList,
-                ContentListInterface::TYPE_AUTOMATIC
-            );
+            /** @var ContentListInterface[] $contentLists */
+            $contentLists = $this->listRepository->findByTypes([
+                ContentListInterface::TYPE_AUTOMATIC,
+            ]);
 
-            $filters = $contentList->getFilters();
-            if (null === $item && $this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
-                $this->createAndAddItem($article, $contentList);
+            foreach ($contentLists as $contentList) {
+                $item = $this->contentListItemRepository->findItemByArticleAndList(
+                    $article,
+                    $contentList,
+                    ContentListInterface::TYPE_AUTOMATIC
+                );
 
-                continue;
+                $filters = $contentList->getFilters();
+                if (null === $item && $this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
+                    $this->createAndAddItem($article, $contentList);
+
+                    continue;
+                }
+
+                if (null !== $item && count($filters) > 0 && !$this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
+                    $this->contentListItemRepository->remove($item);
+                    $contentList->setUpdatedAt(new \DateTime());
+                }
             }
 
-            if (null !== $item && count($filters) > 0 && !$this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
-                $this->contentListItemRepository->remove($item);
-                $contentList->setUpdatedAt(new \DateTime());
+            $this->contentListItemRepository->flush();
+
+            foreach ($contentLists as $contentList) {
+                $this->contentListService->repositionStickyItems($contentList);
             }
+
+            $this->contentListItemRepository->flush();
+
+            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+            $this->entityManager->getConnection()->commit();
+        } catch (\Exception $e) {
+            $this->entityManager->getConnection()->rollBack();
+
+            throw $e;
         }
-
-        $this->contentListItemRepository->flush();
-
-        foreach ($contentLists as $contentList) {
-            $this->repositionStickyItems($contentList);
-        }
-
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
     }
 
     public function addArticleToBucket(ArticleEvent $event): void
@@ -143,17 +164,5 @@ class AddArticleToListListener
             ContentListEvents::POST_ITEM_ADD,
             new ContentListEvent($bucket, $contentListItem)
         );
-    }
-
-    private function repositionStickyItems(ContentListInterface $contentList): void
-    {
-        $stickyItems = $this->contentListItemRepository->findBy([
-            'sticky' => true,
-            'contentList' => $contentList,
-        ]);
-
-        foreach ($stickyItems as $stickyItem) {
-            $stickyItem->setPosition($stickyItem->getStickyPosition());
-        }
     }
 }

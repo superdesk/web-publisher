@@ -1,7 +1,7 @@
 @disable-fixtures
 @content_lists
-Feature: Pin article in content list on any position
-  In order to pin article on specific position in the content list
+Feature: Pin/unpin articles in automatic content list on any position
+  In order to pin article on specific position in the automatic content list
   As a HTTP Client
   I want to be able to set the position of the pinned article
 

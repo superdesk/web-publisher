@@ -25,4 +25,8 @@ interface ContentListServiceInterface
     public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null): ContentListItemInterface;
 
     public function removeListItemsAboveTheLimit(ContentListInterface $contentList): void;
+
+    public function toggleStickOnItemPosition(ContentListItemInterface $contentListItem, bool $isSticky, int $position): void;
+
+    public function repositionStickyItems(ContentListInterface $contentList): void;
 }

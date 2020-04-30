@@ -51,10 +51,16 @@ class ContentListItemController extends AbstractController
 
     private $entityManager;
 
-    public function __construct(ContentListItemRepositoryInterface $contentListItemRepository, EntityManagerInterface $entityManager)
-    {
+    private $contentListService;
+
+    public function __construct(
+        ContentListItemRepositoryInterface $contentListItemRepository,
+        EntityManagerInterface $entityManager,
+        ContentListServiceInterface $contentListService
+    ) {
         $this->contentListItemRepository = $contentListItemRepository;
         $this->entityManager = $entityManager;
+        $this->contentListService = $contentListService;
     }
 
     /**
@@ -238,7 +244,6 @@ class ContentListItemController extends AbstractController
         FormFactoryInterface $formFactory,
         ContentListRepositoryInterface $contentListRepository,
         ArticleRepositoryInterface $articleRepository,
-        ContentListServiceInterface $contentListService,
         EventDispatcherInterface $eventDispatcher,
         int $listId
     ): SingleResourceResponseInterface {
@@ -274,15 +279,23 @@ class ContentListItemController extends AbstractController
                 switch ($item['action']) {
                     case 'move':
                         $contentListItem = $this->findByContentOr404($list, $item['contentId']);
+
+                        $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $item['position'], $item['sticky']);
+
                         $contentListItem->setPosition($item['position']);
+                        $this->contentListService->toggleStickOnItemPosition($contentListItem, $item['sticky'], $item['position']);
+
                         $list->setUpdatedAt(new DateTime('now'));
                         $this->entityManager->flush();
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
                     case 'add':
+                        $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $item['position'], $item['sticky']);
+
                         $object = $articleRepository->findOneById($item['contentId']);
-                        $contentListItem = $contentListService->addArticleToContentList($list, $object, $item['position']);
+                        $contentListItem = $this->contentListService->addArticleToContentList($list, $object, $item['position'], $item['sticky']);
+
                         $updatedArticles[$item['contentId']] = $contentListItem->getContent();
 
                         break;
@@ -296,6 +309,8 @@ class ContentListItemController extends AbstractController
                         break;
                 }
             }
+
+            $this->contentListService->repositionStickyItems($list);
 
             foreach ($updatedArticles as $updatedArticle) {
                 $eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
@@ -339,5 +354,14 @@ class ContentListItemController extends AbstractController
         }
 
         return $listItem;
+    }
+
+    private function ensureThereIsNoItemOnPositionOrThrow409(int $listId, int $position, bool $isSticky): void
+    {
+        $existingContentListItem = $this->contentListService->isAnyItemPinnedOnPosition($listId, $position);
+
+        if (null !== $existingContentListItem && $isSticky && $existingContentListItem->isSticky()) {
+            throw new ConflictHttpException('There is already an item pinned on that position. Unpin it first.');
+        }
     }
 }

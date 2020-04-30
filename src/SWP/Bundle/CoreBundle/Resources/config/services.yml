@@ -180,6 +180,7 @@ services:
             - '@event_dispatcher'
             - '@swp.repository.content_list_item'
             - '@swp.service.content_list'
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.post_update, method: addArticleToList }
