@@ -104,7 +104,9 @@ final class ContentListService implements ContentListServiceInterface
         ]);
 
         foreach ($stickyItems as $stickyItem) {
-            $stickyItem->setPosition($stickyItem->getStickyPosition());
+            if (null !== $stickyItem->getStickyPosition()) {
+                $stickyItem->setPosition($stickyItem->getStickyPosition());
+            }
         }
     }
 

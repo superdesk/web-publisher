@@ -36,6 +36,7 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use SWP\Component\ContentList\Model\ContentListAction;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -196,7 +197,9 @@ class ContentListItemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contentListItem->getContentList()->setUpdatedAt(new DateTime());
 
-            $contentListItem->setPosition($contentListItem->getStickyPosition());
+            if (null !== $contentListItem->getStickyPosition()) {
+                $contentListItem->setPosition($contentListItem->getStickyPosition());
+            }
 
             $this->entityManager->flush();
 
@@ -268,44 +271,41 @@ class ContentListItemController extends AbstractController
             }
 
             $updatedArticles = [];
+            /** @var ContentListAction $item */
             foreach ($data['items'] as $item) {
-                if (!is_array($item)) {
-                    continue;
-                }
+                $position = $item->getPosition();
+                $isSticky = $item->isSticky();
+                $contentId = $item->getContentId();
 
-                if (!isset($item['position']) || !is_numeric($item['position'])) {
-                    $item['position'] = 0;
-                }
+                switch ($item->getAction()) {
+                    case ContentListAction::ACTION_MOVE:
+                        $contentListItem = $this->findByContentOr404($list, $contentId);
 
-                switch ($item['action']) {
-                    case 'move':
-                        $contentListItem = $this->findByContentOr404($list, $item['contentId']);
+                        $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $position, $isSticky);
 
-                        $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $item['position'], $item['sticky']);
-
-                        $contentListItem->setPosition($item['position']);
-                        $this->contentListService->toggleStickOnItemPosition($contentListItem, $item['sticky'], $item['position']);
+                        $contentListItem->setPosition($position);
+                        $this->contentListService->toggleStickOnItemPosition($contentListItem, $isSticky, $position);
 
                         $list->setUpdatedAt(new DateTime('now'));
                         $this->entityManager->flush();
-                        $updatedArticles[$item['contentId']] = $contentListItem->getContent();
+                        $updatedArticles[$contentId] = $contentListItem->getContent();
 
                         break;
-                    case 'add':
-                        $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $item['position'], $item['sticky']);
+                    case ContentListAction::ACTION_ADD:
+                        $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $position, $isSticky);
 
-                        $object = $articleRepository->findOneById($item['contentId']);
-                        $contentListItem = $this->contentListService->addArticleToContentList($list, $object, $item['position'], $item['sticky']);
+                        $object = $articleRepository->findOneById($contentId);
+                        $contentListItem = $this->contentListService->addArticleToContentList($list, $object, $position, $isSticky);
 
-                        $updatedArticles[$item['contentId']] = $contentListItem->getContent();
+                        $updatedArticles[$contentId] = $contentListItem->getContent();
 
                         break;
-                    case 'delete':
-                        $contentListItem = $this->findByContentOr404($list, $item['contentId']);
+                    case ContentListAction::ACTION_DELETE:
+                        $contentListItem = $this->findByContentOr404($list, $contentId);
                         $this->entityManager->remove($contentListItem);
                         $list->setUpdatedAt(new DateTime('now'));
                         $this->entityManager->flush();
-                        $updatedArticles[$item['contentId']] = $contentListItem->getContent();
+                        $updatedArticles[$contentId] = $contentListItem->getContent();
 
                         break;
                 }
