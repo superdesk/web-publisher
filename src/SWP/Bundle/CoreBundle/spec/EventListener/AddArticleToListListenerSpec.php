@@ -14,10 +14,12 @@
 
 namespace spec\SWP\Bundle\CoreBundle\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
+use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
 use SWP\Bundle\CoreBundle\EventListener\AddArticleToListListener;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
@@ -38,14 +40,18 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         FactoryInterface $listItemFactory,
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         EventDispatcherInterface $eventDispatcher,
-        ContentListItemRepositoryInterface $listItemRepository
+        ContentListItemRepositoryInterface $listItemRepository,
+        ContentListServiceInterface $contentListService,
+        EntityManagerInterface $entityManager
     ) {
         $this->beConstructedWith(
             $listRepository,
             $listItemFactory,
             $articleCriteriaMatcher,
             $eventDispatcher,
-            $listItemRepository
+            $listItemRepository,
+            $contentListService,
+            $entityManager
         );
     }
 
@@ -63,13 +69,15 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         FactoryInterface $listItemFactory,
         ContentListItemInterface $contentListItem,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        EntityManagerInterface $entityManager
     ) {
         $event->getArticle()->willReturn($article);
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $listRepository->findByTypes(['automatic'])->willReturn([$list]);
         $listItemRepository->persist(Argument::any())->shouldBeCalled();
+        $listItemRepository->flush()->shouldBeCalled();
         $listItemRepository->findItemByArticleAndList(
             Argument::type(ArticleInterface::class),
             Argument::type(ContentListInterface::class),

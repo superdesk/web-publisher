@@ -20,6 +20,10 @@ SWP\Component\ContentList\Model\ContentListItem:
             expose: true
             groups: [api, api_content_list_item_details]
             type: boolean
+        stickyPosition:
+            expose: true
+            groups: [api, api_content_list_item_details]
+            type: integer
         createdAt:
             expose: true
             groups: [api, api_content_list_item_details]

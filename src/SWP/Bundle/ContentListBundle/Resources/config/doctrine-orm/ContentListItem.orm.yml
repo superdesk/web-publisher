@@ -20,6 +20,9 @@ SWP\Component\ContentList\Model\ContentListItem:
             type: boolean
         sticky:
             type: boolean
+        stickyPosition:
+            type: integer
+            nullable: true
         createdAt:
             type: datetime
             gedmo:
