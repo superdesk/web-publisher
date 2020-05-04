@@ -22,10 +22,13 @@ class ComponentTextStyle
 
     private $fontName;
 
-    public function __construct(string $backgroundColor, string $fontName)
+    private $fontColor;
+
+    public function __construct(string $backgroundColor, string $fontName, string $fontColor)
     {
         $this->backgroundColor = $backgroundColor;
         $this->fontName = $fontName;
+        $this->fontColor = $fontColor;
     }
 
     public function getBackgroundColor(): string
@@ -36,5 +39,10 @@ class ComponentTextStyle
     public function getFontName(): string
     {
         return $this->fontName;
+    }
+
+    public function getFontColor(): string
+    {
+        return $this->fontColor;
     }
 }
