@@ -70,7 +70,6 @@ final class UpdateContentListItemsListener
         ) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
             $filters = $this->determineLimit($contentList, $contentList->getFilters());
-
             $criteria = new Criteria($filters);
             $criteria->set('status', ArticleInterface::STATUS_PUBLISHED);
             if (isset($filters['route'])) {
