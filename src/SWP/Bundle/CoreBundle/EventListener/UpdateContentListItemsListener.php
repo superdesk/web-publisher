@@ -64,7 +64,10 @@ final class UpdateContentListItemsListener
             $this->contentListService->removeListItemsAboveTheLimit($contentList);
         }
 
-        if (ContentListInterface::TYPE_AUTOMATIC === $contentList->getType() && $contentList->getFilters() !== $event->getArgument('filters')) {
+        if (
+            0 === count($contentList->getFilters()) ||
+            ContentListInterface::TYPE_AUTOMATIC === $contentList->getType() && $contentList->getFilters() !== $event->getArgument('filters')
+        ) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
             $filters = $this->determineLimit($contentList, $contentList->getFilters());
 
