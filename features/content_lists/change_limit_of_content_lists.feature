@@ -70,6 +70,7 @@ Feature: Modify limit on manual content lists
     }
     """
 
+    And I wait 1 second
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/organization/destinations/" with body:
