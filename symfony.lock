@@ -557,6 +557,9 @@
     "ocramius/generated-hydrator": {
         "version": "3.0.0"
     },
+    "ocramius/package-versions": {
+        "version": "1.5.1"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
