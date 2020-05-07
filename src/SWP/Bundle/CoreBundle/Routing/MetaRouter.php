@@ -34,10 +34,10 @@ class MetaRouter extends DynamicRouter
 
         $route = $name;
         if ($name instanceof Meta) {
-            if ($name->getValues() instanceof ArticleInterface) {
-                $parameters['slug'] = $name->getValues()->getSlug();
-                $route = $name->getValues()->getRoute();
-
+            $object = $name->getValues();
+            if ($object instanceof ArticleInterface) {
+                $parameters['slug'] = $object->getSlug();
+                $route = $object->getRoute();
                 if (null === $route && $name->getContext()->getCurrentPage()) {
                     $parameters['slug'] = null;
                     $route = $name->getContext()->getCurrentPage()->getValues();
