@@ -17,6 +17,16 @@ Feature: Working with article redirects and orignal urls
       |  name | type       | slug |
       |  test | collection | test |
 
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v2/settings/" with body:
+    """
+    {
+        "name":"override_slug_on_correction",
+        "value":true
+    }
+    """
+
     Given the following organization publishing rule:
     """
       {

@@ -275,7 +275,7 @@ swp_settings:
         override_slug_on_correction:
             type: boolean
             scope: tenant
-            value: true
+            value: false
         embedded_image_author_template:
             type: string
             scope: tenant
