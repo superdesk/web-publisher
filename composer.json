@@ -105,6 +105,7 @@
     "superdesk/contentapi-sdk-php": "^1.0.0",
     "sylius/theme-bundle": "^1.5",
     "symfony-cmf/core-bundle": "^2.1",
+    "symfony-cmf/routing": "2.3.*, !=2.3.1",
     "symfony-cmf/routing-bundle": "^2.4",
     "symfony/dom-crawler": "^4.4",
     "symfony/dotenv": "^4.4",

@@ -33,4 +33,9 @@ final class DateTime
     {
         static::$dateTime = $dateTime;
     }
+
+    public static function resetCurrentDateTime(): void
+    {
+        static::$dateTime = null;
+    }
 }

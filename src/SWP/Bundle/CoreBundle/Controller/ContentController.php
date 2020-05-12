@@ -23,6 +23,9 @@ class ContentController extends AbstractController
 {
     public function renderPageAction(string $contentTemplate): Response
     {
-        return $this->render($contentTemplate);
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
+
+        return $this->render($contentTemplate, [], $response);
     }
 }

@@ -625,6 +625,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
+    SWP\Bundle\CoreBundle\EventListener\MigratedArticleListener:
+        arguments:
+            - '@swp.factory.redirect_route'
+            - '@doctrine.orm.default_entity_manager'
+            - '@router'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.publish, method: publish }
+
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
             - '@gos_web_socket.amqp.pusher'
