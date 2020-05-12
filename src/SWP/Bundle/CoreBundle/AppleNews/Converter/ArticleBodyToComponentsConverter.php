@@ -56,7 +56,7 @@ final class ArticleBodyToComponentsConverter
                     break;
                 case 'p':
                     if ('' !== $node->textContent) {
-                        $components[] = new Body($node->textContent);
+                        $components[] = new Body($node->textContent, 'marginBetweenComponents');
                     }
 
                     break;
@@ -85,18 +85,21 @@ final class ArticleBodyToComponentsConverter
                         $webVideoUrl = $iframeElement->getAttribute('src');
                         $url = str_replace('\"', '', $webVideoUrl);
                         if (false !== strpos($url, 'twitter.com')) {
-                            $components[] = new Tweet('https:'.$url);
+                            $parsedUrl = parse_url($url);
+                            parse_str($parsedUrl['query'], $url);
+
+                            $components[] = new Tweet($url['url']);
                         } elseif (false !== strpos($url, 'iframe.ly')) {
                             $parsedUrl = parse_url($url);
                             parse_str($parsedUrl['query'], $url);
 
                             $components[] = new FacebookPost($url['url']);
-                        } elseif (false !== strpos($url, 'facebook.com')) {
+                        } elseif (false !== strpos($url, 'facebook.com') && $this->isValidFacebookPostUrl($url)) {
                             $parsedUrl = parse_url($url);
                             parse_str($parsedUrl['query'], $url);
 
                             $components[] = new FacebookPost($url['href']);
-                        } else {
+                        } elseif (false !== strpos($url, 'youtube.com') || false !== strpos($url, 'vimeo.com')) {
                             $components[] = new EmbedWebVideo($url);
                         }
 
@@ -122,5 +125,12 @@ final class ArticleBodyToComponentsConverter
     public static function stripHtmlTags(string $html): string
     {
         return preg_replace('/<script.*>.*<\/script>/isU', '', $html);
+    }
+
+    private function isValidFacebookPostUrl(string $url): bool
+    {
+        preg_match('/^https:\/\/www\.facebook\.com\/(photo(\.php|s)|permalink\.php|[^\/]+\/(activity|posts))[\/?].*$/', $url, $matches);
+
+        return !empty($matches);
     }
 }

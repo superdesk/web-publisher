@@ -17,18 +17,26 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\AppleNews\Converter;
 
 use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Caption;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Gallery;
 use SWP\Bundle\CoreBundle\AppleNews\Component\GalleryItem;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Intro;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Photo;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Title;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ArticleDocument;
+use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentLayout;
+use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentLayouts;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentTextStyle;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentTextStyles;
 use SWP\Bundle\CoreBundle\AppleNews\Document\Layout;
 use SWP\Bundle\CoreBundle\AppleNews\Document\LinkedArticle;
+use SWP\Bundle\CoreBundle\AppleNews\Document\Margin;
 use SWP\Bundle\CoreBundle\AppleNews\Document\Metadata;
+use SWP\Bundle\CoreBundle\AppleNews\Document\TextStyle;
+use SWP\Bundle\CoreBundle\AppleNews\Serializer\AppleNewsFormatSerializer;
 use SWP\Bundle\CoreBundle\Factory\VersionFactory;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 final class ArticleToAppleNewsFormatConverter
 {
@@ -42,7 +50,7 @@ final class ArticleToAppleNewsFormatConverter
 
     public function __construct(
         VersionFactory $versionFactory,
-        SerializerInterface $serializer,
+        AppleNewsFormatSerializer $serializer,
         RouterInterface $router,
         ArticleBodyToComponentsConverter $articleBodyConverter
     ) {
@@ -56,10 +64,27 @@ final class ArticleToAppleNewsFormatConverter
     {
         $version = $this->versionFactory->create();
 
+        $metadata = new Metadata();
         $articleDocument = new ArticleDocument();
         $articleDocument->setTitle($article->getTitle());
         $articleDocument->setIdentifier((string) $article->getId());
         $articleDocument->setLanguage($article->getLocale());
+
+        $articleDocument->addComponent(new Title($article->getTitle(), 'halfMarginBelowLayout'));
+        $articleDocument->addComponent(new Intro($article->getLead(), 'halfMarginBelowLayout'));
+
+        $featureMedia = $article->getFeatureMedia();
+
+        if (null !== $featureMedia) {
+            $featureMediaUrl = $this->router->generate('swp_media_get', [
+                'mediaId' => $featureMedia->getImage()->getAssetId(),
+                'extension' => $featureMedia->getImage()->getFileExtension(),
+            ], RouterInterface::ABSOLUTE_URL);
+
+            $articleDocument->addComponent(new Photo($featureMediaUrl, (string) $featureMedia->getDescription()));
+            $articleDocument->addComponent(new Caption($featureMedia->getDescription(), 'marginBetweenComponents'));
+            $metadata->setThumbnailURL($featureMediaUrl);
+        }
 
         $components = $this->articleBodyConverter->convert($article->getBody());
         $components = $this->processGalleries($components, $article);
@@ -71,16 +96,18 @@ final class ArticleToAppleNewsFormatConverter
 
         $articleDocument->setLayout(new Layout(20, 1024, 20, 60));
 
-        $componentTextStyles = new ComponentTextStyles();
-        $componentTextStyles->setDefault(new ComponentTextStyle('#000', 'HelveticaNeue'));
+        $componentTextStyles = $this->configureComponentTextStyles();
         $articleDocument->setComponentTextStyles($componentTextStyles);
 
-        $metadata = new Metadata();
+        $componentLayouts = $this->configureComponentLayouts();
+        $articleDocument->setComponentLayouts($componentLayouts);
+
         $metadata->setAuthors($article->getAuthorsNames());
 
         $canonicalUrl = $this->router->generate($article->getRoute()->getRouteName(), [
             'slug' => $article->getSlug(),
         ], RouterInterface::ABSOLUTE_URL);
+
         $metadata->setCanonicalUrl($canonicalUrl);
         $metadata->setDateCreated($article->getCreatedAt());
         $metadata->setDatePublished($article->getPublishedAt());
@@ -94,19 +121,9 @@ final class ArticleToAppleNewsFormatConverter
         $metadata->setKeywords($article->getKeywordsNames());
         $metadata->setLinks($links);
 
-        $featureMedia = $article->getFeatureMedia();
-        if (null !== $featureMedia) {
-            $featureMediaUrl = $this->router->generate('swp_media_get', [
-                'mediaId' => $featureMedia->getImage()->getAssetId(),
-                'extension' => $featureMedia->getImage()->getFileExtension(),
-            ], RouterInterface::ABSOLUTE_URL);
-
-            $metadata->setThumbnailURL($featureMediaUrl);
-        }
-
         $articleDocument->setMetadata($metadata);
 
-        return str_replace('"url":', '"URL":', $this->serializer->serialize($articleDocument, 'json'));
+        return $this->serializer->serialize($articleDocument);
     }
 
     private function processGalleries(array $components, ArticleInterface $article): array
@@ -149,5 +166,57 @@ final class ArticleToAppleNewsFormatConverter
         }
 
         return $links;
+    }
+
+    private function configureComponentTextStyles(): ComponentTextStyles
+    {
+        $linkStyle = new TextStyle('#8a0b1f');
+        $componentTextStyles = new ComponentTextStyles();
+        $componentTextStylesBody = new ComponentTextStyle();
+        $componentTextStylesBody->setBackgroundColor('#fff');
+        $componentTextStylesBody->setFontName('IowanOldStyle-Roman');
+        $componentTextStylesBody->setFontColor('#222222');
+        $componentTextStylesBody->setFontSize(16);
+        $componentTextStylesBody->setLineHeight(22);
+        $componentTextStylesBody->setLinkStyle($linkStyle);
+        $componentTextStyles->setDefault($componentTextStylesBody);
+
+        $componentTextStylesBody = new ComponentTextStyle();
+        $componentTextStylesBody->setFontName('IowanOldStyle-Roman');
+        $componentTextStyles->setDefaultBody($componentTextStylesBody);
+
+        $componentTextStylesTitle = new ComponentTextStyle();
+        $componentTextStylesTitle->setFontName('DINAlternate-Bold');
+        $componentTextStylesTitle->setFontSize(42);
+        $componentTextStylesTitle->setLineHeight(44);
+        $componentTextStylesTitle->setTextColor('#53585F');
+        $componentTextStyles->setDefaultTitle($componentTextStylesTitle);
+
+        $componentTextStylesIntro = new ComponentTextStyle();
+        $componentTextStylesIntro->setFontName('DINAlternate-Bold');
+        $componentTextStylesIntro->setFontSize(18);
+        $componentTextStylesIntro->setLineHeight(22);
+        $componentTextStylesIntro->setTextColor('#A6AAA9');
+        $componentTextStyles->setDefaultIntro($componentTextStylesIntro);
+
+        return $componentTextStyles;
+    }
+
+    private function configureComponentLayouts(): ComponentLayouts
+    {
+        $componentLayouts = new ComponentLayouts();
+        $componentLayout = new ComponentLayout();
+        $componentLayout->setColumnSpan(14);
+        $componentLayout->setColumnStart(0);
+        $componentLayout->setMargin(new Margin(12));
+        $componentLayouts->setHalfMarginBelowLayout($componentLayout);
+
+        $componentLayout = new ComponentLayout();
+        $componentLayout->setColumnSpan(14);
+        $componentLayout->setColumnStart(0);
+        $componentLayout->setMargin(new Margin(12, 12));
+        $componentLayouts->setMarginBetweenComponents($componentLayout);
+
+        return $componentLayouts;
     }
 }

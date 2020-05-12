@@ -35,7 +35,9 @@ class Metadata
     /** @var DateTimeInterface|null */
     private $dateModified;
 
-    /** @var DateTimeInterface */
+    /**
+     * @var DateTimeInterface
+     */
     private $datePublished;
 
     /** @var string */

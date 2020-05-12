@@ -16,15 +16,24 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Component;
 
-class Image extends UrlAwareComponent
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
+abstract class UrlAwareComponent implements ComponentInterface
 {
-    public const ROLE = 'image';
+    /**
+     * @SerializedName("URL")
+     *
+     * @var string
+     */
+    private $url;
 
-    /** @var string */
-    private $role = self::ROLE;
-
-    public function getRole(): string
+    public function __construct(string $url)
     {
-        return $this->role;
+        $this->url = $url;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 }

@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Component;
 
-class Image extends UrlAwareComponent
+class Title extends Component
 {
-    public const ROLE = 'image';
+    public const ROLE = 'title';
 
     /** @var string */
     private $role = self::ROLE;
