@@ -52,6 +52,7 @@
     "ext-intl": "*",
     "ext-json": "*",
     "ext-zip": "*",
+    "ext-memcached": "*",
     "apache/log4php": "^2.3",
     "asm89/twig-cache-extension": "^1.4",
     "behat/transliterator": "^1.3",
