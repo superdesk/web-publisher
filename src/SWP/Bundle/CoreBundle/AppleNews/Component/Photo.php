@@ -16,26 +16,30 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Component;
 
-class Photo implements ComponentInterface
+class Photo extends UrlAwareComponent
 {
-    /** @var string */
-    private $url;
+    public const ROLE = 'photo';
 
     /** @var string */
-    private $role = 'photo';
+    private $role = self::ROLE;
 
-    public function __construct(string $url)
-    {
-        $this->url = $url;
-    }
+    /** @var string */
+    private $caption;
 
-    public function getUrl(): string
+    public function __construct(string $url, string $caption)
     {
-        return $this->url;
+        $this->caption = $caption;
+
+        parent::__construct($url);
     }
 
     public function getRole(): string
     {
         return $this->role;
+    }
+
+    public function getCaption(): string
+    {
+        return $this->caption;
     }
 }

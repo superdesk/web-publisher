@@ -16,10 +16,40 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Document;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class ComponentTextStyles
 {
     /** @var ComponentTextStyle */
     private $default;
+
+    /**
+     * @SerializedName("default-body")
+     *
+     * @var ComponentTextStyle
+     */
+    private $defaultBody;
+
+    /**
+     * @SerializedName("default-title")
+     *
+     * @var ComponentTextStyle
+     */
+    private $defaultTitle;
+
+    /**
+     * @SerializedName("default-intro")
+     *
+     * @var ComponentTextStyle
+     */
+    private $defaultIntro;
+
+    /**
+     * @SerializedName("default-byline")
+     *
+     * @var ComponentTextStyle
+     */
+    private $defaultByline;
 
     public function getDefault(): ComponentTextStyle
     {
@@ -29,5 +59,45 @@ class ComponentTextStyles
     public function setDefault(ComponentTextStyle $default): void
     {
         $this->default = $default;
+    }
+
+    public function getDefaultBody(): ComponentTextStyle
+    {
+        return $this->defaultBody;
+    }
+
+    public function setDefaultBody(ComponentTextStyle $defaultBody): void
+    {
+        $this->defaultBody = $defaultBody;
+    }
+
+    public function getDefaultTitle(): ?ComponentTextStyle
+    {
+        return $this->defaultTitle;
+    }
+
+    public function setDefaultTitle(ComponentTextStyle $defaultTitle): void
+    {
+        $this->defaultTitle = $defaultTitle;
+    }
+
+    public function getDefaultIntro(): ?ComponentTextStyle
+    {
+        return $this->defaultIntro;
+    }
+
+    public function setDefaultIntro(ComponentTextStyle $defaultIntro): void
+    {
+        $this->defaultIntro = $defaultIntro;
+    }
+
+    public function getDefaultByline(): ?ComponentTextStyle
+    {
+        return $this->defaultByline;
+    }
+
+    public function setDefaultByline(ComponentTextStyle $defaultByline): void
+    {
+        $this->defaultByline = $defaultByline;
     }
 }
