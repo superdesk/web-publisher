@@ -36,7 +36,8 @@ use SWP\Bundle\CoreBundle\AppleNews\Document\TextStyle;
 use SWP\Bundle\CoreBundle\AppleNews\Serializer\AppleNewsFormatSerializer;
 use SWP\Bundle\CoreBundle\Factory\VersionFactory;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use Symfony\Component\Routing\RouterInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\CoreBundle\Routing\TenantAwareAbsoluteUrlRouter;
 
 final class ArticleToAppleNewsFormatConverter
 {
@@ -51,7 +52,7 @@ final class ArticleToAppleNewsFormatConverter
     public function __construct(
         VersionFactory $versionFactory,
         AppleNewsFormatSerializer $serializer,
-        RouterInterface $router,
+        TenantAwareAbsoluteUrlRouter $router,
         ArticleBodyToComponentsConverter $articleBodyConverter
     ) {
         $this->versionFactory = $versionFactory;
@@ -60,7 +61,7 @@ final class ArticleToAppleNewsFormatConverter
         $this->articleBodyConverter = $articleBodyConverter;
     }
 
-    public function convert(ArticleInterface $article): string
+    public function convert(ArticleInterface $article, TenantInterface $tenant): string
     {
         $version = $this->versionFactory->create();
 
@@ -76,10 +77,14 @@ final class ArticleToAppleNewsFormatConverter
         $featureMedia = $article->getFeatureMedia();
 
         if (null !== $featureMedia) {
-            $featureMediaUrl = $this->router->generate('swp_media_get', [
-                'mediaId' => $featureMedia->getImage()->getAssetId(),
-                'extension' => $featureMedia->getImage()->getFileExtension(),
-            ], RouterInterface::ABSOLUTE_URL);
+            $featureMediaUrl = $this->router->generate(
+                'swp_media_get',
+                $tenant,
+                [
+                    'mediaId' => $featureMedia->getImage()->getAssetId(),
+                    'extension' => $featureMedia->getImage()->getFileExtension(),
+                ]
+            );
 
             $articleDocument->addComponent(new Photo($featureMediaUrl, (string) $featureMedia->getDescription()));
             $articleDocument->addComponent(new Caption($featureMedia->getDescription(), 'marginBetweenComponents'));
@@ -87,8 +92,8 @@ final class ArticleToAppleNewsFormatConverter
         }
 
         $components = $this->articleBodyConverter->convert($article->getBody());
-        $components = $this->processGalleries($components, $article);
-        $links = $this->processRelatedArticles($article);
+        $components = $this->processGalleries($components, $article, $tenant);
+        $links = $this->processRelatedArticles($article, $tenant);
 
         foreach ($components as $component) {
             $articleDocument->addComponent($component);
@@ -104,9 +109,13 @@ final class ArticleToAppleNewsFormatConverter
 
         $metadata->setAuthors($article->getAuthorsNames());
 
-        $canonicalUrl = $this->router->generate($article->getRoute()->getRouteName(), [
-            'slug' => $article->getSlug(),
-        ], RouterInterface::ABSOLUTE_URL);
+        $canonicalUrl = $this->router->generate(
+            $article->getRoute()->getRouteName(),
+            $tenant,
+            [
+                'slug' => $article->getSlug(),
+            ]
+        );
 
         $metadata->setCanonicalUrl($canonicalUrl);
         $metadata->setDateCreated($article->getCreatedAt());
@@ -126,7 +135,7 @@ final class ArticleToAppleNewsFormatConverter
         return $this->serializer->serialize($articleDocument);
     }
 
-    private function processGalleries(array $components, ArticleInterface $article): array
+    private function processGalleries(array $components, ArticleInterface $article, TenantInterface $tenant): array
     {
         if ($article->getSlideshows()->count() > 0) {
             foreach ($article->getSlideshows() as $slideshow) {
@@ -135,10 +144,14 @@ final class ArticleToAppleNewsFormatConverter
                 foreach ($slideshow->getItems() as $slideshowItem) {
                     $media = $slideshowItem->getArticleMedia();
                     $caption = $media->getDescription();
-                    $url = $this->router->generate('swp_media_get', [
-                        'mediaId' => $media->getImage()->getAssetId(),
-                        'extension' => $media->getImage()->getFileExtension(),
-                    ], RouterInterface::ABSOLUTE_URL);
+                    $url = $this->router->generate(
+                        'swp_media_get',
+                        $tenant,
+                        [
+                            'mediaId' => $media->getImage()->getAssetId(),
+                            'extension' => $media->getImage()->getFileExtension(),
+                        ]
+                    );
 
                     $galleryItem = new GalleryItem($url, $caption);
                     $galleryComponent->addItem($galleryItem);
@@ -151,15 +164,21 @@ final class ArticleToAppleNewsFormatConverter
         return $components;
     }
 
-    private function processRelatedArticles(ArticleInterface $article): array
+    private function processRelatedArticles(ArticleInterface $article, TenantInterface $tenant): array
     {
         $links = [];
         if ($article->getRelatedArticles()->count() > 0) {
             foreach ($article->getRelatedArticles() as $relatedArticle) {
                 $relatedArticleRoute = $relatedArticle->getArticle()->getRoute();
-                $url = $this->router->generate($relatedArticleRoute->getRouteName(), [
-                    'slug' => $relatedArticle->getArticle()->getSlug(),
-                ], RouterInterface::ABSOLUTE_URL);
+
+                $url = $this->router->generate(
+                    $relatedArticleRoute->getRouteName(),
+                    $tenant,
+                    [
+                        'slug' => $relatedArticle->getArticle()->getSlug(),
+                    ]
+                );
+
                 $linkedArticle = new LinkedArticle($url);
                 $links[] = $linkedArticle;
             }
