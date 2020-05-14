@@ -225,7 +225,7 @@ final class ArticleToAppleNewsFormatConverter
         $componentTextStylesQuote->setFontSize(30);
         $componentTextStylesQuote->setLineHeight(36);
         $componentTextStylesQuote->setTextColor('#A6AAA9');
-        $componentTextStyles->setDefaultQuote($componentTextStylesIntro);
+        $componentTextStyles->setDefaultQuote($componentTextStylesQuote);
 
         $componentTextStylesByline = new ComponentTextStyle();
         $componentTextStylesByline->setFontName('DINAlternate-Bold');
@@ -263,7 +263,7 @@ final class ArticleToAppleNewsFormatConverter
         $routeName = $article->getRoute()->getName();
         $authorNames = trim(implode(', ', $article->getAuthorsNames()), ', ');
         $publishedAt = $article->getPublishedAt();
-        $publishedAtString = $publishedAt->format('mm d, Y g:i A');
+        $publishedAtString = $publishedAt->format('M d, Y g:i A');
 
         return new Byline("$authorNames | $publishedAtString | $routeName", 'fullMarginBelowLayout');
     }
