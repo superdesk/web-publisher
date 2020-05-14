@@ -172,6 +172,10 @@ server.get("/api/upload/:fileName/audio/raw", (req, res) => {
     res.sendFile("test_audio.mp3", { root: "./" });
 });
 
+server.get("/themes/download", (req, res) => {
+    res.sendFile("themes.zip", { root: "./" });
+});
+
 server.use("/api", router);
 server.listen(3000, () => {
     console.log("JSON Server is running");

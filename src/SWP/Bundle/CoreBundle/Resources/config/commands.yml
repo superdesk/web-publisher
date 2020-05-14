@@ -6,6 +6,8 @@ services:
         bind:
             $messageBus: '@messenger.default_bus'
             $filesystem: '@oneup_flysystem.swp_filesystem_filesystem'
+            $themesDirectory: "%swp.theme.configuration.default_directory%"
+            $themesUrl: '%env(THEMES_DOWNLOAD_URL)%'
 
     SWP\Component\MultiTenancy\Context\TenantContextInterface: '@swp_multi_tenancy.tenant_context'
     SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository: '@swp.repository.package'
