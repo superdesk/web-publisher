@@ -220,6 +220,8 @@
   "scripts": {
     "compile": [
       "php bin/console doctrine:migrations:migrate",
+      "php bin/console swp:theme:download-from-external",
+      "php bin/console sylius:theme:assets:install",
       "php bin/console assets:install"
     ],
     "auto-scripts": {
