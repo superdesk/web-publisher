@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\AppleNews\Converter;
 
 use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Byline;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Caption;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Gallery;
 use SWP\Bundle\CoreBundle\AppleNews\Component\GalleryItem;
@@ -36,7 +37,8 @@ use SWP\Bundle\CoreBundle\AppleNews\Document\TextStyle;
 use SWP\Bundle\CoreBundle\AppleNews\Serializer\AppleNewsFormatSerializer;
 use SWP\Bundle\CoreBundle\Factory\VersionFactory;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use Symfony\Component\Routing\RouterInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\CoreBundle\Routing\TenantAwareAbsoluteUrlRouter;
 
 final class ArticleToAppleNewsFormatConverter
 {
@@ -51,7 +53,7 @@ final class ArticleToAppleNewsFormatConverter
     public function __construct(
         VersionFactory $versionFactory,
         AppleNewsFormatSerializer $serializer,
-        RouterInterface $router,
+        TenantAwareAbsoluteUrlRouter $router,
         ArticleBodyToComponentsConverter $articleBodyConverter
     ) {
         $this->versionFactory = $versionFactory;
@@ -60,7 +62,7 @@ final class ArticleToAppleNewsFormatConverter
         $this->articleBodyConverter = $articleBodyConverter;
     }
 
-    public function convert(ArticleInterface $article): string
+    public function convert(ArticleInterface $article, TenantInterface $tenant): string
     {
         $version = $this->versionFactory->create();
 
@@ -72,14 +74,19 @@ final class ArticleToAppleNewsFormatConverter
 
         $articleDocument->addComponent(new Title($article->getTitle(), 'halfMarginBelowLayout'));
         $articleDocument->addComponent(new Intro($article->getLead(), 'halfMarginBelowLayout'));
+        $articleDocument->addComponent($this->createBylineComponent($article));
 
         $featureMedia = $article->getFeatureMedia();
 
         if (null !== $featureMedia) {
-            $featureMediaUrl = $this->router->generate('swp_media_get', [
-                'mediaId' => $featureMedia->getImage()->getAssetId(),
-                'extension' => $featureMedia->getImage()->getFileExtension(),
-            ], RouterInterface::ABSOLUTE_URL);
+            $featureMediaUrl = $this->router->generate(
+                'swp_media_get',
+                $tenant,
+                [
+                    'mediaId' => $featureMedia->getImage()->getAssetId(),
+                    'extension' => $featureMedia->getImage()->getFileExtension(),
+                ]
+            );
 
             $articleDocument->addComponent(new Photo($featureMediaUrl, (string) $featureMedia->getDescription()));
             $articleDocument->addComponent(new Caption($featureMedia->getDescription(), 'marginBetweenComponents'));
@@ -87,8 +94,8 @@ final class ArticleToAppleNewsFormatConverter
         }
 
         $components = $this->articleBodyConverter->convert($article->getBody());
-        $components = $this->processGalleries($components, $article);
-        $links = $this->processRelatedArticles($article);
+        $components = $this->processGalleries($components, $article, $tenant);
+        $links = $this->processRelatedArticles($article, $tenant);
 
         foreach ($components as $component) {
             $articleDocument->addComponent($component);
@@ -104,9 +111,13 @@ final class ArticleToAppleNewsFormatConverter
 
         $metadata->setAuthors($article->getAuthorsNames());
 
-        $canonicalUrl = $this->router->generate($article->getRoute()->getRouteName(), [
-            'slug' => $article->getSlug(),
-        ], RouterInterface::ABSOLUTE_URL);
+        $canonicalUrl = $this->router->generate(
+            $article->getRoute()->getRouteName(),
+            $tenant,
+            [
+                'slug' => $article->getSlug(),
+            ]
+        );
 
         $metadata->setCanonicalUrl($canonicalUrl);
         $metadata->setDateCreated($article->getCreatedAt());
@@ -126,7 +137,7 @@ final class ArticleToAppleNewsFormatConverter
         return $this->serializer->serialize($articleDocument);
     }
 
-    private function processGalleries(array $components, ArticleInterface $article): array
+    private function processGalleries(array $components, ArticleInterface $article, TenantInterface $tenant): array
     {
         if ($article->getSlideshows()->count() > 0) {
             foreach ($article->getSlideshows() as $slideshow) {
@@ -135,10 +146,14 @@ final class ArticleToAppleNewsFormatConverter
                 foreach ($slideshow->getItems() as $slideshowItem) {
                     $media = $slideshowItem->getArticleMedia();
                     $caption = $media->getDescription();
-                    $url = $this->router->generate('swp_media_get', [
-                        'mediaId' => $media->getImage()->getAssetId(),
-                        'extension' => $media->getImage()->getFileExtension(),
-                    ], RouterInterface::ABSOLUTE_URL);
+                    $url = $this->router->generate(
+                        'swp_media_get',
+                        $tenant,
+                        [
+                            'mediaId' => $media->getImage()->getAssetId(),
+                            'extension' => $media->getImage()->getFileExtension(),
+                        ]
+                    );
 
                     $galleryItem = new GalleryItem($url, $caption);
                     $galleryComponent->addItem($galleryItem);
@@ -151,15 +166,21 @@ final class ArticleToAppleNewsFormatConverter
         return $components;
     }
 
-    private function processRelatedArticles(ArticleInterface $article): array
+    private function processRelatedArticles(ArticleInterface $article, TenantInterface $tenant): array
     {
         $links = [];
         if ($article->getRelatedArticles()->count() > 0) {
             foreach ($article->getRelatedArticles() as $relatedArticle) {
                 $relatedArticleRoute = $relatedArticle->getArticle()->getRoute();
-                $url = $this->router->generate($relatedArticleRoute->getRouteName(), [
-                    'slug' => $relatedArticle->getArticle()->getSlug(),
-                ], RouterInterface::ABSOLUTE_URL);
+
+                $url = $this->router->generate(
+                    $relatedArticleRoute->getRouteName(),
+                    $tenant,
+                    [
+                        'slug' => $relatedArticle->getArticle()->getSlug(),
+                    ]
+                );
+
                 $linkedArticle = new LinkedArticle($url);
                 $links[] = $linkedArticle;
             }
@@ -199,6 +220,20 @@ final class ArticleToAppleNewsFormatConverter
         $componentTextStylesIntro->setTextColor('#A6AAA9');
         $componentTextStyles->setDefaultIntro($componentTextStylesIntro);
 
+        $componentTextStylesQuote = new ComponentTextStyle();
+        $componentTextStylesQuote->setFontName('IowanOldStyle-Italic');
+        $componentTextStylesQuote->setFontSize(30);
+        $componentTextStylesQuote->setLineHeight(36);
+        $componentTextStylesQuote->setTextColor('#A6AAA9');
+        $componentTextStyles->setDefaultQuote($componentTextStylesQuote);
+
+        $componentTextStylesByline = new ComponentTextStyle();
+        $componentTextStylesByline->setFontName('DINAlternate-Bold');
+        $componentTextStylesByline->setFontSize(15);
+        $componentTextStylesByline->setLineHeight(18);
+        $componentTextStylesByline->setTextColor('#53585F');
+        $componentTextStyles->setDefaultByline($componentTextStylesByline);
+
         return $componentTextStyles;
     }
 
@@ -206,17 +241,30 @@ final class ArticleToAppleNewsFormatConverter
     {
         $componentLayouts = new ComponentLayouts();
         $componentLayout = new ComponentLayout();
-        $componentLayout->setColumnSpan(14);
         $componentLayout->setColumnStart(0);
         $componentLayout->setMargin(new Margin(12));
         $componentLayouts->setHalfMarginBelowLayout($componentLayout);
 
         $componentLayout = new ComponentLayout();
-        $componentLayout->setColumnSpan(14);
         $componentLayout->setColumnStart(0);
         $componentLayout->setMargin(new Margin(12, 12));
         $componentLayouts->setMarginBetweenComponents($componentLayout);
 
+        $componentLayout = new ComponentLayout();
+        $componentLayout->setColumnStart(0);
+        $componentLayout->setMargin(new Margin(24));
+        $componentLayouts->setFullMarginBelowLayout($componentLayout);
+
         return $componentLayouts;
+    }
+
+    private function createBylineComponent(ArticleInterface $article): Byline
+    {
+        $routeName = $article->getRoute()->getName();
+        $authorNames = trim(implode(', ', $article->getAuthorsNames()), ', ');
+        $publishedAt = $article->getPublishedAt();
+        $publishedAtString = $publishedAt->format('M d, Y g:i A');
+
+        return new Byline("$authorNames | $publishedAtString | $routeName", 'fullMarginBelowLayout');
     }
 }

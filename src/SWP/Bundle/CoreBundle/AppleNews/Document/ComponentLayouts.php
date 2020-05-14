@@ -24,6 +24,9 @@ class ComponentLayouts
     /** @var ComponentLayout|null */
     private $marginBetweenComponents;
 
+    /** @var ComponentLayout|null */
+    private $fullMarginBelowLayout;
+
     public function getHalfMarginBelowLayout(): ?ComponentLayout
     {
         return $this->halfMarginBelowLayout;
@@ -42,5 +45,15 @@ class ComponentLayouts
     public function setMarginBetweenComponents(?ComponentLayout $marginBetweenComponents): void
     {
         $this->marginBetweenComponents = $marginBetweenComponents;
+    }
+
+    public function getFullMarginBelowLayout(): ?ComponentLayout
+    {
+        return $this->fullMarginBelowLayout;
+    }
+
+    public function setFullMarginBelowLayout(?ComponentLayout $fullMarginBelowLayout): void
+    {
+        $this->fullMarginBelowLayout = $fullMarginBelowLayout;
     }
 }

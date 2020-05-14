@@ -18,6 +18,9 @@ namespace SWP\Bundle\CoreBundle\Command;
 
 use SWP\Bundle\CoreBundle\AppleNews\Converter\ArticleToAppleNewsFormatConverter;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
+use SWP\Component\Common\Exception\ArticleNotFoundException;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,14 +34,18 @@ class ConvertArticleToAppleNewsFormatCommand extends Command
 
     private $articleRepository;
 
+    private $tenantRepository;
+
     public function __construct(
         ArticleToAppleNewsFormatConverter $converter,
-        ArticleRepositoryInterface $articleRepository
+        ArticleRepositoryInterface $articleRepository,
+        TenantRepositoryInterface $tenantRepository
     ) {
         parent::__construct();
 
         $this->converter = $converter;
         $this->articleRepository = $articleRepository;
+        $this->tenantRepository = $tenantRepository;
     }
 
     protected function configure(): void
@@ -46,14 +53,25 @@ class ConvertArticleToAppleNewsFormatCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription('Converts article to Apple News Format')
-            ->addArgument('articleId', InputArgument::REQUIRED, 'Article ID');
+            ->addArgument('articleId', InputArgument::REQUIRED, 'Article ID')
+            ->addArgument('tenantCode', InputArgument::REQUIRED, 'Tenant code');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $article = $this->articleRepository->findOneBy(['id' => $input->getArgument('articleId')]);
 
-        $json = $this->converter->convert($article);
+        if (null === $article) {
+            throw new ArticleNotFoundException();
+        }
+
+        $tenant = $this->tenantRepository->findOneBy(['code' => $input->getArgument('tenantCode')]);
+
+        if (null === $tenant) {
+            throw new TenantNotFoundException();
+        }
+
+        $json = $this->converter->convert($article, $tenant);
 
         $output->writeln($json);
 
