@@ -51,6 +51,13 @@ class ComponentTextStyles
      */
     private $defaultByline;
 
+    /**
+     * @SerializedName("default-quote")
+     *
+     * @var ComponentTextStyle|null
+     */
+    private $defaultQuote;
+
     public function getDefault(): ComponentTextStyle
     {
         return $this->default;
@@ -99,5 +106,15 @@ class ComponentTextStyles
     public function setDefaultByline(ComponentTextStyle $defaultByline): void
     {
         $this->defaultByline = $defaultByline;
+    }
+
+    public function getDefaultQuote(): ?ComponentTextStyle
+    {
+        return $this->defaultQuote;
+    }
+
+    public function setDefaultQuote(?ComponentTextStyle $defaultQuote): void
+    {
+        $this->defaultQuote = $defaultQuote;
     }
 }

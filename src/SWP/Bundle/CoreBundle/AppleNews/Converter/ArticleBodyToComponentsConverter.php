@@ -22,6 +22,7 @@ use SWP\Bundle\CoreBundle\AppleNews\Component\FacebookPost;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Figure;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Heading;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Instagram;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Quote;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Tweet;
 
 final class ArticleBodyToComponentsConverter
@@ -94,11 +95,12 @@ final class ArticleBodyToComponentsConverter
                             parse_str($parsedUrl['query'], $url);
 
                             $components[] = new FacebookPost($url['url']);
-                        } elseif (false !== strpos($url, 'facebook.com') && $this->isValidFacebookPostUrl($url)) {
+                        } elseif (false !== strpos($url, 'facebook.com')) {
                             $parsedUrl = parse_url($url);
                             parse_str($parsedUrl['query'], $url);
-
-                            $components[] = new FacebookPost($url['href']);
+                            if ($this->isValidFacebookPostUrl($url['href'])) {
+                                $components[] = new FacebookPost($url['href']);
+                            }
                         } elseif (false !== strpos($url, 'youtube.com') || false !== strpos($url, 'vimeo.com')) {
                             $components[] = new EmbedWebVideo($url);
                         }
@@ -113,6 +115,13 @@ final class ArticleBodyToComponentsConverter
                         $instagramUrl = $instagramElement->getAttribute('data-instgrm-permalink');
                         $url = str_replace('\"', '', $instagramUrl);
                         $components[] = new Instagram($url);
+                    }
+
+                    break;
+
+                case 'blockquote':
+                    if ('' !== $node->textContent) {
+                        $components[] = new Quote('“'.$node->textContent.'”');
                     }
 
                     break;

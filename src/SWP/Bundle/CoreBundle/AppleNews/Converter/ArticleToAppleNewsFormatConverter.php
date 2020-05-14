@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\AppleNews\Converter;
 
 use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Byline;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Caption;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Gallery;
 use SWP\Bundle\CoreBundle\AppleNews\Component\GalleryItem;
@@ -73,6 +74,7 @@ final class ArticleToAppleNewsFormatConverter
 
         $articleDocument->addComponent(new Title($article->getTitle(), 'halfMarginBelowLayout'));
         $articleDocument->addComponent(new Intro($article->getLead(), 'halfMarginBelowLayout'));
+        $articleDocument->addComponent($this->createBylineComponent($article));
 
         $featureMedia = $article->getFeatureMedia();
 
@@ -218,6 +220,20 @@ final class ArticleToAppleNewsFormatConverter
         $componentTextStylesIntro->setTextColor('#A6AAA9');
         $componentTextStyles->setDefaultIntro($componentTextStylesIntro);
 
+        $componentTextStylesQuote = new ComponentTextStyle();
+        $componentTextStylesQuote->setFontName('IowanOldStyle-Italic');
+        $componentTextStylesQuote->setFontSize(30);
+        $componentTextStylesQuote->setLineHeight(36);
+        $componentTextStylesQuote->setTextColor('#A6AAA9');
+        $componentTextStyles->setDefaultQuote($componentTextStylesIntro);
+
+        $componentTextStylesByline = new ComponentTextStyle();
+        $componentTextStylesByline->setFontName('DINAlternate-Bold');
+        $componentTextStylesByline->setFontSize(15);
+        $componentTextStylesByline->setLineHeight(18);
+        $componentTextStylesByline->setTextColor('#53585F');
+        $componentTextStyles->setDefaultByline($componentTextStylesByline);
+
         return $componentTextStyles;
     }
 
@@ -225,17 +241,30 @@ final class ArticleToAppleNewsFormatConverter
     {
         $componentLayouts = new ComponentLayouts();
         $componentLayout = new ComponentLayout();
-        $componentLayout->setColumnSpan(14);
         $componentLayout->setColumnStart(0);
         $componentLayout->setMargin(new Margin(12));
         $componentLayouts->setHalfMarginBelowLayout($componentLayout);
 
         $componentLayout = new ComponentLayout();
-        $componentLayout->setColumnSpan(14);
         $componentLayout->setColumnStart(0);
         $componentLayout->setMargin(new Margin(12, 12));
         $componentLayouts->setMarginBetweenComponents($componentLayout);
 
+        $componentLayout = new ComponentLayout();
+        $componentLayout->setColumnStart(0);
+        $componentLayout->setMargin(new Margin(24));
+        $componentLayouts->setFullMarginBelowLayout($componentLayout);
+
         return $componentLayouts;
+    }
+
+    private function createBylineComponent(ArticleInterface $article): Byline
+    {
+        $routeName = $article->getRoute()->getName();
+        $authorNames = trim(implode(', ', $article->getAuthorsNames()), ', ');
+        $publishedAt = $article->getPublishedAt();
+        $publishedAtString = $publishedAt->format('mm d, Y g:i A');
+
+        return new Byline("$authorNames | $publishedAtString | $routeName", 'fullMarginBelowLayout');
     }
 }
