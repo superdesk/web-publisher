@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9df49c035da10ded0345fa342e49fc4",
+    "content-hash": "c3fd726fe44599a317d4f78f8fff1c74",
     "packages": [
         {
             "name": "apache/log4php",
@@ -6108,7 +6108,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:nelmio/NelmioApiDocBundle.git",
+                "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
                 "reference": "be89b2be6c71f5393baab416ddba08b228b23f13"
             },
             "dist": {
@@ -11806,16 +11806,16 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.17.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "3bff59ea7047e925be6b7f2059d60af31bb46d6a"
+                "reference": "47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/3bff59ea7047e925be6b7f2059d60af31bb46d6a",
-                "reference": "3bff59ea7047e925be6b7f2059d60af31bb46d6a",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf",
+                "reference": "47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf",
                 "shasum": ""
             },
             "require": {
@@ -11829,7 +11829,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -11878,7 +11878,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-12T16:47:27+00:00"
+            "time": "2020-03-09T19:04:49+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -19816,8 +19816,8 @@
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-json": "*",
-        "ext-zip": "*",
-        "ext-memcached": "*"
+        "ext-memcached": "*",
+        "ext-zip": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
