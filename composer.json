@@ -78,7 +78,7 @@
     "gos/react-amqp": "^0.3.0",
     "gos/web-socket-bundle": "^v1.10",
     "graylog2/gelf-php": "^1.6",
-    "guzzlehttp/guzzle": "^6.5",
+    "guzzlehttp/guzzle": "dev-icu-fixes as 6.5.3",
     "hoa/file": "1.17.07.11",
     "hoa/mime": "3.17.01.10",
     "jms/serializer-bundle": "^3.5",
@@ -116,7 +116,6 @@
     "symfony/mailer": "^4.4",
     "symfony/messenger": "^4.4",
     "symfony/monolog-bundle": "~3.5",
-    "symfony/polyfill-intl-idn": "1.15.0",
     "symfony/proxy-manager-bridge": "^4.4",
     "symfony/routing": "^4.4",
     "symfony/serializer": "^4.4.8",
@@ -212,6 +211,10 @@
     }
   },
   "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/GrahamCampbell/guzzle"
+    },
     {
       "type": "vcs",
       "url": "https://github.com/ahilles107/DoctrineExtensions.git",

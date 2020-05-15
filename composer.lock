@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3fd726fe44599a317d4f78f8fff1c74",
+    "content-hash": "b807ee9a9ff696c63763fcaae6b0cd3b",
     "packages": [
         {
             "name": "apache/log4php",
@@ -99,16 +99,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.138.0",
+            "version": "3.138.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "32a4fa88dffc4328d415b922ef74819dfe060696"
+                "reference": "20397150ba28912a599838c44f50f6113cae5a2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/32a4fa88dffc4328d415b922ef74819dfe060696",
-                "reference": "32a4fa88dffc4328d415b922ef74819dfe060696",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/20397150ba28912a599838c44f50f6113cae5a2b",
+                "reference": "20397150ba28912a599838c44f50f6113cae5a2b",
                 "shasum": ""
             },
             "require": {
@@ -179,7 +179,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-05-13T18:11:31+00:00"
+            "time": "2020-05-15T18:19:33+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -659,16 +659,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "2.12.0",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "2053eafdf60c2172ee1373d1b9289ba1db7f1fc6"
+                "reference": "308728eae8d90412d850c155d40b1cfbede549da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/2053eafdf60c2172ee1373d1b9289ba1db7f1fc6",
-                "reference": "2053eafdf60c2172ee1373d1b9289ba1db7f1fc6",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/308728eae8d90412d850c155d40b1cfbede549da",
+                "reference": "308728eae8d90412d850c155d40b1cfbede549da",
                 "shasum": ""
             },
             "require": {
@@ -678,7 +678,7 @@
                 "doctrine/event-manager": "^1.0",
                 "doctrine/inflector": "^1.0",
                 "doctrine/lexer": "^1.0",
-                "doctrine/persistence": "^1.1",
+                "doctrine/persistence": "^1.3.3",
                 "doctrine/reflection": "^1.0",
                 "php": "^7.1"
             },
@@ -738,7 +738,21 @@
                 "doctrine",
                 "php"
             ],
-            "time": "2020-01-10T15:49:25+00:00"
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcommon",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-05-15T05:51:54+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -3105,16 +3119,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.5.3",
+            "version": "dev-icu-fixes",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e"
+                "url": "https://github.com/GrahamCampbell/guzzle.git",
+                "reference": "66061654fffa535004625a27bceb847f8f24de42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/aab4ebd862aa7d04f01a4b51849d657db56d882e",
-                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e",
+                "url": "https://api.github.com/repos/GrahamCampbell/guzzle/zipball/66061654fffa535004625a27bceb847f8f24de42",
+                "reference": "66061654fffa535004625a27bceb847f8f24de42",
                 "shasum": ""
             },
             "require": {
@@ -3122,7 +3136,7 @@
                 "guzzlehttp/promises": "^1.0",
                 "guzzlehttp/psr7": "^1.6.1",
                 "php": ">=5.5",
-                "symfony/polyfill-intl-idn": "^1.11"
+                "symfony/polyfill-intl-idn": "^1.17"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -3146,7 +3160,11 @@
                     "src/functions_include.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "GuzzleHttp\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -3160,15 +3178,18 @@
             "description": "Guzzle is a PHP HTTP client library",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
+                "HTTP client",
                 "client",
                 "curl",
                 "framework",
                 "http",
-                "http client",
                 "rest",
                 "web service"
             ],
-            "time": "2020-04-18T10:38:46+00:00"
+            "support": {
+                "source": "https://github.com/GrahamCampbell/guzzle/tree/icu-fixes"
+            },
+            "time": "2020-05-14T10:45:43+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -6109,12 +6130,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "be89b2be6c71f5393baab416ddba08b228b23f13"
+                "reference": "2a78b42a94fc3e113d84793316393de590b13aa7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/be89b2be6c71f5393baab416ddba08b228b23f13",
-                "reference": "be89b2be6c71f5393baab416ddba08b228b23f13",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/2a78b42a94fc3e113d84793316393de590b13aa7",
+                "reference": "2a78b42a94fc3e113d84793316393de590b13aa7",
                 "shasum": ""
             },
             "require": {
@@ -6189,7 +6210,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2020-05-01T19:30:45+00:00"
+            "time": "2020-05-15T18:45:36+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -11806,16 +11827,16 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.15.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf"
+                "reference": "3bff59ea7047e925be6b7f2059d60af31bb46d6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf",
-                "reference": "47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/3bff59ea7047e925be6b7f2059d60af31bb46d6a",
+                "reference": "3bff59ea7047e925be6b7f2059d60af31bb46d6a",
                 "shasum": ""
             },
             "require": {
@@ -11829,7 +11850,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -11878,7 +11899,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-09T19:04:49+00:00"
+            "time": "2020-05-12T16:47:27+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -18002,12 +18023,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "5a342e2dc0408d026b97ee3176b5b406e54e3766"
+                "reference": "9b0501ceb2d00bea5814316c5333d513d7622ed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5a342e2dc0408d026b97ee3176b5b406e54e3766",
-                "reference": "5a342e2dc0408d026b97ee3176b5b406e54e3766",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/9b0501ceb2d00bea5814316c5333d513d7622ed5",
+                "reference": "9b0501ceb2d00bea5814316c5333d513d7622ed5",
                 "shasum": ""
             },
             "conflict": {
@@ -18191,6 +18212,7 @@
                 "symfony/var-exporter": ">=4.2,<4.2.12|>=4.3,<4.3.8",
                 "symfony/web-profiler-bundle": ">=2,<2.3.19|>=2.4,<2.4.9|>=2.5,<2.5.4",
                 "symfony/yaml": ">=2,<2.0.22|>=2.1,<2.1.7",
+                "t3g/svg-sanitizer": "<1.0.3",
                 "tecnickcom/tcpdf": "<6.2.22",
                 "thelia/backoffice-default-template": ">=2.1,<2.1.2",
                 "thelia/thelia": ">=2.1-beta.1,<2.1.3",
@@ -18272,7 +18294,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-12T11:18:47+00:00"
+            "time": "2020-05-14T00:01:29+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -19794,6 +19816,12 @@
             "alias_normalized": "2.4.9999999.9999999-dev",
             "version": "dev-patch-1",
             "package": "gedmo/doctrine-extensions"
+        },
+        {
+            "alias": "6.5.3",
+            "alias_normalized": "6.5.3.0",
+            "version": "dev-icu-fixes",
+            "package": "guzzlehttp/guzzle"
         }
     ],
     "minimum-stability": "dev",
@@ -19801,6 +19829,7 @@
         "emanueleminotto/twig-cache-bundle": 20,
         "friendsofsymfony/user-bundle": 20,
         "gedmo/doctrine-extensions": 20,
+        "guzzlehttp/guzzle": 20,
         "nelmio/api-doc-bundle": 20,
         "takeit/amp": 20,
         "takeit/stringy": 20,
