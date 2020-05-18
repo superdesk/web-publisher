@@ -213,7 +213,8 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/GrahamCampbell/guzzle"
+      "url": "https://github.com/GrahamCampbell/guzzle",
+      "no-api": true
     },
     {
       "type": "vcs",
