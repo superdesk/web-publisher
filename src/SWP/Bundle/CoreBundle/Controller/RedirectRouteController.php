@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\RedirectRouteBundle\Form\RedirectRouteType;
 use SWP\Bundle\RedirectRouteBundle\Model\RedirectRouteInterface;
@@ -198,7 +198,7 @@ class RedirectRouteController extends AbstractController
 
     private function findOr404(int $id): RedirectRouteInterface
     {
-        if (null === $redirectRoute = $this->get('swp.repository.redirect_route')->findOneById($id)) {
+        if (null === ($redirectRoute = $this->get('swp.repository.redirect_route')->findOneById($id))) {
             throw new NotFoundHttpException('Redirect route was not found.');
         }
 

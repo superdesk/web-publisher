@@ -41,15 +41,9 @@ class DownloadThemesFromExternalStorageCommandTest extends WebTestCase
      */
     public function testExecute()
     {
-        $this->commandTester->execute(
-            [
-                'tenant' => '123abc',
-                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install',
-                '--force' => true,
-            ]
-        );
+        $this->commandTester->execute([]);
 
-        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertContains('Themes were downloaded and extracted.', $this->commandTester->getDisplay());
     }
 
     protected static function createCommand()
@@ -59,7 +53,7 @@ class DownloadThemesFromExternalStorageCommandTest extends WebTestCase
         $application = new Application($kernel);
         $application->add(new ThemeSetupCommand());
 
-        return $application->find('swp:theme:install');
+        return $application->find('swp:theme:download-from-external');
     }
 
     protected function createCommandTester()

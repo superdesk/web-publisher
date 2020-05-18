@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Command;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,6 +36,7 @@ class DownloadThemesFromExternalStorageCommand extends Command
         string $themesUrl
     ) {
         parent::__construct();
+
         $this->themesDirectory = $themesDirectory;
         $this->themesUrl = $themesUrl;
     }
@@ -44,8 +46,8 @@ class DownloadThemesFromExternalStorageCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription('Downloads theme from configured storage.')
-            ->setHelp(<<<EOT
-Location for themes archive can be defined by THEMES_DOWNLOAD_URL env variable. 
+            ->setHelp(<<<'EOT'
+Location for themes archive can be defined by `THEMES_DOWNLOAD_URL` env variable. 
 
 Themes must be packed into one compressed file (*.zip). 
 Archive can be created with 'zip -r ../themes.zip *' command (called from your themes directory). 
@@ -70,7 +72,11 @@ EOT);
         }
         $client = new Client();
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.'themes.zip';
-        $client->request('GET', $this->themesUrl, ['sink' => $tempLocation]);
+        try {
+            $client->request('GET', $this->themesUrl, ['sink' => $tempLocation]);
+        } catch (ConnectException $e) {
+            $output->writeln(sprintf("<bg=red;options=bold>Can't download themes package from '%s'.</>", $this->themesUrl));
+        }
 
         $filesystem = new Filesystem();
 
@@ -84,6 +90,6 @@ EOT);
             $zip->close();
         }
 
-        $output->writeln('<bg=green;options=bold>Done.</>');
+        $output->writeln('<bg=green;options=bold>Themes were downloaded and extracted.</>');
     }
 }
