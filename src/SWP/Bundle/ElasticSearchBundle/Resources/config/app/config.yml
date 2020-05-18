@@ -107,14 +107,6 @@ fos_elastica:
                         swp_author_name_analyzer:
                             type: custom
                             tokenizer: keyword
-                        swp_sources_analyzer:
-                            type: custom
-                            tokenizer: keyword
-                            filter: [standard]
-                        swp_folding_analyzer:
-                            type: custom
-                            tokenizer: standard
-                            filter: [lowercase, swp_ascii_folding]
                     filter:
                         swp_ascii_folding:
                             type: "asciifolding"

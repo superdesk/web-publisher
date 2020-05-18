@@ -72,6 +72,7 @@ EOT);
         }
         $client = new Client();
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.'themes.zip';
+
         try {
             $client->request('GET', $this->themesUrl, ['sink' => $tempLocation]);
         } catch (ConnectException $e) {
