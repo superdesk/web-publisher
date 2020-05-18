@@ -20,8 +20,6 @@ use Doctrine\Common\Collections\Collection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
-use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Form\Type\PackageType;
 use SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType;
@@ -34,9 +32,11 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PackageController extends Controller
 {
@@ -150,7 +150,7 @@ class PackageController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_core.article.publisher')->publish($package, $form->getData());
-            $this->get('fos_elastica.object_persister.swp.package')->replaceOne($package);
+            $this->get('fos_elastica.object_persister.swp_package.package')->replaceOne($package);
 
             return new SingleResourceResponse(null, new ResponseContext(201));
         }
@@ -233,7 +233,6 @@ class PackageController extends Controller
      *     )
      * )
      *
-     *
      * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
      *
      * @return SingleResourceResponse
@@ -258,8 +257,6 @@ class PackageController extends Controller
     }
 
     /**
-     * @param int $id
-     *
      * @return object|null
      */
     private function findOr404(int $id)
