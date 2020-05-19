@@ -51,3 +51,7 @@ behat.yml
 ###< symfony/web-server-bundle ###
 
 .php-version
+
+###> macOS ###
+.DS_Store
+###< macOS ###
