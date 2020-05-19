@@ -60,10 +60,7 @@ class ExternalOauthProvider extends AbstractProvider
     protected function checkResponse(ResponseInterface $response, $data): void
     {
         if ($response->getStatusCode() >= 400) {
-            throw new IdentityProviderException(
-                $response->getReasonPhrase(),
-                $response->getStatusCode(),
-                (string) $response->getBody());
+            throw new IdentityProviderException($response->getReasonPhrase(), $response->getStatusCode(), (string) $response->getBody());
         }
     }
 
