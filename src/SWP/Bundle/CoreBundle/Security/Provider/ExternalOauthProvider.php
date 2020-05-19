@@ -10,7 +10,9 @@ use League\OAuth2\Client\Token\AccessToken;
 class ExternalOauthProvider extends AbstractProvider
 {
     protected $endpoint_auth;
+
     protected $endpoint_token;
+    
     protected $endpoint_userinfo;
 
     protected $scope_separator;
