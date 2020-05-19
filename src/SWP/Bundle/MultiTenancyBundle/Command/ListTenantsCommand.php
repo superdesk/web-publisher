@@ -69,7 +69,7 @@ class ListTenantsCommand extends Command
 
         $output->writeln('<info>List of all available tenants:</info>');
         $table = new Table($output);
-        $table->setHeaders(['Id', 'Code', 'Name', 'Domain', 'Subdomain', 'Is active?', 'Theme Name', 'AMP Enabled', 'Created at', 'Organization']);
+        $table->setHeaders(['Id', 'Code', 'Name', 'Domain', 'Subdomain', 'Is active?', 'Theme Name', 'Created at', 'Organization']);
         foreach ($tenants as $tenant) {
             $table->addRow([
                 $tenant->getId(),
@@ -78,8 +78,7 @@ class ListTenantsCommand extends Command
                 $tenant->getDomainName(),
                 $tenant->getSubdomain(),
                 $tenant->isEnabled() ? 'yes' : 'no',
-                $tenant->getThemeName(),
-                $tenant->isAmpEnabled() ? 'yes' : 'no',
+                $tenant instanceof ThemeAwareTenantInterface ? $tenant->getThemeName() : null,
                 $tenant->getCreatedAt()->format('Y-m-d H:i:s'),
                 $tenant->getOrganization()->getName().' (code: '.$tenant->getOrganization()->getCode().')',
             ]);
