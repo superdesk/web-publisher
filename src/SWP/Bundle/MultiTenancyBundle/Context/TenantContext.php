@@ -66,7 +66,7 @@ class TenantContext implements TenantContextInterface
         if (null === $this->tenant) {
             $currentRequest = $this->requestStack->getCurrentRequest();
 
-            if (false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
+            if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
                 $profilerTenant = new Tenant();
                 $profilerTenant->setDomainName($currentRequest->getHost());
                 $this->setTenant($profilerTenant);
