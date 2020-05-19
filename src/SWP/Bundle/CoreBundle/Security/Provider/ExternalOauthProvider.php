@@ -9,7 +9,9 @@ use League\OAuth2\Client\Token\AccessToken;
 
 class ExternalOauthProvider extends AbstractProvider
 {
-    protected $base_url;
+    protected $endpoint_auth;
+    protected $endpoint_token;
+    protected $endpoint_userinfo;
 
     protected $scope_separator;
 
@@ -18,7 +20,9 @@ class ExternalOauthProvider extends AbstractProvider
     public function __construct(array $options = [], array $collaborators = [])
     {
         parent::__construct($options, $collaborators);
-        $this->base_url = $options['base_url'];
+        $this->endpoint_auth = $options['endpoint_auth'];
+        $this->endpoint_token = $options['endpoint_token'];
+        $this->endpoint_userinfo = $options['endpoint_userinfo'];
         $this->scope_separator = $options['scope_separator'];
     }
 
@@ -33,17 +37,17 @@ class ExternalOauthProvider extends AbstractProvider
 
     public function getBaseAuthorizationUrl(): string
     {
-        return $this->base_url.'/authorize';
+        return $this->endpoint_auth;
     }
 
     public function getBaseAccessTokenUrl(array $params): string
     {
-        return $this->base_url.'/oauth/token';
+        return $this->endpoint_token;
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
-        return $this->base_url.'/userinfo';
+        return $this->endpoint_userinfo;
     }
 
     protected function getDefaultScopes(): string
