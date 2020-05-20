@@ -1,0 +1,50 @@
+get:
+  summary: List all Webhook entities for current tenant.
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Webhook.yaml
+            type: array
+    '405':
+      description: Method Not Allowed.
+  tags:
+    - webhook
+post:
+  summary: Create new webhook
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/WebhookType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Webhook.yaml
+    '400':
+      description: Returned on validation error.
+    '405':
+      description: Method Not Allowed.
+  tags:
+    - webhook

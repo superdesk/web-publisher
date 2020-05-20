@@ -1,0 +1,30 @@
+get:
+  summary: List all slideshows
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: todo
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: articleId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Slideshow.yaml
+            type: array
+  tags:
+    - slideshow

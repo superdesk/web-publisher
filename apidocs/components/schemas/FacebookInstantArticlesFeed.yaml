@@ -1,0 +1,16 @@
+properties:
+  id:
+    type: string
+  content_bucket:
+    $ref: ./ContentList.yaml
+  facebook_page:
+    $ref: ./FacebookPage.yaml
+  mode:
+    type: integer
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+type: object

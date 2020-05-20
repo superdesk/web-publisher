@@ -1,0 +1,43 @@
+get:
+  summary: Lists analytics reports
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [createdAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/AnalyticsReport.yaml
+            type: array
+  tags:
+    - export
+post:
+  summary: Export analytics data
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ExportAnalyticsType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+  tags:
+    - export

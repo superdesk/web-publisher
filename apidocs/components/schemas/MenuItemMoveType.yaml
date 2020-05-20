@@ -1,0 +1,9 @@
+required:
+  - parent
+  - position
+properties:
+  parent:
+    type: integer
+  position:
+    type: integer
+type: object

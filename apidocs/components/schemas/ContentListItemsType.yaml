@@ -1,0 +1,11 @@
+required:
+  - items
+  - updatedAt
+properties:
+  items:
+    items:
+      $ref: ./ContentListItemPositionType.yaml
+    type: array
+  updatedAt:
+    type: string
+type: object

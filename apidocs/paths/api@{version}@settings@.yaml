@@ -1,0 +1,40 @@
+get:
+  summary: Lists all settings
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Settings.yaml
+            type: array
+  tags:
+    - settings
+patch:
+  summary: Change setting value
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/SettingType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Settings.yaml
+    '404':
+      description: Setting not found
+  tags:
+    - settings

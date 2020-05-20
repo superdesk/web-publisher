@@ -1,0 +1,10 @@
+required:
+  - commentsCount
+properties:
+  url:
+    type: string
+  id:
+    type: number
+  commentsCount:
+    type: number
+type: object

@@ -1,0 +1,41 @@
+get:
+  summary: Lists content list items
+  parameters:
+    - name: sticky
+      in: query
+      required: false
+      description: Keep item on top of the list
+      schema:
+        type: boolean
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/ContentListItem.yaml
+            type: array
+    '404':
+      description: Content list item not found.
+    '500':
+      description: Unexpected error.
+  tags:
+    - content list

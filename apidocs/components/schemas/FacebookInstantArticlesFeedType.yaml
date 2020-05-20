@@ -1,0 +1,14 @@
+required:
+  - contentBucket
+  - facebookPage
+  - mode
+properties:
+  contentBucket:
+    type: string
+    format: SWP\Bundle\CoreBundle\Model\ContentList id
+  facebookPage:
+    type: string
+    format: SWP\Bundle\CoreBundle\Model\FacebookPage id
+  mode:
+    type: integer
+type: object

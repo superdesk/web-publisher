@@ -1,0 +1,24 @@
+post:
+  summary: Look for user matching provided credentials
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UserAuthenticationType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/User.yaml
+    '401':
+      description: No user found or not authorized.
+  tags:
+    - auth

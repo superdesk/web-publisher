@@ -1,0 +1,20 @@
+required:
+  - expression
+  - priority
+  - configuration
+  - description
+  - name
+properties:
+  expression:
+    type: string
+  priority:
+    type: integer
+  configuration:
+    items:
+      $ref: ./KeyValueRowType.yaml
+    type: array
+  description:
+    type: string
+  name:
+    type: string
+type: object

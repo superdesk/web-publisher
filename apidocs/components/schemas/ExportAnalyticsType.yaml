@@ -1,0 +1,21 @@
+required:
+  - routes
+  - authors
+properties:
+  start:
+    type: string
+    format: date
+  end:
+    type: string
+    format: date
+  routes:
+    items:
+      $ref: ./ExportAnalyticsRouteType.yaml
+    type: array
+  authors:
+    items:
+      type: string
+    type: array
+  term:
+    type: string
+type: object

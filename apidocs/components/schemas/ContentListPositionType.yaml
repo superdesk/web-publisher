@@ -1,0 +1,9 @@
+required:
+  - id
+  - position
+properties:
+  id:
+    type: integer
+  position:
+    type: integer
+type: object

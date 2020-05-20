@@ -1,0 +1,18 @@
+properties:
+  id:
+    type: integer
+  page_id:
+    type: string
+  name:
+    type: string
+  access_token:
+    type: string
+  application:
+    type: string
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+type: object

@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -29,15 +27,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class AuthorController extends AbstractController
 {
     /**
-     * @Operation(
-     *     tags={"authors"},
-     *     summary="Delete author",
-     *     @SWG\Response(
-     *         response="204",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/authors/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_author", requirements={"id"="\d+"})
      */
     public function deleteAction(int $id): SingleResourceResponseInterface

@@ -1,0 +1,15 @@
+properties:
+  id:
+    type: integer
+  expression:
+    type: string
+  priority:
+    type: integer
+  configuration:
+    additionalProperties: true
+    type: object
+  description:
+    type: string
+  name:
+    type: string
+type: object

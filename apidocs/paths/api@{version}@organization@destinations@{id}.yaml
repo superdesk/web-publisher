@@ -1,0 +1,27 @@
+patch:
+  summary: Update existing publish destination
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  requestBody:
+    $ref: ../components/requestBodies/PublishDestinationType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/PublishDestination.yaml
+    '400':
+      description: Returned when form have errors
+  tags:
+    - destination

@@ -1,0 +1,29 @@
+properties:
+  id:
+    type: string
+  tenant:
+    $ref: ./Tenant.yaml
+  route:
+    $ref: ./Route.yaml
+  is_published_fbia:
+    type: boolean
+  published:
+    type: boolean
+  package_guid:
+    type: string
+  content_lists:
+    additionalProperties: true
+    type: object
+  is_published_to_apple_news:
+    type: boolean
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  organization:
+    $ref: ./Organization.yaml
+  paywall_secured:
+    type: boolean
+type: object

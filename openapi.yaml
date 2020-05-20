@@ -1,0 +1,4892 @@
+openapi: 3.0.0
+info:
+    title: Superdesk Publisher
+    version: 2.x
+paths:
+    "/api/{version}/content/articles/{id}/related/":
+        get:
+            summary: List related articles
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/RelatedArticle"
+                "500":
+                    description: Unexpected error.
+            tags:
+                - article
+    "/api/{version}/content/articles/{id}":
+        get:
+            summary: Show single tenant article
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: .+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Article"
+            tags:
+                - article
+        patch:
+            summary: Updates articles
+            description: >-
+                Possible article statuses are:
+
+                 * new
+                 * published
+                 * unpublished
+                 * canceled
+
+                Changing status from any status to `published` will make article visible for every user.
+
+
+                Changing status from `published` to any other will make article hidden for user who don't have rights to see unpublished articles.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: .+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ArticleType"
+                required: true
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Article"
+                "400":
+                    description: Returned when validation failed.
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - article
+        delete:
+            summary: Deletes articles
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: .+
+            responses:
+                "204":
+                    description: Returned on success.
+                "404":
+                    description: Returned when article not found.
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - article
+    "/api/{version}/authors/{id}":
+        delete:
+            summary: Delete author
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "204":
+                    description: Returned on success.
+            tags:
+                - authors
+    "/api/{version}/content/push":
+        post:
+            summary: Adds a new content from HTTP Push
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                description: NinJS body
+                required: true
+            responses:
+                "201":
+                    description: Returned on success
+            tags:
+                - content push
+    "/api/{version}/assets/push":
+        post:
+            summary: Adds new assets from HTTP Push
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                media_id:
+                                    type: string
+                                media:
+                                    type: string
+                                    format: binary
+            responses:
+                "200":
+                    description: Returned on form errors
+                "201":
+                    description: Returned on successful post.
+                "500":
+                    description: Returned on invalid file.
+            tags:
+                - content push
+    "/api/{version}/assets/{action}/{mediaId}.{extension}":
+        get:
+            summary: Gets a single media file
+            description: 'Action route parameter values: "get" or "push"'
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: action
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: get|push
+                - name: mediaId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: .+
+                - name: extension
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on form errors
+                "404":
+                    description: Returned when file doesn't exist.
+            tags:
+                - content push
+    "/api/{version}/content/routes/":
+        get:
+            summary: Lists current tenant routes
+            parameters:
+                - name: type
+                  in: query
+                  required: false
+                  description: "possible values: 'collection' or 'content'"
+                  schema:
+                      type: string
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Route"
+                                type: array
+            tags:
+                - route
+        post:
+            summary: Create new route
+            description: "Parameter `type` cane have one of two values: `content`, `collection`
+        or `custom`."
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RouteType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Route"
+                "400":
+                    description: Returned when not valid data.
+            tags:
+                - route
+    "/api/{version}/content/routes/{id}":
+        get:
+            summary: Show single tenant route
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: .+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Route"
+            tags:
+                - route
+        patch:
+            summary: Update single route
+            description: "Parameter `type` cane have one of two values: `content` or
+        `collection`."
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: .+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RouteType"
+                required: true
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Route"
+                "400":
+                    description: Returned when not valid data.
+                "404":
+                    description: Returned when not found.
+                "409":
+                    description: Returned on conflict.
+            tags:
+                - route
+        delete:
+            summary: Delete single tenant route
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: .+
+            responses:
+                "204":
+                    description: Returned on success.
+            tags:
+                - route
+    "/api/{version}/export/analytics/":
+        get:
+            summary: Lists analytics reports
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [createdAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AnalyticsReport"
+                                type: array
+            tags:
+                - export
+        post:
+            summary: Export analytics data
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ExportAnalyticsType"
+            responses:
+                "201":
+                    description: Returned on success.
+            tags:
+                - export
+    "/api/{version}/content/articles":
+        patch:
+            summary: Update article comments number
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ArticleCommentsType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Article"
+                "404":
+                    description: Return when article was not found
+            tags:
+                - article
+    "/api/{version}/content/sources/":
+        get:
+            summary: Lists all article sources
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ArticleSource"
+            tags:
+                - article
+    "/api/{version}/auth/":
+        post:
+            summary: Look for user matching provided credentials
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UserAuthenticationType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "401":
+                    description: No user found or not authorized.
+            tags:
+                - auth
+    "/api/{version}/auth/superdesk/":
+        post:
+            summary: Authorize using Superdesk credentials
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/SuperdeskCredentialAuthenticationType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "401":
+                    description: No user found or not authorized.
+            tags:
+                - auth
+    "/api/{version}/content/lists/":
+        get:
+            summary: Lists all content lists
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/ContentList"
+                                type: array
+            tags:
+                - content list
+        post:
+            summary: Create new content list
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/ContentListType"
+            responses:
+                "201":
+                    description: Returned on success.
+                "400":
+                    description: Returned when not valid data.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ContentList"
+            tags:
+                - content list
+    "/api/{version}/content/lists/{id}":
+        get:
+            summary: Show single content list
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ContentList"
+            tags:
+                - content list
+        patch:
+            summary: Update single content list
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                $ref: "#/components/requestBodies/ContentListType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ContentList"
+                "400":
+                    description: Returned when not valid data.
+                "404":
+                    description: Returned when not found.
+                "409":
+                    description: Returned on conflict.
+            tags:
+                - content list
+        delete:
+            summary: Delete single content list
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "204":
+                    description: Returned on success.
+            tags:
+                - content list
+    "/api/{version}/content/lists/{id}/items/":
+        get:
+            summary: Lists content list items
+            parameters:
+                - name: sticky
+                  in: query
+                  required: false
+                  description: Keep item on top of the list
+                  schema:
+                      type: boolean
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/ContentListItem"
+                                type: array
+                "404":
+                    description: Content list item not found.
+                "500":
+                    description: Unexpected error.
+            tags:
+                - content list
+    "/api/{version}/content/lists/{listId}/items/{id}":
+        get:
+            summary: Get single content list item
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: listId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ContentListItem"
+            tags:
+                - content list
+        patch:
+            summary: Update single content list item
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: listId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContentListItemType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ContentListItem"
+                "400":
+                    description: Returned when not valid data.
+                "404":
+                    description: Returned when not found.
+            tags:
+                - content list
+    "/api/{version}/content/lists/{listId}/items/":
+        patch:
+            summary: Update many content list items
+            description: >-
+                - make sure that "updated_at" value is filled with value fetched from
+                list.
+
+
+                Possible actions: move, add, delete
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: listId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContentListItemsType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ContentList"
+                "400":
+                    description: Returned when not valid data.
+                "404":
+                    description: Returned when not found.
+            tags:
+                - content list
+    "/api/{version}/theme/logo_upload/":
+        post:
+            summary: Uploads current theme logo
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/postApi_version_themeLogoUpload_"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Settings"
+            tags:
+                - theme
+    "/api/{version}/theme/logo_upload/{type}":
+        post:
+            summary: Uploads current theme logo
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: type
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/postApi_version_themeLogoUpload_"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Settings"
+            tags:
+                - theme
+    "/api/{version}/theme/settings/":
+        get:
+            summary: Lists current theme settings
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Settings"
+            tags:
+                - theme
+    "/api/{version}/packages/extra/{slug}":
+        get:
+            summary: Get package external data
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/ExternalData"
+                                type: array
+                "400":
+                    description: Returned on validation error.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - package
+        put:
+            summary: Set new package external data
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                required: true
+            responses:
+                "201":
+                    description: Returned on success.
+                "400":
+                    description: Returned on validation error.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/ExternalData"
+                                type: array
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - package
+    "/api/{version}/failed_queue/":
+        get:
+            summary: Lists analytics reports
+            parameters:
+                - name: limit
+                  in: query
+                  required: false
+                  description: "example: limit=5"
+                  schema:
+                      type: integer
+                      default: 50
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/FailedEntry"
+                                type: array
+            tags:
+                - failed_queue
+    "/api/{version}/facebook/applications/":
+        get:
+            summary: Lists Facebook Applications
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: todo
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/FacebookApplication"
+                "500":
+                    description: Unexpected error.
+            tags:
+                - facebook instant articles
+        post:
+            summary: Create Facebook application
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FacebookApplicationType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/FacebookApplication"
+                "400":
+                    description: Returned when not valid data.
+            tags:
+                - facebook instant articles
+    "/api/{version}/facebook/applications/{id}":
+        delete:
+            summary: Delete Facebook application
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "204":
+                    description: Returned on success.
+                "404":
+                    description: Application not found
+                "409":
+                    description: Application is used by page
+                "500":
+                    description: Unexpected error.
+            tags:
+                - facebook instant articles
+    "/api/{version}/facebook/pages/":
+        get:
+            summary: Lists Facebook Pages
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/FacebookPage"
+                                type: array
+                "500":
+                    description: Unexpected error.
+            tags:
+                - facebook instant articles
+        post:
+            summary: Create Facebook page
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FacebookPageType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/FacebookPage"
+                "400":
+                    description: Returned when not valid data.
+            tags:
+                - facebook instant articles
+    "/api/{version}/facebook/pages/{id}":
+        delete:
+            summary: Delete Facebook page
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "204":
+                    description: Returned on success.
+                "404":
+                    description: Page not found
+                "409":
+                    description: Page is used by Instant Articles Feed
+                "500":
+                    description: Unexpected error.
+            tags:
+                - facebook instant articles
+    "/api/{version}/facebook/instantarticles/articles/":
+        get:
+            summary: Lists Facebook Instant Articles submitted articles
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/FacebookInstantArticlesArticle"
+                                type: array
+                "500":
+                    description: Unexpected error.
+            tags:
+                - facebook instant articles
+    "/api/{version}/facebook/instantarticles/articles/{submissionId}":
+        post:
+            summary: Updates status of submitted Instant Article
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: submissionId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/FacebookInstantArticlesArticle"
+                "500":
+                    description: Unexpected error.
+            tags:
+                - facebook instant articles
+    "/api/{version}/facebook/instantarticles/feed/":
+        get:
+            summary: Lists Facebook Instant Articles feeds
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/FacebookInstantArticlesFeed"
+                                type: array
+                "500":
+                    description: Unexpected error.
+            tags:
+                - facebook instant articles
+        post:
+            summary: Create Facebook Instant Articles feed content list
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FacebookInstantArticlesFeedType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/FacebookInstantArticlesFeed"
+                "400":
+                    description: Returned when not valid data.
+            tags:
+                - facebook instant articles
+    "/api/{version}/menus/":
+        get:
+            summary: Lists all registered menus
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/MenuItem"
+                                type: array
+                "404":
+                    description: No menus found.
+            tags:
+                - menu
+        post:
+            summary: Create new menu
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/MenuType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/MenuItem"
+                "400":
+                    description: Returned when form have errors
+            tags:
+                - menu
+    "/api/{version}/menus/{id}/children/":
+        get:
+            summary: Lists all children of menu item
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/MenuItem"
+                                type: array
+                "404":
+                    description: No menus found.
+            tags:
+                - menu
+    "/api/{version}/menus/{id}/move/":
+        patch:
+            summary: Moves menu item to a specific position in a tree
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/MenuItemMoveType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/MenuItem"
+                "400":
+                    description: Validation error.
+                "404":
+                    description: Menu item not found.
+                "409":
+                    description: When Menu item is already placed at the same position.
+                "500":
+                    description: Unexpected error.
+            tags:
+                - menu
+    "/api/{version}/menus/{id}":
+        get:
+            summary: Get single menu
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/MenuItem"
+                "404":
+                    description: Menu not found
+                "422":
+                    description: Menu id is not number
+            tags:
+                - menu
+        patch:
+            summary: Update single menu
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/MenuType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/MenuItem"
+                "404":
+                    description: Menu not found
+                "405":
+                    description: Method Not Allowed
+                "422":
+                    description: Menu id is not number
+            tags:
+                - menu
+        delete:
+            summary: Delete single menu
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "204":
+                    description: Returned on success.
+                "404":
+                    description: Menu not found
+                "422":
+                    description: Menu id is not number
+            tags:
+                - menu
+    "/api/{version}/organization/rules/evaluate":
+        post:
+            summary: Returns a list of rules that will be executed on the package
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/Package"
+            responses:
+                "200":
+                    description: Returned on success
+            tags:
+                - organization rule
+    "/api/{version}/organization/rules/":
+        get:
+            summary: List all current organization's articles
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Rule"
+                                type: array
+                "500":
+                    description: Returned when unexpected error occurred.
+            tags:
+                - organization rule
+        post:
+            summary: Create a new organization rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/RuleType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Rule"
+                "400":
+                    description: Returned on validation error.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - organization rule
+    "/api/{version}/organization/rules/{id}":
+        get:
+            summary: Show single organization rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Rule"
+            tags:
+                - organization rule
+        patch:
+            summary: Updates organization rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                $ref: "#/components/requestBodies/RuleType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Rule"
+                "400":
+                    description: Returned when validation failed.
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - organization rule
+        delete:
+            summary: Delete single organization rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "204":
+                    description: Returned on success.
+                "404":
+                    description: Returned when rule not found.
+                "405":
+                    description: Returned when method not allowed.
+            tags:
+                - organization rule
+    "/api/{version}/packages/{id}":
+        get:
+            summary: Show single package
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Package2"
+            tags:
+                - package
+    "/api/{version}/packages/{id}/publish/":
+        post:
+            summary: Publishes package to many tenants
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CompositePublishActionType"
+            responses:
+                "200":
+                    description: Returned on success.
+                "400":
+                    description: Returned when validation failed.
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - package
+    "/api/{version}/packages/{id}/unpublish/":
+        post:
+            summary: Un-publishes package from many tenants
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UnpublishFromTenantsType"
+            responses:
+                "200":
+                    description: Returned on success.
+                "400":
+                    description: Returned when validation failed.
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - package
+    "/api/{version}/packages/{id}/":
+        patch:
+            summary: Updates package
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PackageType"
+            responses:
+                "200":
+                    description: Returned on success.
+                "400":
+                    description: Returned when validation failed.
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - package
+    "/api/{version}/preview/package/generate_token/{routeId}":
+        post:
+            summary: Generate package preview token for specific route
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: routeId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                $ref: "#/components/requestBodies/Package"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                type: string
+                "400":
+                    description: Returned when validation failed.
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - package
+    "/api/{version}/packages/seo/upload/{packageGuid}":
+        post:
+            summary: Uploads SEO image for Package
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: packageGuid
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/postApi_version_packagesSeoUpload_package\
+          guid_"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ArticleSeoMetadata"
+            tags:
+                - seo
+    "/api/{version}/organization/destinations/":
+        post:
+            summary: Add a new publish destination
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/PublishDestinationType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/PublishDestination"
+                "400":
+                    description: Returned when form have errors
+            tags:
+                - destination
+    "/api/{version}/organization/destinations/{id}":
+        patch:
+            summary: Update existing publish destination
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                $ref: "#/components/requestBodies/PublishDestinationType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/PublishDestination"
+                "400":
+                    description: Returned when form have errors
+            tags:
+                - destination
+    "/api/{version}/redirects/":
+        get:
+            summary: Lists redirect routes
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [createdAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/RedirectRoute"
+                                type: array
+            tags:
+                - redirect_route
+        post:
+            summary: Create new redirect route
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RedirectRouteType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/RedirectRoute2"
+                "400":
+                    description: Returned when not valid data.
+            tags:
+                - redirect_route
+    "/api/{version}/redirects/{id}":
+        patch:
+            summary: Update redirect route
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RedirectRouteType"
+                required: true
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/RedirectRoute2"
+                "400":
+                    description: Returned when not valid data.
+                "404":
+                    description: Returned when not found.
+                "409":
+                    description: Returned on conflict.
+            tags:
+                - redirect_route
+        delete:
+            summary: Delete redirect route
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "204":
+                    description: Returned on success.
+            tags:
+                - redirect_route
+    "/api/{version}/organization/articles/related/":
+        post:
+            summary: Returns a list of related articles
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/Package"
+            responses:
+                "200":
+                    description: Returned on success
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/RelatedArticleList"
+            tags:
+                - related article
+    "/api/{version}/packages/{id}/related/":
+        get:
+            summary: Returns a list of related articles
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/RelatedArticleList"
+            tags:
+                - related article
+    "/api/{version}/rules/":
+        get:
+            summary: List all Rule entities for current tenant.
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Rule"
+                                type: array
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - tenant rule
+        post:
+            summary: Create new rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RuleType"
+                required: true
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Rule"
+                "400":
+                    description: Returned on validation error.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - tenant rule
+    "/api/{version}/rules/{id}":
+        get:
+            summary: Get single rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Rule"
+                "404":
+                    description: Rule not found.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - tenant rule
+        patch:
+            summary: Update single rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                $ref: "#/components/requestBodies/RuleType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Rule"
+                "400":
+                    description: Returned on validation error.
+                "404":
+                    description: Rule not found.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - tenant rule
+        delete:
+            summary: Delete single rule
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "204":
+                    description: Returned on success.
+                "404":
+                    description: Returned when rule not found.
+                "405":
+                    description: Returned when method not allowed.
+            tags:
+                - tenant rule
+    "/api/{version}/upload/seo_image/{id}":
+        post:
+            summary: Uploads SEO image
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/postApi_version_packagesSeoUpload_package\
+          guid_"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ArticleSeoMetadata"
+            tags:
+                - seo
+    "/api/{version}/packages/seo/{packageGuid}":
+        get:
+            summary: Gets SEO metadata entry
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: packageGuid
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ArticleSeoMetadata"
+                "400":
+                    description: Returned when form have errors
+            tags:
+                - seo
+        put:
+            summary: Change SEO metadata entry
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: packageGuid
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/SeoMetadataType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/ArticleSeoMetadata"
+                "400":
+                    description: Returned when form have errors
+            tags:
+                - seo
+    "/api/{version}/content/slideshows/{articleId}":
+        get:
+            summary: List all slideshows
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: todo
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: articleId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Slideshow"
+                                type: array
+            tags:
+                - slideshow
+    "/api/{version}/content/slideshows/{articleId}/{id}":
+        get:
+            summary: Get single slideshow
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: articleId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Slideshow"
+            tags:
+                - slideshow
+    "/api/{version}/content/slideshows/{articleId}/{id}/items/":
+        get:
+            summary: Lists slideshow items
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: articleId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/SlideshowItem"
+                                type: array
+                "404":
+                    description: Slideshow not found.
+                "500":
+                    description: Unexpected error.
+            tags:
+                - slideshow
+    "/api/{version}/subscriptions/{userId}":
+        get:
+            summary: Lists user subscriptions
+            parameters:
+                - name: routeId
+                  in: query
+                  required: false
+                  description: Route id
+                  schema:
+                      type: integer
+                - name: articleId
+                  in: query
+                  required: false
+                  description: Article id
+                  schema:
+                      type: integer
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+            tags:
+                - paywall
+    "/api/{version}/tenants/":
+        get:
+            summary: List all tenants/websites
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: todo
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+            tags:
+                - tenant
+        post:
+            summary: Create new tenant/website
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TenantType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Tenant"
+                "400":
+                    description: Returned on failure.
+                "409":
+                    description: Returned on conflict.
+            tags:
+                - tenant
+    "/api/{version}/tenants/{code}":
+        get:
+            summary: Show single tenant/website
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: code
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: "[a-z0-9]+"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Tenant"
+            tags:
+                - tenant
+        patch:
+            summary: Update single tenant
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: code
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: "[a-z0-9]+"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TenantType"
+                required: true
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Tenant"
+                "400":
+                    description: Returned on failure.
+                "404":
+                    description: Returned when not found.
+                "409":
+                    description: Returned on conflict.
+            tags:
+                - tenant
+        delete:
+            summary: Delete single tenant/website
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: code
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: "[a-z0-9]+"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: bool
+                description: Remove tenant ignoring attached articles
+            responses:
+                "204":
+                    description: Returned on success.
+            tags:
+                - tenant
+    "/api/{version}/organization/themes/":
+        get:
+            summary: Lists all available themes in organization
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Theme"
+                                type: array
+            tags:
+                - theme
+        post:
+            summary: Upload new theme to organization
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+            responses:
+                "201":
+                    description: Returned on success.
+            tags:
+                - theme
+    "/api/{version}/themes/":
+        get:
+            summary: Lists all available themes in tenant
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Theme"
+                                type: array
+            tags:
+                - theme
+        post:
+            summary: Install theme for tenant
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ThemeInstallType"
+            responses:
+                "201":
+                    description: Returned on success.
+            tags:
+                - theme
+    "/api/{version}/webhooks/":
+        get:
+            summary: List all Webhook entities for current tenant.
+            parameters:
+                - name: sorting
+                  in: query
+                  required: false
+                  description: "example: [updatedAt]=asc|desc"
+                  schema:
+                      type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Webhook"
+                                type: array
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - webhook
+        post:
+            summary: Create new webhook
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/WebhookType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Webhook"
+                "400":
+                    description: Returned on validation error.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - webhook
+    "/api/{version}/webhooks/{id}":
+        get:
+            summary: Get single webhook
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Webhook"
+                "404":
+                    description: Rule not found.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - webhook
+        patch:
+            summary: Update single webhook
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            requestBody:
+                $ref: "#/components/requestBodies/WebhookType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Webhook"
+                "400":
+                    description: Returned on validation error.
+                "404":
+                    description: Rule not found.
+                "405":
+                    description: Method Not Allowed.
+            tags:
+                - webhook
+        delete:
+            summary: Delete single webhook
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      pattern: \d+
+            responses:
+                "204":
+                    description: Returned on success.
+                "404":
+                    description: Returned when rule not found.
+                "405":
+                    description: Returned when method not allowed.
+            tags:
+                - webhook
+    "/api/{version}/users/profile/{id}":
+        get:
+            summary: Get user profile
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "404":
+                    description: Returned on user not found.
+            tags:
+                - user
+        patch:
+            summary: Update user profile
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ProfileFormType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "400":
+                    description: Returned on failure.
+                "404":
+                    description: Returned on user not found.
+            tags:
+                - user
+    "/api/{version}/users/register/":
+        post:
+            summary: Register new user
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RegistrationFormType"
+            responses:
+                "201":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "400":
+                    description: Returned on failure.
+                "409":
+                    description: Returned on conflict.
+            tags:
+                - user
+    "/api/{version}/users/{id}/promote":
+        patch:
+            summary: Change user roles
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/UserRolesType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "403":
+                    description: Returned when user don't have permissions to change roles
+                "404":
+                    description: Returned on user not found.
+            tags:
+                - user
+    "/api/{version}/users/{id}/demote":
+        patch:
+            summary: Change user roles
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/UserRolesType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "403":
+                    description: Returned when user don't have permissions to change roles
+                "404":
+                    description: Returned on user not found.
+            tags:
+                - user
+    "/api/{version}/users/settings/":
+        get:
+            summary: Get user settings
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "401":
+                    description: Returned on user not found.
+            tags:
+                - user
+        patch:
+            summary: Update user setting
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/SettingType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Settings"
+                "404":
+                    description: Setting not found
+            tags:
+                - user
+    "/api/{version}/content/articles/":
+        get:
+            summary: Search articles
+            parameters:
+                - name: status
+                  in: query
+                  required: false
+                  description: Package status
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: published_before
+                  in: query
+                  required: false
+                  description: The datetime before which the article has been published
+                  schema:
+                      type: string
+                - name: published_after
+                  in: query
+                  required: false
+                  description: The datetime after which the article has been published
+                  schema:
+                      type: string
+                - name: author
+                  in: query
+                  required: false
+                  description: Article authors
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: keywords
+                  in: query
+                  required: false
+                  description: Article keywords
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: term
+                  in: query
+                  required: false
+                  description: Search phrase
+                  schema:
+                      type: string
+                - name: sorting
+                  in: query
+                  required: false
+                  description: List order
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: source
+                  in: query
+                  required: false
+                  description: Sources
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: limit
+                  in: query
+                  required: false
+                  description: Items per page
+                  schema:
+                      type: integer
+                - name: page
+                  in: query
+                  required: false
+                  description: Page number
+                  schema:
+                      type: integer
+                - name: route
+                  in: query
+                  required: false
+                  description: Routes ids
+                  schema:
+                      type: array
+                      items:
+                          type: integer
+                - name: metadata
+                  in: query
+                  required: false
+                  description: "Metadata (e.g. query param:
+            ?metadata[located][]=Sydney&metadata[located][]=Berlin)"
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                "500":
+                    description: Unexpected error.
+            tags:
+                - article
+    "/api/{version}/packages/":
+        get:
+            summary: List all packages
+            parameters:
+                - name: status
+                  in: query
+                  required: false
+                  description: Package status
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: published_before
+                  in: query
+                  required: false
+                  description: The datetime before which the package has been published
+                  schema:
+                      type: string
+                - name: published_after
+                  in: query
+                  required: false
+                  description: The datetime after which the package has been published
+                  schema:
+                      type: string
+                - name: author
+                  in: query
+                  required: false
+                  description: Package authors
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: term
+                  in: query
+                  required: false
+                  description: Search phrase
+                  schema:
+                      type: string
+                - name: sorting
+                  in: query
+                  required: false
+                  description: List order
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: source
+                  in: query
+                  required: false
+                  description: Sources
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: limit
+                  in: query
+                  required: false
+                  description: Items per page
+                  schema:
+                      type: integer
+                - name: page
+                  in: query
+                  required: false
+                  description: Page number
+                  schema:
+                      type: integer
+                - name: tenant
+                  in: query
+                  required: false
+                  description: Tenant codes
+                  schema:
+                      type: array
+                      items:
+                          type: string
+                - name: language
+                  in: query
+                  required: false
+                  description: Language code, e.g. en
+                  schema:
+                      type: string
+                - name: route
+                  in: query
+                  required: false
+                  description: Routes ids
+                  schema:
+                      type: array
+                      items:
+                          type: integer
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Package2"
+                                type: array
+                "500":
+                    description: Returned when unexpected error.
+            tags:
+                - package
+    "/api/{version}/settings/":
+        get:
+            summary: Lists all settings
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Settings"
+                                type: array
+            tags:
+                - settings
+        patch:
+            summary: Change setting value
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                $ref: "#/components/requestBodies/SettingType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                $ref: "#/components/schemas/Settings"
+                "404":
+                    description: Setting not found
+            tags:
+                - settings
+    "/api/{version}/settings/revert/{scope}":
+        post:
+            summary: Revert settings to defaults by scope
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: scope
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "204":
+                    description: Returned on success.
+            tags:
+                - settings
+    "/api/{version}/settings/bulk/":
+        patch:
+            summary: Settings bulk update
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/BulkSettingsUpdateType"
+            responses:
+                "200":
+                    description: Returned on success.
+                    content:
+                        "*/*":
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Settings"
+                                type: array
+                "404":
+                    description: Setting not found
+            tags:
+                - settings
+    "/api/{version}/token/refresh":
+        get:
+            summary: Refresh token.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                default:
+                    description: ""
+        post:
+            summary: Refresh token.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                default:
+                    description: ""
+        put:
+            summary: Refresh token.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                default:
+                    description: ""
+        patch:
+            summary: Refresh token.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                default:
+                    description: ""
+        delete:
+            summary: Refresh token.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                default:
+                    description: ""
+        options:
+            summary: Refresh token.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                default:
+                    description: ""
+        head:
+            summary: Refresh token.
+            parameters:
+                - name: version
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                default:
+                    description: ""
+    /api/doc.json:
+        get:
+            responses:
+                default:
+                    description: ""
+security:
+    - Bearer: []
+servers:
+    - url: http://www.publisher.wip
+    - url: https://www.publisher.wip
+components:
+    requestBodies:
+        MenuType:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/MenuType"
+        postApi_version_themeLogoUpload_:
+            content:
+                application/x-www-form-urlencoded:
+                    schema:
+                        type: object
+                        properties:
+                            logo:
+                                description: Logo file
+                                type: string
+                                format: binary
+        ContentListType:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/ContentListType"
+        Package:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Package"
+        RuleType:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/RuleType"
+        postApi_version_packagesSeoUpload_packageguid_:
+            content:
+                application/x-www-form-urlencoded:
+                    schema:
+                        type: object
+                        properties:
+                            metaMediaFile:
+                                type: string
+                                format: binary
+                            ogMediaFile:
+                                type: string
+                                format: binary
+                            twitterMediaFile:
+                                type: string
+                                format: binary
+        PublishDestinationType:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/PublishDestinationType"
+        WebhookType:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/WebhookType"
+        UserRolesType:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/UserRolesType"
+        SettingType:
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/SettingType"
+    securitySchemes:
+        Bearer:
+            name: Authorization
+            type: apiKey
+            in: header
+            description: "Value: Bearer {jwt}"
+    schemas:
+        RelatedArticle:
+            properties:
+                article:
+                    $ref: "#/components/schemas/Article"
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        Article:
+            properties:
+                id:
+                    type: integer
+                title:
+                    type: string
+                body:
+                    type: string
+                slug:
+                    type: string
+                published_at:
+                    type: string
+                    format: date-time
+                status:
+                    type: string
+                route:
+                    $ref: "#/components/schemas/Route"
+                template_name:
+                    type: string
+                publish_start_date:
+                    type: string
+                    format: date-time
+                publish_end_date:
+                    type: string
+                    format: date-time
+                is_publishable:
+                    type: boolean
+                metadata:
+                    additionalProperties: true
+                    type: object
+                lead:
+                    type: string
+                code:
+                    type: string
+                extra:
+                    additionalProperties: true
+                    type: object
+                slideshows:
+                    $ref: "#/components/schemas/ArrayCollection"
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                keywords:
+                    $ref: "#/components/schemas/ArrayCollection"
+                seo_metadata:
+                    $ref: "#/components/schemas/ArticleSeoMetadata"
+                feature_media:
+                    $ref: "#/components/schemas/ArticleMedia"
+                is_published_fbia:
+                    type: boolean
+                article_statistics:
+                    $ref: "#/components/schemas/ArticleStatistics"
+                external_article:
+                    $ref: "#/components/schemas/ExternalArticle"
+                comments_count:
+                    type: integer
+                is_published_to_apple_news:
+                    type: boolean
+                apple_news_article:
+                    $ref: "#/components/schemas/AppleNewsArticle"
+                tenant:
+                    $ref: "#/components/schemas/TenantInterface"
+                paywall_secured:
+                    type: boolean
+            type: object
+        ArticleType:
+            required:
+                - status
+                - route
+                - template_name
+                - seoMetadata
+                - paywallSecured
+            properties:
+                status:
+                    type: string
+                route:
+                    type: string
+                template_name:
+                    type: string
+                seoMetadata:
+                    $ref: "#/components/schemas/SeoMetadataType"
+                paywallSecured:
+                    $ref: "#/components/schemas/BooleanType"
+            type: object
+        Route:
+            properties:
+                requirements:
+                    additionalProperties: true
+                    type: object
+                id:
+                    title: Unique id of this route.
+                    type: integer
+                static_prefix:
+                    title: >-
+                        Part of the URL that does not have parameters and thus can be used
+                        to
+
+                        naivly guess candidate routes.
+                    description: Note that this field is not used by PHPCR-ODM
+                    type: string
+                variable_pattern:
+                    title: Variable pattern part. The static part of the pattern is the id
+                        without the prefix.
+                    type: string
+                parent:
+                    type: integer
+                lft:
+                    type: integer
+                rgt:
+                    type: integer
+                level:
+                    type: integer
+                template_name:
+                    type: string
+                articles_template_name:
+                    type: string
+                type:
+                    type: string
+                cache_time_in_seconds:
+                    type: integer
+                name:
+                    type: string
+                slug:
+                    type: string
+                position:
+                    type: integer
+                articles_count:
+                    $ref: "#/components/schemas/ArticlesCountInterface"
+                paywall_secured:
+                    type: boolean
+            type: object
+        RouteType:
+            required:
+                - name
+                - type
+                - parent
+                - paywallSecured
+            properties:
+                name:
+                    type: string
+                slug:
+                    type: string
+                type:
+                    type: string
+                templateName:
+                    type: string
+                articlesTemplateName:
+                    type: string
+                content:
+                    type: string
+                parent:
+                    type: string
+                cacheTimeInSeconds:
+                    type: integer
+                variablePattern:
+                    type: string
+                requirements:
+                    items:
+                        $ref: "#/components/schemas/KeyValueRowType"
+                    type: array
+                position:
+                    type: integer
+                paywallSecured:
+                    $ref: "#/components/schemas/BooleanType"
+            type: object
+        ExportAnalyticsType:
+            required:
+                - routes
+                - authors
+            properties:
+                start:
+                    type: string
+                    format: date
+                end:
+                    type: string
+                    format: date
+                routes:
+                    items:
+                        $ref: "#/components/schemas/ExportAnalyticsRouteType"
+                    type: array
+                authors:
+                    items:
+                        type: string
+                    type: array
+                term:
+                    type: string
+            type: object
+        AnalyticsReport: []
+        ArticleCommentsType:
+            required:
+                - commentsCount
+            properties:
+                url:
+                    type: string
+                id:
+                    type: number
+                commentsCount:
+                    type: number
+            type: object
+        ArticleSource:
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        UserAuthenticationType:
+            required:
+                - username
+                - password
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+            type: object
+        User:
+            properties:
+                username:
+                    type: string
+                email:
+                    type: string
+                last_login:
+                    type: string
+                    format: date-time
+                roles:
+                    additionalProperties: true
+                    type: object
+                first_name:
+                    type: string
+                last_name:
+                    type: string
+                about:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        SuperdeskCredentialAuthenticationType:
+            required:
+                - sessionId
+                - token
+            properties:
+                sessionId:
+                    type: string
+                token:
+                    type: string
+            type: object
+        ContentList:
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                description:
+                    type: string
+                type:
+                    type: string
+                cache_life_time:
+                    type: integer
+                limit:
+                    type: integer
+                filters:
+                    additionalProperties: true
+                    type: object
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                enabled:
+                    type: boolean
+                content_list_items_updated_at:
+                    type: string
+                    format: date-time
+                content_list_items_count:
+                    $ref: "#/components/schemas/ContentListItemsCountInterface"
+            type: object
+        ContentListType:
+            required:
+                - name
+                - type
+            properties:
+                name:
+                    type: string
+                type:
+                    type: string
+                    enum:
+                        - automatic
+                        - manual
+                        - bucket
+                description:
+                    type: string
+                limit:
+                    type: integer
+                cacheLifeTime:
+                    type: integer
+                filters:
+                    type: string
+            type: object
+        ContentListItem:
+            properties:
+                id:
+                    type: integer
+                content:
+                    $ref: "#/components/schemas/Article"
+                position:
+                    type: integer
+                sticky:
+                    type: boolean
+                sticky_position:
+                    type: integer
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                enabled:
+                    type: boolean
+            type: object
+        ContentListItemType:
+            properties:
+                sticky:
+                    $ref: "#/components/schemas/BooleanType"
+                stickyPosition:
+                    type: integer
+            type: object
+        ContentListItemsType:
+            required:
+                - items
+                - updatedAt
+            properties:
+                items:
+                    items:
+                        $ref: "#/components/schemas/ContentListItemPositionType"
+                    type: array
+                updatedAt:
+                    type: string
+            type: object
+        Settings:
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                scope:
+                    type: string
+                value:
+                    type: string
+                owner:
+                    type: integer
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        ExternalData:
+            properties:
+                id:
+                    type: integer
+                key:
+                    type: string
+                value:
+                    type: string
+                package:
+                    $ref: "#/components/schemas/Package"
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        FailedEntry: []
+        FacebookApplication:
+            properties:
+                id:
+                    type: integer
+                app_id:
+                    type: string
+                app_secret:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                enabled:
+                    type: boolean
+                _links:
+                    readOnly: true
+                    properties:
+                        list:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+            type: object
+        FacebookApplicationType:
+            required:
+                - appId
+                - appSecret
+            properties:
+                appId:
+                    type: string
+                appSecret:
+                    type: string
+            type: object
+        FacebookPage:
+            properties:
+                id:
+                    type: integer
+                page_id:
+                    type: string
+                name:
+                    type: string
+                access_token:
+                    type: string
+                application:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        FacebookPageType:
+            required:
+                - pageId
+                - name
+            properties:
+                pageId:
+                    type: string
+                name:
+                    type: string
+            type: object
+        FacebookInstantArticlesArticle:
+            properties:
+                id:
+                    type: string
+                submission_id:
+                    type: string
+                article:
+                    $ref: "#/components/schemas/Article"
+                status:
+                    type: string
+                errors:
+                    type: string
+                feed:
+                    $ref: "#/components/schemas/FacebookInstantArticlesFeed"
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        FacebookInstantArticlesFeed:
+            properties:
+                id:
+                    type: string
+                content_bucket:
+                    $ref: "#/components/schemas/ContentList"
+                facebook_page:
+                    $ref: "#/components/schemas/FacebookPage"
+                mode:
+                    type: integer
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        FacebookInstantArticlesFeedType:
+            required:
+                - contentBucket
+                - facebookPage
+                - mode
+            properties:
+                contentBucket:
+                    type: string
+                    format: SWP\Bundle\CoreBundle\Model\ContentList id
+                facebookPage:
+                    type: string
+                    format: SWP\Bundle\CoreBundle\Model\FacebookPage id
+                mode:
+                    type: integer
+            type: object
+        MenuItem:
+            properties:
+                id:
+                    type: integer
+                root:
+                    type: integer
+                level:
+                    type: integer
+                name:
+                    title: Name of this menu item (used for id by parent menu).
+                    type: string
+                label:
+                    title: Label to output.
+                    type: string
+                uri:
+                    title: Uri to use in the anchor tag.
+                    type: string
+                parent:
+                    title: Parent item.
+                    type: integer
+                position:
+                    type: integer
+                route:
+                    type: integer
+            type: object
+        MenuItemMoveType:
+            required:
+                - parent
+                - position
+            properties:
+                parent:
+                    type: integer
+                position:
+                    type: integer
+            type: object
+        MenuType:
+            required:
+                - name
+            properties:
+                name:
+                    type: string
+                label:
+                    type: string
+                uri:
+                    type: string
+                parent:
+                    type: integer
+                route:
+                    type: string
+            type: object
+        Package:
+            properties:
+                id:
+                    type: integer
+                guid:
+                    type: string
+                headline:
+                    type: string
+                byline:
+                    type: string
+                slugline:
+                    type: string
+                language:
+                    type: string
+                subject:
+                    additionalProperties: true
+                    type: object
+                type:
+                    type: string
+                place:
+                    additionalProperties: true
+                    type: object
+                service:
+                    additionalProperties: true
+                    type: object
+                located:
+                    type: string
+                urgency:
+                    type: integer
+                priority:
+                    type: integer
+                version:
+                    type: integer
+                genre:
+                    additionalProperties: true
+                    type: object
+                ednote:
+                    type: string
+                description_text:
+                    type: string
+                keywords:
+                    additionalProperties: true
+                    type: object
+                pubstatus:
+                    type: string
+                evolvedfrom:
+                    type: string
+                source:
+                    type: string
+                extra:
+                    additionalProperties: true
+                    type: object
+                firstpublished:
+                    type: string
+                    format: date-time
+                copyrightnotice:
+                    type: string
+                copyrightholder:
+                    type: string
+                authors:
+                    items:
+                        $ref: "#/components/schemas/ArticleAuthor"
+                    type: array
+                associations:
+                    additionalProperties: true
+                    type: object
+                extra_items:
+                    additionalProperties: true
+                    type: object
+                body_html:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                articles:
+                    items:
+                        $ref: "#/components/schemas/Article2"
+                    type: array
+                status:
+                    type: string
+            type: object
+        Rule:
+            properties:
+                id:
+                    type: integer
+                expression:
+                    type: string
+                priority:
+                    type: integer
+                configuration:
+                    additionalProperties: true
+                    type: object
+                description:
+                    type: string
+                name:
+                    type: string
+            type: object
+        RuleType:
+            required:
+                - expression
+                - priority
+                - configuration
+                - description
+                - name
+            properties:
+                expression:
+                    type: string
+                priority:
+                    type: integer
+                configuration:
+                    items:
+                        $ref: "#/components/schemas/KeyValueRowType"
+                    type: array
+                description:
+                    type: string
+                name:
+                    type: string
+            type: object
+        Package2:
+            properties:
+                id:
+                    type: integer
+                guid:
+                    type: string
+                headline:
+                    type: string
+                byline:
+                    type: string
+                slugline:
+                    type: string
+                language:
+                    type: string
+                subject:
+                    additionalProperties: true
+                    type: object
+                type:
+                    type: string
+                place:
+                    additionalProperties: true
+                    type: object
+                service:
+                    additionalProperties: true
+                    type: object
+                located:
+                    type: string
+                urgency:
+                    type: integer
+                priority:
+                    type: integer
+                version:
+                    type: integer
+                genre:
+                    additionalProperties: true
+                    type: object
+                ednote:
+                    type: string
+                description_text:
+                    type: string
+                keywords:
+                    additionalProperties: true
+                    type: object
+                pubstatus:
+                    type: string
+                evolvedfrom:
+                    type: string
+                source:
+                    type: string
+                extra:
+                    additionalProperties: true
+                    type: object
+                firstpublished:
+                    type: string
+                    format: date-time
+                copyrightnotice:
+                    type: string
+                copyrightholder:
+                    type: string
+                authors:
+                    items:
+                        $ref: "#/components/schemas/ArticleAuthor2"
+                    type: array
+                associations:
+                    additionalProperties: true
+                    type: object
+                extra_items:
+                    additionalProperties: true
+                    type: object
+                body_html:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                articles:
+                    items:
+                        $ref: "#/components/schemas/Article"
+                    type: array
+                status:
+                    type: string
+            type: object
+        CompositePublishActionType:
+            required:
+                - destinations
+            properties:
+                destinations:
+                    items:
+                        $ref: "#/components/schemas/PublishDestinationType"
+                    type: array
+            type: object
+        UnpublishFromTenantsType:
+            required:
+                - tenants
+            properties:
+                tenants:
+                    items:
+                        type: string
+                        enum:
+                            - {}
+                            - {}
+                            - {}
+                    type: array
+            type: object
+        PackageType:
+            required:
+                - pubStatus
+            properties:
+                pubStatus:
+                    type: string
+            type: object
+        ArticleSeoMetadata:
+            properties:
+                meta_title:
+                    type: string
+                meta_description:
+                    type: string
+                og_title:
+                    type: string
+                og_description:
+                    type: string
+                twitter_title:
+                    type: string
+                twitter_description:
+                    type: string
+            type: object
+        PublishDestinationType:
+            required:
+                - tenant
+                - route
+                - isPublishedFbia
+                - isPublishedToAppleNews
+                - packageGuid
+                - published
+                - paywallSecured
+            properties:
+                tenant:
+                    type: string
+                route:
+                    type: string
+                isPublishedFbia:
+                    $ref: "#/components/schemas/BooleanType"
+                isPublishedToAppleNews:
+                    $ref: "#/components/schemas/BooleanType"
+                packageGuid:
+                    type: string
+                published:
+                    $ref: "#/components/schemas/BooleanType"
+                paywallSecured:
+                    $ref: "#/components/schemas/BooleanType"
+                contentLists:
+                    items:
+                        $ref: "#/components/schemas/ContentListPositionType"
+                    type: array
+            type: object
+        PublishDestination:
+            properties:
+                id:
+                    type: string
+                tenant:
+                    $ref: "#/components/schemas/Tenant"
+                route:
+                    $ref: "#/components/schemas/Route"
+                is_published_fbia:
+                    type: boolean
+                published:
+                    type: boolean
+                package_guid:
+                    type: string
+                content_lists:
+                    additionalProperties: true
+                    type: object
+                is_published_to_apple_news:
+                    type: boolean
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                organization:
+                    $ref: "#/components/schemas/Organization"
+                paywall_secured:
+                    type: boolean
+            type: object
+        RedirectRoute: []
+        RedirectRouteType:
+            required:
+                - routeName
+                - permanent
+                - routeSource
+                - routeTarget
+            properties:
+                routeName:
+                    type: string
+                uri:
+                    type: string
+                permanent:
+                    type: boolean
+                routeSource:
+                    type: string
+                routeTarget:
+                    type: string
+            type: object
+        RedirectRoute2:
+            properties:
+                requirements:
+                    additionalProperties: true
+                    type: object
+                id:
+                    title: Unique id of this route.
+                    type: integer
+                static_prefix:
+                    title: >-
+                        Part of the URL that does not have parameters and thus can be used
+                        to
+
+                        naivly guess candidate routes.
+                    description: Note that this field is not used by PHPCR-ODM
+                    type: string
+                variable_pattern:
+                    title: Variable pattern part. The static part of the pattern is the id
+                        without the prefix.
+                    type: string
+            type: object
+        RelatedArticleList:
+            type: object
+        SeoMetadataType:
+            required:
+                - metaDescription
+                - metaTitle
+                - ogDescription
+                - ogTitle
+                - twitterDescription
+                - twitterTitle
+            properties:
+                metaDescription:
+                    type: string
+                metaTitle:
+                    type: string
+                ogDescription:
+                    type: string
+                ogTitle:
+                    type: string
+                twitterDescription:
+                    type: string
+                twitterTitle:
+                    type: string
+            type: object
+        Slideshow:
+            properties:
+                id:
+                    type: integer
+                code:
+                    type: string
+                article:
+                    $ref: "#/components/schemas/Article"
+                items:
+                    items:
+                        $ref: "#/components/schemas/SlideshowItemInterface"
+                    type: array
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        SlideshowItem:
+            properties:
+                article_media:
+                    $ref: "#/components/schemas/ArticleMedia"
+                position:
+                    type: integer
+            type: object
+        Tenant:
+            properties:
+                id:
+                    type: integer
+                subdomain:
+                    type: string
+                domain_name:
+                    type: string
+                name:
+                    type: string
+                code:
+                    type: string
+                organization:
+                    $ref: "#/components/schemas/Organization2"
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                enabled:
+                    type: boolean
+                theme_name:
+                    type: string
+                amp_enabled:
+                    type: boolean
+                output_channel:
+                    $ref: "#/components/schemas/OutputChannel"
+                apple_news_config:
+                    $ref: "#/components/schemas/AppleNewsConfig"
+                articles_count:
+                    $ref: "#/components/schemas/ArticlesCountInterface"
+            type: object
+        TenantType:
+            required:
+                - name
+                - domainName
+            properties:
+                name:
+                    type: string
+                subdomain:
+                    type: string
+                domainName:
+                    type: string
+                themeName:
+                    type: string
+                    enum:
+                        - swp/default-theme
+                organization:
+                    type: number
+                    enum:
+                        - "654321"
+                        - "123456"
+                ampEnabled:
+                    $ref: "#/components/schemas/BooleanType"
+                fbiaEnabled:
+                    $ref: "#/components/schemas/BooleanType"
+                paywallEnabled:
+                    $ref: "#/components/schemas/BooleanType"
+                outputChannel:
+                    $ref: "#/components/schemas/OutputChannelType"
+                defaultLanguage:
+                    type: string
+                appleNewsConfig:
+                    $ref: "#/components/schemas/AppleNewsConfigType"
+            type: object
+        Theme:
+            properties:
+                screenshots:
+                    additionalProperties: true
+                    type: object
+                config:
+                    additionalProperties: true
+                    type: object
+                logo_path:
+                    type: string
+                settings:
+                    additionalProperties: true
+                    type: object
+            type: object
+        ThemeInstallType:
+            required:
+                - name
+                - processGeneratedData
+            properties:
+                name:
+                    type: string
+                processGeneratedData:
+                    $ref: "#/components/schemas/BooleanType"
+            type: object
+        Webhook:
+            properties:
+                url:
+                    type: string
+                enabled:
+                    type: boolean
+                id:
+                    type: string
+                events:
+                    additionalProperties: true
+                    type: object
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        WebhookType:
+            required:
+                - url
+            properties:
+                url:
+                    type: string
+                events:
+                    items:
+                        type: string
+                    type: array
+                enabled:
+                    $ref: "#/components/schemas/BooleanType"
+            type: object
+        ProfileFormType:
+            required:
+                - email
+                - plainPassword
+            properties:
+                email:
+                    type: string
+                username:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                about:
+                    type: string
+                plainPassword:
+                    required:
+                        - first
+                        - second
+                    properties:
+                        first:
+                            type: string
+                            format: password
+                        second:
+                            type: string
+                            format: password
+                    type: object
+            type: object
+        RegistrationFormType:
+            required:
+                - email
+                - username
+                - plainPassword
+            properties:
+                email:
+                    type: string
+                username:
+                    type: string
+                plainPassword:
+                    required:
+                        - first
+                        - second
+                    properties:
+                        first:
+                            type: string
+                            format: password
+                        second:
+                            type: string
+                            format: password
+                    type: object
+            type: object
+        UserRolesType:
+            required:
+                - roles
+            properties:
+                roles:
+                    type: string
+            type: object
+        SettingType:
+            required:
+                - name
+                - value
+            properties:
+                name:
+                    type: string
+                value:
+                    type: string
+            type: object
+        BulkSettingsUpdateType:
+            required:
+                - bulk
+            properties:
+                bulk:
+                    items:
+                        $ref: "#/components/schemas/SettingType"
+                    type: array
+            type: object
+        ArrayCollection: []
+        ArticleMedia:
+            properties:
+                id:
+                    type: integer
+                file:
+                    $ref: "#/components/schemas/File"
+                image:
+                    $ref: "#/components/schemas/Image"
+                description:
+                    type: string
+                by_line:
+                    type: string
+                alt_text:
+                    type: string
+                usage_terms:
+                    type: string
+                headline:
+                    type: string
+                copyright_holder:
+                    type: string
+                copyright_notice:
+                    type: string
+            type: object
+        ArticleStatistics:
+            properties:
+                impressions_number:
+                    type: integer
+                page_views_number:
+                    type: integer
+                internal_click_rate:
+                    type: number
+                    format: float
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        ExternalArticle:
+            type: object
+        AppleNewsArticle:
+            type: object
+        TenantInterface:
+            type: object
+        BooleanType:
+            type: object
+        ArticlesCountInterface:
+            type: object
+        KeyValueRowType:
+            required:
+                - key
+                - value
+            properties:
+                key:
+                    type: string
+                value:
+                    $ref: "#/components/schemas/UnstructuredType"
+            type: object
+        ExportAnalyticsRouteType:
+            required:
+                - id
+            properties:
+                id:
+                    type: string
+            type: object
+        ContentListItemsCountInterface:
+            type: object
+        ContentListItemPositionType:
+            required:
+                - action
+                - contentId
+            properties:
+                position:
+                    type: integer
+                sticky:
+                    $ref: "#/components/schemas/BooleanType"
+                action:
+                    type: string
+                contentId:
+                    type: integer
+            type: object
+        ArticleAuthor:
+            properties:
+                name:
+                    type: string
+                role:
+                    type: string
+                jobtitle:
+                    additionalProperties: true
+                    type: object
+                biography:
+                    type: string
+                avatar_url:
+                    type: string
+                twitter:
+                    type: string
+                instagram:
+                    type: string
+                facebook:
+                    type: string
+                id:
+                    type: integer
+                slug:
+                    type: string
+                avatar:
+                    $ref: "#/components/schemas/AuthorMedia"
+            type: object
+        Article2:
+            properties:
+                id:
+                    type: integer
+                title:
+                    type: string
+                body:
+                    type: string
+                slug:
+                    type: string
+                published_at:
+                    type: string
+                    format: date-time
+                status:
+                    type: string
+                route:
+                    $ref: "#/components/schemas/Route2"
+                template_name:
+                    type: string
+                publish_start_date:
+                    type: string
+                    format: date-time
+                publish_end_date:
+                    type: string
+                    format: date-time
+                is_publishable:
+                    type: boolean
+                metadata:
+                    additionalProperties: true
+                    type: object
+                lead:
+                    type: string
+                code:
+                    type: string
+                extra:
+                    additionalProperties: true
+                    type: object
+                slideshows:
+                    $ref: "#/components/schemas/ArrayCollection"
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                keywords:
+                    $ref: "#/components/schemas/ArrayCollection"
+                seo_metadata:
+                    $ref: "#/components/schemas/ArticleSeoMetadata2"
+                feature_media:
+                    $ref: "#/components/schemas/ArticleMedia2"
+                is_published_fbia:
+                    type: boolean
+                article_statistics:
+                    $ref: "#/components/schemas/ArticleStatistics2"
+                external_article:
+                    $ref: "#/components/schemas/ExternalArticle"
+                comments_count:
+                    type: integer
+                is_published_to_apple_news:
+                    type: boolean
+                apple_news_article:
+                    $ref: "#/components/schemas/AppleNewsArticle"
+                tenant:
+                    $ref: "#/components/schemas/TenantInterface"
+                paywall_secured:
+                    type: boolean
+                _links:
+                    readOnly: true
+                    properties:
+                        self:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+                        online:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+                        related:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+                        slideshows:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+            type: object
+        ArticleAuthor2:
+            properties:
+                name:
+                    type: string
+                role:
+                    type: string
+                jobtitle:
+                    additionalProperties: true
+                    type: object
+                biography:
+                    type: string
+                avatar_url:
+                    type: string
+                twitter:
+                    type: string
+                instagram:
+                    type: string
+                facebook:
+                    type: string
+            type: object
+        ContentListPositionType:
+            required:
+                - id
+                - position
+            properties:
+                id:
+                    type: integer
+                position:
+                    type: integer
+            type: object
+        Organization:
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                code:
+                    type: string
+            type: object
+        SlideshowItemInterface:
+            type: object
+        Organization2:
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                code:
+                    type: string
+            type: object
+        OutputChannel:
+            properties:
+                type:
+                    type: string
+                config:
+                    additionalProperties: true
+                    type: object
+            type: object
+        AppleNewsConfig:
+            properties:
+                api_key_id:
+                    type: string
+                api_key_secret:
+                    type: string
+                channel_id:
+                    type: string
+            type: object
+        OutputChannelType:
+            required:
+                - type
+            properties:
+                type:
+                    type: string
+                    enum:
+                        - wordpress
+            type: object
+        AppleNewsConfigType:
+            properties:
+                channelId:
+                    type: string
+                apiKeyId:
+                    type: string
+                apiKeySecret:
+                    type: string
+            type: object
+        File:
+            properties:
+                id:
+                    type: string
+                file_extension:
+                    title: Uploaded file extension.
+                    type: string
+                asset_id:
+                    type: string
+            type: object
+        Image:
+            properties:
+                id:
+                    type: integer
+                file_extension:
+                    title: Uploaded file extension.
+                    type: string
+                asset_id:
+                    type: string
+                width:
+                    type: integer
+                height:
+                    type: integer
+                length:
+                    type: number
+                    format: float
+            type: object
+        UnstructuredType:
+            type: object
+        AuthorMedia:
+            properties:
+                id:
+                    type: string
+                key:
+                    type: string
+                file:
+                    $ref: "#/components/schemas/File2"
+                image:
+                    $ref: "#/components/schemas/Image2"
+                _links:
+                    readOnly: true
+                    properties:
+                        download:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+            type: object
+        Route2:
+            properties:
+                requirements:
+                    additionalProperties: true
+                    type: object
+                id:
+                    title: Unique id of this route.
+                    type: integer
+                static_prefix:
+                    title: >-
+                        Part of the URL that does not have parameters and thus can be used
+                        to
+
+                        naivly guess candidate routes.
+                    description: Note that this field is not used by PHPCR-ODM
+                    type: string
+                variable_pattern:
+                    title: Variable pattern part. The static part of the pattern is the id
+                        without the prefix.
+                    type: string
+                parent:
+                    type: integer
+                lft:
+                    type: integer
+                rgt:
+                    type: integer
+                level:
+                    type: integer
+                template_name:
+                    type: string
+                articles_template_name:
+                    type: string
+                type:
+                    type: string
+                cache_time_in_seconds:
+                    type: integer
+                name:
+                    type: string
+                slug:
+                    type: string
+                position:
+                    type: integer
+                articles_count:
+                    $ref: "#/components/schemas/ArticlesCountInterface"
+                paywall_secured:
+                    type: boolean
+                _links:
+                    readOnly: true
+                    properties:
+                        self:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+                        parent:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+            type: object
+        ArticleSeoMetadata2:
+            properties:
+                meta_title:
+                    type: string
+                meta_description:
+                    type: string
+                og_title:
+                    type: string
+                og_description:
+                    type: string
+                twitter_title:
+                    type: string
+                twitter_description:
+                    type: string
+                _links:
+                    readOnly: true
+                    properties:
+                        meta_media_url:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+                        og_media_url:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+                        twitter_media_url:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+            type: object
+        ArticleMedia2:
+            properties:
+                id:
+                    type: integer
+                file:
+                    $ref: "#/components/schemas/File2"
+                image:
+                    $ref: "#/components/schemas/Image2"
+                description:
+                    type: string
+                by_line:
+                    type: string
+                alt_text:
+                    type: string
+                usage_terms:
+                    type: string
+                headline:
+                    type: string
+                copyright_holder:
+                    type: string
+                copyright_notice:
+                    type: string
+                _links:
+                    readOnly: true
+                    properties:
+                        download:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+            type: object
+        ArticleStatistics2:
+            properties:
+                impressions_number:
+                    type: integer
+                page_views_number:
+                    type: integer
+                internal_click_rate:
+                    type: number
+                    format: float
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            type: object
+        File2:
+            properties:
+                id:
+                    type: string
+                file_extension:
+                    title: Uploaded file extension.
+                    type: string
+                asset_id:
+                    type: string
+                _links:
+                    readOnly: true
+                    properties:
+                        download:
+                            properties:
+                                href:
+                                    type: string
+                            type: object
+            type: object
+        Image2:
+            properties:
+                id:
+                    type: integer
+                file_extension:
+                    title: Uploaded file extension.
+                    type: string
+                asset_id:
+                    type: string
+                width:
+                    type: integer
+                height:
+                    type: integer
+                length:
+                    type: number
+                    format: float
+            type: object

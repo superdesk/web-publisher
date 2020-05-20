@@ -1,0 +1,77 @@
+get:
+  summary: Refresh token.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ''
+post:
+  summary: Refresh token.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ''
+put:
+  summary: Refresh token.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ''
+patch:
+  summary: Refresh token.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ''
+delete:
+  summary: Refresh token.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ''
+options:
+  summary: Refresh token.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ''
+head:
+  summary: Refresh token.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ''

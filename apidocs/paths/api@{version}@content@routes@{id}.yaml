@@ -1,0 +1,78 @@
+get:
+  summary: Show single tenant route
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: .+
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Route.yaml
+  tags:
+    - route
+patch:
+  summary: Update single route
+  description: 'Parameter `type` cane have one of two values: `content` or `collection`.'
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: .+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RouteType.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Route.yaml
+    '400':
+      description: Returned when not valid data.
+    '404':
+      description: Returned when not found.
+    '409':
+      description: Returned on conflict.
+  tags:
+    - route
+delete:
+  summary: Delete single tenant route
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: .+
+  responses:
+    '204':
+      description: Returned on success.
+  tags:
+    - route

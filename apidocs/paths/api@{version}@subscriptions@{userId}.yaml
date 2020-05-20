@@ -1,0 +1,30 @@
+get:
+  summary: Lists user subscriptions
+  parameters:
+    - name: routeId
+      in: query
+      required: false
+      description: Route id
+      schema:
+        type: integer
+    - name: articleId
+      in: query
+      required: false
+      description: Article id
+      schema:
+        type: integer
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+  tags:
+    - paywall

@@ -1,0 +1,62 @@
+get:
+  summary: Get package external data
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: slug
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/ExternalData.yaml
+            type: array
+    '400':
+      description: Returned on validation error.
+    '405':
+      description: Method Not Allowed.
+  tags:
+    - package
+put:
+  summary: Set new package external data
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: slug
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+    required: true
+  responses:
+    '201':
+      description: Returned on success.
+    '400':
+      description: Returned on validation error.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/ExternalData.yaml
+            type: array
+    '405':
+      description: Method Not Allowed.
+  tags:
+    - package

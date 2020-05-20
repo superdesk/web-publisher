@@ -1,0 +1,22 @@
+properties:
+  id:
+    type: integer
+  file:
+    $ref: ./File.yaml
+  image:
+    $ref: ./Image.yaml
+  description:
+    type: string
+  by_line:
+    type: string
+  alt_text:
+    type: string
+  usage_terms:
+    type: string
+  headline:
+    type: string
+  copyright_holder:
+    type: string
+  copyright_notice:
+    type: string
+type: object

@@ -1,0 +1,13 @@
+required:
+  - action
+  - contentId
+properties:
+  position:
+    type: integer
+  sticky:
+    $ref: ./BooleanType.yaml
+  action:
+    type: string
+  contentId:
+    type: integer
+type: object

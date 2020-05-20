@@ -1,0 +1,15 @@
+post:
+  summary: Returns a list of rules that will be executed on the package
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/Package.yaml
+  responses:
+    '200':
+      description: Returned on success
+  tags:
+    - organization rule

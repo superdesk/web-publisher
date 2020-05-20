@@ -1,0 +1,19 @@
+properties:
+  requirements:
+    additionalProperties: true
+    type: object
+  id:
+    title: Unique id of this route.
+    type: integer
+  static_prefix:
+    title: |-
+      Part of the URL that does not have parameters and thus can be used to
+      naivly guess candidate routes.
+    description: Note that this field is not used by PHPCR-ODM
+    type: string
+  variable_pattern:
+    title: >-
+      Variable pattern part. The static part of the pattern is the id without
+      the prefix.
+    type: string
+type: object

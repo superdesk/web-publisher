@@ -1,0 +1,36 @@
+patch:
+  summary: Moves menu item to a specific position in a tree
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/MenuItemMoveType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/MenuItem.yaml
+    '400':
+      description: Validation error.
+    '404':
+      description: Menu item not found.
+    '409':
+      description: When Menu item is already placed at the same position.
+    '500':
+      description: Unexpected error.
+  tags:
+    - menu

@@ -1,0 +1,20 @@
+properties:
+  id:
+    type: string
+  submission_id:
+    type: string
+  article:
+    $ref: ./Article.yaml
+  status:
+    type: string
+  errors:
+    type: string
+  feed:
+    $ref: ./FacebookInstantArticlesFeed.yaml
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+type: object

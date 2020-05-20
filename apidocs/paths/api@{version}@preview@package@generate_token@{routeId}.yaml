@@ -1,0 +1,29 @@
+post:
+  summary: Generate package preview token for specific route
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: routeId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  requestBody:
+    $ref: ../components/requestBodies/Package.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            type: string
+    '400':
+      description: Returned when validation failed.
+    '500':
+      description: Returned when unexpected error.
+  tags:
+    - package

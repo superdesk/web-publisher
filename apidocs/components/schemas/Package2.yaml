@@ -1,0 +1,83 @@
+properties:
+  id:
+    type: integer
+  guid:
+    type: string
+  headline:
+    type: string
+  byline:
+    type: string
+  slugline:
+    type: string
+  language:
+    type: string
+  subject:
+    additionalProperties: true
+    type: object
+  type:
+    type: string
+  place:
+    additionalProperties: true
+    type: object
+  service:
+    additionalProperties: true
+    type: object
+  located:
+    type: string
+  urgency:
+    type: integer
+  priority:
+    type: integer
+  version:
+    type: integer
+  genre:
+    additionalProperties: true
+    type: object
+  ednote:
+    type: string
+  description_text:
+    type: string
+  keywords:
+    additionalProperties: true
+    type: object
+  pubstatus:
+    type: string
+  evolvedfrom:
+    type: string
+  source:
+    type: string
+  extra:
+    additionalProperties: true
+    type: object
+  firstpublished:
+    type: string
+    format: date-time
+  copyrightnotice:
+    type: string
+  copyrightholder:
+    type: string
+  authors:
+    items:
+      $ref: ./ArticleAuthor2.yaml
+    type: array
+  associations:
+    additionalProperties: true
+    type: object
+  extra_items:
+    additionalProperties: true
+    type: object
+  body_html:
+    type: string
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  articles:
+    items:
+      $ref: ./Article.yaml
+    type: array
+  status:
+    type: string
+type: object

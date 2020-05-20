@@ -1,0 +1,25 @@
+properties:
+  name:
+    type: string
+  role:
+    type: string
+  jobtitle:
+    additionalProperties: true
+    type: object
+  biography:
+    type: string
+  avatar_url:
+    type: string
+  twitter:
+    type: string
+  instagram:
+    type: string
+  facebook:
+    type: string
+  id:
+    type: integer
+  slug:
+    type: string
+  avatar:
+    $ref: ./AuthorMedia.yaml
+type: object

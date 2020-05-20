@@ -1,0 +1,9 @@
+required:
+  - appId
+  - appSecret
+properties:
+  appId:
+    type: string
+  appSecret:
+    type: string
+type: object

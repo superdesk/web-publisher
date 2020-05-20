@@ -1,0 +1,19 @@
+delete:
+  summary: Delete author
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  responses:
+    '204':
+      description: Returned on success.
+  tags:
+    - authors

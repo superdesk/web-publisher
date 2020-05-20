@@ -1,0 +1,51 @@
+get:
+  summary: Lists Facebook Instant Articles feeds
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/FacebookInstantArticlesFeed.yaml
+            type: array
+    '500':
+      description: Unexpected error.
+  tags:
+    - facebook instant articles
+post:
+  summary: Create Facebook Instant Articles feed content list
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/FacebookInstantArticlesFeedType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/FacebookInstantArticlesFeed.yaml
+    '400':
+      description: Returned when not valid data.
+  tags:
+    - facebook instant articles

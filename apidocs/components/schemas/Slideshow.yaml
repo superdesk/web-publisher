@@ -1,0 +1,18 @@
+properties:
+  id:
+    type: integer
+  code:
+    type: string
+  article:
+    $ref: ./Article.yaml
+  items:
+    items:
+      $ref: ./SlideshowItemInterface.yaml
+    type: array
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+type: object

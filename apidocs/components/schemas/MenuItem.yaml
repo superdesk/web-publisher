@@ -1,0 +1,24 @@
+properties:
+  id:
+    type: integer
+  root:
+    type: integer
+  level:
+    type: integer
+  name:
+    title: Name of this menu item (used for id by parent menu).
+    type: string
+  label:
+    title: Label to output.
+    type: string
+  uri:
+    title: Uri to use in the anchor tag.
+    type: string
+  parent:
+    title: Parent item.
+    type: integer
+  position:
+    type: integer
+  route:
+    type: integer
+type: object

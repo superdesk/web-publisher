@@ -1,0 +1,8 @@
+required:
+  - destinations
+properties:
+  destinations:
+    items:
+      $ref: ./PublishDestinationType.yaml
+    type: array
+type: object

@@ -1,0 +1,26 @@
+patch:
+  summary: Settings bulk update
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/BulkSettingsUpdateType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Settings.yaml
+            type: array
+    '404':
+      description: Setting not found
+  tags:
+    - settings

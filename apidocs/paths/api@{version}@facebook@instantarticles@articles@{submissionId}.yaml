@@ -1,0 +1,24 @@
+post:
+  summary: Updates status of submitted Instant Article
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: submissionId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/FacebookInstantArticlesArticle.yaml
+    '500':
+      description: Unexpected error.
+  tags:
+    - facebook instant articles

@@ -1,0 +1,12 @@
+required:
+  - url
+properties:
+  url:
+    type: string
+  events:
+    items:
+      type: string
+    type: array
+  enabled:
+    $ref: ./BooleanType.yaml
+type: object

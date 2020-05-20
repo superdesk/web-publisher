@@ -1,0 +1,53 @@
+get:
+  summary: Gets SEO metadata entry
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: packageGuid
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/ArticleSeoMetadata.yaml
+    '400':
+      description: Returned when form have errors
+  tags:
+    - seo
+put:
+  summary: Change SEO metadata entry
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: packageGuid
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/SeoMetadataType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/ArticleSeoMetadata.yaml
+    '400':
+      description: Returned when form have errors
+  tags:
+    - seo

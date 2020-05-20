@@ -1,0 +1,40 @@
+get:
+  summary: Get user settings
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/User.yaml
+    '401':
+      description: Returned on user not found.
+  tags:
+    - user
+patch:
+  summary: Update user setting
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/SettingType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Settings.yaml
+    '404':
+      description: Setting not found
+  tags:
+    - user
