@@ -15,33 +15,51 @@
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-/**
- * Class CreateTenantCommand.
- */
-class CreateTenantCommand extends ContainerAwareCommand
+class CreateTenantCommand extends Command
 {
     protected static $defaultName = 'swp:tenant:create';
 
-    /**
-     * @var array
-     */
     protected $arguments = ['domain', 'subdomain', 'name', 'organization code'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
+    private $swpDomain;
+
+    private $tenantFactory;
+
+    private $tenantObjectManager;
+
+    private $tenantRepository;
+
+    private $organizationRepository;
+
+    public function __construct(
+        string $swpDomain,
+        TenantFactoryInterface $tenantFactory,
+        ObjectManager $tenantObjectManager,
+        TenantRepositoryInterface $tenantRepository,
+        OrganizationRepositoryInterface $organizationRepository
+    ) {
+        parent::__construct();
+
+        $this->swpDomain = $swpDomain;
+        $this->tenantFactory = $tenantFactory;
+        $this->tenantObjectManager = $tenantObjectManager;
+        $this->tenantRepository = $tenantRepository;
+        $this->organizationRepository = $organizationRepository;
+    }
+
+    protected function configure(): void
     {
         $this
             ->setName('swp:tenant:create')
@@ -61,10 +79,7 @@ EOT
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $domain = $input->getArgument($this->arguments[0]);
         $subdomain = $input->getArgument($this->arguments[1]);
@@ -75,13 +90,13 @@ EOT
 
         if ($default) {
             $name = TenantInterface::DEFAULT_TENANT_NAME;
-            $domain = $this->getContainer()->getParameter('env(SWP_DOMAIN)');
-            $organization = $this->getOrganizationRepository()->findOneByName(OrganizationInterface::DEFAULT_NAME);
+            $domain = $this->swpDomain;
+            $organization = $this->organizationRepository->findOneByName(OrganizationInterface::DEFAULT_NAME);
             if (null === $organization) {
                 throw new \InvalidArgumentException('Default organization doesn\'t exist!');
             }
         } else {
-            $organization = $this->getOrganizationRepository()->findOneByCode($organizationCode);
+            $organization = $this->organizationRepository->findOneByCode($organizationCode);
 
             if (null === $organization) {
                 throw new \InvalidArgumentException(sprintf('Organization with "%s" code doesn\'t exist!', $organizationCode));
@@ -89,9 +104,9 @@ EOT
         }
 
         if (null !== $subdomain) {
-            $tenant = $this->getTenantRepository()->findOneBySubdomainAndDomain($subdomain, $domain);
+            $tenant = $this->tenantRepository->findOneBySubdomainAndDomain($subdomain, $domain);
         } else {
-            $tenant = $this->getTenantRepository()->findOneByDomain($domain);
+            $tenant = $this->tenantRepository->findOneByDomain($domain);
         }
 
         if (null !== $tenant) {
@@ -102,8 +117,8 @@ EOT
         if ($default) {
             $tenant->setCode(TenantInterface::DEFAULT_TENANT_CODE);
         }
-        $this->getObjectManager()->persist($tenant);
-        $this->getObjectManager()->flush();
+        $this->tenantObjectManager->persist($tenant);
+        $this->tenantObjectManager->flush();
 
         $output->writeln(
             sprintf(
@@ -113,28 +128,24 @@ EOT
                 $tenant->isEnabled() ? 'enabled' : 'disabled'
             )
         );
+
+        return 1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         foreach ($this->arguments as $value) {
             $this->askAndValidateInteract($input, $output, $value);
         }
     }
 
-    /**
-     * @param string $name
-     */
-    protected function askAndValidateInteract(InputInterface $input, OutputInterface $output, $name)
+    protected function askAndValidateInteract(InputInterface $input, OutputInterface $output, $name): void
     {
         $default = $input->getOption('default');
-        if (!$input->getArgument($name) && !$default && $name !== $this->arguments[1]) {
+        if (!$input->getArgument($name) && !$default) {
             $question = new Question(sprintf('<question>Please enter %s:</question>', $name));
             $question->setValidator(function ($argument) use ($name) {
-                if (empty($argument)) {
+                if (empty($argument) && $name !== $this->arguments[1]) {
                     throw new \RuntimeException(sprintf('The %s can not be empty', $name));
                 }
 
@@ -149,21 +160,10 @@ EOT
         }
     }
 
-    /**
-     * Creates a new tenant.
-     *
-     * @param $subdomain
-     * @param $name
-     * @param $disabled
-     * @param $organization
-     *
-     * @return TenantInterface
-     */
-    protected function createTenant($domain, $subdomain, $name, $disabled, $organization)
+    protected function createTenant(string $domain, ?string $subdomain, string $name, bool $disabled, OrganizationInterface $organization): TenantInterface
     {
-        $tenantFactory = $this->getContainer()->get('swp.factory.tenant');
         /** @var TenantInterface $tenant */
-        $tenant = $tenantFactory->create();
+        $tenant = $this->tenantFactory->create();
         $tenant->setSubdomain($subdomain);
         $tenant->setDomainName($domain);
         $tenant->setName($name);
@@ -171,29 +171,5 @@ EOT
         $tenant->setOrganization($organization);
 
         return $tenant;
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    protected function getObjectManager()
-    {
-        return $this->getContainer()->get('swp.object_manager.tenant');
-    }
-
-    /**
-     * @return TenantRepositoryInterface
-     */
-    protected function getTenantRepository()
-    {
-        return $this->getContainer()->get('swp.repository.tenant');
-    }
-
-    /**
-     * @return OrganizationRepositoryInterface
-     */
-    protected function getOrganizationRepository()
-    {
-        return $this->getContainer()->get('swp.repository.organization');
     }
 }
