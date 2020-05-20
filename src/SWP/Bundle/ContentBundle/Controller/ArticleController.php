@@ -107,7 +107,7 @@ class ArticleController extends Controller
     /**
      * @Route("/api/{version}/content/articles/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
      */
-    public function deleteAction(int $id): SingleResourceResponseInterface
+    public function deleteAction($id): SingleResourceResponseInterface
     {
         $objectManager = $this->get('swp.object_manager.article');
         $objectManager->remove($this->findOr404($id));
