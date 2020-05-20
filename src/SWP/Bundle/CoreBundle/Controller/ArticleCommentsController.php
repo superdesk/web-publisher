@@ -17,18 +17,16 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use function array_key_exists;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use function parse_url;
 use function str_replace;
 use function strpos;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleCommentsType;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,30 +34,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleCommentsController extends AbstractController
 {
     /**
-     * @Operation(
-     *     tags={"article"},
-     *     summary="Update article comments number",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=ArticleCommentsType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Article::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Return when article was not found"
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_article_comments")
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request): SingleResourceResponseInterface
     {
         $repository = $this->get('swp.repository.article');
         $articleResolver = $this->container->get('swp.resolver.article');

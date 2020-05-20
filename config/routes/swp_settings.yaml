@@ -1,6 +1,6 @@
 swp_api_settings_list:
     path: /api/{version}/settings/
-    defaults: { _controller: SWPCoreBundle:Settings:list, version: "v2" }
+    defaults: { _controller: SettingsBundle:Settings:list, version: "v2" }
     requirements:
         slug: .*
     options:
@@ -9,7 +9,7 @@ swp_api_settings_list:
 
 swp_api_settings_revert:
     path: /api/{version}/settings/revert/{scope}
-    defaults: { _controller: SWPCoreBundle:Settings:revert, version: "v2" }
+    defaults: { _controller: SettingsBundle:Settings:revert, version: "v2" }
     requirements:
         slug: .*
     options:
@@ -18,7 +18,7 @@ swp_api_settings_revert:
 
 swp_api_settings_update:
     path: /api/{version}/settings/
-    defaults: { _controller: SWPCoreBundle:Settings:update, version: "v2" }
+    defaults: { _controller: SettingsBundle:Settings:update, version: "v2" }
     requirements:
         slug: .*
     options:
@@ -27,7 +27,7 @@ swp_api_settings_update:
 
 swp_api_settings_bulk_update:
     path: /api/{version}/settings/bulk/
-    defaults: { _controller: SWPCoreBundle:Settings:bulk, version: "v2" }
+    defaults: { _controller: SettingsBundle:Settings:bulk, version: "v2" }
     requirements:
         slug: .*
     options:

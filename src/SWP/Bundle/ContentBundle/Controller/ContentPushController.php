@@ -77,7 +77,8 @@ class ContentPushController extends AbstractController
                         'media' => base64_encode($mediaManager->getFile($file)),
                         'mime_type' => Mime::getMimeFromExtension($file->getFileExtension()),
                         'filemeta' => [],
-                    ], new ResponseContext(201)
+                    ],
+                    new ResponseContext(201)
                 );
             }
 

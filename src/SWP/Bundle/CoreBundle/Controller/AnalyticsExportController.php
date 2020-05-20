@@ -16,9 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
 use Doctrine\Common\Cache\Cache;
 use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
@@ -31,17 +28,19 @@ use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Model\DateTime as PublisherDateTime;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\ResponseContext;
+use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
-use SWP\Component\Common\Response\ResponseContext;
-use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Component\HttpFoundation\Request;
-use SWP\Component\Common\Model\DateTime as PublisherDateTime;
 
 class AnalyticsExportController extends AbstractController
 {
@@ -80,29 +79,11 @@ class AnalyticsExportController extends AbstractController
     }
 
     /**
-     * @Operation(
-     *     tags={"export"},
-     *     summary="Export analytics data",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=SWP\Bundle\CoreBundle\Form\Type\ExportAnalyticsType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/export/analytics/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
-     *
-     * @return SingleResourceResponse
      *
      * @throws \Exception
      */
-    public function post(Request $request): SingleResourceResponse
+    public function post(Request $request): SingleResourceResponseInterface
     {
         /** @var UserInterface $currentlyLoggedInUser */
         $currentlyLoggedInUser = $this->getUser();
@@ -146,29 +127,9 @@ class AnalyticsExportController extends AbstractController
     }
 
     /**
-     * @Operation(
-     *     tags={"export"},
-     *     summary="Lists analytics reports",
-     *     @SWG\Parameter(
-     *         name="sorting",
-     *         in="query",
-     *         description="example: [createdAt]=asc|desc",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreRoute\Model\AnalyticsReport::class, groups={"api"}))
-     *         )
-     *     )
-     * )
-     *
      * @Route("/api/{version}/export/analytics/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): ResourcesListResponseInterface
     {
         $redirectRoutes = $this->analyticsReportRepository->getPaginatedByCriteria(
             new Criteria(),

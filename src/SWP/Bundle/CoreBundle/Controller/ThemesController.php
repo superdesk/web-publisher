@@ -15,39 +15,23 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Knp\Component\Pager\Pagination\SlidingPagination;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeInstallType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
+use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
-use Symfony\Component\Routing\Annotation\Route;
-use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ThemesController extends Controller
 {
     /**
-     * @Operation(
-     *     tags={"theme"},
-     *     summary="Lists all available themes in organization",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Theme\Model\Theme::class, groups={"api"}))
-     *         )
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_available_themes")
      */
     public function listAvailableAction(): ResourcesListResponseInterface
@@ -62,19 +46,6 @@ class ThemesController extends Controller
     }
 
     /**
-     * @Operation(
-     *     tags={"theme"},
-     *     summary="Lists all available themes in tenant",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Theme\Model\Theme::class, groups={"api"}))
-     *         )
-     *     )
-     * )
-     *
      * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_tenant_themes")
      */
     public function listInstalledAction(): ResourcesListResponseInterface
@@ -99,31 +70,9 @@ class ThemesController extends Controller
     }
 
     /**
-     * Upload new theme to organization.
-     *
-     * @Operation(
-     *     tags={"theme"},
-     *     summary="Upload new theme to organization",
-     *     @SWG\Parameter(
-     *         name="file",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
-    public function uploadThemeAction(Request $request)
+    public function uploadThemeAction(Request $request): SingleResourceResponseInterface
     {
         $form = $form = $this->get('form.factory')->createNamed('', ThemeUploadType::class, []);
         $form->handleRequest($request);
@@ -145,22 +94,6 @@ class ThemesController extends Controller
     }
 
     /**
-     * @Operation(
-     *     tags={"theme"},
-     *     summary="Install theme for tenant",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=ThemeInstallType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_install_theme")
      */
     public function installThemeAction(Request $request): SingleResourceResponseInterface

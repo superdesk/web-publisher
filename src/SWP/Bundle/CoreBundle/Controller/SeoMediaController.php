@@ -18,9 +18,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Persistence\ObjectManager;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Controller\AbstractMediaController;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
@@ -70,42 +67,7 @@ class SeoMediaController extends AbstractMediaController
     }
 
     /**
-     * @Operation(
-     *     tags={"seo"},
-     *     summary="Uploads SEO image",
-     *     @SWG\Parameter(
-     *         name="metaMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/upload/seo_image/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_seo_image")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
     public function uploadSeoImageAction(Request $request, string $id, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse
     {

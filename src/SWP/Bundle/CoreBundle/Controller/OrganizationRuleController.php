@@ -16,13 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
-use SWP\Component\Common\Response\ResourcesListResponseInterface;
-use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Matcher\RulesMatcher;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
@@ -30,31 +23,19 @@ use SWP\Component\Bridge\Events;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class OrganizationRuleController extends AbstractController
 {
     /**
-     * @Operation(
-     *     tags={"organization rule"},
-     *     summary="Returns a list of rules that will be executed on the package",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Package::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success"
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/rules/evaluate", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_organization_rules_evaluate")
      */
     public function rulesEvaluationAction(Request $request): SingleResourceResponseInterface
@@ -70,32 +51,6 @@ class OrganizationRuleController extends AbstractController
     }
 
     /**
-     * List all current organization's rules.
-     *
-     * @Operation(
-     *     tags={"organization rule"},
-     *     summary="List all current organization's articles",
-     *     @SWG\Parameter(
-     *         name="sorting",
-     *         in="query",
-     *         description="example: [updatedAt]=asc|desc",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"}))
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="500",
-     *         description="Returned when unexpected error occurred."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_organization_rules")
      */
     public function rulesAction(Request $request): ResourcesListResponseInterface
@@ -118,33 +73,6 @@ class OrganizationRuleController extends AbstractController
     }
 
     /**
-     * Create a new Organization Rule.
-     *
-     * @Operation(
-     *     tags={"organization rule"},
-     *     summary="Create a new organization rule",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=RuleType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned on validation error."
-     *     ),
-     *     @SWG\Response(
-     *         response="405",
-     *         description="Method Not Allowed."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_organization_rule")
      */
     public function createAction(Request $request): SingleResourceResponseInterface
@@ -167,18 +95,6 @@ class OrganizationRuleController extends AbstractController
     }
 
     /**
-     * Show single organiation's rule.
-     *
-     * @Operation(
-     *     tags={"organization rule"},
-     *     summary="Show single organization rule",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_organization_rule", requirements={"id"="\d+"})
      */
     public function getAction(int $id): SingleResourceResponseInterface
@@ -187,33 +103,6 @@ class OrganizationRuleController extends AbstractController
     }
 
     /**
-     * Updates organization's rule.
-     *
-     * @Operation(
-     *     tags={"organization rule"},
-     *     summary="Updates organization rule",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=RuleType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Rule::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when validation failed."
-     *     ),
-     *     @SWG\Response(
-     *         response="500",
-     *         description="Returned when unexpected error."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_organization_rule", requirements={"id"="\d+"})
      */
     public function updateRuleAction(Request $request, int $id)
@@ -234,25 +123,6 @@ class OrganizationRuleController extends AbstractController
     }
 
     /**
-     * Delete single organization rule.
-     *
-     * @Operation(
-     *     tags={"organization rule"},
-     *     summary="Delete single organization rule",
-     *     @SWG\Response(
-     *         response="204",
-     *         description="Returned on success."
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when rule not found."
-     *     ),
-     *     @SWG\Response(
-     *         response="405",
-     *         description="Returned when method not allowed."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_organization_rule", requirements={"id"="\d+"})
      */
     public function deleteAction(int $id)

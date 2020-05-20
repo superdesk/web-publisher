@@ -17,11 +17,11 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Hoa\File\Read;
 use Hoa\Mime\Mime;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class StaticThemeAssetsController extends Controller
 {
@@ -108,8 +108,6 @@ class StaticThemeAssetsController extends Controller
     }
 
     /**
-     * @param string $themeName
-     *
      * @return mixed
      */
     private function loadOrganizationTheme(string $themeName)
@@ -120,8 +118,6 @@ class StaticThemeAssetsController extends Controller
     }
 
     /**
-     * @param string $themeName
-     *
      * @return mixed
      */
     private function loadTenantTheme(string $themeName)
@@ -132,8 +128,7 @@ class StaticThemeAssetsController extends Controller
     }
 
     /**
-     * @param array  $loadedThemes
-     * @param string $themeName
+     * @param array $loadedThemes
      *
      * @return mixed
      */
