@@ -178,8 +178,8 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
         $textColor = imagecolorallocate($im, 233, 14, 91);
         imagestring($im, 1, 5, 5, $article->getTitle(), $textColor);
         $fakeImage = sys_get_temp_dir().'/'.$article->getSlug().'.jpg';
-        imagejpeg($im, $fakeImage);
-        imagedestroy($im);
+        \imagejpeg($im, $fakeImage);
+        \imagedestroy($im);
 
         $uploadedFile = new UploadedFile($fakeImage, $mediaId, 'image/jpeg', filesize($fakeImage), null, true);
         /** @var Image $image */

@@ -157,21 +157,6 @@
     "doctrine/persistence": {
         "version": "1.3.6"
     },
-    "doctrine/phpcr-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "302e7ce8f547b1143b98112d0ebc8579f767d90d"
-        },
-        "files": [
-            "config/packages/doctrine_phpcr.yaml"
-        ]
-    },
-    "doctrine/phpcr-odm": {
-        "version": "1.5.0"
-    },
     "doctrine/reflection": {
         "version": "v1.1.0"
     },
@@ -234,18 +219,6 @@
     },
     "friendsofsymfony/http-cache-bundle": {
         "version": "2.8.0"
-    },
-    "friendsofsymfony/jsrouting-bundle": {
-        "version": "2.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.3",
-            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
-        },
-        "files": [
-            "config/routes/fos_js_routing.yaml"
-        ]
     },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
@@ -348,12 +321,6 @@
     },
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
-    },
-    "jackalope/jackalope": {
-        "version": "1.3.8"
-    },
-    "jackalope/jackalope-doctrine-dbal": {
-        "version": "1.3.6"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
@@ -614,12 +581,6 @@
     "php-http/promise": {
         "version": "v1.0.0"
     },
-    "phpcr/phpcr": {
-        "version": "2.1.5"
-    },
-    "phpcr/phpcr-utils": {
-        "version": "1.4.1"
-    },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
     },
@@ -844,9 +805,6 @@
     },
     "symfony-cmf/routing-bundle": {
         "version": "2.2.0"
-    },
-    "symfony-cmf/testing": {
-        "version": "2.1.12"
     },
     "symfony/asset": {
         "version": "v4.4.3"

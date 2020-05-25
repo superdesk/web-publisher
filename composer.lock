@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e05ea9fd94d3de00936bdceac4320756",
+    "content-hash": "f3f136e531dc6b997d4fb72635de00ea",
     "packages": [
         {
             "name": "apache/log4php",
@@ -15645,180 +15645,6 @@
             "time": "2019-06-12T12:03:37+00:00"
         },
         {
-            "name": "doctrine/phpcr-bundle",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/DoctrinePHPCRBundle.git",
-                "reference": "674c2a6abcf5a85cab8fa3166cd6e9121ac9555d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrinePHPCRBundle/zipball/674c2a6abcf5a85cab8fa3166cd6e9121ac9555d",
-                "reference": "674c2a6abcf5a85cab8fa3166cd6e9121ac9555d",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "phpcr/phpcr-utils": "^1.3",
-                "symfony/doctrine-bridge": "^3.4 || ^4.3 || ^5.0",
-                "symfony/framework-bundle": "^3.4 || ^4.3 || ^5.0"
-            },
-            "conflict": {
-                "doctrine/annotations": "< 1.7.0",
-                "jackalope/jackalope": "< 1.3.1",
-                "phpcr/phpcr-shell": "< 1.0.0-beta1",
-                "symfony/dependency-injection": "4.0.0",
-                "twig/twig": "< 1.42.3"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "^1.8 || ^2.0",
-                "doctrine/phpcr-odm": "^1.4 || ^2.0",
-                "jackalope/jackalope-doctrine-dbal": "^1.3",
-                "matthiasnoback/symfony-dependency-injection-test": "^3.0 || ^4.1",
-                "symfony/asset": "^3.4 || ^4.3 || ^5.0",
-                "symfony/browser-kit": "^3.4 || ^4.3 || ^5.0",
-                "symfony/css-selector": "^3.4 || ^4.3 || ^5.0",
-                "symfony/debug": "^3.4 || ^4.3 || ^5.0",
-                "symfony/form": "^3.4 || ^4.3 || ^5.0",
-                "symfony/monolog-bridge": "^3.4 || ^4.3 || ^5.0",
-                "symfony/monolog-bundle": "^3.4 || ^4.3 || ^5.0",
-                "symfony/phpunit-bridge": "^5.0",
-                "symfony/templating": "^3.4 || ^4.3 || ^5.0",
-                "symfony/translation": "^3.4 || ^4.3 || ^5.0",
-                "symfony/twig-bundle": "^3.4 || ^4.3 || ^5.0",
-                "symfony/validator": "^3.4 || ^4.3 || ^5.0",
-                "symfony/web-profiler-bundle": "^3.4 || ^4.3 || ^5.0"
-            },
-            "suggest": {
-                "burgov/key-value-form-bundle": "to edit assoc multivalue properties. require version 1.0.*",
-                "doctrine/data-fixtures": "if you want to use the fixture loading.",
-                "doctrine/doctrine-bundle": "when using jackalope-doctrine-dbal",
-                "doctrine/phpcr-odm": "if you want to use the odm as well. require version ^1.3",
-                "jackalope/jackalope-doctrine-dbal": "if you want to use jackalope-doctrine-dbal. require version ^1.3",
-                "jackalope/jackalope-jackrabbit": "if you want to connect to jackrabbit. require version ^1.3",
-                "ocramius/proxy-manager": "To avoid unnecessary database requests when using jackalope-doctrine-dbal",
-                "phpcr/phpcr-shell": "If you want native access to PHPCR-Shell to manage the PHPCR repository"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Bundle\\PHPCRBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                }
-            ],
-            "description": "Symfony DoctrinePHPCRBundle",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "database",
-                "odm",
-                "persistence",
-                "phpcr"
-            ],
-            "time": "2020-04-06T16:24:13+00:00"
-        },
-        {
-            "name": "doctrine/phpcr-odm",
-            "version": "1.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/phpcr-odm.git",
-                "reference": "71972894c7841b761605a1bc2f48271cb4d647e1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/phpcr-odm/zipball/71972894c7841b761605a1bc2f48271cb4d647e1",
-                "reference": "71972894c7841b761605a1bc2f48271cb4d647e1",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/annotations": "^1.2",
-                "doctrine/common": "^2.4",
-                "doctrine/data-fixtures": "^1.0",
-                "doctrine/instantiator": "^1.0.1",
-                "php": "^7.1",
-                "phpcr/phpcr": "^2.1.1",
-                "phpcr/phpcr-implementation": "^2.1",
-                "phpcr/phpcr-utils": "^1.3.0",
-                "symfony/console": "^2.3 || ^3.0 || ^4.0 || ^5.0"
-            },
-            "conflict": {
-                "jackalope/jackalope": "<1.3.7",
-                "jackalope/jackalope-doctrine-dbal": "<1.1.5",
-                "jackalope/jackalope-jackrabbit": "<1.3"
-            },
-            "require-dev": {
-                "liip/rmt": "^1.2",
-                "phpunit/phpunit": "^7.0",
-                "symfony/phpunit-bridge": "^5.0",
-                "symfony/yaml": "^2.3 || ^3.0 || ^4.0 || ^5.0"
-            },
-            "suggest": {
-                "jackalope/jackalope-doctrine-dbal": "^1.3",
-                "jackalope/jackalope-jackrabbit": "^1.3",
-                "symfony/yaml": "^3.4 || ^4.3 || ^5.0"
-            },
-            "bin": [
-                "bin/phpcrodm",
-                "bin/phpcrodm.php"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\ODM\\PHPCR\\": "lib/Doctrine/ODM/PHPCR"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be"
-                },
-                {
-                    "name": "David Buchmann",
-                    "email": "david@liip.ch"
-                },
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                }
-            ],
-            "description": "Object-Document-Mapper for PHPCR",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "database",
-                "odm",
-                "phpcr"
-            ],
-            "time": "2020-01-28T08:56:42+00:00"
-        },
-        {
             "name": "friends-of-behat/mink-extension",
             "version": "v2.4.0",
             "source": {
@@ -15989,189 +15815,6 @@
             ],
             "description": "Integrates Behat with Symfony.",
             "time": "2020-04-04T20:07:00+00:00"
-        },
-        {
-            "name": "friendsofsymfony/jsrouting-bundle",
-            "version": "2.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git",
-                "reference": "9deaf916760ce1d64cf46460473260b02751cee5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/9deaf916760ce1d64cf46460473260b02751cee5",
-                "reference": "9deaf916760ce1d64cf46460473260b02751cee5",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "symfony/console": "~3.3|^4.0|^5.0",
-                "symfony/framework-bundle": "~3.3|^4.0|^5.0",
-                "symfony/serializer": "~3.3|^4.0|^5.0",
-                "willdurand/jsonp-callback-validator": "~1.0"
-            },
-            "require-dev": {
-                "symfony/expression-language": "~3.3|^4.0|^5.0",
-                "symfony/phpunit-bridge": "^3.3|^4.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FOS\\JsRoutingBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "William Durand",
-                    "email": "will+git@drnd.me"
-                },
-                {
-                    "name": "FriendsOfSymfony Community",
-                    "homepage": "https://github.com/friendsofsymfony/FOSJsRoutingBundle/contributors"
-                }
-            ],
-            "description": "A pretty nice way to expose your Symfony2 routing to client applications.",
-            "homepage": "http://friendsofsymfony.github.com",
-            "keywords": [
-                "Js Routing",
-                "javascript",
-                "routing"
-            ],
-            "time": "2020-05-20T09:38:45+00:00"
-        },
-        {
-            "name": "jackalope/jackalope",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jackalope/jackalope.git",
-                "reference": "321e95d59ee614884ac14a366e92d2521b8faac2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope/zipball/321e95d59ee614884ac14a366e92d2521b8faac2",
-                "reference": "321e95d59ee614884ac14a366e92d2521b8faac2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xml": "*",
-                "jackalope/jackalope-transport": "*",
-                "php": "^7.1",
-                "phpcr/phpcr": "~2.1.0,>=2.1.0-beta12",
-                "phpcr/phpcr-utils": "^1.2.6"
-            },
-            "provide": {
-                "phpcr/phpcr-implementation": "2.1.0"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "^5.0.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Jackalope\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jackalope Community",
-                    "homepage": "https://github.com/jackalope/jackalope/contributors"
-                }
-            ],
-            "description": "Jackalope PHPCR library",
-            "homepage": "http://jackalope.github.io",
-            "keywords": [
-                "phpcr"
-            ],
-            "time": "2020-02-17T15:25:54+00:00"
-        },
-        {
-            "name": "jackalope/jackalope-doctrine-dbal",
-            "version": "1.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jackalope/jackalope-doctrine-dbal.git",
-                "reference": "0fb49cdd38653e5bd24bb0df253420702fa23a6b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/0fb49cdd38653e5bd24bb0df253420702fa23a6b",
-                "reference": "0fb49cdd38653e5bd24bb0df253420702fa23a6b",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/dbal": "^2.9.3",
-                "ext-pdo": "*",
-                "jackalope/jackalope": "^1.3.8",
-                "php": "^7.1",
-                "phpcr/phpcr": "~2.1.5",
-                "phpcr/phpcr-utils": "^1.4.1"
-            },
-            "provide": {
-                "jackalope/jackalope-transport": "1.3.0"
-            },
-            "require-dev": {
-                "phpcr/phpcr-api-tests": "2.1.20",
-                "phpunit/dbunit": "^4.0",
-                "phpunit/phpunit": "^7.5.18",
-                "psr/log": "^1.0"
-            },
-            "bin": [
-                "bin/jackalope"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Jackalope\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jackalope Community",
-                    "homepage": "https://github.com/jackalope/jackalope-jackrabbit/contributors"
-                }
-            ],
-            "description": "Jackalope Transport library for Doctrine DBAL",
-            "homepage": "http://jackalope.github.io",
-            "keywords": [
-                "doctrine-dbal",
-                "phpcr",
-                "transport implementation"
-            ],
-            "time": "2019-12-22T11:14:51+00:00"
         },
         {
             "name": "liip/functional-test-bundle",
@@ -17187,139 +16830,6 @@
             ],
             "description": "Library for handling version information and constraints",
             "time": "2018-07-08T19:19:57+00:00"
-        },
-        {
-            "name": "phpcr/phpcr",
-            "version": "2.1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpcr/phpcr.git",
-                "reference": "4a7edb01596be40be4f21bef6c6ea7ee9af6c311"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpcr/phpcr/zipball/4a7edb01596be40be4f21bef6c6ea7ee9af6c311",
-                "reference": "4a7edb01596be40be4f21bef6c6ea7ee9af6c311",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.0 || ^7.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "PHPCR": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Buchmann",
-                    "email": "david@liip.ch"
-                },
-                {
-                    "name": "Karsten Dambekalns",
-                    "email": "karsten@typo3.org"
-                },
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                }
-            ],
-            "description": "PHP Content Repository interfaces",
-            "homepage": "http://phpcr.github.io",
-            "keywords": [
-                "contentrepository",
-                "phpcr"
-            ],
-            "time": "2019-12-11T13:22:09+00:00"
-        },
-        {
-            "name": "phpcr/phpcr-utils",
-            "version": "1.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpcr/phpcr-utils.git",
-                "reference": "a239bde0d9c57ddbc549b4f46a7c26e99eeea0fb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpcr/phpcr-utils/zipball/a239bde0d9c57ddbc549b4f46a7c26e99eeea0fb",
-                "reference": "a239bde0d9c57ddbc549b4f46a7c26e99eeea0fb",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0",
-                "phpcr/phpcr": "~2.1.0",
-                "symfony/console": "^2.3|^3.0|^4.0|^5.0"
-            },
-            "conflict": {
-                "jackalope/jackalope-jackrabbit": "<1.2.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.0 || ^7.0",
-                "ramsey/uuid": "^3.5"
-            },
-            "suggest": {
-                "ramsey/uuid": "A library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID)."
-            },
-            "bin": [
-                "bin/phpcr"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "PHPCR\\Util": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Buchmann",
-                    "email": "david@liip.ch"
-                },
-                {
-                    "name": "Daniel Barsotti",
-                    "email": "daniel.barsotti@liip.ch"
-                },
-                {
-                    "name": "Nacho Martín",
-                    "email": "nitram.ohcan@gmail.com"
-                },
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                }
-            ],
-            "description": "PHP Content Repository implementation independant utilities",
-            "homepage": "http://phpcr.github.io",
-            "keywords": [
-                "cli",
-                "contentrepository",
-                "phpcr"
-            ],
-            "time": "2019-12-09T09:34:54+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -18885,71 +18395,6 @@
             "time": "2019-11-01T13:20:14+00:00"
         },
         {
-            "name": "symfony-cmf/testing",
-            "version": "2.1.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony-cmf/Testing.git",
-                "reference": "e946eb3170f48e0068a05dc7a394f432cb1735b9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/Testing/zipball/e946eb3170f48e0068a05dc7a394f432cb1735b9",
-                "reference": "e946eb3170f48e0068a05dc7a394f432cb1735b9",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": "^2.7",
-                "doctrine/data-fixtures": "^1.2",
-                "doctrine/doctrine-bundle": "^1.8 || ^2.0",
-                "doctrine/phpcr-bundle": "^1.3 || ^2.0.0",
-                "doctrine/phpcr-odm": "^1.4",
-                "friendsofsymfony/jsrouting-bundle": "^1.1 || ^2.1",
-                "jackalope/jackalope": "^1.3",
-                "jackalope/jackalope-doctrine-dbal": "^1.3",
-                "php": "^5.6 || ^7.0",
-                "symfony/browser-kit": "^2.8 || ^3.3 || ^4.0",
-                "symfony/console": "^2.8 || ^3.3 || ^4.0",
-                "symfony/css-selector": "^2.8 || ^3.3 || ^4.0",
-                "symfony/debug": "^2.8 || ^3.3 || ^4.0",
-                "symfony/dependency-injection": "^2.8 || ^3.3 || ^4.0",
-                "symfony/doctrine-bridge": "^2.8 || ^3.3 || ^4.0",
-                "symfony/framework-bundle": "^2.8 || ^3.3 || ^4.0",
-                "symfony/http-foundation": "^2.8 || ^3.3 || ^4.0",
-                "symfony/http-kernel": "^2.8 || ^3.3 || ^4.0",
-                "symfony/monolog-bundle": "~3.1",
-                "symfony/process": "^2.8 || ^3.3 || ^4.0",
-                "symfony/security-bundle": "^2.8 || ^3.3 || ^4.0",
-                "symfony/twig-bundle": "^2.8 || ^3.3 || ^4.0"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "^3.3 || ^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Cmf\\Component\\Testing\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony CMF Community",
-                    "homepage": "https://github.com/symfony-cmf/Routing/contributors"
-                }
-            ],
-            "description": "Component providing tools for writing tests with Symfony.",
-            "time": "2019-07-26T07:26:02+00:00"
-        },
-        {
             "name": "symfony/browser-kit",
             "version": "v4.4.8",
             "source": {
@@ -19336,25 +18781,25 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.4.8",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "4b6a9a4013baa65d409153cbb5a895bf093dc7f4"
+                "reference": "3179f68dff5bad14d38c4114a1dab98030801fd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/4b6a9a4013baa65d409153cbb5a895bf093dc7f4",
-                "reference": "4b6a9a4013baa65d409153cbb5a895bf093dc7f4",
+                "url": "https://api.github.com/repos/symfony/process/zipball/3179f68dff5bad14d38c4114a1dab98030801fd7",
+                "reference": "3179f68dff5bad14d38c4114a1dab98030801fd7",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3"
+                "php": "^7.2.5"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.4-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
@@ -19395,7 +18840,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-15T15:56:18+00:00"
+            "time": "2020-04-15T15:59:10+00:00"
         },
         {
             "name": "symfony/stopwatch",

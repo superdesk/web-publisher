@@ -24,15 +24,12 @@ class ThemeSetupCommandTest extends WebTestCase
 {
     private $commandTester;
 
-    private $command;
-
     public function setUp()
     {
         self::bootKernel();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
 
-        $this->command = self::createCommand();
         $this->commandTester = $this->createCommandTester();
     }
 
