@@ -33,7 +33,7 @@
       "email": "mischa.gorinskat@sourcefabric.org"
     }
   ],
-  "license":"AGPL-3.0",
+  "license": "AGPL-3.0",
   "autoload": {
     "psr-4": {
       "SWP\\Bundle\\": "src/SWP/Bundle/",
@@ -41,8 +41,13 @@
       "SWP\\Bridge\\": "src/SWP/Bridge/",
       "SWP\\Behat\\": "src/SWP/Behat/"
     },
-    "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
-    "classmap": ["src/Kernel.php"]
+    "exclude-from-classmap": [
+      "**/Tests/",
+      "**/spec/"
+    ],
+    "classmap": [
+      "src/Kernel.php"
+    ]
   },
   "require": {
     "php": "^7.3",
@@ -51,7 +56,6 @@
     "ext-gd": "*",
     "ext-intl": "*",
     "ext-json": "*",
-    "ext-memcached": "*",
     "ext-zip": "*",
     "apache/log4php": "^2.3",
     "asm89/twig-cache-extension": "^1.4",
@@ -78,7 +82,7 @@
     "gos/react-amqp": "^0.3.0",
     "gos/web-socket-bundle": "^v1.10",
     "graylog2/gelf-php": "^1.6",
-    "guzzlehttp/guzzle": "6.5.x-dev",
+    "guzzlehttp/guzzle": "^6.5",
     "hoa/file": "1.17.07.11",
     "hoa/mime": "3.17.01.10",
     "jms/serializer-bundle": "^3.5",
@@ -152,6 +156,7 @@
     "pixers/doctrine-profiler-bundle": "v1.0.6",
     "rdx/behat-variables": "^1.2",
     "roave/security-advisories": "dev-master",
+    "symfony-cmf/testing": "^2.1",
     "symfony/browser-kit": "^4.4",
     "symfony/debug-bundle": "^4.4",
     "symfony/phpunit-bridge": "^3.4",
@@ -202,7 +207,7 @@
     "bin-dir": "bin",
     "sort-packages": true
   },
-  "minimum-stability":"dev",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "extra": {
     "branch-alias": {
@@ -217,13 +222,6 @@
     }
   ],
   "scripts": {
-    "compile": [
-      "php bin/console doctrine:migrations:migrate",
-      "php bin/console swp:theme:download-from-external",
-      "php bin/console cache:clear",
-      "php bin/console assets:install",
-      "php bin/console sylius:theme:assets:install"
-    ],
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "assets:install %PUBLIC_DIR%": "symfony-cmd",
