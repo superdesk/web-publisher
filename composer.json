@@ -78,7 +78,7 @@
     "gos/react-amqp": "^0.3.0",
     "gos/web-socket-bundle": "^v1.10",
     "graylog2/gelf-php": "^1.6",
-    "guzzlehttp/guzzle": "dev-icu-fixes as 6.5.3",
+    "guzzlehttp/guzzle": "6.5.x-dev",
     "hoa/file": "1.17.07.11",
     "hoa/mime": "3.17.01.10",
     "jms/serializer-bundle": "^3.5",
@@ -211,11 +211,6 @@
     }
   },
   "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/GrahamCampbell/guzzle",
-      "no-api": true
-    },
     {
       "type": "vcs",
       "url": "https://github.com/ahilles107/DoctrineExtensions.git",
