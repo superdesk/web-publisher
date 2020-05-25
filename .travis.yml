@@ -18,7 +18,7 @@ php:
 
 env:
   global:
-  - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
+  - ES_VERSION=5.6.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
   - APP_ENV=test
   matrix:
   - DOCTRINE_CACHE_DRIVER="memcached" COMPOSER_FLAGS='update --prefer-stable'
@@ -37,7 +37,6 @@ before_install:
 - sudo wget -P /etc/supervisor https://gist.githubusercontent.com/takeit/86c925a07cdca17e2fded7fc9f8fc557/raw/74ce3313def74a8f245a8ab53f23eb62d2ee2642/supervisord.conf
 - sudo mkdir /var/log/supervisor/
 - sudo chmod -R 777 /var/log/supervisor/
--
 - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
 - sudo chmod 600 /var/swap.1
 - sudo /sbin/mkswap /var/swap.1
