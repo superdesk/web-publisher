@@ -89,6 +89,6 @@ class TenantContext implements TenantContextInterface
     {
         $this->tenant = $tenant;
 
-        $this->dispatcher->dispatch(MultiTenancyEvents::TENANT_SET, new GenericEvent($tenant));
+        $this->dispatcher->dispatch(new GenericEvent($tenant), MultiTenancyEvents::TENANT_SET);
     }
 }
