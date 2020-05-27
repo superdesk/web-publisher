@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -14,8 +16,12 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,20 +30,38 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    private $tenantContext;
+
+    private $metaFactory;
+
+    private $templateEngineContext;
+
+    private $routeFactory;
+
+    public function __construct(
+        CachedTenantContextInterface $tenantContext,
+        MetaFactoryInterface $metaFactory,
+        Context $templateEngineContext,
+        RouteFactoryInterface $routeFactory
+    ) {
+        $this->tenantContext = $tenantContext;
+        $this->metaFactory = $metaFactory;
+        $this->templateEngineContext = $templateEngineContext;
+        $this->routeFactory = $routeFactory;
+    }
+
     /**
      * @Route("/", methods={"GET","POST"}, name="homepage")
      */
     public function indexAction(Request $request): Response
     {
         /** @var TenantInterface $currentTenant */
-        $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
-        $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
-        $templateEngineContext = $this->get('swp_template_engine_context');
+        $currentTenant = $this->tenantContext->getTenant();
         $route = $currentTenant->getHomepage();
 
         if (null === $route) {
             /** @var RouteInterface $route */
-            $route = $this->get('swp.factory.route')->create();
+            $route = $this->routeFactory->create();
             $route->setStaticPrefix('/');
             $route->setName('Homepage');
             $route->setType('content');
@@ -46,7 +70,7 @@ class DefaultController extends AbstractController
             $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
         }
 
-        $templateEngineContext->setCurrentPage($metaFactory->create($route));
+        $this->templateEngineContext->setCurrentPage($this->metaFactory->create($route));
 
         $response = new Response();
         $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
