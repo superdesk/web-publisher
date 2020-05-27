@@ -53,6 +53,9 @@ class ContentListItem implements ContentListItemInterface, Sortable
      */
     protected $sticky = false;
 
+    /** @var int|null */
+    protected $stickyPosition;
+
     /**
      * ContentListItem constructor.
      */
@@ -140,5 +143,15 @@ class ContentListItem implements ContentListItemInterface, Sortable
     public function setSticky(bool $sticky)
     {
         $this->sticky = $sticky;
+    }
+
+    public function getStickyPosition(): ?int
+    {
+        return $this->stickyPosition;
+    }
+
+    public function setStickyPosition(?int $stickyPosition): void
+    {
+        $this->stickyPosition = $stickyPosition;
     }
 }

@@ -128,6 +128,15 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         return $queryBuilder;
     }
 
+    public function getArticlesByBodyContent(string $content): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $like = $queryBuilder->expr()->like('a.body', $queryBuilder->expr()->literal('%'.$content.'%'));
+        $queryBuilder->andWhere($like);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     /**
      * {@inheritdoc}
      */

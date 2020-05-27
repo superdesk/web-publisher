@@ -6,6 +6,7 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Loader\ArticleLoader;
 use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 use Twig\Environment;
@@ -20,7 +21,10 @@ final class TemplatingContext implements Context
 
     private $cacheBlockTagsCollector;
 
+    private $entityManager;
+
     public function __construct(
+        EntityManagerInterface $entityManager,
         Environment $templating,
         ArticleLoader $articleLoader,
         CacheBlockTagsCollectorInterface $cacheBlockTagsCollector
@@ -28,6 +32,7 @@ final class TemplatingContext implements Context
         $this->templating = $templating;
         $this->articleLoader = $articleLoader;
         $this->cacheBlockTagsCollector = $cacheBlockTagsCollector;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -43,6 +48,7 @@ final class TemplatingContext implements Context
      */
     public function iRenderATemplateWithContent(PyStringNode $templateContent): void
     {
+        $this->entityManager->clear();
         $template = $this->templating->createTemplate($templateContent->getRaw());
         $this->lastRenderedContent = $template->render();
     }

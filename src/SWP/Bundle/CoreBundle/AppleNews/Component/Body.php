@@ -16,14 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Component;
 
-class Body implements ComponentInterface
+class Body extends Component
 {
-    public const ROLE = 'body';
-
     public const FORMAT = 'html';
 
-    /** @var string */
-    private $text;
+    public const ROLE = 'body';
 
     /** @var string */
     private $role = self::ROLE;
@@ -31,24 +28,20 @@ class Body implements ComponentInterface
     /** @var string */
     private $format;
 
-    public function __construct(string $text, string $format = self::FORMAT)
+    public function __construct(string $text, string $layout = null, string $format = self::FORMAT)
     {
-        $this->text = $text;
         $this->format = $format;
-    }
 
-    public function getText(): string
-    {
-        return $this->text;
-    }
-
-    public function getRole(): string
-    {
-        return $this->role;
+        parent::__construct($text, $layout);
     }
 
     public function getFormat(): string
     {
         return $this->format;
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
     }
 }

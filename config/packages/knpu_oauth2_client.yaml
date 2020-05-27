@@ -8,5 +8,7 @@ knpu_oauth2_client:
             redirect_route: connect_oauth_check
             redirect_params: {}
             provider_options:
-                base_url: '%env(EXTERNAL_OAUTH_BASE_URL)%'
+                endpoint_auth: "%env(EXTERNAL_OAUTH_ENDPOINT_AUTH)%"
+                endpoint_token: "%env(EXTERNAL_OAUTH_ENDPOINT_TOKEN)%"
+                endpoint_userinfo: "%env(EXTERNAL_OAUTH_ENDPOINT_USERINFO)%"
                 scope_separator: ' '

@@ -18,7 +18,8 @@ namespace SWP\Bundle\RedirectRouteBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Cmf\Component\Routing\RedirectRouteInterface as CMFRedirectRouteInterface;
 
-interface RedirectRouteInterface extends TimestampableInterface, PersistableInterface
+interface RedirectRouteInterface extends TimestampableInterface, PersistableInterface, CMFRedirectRouteInterface
 {
 }

@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Context;
 
+use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
@@ -49,10 +50,6 @@ class TenantContext implements TenantContextInterface
 
     /**
      * TenantContext constructor.
-     *
-     * @param TenantResolverInterface  $tenantResolver
-     * @param RequestStack             $requestStack
-     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher)
     {
@@ -68,6 +65,15 @@ class TenantContext implements TenantContextInterface
     {
         if (null === $this->tenant) {
             $currentRequest = $this->requestStack->getCurrentRequest();
+
+            if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
+                $profilerTenant = new Tenant();
+                $profilerTenant->setDomainName($currentRequest->getHost());
+                $this->setTenant($profilerTenant);
+
+                return $this->tenant;
+            }
+
             $this->setTenant($this->tenantResolver->resolve(
                 $currentRequest ? $currentRequest->getHost() : null
             ));

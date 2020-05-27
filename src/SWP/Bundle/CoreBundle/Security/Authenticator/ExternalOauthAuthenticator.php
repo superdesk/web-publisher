@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
+use FOS\UserBundle\Model\UserManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
+use League\OAuth2\Client\Token\AccessToken;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\Security;
-use League\OAuth2\Client\Token\AccessToken;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use function uniqid;
 
 class ExternalOauthAuthenticator extends SocialAuthenticator
@@ -58,7 +58,7 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
      *
      * @inehritdoc
      */
-    public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
+    public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
         // Fetch the user from the resource server
         $oauthUser = $this->getOauthClient()->fetchUserFromToken($credentials);

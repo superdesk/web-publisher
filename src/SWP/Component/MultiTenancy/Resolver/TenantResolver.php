@@ -19,14 +19,8 @@ use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
-/**
- * TenantResolver resolves the tenant based on subdomain.
- */
 class TenantResolver implements TenantResolverInterface
 {
-    /**
-     * @var TenantRepositoryInterface
-     */
     private $tenantRepository;
 
     public function __construct(TenantRepositoryInterface $tenantRepository)

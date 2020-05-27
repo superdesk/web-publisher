@@ -14,10 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use GuzzleHttp;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
-use GuzzleHttp;
 
 class AuthControllerTest extends WebTestCase
 {
@@ -213,6 +213,11 @@ class AuthControllerTest extends WebTestCase
                 'sessionId' => '123456789',
                 'token' => 'test_token',
         ]);
+
         self::assertEquals(401, $client->getResponse()->getStatusCode());
+        self::assertEquals(<<<'MESSAGE'
+Unauthorized (user not found in Superdesk). 
+Make sure that Publisher can talk to Superdesk instance. Set it's address in "SUPERDESK_SERVERS" environment variable.
+MESSAGE, \json_decode($client->getResponse()->getContent(), true)['message']);
     }
 }
