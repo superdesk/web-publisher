@@ -40,7 +40,7 @@ class AppleNewsPublisher
         $appleNewsClient = $this->getClient($appleNewsConfig);
         $appleNewsArticle = $article->getAppleNewsArticle();
 
-        $json = $this->appleNewsConverter->convert($article);
+        $json = $this->appleNewsConverter->convert($article, $tenant);
 
         if (null === $appleNewsArticle) {
             $rawAppleNewsArticle = $appleNewsClient->createArticle($appleNewsConfig->getChannelId(), $json);

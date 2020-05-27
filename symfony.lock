@@ -196,6 +196,9 @@
     "facebook/graph-sdk": {
         "version": "5.7.0"
     },
+    "friends-of-behat/mink-extension": {
+        "version": "v2.4.0"
+    },
     "friends-of-behat/service-container-extension": {
         "version": "v1.0.1"
     },
@@ -553,6 +556,9 @@
     },
     "ocramius/generated-hydrator": {
         "version": "3.0.0"
+    },
+    "ocramius/package-versions": {
+        "version": "1.5.1"
     },
     "ocramius/proxy-manager": {
         "version": "2.1.1"

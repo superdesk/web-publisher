@@ -22,6 +22,7 @@ use SWP\Bundle\CoreBundle\AppleNews\Component\FacebookPost;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Figure;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Heading;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Instagram;
+use SWP\Bundle\CoreBundle\AppleNews\Component\Quote;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Tweet;
 
 final class ArticleBodyToComponentsConverter
@@ -56,7 +57,7 @@ final class ArticleBodyToComponentsConverter
                     break;
                 case 'p':
                     if ('' !== $node->textContent) {
-                        $components[] = new Body($node->textContent);
+                        $components[] = new Body($node->textContent, 'marginBetweenComponents');
                     }
 
                     break;
@@ -85,7 +86,10 @@ final class ArticleBodyToComponentsConverter
                         $webVideoUrl = $iframeElement->getAttribute('src');
                         $url = str_replace('\"', '', $webVideoUrl);
                         if (false !== strpos($url, 'twitter.com')) {
-                            $components[] = new Tweet('https:'.$url);
+                            $parsedUrl = parse_url($url);
+                            parse_str($parsedUrl['query'], $url);
+
+                            $components[] = new Tweet($url['url']);
                         } elseif (false !== strpos($url, 'iframe.ly')) {
                             $parsedUrl = parse_url($url);
                             parse_str($parsedUrl['query'], $url);
@@ -94,9 +98,10 @@ final class ArticleBodyToComponentsConverter
                         } elseif (false !== strpos($url, 'facebook.com')) {
                             $parsedUrl = parse_url($url);
                             parse_str($parsedUrl['query'], $url);
-
-                            $components[] = new FacebookPost($url['href']);
-                        } else {
+                            if ($this->isValidFacebookPostUrl($url['href'])) {
+                                $components[] = new FacebookPost($url['href']);
+                            }
+                        } elseif (false !== strpos($url, 'youtube.com') || false !== strpos($url, 'vimeo.com')) {
                             $components[] = new EmbedWebVideo($url);
                         }
 
@@ -113,6 +118,13 @@ final class ArticleBodyToComponentsConverter
                     }
 
                     break;
+
+                case 'blockquote':
+                    if ('' !== $node->textContent) {
+                        $components[] = new Quote('“'.$node->textContent.'”');
+                    }
+
+                    break;
             }
         }
 
@@ -122,5 +134,12 @@ final class ArticleBodyToComponentsConverter
     public static function stripHtmlTags(string $html): string
     {
         return preg_replace('/<script.*>.*<\/script>/isU', '', $html);
+    }
+
+    private function isValidFacebookPostUrl(string $url): bool
+    {
+        preg_match('/^https:\/\/www\.facebook\.com\/(photo(\.php|s)|permalink\.php|[^\/]+\/(activity|posts))[\/?].*$/', $url, $matches);
+
+        return !empty($matches);
     }
 }

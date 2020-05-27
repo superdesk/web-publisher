@@ -62,7 +62,7 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "phpspec/phpspec": "^5.1",
+    "phpspec/phpspec": "^6.0",
     "phpunit/phpunit": "^7.5",
     "symfony/framework-bundle": "^4.3",
     "symfony/http-kernel": "^4.2 <4.4",
@@ -104,5 +104,6 @@
     "branch-alias": {
       "dev-master": "2.2-dev"
     }
-  }
+  },
+  "prefer-stable": true
 }

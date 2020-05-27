@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
+use Behat\Transliterator\Transliterator;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl;
@@ -50,7 +51,7 @@ final class OverrideArticleSlugListener
 
         if ($overrideSlugOnCorrection && null !== $article->getSlug()) {
             $this->savePreviousRelativeUrl($article);
-            $article->setSlug($package->getSlugline());
+            $article->setSlug($package->getSlugline() ?? Transliterator::urlize($article->getTitle()));
         }
     }
 

@@ -14,13 +14,13 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
@@ -48,6 +48,9 @@ class DefaultController extends AbstractController
 
         $templateEngineContext->setCurrentPage($metaFactory->create($route));
 
-        return $this->render('index.html.twig');
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
+
+        return $this->render('index.html.twig', [], $response);
     }
 }

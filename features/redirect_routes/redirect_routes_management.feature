@@ -24,12 +24,6 @@ Feature: Manage Redirect Routes
     """
     Then the response status code should be 201
 
-  Scenario: Delete exiting redirect route
-    Given I am authenticated as "test.user"
-    When I add "Content-Type" header equal to "application/json"
-    And I send a "DELETE" request to "/api/v2/redirects/1"
-    Then the response status code should be 204
-
   Scenario: Update exiting redirect route
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -87,3 +81,8 @@ Feature: Manage Redirect Routes
     }
     """
     Then the response status code should be 200
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "DELETE" request to "/api/v2/redirects/1"
+    Then the response status code should be 204

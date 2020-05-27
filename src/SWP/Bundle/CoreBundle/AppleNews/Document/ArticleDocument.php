@@ -35,30 +35,6 @@ class ArticleDocument
     /** @var Metadata */
     private $metadata;
 
-    /**
-     * @return string
-     */
-    public function getVersion(): string
-    {
-        return $this->version;
-    }
-
-    /**
-     * @return Layout
-     */
-    public function getLayout(): Layout
-    {
-        return $this->layout;
-    }
-
-    /**
-     * @return ComponentTextStyles
-     */
-    public function getComponentTextStyles(): ComponentTextStyles
-    {
-        return $this->componentTextStyles;
-    }
-
     private $identifier;
 
     private $language;
@@ -70,6 +46,9 @@ class ArticleDocument
 
     /** @var ComponentTextStyles */
     private $componentTextStyles;
+
+    /** @var ComponentLayouts|null */
+    private $componentLayouts;
 
     /**
      * @param ComponentTextStyles $componentTextStyles
@@ -142,5 +121,30 @@ class ArticleDocument
     public function setMetadata(Metadata $metadata): void
     {
         $this->metadata = $metadata;
+    }
+
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    public function getLayout(): Layout
+    {
+        return $this->layout;
+    }
+
+    public function getComponentTextStyles(): ComponentTextStyles
+    {
+        return $this->componentTextStyles;
+    }
+
+    public function getComponentLayouts(): ?ComponentLayouts
+    {
+        return $this->componentLayouts;
+    }
+
+    public function setComponentLayouts(ComponentLayouts $componentLayouts): void
+    {
+        $this->componentLayouts = $componentLayouts;
     }
 }

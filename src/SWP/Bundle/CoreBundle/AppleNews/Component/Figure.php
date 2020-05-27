@@ -16,12 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Component;
 
-class Figure implements ComponentInterface
+class Figure extends UrlAwareComponent
 {
     public const ROLE = 'figure';
-
-    /** @var string */
-    private $url;
 
     /** @var string */
     private $role = self::ROLE;
@@ -31,13 +28,9 @@ class Figure implements ComponentInterface
 
     public function __construct(string $url, string $caption)
     {
-        $this->url = $url;
         $this->caption = $caption;
-    }
 
-    public function getUrl(): string
-    {
-        return $this->url;
+        parent::__construct($url);
     }
 
     public function getRole(): string

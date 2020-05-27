@@ -21,4 +21,11 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 
 interface RedirectRouteInterface extends BaseRedirectRouteInterface, TenantAwareInterface
 {
+    public function setPermanent(bool $pernament);
+
+    public function setUri(string $string);
+
+    public function setRouteName(string $routeName);
+
+    public function setStaticPrefix($prefix);
 }

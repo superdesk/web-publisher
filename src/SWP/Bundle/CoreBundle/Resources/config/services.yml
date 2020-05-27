@@ -180,6 +180,7 @@ services:
             - '@event_dispatcher'
             - '@swp.repository.content_list_item'
             - '@swp.service.content_list'
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.post_update, method: addArticleToList }
@@ -623,6 +624,14 @@ services:
             - '%env(SLUG_REGEX)%'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+
+    SWP\Bundle\CoreBundle\EventListener\MigratedArticleListener:
+        arguments:
+            - '@swp.factory.redirect_route'
+            - '@doctrine.orm.default_entity_manager'
+            - '@router'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.publish, method: publish }
 
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
