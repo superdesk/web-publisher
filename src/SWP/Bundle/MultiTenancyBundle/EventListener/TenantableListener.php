@@ -45,9 +45,6 @@ class TenantableListener implements EventSubscriberInterface
 
     /**
      * Construct.
-     *
-     * @param RegistryInterface      $doctrine
-     * @param TenantContextInterface $tenantContext
      */
     public function __construct(RegistryInterface $doctrine, TenantContextInterface $tenantContext)
     {
@@ -61,6 +58,7 @@ class TenantableListener implements EventSubscriberInterface
     public function enable()
     {
         $this->lazyLoad();
+
         $tenant = $this->tenantContext->getTenant();
         if ($tenant && $tenant->getId()) {
             $this->entityManager

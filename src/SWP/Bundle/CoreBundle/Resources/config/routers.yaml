@@ -1,0 +1,7 @@
+services:
+  _defaults:
+    public: true
+    autoconfigure: true
+    autowire: true
+
+  SWP\Bundle\CoreBundle\Routing\TenantAwareAbsoluteUrlRouter: ~

@@ -16,13 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Document;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class LinkedArticle
 {
     public const RELATIONSHIP_RELATED = 'related';
 
     public const RELATIONSHIP_PROMOTED = 'promoted';
 
-    /** @var string */
+    /**
+     * @SerializedName("URL")
+     *
+     * @var string
+     */
     private $url;
 
     /** @var string */

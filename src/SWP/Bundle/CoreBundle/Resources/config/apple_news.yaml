@@ -11,7 +11,6 @@ services:
   SWP\Bundle\CoreBundle\AppleNews\Converter\ArticleToAppleNewsFormatConverter:
     arguments:
       - '@swp_core.factory.version'
-      - '@serializer'
 
   SWP\Bundle\CoreBundle\EventListener\AppleNewsListener:
     arguments:

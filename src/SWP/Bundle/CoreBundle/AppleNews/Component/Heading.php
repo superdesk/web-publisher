@@ -16,40 +16,33 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Component;
 
-class Heading implements ComponentInterface
+class Heading extends Component
 {
     public const ROLE = 'heading';
 
     public const FORMAT = 'html';
 
     /** @var string */
-    private $text;
+    private $format;
 
     /** @var string */
     private $role = self::ROLE;
 
-    /** @var string */
-    private $format;
-
     public function __construct(string $text, int $headingType = 1, string $format = self::FORMAT)
     {
-        $this->text = $text;
-        $this->format = $format;
         $this->role .= $headingType;
-    }
+        $this->format = $format;
 
-    public function getText(): string
-    {
-        return $this->text;
-    }
-
-    public function getRole(): string
-    {
-        return $this->role;
+        parent::__construct($text, null);
     }
 
     public function getFormat(): string
     {
         return $this->format;
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
     }
 }

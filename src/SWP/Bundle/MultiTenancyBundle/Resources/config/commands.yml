@@ -3,6 +3,8 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $swpDomain: '%env(SWP_DOMAIN)%'
 
     SWP\Bundle\MultiTenancyBundle\Command\:
         resource: '../../Command/*'

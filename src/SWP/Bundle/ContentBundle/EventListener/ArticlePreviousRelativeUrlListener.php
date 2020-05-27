@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +47,10 @@ final class ArticlePreviousRelativeUrlListener
 
         $articleRelativeUrl = $this->articlePreviousUrlRepository->findOneBy(['relativeUrl' => $request->getRequestUri()]);
 
-        if (null !== $articleRelativeUrl) {
+        if (
+            null !== $articleRelativeUrl &&
+            ArticleInterface::STATUS_PUBLISHED === $articleRelativeUrl->getArticle()->getStatus()
+        ) {
             $article = $articleRelativeUrl->getArticle();
 
             $event->setResponse(new RedirectResponse(

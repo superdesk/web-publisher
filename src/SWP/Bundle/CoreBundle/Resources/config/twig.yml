@@ -67,3 +67,11 @@ services:
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
         tags:
             - { name: twig.extension }
+
+    SWP\Bundle\CoreBundle\Twig\RedirectingExtension:
+        public: false
+        arguments:
+            - "@swp.repository.previous_relative_url"
+            - '@router'
+        tags:
+            - { name: twig.extension }
