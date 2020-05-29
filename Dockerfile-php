@@ -52,8 +52,8 @@ COPY ./php-fpm.conf /usr/local/etc/php-fpm.d/publisher.conf
 #COPY php.ini /etc/php7/conf.d/php.ini
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini &amp;&amp; \
-sed -i -e "s/^ *memory_limit.*/memory_limit = 4G/g" 
--e "s/^ *max_execution_time.*/max_execution_time = 0/g" 
+sed -i -e "s/^ *memory_limit.*/memory_limit = 4G/g"  \
+-e "s/^ *max_execution_time.*/max_execution_time = 0/g"  \
 /usr/local/etc/php/php.ini
 
 
