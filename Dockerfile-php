@@ -49,7 +49,8 @@ RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer &
 
 # customize php-fpm-pool-settings
 COPY ./php-fpm.conf /usr/local/etc/php-fpm.d/publisher.conf
-COPY php.ini /usr/local/etc/php/php.ini-production
+#COPY php.ini /usr/local/etc/php/php.ini-production
+COPY php.ini /usr/local/etc/php/conf.d/memory-limit-php.ini
 
 # Set timezone
 RUN apk add --no-cache tzdata
