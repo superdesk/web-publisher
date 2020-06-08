@@ -120,3 +120,7 @@ SWP\Component\Bridge\Model\BaseContent:
             type: string
             serialized_name: copyrightholder
             groups: [api]
+        profile:
+            expose: true
+            type: string
+            groups: [deserialization]

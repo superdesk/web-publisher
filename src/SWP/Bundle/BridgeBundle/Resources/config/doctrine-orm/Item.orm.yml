@@ -83,6 +83,9 @@ SWP\Component\Bridge\Model\Item:
         firstPublishedAt:
             type: datetime
             nullable: true
+        profile:
+            type: string
+            nullable: true
         createdAt:
             type: datetime
             gedmo:
