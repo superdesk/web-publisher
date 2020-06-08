@@ -139,6 +139,7 @@ swp_bridge:
                     repository: SWP\Bundle\CoreBundle\Repository\PackageRepository
 
 sylius_theme:
+    legacy_mode: true
     context: "swp_core.theme.context.tenant_aware"
     sources:
         tenantable: ~

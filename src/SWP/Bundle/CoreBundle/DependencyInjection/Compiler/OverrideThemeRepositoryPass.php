@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableInMemoryRepository;
+use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class OverrideThemeRepositoryPass extends AbstractOverridePass
@@ -26,7 +27,7 @@ final class OverrideThemeRepositoryPass extends AbstractOverridePass
     {
         $definition = $this->overrideDefinitionClassIfExists(
             $container,
-            'sylius.repository.theme',
+            ThemeRepositoryInterface::class,
             ReloadableInMemoryRepository::class
         );
         $definition->setPublic(true);

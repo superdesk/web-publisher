@@ -17,9 +17,12 @@ namespace SWP\Bundle\CoreBundle\Theme\Configuration;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Bundle\CoreBundle\Theme\Locator\TenantThemesConfigurationFileLocator;
 use SWP\Bundle\CoreBundle\Theme\Provider\TenantThemesPathsProviderInterface;
+use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationProcessorInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\JsonFileConfigurationLoader;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ProcessingConfigurationLoader;
+use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
+use Sylius\Bundle\ThemeBundle\Filesystem\FilesystemInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -50,17 +53,17 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
     public function initializeSource(ContainerBuilder $container, array $config)
     {
         $recursiveFileLocator = new Definition(TenantThemesConfigurationFileLocator::class, [
-            new Reference('sylius.theme.finder_factory'),
+            new Reference(FinderFactoryInterface::class),
             $config['directories'],
             new Reference(TenantThemesPathsProviderInterface::class),
         ]);
 
-        $themeConfigurationProcessor = $container->getDefinition('sylius.theme.configuration.processor');
+        $themeConfigurationProcessor = $container->getDefinition(ConfigurationProcessorInterface::class);
         $themeConfigurationProcessor->replaceArgument(0, new Definition(ThemeConfiguration::class));
 
         $configurationLoader = new Definition(ProcessingConfigurationLoader::class, [
             new Definition(JsonFileConfigurationLoader::class, [
-                new Reference('sylius.theme.filesystem'),
+                new Reference(FilesystemInterface::class),
             ]),
             $themeConfigurationProcessor,
         ]);

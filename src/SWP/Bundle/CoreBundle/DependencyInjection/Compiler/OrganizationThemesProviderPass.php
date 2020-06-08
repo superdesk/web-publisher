@@ -16,9 +16,12 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Locator\OrganizationThemesRecursiveFileLocator;
 use Sylius\Bundle\ThemeBundle\Configuration\CompositeConfigurationProvider;
+use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationProcessorInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\FilesystemConfigurationProvider;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\JsonFileConfigurationLoader;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ProcessingConfigurationLoader;
+use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
+use Sylius\Bundle\ThemeBundle\Filesystem\FilesystemInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -33,15 +36,15 @@ final class OrganizationThemesProviderPass extends AbstractOverridePass
         $compositeConfigurationProvider = new Definition(CompositeConfigurationProvider::class);
 
         $recursiveFileLocator = new Definition(OrganizationThemesRecursiveFileLocator::class, [
-            new Reference('sylius.theme.finder_factory'),
+            new Reference(FinderFactoryInterface::class),
             new Reference('swp_core.uploader.theme'),
         ]);
 
         $configurationLoader = new Definition(ProcessingConfigurationLoader::class, [
             new Definition(JsonFileConfigurationLoader::class, [
-                new Reference('sylius.theme.filesystem'),
+                new Reference(FilesystemInterface::class),
             ]),
-            new Reference('sylius.theme.configuration.processor'),
+            new Reference(ConfigurationProcessorInterface::class),
         ]);
 
         $configurationProvider = new Definition(FilesystemConfigurationProvider::class, [

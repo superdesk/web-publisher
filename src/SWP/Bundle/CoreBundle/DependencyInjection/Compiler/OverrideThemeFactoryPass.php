@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Factory\ThemeFactory;
+use Sylius\Bundle\ThemeBundle\Factory\ThemeFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class OverrideThemeFactoryPass extends AbstractOverridePass
@@ -26,7 +27,7 @@ final class OverrideThemeFactoryPass extends AbstractOverridePass
     {
         $this->overrideDefinitionClassIfExists(
             $container,
-            'sylius.factory.theme',
+            ThemeFactoryInterface::class,
             ThemeFactory::class
         );
     }

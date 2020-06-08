@@ -87,7 +87,7 @@ services:
             - '@swp_core.loader.organization.theme'
             - '@twig'
             - '%swp.theme.configuration.default_directory%'
-            - '@sylius.theme.asset.assets_installer'
+            - '@Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstallerInterface'
             - '%sylius_core.public_dir%'
 
     swp_core.generator.theme.fake_article:
@@ -155,8 +155,7 @@ services:
             - '@sylius.factory.theme'
             - '@sylius.factory.theme_author'
             - '@sylius.factory.theme_screenshot'
-            - '@sylius.theme.hydrator'
-            - '@sylius.theme.circular_dependency_checker'
+            - '@Sylius\Bundle\ThemeBundle\Loader\CircularDependencyCheckerInterface'
 
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
@@ -255,7 +254,7 @@ services:
         arguments:
             - "@twig.loader.filesystem"
             - "@swp_core.theme.context.tenant_aware"
-            - "@sylius.theme.hierarchy_provider"
+            - '@Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface'
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
     swp.twig.cache.tenant_aware:
@@ -758,8 +757,6 @@ services:
             - '@swp.repository.article_statistics'
             - '@swp.factory.article_statistics'
             - '@swp.object_manager.article'
-
-    Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
 
     SWP\Bundle\CoreBundle\Service\SeoImageUploader:
         arguments:

@@ -22,10 +22,7 @@ use Sylius\Bundle\ThemeBundle\Loader\CircularDependencyCheckerInterface;
 use Sylius\Bundle\ThemeBundle\Loader\CircularDependencyFoundException;
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoadingFailedException;
-use Sylius\Bundle\ThemeBundle\Model\ThemeAuthor;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Sylius\Bundle\ThemeBundle\Model\ThemeScreenshot;
-use Zend\Hydrator\HydrationInterface;
 
 /**
  * @author Kamil Kokot <kamil.kokot@lakion.com>
@@ -54,11 +51,6 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
     private $themeScreenshotFactory;
 
     /**
-     * @var HydrationInterface
-     */
-    private $themeHydrator;
-
-    /**
      * @var CircularDependencyCheckerInterface
      */
     private $circularDependencyChecker;
@@ -68,7 +60,6 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
      * @param ThemeFactoryInterface              $themeFactory
      * @param ThemeAuthorFactoryInterface        $themeAuthorFactory
      * @param ThemeScreenshotFactoryInterface    $themeScreenshotFactory
-     * @param HydrationInterface                 $themeHydrator
      * @param CircularDependencyCheckerInterface $circularDependencyChecker
      */
     public function __construct(
@@ -76,14 +67,12 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
         ThemeFactoryInterface $themeFactory,
         ThemeAuthorFactoryInterface $themeAuthorFactory,
         ThemeScreenshotFactoryInterface $themeScreenshotFactory,
-        HydrationInterface $themeHydrator,
         CircularDependencyCheckerInterface $circularDependencyChecker
     ) {
         $this->configurationProvider = $configurationProvider;
         $this->themeFactory = $themeFactory;
         $this->themeAuthorFactory = $themeAuthorFactory;
         $this->themeScreenshotFactory = $themeScreenshotFactory;
-        $this->themeHydrator = $themeHydrator;
         $this->circularDependencyChecker = $circularDependencyChecker;
     }
 
@@ -94,45 +83,41 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
     {
         $configurations = $this->configurationProvider->getConfigurations();
 
-        $themes = $this->initializeThemes($configurations);
-        $themes = $this->hydrateThemes($configurations, $themes);
+        $themes = $this->hydrateThemes($configurations);
 
         $this->checkForCircularDependencies($themes);
 
         return array_values($themes);
     }
 
-    /**
-     * @param array $configurations
-     *
-     * @return ThemeInterface[]
-     */
-    private function initializeThemes(array $configurations)
+    private function hydrateThemes(array $configurations): array
     {
         $themes = [];
+
         foreach ($configurations as $configuration) {
-            /* @var ThemeInterface $theme */
             $themes[$configuration['name']] = $this->themeFactory->create($configuration['name'], $configuration['path']);
         }
 
-        return $themes;
-    }
-
-    /**
-     * @param array            $configurations
-     * @param ThemeInterface[] $themes
-     *
-     * @return ThemeInterface[]
-     */
-    private function hydrateThemes(array $configurations, array $themes)
-    {
         foreach ($configurations as $configuration) {
-            $themeName = $configuration['name'];
-            $configuration['parents'] = $this->convertParentsNamesToParentsObjects($themeName, $configuration['parents'], $themes);
-            $configuration['authors'] = $this->convertAuthorsArraysToAuthorsObjects($configuration['authors']);
-            $configuration['screenshots'] = $this->convertScreenshotsArraysToScreenshotsObjects($configuration['screenshots']);
+            $theme = $themes[$configuration['name']];
 
-            $themes[$themeName] = $this->themeHydrator->hydrate($configuration, $themes[$themeName]);
+            $theme->setTitle($configuration['title'] ?? null);
+            $theme->setDescription($configuration['description'] ?? null);
+
+            $parentThemes = $this->convertParentsNamesToParentsObjects($configuration['name'], $configuration['parents'], $themes);
+            foreach ($parentThemes as $parentTheme) {
+                $theme->addParent($parentTheme);
+            }
+
+            $themeAuthors = $this->convertAuthorsArraysToAuthorsObjects($configuration['authors']);
+            foreach ($themeAuthors as $themeAuthor) {
+                $theme->addAuthor($themeAuthor);
+            }
+
+            $themeScreenshots = $this->convertScreenshotsArraysToScreenshotsObjects($configuration['screenshots']);
+            foreach ($themeScreenshots as $themeScreenshot) {
+                $theme->addScreenshot($themeScreenshot);
+            }
         }
 
         return $themes;
@@ -141,7 +126,7 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
     /**
      * @param ThemeInterface[] $themes
      */
-    private function checkForCircularDependencies(array $themes)
+    private function checkForCircularDependencies(array $themes): void
     {
         try {
             foreach ($themes as $theme) {
@@ -152,14 +137,7 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
         }
     }
 
-    /**
-     * @param string $themeName
-     * @param array  $parentsNames
-     * @param array  $existingThemes
-     *
-     * @return ThemeInterface[]
-     */
-    private function convertParentsNamesToParentsObjects($themeName, array $parentsNames, array $existingThemes)
+    private function convertParentsNamesToParentsObjects($themeName, array $parentsNames, array $existingThemes): array
     {
         $tenantCode = substr($themeName, strpos($themeName, '@') + 1);
 
@@ -177,24 +155,14 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
         }, $parentsNames);
     }
 
-    /**
-     * @param array $authorsArrays
-     *
-     * @return ThemeAuthor[]
-     */
-    private function convertAuthorsArraysToAuthorsObjects(array $authorsArrays)
+    private function convertAuthorsArraysToAuthorsObjects(array $authorsArrays): array
     {
         return array_map(function (array $authorArray) {
             return $this->themeAuthorFactory->createFromArray($authorArray);
         }, $authorsArrays);
     }
 
-    /**
-     * @param array $screenshotsArrays
-     *
-     * @return ThemeScreenshot[]
-     */
-    private function convertScreenshotsArraysToScreenshotsObjects(array $screenshotsArrays)
+    private function convertScreenshotsArraysToScreenshotsObjects(array $screenshotsArrays): array
     {
         return array_map(function (array $screenshotArray) {
             return $this->themeScreenshotFactory->createFromArray($screenshotArray);

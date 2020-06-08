@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Asset\AssetsInstaller;
+use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstallerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
@@ -24,10 +25,10 @@ final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container)
     {
-        $this->overrideDefinitionClassIfExists(
-            $container,
-            'sylius.theme.asset.assets_installer',
-            AssetsInstaller::class
-        );
+//        $this->overrideDefinitionClassIfExists(
+//            $container,
+//            AssetsInstallerInterface::class,
+//            AssetsInstaller::class
+//        );
     }
 }
