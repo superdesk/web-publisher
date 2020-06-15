@@ -17,10 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Matcher;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Filter\DataFilter;
-use SWP\Bundle\CoreBundle\Filter\Exception\FilterException;
 use SWP\Component\Common\Criteria\Criteria;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
 {
@@ -70,21 +67,18 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
 
         if ($criteria->has('metadata') && !empty($criteria->get('metadata'))) {
             $metadata = $criteria->get('metadata');
-            if (is_array($metadata)) {
-                foreach ($metadata as $key => $value) {
-                    if ($value !== $article->getMetadataByKey($key)) {
-                        return false;
-                    }
-                }
-            }
-            if (is_string($metadata)) {
-                $dataFilter = new DataFilter();
-                $dataFilter->loadData($article->getMetadata());
-                $expressionLanguage = new ExpressionLanguage();
 
-                try {
-                    $expressionLanguage->evaluate($metadata, ['filter' => $dataFilter]);
-                } catch (FilterException $e) {
+            if (!is_array($metadata)) {
+                return false;
+            }
+
+            $articleMetadata = $article->getMetadata();
+
+            foreach ($metadata as $key => $value) {
+                $subArray[$key] = $value;
+                $patchedMetadata = array_replace_recursive($articleMetadata, $subArray);
+
+                if ($patchedMetadata !== $articleMetadata) {
                     return false;
                 }
             }
