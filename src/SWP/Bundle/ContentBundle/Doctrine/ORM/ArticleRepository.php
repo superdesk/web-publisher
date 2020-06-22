@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorReference;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
+use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -162,7 +163,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-
         $queryBuilder
             ->leftJoin('a.data', 'd')
             ->leftJoin('d.services', 's')
@@ -184,24 +184,16 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             foreach ($criteria->get($name) as $key => $value) {
                 $andX = $queryBuilder->expr()->andX();
 
-                if ($key === 'service') {
+                if (Metadata::SERVICE_KEY === $key) {
                     $orX->add($queryBuilder->expr()->eq('s.code', $queryBuilder->expr()->literal($value[0]['code'])));
                 }
 
-                if ($key === 'subject') {
+                if (Metadata::SUBJECT_KEY === $key) {
                     $andX->add($queryBuilder->expr()->eq('sb.code', $queryBuilder->expr()->literal($value[0]['code'])));
                     $andX->add($queryBuilder->expr()->eq('sb.scheme', $queryBuilder->expr()->literal($value[0]['scheme'])));
-
                 }
 
                 $orX->add($andX);
-
-                if (false === strpos($name, 'exclude_')) {
-                    $orX->add($andX);
-                } else {
-                    $orX->add($queryBuilder->expr()->notLike('a.'.\str_replace('exclude_', '', $name), $valueExpression));
-                }
-
             }
 
             $queryBuilder->andWhere($orX);

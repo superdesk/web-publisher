@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
+use function count;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\ContentBundle\Model\MetadataInterface;
 use SWP\Bundle\ContentBundle\Model\Service;
 use SWP\Bundle\ContentBundle\Model\Subject;
-use function count;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 
 final class ArticleHydrator implements ArticleHydratorInterface
@@ -107,7 +107,9 @@ final class ArticleHydrator implements ArticleHydratorInterface
         foreach ($package->getSubjects() as $packageSubject) {
             $subject = new Subject();
             $subject->setCode($packageSubject['code']);
-            $subject->setScheme($packageSubject['scheme']);
+            if (isset($packageSubject['scheme'])) {
+                $subject->setScheme($packageSubject['scheme']);
+            }
 
             $metadata->addSubject($subject);
         }

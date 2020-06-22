@@ -12,6 +12,7 @@ SWP\Bundle\ContentBundle\Model\Subject:
       type: string
     scheme:
       type: string
+      nullable: true
   manyToOne:
     metadata:
       targetEntity: SWP\Bundle\ContentBundle\Model\MetadataInterface

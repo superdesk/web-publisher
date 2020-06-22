@@ -1,5 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Superdesk Web Publisher Content Bundle.
+ *
+ * Copyright 2020 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2020 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
@@ -9,6 +21,12 @@ use Doctrine\Common\Collections\Collection;
 
 class Metadata implements MetadataInterface
 {
+    public const SERVICE_KEY = 'service';
+
+    public const SUBJECT_KEY = 'subject';
+
+    public const PLACE_KEY = 'place';
+
     /** @var int */
     protected $id;
 
@@ -18,13 +36,41 @@ class Metadata implements MetadataInterface
     /** @var Collection|ServiceInterface[] */
     protected $services;
 
+    /** @var Collection|PlaceInterface[] */
+    protected $places;
+
     /** @var string|null */
     protected $profile;
+
+    /** @var string|null */
+    protected $guid;
+
+    /** @var string|null */
+    protected $urgency;
+
+    /** @var string|null */
+    protected $priority;
+
+    /** @var string|null */
+    protected $located;
+
+    /** @var string|null */
+    protected $byline;
+
+    /** @var string|null */
+    protected $language;
+
+    /** @var string|null */
+    protected $edNote;
+
+    /** @var string|null */
+    protected $genre;
 
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
         $this->services = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): int
@@ -84,6 +130,32 @@ class Metadata implements MetadataInterface
         return $this->services->contains($service);
     }
 
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(PlaceInterface $place): void
+    {
+        if (!$this->hasSubject($place)) {
+            $place->setMetadata($this);
+            $this->places->add($place);
+        }
+    }
+
+    public function removePlace(PlaceInterface $place): void
+    {
+        if ($this->hasPlace($place)) {
+            $place->setMetadata(null);
+            $this->places->removeElement($place);
+        }
+    }
+
+    public function hasPlace(PlaceInterface $place): bool
+    {
+        return $this->places->contains($place);
+    }
+
     public function getProfile(): ?string
     {
         return $this->profile;
@@ -92,5 +164,85 @@ class Metadata implements MetadataInterface
     public function setProfile(?string $profile): void
     {
         $this->profile = $profile;
+    }
+
+    public function getGuid(): ?string
+    {
+        return $this->guid;
+    }
+
+    public function setGuid(?string $guid): void
+    {
+        $this->guid = $guid;
+    }
+
+    public function getUrgency(): ?int
+    {
+        return $this->urgency;
+    }
+
+    public function setUrgency(?int $urgency): void
+    {
+        $this->urgency = $urgency;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?int $priority): void
+    {
+        $this->priority = $priority;
+    }
+
+    public function getLocated(): ?string
+    {
+        return $this->located;
+    }
+
+    public function setLocated(?string $located): void
+    {
+        $this->located = $located;
+    }
+
+    public function getByline(): ?string
+    {
+        return $this->byline;
+    }
+
+    public function setByline(?string $byline): void
+    {
+        $this->byline = $byline;
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?string $language): void
+    {
+        $this->language = $language;
+    }
+
+    public function getEdNote(): ?string
+    {
+        return $this->edNote;
+    }
+
+    public function setEdNote(?string $edNote): void
+    {
+        $this->edNote = $edNote;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?string $genre): void
+    {
+        $this->genre = $genre;
     }
 }
