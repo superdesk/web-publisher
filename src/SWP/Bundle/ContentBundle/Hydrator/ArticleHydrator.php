@@ -137,7 +137,8 @@ final class ArticleHydrator implements ArticleHydratorInterface
         $metadata->setPriority($package->getPriority());
         $metadata->setEdNote($package->getEdNote());
         $metadata->setLanguage($package->getLanguage());
-        $metadata->setGenre($package->getGenre());
+        $genre = $package->getGenre();
+        $metadata->setGenre($genre['code'] ?? null);
         $metadata->setGuid($package->getGuid());
 
         return $metadata;

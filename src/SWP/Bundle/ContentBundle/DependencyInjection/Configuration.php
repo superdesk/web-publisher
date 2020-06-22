@@ -53,6 +53,8 @@ use SWP\Bundle\ContentBundle\Model\Keyword;
 use SWP\Bundle\ContentBundle\Model\KeywordInterface;
 use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\ContentBundle\Model\MetadataInterface;
+use SWP\Bundle\ContentBundle\Model\Place;
+use SWP\Bundle\ContentBundle\Model\PlaceInterface;
 use SWP\Bundle\ContentBundle\Model\RelatedArticle;
 use SWP\Bundle\ContentBundle\Model\RelatedArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Route;
@@ -279,6 +281,16 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Service::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ServiceInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('place')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Place::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(PlaceInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

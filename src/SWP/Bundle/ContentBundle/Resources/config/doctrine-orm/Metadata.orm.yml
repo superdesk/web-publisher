@@ -22,3 +22,8 @@ SWP\Bundle\ContentBundle\Model\Metadata:
       mappedBy: metadata
       cascade: ["all"]
       orphanRemoval: true
+    places:
+      targetEntity: SWP\Bundle\ContentBundle\Model\PlaceInterface
+      mappedBy: metadata
+      cascade: ["all"]
+      orphanRemoval: true
