@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
@@ -78,8 +79,23 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getSlugline()->shouldBeCalled();
         $package->getAuthors()->willReturn($authors);
         $package->getExtra()->willReturn($extra);
+        $package->getSubjects()->willReturn([]);
+        $package->getServices()->willReturn([]);
+        $package->getPlaces()->willReturn([]);
+        $package->getProfile()->willReturn('profile');
+        $package->getUrgency()->willReturn(0);
+        $package->getPriority()->willReturn(1);
+        $package->getEdNote()->willReturn(null);
+        $package->getGenre()->willReturn(null);
 
         $article->setExtra($extra)->shouldBeCalled();
+        $article->getData()->willReturn(null);
+        $metadata = new Metadata();
+        $metadata->setGuid('123guid223');
+        $metadata->setLanguage('en');
+        $metadata->setPriority(1);
+        $metadata->setProfile('profile');
+        $article->setData($metadata)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
@@ -127,7 +143,23 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
         $package->getAuthors()->willReturn($authors);
         $package->getExtra()->willReturn($extra);
+        $package->getSubjects()->willReturn([]);
+        $package->getServices()->willReturn([]);
+        $package->getPlaces()->willReturn([]);
+        $package->getProfile()->willReturn('profile');
+        $package->getUrgency()->willReturn(0);
+        $package->getPriority()->willReturn(1);
+        $package->getEdNote()->willReturn(null);
+        $package->getGenre()->willReturn(null);
 
+        $article->getData()->willReturn(null);
+        $metadata = new Metadata();
+        $metadata->setGuid('123guid223');
+        $metadata->setLanguage('en');
+        $metadata->setPriority(1);
+        $metadata->setProfile('profile');
+
+        $article->setData($metadata)->shouldBeCalled();
         $article->setExtra($extra)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->getSlug()->shouldBeCalled();
