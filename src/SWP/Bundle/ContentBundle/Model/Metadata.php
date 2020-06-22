@@ -137,7 +137,7 @@ class Metadata implements MetadataInterface
 
     public function addPlace(PlaceInterface $place): void
     {
-        if (!$this->hasSubject($place)) {
+        if (!$this->hasPlace($place)) {
             $place->setMetadata($this);
             $this->places->add($place);
         }
