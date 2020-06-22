@@ -8,14 +8,12 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ExternalOauthController extends Controller
 {
     public const PUBLISHER_JWT_COOKIE = 'publisher_jwt';
-    public const PUBLISHER_REDIRECT_TO_AFTER_OAUTH = 'publisher_redirect_to_after_oauth';
 
     /**
      * @Route("/connect/oauth", name="connect_oauth_start")
