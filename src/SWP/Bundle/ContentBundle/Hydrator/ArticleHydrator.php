@@ -20,6 +20,7 @@ use function count;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\ContentBundle\Model\MetadataInterface;
+use SWP\Bundle\ContentBundle\Model\Place;
 use SWP\Bundle\ContentBundle\Model\Service;
 use SWP\Bundle\ContentBundle\Model\Subject;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
@@ -107,9 +108,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         foreach ($package->getSubjects() as $packageSubject) {
             $subject = new Subject();
             $subject->setCode($packageSubject['code']);
-            if (isset($packageSubject['scheme'])) {
-                $subject->setScheme($packageSubject['scheme']);
-            }
+            $subject->setScheme($packageSubject['scheme'] ?? null);
 
             $metadata->addSubject($subject);
         }
@@ -121,7 +120,25 @@ final class ArticleHydrator implements ArticleHydratorInterface
             $metadata->addService($service);
         }
 
+        foreach ($package->getPlaces() as $packagePlace) {
+            $place = new Place();
+            $place->setCountry($packagePlace['country'] ?? null);
+            $place->setGroup($packagePlace['group'] ?? null);
+            $place->setName($packagePlace['name'] ?? null);
+            $place->setState($packagePlace['state'] ?? null);
+            $place->setQcode($packagePlace['qcode'] ?? null);
+            $place->setWorldRegion($packagePlace['world_region'] ?? null);
+
+            $metadata->addPlace($place);
+        }
+
         $metadata->setProfile($package->getProfile());
+        $metadata->setUrgency($package->getUrgency());
+        $metadata->setPriority($package->getPriority());
+        $metadata->setEdNote($package->getEdNote());
+        $metadata->setLanguage($package->getLanguage());
+        $metadata->setGenre($package->getGenre());
+        $metadata->setGuid($package->getGuid());
 
         return $metadata;
     }
