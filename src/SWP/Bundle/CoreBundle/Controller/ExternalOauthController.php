@@ -28,7 +28,7 @@ class ExternalOauthController extends Controller
             ->getClient('external_oauth')
             ->redirect([
                 'openid', 'email', 'profile',
-            ], ["state" => $referer]);
+            ], ['state' => $referer]);
     }
 
     /**
