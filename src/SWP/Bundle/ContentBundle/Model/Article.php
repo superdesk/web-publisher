@@ -21,7 +21,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\Bridge\Model\AuthorsAwareTrait;
-use SWP\Component\Common\ArrayHelper;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -96,9 +95,9 @@ class Article implements ArticleInterface
     protected $isPublishable;
 
     /**
-     * @var array
+     * @var MetadataInterface|null
      */
-    protected $metadata = [];
+    protected $data;
 
     /**
      * @var string
@@ -127,6 +126,9 @@ class Article implements ArticleInterface
 
     /** @var Collection|ArticlePreviousRelativeUrlInterface[] * */
     protected $previousRelativeUrls;
+
+    /** @var array */
+    protected $metadata = [];
 
     public function __construct()
     {
@@ -295,11 +297,6 @@ class Article implements ArticleInterface
         $this->templateName = $templateName;
     }
 
-    public function getMetadata()
-    {
-        return $this->metadata;
-    }
-
     public function getMetadataByKey(string $key)
     {
         $metadata = $this->getMetadata();
@@ -309,9 +306,14 @@ class Article implements ArticleInterface
         }
     }
 
-    public function setMetadata(array $metadata)
+    public function setData(MetadataInterface $metadata): void
     {
-        $this->metadata = ArrayHelper::sortNestedArrayAssocAlphabeticallyByKey($metadata);
+        $this->data = $metadata;
+    }
+
+    public function getData(): ?MetadataInterface
+    {
+        return $this->data;
     }
 
     public function getSubjectType()
@@ -431,5 +433,15 @@ class Article implements ArticleInterface
             $previousRelativeUrl->setArticle(null);
             $this->previousRelativeUrls->removeElement($previousRelativeUrl);
         }
+    }
+
+    public function getMetadata(): array
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata(array $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 }

@@ -1,0 +1,24 @@
+SWP\Bundle\ContentBundle\Model\Metadata:
+  type: mappedSuperclass
+  table: swp_article_metadata
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    profile:
+      type: string
+      nullable: true
+  oneToMany:
+    subjects:
+      targetEntity: SWP\Bundle\ContentBundle\Model\SubjectInterface
+      mappedBy: metadata
+      cascade: ["all"]
+      orphanRemoval: true
+    services:
+      targetEntity: SWP\Bundle\ContentBundle\Model\ServiceInterface
+      mappedBy: metadata
+      cascade: ["all"]
+      orphanRemoval: true

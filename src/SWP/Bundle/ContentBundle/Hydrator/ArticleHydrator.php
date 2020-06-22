@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
+use SWP\Bundle\ContentBundle\Model\Metadata;
+use SWP\Bundle\ContentBundle\Model\MetadataInterface;
+use SWP\Bundle\ContentBundle\Model\Service;
+use SWP\Bundle\ContentBundle\Model\Subject;
 use function count;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
@@ -63,6 +67,11 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
         $article->setLocale($package->getLanguage());
         $article->setLead($package->getDescription());
+        if (null !== $article->getData()) {
+            $article->setData(null);
+        }
+
+        $article->setData($this->populateMetadata($package));
         $article->setMetadata($package->getMetadata());
 
         return $article;
@@ -90,5 +99,28 @@ final class ArticleHydrator implements ArticleHydratorInterface
         foreach ($package->getKeywords() as $keyword) {
             $this->articleKeywordAdder->add($article, $keyword);
         }
+    }
+
+    private function populateMetadata(PackageInterface $package): MetadataInterface
+    {
+        $metadata = new Metadata();
+        foreach ($package->getSubjects() as $packageSubject) {
+            $subject = new Subject();
+            $subject->setCode($packageSubject['code']);
+            $subject->setScheme($packageSubject['scheme']);
+
+            $metadata->addSubject($subject);
+        }
+
+        foreach ($package->getServices() as $packageService) {
+            $service = new Service();
+            $service->setCode($packageService['code']);
+
+            $metadata->addService($service);
+        }
+
+        $metadata->setProfile($package->getProfile());
+
+        return $metadata;
     }
 }

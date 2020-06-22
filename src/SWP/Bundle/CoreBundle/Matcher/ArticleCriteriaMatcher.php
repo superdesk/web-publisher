@@ -72,15 +72,27 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
                 return false;
             }
 
-            $articleMetadata = $article->getMetadata();
+            $matches = 0;
+            foreach ($metadata as $key => $criteriaMetadata) {
+                $articleMetadataByKey = $article->getMetadataByKey($key);
 
-            foreach ($metadata as $key => $value) {
-                $subArray[$key] = $value;
-                $patchedMetadata = array_replace_recursive($articleMetadata, $subArray);
+                if (is_array($articleMetadataByKey)) {
+                    foreach ($articleMetadataByKey as $articleMetadataItem) {
+                        foreach ($criteriaMetadata as $criteriaMetadataItem) {
+                            $result = array_intersect($articleMetadataItem, $criteriaMetadataItem);
 
-                if ($patchedMetadata !== $articleMetadata) {
-                    return false;
+                            if (!empty($result)) {
+                                ++$matches;
+                            }
+                        }
+                    }
+                } elseif ($criteriaMetadata === $articleMetadataByKey) {
+                    ++$matches;
                 }
+            }
+
+            if (0 === $matches) {
+                return false;
             }
         }
 

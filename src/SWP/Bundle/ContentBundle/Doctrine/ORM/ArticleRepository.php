@@ -162,7 +162,13 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        foreach (['metadata', 'extra', 'exclude_metadata', 'exclude_extra'] as $name) {
+
+        $queryBuilder
+            ->leftJoin('a.data', 'd')
+            ->leftJoin('d.services', 's')
+            ->leftJoin('d.subjects', 'sb');
+
+        foreach (['metadata', 'extra'] as $name) {
             if (!$criteria->has($name)) {
                 continue;
             }
@@ -174,21 +180,30 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             }
 
             $orX = $queryBuilder->expr()->orX();
+
             foreach ($criteria->get($name) as $key => $value) {
-                $search = ('***' !== $value) ? [$key => $value] : $key;
-                if ('metadata' === $name || 'exclude_metadata' === $name) {
-                    $valueExpression = '%'.\rtrim(\ltrim(\json_encode($search), '{'), '}').'%';
-                } else {
-                    $valueExpression = '%'.\rtrim(\ltrim(\serialize($search), 'a:1:{'), ';}').'%';
+                $andX = $queryBuilder->expr()->andX();
+
+                if ($key === 'service') {
+                    $orX->add($queryBuilder->expr()->eq('s.code', $queryBuilder->expr()->literal($value[0]['code'])));
                 }
 
-                $valueExpression = $queryBuilder->expr()->literal($valueExpression);
+                if ($key === 'subject') {
+                    $andX->add($queryBuilder->expr()->eq('sb.code', $queryBuilder->expr()->literal($value[0]['code'])));
+                    $andX->add($queryBuilder->expr()->eq('sb.scheme', $queryBuilder->expr()->literal($value[0]['scheme'])));
+
+                }
+
+                $orX->add($andX);
+
                 if (false === strpos($name, 'exclude_')) {
-                    $orX->add($queryBuilder->expr()->like('a.'.$name, $valueExpression));
+                    $orX->add($andX);
                 } else {
                     $orX->add($queryBuilder->expr()->notLike('a.'.\str_replace('exclude_', '', $name), $valueExpression));
                 }
+
             }
+
             $queryBuilder->andWhere($orX);
             $criteria->remove($name);
         }

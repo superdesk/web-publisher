@@ -51,14 +51,20 @@ use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Bundle\ContentBundle\Model\Keyword;
 use SWP\Bundle\ContentBundle\Model\KeywordInterface;
+use SWP\Bundle\ContentBundle\Model\Metadata;
+use SWP\Bundle\ContentBundle\Model\MetadataInterface;
 use SWP\Bundle\ContentBundle\Model\RelatedArticle;
 use SWP\Bundle\ContentBundle\Model\RelatedArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\Service;
+use SWP\Bundle\ContentBundle\Model\ServiceInterface;
 use SWP\Bundle\ContentBundle\Model\Slideshow;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
+use SWP\Bundle\ContentBundle\Model\Subject;
+use SWP\Bundle\ContentBundle\Model\SubjectInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -243,6 +249,36 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticlePreviousRelativeUrl::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticlePreviousRelativeUrlInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('metadata')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Metadata::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(MetadataInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('subject')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Subject::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(SubjectInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('service')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Service::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ServiceInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

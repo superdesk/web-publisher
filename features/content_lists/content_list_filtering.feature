@@ -14,7 +14,7 @@ Feature: Add article to automated content lists
       | name                  | type      | filters                           |
       | 1 content list   | automatic | {"metadata":{"subject":[{"code": "lent2020", "scheme": "customVocabulary"}]}} |
       | 2 content list   | automatic | {"metadata":{"service":[{"code": "vatican"}],"subject":[{"code": "news", "scheme": "atype"}]}} |
-
+      | 3 content list   | automatic | {"metadata":{"service":[{"code": "vatican"}, {"code": "something"}]}} |
 
     Given the following Users:
       | username   | email                      | token      | plainPassword | role                | enabled |
@@ -71,6 +71,55 @@ Feature: Add article to automated content lists
     """
     {
        "language":"en",
+       "headline":"Test Package Vatican 2",
+       "version":"2",
+       "guid":"16e111d572",
+       "priority":6,
+       "type":"text",
+       "service":[
+          {
+             "name":"Vatican",
+             "code":"vatican"
+          }
+       ],
+       "authors":[
+          {
+             "name":"Tom Doe",
+             "role":"editor"
+          }
+       ],
+       "byline":"Admin",
+       "subject":[
+          {
+             "name":"News",
+             "scheme":"atype",
+             "code":"news"
+          },
+          {
+             "code":"001",
+             "scheme":"test2",
+             "name":"priest"
+          }
+       ]
+    }
+    """
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/3/items/"
+    And the JSON node "total" should be equal to "1"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/2/items/"
+    And the JSON node "total" should be equal to "1"
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v2/content/push" with body:
+    """
+    {
+       "language":"en",
        "headline":"Test Package",
        "version":"2",
        "guid":"16e111d5",
@@ -109,7 +158,7 @@ Feature: Add article to automated content lists
     """
     {
        "language":"en",
-       "headline":"Test Package Vatican",
+       "headline":"Test Package Nation with subjects",
        "version":"2",
        "guid":"16e111d578",
        "priority":6,
@@ -145,7 +194,7 @@ Feature: Add article to automated content lists
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/lists/2/items/"
-    And the JSON node "total" should be equal to "0"
+    And the JSON node "total" should be equal to "2"
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
@@ -155,7 +204,7 @@ Feature: Add article to automated content lists
        "language":"en",
        "headline":"Test Package Vatican",
        "version":"2",
-       "guid":"16e111d578",
+       "guid":"16e111d57855",
        "priority":6,
        "type":"text",
        "service":[
@@ -189,4 +238,64 @@ Feature: Add article to automated content lists
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/lists/2/items/"
-    And the JSON node "total" should be equal to "1"
+    And the JSON node "total" should be equal to "3"
+
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v2/content/push" with body:
+    """
+    {
+       "language":"en",
+       "headline":"Test Package Nation without subjects",
+       "version":"2",
+       "guid":"22216e111d578",
+       "priority":6,
+       "type":"text",
+       "service":[
+          {
+             "name":"Nation",
+             "code":"nation"
+          }
+       ],
+       "authors":[
+          {
+             "name":"Tom Doe",
+             "role":"editor"
+          }
+       ],
+       "byline":"Admin",
+       "subject":[
+       ]
+    }
+    """
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v2/content/lists/2" with body:
+    """
+    {
+        "filters": "{\"metadata\":{\"service\":[{\"code\": \"nation\"}],\"subject\":[{\"code\": \"news\", \"scheme\": \"atype\"}]}}"
+    }
+    """
+    Then the response status code should be 200
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/2/items/"
+    And the JSON node "total" should be equal to "4"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v2/content/lists/2" with body:
+    """
+    {
+        "filters": "{\"metadata\":{\"service\":[{\"code\": \"nation\"}]}}"
+    }
+    """
+    Then the response status code should be 200
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/lists/2/items/"
+    And the JSON node "total" should be equal to "2"
