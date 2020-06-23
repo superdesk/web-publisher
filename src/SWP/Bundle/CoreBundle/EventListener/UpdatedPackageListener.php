@@ -75,7 +75,14 @@ final class UpdatedPackageListener
     private function handleArticlesUpdate(PackageInterface $package)
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-        foreach ($this->articleRepository->getArticlesByPackage($package)->getQuery()->getResult() as $article) {
+        $articles = $this->articleRepository
+            ->getArticlesByPackage($package)
+            ->getQuery()
+            ->getResult();
+
+        $this->clearMetadata($articles);
+
+        foreach ($articles as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
             // Flush in loop to emit POST_UPDATE article event
@@ -116,5 +123,14 @@ final class UpdatedPackageListener
         }
 
         return $package;
+    }
+
+    private function clearMetadata(array $articles): void
+    {
+        foreach ($articles as $article) {
+            $article->setData(null);
+        }
+
+        $this->articleManager->flush();
     }
 }

@@ -249,12 +249,12 @@ class Metadata implements MetadataInterface
         $this->genre = $genre;
     }
 
-    public function getArticle(): ArticleInterface
+    public function getArticle(): ?ArticleInterface
     {
         return $this->article;
     }
 
-    public function setArticle(ArticleInterface $article): void
+    public function setArticle(?ArticleInterface $article): void
     {
         $this->article = $article;
     }
