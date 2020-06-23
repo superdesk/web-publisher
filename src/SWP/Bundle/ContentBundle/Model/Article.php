@@ -308,7 +308,9 @@ class Article implements ArticleInterface
 
     public function setData(?MetadataInterface $metadata): void
     {
-        $metadata->setArticle($this);
+        if (null !== $metadata) {
+            $metadata->setArticle($this);
+        }
 
         $this->data = $metadata;
     }

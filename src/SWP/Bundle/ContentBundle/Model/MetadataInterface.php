@@ -78,4 +78,8 @@ interface MetadataInterface extends PersistableInterface
     public function getGenre(): ?string;
 
     public function setGenre(?string $genre): void;
+
+    public function getArticle(): ArticleInterface;
+
+    public function setArticle(ArticleInterface $article): void;
 }
