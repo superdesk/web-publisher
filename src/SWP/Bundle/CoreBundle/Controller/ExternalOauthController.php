@@ -7,6 +7,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,15 +18,17 @@ class ExternalOauthController extends Controller
     /**
      * @Route("/connect/oauth", name="connect_oauth_start")
      */
-    public function connectAction(): Response
+    public function connectAction(Request $request): Response
     {
+        $referer = $request->headers->get('referer');
+
         $clientRegistry = $this->get('knpu.oauth2.registry');
 
         return $clientRegistry
             ->getClient('external_oauth')
             ->redirect([
                 'openid', 'email', 'profile',
-            ]);
+            ], ['state' => $referer]);
     }
 
     /**
@@ -33,7 +36,7 @@ class ExternalOauthController extends Controller
      *
      * @Route("/connect/oauth/check", name="connect_oauth_check")
      */
-    public function connectCheckAction(JWTTokenManagerInterface $jwtTokenManager): Response
+    public function connectCheckAction(Request $request, JWTTokenManagerInterface $jwtTokenManager): Response
     {
         // If we didn't log in, something went wrong. Throw an exception!
         if (!($user = $this->getUser())) {
@@ -43,7 +46,9 @@ class ExternalOauthController extends Controller
             return $response;
         }
 
-        $response = $this->redirectToRoute('homepage');
+        $state = $request->query->get('state');
+        $response = $this->redirect($state);
+        
         $response->headers->setCookie(Cookie::create(self::PUBLISHER_JWT_COOKIE, $jwtTokenManager->create($user)));
 
         return $response;
