@@ -11,6 +11,24 @@ SWP\Bundle\ContentBundle\Model\Metadata:
     profile:
       type: string
       nullable: true
+    priority:
+      type: integer
+      nullable: true
+    urgency:
+      type: integer
+      nullable: true
+    edNote:
+      type: string
+      nullable: true
+    language:
+      type: string
+      nullable: true
+    genre:
+      type: string
+      nullable: true
+    guid:
+      type: string
+      nullable: true
   oneToMany:
     subjects:
       targetEntity: SWP\Bundle\ContentBundle\Model\SubjectInterface
@@ -27,3 +45,11 @@ SWP\Bundle\ContentBundle\Model\Metadata:
       mappedBy: metadata
       cascade: ["all"]
       orphanRemoval: true
+  oneToOne:
+    article:
+      targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+      inversedBy: data
+      joinColumn:
+        name: article_id
+        referencedColumnName: id
+        onDelete: CASCADE

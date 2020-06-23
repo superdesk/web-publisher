@@ -66,6 +66,9 @@ class Metadata implements MetadataInterface
     /** @var string|null */
     protected $genre;
 
+    /** @var ArticleInterface */
+    protected $article;
+
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
@@ -244,5 +247,15 @@ class Metadata implements MetadataInterface
     public function setGenre(?string $genre): void
     {
         $this->genre = $genre;
+    }
+
+    public function getArticle(): ArticleInterface
+    {
+        return $this->article;
+    }
+
+    public function setArticle(ArticleInterface $article): void
+    {
+        $this->article = $article;
     }
 }

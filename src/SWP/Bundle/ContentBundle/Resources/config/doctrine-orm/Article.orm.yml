@@ -143,9 +143,6 @@ SWP\Bundle\ContentBundle\Model\Article:
     oneToOne:
         data:
             targetEntity: SWP\Bundle\ContentBundle\Model\MetadataInterface
+            mappedBy: article
             cascade: ["all"]
-            joinColumn:
-                name: metadata_id
-                referencedColumnName: id
-                nullable: true
-                orphanRemoval: true
+            orphanRemoval: true

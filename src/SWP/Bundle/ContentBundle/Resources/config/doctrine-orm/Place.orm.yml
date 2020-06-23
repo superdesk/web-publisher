@@ -20,7 +20,7 @@ SWP\Bundle\ContentBundle\Model\Place:
     name:
       type: string
       nullable: true
-    group:
+    qgroup:
       type: string
       nullable: true
     qcode:

@@ -37,7 +37,7 @@ class Place implements PlaceInterface
     protected $name;
 
     /** @var string|null */
-    protected $group;
+    protected $qgroup;
 
     /** @var MetadataInterface|null */
     protected $metadata;
@@ -109,11 +109,11 @@ class Place implements PlaceInterface
 
     public function getGroup(): ?string
     {
-        return $this->group;
+        return $this->qgroup;
     }
 
     public function setGroup(?string $group): void
     {
-        $this->group = $group;
+        $this->qgroup = $group;
     }
 }
