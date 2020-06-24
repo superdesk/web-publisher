@@ -78,7 +78,7 @@ final class MetadataFactory implements MetadataFactoryInterface
         $metadata->setEdNote($legacyMetadata['edNote'] ?? null);
         $metadata->setLanguage($legacyMetadata['language'] ?? null);
         $metadata->setGuid($legacyMetadata['guid'] ?? null);
-        $metadata->setGenre($legacyMetadata['genre'] ?? $legacyMetadata['genre']['code'] ?? null);
+        $metadata->setGenre(isset($legacyMetadata['genre']) ? $legacyMetadata['genre'][0]['code'] : null);
         $metadata->setLocated($legacyMetadata['located'] ?? null);
         $metadata->setByline($legacyMetadata['byline'] ?? null);
 
