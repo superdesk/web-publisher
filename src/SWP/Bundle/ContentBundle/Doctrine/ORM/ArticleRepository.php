@@ -324,5 +324,13 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
             $criteria->remove('exclude_route');
         }
+
+        if ($criteria->has('route') && !empty($criteria->get('route'))) {
+            $andX = $queryBuilder->expr()->andX();
+            $andX->add($queryBuilder->expr()->in('a.route', (array) $criteria->get('route')));
+            $queryBuilder->andWhere($andX);
+
+            $criteria->remove('route');
+        }
     }
 }
