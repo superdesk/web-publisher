@@ -42,7 +42,7 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $this->addSql('CREATE TABLE swp_article_metadata_subject (id INT NOT NULL, metadata_id INT DEFAULT NULL, code VARCHAR(255) NOT NULL, scheme VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_6DCC5521DC9EE959 ON swp_article_metadata_subject (metadata_id)');
         $this->addSql('ALTER TABLE swp_article_metadata_place ADD CONSTRAINT FK_6C173802DC9EE959 FOREIGN KEY (metadata_id) REFERENCES swp_article_metadata (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE swp_article_metadata ADD CONSTRAINT FK_EEF4773C7294869C FOREIGN KEY (article_id) REFERENCES swp_article (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_article_metadata ADD CONSTRAINT FK_EEF4773C7294869C FOREIGN KEY (article_id) REFERENCES swp_article (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_article_metadata_service ADD CONSTRAINT FK_779FF189DC9EE959 FOREIGN KEY (metadata_id) REFERENCES swp_article_metadata (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_article_metadata_subject ADD CONSTRAINT FK_6DCC5521DC9EE959 FOREIGN KEY (metadata_id) REFERENCES swp_article_metadata (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_item ADD profile VARCHAR(255) DEFAULT NULL');
@@ -53,7 +53,7 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $metadataFactory = $this->container->get('swp.factory.metadata');
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager
-            ->createQuery('SELECT a FROM SWP\Bundle\ContentBundle\Model\Article a');
+            ->createQuery('SELECT a FROM SWP\Bundle\CoreBundle\Model\Article a');
 
         $batchSize = 20;
         $i = 1;
@@ -89,7 +89,6 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $this->addSql('ALTER TABLE swp_article_metadata_place DROP CONSTRAINT FK_6C173802DC9EE959');
         $this->addSql('ALTER TABLE swp_article_metadata_service DROP CONSTRAINT FK_779FF189DC9EE959');
         $this->addSql('ALTER TABLE swp_article_metadata_subject DROP CONSTRAINT FK_6DCC5521DC9EE959');
-        $this->addSql('ALTER TABLE swp_article DROP CONSTRAINT FK_FB21E858DC9EE959');
         $this->addSql('DROP SEQUENCE swp_article_metadata_place_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE swp_article_metadata_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE swp_article_metadata_service_id_seq CASCADE');
