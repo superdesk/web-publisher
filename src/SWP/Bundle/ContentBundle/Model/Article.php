@@ -94,10 +94,8 @@ class Article implements ArticleInterface
      */
     protected $isPublishable;
 
-    /**
-     * @var MetadataInterface|null
-     */
-    protected $data;
+    /** @var array */
+    protected $metadata = [];
 
     /**
      * @var string
@@ -127,8 +125,8 @@ class Article implements ArticleInterface
     /** @var Collection|ArticlePreviousRelativeUrlInterface[] * */
     protected $previousRelativeUrls;
 
-    /** @var array */
-    protected $metadata = [];
+    /** @var MetadataInterface|null */
+    protected $data;
 
     public function __construct()
     {

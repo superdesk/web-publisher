@@ -52,7 +52,7 @@ final class MetadataFactory implements MetadataFactoryInterface
         if (isset($legacyMetadata['service'])) {
             foreach ($legacyMetadata['service'] as $legacyService) {
                 $service = new Service();
-                $service->setCode($legacyService['code']);
+                $service->setCode($legacyService['code'] ?? $legacyService['name'] ?? null);
 
                 $metadata->addService($service);
             }
