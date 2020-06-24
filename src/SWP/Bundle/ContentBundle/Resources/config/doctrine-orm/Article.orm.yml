@@ -140,3 +140,9 @@ SWP\Bundle\ContentBundle\Model\Article:
                 inverseJoinColumns:
                     keyword_id:
                         referencedColumnName: id
+    oneToOne:
+        data:
+            targetEntity: SWP\Bundle\ContentBundle\Model\MetadataInterface
+            mappedBy: article
+            cascade: ["all"]
+            orphanRemoval: true

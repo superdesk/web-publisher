@@ -1,0 +1,35 @@
+SWP\Bundle\ContentBundle\Model\Place:
+  type: mappedSuperclass
+  table: swp_article_metadata_place
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    country:
+      type: string
+      nullable: true
+    worldRegion:
+      type: string
+      nullable: true
+    state:
+      type: string
+      nullable: true
+    name:
+      type: string
+      nullable: true
+    qgroup:
+      type: string
+      nullable: true
+    qcode:
+      type: string
+      nullable: true
+  manyToOne:
+    metadata:
+      targetEntity: SWP\Bundle\ContentBundle\Model\MetadataInterface
+      inversedBy: places
+      joinColumn:
+        name: metadata_id
+        referencedColumnName: id

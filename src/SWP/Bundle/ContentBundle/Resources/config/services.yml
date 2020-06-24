@@ -264,6 +264,7 @@ services:
         arguments:
              - '@swp.adder.article_source'
              - '@swp.adder.article_keyword'
+             - '@swp.factory.metadata'
 
     swp_content_bundle.listener.article_publish:
         class: SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener

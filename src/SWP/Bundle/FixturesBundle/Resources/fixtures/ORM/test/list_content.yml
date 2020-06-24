@@ -55,6 +55,17 @@ SWP\Bundle\CoreBundle\Model\Package:
         priority: 2
         version: 1
 
+SWP\Bundle\ContentBundle\Model\Metadata:
+    metadata1:
+        byline: "John Smith"
+        located: "Berlin"
+    metadata2:
+        byline: "Adam Hide"
+        located: "Sydney"
+    metadata3:
+        byline: "Fake Doe"
+        located: "Warsaw"
+
 SWP\Bundle\CoreBundle\Model\Article:
     listContent{1..2}:
         title: "article<current()>"
@@ -71,6 +82,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         metadata:
             byline: "John Smith"
             located: "Berlin"
+        data: '@metadata1'
     listContent{3..4}:
         title: "article<current()>"
         body: "art<current()>"
@@ -86,6 +98,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         metadata:
             byline: "Adam Hide"
             located: "Sydney"
+        data: '@metadata2'
     listContent5:
         title: "article5"
         body: "art5"
@@ -101,6 +114,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         metadata:
             byline: "Fake Doe"
             located: "Warsaw"
+        data: '@metadata3'
     listContent{6}:
         title: "article6"
         body: "art6"
@@ -115,3 +129,4 @@ SWP\Bundle\CoreBundle\Model\Article:
         metadata:
             byline: "Fake Doe"
             located: "Warsaw"
+        data: '@metadata3'

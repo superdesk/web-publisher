@@ -16,10 +16,13 @@ namespace spec\SWP\Bundle\ContentBundle\Hydrator;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use SWP\Bundle\ContentBundle\Factory\MetadataFactoryInterface;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
@@ -31,9 +34,12 @@ use SWP\Component\Bridge\Model\PackageInterface;
  */
 final class ArticleHydratorSpec extends ObjectBehavior
 {
-    public function let(ArticleSourcesAdderInterface $articleSourcesAdder, ArticleKeywordAdderInterface $articleKeywordAdder)
-    {
-        $this->beConstructedWith($articleSourcesAdder, $articleKeywordAdder);
+    public function let(
+        ArticleSourcesAdderInterface $articleSourcesAdder,
+        ArticleKeywordAdderInterface $articleKeywordAdder,
+        MetadataFactoryInterface $metadataFactory
+    ) {
+        $this->beConstructedWith($articleSourcesAdder, $articleKeywordAdder, $metadataFactory);
     }
 
     public function it_has_an_interface()
@@ -51,7 +57,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         ArticleInterface $article,
         RouteInterface $route,
         ArticleSourcesAdderInterface $articleSourcesAdder,
-        ArticleKeywordAdderInterface $articleKeywordAdder
+        ArticleKeywordAdderInterface $articleKeywordAdder,
+        MetadataFactoryInterface $metadataFactory
     ) {
         $item = new Item();
         $item->setBody('some item body');
@@ -78,8 +85,16 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getSlugline()->shouldBeCalled();
         $package->getAuthors()->willReturn($authors);
         $package->getExtra()->willReturn($extra);
+        $data = new Metadata();
+        $data->setGuid('123guid223');
+        $data->setLanguage('en');
+        $data->setPriority(1);
+        $data->setProfile('profile');
+        $metadataFactory->createFrom(Argument::type('array'))->willReturn($data);
 
         $article->setExtra($extra)->shouldBeCalled();
+        $article->getData()->willReturn(null);
+        $article->setData($data)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
@@ -101,7 +116,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         ArticleInterface $article,
         RouteInterface $route,
         ArticleSourcesAdderInterface $articleSourcesAdder,
-        ArticleKeywordAdderInterface $articleKeywordAdder
+        ArticleKeywordAdderInterface $articleKeywordAdder,
+        MetadataFactoryInterface $metadataFactory
     ) {
         $item = new Item();
         $item->setBody('some item body');
@@ -127,7 +143,15 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
         $package->getAuthors()->willReturn($authors);
         $package->getExtra()->willReturn($extra);
+        $data = new Metadata();
+        $data->setGuid('123guid223');
+        $data->setLanguage('en');
+        $data->setPriority(1);
+        $data->setProfile('profile');
+        $metadataFactory->createFrom(Argument::type('array'))->willReturn($data);
 
+        $article->getData()->willReturn(null);
+        $article->setData($data)->shouldBeCalled();
         $article->setExtra($extra)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->getSlug()->shouldBeCalled();

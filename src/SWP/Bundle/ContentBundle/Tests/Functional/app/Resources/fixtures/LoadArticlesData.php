@@ -14,12 +14,13 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\ContentBundle\Model\RelatedArticle;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -169,6 +170,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
         $routeProvider = $this->container->get('swp.provider.route');
         $keywordFactory = $this->container->get('swp.factory.keyword');
+        $metadataFactory = $this->container->get('swp.factory.metadata');
         foreach ($articles as $articleData) {
             /** @var ArticleInterface $article */
             $article = $this->container->get('swp.factory.article')->create();
@@ -205,7 +207,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setExtra($articleData['extra']);
             }
 
-            $article->setMetadata($this->articleMetadata());
+            $metadata = $this->articleMetadata();
+            $article->setData($metadataFactory->createFrom($metadata));
+            $article->setMetadata($metadata);
             $article->setCode(md5($articleData['title']));
             if (array_key_exists('sources', $articleData)) {
                 foreach ($articleData['sources'] as $source) {
