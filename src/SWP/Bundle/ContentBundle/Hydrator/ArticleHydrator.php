@@ -17,12 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
 use function count;
+use SWP\Bundle\ContentBundle\Factory\MetadataFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\Metadata;
-use SWP\Bundle\ContentBundle\Model\MetadataInterface;
-use SWP\Bundle\ContentBundle\Model\Place;
-use SWP\Bundle\ContentBundle\Model\Service;
-use SWP\Bundle\ContentBundle\Model\Subject;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -39,10 +35,17 @@ final class ArticleHydrator implements ArticleHydratorInterface
      */
     private $articleKeywordAdder;
 
-    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder, ArticleKeywordAdderInterface $articleKeywordAdder)
-    {
+    /** @var MetadataFactoryInterface */
+    private $metadataFactory;
+
+    public function __construct(
+        ArticleSourcesAdderInterface $articleSourcesAdder,
+        ArticleKeywordAdderInterface $articleKeywordAdder,
+        MetadataFactoryInterface $metadataFactory
+    ) {
         $this->articleSourcesAdder = $articleSourcesAdder;
         $this->articleKeywordAdder = $articleKeywordAdder;
+        $this->metadataFactory = $metadataFactory;
     }
 
     public function hydrate(ArticleInterface $article, PackageInterface $package): ArticleInterface
@@ -68,7 +71,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
         $article->setLocale($package->getLanguage());
         $article->setLead($package->getDescription());
-        $article->setData($this->populateMetadata($package));
+        $article->setData($this->metadataFactory->createFrom($package->getMetadata()));
         $article->setMetadata($package->getMetadata());
 
         return $article;
@@ -96,47 +99,5 @@ final class ArticleHydrator implements ArticleHydratorInterface
         foreach ($package->getKeywords() as $keyword) {
             $this->articleKeywordAdder->add($article, $keyword);
         }
-    }
-
-    private function populateMetadata(PackageInterface $package): MetadataInterface
-    {
-        $metadata = new Metadata();
-        foreach ($package->getSubjects() as $packageSubject) {
-            $subject = new Subject();
-            $subject->setCode($packageSubject['code']);
-            $subject->setScheme($packageSubject['scheme'] ?? null);
-
-            $metadata->addSubject($subject);
-        }
-
-        foreach ($package->getServices() as $packageService) {
-            $service = new Service();
-            $service->setCode($packageService['code']);
-
-            $metadata->addService($service);
-        }
-
-        foreach ($package->getPlaces() as $packagePlace) {
-            $place = new Place();
-            $place->setCountry($packagePlace['country'] ?? null);
-            $place->setGroup($packagePlace['group'] ?? null);
-            $place->setName($packagePlace['name'] ?? null);
-            $place->setState($packagePlace['state'] ?? null);
-            $place->setQcode($packagePlace['qcode'] ?? null);
-            $place->setWorldRegion($packagePlace['world_region'] ?? null);
-
-            $metadata->addPlace($place);
-        }
-
-        $metadata->setProfile($package->getProfile());
-        $metadata->setUrgency($package->getUrgency());
-        $metadata->setPriority($package->getPriority());
-        $metadata->setEdNote($package->getEdNote());
-        $metadata->setLanguage($package->getLanguage());
-        $genre = $package->getGenre();
-        $metadata->setGenre($genre['code'] ?? null);
-        $metadata->setGuid($package->getGuid());
-
-        return $metadata;
     }
 }

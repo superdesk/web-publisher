@@ -469,7 +469,7 @@ class ContentListControllerTest extends WebTestCase
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        self::assertEquals(2, $content['total']);
+        self::assertEquals(1, $content['total']);
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [

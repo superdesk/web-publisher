@@ -29,6 +29,12 @@ SWP\Bundle\ContentBundle\Model\Metadata:
     guid:
       type: string
       nullable: true
+    located:
+      type: string
+      nullable: true
+    byline:
+      type: string
+      nullable: true
   oneToMany:
     subjects:
       targetEntity: SWP\Bundle\ContentBundle\Model\SubjectInterface

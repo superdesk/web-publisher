@@ -163,41 +163,42 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        $queryBuilder
-            ->leftJoin('a.data', 'd')
-            ->leftJoin('d.services', 's')
-            ->leftJoin('d.subjects', 'sb');
-
-        foreach (['metadata', 'extra'] as $name) {
-            if (!$criteria->has($name)) {
-                continue;
-            }
-
-            if (!is_array($criteria->get($name))) {
-                $criteria->remove($name);
-
-                continue;
-            }
-
-            $orX = $queryBuilder->expr()->orX();
-
-            foreach ($criteria->get($name) as $key => $value) {
-                $andX = $queryBuilder->expr()->andX();
-
-                if (Metadata::SERVICE_KEY === $key) {
-                    $orX->add($queryBuilder->expr()->eq('s.code', $queryBuilder->expr()->literal($value[0]['code'])));
-                }
-
-                if (Metadata::SUBJECT_KEY === $key) {
-                    $andX->add($queryBuilder->expr()->eq('sb.code', $queryBuilder->expr()->literal($value[0]['code'])));
-                    $andX->add($queryBuilder->expr()->eq('sb.scheme', $queryBuilder->expr()->literal($value[0]['scheme'])));
-                }
-
-                $orX->add($andX);
+        $orX = $queryBuilder->expr()->orX();
+        if ($criteria->has('extra')) {
+            foreach ((array) $criteria->get('extra') as $key => $value) {
+                $valueExpression = $queryBuilder->expr()->literal('%'.\rtrim(\ltrim(\serialize([$key => $value]), 'a:1:{'), ';}').'%');
+                $orX->add($queryBuilder->expr()->like('a.extra', $valueExpression));
             }
 
             $queryBuilder->andWhere($orX);
-            $criteria->remove($name);
+            $criteria->remove('extra');
+        }
+
+        if ($criteria->has('metadata')) {
+            $queryBuilder
+                ->leftJoin('a.data', 'd')
+                ->leftJoin('d.services', 's')
+                ->leftJoin('d.subjects', 'sb');
+
+            foreach ((array) $criteria->get('metadata') as $key => $value) {
+                switch ($key) {
+                    case Metadata::SERVICE_KEY:
+                        $orX->add($queryBuilder->expr()->eq('s.code', $queryBuilder->expr()->literal($value[0]['code'])));
+                        break;
+                    case Metadata::SUBJECT_KEY:
+                        $andX = $queryBuilder->expr()->andX();
+                        $andX->add($queryBuilder->expr()->eq('sb.code', $queryBuilder->expr()->literal($value[0]['code'])));
+                        $andX->add($queryBuilder->expr()->eq('sb.scheme', $queryBuilder->expr()->literal($value[0]['scheme'])));
+                        $orX->add($andX);
+
+                        break;
+                    default:
+                        $orX->add($queryBuilder->expr()->eq("d.$key", $queryBuilder->expr()->literal($value)));
+                }
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('metadata');
         }
 
         if ($criteria->has('keywords')) {

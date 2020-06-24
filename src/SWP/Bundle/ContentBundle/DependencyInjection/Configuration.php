@@ -15,21 +15,24 @@
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleAuthorRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RelatedArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowItemRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowRepository;
 use SWP\Bundle\ContentBundle\Factory\FileFactory;
 use SWP\Bundle\ContentBundle\Factory\KeywordFactory;
+use SWP\Bundle\ContentBundle\Factory\MetadataFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ImageRenditionFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use SWP\Bundle\ContentBundle\Model\Article;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
@@ -39,8 +42,6 @@ use SWP\Bundle\ContentBundle\Model\ArticleSource;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReferenceInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
-use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\AuthorMedia;
 use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\ContentBundle\Model\File;
@@ -262,7 +263,7 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Metadata::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(MetadataInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(MetadataFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
