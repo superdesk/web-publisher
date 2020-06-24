@@ -16,6 +16,8 @@ namespace spec\SWP\Bundle\ContentBundle\Hydrator;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use SWP\Bundle\ContentBundle\Factory\MetadataFactoryInterface;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
@@ -32,9 +34,12 @@ use SWP\Component\Bridge\Model\PackageInterface;
  */
 final class ArticleHydratorSpec extends ObjectBehavior
 {
-    public function let(ArticleSourcesAdderInterface $articleSourcesAdder, ArticleKeywordAdderInterface $articleKeywordAdder)
-    {
-        $this->beConstructedWith($articleSourcesAdder, $articleKeywordAdder);
+    public function let(
+        ArticleSourcesAdderInterface $articleSourcesAdder,
+        ArticleKeywordAdderInterface $articleKeywordAdder,
+        MetadataFactoryInterface $metadataFactory
+    ) {
+        $this->beConstructedWith($articleSourcesAdder, $articleKeywordAdder, $metadataFactory);
     }
 
     public function it_has_an_interface()
@@ -52,7 +57,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         ArticleInterface $article,
         RouteInterface $route,
         ArticleSourcesAdderInterface $articleSourcesAdder,
-        ArticleKeywordAdderInterface $articleKeywordAdder
+        ArticleKeywordAdderInterface $articleKeywordAdder,
+        MetadataFactoryInterface $metadataFactory
     ) {
         $item = new Item();
         $item->setBody('some item body');
@@ -79,23 +85,16 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getSlugline()->shouldBeCalled();
         $package->getAuthors()->willReturn($authors);
         $package->getExtra()->willReturn($extra);
-        $package->getSubjects()->willReturn([]);
-        $package->getServices()->willReturn([]);
-        $package->getPlaces()->willReturn([]);
-        $package->getProfile()->willReturn('profile');
-        $package->getUrgency()->willReturn(0);
-        $package->getPriority()->willReturn(1);
-        $package->getEdNote()->willReturn(null);
-        $package->getGenre()->willReturn(null);
+        $data = new Metadata();
+        $data->setGuid('123guid223');
+        $data->setLanguage('en');
+        $data->setPriority(1);
+        $data->setProfile('profile');
+        $metadataFactory->createFrom(Argument::type('array'))->willReturn($data);
 
         $article->setExtra($extra)->shouldBeCalled();
         $article->getData()->willReturn(null);
-        $metadata = new Metadata();
-        $metadata->setGuid('123guid223');
-        $metadata->setLanguage('en');
-        $metadata->setPriority(1);
-        $metadata->setProfile('profile');
-        $article->setData($metadata)->shouldBeCalled();
+        $article->setData($data)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
@@ -117,7 +116,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         ArticleInterface $article,
         RouteInterface $route,
         ArticleSourcesAdderInterface $articleSourcesAdder,
-        ArticleKeywordAdderInterface $articleKeywordAdder
+        ArticleKeywordAdderInterface $articleKeywordAdder,
+        MetadataFactoryInterface $metadataFactory
     ) {
         $item = new Item();
         $item->setBody('some item body');
@@ -143,23 +143,15 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
         $package->getAuthors()->willReturn($authors);
         $package->getExtra()->willReturn($extra);
-        $package->getSubjects()->willReturn([]);
-        $package->getServices()->willReturn([]);
-        $package->getPlaces()->willReturn([]);
-        $package->getProfile()->willReturn('profile');
-        $package->getUrgency()->willReturn(0);
-        $package->getPriority()->willReturn(1);
-        $package->getEdNote()->willReturn(null);
-        $package->getGenre()->willReturn(null);
+        $data = new Metadata();
+        $data->setGuid('123guid223');
+        $data->setLanguage('en');
+        $data->setPriority(1);
+        $data->setProfile('profile');
+        $metadataFactory->createFrom(Argument::type('array'))->willReturn($data);
 
         $article->getData()->willReturn(null);
-        $metadata = new Metadata();
-        $metadata->setGuid('123guid223');
-        $metadata->setLanguage('en');
-        $metadata->setPriority(1);
-        $metadata->setProfile('profile');
-
-        $article->setData($metadata)->shouldBeCalled();
+        $article->setData($data)->shouldBeCalled();
         $article->setExtra($extra)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->getSlug()->shouldBeCalled();
