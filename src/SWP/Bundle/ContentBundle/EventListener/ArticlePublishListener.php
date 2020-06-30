@@ -37,10 +37,6 @@ final class ArticlePublishListener
             $article->setPublishedAt($article->getUpdatedAt());
         }
 
-        if (isset($article->getExtra()['publishdate'])) {
-            $article->setPublishedAt(new \DateTime($article->getExtra()['publishdate']));
-        }
-
         // assign a id at the end of the url
         if (isset($article->getExtra()['uniqueName'])) {
             $uniqueId = $article->getExtra()['uniqueName'];
