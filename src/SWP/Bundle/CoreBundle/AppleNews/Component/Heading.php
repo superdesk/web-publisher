@@ -28,12 +28,12 @@ class Heading extends Component
     /** @var string */
     private $role = self::ROLE;
 
-    public function __construct(string $text, int $headingType = 1, string $format = self::FORMAT)
+    public function __construct(string $text, int $headingType = 1, string $layout = null, string $format = self::FORMAT)
     {
         $this->role .= $headingType;
         $this->format = $format;
 
-        parent::__construct($text, null);
+        parent::__construct($text, $layout);
     }
 
     public function getFormat(): string

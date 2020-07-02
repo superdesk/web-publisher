@@ -29,6 +29,10 @@ final class ArticleBodyToComponentsConverter
 {
     public function convert(string $body): array
     {
+        if ('' === $body) {
+            return [];
+        }
+
         $document = new \DOMDocument();
         libxml_use_internal_errors(true);
         $document->loadHTML('<?xml encoding="UTF-8">'.self::stripHtmlTags($body));
@@ -51,27 +55,26 @@ final class ArticleBodyToComponentsConverter
                 case 'h6':
                     if ('' !== $node->textContent) {
                         $level = substr($node->nodeName, 1);
-                        $components[] = new Heading($node->textContent, (int) $level);
+                        $components[] = new Heading($node->textContent, (int) $level, 'fullMarginAboveHalfBelowLayout');
                     }
 
                     break;
                 case 'p':
                     if ('' !== $node->textContent) {
-                        $components[] = new Body($node->textContent, 'marginBetweenComponents');
+                        if ($node->getElementsByTagName('img')->length > 0) {
+                            $components[] = $this->createFigureComponent($node);
+
+                            break;
+                        }
+
+                        $bodyHtml = $node->ownerDocument->saveHTML($node);
+                        $components[] = new Body($bodyHtml, 'marginBetweenComponents');
                     }
 
                     break;
 
                 case 'figure':
-                    $src = $node->getElementsByTagName('img')
-                        ->item(0)
-                        ->getAttribute('src');
-
-                    $caption = $node->getElementsByTagName('figcaption')
-                        ->item(0)
-                        ->textContent;
-
-                    $components[] = new Figure($src, $caption);
+                    $components[] = $this->createFigureComponent($node);
 
                     break;
                 case 'div':
@@ -141,5 +144,18 @@ final class ArticleBodyToComponentsConverter
         preg_match('/^https:\/\/www\.facebook\.com\/(photo(\.php|s)|permalink\.php|[^\/]+\/(activity|posts))[\/?].*$/', $url, $matches);
 
         return !empty($matches);
+    }
+
+    private function createFigureComponent(\DOMElement $node): Figure
+    {
+        $src = $node->getElementsByTagName('img')
+            ->item(0)
+            ->getAttribute('src');
+
+        $caption = $node->getElementsByTagName('figcaption')
+            ->item(0)
+            ->textContent;
+
+        return new Figure($src, $caption);
     }
 }
