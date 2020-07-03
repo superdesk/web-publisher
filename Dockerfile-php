@@ -1,8 +1,5 @@
 FROM php:7.3-fpm-alpine
 
-RUN apk update
-RUN apk add curl-dev
-
 RUN set -ex \
     && apk --no-cache add \
         postgresql-dev \
@@ -25,6 +22,7 @@ RUN set -ex \
         rabbitmq-c-dev \
         libzip-dev \
         zip \
+        curl-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
