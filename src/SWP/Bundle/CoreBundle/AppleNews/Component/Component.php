@@ -10,10 +10,14 @@ abstract class Component implements ComponentInterface
     /** @var string|null */
     protected $layout;
 
-    public function __construct(string $text, string $layout = null)
+    /** @var array */
+    protected $inlineTextStyles;
+
+    public function __construct(string $text, string $layout = null, array $inlineTextStyles = [])
     {
         $this->text = $text;
         $this->layout = $layout;
+        $this->inlineTextStyles = $inlineTextStyles;
     }
 
     public function getText(): string
@@ -26,5 +30,10 @@ abstract class Component implements ComponentInterface
     public function getLayout(): ?string
     {
         return $this->layout;
+    }
+
+    public function getInlineTextStyles(): array
+    {
+        return $this->inlineTextStyles;
     }
 }
