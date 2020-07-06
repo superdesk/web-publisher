@@ -13,7 +13,7 @@ SWP\Component\Bridge\Model\Item:
             type: string
             nullable: true
         headline:
-            type: string
+            type: text
         slugline:
             type: string
             nullable: true
