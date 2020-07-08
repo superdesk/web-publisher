@@ -121,12 +121,20 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
      */
     public function findRootNodes(int $page = 1, int $limit = 10)
     {
+        if ($page <= 0) {
+            $page = 1;
+        }
+
+        if ($limit <= 0) {
+            $limit = 10;
+        }
+
         $queryBuilder = $this->createQueryBuilder('m');
         $queryBuilder
             ->addSelect('children')
             ->leftJoin('m.children', 'children')
             ->where($queryBuilder->expr()->isNull('m.parent'))
-            ->setFirstResult(($limit * $page) - $limit)
+            ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit)
             ->orderBy('m.id', 'asc');
 
