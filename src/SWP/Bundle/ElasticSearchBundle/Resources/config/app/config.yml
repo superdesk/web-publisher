@@ -2,8 +2,8 @@ fos_elastica:
     clients:
         default: { host: "%env(ELASTICA_HOST)%", port: "%env(ELASTICA_PORT)%", retryOnConflict: 5 }
     indexes:
-        swp_article:
-            index_name: '%env(ELASTICA_INDEX_NAME)%_article'
+        swp:
+            index_name: '%env(ELASTICA_INDEX_NAME)%'
             settings:
                 analysis:
                     analyzer:
@@ -30,16 +30,17 @@ fos_elastica:
                         swp_ascii_folding:
                             type: "asciifolding"
                             preserve_original: true
+
             types:
                 article:
                     properties:
                         id: { type: integer}
-                        code: { type: text, analyzer: swp_code_analyzer }
-                        title: { type: text, analyzer: swp_folding_analyzer }
-                        body: { type: text, analyzer: swp_folding_analyzer }
-                        lead: { type: text, analyzer: swp_folding_analyzer}
-                        slug: { type: text }
-                        status: { type: text }
+                        code: { type: string, analyzer: swp_code_analyzer }
+                        title: { type: string, analyzer: swp_folding_analyzer }
+                        body: { type: string, analyzer: swp_folding_analyzer }
+                        lead: { type: string, analyzer: swp_folding_analyzer}
+                        slug: { type: string }
+                        status: { type: string }
                         located:
                             property_path: metadata[located]
                         version:
@@ -50,7 +51,7 @@ fos_elastica:
                             property_path: metadata[urgency]
                         language:
                             property_path: metadata[language]
-                        tenantCode: { type: text }
+                        tenantCode: { type: string }
                         isPublishable: { type: boolean }
                         publishedAt:
                             type: date
@@ -61,22 +62,22 @@ fos_elastica:
                         route:
                             type: "object"
                             properties:
-                                name: { type: text }
+                                name: { type: string }
                                 id: { type: integer }
                         sources:
                             type: "nested"
                             properties:
-                                name: { type: text, analyzer: swp_sources_analyzer }
+                                name: { type: string, analyzer: swp_sources_analyzer }
                         keywords:
                             type: "nested"
                             include_in_root: true
                             properties:
-                                name: { type: text, analyzer: swp_folding_analyzer }
+                                name: { type: string, analyzer: swp_folding_analyzer }
                         authors:
                             type: "nested"
                             properties:
                                 id: { type: integer }
-                                name: { type: text, analyzer: swp_author_name_analyzer }
+                                name: { type: string, analyzer: swp_author_name_analyzer }
                         extra:
                             type: object
                         articleStatistics:
@@ -91,38 +92,17 @@ fos_elastica:
                         repository: SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
-        swp_package:
-            index_name: '%env(ELASTICA_INDEX_NAME)%_package'
-            settings:
-                analysis:
-                    analyzer:
-                        default:
-                            type: custom
-                            tokenizer: standard
-                            filter: [lowercase, swp_ascii_folding]
-                        swp_code_analyzer:
-                            type: custom
-                            tokenizer: whitespace
-                            filter: [lowercase]
-                        swp_author_name_analyzer:
-                            type: custom
-                            tokenizer: keyword
-                    filter:
-                        swp_ascii_folding:
-                            type: "asciifolding"
-                            preserve_original: true
-            types:
                 package:
                     properties:
                         id: { type: integer}
-                        guid: { type: text, analyzer: swp_code_analyzer }
-                        headline: { type: text }
-                        slugline: { type: text }
-                        language: { type: text }
-                        description: { type: text }
-                        byline: { type: text }
-                        status: { type: text }
-                        source: { type: text }
+                        guid: { type: string, analyzer: swp_code_analyzer }
+                        headline: { type: string }
+                        slugline: { type: string }
+                        language: { type: string }
+                        description: { type: string }
+                        byline: { type: string }
+                        status: { type: string }
+                        source: { type: string }
                         updatedAt:
                             type: date
                         organization:
@@ -133,26 +113,26 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 id: { type: integer}
-                                code: { type: text, analyzer: swp_code_analyzer }
-                                title: { type: text }
-                                body: { type: text }
-                                lead: { type: text }
-                                slug: { type: text }
-                                status: { type: text }
-                                tenantCode: { type: text }
+                                code: { type: string, analyzer: swp_code_analyzer }
+                                title: { type: string }
+                                body: { type: string }
+                                lead: { type: string }
+                                slug: { type: string }
+                                status: { type: string }
+                                tenantCode: { type: string }
                                 publishedAt:
                                     type: date
                                 isPublishable: { type: boolean }
                                 route:
                                     type: "object"
                                     properties:
-                                        name: { type: text }
+                                        name: { type: string }
                                         id: { type: integer }
                         authors:
                             type: "nested"
                             properties:
                                 id: { type: integer }
-                                name: { type: text, analyzer: swp_author_name_analyzer }
+                                name: { type: string, analyzer: swp_author_name_analyzer }
                     persistence:
                         driver: orm
                         model: "%swp.model.package.class%"
