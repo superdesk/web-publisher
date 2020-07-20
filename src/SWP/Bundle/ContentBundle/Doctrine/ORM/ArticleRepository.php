@@ -183,12 +183,18 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             foreach ((array) $criteria->get('metadata') as $key => $value) {
                 switch ($key) {
                     case Metadata::SERVICE_KEY:
-                        $orX->add($queryBuilder->expr()->eq('s.code', $queryBuilder->expr()->literal($value[0]['code'])));
+                        foreach ($value as $service) {
+                            $orX->add($queryBuilder->expr()->eq('s.code', $queryBuilder->expr()->literal($service['code'])));
+                        }
+
                         break;
                     case Metadata::SUBJECT_KEY:
                         $andX = $queryBuilder->expr()->andX();
-                        $andX->add($queryBuilder->expr()->eq('sb.code', $queryBuilder->expr()->literal($value[0]['code'])));
-                        $andX->add($queryBuilder->expr()->eq('sb.scheme', $queryBuilder->expr()->literal($value[0]['scheme'])));
+                        foreach ($value as $subject) {
+                            $andX->add($queryBuilder->expr()->eq('sb.code', $queryBuilder->expr()->literal($subject['code'])));
+                            $andX->add($queryBuilder->expr()->eq('sb.scheme', $queryBuilder->expr()->literal($subject['scheme'])));
+                        }
+
                         $orX->add($andX);
 
                         break;
