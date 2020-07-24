@@ -72,4 +72,5 @@ RUN php /usr/bin/composer install \
  
 COPY supervisor.ini /etc/supervisor.d/supervisor.ini
 
+ENTRYPOINT [""]
 CMD ["supervisord"]
