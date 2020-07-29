@@ -3,9 +3,9 @@ org = "funkedigital.de"
 
 # using a minikube cluster
 [settings]
-  kubeContext = "helsman" # the name of the context to be created
+  kubeContext = "helmsman" # the name of the context to be created
   bearerToken = true
-  clusterURI = "http://kubernetes.default"
+  clusterURI = "https://kubernetes.default"
 
 [namespaces]
 [namespaces.superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_ID}]
