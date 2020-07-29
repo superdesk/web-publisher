@@ -1,0 +1,21 @@
+[metadata]
+org = "funkedigital.de"
+
+# using a minikube cluster
+[settings]
+kubeContext = "fd-cloud"
+
+[namespaces]
+[namespaces.superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_BRANCH}]
+protected = false
+
+[helmRepos]
+stable = "https://kubernetes-charts.storage.googleapis.com"
+
+[apps]
+[apps.traefik]
+name = "traefik-test" # should be unique across all apps
+description = "production artifactory"
+namespace = "production"
+enabled = true
+chart = "stable/traefik"
