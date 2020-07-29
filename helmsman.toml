@@ -6,7 +6,7 @@ org = "funkedigital.de"
 kubeContext = "fd-cloud"
 
 [namespaces]
-[namespaces.superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_BRANCH}]
+[namespaces.superdesk-pr-${GO_SCM_SUPERDESK_PR_PR_BRANCH}]
 protected = false
 
 [helmRepos]
