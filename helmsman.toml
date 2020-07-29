@@ -2,7 +2,7 @@
 org = "funkedigital.de"
 
 [namespaces]
-[namespaces.superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_BRANCH}]
+[namespaces.superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_ID}]
 protected = false
 
 [helmRepos]
@@ -12,7 +12,7 @@ stable = "https://kubernetes-charts.storage.googleapis.com"
 [apps.traefik]
 name = "traefik-test" # should be unique across all apps
 description = "production artifactory"
-namespace = "superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_BRANCH}"
+namespace = "superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_ID}"
 enabled = true
 version = "1.3.0" # chart version
 chart = "stable/traefik"
