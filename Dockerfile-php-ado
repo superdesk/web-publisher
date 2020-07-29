@@ -1,0 +1,68 @@
+FROM php:7.3-fpm-alpine
+
+RUN set -ex \
+    && apk --no-cache add \
+        postgresql-dev \
+        zlib-dev \
+        libxml2-dev \
+        freetype \
+        libpng \
+        libjpeg-turbo \
+        freetype-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        libwebp-dev \
+        libintl \
+        icu \
+        icu-dev \
+        git \
+        libmemcached-dev \
+        autoconf \
+        build-base \
+        rabbitmq-c-dev \
+        libzip-dev \
+        zip \
+        curl-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-install pdo pdo_pgsql \
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install sockets \
+    && pecl install memcached \
+    && docker-php-ext-enable memcached \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp \
+    && docker-php-ext-install exif \
+    && docker-php-ext-configure gd \
+        --with-png-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ \
+        --with-webp-dir \
+    && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-install zip xml gd mbstring curl bcmath
+
+RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
+
+# customize php-fpm-pool-settings
+COPY ./php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY php.ini /usr/local/etc/php/conf.d/memory-limit-php.ini
+
+# Set timezone
+RUN apk add --no-cache tzdata
+RUN rm -f /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+RUN "date"
+
+COPY --from=composer:1.6 /usr/bin/composer /usr/bin/composer
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER 1
+# create composer cache directory
+RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
+
+COPY . /var/www/publisher
+
+WORKDIR /var/www/publisher/	
+RUN php /usr/bin/composer install \	
+ && php /usr/bin/composer dump-autoload \	
+ && php /usr/bin/composer dump-env prod
+ 
+WORKDIR /var/www/publisher
