@@ -38,7 +38,10 @@ RUN set -ex \
         --with-jpeg-dir=/usr/include/ \
         --with-webp-dir \
     && docker-php-ext-configure zip --with-libzip \
-    && docker-php-ext-install zip xml gd mbstring curl bcmath
+    && docker-php-ext-install zip xml gd mbstring curl bcmath \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu \
+    && pecl clear-cache
 
 RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
 
