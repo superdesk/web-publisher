@@ -6,6 +6,8 @@ org = "funkedigital.de"
   kubeContext = "helmsman" # the name of the context to be created
   bearerToken = true
   clusterURI = "https://kubernetes.default"
+[certificates]
+  caCrt = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt" # GCS bucket path
 
 [namespaces]
 [namespaces.superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_ID}]
