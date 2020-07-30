@@ -17,11 +17,11 @@ protected = false
 stable = "https://kubernetes-charts.storage.googleapis.com"
 
 [apps]
-[apps.consul]
-name = "consul-test" # should be unique across all apps
+[apps.traefik]
+name = "traefik-test" # should be unique across all apps
 description = "production artifactory"
 namespace = "superdesk-pr-${GO_SCM_WEB_PUB_PR_PR_ID}"
 enabled = true
-version = "1.3.0" # chart version
-chart = "stable/consul"
+version = "1.87.2" # chart version
+chart = "stable/traefik"
 #testmemememememememememememememmememememeemememememememememmemeem
