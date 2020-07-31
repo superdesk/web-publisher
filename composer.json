@@ -122,6 +122,7 @@
     "symfony/translation": "^4.3",
     "symfony/validator": "^4.3",
     "symfony/web-link": "^4.3",
+    "symfony/yaml": "^4.3",
     "takeit/amp": "dev-master",
     "takeit/amp-html-bundle": "0.1.",
     "takeit/stringy": "dev-fix",
