@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentListBundle\Form\Type;
 
+use SWP\Bundle\CoreBundle\Form\Type\BooleanType;
+use SWP\Component\ContentList\Model\ContentListAction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,6 +36,10 @@ class ContentListItemPositionType extends AbstractType
                 'help' => 'Defines content position on list.',
                 'required' => false,
             ])
+            ->add('sticky', BooleanType::class, [
+                'help' => 'Defines whether content is sticky or not (true or false).',
+                'required' => false,
+            ])
             ->add('action', TextType::class, [
                 'help' => 'Defines content action (add, move or delete).',
             ])
@@ -50,6 +56,7 @@ class ContentListItemPositionType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'data_class' => ContentListAction::class,
         ]);
     }
 

@@ -63,6 +63,11 @@ class PublishDestination implements PublishDestinationInterface
     protected $contentLists = [];
 
     /**
+     * @var bool
+     */
+    protected $isPublishedToAppleNews = false;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -162,5 +167,15 @@ class PublishDestination implements PublishDestinationInterface
     public function setContentLists(array $contentLists): void
     {
         $this->contentLists = $contentLists;
+    }
+
+    public function isPublishedToAppleNews(): bool
+    {
+        return $this->isPublishedToAppleNews;
+    }
+
+    public function setIsPublishedToAppleNews(bool $isPublishedToAppleNews): void
+    {
+        $this->isPublishedToAppleNews = $isPublishedToAppleNews;
     }
 }

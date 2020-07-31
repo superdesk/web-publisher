@@ -21,7 +21,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\Bridge\Model\AuthorsAwareTrait;
-use SWP\Component\Common\ArrayHelper;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -95,9 +94,7 @@ class Article implements ArticleInterface
      */
     protected $isPublishable;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $metadata = [];
 
     /**
@@ -125,6 +122,12 @@ class Article implements ArticleInterface
      */
     protected $slideshows;
 
+    /** @var Collection|ArticlePreviousRelativeUrlInterface[] * */
+    protected $previousRelativeUrls;
+
+    /** @var MetadataInterface|null */
+    protected $data;
+
     public function __construct()
     {
         $this->createdAt = DateTime::getCurrentDateTime();
@@ -135,6 +138,7 @@ class Article implements ArticleInterface
         $this->keywords = new ArrayCollection();
         $this->slideshows = new ArrayCollection();
         $this->relatedArticles = new ArrayCollection();
+        $this->previousRelativeUrls = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)
@@ -291,11 +295,6 @@ class Article implements ArticleInterface
         $this->templateName = $templateName;
     }
 
-    public function getMetadata()
-    {
-        return $this->metadata;
-    }
-
     public function getMetadataByKey(string $key)
     {
         $metadata = $this->getMetadata();
@@ -305,9 +304,18 @@ class Article implements ArticleInterface
         }
     }
 
-    public function setMetadata(array $metadata)
+    public function setData(?MetadataInterface $metadata): void
     {
-        $this->metadata = ArrayHelper::sortNestedArrayAssocAlphabeticallyByKey($metadata);
+        $this->data = $metadata;
+
+        if ($metadata instanceof MetadataInterface) {
+            $metadata->setArticle($this);
+        }
+    }
+
+    public function getData(): ?MetadataInterface
+    {
+        return $this->data;
     }
 
     public function getSubjectType()
@@ -401,5 +409,41 @@ class Article implements ArticleInterface
             $slideshow->setArticle(null);
             $this->slideshows->removeElement($slideshow);
         }
+    }
+
+    public function getPreviousRelativeUrl(): Collection
+    {
+        return $this->previousRelativeUrls;
+    }
+
+    public function hasPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): bool
+    {
+        return $this->previousRelativeUrls->contains($previousRelativeUrl);
+    }
+
+    public function addPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void
+    {
+        if (!$this->hasPreviousRelativeUrl($previousRelativeUrl)) {
+            $previousRelativeUrl->setArticle($this);
+            $this->previousRelativeUrls->add($previousRelativeUrl);
+        }
+    }
+
+    public function removePreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void
+    {
+        if ($this->hasPreviousRelativeUrl($previousRelativeUrl)) {
+            $previousRelativeUrl->setArticle(null);
+            $this->previousRelativeUrls->removeElement($previousRelativeUrl);
+        }
+    }
+
+    public function getMetadata(): array
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata(array $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 }

@@ -16,25 +16,25 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\UserBundle\Model\UserManagerInterface;
 use GuzzleHttp;
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Swagger\Annotations as SWG;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
-use SWP\Bundle\CoreBundle\Repository\ApiKeyRepositoryInterface;
-use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Lock\Factory;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
 use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Bundle\CoreBundle\Repository\ApiKeyRepositoryInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Lock\Factory;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -179,7 +179,10 @@ class AuthController extends AbstractController
             if (null === $superdeskUser) {
                 return new SingleResourceResponse([
                     'status' => 401,
-                    'message' => 'Unauthorized (user not found in Superdesk)',
+                    'message' => <<<'MESSAGE'
+Unauthorized (user not found in Superdesk). 
+Make sure that Publisher can talk to Superdesk instance. Set it's address in "SUPERDESK_SERVERS" environment variable.
+MESSAGE,
                 ], new ResponseContext(401));
             }
 

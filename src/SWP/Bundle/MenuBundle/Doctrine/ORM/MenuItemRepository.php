@@ -37,9 +37,6 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
 
     /**
      * MenuItemRepository constructor.
-     *
-     * @param EntityManager $em
-     * @param ClassMetadata $class
      */
     public function __construct(EntityManager $em, ClassMetadata $class)
     {
@@ -122,16 +119,30 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function findRootNodes()
+    public function findRootNodes(int $page = 1, int $limit = 10)
     {
+        if ($page <= 0) {
+            $page = 1;
+        }
+
+        if ($limit <= 0) {
+            $limit = 10;
+        }
+
         $queryBuilder = $this->createQueryBuilder('m');
         $queryBuilder
             ->addSelect('children')
             ->leftJoin('m.children', 'children')
             ->where($queryBuilder->expr()->isNull('m.parent'))
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
             ->orderBy('m.id', 'asc');
 
-        return $this->getPaginator($queryBuilder, new PaginationData());
+        $pagination = new PaginationData();
+        $pagination->setPageNumber($page);
+        $pagination->setLimit($limit);
+
+        return $this->getPaginator($queryBuilder, $pagination);
     }
 
     /**

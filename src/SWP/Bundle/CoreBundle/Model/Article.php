@@ -59,6 +59,12 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
     /** @var Place */
     protected $geoIpPlace;
 
+    /** @var bool */
+    protected $isPublishedToAppleNews = false;
+
+    /** @var AppleNewsArticleInterface|null */
+    protected $appleNewsArticle;
+
     /**
      * {@inheritdoc}
      */
@@ -170,5 +176,25 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
         }
 
         return $geoPlaces;
+    }
+
+    public function isPublishedToAppleNews(): bool
+    {
+        return $this->isPublishedToAppleNews;
+    }
+
+    public function setPublishedToAppleNews(bool $isPublished): void
+    {
+        $this->isPublishedToAppleNews = $isPublished;
+    }
+
+    public function getAppleNewsArticle(): ?AppleNewsArticleInterface
+    {
+        return $this->appleNewsArticle;
+    }
+
+    public function setAppleNewsArticle(?AppleNewsArticleInterface $appleNewsArticle): void
+    {
+        $this->appleNewsArticle = $appleNewsArticle;
     }
 }

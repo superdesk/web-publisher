@@ -18,6 +18,10 @@ use SWP\Bundle\CoreBundle\Factory\PackagePreviewTokenFactory;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
+use SWP\Bundle\CoreBundle\Model\AppleNewsArticle;
+use SWP\Bundle\CoreBundle\Model\AppleNewsArticleInterface;
+use SWP\Bundle\CoreBundle\Model\AppleNewsConfig;
+use SWP\Bundle\CoreBundle\Model\AppleNewsConfigInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed;
@@ -125,6 +129,26 @@ class Configuration implements ConfigurationInterface
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(AnalyticsReport::class)->end()
                                             ->scalarNode('interface')->defaultValue(AnalyticsReportInterface::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('apple_news_article')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(AppleNewsArticle::class)->end()
+                                            ->scalarNode('interface')->defaultValue(AppleNewsArticleInterface::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('apple_news_config')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(AppleNewsConfig::class)->end()
+                                            ->scalarNode('interface')->defaultValue(AppleNewsConfigInterface::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()

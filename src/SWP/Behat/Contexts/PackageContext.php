@@ -12,8 +12,8 @@ use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
 use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
-use SWP\Component\Bridge\Transformer\JsonToPackageTransformer;
 use SWP\Component\Bridge\Events;
+use SWP\Component\Bridge\Transformer\JsonToPackageTransformer;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -83,7 +83,7 @@ final class PackageContext extends AbstractContext implements Context
         if ($form->isSubmitted() && $form->isValid()) {
             $this->articlePublisher->publish($package, $form->getData());
         } else {
-            throw new \Exception('Invalid form data');
+            throw new \Exception(sprintf('Invalid form data: %s', (string) $form->getErrors(true)));
         }
     }
 

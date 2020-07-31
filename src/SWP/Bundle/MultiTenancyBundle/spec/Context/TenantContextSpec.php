@@ -17,9 +17,9 @@ namespace spec\SWP\Bundle\MultiTenancyBundle\Context;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TenantContextSpec extends ObjectBehavior
 {
@@ -58,6 +58,7 @@ class TenantContextSpec extends ObjectBehavior
     ) {
         $requestStack->getCurrentRequest()->willReturn($request);
         $request->getHost()->shouldBeCalled()->willReturn('example.com');
+        $request->getRequestUri()->willReturn('/');
         $tenant->getId()->willReturn(1);
         $tenant->getSubdomain()->willReturn('default');
         $tenant->getName()->willReturn('Default');

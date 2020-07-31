@@ -15,30 +15,33 @@
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleAuthorRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RelatedArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowItemRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowRepository;
 use SWP\Bundle\ContentBundle\Factory\FileFactory;
 use SWP\Bundle\ContentBundle\Factory\KeywordFactory;
+use SWP\Bundle\ContentBundle\Factory\MetadataFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ImageRenditionFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use SWP\Bundle\ContentBundle\Model\Article;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl;
+use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrlInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSource;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReferenceInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
-use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\AuthorMedia;
 use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\ContentBundle\Model\File;
@@ -49,14 +52,22 @@ use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Bundle\ContentBundle\Model\Keyword;
 use SWP\Bundle\ContentBundle\Model\KeywordInterface;
+use SWP\Bundle\ContentBundle\Model\Metadata;
+use SWP\Bundle\ContentBundle\Model\MetadataInterface;
+use SWP\Bundle\ContentBundle\Model\Place;
+use SWP\Bundle\ContentBundle\Model\PlaceInterface;
 use SWP\Bundle\ContentBundle\Model\RelatedArticle;
 use SWP\Bundle\ContentBundle\Model\RelatedArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\Service;
+use SWP\Bundle\ContentBundle\Model\ServiceInterface;
 use SWP\Bundle\ContentBundle\Model\Slideshow;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
+use SWP\Bundle\ContentBundle\Model\Subject;
+use SWP\Bundle\ContentBundle\Model\SubjectInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -236,13 +247,53 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
-                                        ->arrayNode('keyword')
+                                        ->arrayNode('previous_relative_url')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Keyword::class)->end()
-                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(KeywordInterface::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticlePreviousRelativeUrl::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticlePreviousRelativeUrlInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(KeywordFactory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('metadata')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Metadata::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(MetadataInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(MetadataFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('subject')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Subject::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(SubjectInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('service')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Service::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ServiceInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('place')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Place::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(PlaceInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

@@ -23,3 +23,9 @@ properties:
   metaMedia:
     description: "SEO Meta image"
     type: Meta
+  twitterMedia:
+    description: "SEO Twitter image"
+    type: Meta
+  ogMedia:
+    description: "SEO OG image"
+    type: Meta

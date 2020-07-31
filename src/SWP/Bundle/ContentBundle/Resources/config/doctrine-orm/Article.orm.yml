@@ -109,6 +109,12 @@ SWP\Bundle\ContentBundle\Model\Article:
             mappedBy: relatesTo
             cascade: ["all"]
             orphanRemoval: true
+        previousRelativeUrls:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrlInterface
+            mappedBy: article
+            fetch: "EAGER"
+            cascade: ["all"]
+            orphanRemoval: true
     manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
@@ -118,9 +124,11 @@ SWP\Bundle\ContentBundle\Model\Article:
                 joinColumns:
                     article_id:
                         referencedColumnName: id
+                        onDelete: "CASCADE"
                 inverseJoinColumns:
                     author_id:
                         referencedColumnName: id
+                        onDelete: "CASCADE"
         keywords:
             targetEntity: SWP\Bundle\ContentBundle\Model\KeywordInterface
             cascade: ["all"]
@@ -132,3 +140,9 @@ SWP\Bundle\ContentBundle\Model\Article:
                 inverseJoinColumns:
                     keyword_id:
                         referencedColumnName: id
+    oneToOne:
+        data:
+            targetEntity: SWP\Bundle\ContentBundle\Model\MetadataInterface
+            mappedBy: article
+            cascade: ["all"]
+            orphanRemoval: true

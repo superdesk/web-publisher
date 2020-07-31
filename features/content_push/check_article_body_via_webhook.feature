@@ -192,21 +192,25 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
           }
        },
        "is_publishable":false,
-       "metadata": {
-          "byline": "test embedded image in body",
-           "guid": "urn:newsml:spsd.pro:2018-09-04T13:30:12.108807:89f823eb-6a6f-4ec9-ac09-06f5b95695d6",
-           "language": "en",
-           "place": [],
-           "priority": 5,
-           "service": [
-              {
-                "code": "b",
-                "name": "Business"
-              }
-           ],
-           "subject": [],
-           "type": "text",
-           "urgency": 0
+       "metadata":{
+          "subject":[
+
+          ],
+          "urgency":0,
+          "priority":5,
+          "place":[
+
+          ],
+          "service":[
+             {
+                "code":"b",
+                "name":"Business"
+             }
+          ],
+          "type":"text",
+          "byline":"test embedded image in body",
+          "guid":"urn:newsml:spsd.pro:2018-09-04T13:30:12.108807:89f823eb-6a6f-4ec9-ac09-06f5b95695d6",
+          "language":"en"
        },
        "lead":"test image in body",
        "code":"urn:newsml:spsd.pro:2018-09-04T13:30:12.108807:89f823eb-6a6f-4ec9-ac09-06f5b95695d6",
@@ -217,6 +221,9 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
 
        ],
        "slideshows":[
+
+       ],
+       "previous_relative_urls":[
 
        ],
        "created_at":"2019-03-10T09:00:00+00:00",
@@ -248,6 +255,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
           "updated_at":"2019-03-10T09:00:00+00:00"
        },
        "comments_count":0,
+       "is_published_to_apple_news":false,
        "tenant":{
           "id":1,
           "domain_name":"localhost",

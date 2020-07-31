@@ -1,6 +1,5 @@
 framework:
     messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         failure_transport: failed
         transports:
             failed: 'doctrine://default?table_name=swp_failed_queue&queue_name=failed'
@@ -35,6 +34,11 @@ framework:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_image_conversion'
                         type: 'direct'
+            async_apple_news:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: '%kernel.environment%_%env(APP_SECRET)%_apple_news'
         routing:
             'SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics': async_analytics_export
             'SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent': async_analytics_event
@@ -42,3 +46,4 @@ framework:
             'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage': async_content_push
             'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage': async_migration_content_push
             'SWP\Bundle\CoreBundle\MessageHandler\Message\ConvertImageMessage': async_image_conversion
+            'SWP\Bundle\CoreBundle\MessageHandler\Message\AppleNewsMessage': async_apple_news

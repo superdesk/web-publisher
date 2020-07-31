@@ -10,6 +10,7 @@ framework:
             sync_content_push: 'sync://'
             sync_image_conversion: 'sync://'
             sync_migration_content_push: 'sync://'
+            sync_apple_news: 'sync://'
 
         routing:
             'SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics': sync_analytics_export
@@ -18,3 +19,4 @@ framework:
             'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage': sync_content_push
             'SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage': sync_migration_content_push
             'SWP\Bundle\CoreBundle\MessageHandler\Message\ConvertImageMessage': sync_image_conversion
+            'SWP\Bundle\CoreBundle\MessageHandler\Message\AppleNewsMessage': sync_apple_news

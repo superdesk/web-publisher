@@ -16,11 +16,8 @@ namespace SWP\Component\MultiTenancy\Exception;
 
 class TenantNotFoundException extends \RuntimeException
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($name, \Exception $previousException = null)
     {
-        parent::__construct(sprintf('Tenant for host "%s" could not be found!', $name), 404, $previousException);
+        parent::__construct(sprintf('Tenant for host "%s" could not be found! Please check tenants configuration.', $name), 404, $previousException);
     }
 }

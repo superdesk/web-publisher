@@ -56,11 +56,13 @@ class MenuController extends AbstractController
      *
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_menu")
      */
-    public function listAction(): ResourcesListResponseInterface
+    public function listAction(Request $request): ResourcesListResponseInterface
     {
         $menuRepository = $this->get('swp.repository.menu');
+        $page = $request->query->get('page', 1);
+        $limit = $request->query->get('limit', 10);
 
-        return new ResourcesListResponse($menuRepository->findRootNodes());
+        return new ResourcesListResponse($menuRepository->findRootNodes($page, $limit));
     }
 
     /**

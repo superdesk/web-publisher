@@ -130,31 +130,14 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
      */
     public function setLead($lead);
 
-    /**
-     * @return string
-     */
     public function getCode(): string;
 
-    /**
-     * @param string $code
-     */
     public function setCode(string $code);
 
-    /**
-     * @param ArticleSourceReferenceInterface $source
-     */
     public function addSourceReference(ArticleSourceReferenceInterface $source);
 
-    /**
-     * @param ArticleSourceReferenceInterface $source
-     */
     public function removeSourceReference(ArticleSourceReferenceInterface $source);
 
-    /**
-     * @param ArticleSourceReferenceInterface $source
-     *
-     * @return bool
-     */
     public function hasSourceReference(ArticleSourceReferenceInterface $source): bool;
 
     /**
@@ -162,14 +145,8 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
      */
     public function getSources(): Collection;
 
-    /**
-     * @return array|null
-     */
     public function getExtra(): ?array;
 
-    /**
-     * @param array|null $extra
-     */
     public function setExtra(?array $extra): void;
 
     public function getSlideshows(): Collection;
@@ -179,4 +156,16 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     public function addSlideshow(SlideshowInterface $slideshow): void;
 
     public function removeSlideshow(SlideshowInterface $slideshow): void;
+
+    public function getPreviousRelativeUrl(): Collection;
+
+    public function hasPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): bool;
+
+    public function addPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
+
+    public function removePreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
+
+    public function getData(): ?MetadataInterface;
+
+    public function setData(?MetadataInterface $metadata): void;
 }

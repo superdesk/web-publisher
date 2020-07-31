@@ -99,6 +99,7 @@ EOT
     {
         $fileSystem = new Filesystem();
         $sourceDir = $input->getArgument('theme_dir');
+
         if (!$fileSystem->exists($sourceDir) || !\is_dir($sourceDir)) {
             $output->writeln(sprintf('<error>Directory "%s" does not exist or it is not a directory!</error>', $sourceDir));
 
@@ -137,21 +138,21 @@ EOT
             }
         }
 
-        $themeService = $container->get('swp_core.service.theme');
-        $installationResult = $themeService->installAndProcessGeneratedData(
-            $sourceDir,
-            $themeDir,
-            $input->getOption('processGeneratedData'),
-            $input->getOption('activate')
-        );
+        try {
+            $themeService = $container->get('swp_core.service.theme');
+            $installationResult = $themeService->installAndProcessGeneratedData(
+                $sourceDir,
+                $themeDir,
+                $input->getOption('processGeneratedData'),
+                $input->getOption('activate')
+            );
 
-        if ($installationResult instanceof \Exception) {
-            $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
-            $output->writeln('<error>Error message: '.$installationResult->getMessage().'</error>');
-        } elseif (\is_array($installationResult)) {
             foreach ($installationResult as $message) {
                 $output->writeln('<info>'.$message.'</info>');
             }
+        } catch (\Throwable $e) {
+            $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
+            $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
         }
     }
 

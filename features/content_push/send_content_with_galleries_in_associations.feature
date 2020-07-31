@@ -810,35 +810,35 @@ Feature: Handling the custom media fields
        },
        "is_publishable":true,
        "metadata":{
-          "byline":"ADmin",
-          "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
-          "language":"en",
+          "subject":[
+             {
+                "name":"lawyer",
+                "code":"02002001"
+             }
+          ],
+          "urgency":3,
+          "priority":6,
           "located":"Warsaw",
           "place":[
              {
                 "country":"Australia",
-                "group":"Australia",
-                "name":"ACT",
-                "qcode":"ACT",
+                "world_region":"Oceania",
                 "state":"Australian Capital Territory",
-                "world_region":"Oceania"
+                "qcode":"ACT",
+                "name":"ACT",
+                "group":"Australia"
              }
           ],
-          "priority":6,
           "service":[
              {
-                "code":"a",
-                "name":"Australian General News"
-             }
-          ],
-          "subject":[
-             {
-                "code":"02002001",
-                "name":"lawyer"
+                "name":"Australian General News",
+                "code":"a"
              }
           ],
           "type":"text",
-          "urgency":3
+          "byline":"ADmin",
+          "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
+          "language":"en"
        },
        "lead":"some abstract text",
        "code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
@@ -1115,6 +1115,9 @@ Feature: Handling the custom media fields
              }
           }
        },
+       "previous_relative_urls":[
+
+       ],
        "created_at":"2019-03-10T09:00:00+00:00",
        "updated_at":"2019-03-10T09:00:00+00:00",
        "authors":[
@@ -1557,6 +1560,7 @@ Feature: Handling the custom media fields
           "updated_at":"2019-03-10T09:00:00+00:00"
        },
        "comments_count":0,
+       "is_published_to_apple_news":false,
        "tenant":{
           "id":1,
           "domain_name":"localhost",

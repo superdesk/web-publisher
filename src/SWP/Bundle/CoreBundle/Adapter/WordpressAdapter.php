@@ -62,11 +62,6 @@ final class WordpressAdapter implements AdapterInterface
 
     /**
      * WordpressAdapter constructor.
-     *
-     * @param ClientInterface        $client
-     * @param RepositoryInterface    $externalArticleRepository
-     * @param EntityManagerInterface $externalArticleManager
-     * @param MediaManagerInterface  $mediaManager
      */
     public function __construct(
         ClientInterface $client,
@@ -195,12 +190,6 @@ final class WordpressAdapter implements AdapterInterface
         return $externalArticle;
     }
 
-    /**
-     * @param OutputChannelInterface $outputChannel
-     * @param ArticleInterface       $article
-     *
-     * @return Post
-     */
     private function createPost(OutputChannelInterface $outputChannel, ArticleInterface $article): Post
     {
         $post = new Post();
@@ -234,7 +223,9 @@ final class WordpressAdapter implements AdapterInterface
                     ]
                 );
                 $decodedBody = \json_decode($response->getBody()->getContents(), true);
-                $post->setFeaturedMedia($decodedBody['id']);
+                if (is_array($decodedBody)) {
+                    $post->setFeaturedMedia($decodedBody['id']);
+                }
             } catch (RequestException $e) {
                 // ignore feature media
             }
@@ -243,14 +234,6 @@ final class WordpressAdapter implements AdapterInterface
         return $post;
     }
 
-    /**
-     * @param OutputChannelInterface $outputChannel
-     * @param string                 $endpoint
-     * @param Post                   $post
-     * @param array|null             $requestOptions
-     *
-     * @return GuzzleResponse
-     */
     private function send(OutputChannelInterface $outputChannel, string $endpoint, Post $post, array $requestOptions = null): GuzzleResponse
     {
         $url = $outputChannel->getConfig()['url'];
@@ -280,9 +263,6 @@ final class WordpressAdapter implements AdapterInterface
         return $response;
     }
 
-    /**
-     * @return SerializerInterface
-     */
     private function getSerializer(): SerializerInterface
     {
         $encoders = [new JsonEncoder()];

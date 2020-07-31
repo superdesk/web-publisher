@@ -172,7 +172,7 @@ class ContentList implements ContentListInterface
      */
     public function setFilters(array $filters)
     {
-        if (isset($filters['metadata'])) {
+        if (isset($filters['metadata']) && is_array($filters['metadata'])) {
             $filters['metadata'] = ArrayHelper::sortNestedArrayAssocAlphabeticallyByKey($filters['metadata']);
         }
         $this->filters = $filters;

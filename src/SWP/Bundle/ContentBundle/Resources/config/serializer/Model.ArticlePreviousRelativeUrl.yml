@@ -1,0 +1,7 @@
+SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl:
+  exclusion_policy: ALL
+  properties:
+    relativeUrl:
+      expose: true
+      groups: [api]
+      type: string

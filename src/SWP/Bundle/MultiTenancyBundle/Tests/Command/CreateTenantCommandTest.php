@@ -36,10 +36,16 @@ class CreateTenantCommandTest extends TestCase
 
     private $question;
 
-    public function setUp()
+    private function setupCommand($container)
     {
         $application = new Application();
-        $application->add(new CreateTenantCommand());
+        $application->add(new CreateTenantCommand(
+            $container->getParameter('swp_tenant'),
+            $container->get('swp.factory.tenant'),
+            $container->get('swp.object_manager.tenant'),
+            $container->get('swp.repository.tenant'),
+            $container->get('swp.repository.organization')
+        ));
         $this->command = $application->get('swp:tenant:create');
         $this->question = $this->command->getHelper('question');
     }
@@ -51,13 +57,16 @@ class CreateTenantCommandTest extends TestCase
     {
         $tenant = new Tenant();
         $tenant->setCode('123abc');
-        $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'subdomain', 'domain.dev'));
+
+        $container = $this->getMockContainer(null, new Organization(), $tenant, 'subdomain', 'domain.dev');
+        $this->setupCommand($container);
+
         $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->setInputs(['domain.dev', 'Test', '123456']);
+        $this->commandTester->setInputs(['domain.dev', null, 'Test', '123456']);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $this->assertContains(
-            'Please enter domain:Please enter name:Please enter organization code:Tenant Test (code: 123abc) has been created and enabled!',
+            'Please enter domain:Please enter subdomain:Please enter name:Please enter organization code:Tenant Test (code: 123abc) has been created and enabled!',
             $this->commandTester->getDisplay()
         );
     }
@@ -69,7 +78,8 @@ class CreateTenantCommandTest extends TestCase
     {
         $tenant = new Tenant();
         $tenant->setCode('123abc');
-        $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant));
+        $container = $this->getMockContainer(null, new Organization(), $tenant);
+        $this->setupCommand($container);
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
@@ -89,7 +99,8 @@ class CreateTenantCommandTest extends TestCase
      */
     public function testExecuteWhenCreatingDefaultTenantAndDefaultOrganizationDoesntExist()
     {
-        $this->command->setContainer($this->getMockContainer());
+        $container = $this->getMockContainer();
+        $this->setupCommand($container);
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
@@ -109,7 +120,9 @@ class CreateTenantCommandTest extends TestCase
      */
     public function testExecuteWhenDefaultTenantExists()
     {
-        $this->command->setContainer($this->getMockContainer(new Tenant()));
+        $container = $this->getMockContainer(new Tenant());
+        $this->setupCommand($container);
+
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
@@ -125,16 +138,18 @@ class CreateTenantCommandTest extends TestCase
     {
         $tenant = new Tenant();
         $tenant->setCode('123abc');
-        $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'example', 'example.com'));
+        $container = $this->getMockContainer(null, new Organization(), $tenant, 'example', 'example.com');
+        $this->setupCommand($container);
+
         $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->setInputs(['example.com', 'Example', '123456']);
+        $this->commandTester->setInputs(['example.com', null, 'Example', '123456']);
         $this->commandTester->execute([
             'command' => $this->command->getName(),
             '--disabled' => true,
         ]);
 
         $this->assertContains(
-            'Please enter domain:Please enter name:Please enter organization code:Tenant Example (code: 123abc) has been created and disabled!',
+            'Please enter domain:Please enter subdomain:Please enter name:Please enter organization code:Tenant Example (code: 123abc) has been created and disabled!',
             $this->commandTester->getDisplay()
         );
     }

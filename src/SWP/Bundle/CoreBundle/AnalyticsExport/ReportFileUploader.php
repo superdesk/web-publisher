@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\AnalyticsExport;
 
 use League\Flysystem\Filesystem;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 final class ReportFileUploader
@@ -41,7 +42,7 @@ final class ReportFileUploader
         $this->router = $router;
     }
 
-    public function upload(AnalyticsReportInterface $file, string $sourcePath): string
+    public function upload(TenantInterface $tenant, AnalyticsReportInterface $file, string $sourcePath): string
     {
         $uploadPath = $this->assetLocationResolver->getMediaBasePath().'/'.$file->getAssetId();
 
@@ -52,6 +53,14 @@ final class ReportFileUploader
         $stream = fopen($sourcePath, 'rb+');
         $this->filesystem->writeStream($uploadPath, $stream);
         fclose($stream);
+
+        $context = $this->router->getContext();
+        $host = $tenant->getDomainName();
+        if (null !== ($subdomain = $tenant->getSubdomain())) {
+            $host = $subdomain.'.'.$host;
+        }
+
+        $context->setHost($host);
 
         return $this->router->generate('swp_export_analytics_download', [
             'fileName' => $file->getAssetId(),

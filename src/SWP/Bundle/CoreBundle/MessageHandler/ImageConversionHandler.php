@@ -20,6 +20,7 @@ use BadFunctionCallException;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Throwable;
 use function imagewebp;
 use InvalidArgumentException;
 use JMS\Serializer\SerializerInterface;
@@ -104,7 +105,7 @@ class ImageConversionHandler implements MessageHandlerInterface
             $this->markArticlesMediaAsUpdated($image);
 
             $this->entityManager->flush();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
             return;

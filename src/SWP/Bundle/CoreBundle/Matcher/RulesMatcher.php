@@ -161,6 +161,7 @@ class RulesMatcher implements RulesMatcherInterface
             'published' => $destination->isPublished(),
             'paywall_secured' => $destination->isPaywallSecured(),
             'content_lists' => $destination->getContentLists(),
+            'is_published_to_apple_news' => $destination->isPublishedToAppleNews(),
         ];
     }
 

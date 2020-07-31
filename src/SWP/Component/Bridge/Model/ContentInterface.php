@@ -268,4 +268,8 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
     public function getCopyrightHolder(): ?string;
 
     public function setCopyrightHolder(?string $copyrightHolder): void;
+
+    public function getProfile(): ?string;
+
+    public function setProfile(?string $profile): void;
 }

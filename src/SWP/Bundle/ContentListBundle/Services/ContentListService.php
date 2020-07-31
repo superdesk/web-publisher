@@ -42,7 +42,7 @@ final class ContentListService implements ContentListServiceInterface
         $this->contentListItemRepository = $contentListItemRepository;
     }
 
-    public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null): ContentListItemInterface
+    public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null, bool $isSticky = false): ContentListItemInterface
     {
         /* @var ContentListItemInterface $contentListItem */
         $contentListItem = $this->listItemFactory->create();
@@ -65,6 +65,8 @@ final class ContentListService implements ContentListServiceInterface
         );
         $contentList->setUpdatedAt(new \DateTime());
 
+        $this->toggleStickOnItemPosition($contentListItem, $isSticky, (int) $position);
+
         return $contentListItem;
     }
 
@@ -76,12 +78,43 @@ final class ContentListService implements ContentListServiceInterface
             ->getQuery()
             ->getResult();
 
-        if (null !== $contentList->getLimit() && \count($items) > $contentList->getLimit()) {
+        if (null !== $contentList->getLimit() && $contentList->getLimit() > 0 && \count($items) > $contentList->getLimit()) {
             foreach ($items as $key => $item) {
                 if ($key + 1 > $contentList->getLimit()) {
                     $this->contentListItemRepository->remove($item);
                 }
             }
         }
+    }
+
+    public function toggleStickOnItemPosition(ContentListItemInterface $contentListItem, bool $isSticky, int $position): void
+    {
+        $contentListItem->setSticky($isSticky);
+
+        if ($contentListItem->isSticky()) {
+            $contentListItem->setStickyPosition($position);
+        }
+    }
+
+    public function repositionStickyItems(ContentListInterface $contentList): void
+    {
+        $stickyItems = $this->contentListItemRepository->findBy([
+            'sticky' => true,
+            'contentList' => $contentList,
+        ]);
+
+        foreach ($stickyItems as $stickyItem) {
+            if (null !== $stickyItem->getStickyPosition()) {
+                $stickyItem->setPosition($stickyItem->getStickyPosition());
+            }
+        }
+    }
+
+    public function isAnyItemPinnedOnPosition(int $listId, int $position): ?ContentListItemInterface
+    {
+        return $this->contentListItemRepository->findOneBy([
+            'contentList' => $listId,
+            'position' => $position,
+        ]);
     }
 }

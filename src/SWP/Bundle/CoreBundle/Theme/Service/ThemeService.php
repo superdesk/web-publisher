@@ -96,9 +96,6 @@ final class ThemeService implements ThemeServiceInterface
         $this->tenantRepository = $tenantRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, bool $processOptionalData = false, bool $activate = false)
     {
         $messages = [];
@@ -136,13 +133,13 @@ final class ThemeService implements ThemeServiceInterface
             if ($processOptionalData) {
                 $messages[] = 'Optional data were generated and persisted successfully';
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $fileSystem->remove($themeDir);
             if ($fileSystem->exists($backupThemeDir)) {
                 $fileSystem->rename($backupThemeDir, $themeDir);
             }
 
-            return $e;
+            throw $e;
         }
 
         if ($fileSystem->exists($backupThemeDir)) {
