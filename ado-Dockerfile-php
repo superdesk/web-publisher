@@ -76,6 +76,9 @@ RUN php /usr/bin/composer install --no-dev --optimize-autoloader --apcu-autoload
 
 COPY --from=theme /src/ src/SWP/Bundle/FixturesBundle/Resources/themes/fdl-magazine/
 
-RUN chown -R www-data. /var/www/publisher
+RUN groupadd -g 1111 app \
+ && adduser --uid 1111 app \
+ && chown -R 1111:1111 /var/www/publisher
+USER 1111:1111
 
 WORKDIR /var/www/publisher

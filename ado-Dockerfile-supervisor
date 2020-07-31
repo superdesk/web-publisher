@@ -65,10 +65,15 @@ RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
 COPY . /var/www/publisher/
 WORKDIR /var/www/publisher/
-RUN php /usr/bin/composer install \
- && php /usr/bin/composer dump-autoload \
+ENV SYMFONY_ENV prod
+RUN php /usr/bin/composer install --no-dev --optimize-autoloader --apcu-autoloader \	
+ && php /usr/bin/composer dump-autoload --optimize --apcu \	
  && php /usr/bin/composer dump-env prod
 
-RUN echo "hallå"
+RUN groupadd -g 1111 app \
+ && adduser --uid 1111 app \
+ && chown -R 1111:1111 /var/www/publisher
+USER 1111:1111
+
 ENTRYPOINT [""]
 CMD [""]
