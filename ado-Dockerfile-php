@@ -63,9 +63,10 @@ RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
 COPY . /var/www/publisher
 
-WORKDIR /var/www/publisher/	
-RUN php /usr/bin/composer install \	
- && php /usr/bin/composer dump-autoload \	
+WORKDIR /var/www/publisher/
+ENV SYMFONY_ENV prod
+RUN php /usr/bin/composer install --no-dev --optimize-autoloader --apcu-autoloader \	
+ && php /usr/bin/composer dump-autoload --optimize --apcu \	
  && php /usr/bin/composer dump-env prod \
  && chown -R www-data. /var/www/publisher
  
