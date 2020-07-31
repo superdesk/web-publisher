@@ -23,6 +23,8 @@ RUN set -ex \
         libzip-dev \
         zip \
         curl-dev \
+        yaml \
+        yaml-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-install pdo pdo_pgsql \
@@ -39,6 +41,8 @@ RUN set -ex \
         --with-webp-dir \
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip xml gd mbstring curl bcmath \
+    && pecl install yaml \
+    && docker-php-ext-enable yaml \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && pecl clear-cache
