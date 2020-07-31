@@ -119,7 +119,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
 
             $this->csvFileWriter->write($path, $data);
 
-            $url = $this->reportFileUploader->upload($analyticsReport, $path);
+            $url = $this->reportFileUploader->upload($tenant, $analyticsReport, $path);
 
             $this->mailer->sendReportReadyEmailNotification($exportAnalytics->getUserEmail(), $url);
             $analyticsReport->setStatus(AnalyticsReportInterface::STATUS_COMPLETED);

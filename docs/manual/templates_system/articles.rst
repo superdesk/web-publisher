@@ -1,6 +1,7 @@
 Handling Articles
 =================
 
+
 Listing Articles
 ----------------
 
@@ -83,3 +84,16 @@ The :code:`articles` loader parameters:
     {% gimmelist article from articles|order('commentsCount', 'desc') %}
         <img src="{{ url(article) }}" />
     {% endgimmelist %}
+
+Fetching first article url (when it's changed after slug or route change)
+-------------------------------------------------------------------------
+
+.. code-block:: twig
+
+    {% gimme article with {slug: "test-article"} %}
+        <a href="{{ original_url(article) }}">{{ article.title }}</a>
+    {% endgimme %}
+
+.. note::
+
+   :code:`original_url` function will always return valid article url. If article url was changed after publication, then it will return it's original (first) value.

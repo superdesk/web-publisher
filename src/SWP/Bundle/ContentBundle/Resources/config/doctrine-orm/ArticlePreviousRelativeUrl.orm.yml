@@ -1,0 +1,19 @@
+SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl:
+  type: mappedSuperclass
+  table: swp_article_previous_relative_url
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    relativeUrl:
+      type: string
+  manyToOne:
+    article:
+      targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+      inversedBy: previousRelativeUrls
+      joinColumn:
+        referencedColumnName: id
+        onDelete: CASCADE

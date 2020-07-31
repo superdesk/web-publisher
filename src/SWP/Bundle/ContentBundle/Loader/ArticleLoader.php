@@ -17,12 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
-use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;

@@ -18,9 +18,6 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class CreateTenantCommandTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         self::bootKernel();
@@ -31,6 +28,9 @@ class CreateTenantCommandTest extends WebTestCase
     public function testCommand()
     {
         $commandTester = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'subdomain' => 'test23', 'domain' => 'localhost', 'name' => 'Tenant'], true);
+        self::assertContains('has been created and', $commandTester->getDisplay());
+
+        $commandTester = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'domain' => 'localhost2', 'name' => 'Tenant 2'], true);
         self::assertContains('has been created and', $commandTester->getDisplay());
     }
 }

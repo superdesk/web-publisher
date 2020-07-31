@@ -20,18 +20,18 @@
     "require": {
         "php": "^7.3",
         "swp/storage": "^2.0",
-        "symfony/framework-bundle": "^4.2",
-        "symfony/doctrine-bridge": "^4.2",
-        "symfony/property-info": "^4.2",
+        "symfony/framework-bundle": "^4.2 | ^5.0",
+        "symfony/doctrine-bridge": "^4.2 | ^5.0",
+        "symfony/property-info": "^4.2 | ^5.0",
         "doctrine/orm": "^2.6",
-        "doctrine/doctrine-bundle": "^1.10"
+        "doctrine/doctrine-bundle": "^1.10 | ^2.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^5.1",
         "phpdocumentor/reflection-docblock": "^4.0",
         "jackalope/jackalope-jackrabbit": ">=1.2.2 <1.3",
         "jackalope/jackalope-doctrine-dbal": ">=1.2.2 <1.3",
-        "doctrine/phpcr-odm": "1.4.*"
+        "doctrine/phpcr-odm": "1.5.*"
     },
     "suggest": {
         "doctrine/phpcr-bundle": "To make use of PHP Content Repository implementations."

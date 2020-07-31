@@ -1,0 +1,22 @@
+SWP\Bundle\ContentBundle\Model\Subject:
+  type: mappedSuperclass
+  table: swp_article_metadata_subject
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    code:
+      type: string
+    scheme:
+      type: string
+      nullable: true
+  manyToOne:
+    metadata:
+      targetEntity: SWP\Bundle\ContentBundle\Model\MetadataInterface
+      inversedBy: subjects
+      joinColumn:
+        name: metadata_id
+        referencedColumnName: id

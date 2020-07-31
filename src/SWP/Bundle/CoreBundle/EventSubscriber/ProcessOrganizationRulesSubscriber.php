@@ -115,6 +115,7 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
             $destination->setPaywallSecured($tenant['paywall_secured'] ?? false);
             $destination->setIsPublishedFbia($tenant['is_published_fbia'] ?? false);
             $destination->setContentLists($tenant['content_lists'] ?? []);
+            $destination->setIsPublishedToAppleNews($tenant['is_published_to_apple_news'] ?? false);
 
             $destinations[] = $destination;
         }

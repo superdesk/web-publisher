@@ -32,6 +32,8 @@ interface RulesProcessorInterface
 
     public const KEY_PAYWALL_SECURED = 'paywall_secured';
 
+    public const KEY_APPLE_NEWS = 'is_published_to_apple_news';
+
     /**
      * @param array $evaluatedRules
      *

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,6 +31,10 @@ class ContentListItemType extends AbstractType
         $builder
             ->add('sticky', BooleanType::class, [
                 'help' => 'Defines whether content is sticky or not (true or false).',
+                'required' => false,
+            ])
+            ->add('stickyPosition', IntegerType::class, [
+                'help' => 'Defines the position of the sticky item.',
                 'required' => false,
             ])
         ;

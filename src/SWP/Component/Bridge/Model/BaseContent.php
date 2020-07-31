@@ -145,6 +145,9 @@ class BaseContent implements ContentInterface
      */
     protected $copyrightHolder;
 
+    /** @var string|null */
+    protected $profile;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -499,6 +502,7 @@ class BaseContent implements ContentInterface
             'edNote' => $this->getEdNote(),
             'genre' => $this->getGenre(),
             'language' => $this->getLanguage(),
+            'profile' => $this->getProfile(),
         ];
     }
 
@@ -614,5 +618,15 @@ class BaseContent implements ContentInterface
     public function setCopyrightHolder(?string $copyrightHolder): void
     {
         $this->copyrightHolder = $copyrightHolder;
+    }
+
+    public function getProfile(): ?string
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?string $profile): void
+    {
+        $this->profile = $profile;
     }
 }

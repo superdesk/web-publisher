@@ -46,9 +46,7 @@ final class PackageToArticleTransformer implements DataTransformerInterface
             throw new TransformationFailedException(sprintf('Expected a %s!', PackageInterface::class));
         }
 
-        $article = $this->articleFactory->createFromPackage($package);
-
-        return $article;
+        return $this->articleFactory->createFromPackage($package);
     }
 
     /**

@@ -21,9 +21,6 @@ use SWP\Component\Common\Criteria\Criteria;
 
 final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function match(ArticleInterface $article, Criteria $criteria)
     {
         if (0 === $criteria->count()) {
@@ -69,10 +66,33 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
         }
 
         if ($criteria->has('metadata') && !empty($criteria->get('metadata'))) {
-            foreach ((array) $criteria->get('metadata') as $key => $value) {
-                if ($value !== $article->getMetadataByKey($key)) {
-                    return false;
+            $metadata = $criteria->get('metadata');
+
+            if (!is_array($metadata)) {
+                return false;
+            }
+
+            $matches = 0;
+            foreach ($metadata as $key => $criteriaMetadata) {
+                $articleMetadataByKey = $article->getMetadataByKey($key);
+
+                if (is_array($articleMetadataByKey)) {
+                    foreach ($articleMetadataByKey as $articleMetadataItem) {
+                        foreach ($criteriaMetadata as $criteriaMetadataItem) {
+                            $result = array_intersect($articleMetadataItem, $criteriaMetadataItem);
+
+                            if (!empty($result)) {
+                                ++$matches;
+                            }
+                        }
+                    }
+                } elseif ($criteriaMetadata === $articleMetadataByKey) {
+                    ++$matches;
                 }
+            }
+
+            if (0 === $matches) {
+                return false;
             }
         }
 

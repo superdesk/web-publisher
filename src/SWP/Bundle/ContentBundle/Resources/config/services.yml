@@ -264,6 +264,7 @@ services:
         arguments:
              - '@swp.adder.article_source'
              - '@swp.adder.article_keyword'
+             - '@swp.factory.metadata'
 
     swp_content_bundle.listener.article_publish:
         class: SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener
@@ -280,6 +281,13 @@ services:
             - '%swp.redirecting.notfound.section%'
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
+
+    SWP\Bundle\ContentBundle\EventListener\ArticlePreviousRelativeUrlListener:
+        arguments:
+            - '@router'
+            - '@swp.repository.previous_relative_url'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 110 }
 
     swp_content_bundle.listener.route_remove:
         class: SWP\Bundle\ContentBundle\EventListener\RouteRemoveListener
