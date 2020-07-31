@@ -1,4 +1,4 @@
-Superdesk Web Publisher
+Superdesk Web Publisher (1)
 =======================
 
 [![Build Status](https://travis-ci.org/superdesk/web-publisher.svg?branch=master)](https://travis-ci.org/superdesk/web-publisher)
