@@ -8,37 +8,70 @@ framework:
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_content_push'
+                        type: direct
+                        default_publish_routing_key: content_push
+                    queues:
+                        content_push:
+                            binding_keys: [content_push]
             async_migration_content_push:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_migration_content_push'
+                        type: 'direct'
+                        default_publish_routing_key: migration_content_push
+                    queues:
+                        migration_content_push:
+                            binding_keys: [migration_content_push]
             async_analytics_event:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_analytics_event'
+                        type: 'direct'
+                        default_publish_routing_key: analytics
+                    queues:
+                        analytics:
+                            binding_keys: [analytics]
             async_analytics_export:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_analytics_export'
+                        type: 'direct'
+                        default_publish_routing_key: analytics_export
+                    queues:
+                        analytics_export:
+                            binding_keys: [analytics_export]
             async_webhooks:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_webhooks'
+                        type: 'direct'
+                        default_publish_routing_key: webhooks
+                    queues:
+                        webhooks:
+                            binding_keys: [webhooks]
             async_image_conversion:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_image_conversion'
                         type: 'direct'
+                        default_publish_routing_key: image_conversion
+                    queues:
+                        image_conversion:
+                            binding_keys: [image_conversion]
             async_apple_news:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_apple_news'
+                        default_publish_routing_key: apple_news
+                    queues:
+                        apple_news:
+                            binding_keys: [apple_news]
         routing:
             'SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics': async_analytics_export
             'SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent': async_analytics_event
