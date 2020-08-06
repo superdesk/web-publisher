@@ -8,7 +8,7 @@ framework:
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_content_push'
-                        type: direct
+                        type: 'direct'
                         default_publish_routing_key: content_push
                     queues:
                         content_push:
@@ -68,6 +68,7 @@ framework:
                 options:
                     exchange:
                         name: '%kernel.environment%_%env(APP_SECRET)%_apple_news'
+                        type: 'direct'
                         default_publish_routing_key: apple_news
                     queues:
                         apple_news:
