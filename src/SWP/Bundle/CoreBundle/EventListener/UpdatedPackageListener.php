@@ -128,8 +128,10 @@ final class UpdatedPackageListener
     private function clearMetadata(array $articles): void
     {
         foreach ($articles as $article) {
-            $this->articleManager->remove($article->getData());
-            $article->setData(null);
+            if (null !== $article->getData()) {
+                $this->articleManager->remove($article->getData());
+                $article->setData(null);
+            }
         }
 
         $this->articleManager->flush();
