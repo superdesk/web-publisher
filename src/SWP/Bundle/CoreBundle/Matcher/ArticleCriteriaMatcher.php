@@ -66,36 +66,63 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
         }
 
         if ($criteria->has('metadata') && !empty($criteria->get('metadata'))) {
-            $metadata = $criteria->get('metadata');
+            $criteriaMetadata = $criteria->get('metadata');
 
-            if (!is_array($metadata)) {
+            if (!is_array($criteriaMetadata)) {
                 return false;
             }
 
-            $matches = 0;
-            foreach ($metadata as $key => $criteriaMetadata) {
-                $articleMetadataByKey = $article->getMetadataByKey($key);
-
-                if (is_array($articleMetadataByKey)) {
-                    foreach ($articleMetadataByKey as $articleMetadataItem) {
-                        foreach ($criteriaMetadata as $criteriaMetadataItem) {
-                            $result = array_intersect($articleMetadataItem, $criteriaMetadataItem);
-
-                            if (!empty($result)) {
-                                ++$matches;
-                            }
-                        }
-                    }
-                } elseif ($criteriaMetadata === $articleMetadataByKey) {
-                    ++$matches;
-                }
-            }
-
-            if (0 === $matches) {
-                return false;
+            if ($this->isArticleMetadataMatchingCriteria($criteriaMetadata, $article)) {
+                return true;
             }
         }
 
-        return true;
+        return false;
+    }
+
+    private function isArticleMetadataMatchingCriteria(array $criteriaMetadata, ArticleInterface $article): bool
+    {
+        foreach ($criteriaMetadata as $key => $criteriaMetadataItem) {
+            $articleMetadataByKey = $article->getMetadataByKey($key);
+
+            if (is_array($articleMetadataByKey)) {
+                foreach ($articleMetadataByKey as $articleMetadataItem) {
+                    if ($this->isMetadataMatching($articleMetadataItem, $criteriaMetadataItem)) {
+                        return true;
+                    }
+                }
+            } elseif ($criteriaMetadataItem === $articleMetadataByKey) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isMetadataMatching(array $articleMetadataItem, array $criteriaMetadata): bool
+    {
+        foreach ($criteriaMetadata as $criteriaMetadataItem) {
+            if (!isset($articleMetadataItem['code'], $criteriaMetadataItem['code'])) {
+                continue;
+            }
+
+            if ($this->isSubjectMatching($articleMetadataItem, $criteriaMetadataItem)) {
+                return true;
+            }
+
+            if ($articleMetadataItem['code'] === $criteriaMetadataItem['code']) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isSubjectMatching(array $articleMetadataItem, array $criteriaMetadataItem): bool
+    {
+        return isset($articleMetadataItem['scheme'], $criteriaMetadataItem['scheme']) &&
+            $articleMetadataItem['code'] === $criteriaMetadataItem['code'] &&
+            $articleMetadataItem['scheme'] === $criteriaMetadataItem['scheme']
+        ;
     }
 }
