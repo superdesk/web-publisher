@@ -75,9 +75,11 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
             if ($this->isArticleMetadataMatchingCriteria($criteriaMetadata, $article)) {
                 return true;
             }
+
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private function isArticleMetadataMatchingCriteria(array $criteriaMetadata, ArticleInterface $article): bool
