@@ -123,7 +123,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         $authorDiv->textContent = $this->applyCopyrightNotice($articleMedia);
     }
 
-    public function applyCopyrightNotice(ArticleMediaInterface $articleMedia): string
+    public function applyCopyrightNotice(ArticleMediaInterface $articleMedia): ?string
     {
         return $articleMedia->getCopyrightNotice();
     }
