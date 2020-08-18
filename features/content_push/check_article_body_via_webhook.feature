@@ -133,7 +133,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
     {
        "id":6,
        "title":"test image in body",
-       "body":"<p>test image in body<\/p><!-- EMBED START Image {id: \"editor_0\"} --><figure><img src=\"\/uploads\/swp\/123456\/media\/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpeg\" data-media-id=\"editor_0\" data-image-id=\"20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a\" data-rendition-name=\"original\" width=\"2048\" height=\"1365\" loading=\"lazy\" alt=\"Review Bombing\"><figcaption>Review Bombing<span><\/span><\/figcaption><\/figure><!-- EMBED END Image {id: \"editor_0\"} --><p>new line<\/p>",
+       "body":"<p>test image in body<\/p><!-- EMBED START Image {id: \"editor_0\"} --><figure><img src=\"\/uploads\/swp\/123456\/media\/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpeg\" data-media-id=\"editor_0\" data-image-id=\"20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a\" data-rendition-name=\"original\" width=\"2048\" height=\"1365\" loading=\"lazy\" alt=\"Review Bombing\"><figcaption>Review Bombing<span><\/span><span><\/span><\/figcaption><\/figure><!-- EMBED END Image {id: \"editor_0\"} --><p>new line<\/p>",
        "slug":"test-image-in-body",
        "status":"new",
        "route":{
