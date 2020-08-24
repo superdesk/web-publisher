@@ -116,8 +116,8 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
 
     private function appendImageCopyrightNotice(ArticleMediaInterface $articleMedia, \DOMElement $figCaptionNode): void
     {
-	$copyrightNotice = $this->applyCopyrightNotice($articleMedia);    
-	if(null != copyrightNotice){
+        $copyrightNotice = $this->applyCopyrightNotice($articleMedia);    
+        if (null != copyrightNotice) {
             $element = new \DOMElement('span');
             $figCaptionNode->appendChild($element);
             $authorDiv = $figCaptionNode->childNodes[1];
