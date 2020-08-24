@@ -79,8 +79,32 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
             try {
                 $article = $this->articleProvider->getOneByCriteria($criteria);
-
-                return $this->getArticleMeta($article);
+                $articleBody = $article->getBody();
+                $metaArticle = $this->getArticleMeta($article);
+                //find local links in the article body
+                if (preg_match_all('/<a\s+href=["\']urn:newsml:([^"\']+)["\']/i', $articleBody, $links, PREG_PATTERN_ORDER)) {
+                    $all_hrefs = array_unique($links[1]);
+                    //replace local links
+                    foreach ($all_hrefs as $href) {
+                        $code = 'urn:newsml:' . $href;
+                        //get the referenced article
+                        $refArticle = $this->articleRepository->findOneBy(['code' => $code, 'status' => 'published']);
+                        if ($refArticle != null && $refArticle->getRoute()) {
+                            $slugName = $refArticle->getSlug();
+                            $parameters = ['slug' => $slugName];
+                            $realUrl = $this->router->generate($refArticle->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+                            $articleBody = preg_replace('#urn:newsml:' . $href . '#is', $realUrl, $articleBody);
+                        } else {
+                            // the article code is not valid - delete the link
+                            $re = "/(<a[^href]href=[\"']" . $code . "[^>]*>)([^<>]*|.*)(<\/a>)/m";
+                            $subst = "$2";
+                            $articleBody = preg_replace($re, $subst, $articleBody);
+                        }
+                    }
+                    $article->setBody($articleBody);
+                    $metaArticle->__set("body", $articleBody);
+                }
+                return $metaArticle;
             } catch (NotFoundHttpException $e) {
                 return false;
             }
