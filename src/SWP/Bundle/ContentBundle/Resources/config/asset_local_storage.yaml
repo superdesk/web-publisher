@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  SWP\Bundle\ContentBundle\Resolver\LocalAssetUrlResolver:
+    arguments:
+      - 'uploads'
+
+  swp.resolver.asset_location:
+    alias: SWP\Bundle\ContentBundle\Resolver\LocalAssetUrlResolver
+    public: true
