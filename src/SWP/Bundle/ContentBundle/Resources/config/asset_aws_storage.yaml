@@ -14,13 +14,12 @@ services:
       - '%env(resolve:FS_AWS_S3_KEY)%'
       - '%env(resolve:FS_AWS_S3_SECRET)%'
 
-  SWP\Bundle\ContentBundle\Resolver\AwsAssetUrlResolver:
+  SWP\Bundle\ContentBundle\Asset\AwsAssetUrlGenerator:
     arguments:
       - '@SWP\Bundle\ContentBundle\Factory\S3ClientFactory'
       - '%env(resolve:FS_MAIN_ADAPTER)%'
       - '%env(resolve:FS_AWS_S3_BUCKET)%'
       - '%env(resolve:FS_AWS_S3_PREFIX)%'
 
-  swp.resolver.asset_location:
-    alias: SWP\Bundle\ContentBundle\Resolver\AwsAssetUrlResolver
-    public: true
+  SWP\Bundle\ContentBundle\Asset\AssetUrlGeneratorInterface:
+    alias: SWP\Bundle\ContentBundle\Asset\AwsAssetUrlGenerator
