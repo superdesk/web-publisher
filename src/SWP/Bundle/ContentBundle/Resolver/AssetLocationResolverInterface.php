@@ -18,8 +18,6 @@ use SWP\Bundle\ContentBundle\Model\FileInterface;
 
 interface AssetLocationResolverInterface
 {
-    public const ASSET_BASE_PATH = 'swp/media';
-
     public function getAssetUrl(FileInterface $file): string;
 
     public function getMediaBasePath(): string;
