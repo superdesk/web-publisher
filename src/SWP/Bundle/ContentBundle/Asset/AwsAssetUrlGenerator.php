@@ -34,10 +34,10 @@ final class AwsAssetUrlGenerator implements AssetUrlGeneratorInterface
         $this->awsPrefix = $awsPrefix;
     }
 
-    public function generateUrl(FileInterface $file): string
+    public function generateUrl(FileInterface $file, string $basePath): string
     {
         $key = ($this->awsPrefix ? $this->awsPrefix.DIRECTORY_SEPARATOR : null).
-            AssetUrlGeneratorInterface::ASSET_BASE_PATH.
+            $basePath.
             DIRECTORY_SEPARATOR.
             $file->getAssetId().
             '.'.

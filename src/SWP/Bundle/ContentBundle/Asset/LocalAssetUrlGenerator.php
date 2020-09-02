@@ -27,10 +27,10 @@ final class LocalAssetUrlGenerator implements AssetUrlGeneratorInterface
         $this->localDirectory = $localDirectory;
     }
 
-    public function generateUrl(FileInterface $file): string
+    public function generateUrl(FileInterface $file, string $basePath): string
     {
         return ($this->localDirectory ? $this->localDirectory.DIRECTORY_SEPARATOR : null).
-            AssetUrlGeneratorInterface::ASSET_BASE_PATH.
+            $basePath.
             DIRECTORY_SEPARATOR.
             $file->getAssetId().
             '.'.

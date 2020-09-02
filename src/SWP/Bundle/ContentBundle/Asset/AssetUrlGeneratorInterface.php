@@ -20,7 +20,5 @@ use SWP\Bundle\ContentBundle\Model\FileInterface;
 
 interface AssetUrlGeneratorInterface
 {
-    public const ASSET_BASE_PATH = 'swp/media';
-
-    public function generateUrl(FileInterface $file): string;
+    public function generateUrl(FileInterface $file, string $basePath): string;
 }

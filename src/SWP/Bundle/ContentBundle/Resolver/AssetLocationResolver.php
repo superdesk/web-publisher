@@ -28,11 +28,13 @@ class AssetLocationResolver implements AssetLocationResolverInterface
 
     public function getAssetUrl(FileInterface $file): string
     {
-        return $this->assetUrlGenerator->generateUrl($file);
+        $basePath = $this->getMediaBasePath();
+
+        return $this->assetUrlGenerator->generateUrl($file, $basePath);
     }
 
     public function getMediaBasePath(): string
     {
-        return AssetUrlGeneratorInterface::ASSET_BASE_PATH;
+        return AssetLocationResolverInterface::ASSET_BASE_PATH;
     }
 }
