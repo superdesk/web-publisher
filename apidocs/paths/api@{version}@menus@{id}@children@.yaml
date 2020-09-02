@@ -1,0 +1,26 @@
+get:
+  summary: Lists all children of menu item
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/MenuItem.yaml
+            type: array
+    '404':
+      description: No menus found.
+  tags:
+    - menu

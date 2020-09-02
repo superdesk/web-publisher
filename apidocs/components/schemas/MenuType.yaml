@@ -1,0 +1,14 @@
+required:
+  - name
+properties:
+  name:
+    type: string
+  label:
+    type: string
+  uri:
+    type: string
+  parent:
+    type: integer
+  route:
+    type: string
+type: object

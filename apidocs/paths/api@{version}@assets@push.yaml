@@ -1,0 +1,28 @@
+post:
+  summary: Adds new assets from HTTP Push
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          type: object
+          properties:
+            media_id:
+              type: string
+            media:
+              type: string
+              format: binary
+  responses:
+    '200':
+      description: Returned on form errors
+    '201':
+      description: Returned on successful post.
+    '500':
+      description: Returned on invalid file.
+  tags:
+    - content push

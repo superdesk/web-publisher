@@ -1,0 +1,30 @@
+properties:
+  id:
+    type: integer
+  file:
+    $ref: ./File2.yaml
+  image:
+    $ref: ./Image2.yaml
+  description:
+    type: string
+  by_line:
+    type: string
+  alt_text:
+    type: string
+  usage_terms:
+    type: string
+  headline:
+    type: string
+  copyright_holder:
+    type: string
+  copyright_notice:
+    type: string
+  _links:
+    readOnly: true
+    properties:
+      download:
+        properties:
+          href:
+            type: string
+        type: object
+type: object

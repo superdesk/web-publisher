@@ -1,0 +1,26 @@
+post:
+  summary: Register new user
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RegistrationFormType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/User.yaml
+    '400':
+      description: Returned on failure.
+    '409':
+      description: Returned on conflict.
+  tags:
+    - user

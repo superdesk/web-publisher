@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Bundle\SeoBundle\Form\Type\SeoMetadataType;
+use SWP\Component\Common\Response\ResponseContext;
+use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
-use SWP\Component\Common\Response\ResponseContext;
-use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class SeoMetadataController extends AbstractController
 {
@@ -38,30 +35,7 @@ class SeoMetadataController extends AbstractController
     }
 
     /**
-     * @Operation(
-     *     tags={"seo"},
-     *     summary="Change SEO metadata entry",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=SeoMetadataType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when form have errors"
-     *     )
-     * )
-     *
      * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_seo_metadata_put")
-     *
-     * @return SingleResourceResponse
      */
     public function put(Request $request, string $packageGuid): SingleResourceResponse
     {
@@ -87,23 +61,7 @@ class SeoMetadataController extends AbstractController
     }
 
     /**
-     * @Operation(
-     *     tags={"seo"},
-     *     summary="Gets SEO metadata entry",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when form have errors"
-     *     )
-     * )
-     *
      * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")
-     *
-     * @return SingleResourceResponse
      */
     public function getAction(string $packageGuid): SingleResourceResponse
     {

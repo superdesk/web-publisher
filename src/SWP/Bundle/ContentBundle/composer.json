@@ -47,7 +47,6 @@
     "knplabs/knp-components": "^1.3",
     "oneup/flysystem-bundle": "^3.0",
     "league/flysystem-aws-s3-v3": "^1.0",
-    "nelmio/api-doc-bundle": "^3.0",
     "willdurand/hateoas-bundle": "^2.0",
     "hoa/mime": "3.16.01.15",
     "phpoption/phpoption": "1.5.*",

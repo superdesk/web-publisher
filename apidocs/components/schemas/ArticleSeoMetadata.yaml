@@ -1,0 +1,14 @@
+properties:
+  meta_title:
+    type: string
+  meta_description:
+    type: string
+  og_title:
+    type: string
+  og_description:
+    type: string
+  twitter_title:
+    type: string
+  twitter_description:
+    type: string
+type: object

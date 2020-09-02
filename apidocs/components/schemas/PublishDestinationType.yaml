@@ -1,0 +1,28 @@
+required:
+  - tenant
+  - route
+  - isPublishedFbia
+  - isPublishedToAppleNews
+  - packageGuid
+  - published
+  - paywallSecured
+properties:
+  tenant:
+    type: string
+  route:
+    type: string
+  isPublishedFbia:
+    $ref: ./BooleanType.yaml
+  isPublishedToAppleNews:
+    $ref: ./BooleanType.yaml
+  packageGuid:
+    type: string
+  published:
+    $ref: ./BooleanType.yaml
+  paywallSecured:
+    $ref: ./BooleanType.yaml
+  contentLists:
+    items:
+      $ref: ./ContentListPositionType.yaml
+    type: array
+type: object

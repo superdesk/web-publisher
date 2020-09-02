@@ -1,0 +1,9 @@
+required:
+  - name
+  - processGeneratedData
+properties:
+  name:
+    type: string
+  processGeneratedData:
+    $ref: ./BooleanType.yaml
+type: object

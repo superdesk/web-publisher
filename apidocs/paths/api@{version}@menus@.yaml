@@ -1,0 +1,42 @@
+get:
+  summary: Lists all registered menus
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/MenuItem.yaml
+            type: array
+    '404':
+      description: No menus found.
+  tags:
+    - menu
+post:
+  summary: Create new menu
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/MenuType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/MenuItem.yaml
+    '400':
+      description: Returned when form have errors
+  tags:
+    - menu

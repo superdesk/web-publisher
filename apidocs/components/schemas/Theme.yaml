@@ -1,0 +1,13 @@
+properties:
+  screenshots:
+    additionalProperties: true
+    type: object
+  config:
+    additionalProperties: true
+    type: object
+  logo_path:
+    type: string
+  settings:
+    additionalProperties: true
+    type: object
+type: object

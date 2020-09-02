@@ -1,0 +1,32 @@
+properties:
+  meta_title:
+    type: string
+  meta_description:
+    type: string
+  og_title:
+    type: string
+  og_description:
+    type: string
+  twitter_title:
+    type: string
+  twitter_description:
+    type: string
+  _links:
+    readOnly: true
+    properties:
+      meta_media_url:
+        properties:
+          href:
+            type: string
+        type: object
+      og_media_url:
+        properties:
+          href:
+            type: string
+        type: object
+      twitter_media_url:
+        properties:
+          href:
+            type: string
+        type: object
+type: object

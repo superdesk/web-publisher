@@ -1,0 +1,28 @@
+patch:
+  summary: Updates package
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/PackageType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+    '400':
+      description: Returned when validation failed.
+    '500':
+      description: Returned when unexpected error.
+  tags:
+    - package

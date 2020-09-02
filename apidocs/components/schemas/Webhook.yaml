@@ -1,0 +1,17 @@
+properties:
+  url:
+    type: string
+  enabled:
+    type: boolean
+  id:
+    type: string
+  events:
+    additionalProperties: true
+    type: object
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+type: object

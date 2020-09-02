@@ -1,0 +1,24 @@
+patch:
+  summary: Update article comments number
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ArticleCommentsType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Article.yaml
+    '404':
+      description: Return when article was not found
+  tags:
+    - article

@@ -1,0 +1,93 @@
+get:
+  summary: Show single tenant article
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: .+
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Article.yaml
+  tags:
+    - article
+patch:
+  summary: Updates articles
+  description: >-
+    Possible article statuses are:
+
+     * new
+     * published
+     * unpublished
+     * canceled
+
+    Changing status from any status to `published` will make article visible for
+    every user.
+
+
+    Changing status from `published` to any other will make article hidden for
+    user who don't have rights to see unpublished articles.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: .+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ArticleType.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Article.yaml
+    '400':
+      description: Returned when validation failed.
+    '500':
+      description: Returned when unexpected error.
+  tags:
+    - article
+delete:
+  summary: Deletes articles
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: .+
+  responses:
+    '204':
+      description: Returned on success.
+    '404':
+      description: Returned when article not found.
+    '500':
+      description: Returned when unexpected error.
+  tags:
+    - article

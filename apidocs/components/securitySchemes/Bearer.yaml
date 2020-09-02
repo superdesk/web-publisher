@@ -1,0 +1,4 @@
+name: Authorization
+type: apiKey
+in: header
+description: 'Value: Bearer {jwt}'

@@ -1,0 +1,37 @@
+get:
+  summary: Lists all available themes in tenant
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Theme.yaml
+            type: array
+  tags:
+    - theme
+post:
+  summary: Install theme for tenant
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ThemeInstallType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+  tags:
+    - theme

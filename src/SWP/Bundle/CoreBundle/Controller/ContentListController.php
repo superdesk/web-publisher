@@ -15,19 +15,16 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Exception;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Request\RequestParser;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,33 +32,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ContentListController extends Controller
 {
     /**
-     * @Operation(
-     *     tags={"content list"},
-     *     summary="Lists all content lists",
-     *     @SWG\Parameter(
-     *         name="sorting",
-     *         in="query",
-     *         description="example: [updatedAt]=asc|desc",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"}))
-     *         )
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_list_lists")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): ResourcesListResponseInterface
     {
         $repository = $this->get('swp.repository.content_list');
 
@@ -71,49 +49,17 @@ class ContentListController extends Controller
     }
 
     /**
-     * @Operation(
-     *     tags={"content list"},
-     *     summary="Show single content list",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
      */
-    public function getAction($id)
+    public function getAction($id): SingleResourceResponseInterface
     {
         return new SingleResourceResponse($this->findOr404($id));
     }
 
     /**
-     * @Operation(
-     *     tags={"content list"},
-     *     summary="Create new content list",
-     *
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=ContentListType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when not valid data.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_content_create_lists")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): SingleResourceResponseInterface
     {
         /* @var ContentListInterface $contentList */
         $contentList = $this->get('swp.factory.content_list')->create();
@@ -132,38 +78,9 @@ class ContentListController extends Controller
     }
 
     /**
-     * @Operation(
-     *     tags={"content list"},
-     *     summary="Update single content list",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=ContentListType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when not valid data."
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when not found."
-     *     ),
-     *     @SWG\Response(
-     *         response="409",
-     *         description="Returned on conflict."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, int $id): SingleResourceResponseInterface
     {
         $objectManager = $this->get('swp.object_manager.content_list');
         /** @var ContentListInterface $contentList */
@@ -189,18 +106,9 @@ class ContentListController extends Controller
     }
 
     /**
-     * @Operation(
-     *     tags={"content list"},
-     *     summary="Delete single content list",
-     *     @SWG\Response(
-     *         response="204",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
      */
-    public function deleteAction($id)
+    public function deleteAction($id): SingleResourceResponseInterface
     {
         $repository = $this->get('swp.repository.content_list');
         $contentList = $this->findOr404($id);
@@ -211,36 +119,6 @@ class ContentListController extends Controller
     }
 
     /**
-     * Link or Unlink resource with Content List.
-     *
-     * **link or unlink content**:
-     *
-     *     header name: "link"
-     *     header value: "</api/{version}/content/articles/{id}; rel="article">"
-     *
-     * or with specific position:
-     *
-     *     header name: "link"
-     *     header value: "</api/{version}/content/articles/{id}; rel="article">,<1; rel="position">"
-     *
-     * @Operation(
-     *     tags={"content list"},
-     *     summary="Link or Unlink resource with Content List.",
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned when successful",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\ContentList::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when resource not found"
-     *     ),
-     *     @SWG\Response(
-     *         response="409",
-     *         description="Returned when the link already exists"
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v2"}, methods={"LINK","UNLINK"}, name="swp_api_content_list_link_unlink")
      */
     public function linkUnlinkToContentListAction(Request $request, string $id): SingleResourceResponseInterface

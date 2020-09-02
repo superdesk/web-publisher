@@ -1,0 +1,54 @@
+get:
+  summary: List all Rule entities for current tenant.
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Rule.yaml
+            type: array
+    '405':
+      description: Method Not Allowed.
+  tags:
+    - tenant rule
+post:
+  summary: Create new rule
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RuleType.yaml
+    required: true
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Rule.yaml
+    '400':
+      description: Returned on validation error.
+    '405':
+      description: Method Not Allowed.
+  tags:
+    - tenant rule

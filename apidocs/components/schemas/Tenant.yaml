@@ -1,0 +1,32 @@
+properties:
+  id:
+    type: integer
+  subdomain:
+    type: string
+  domain_name:
+    type: string
+  name:
+    type: string
+  code:
+    type: string
+  organization:
+    $ref: ./Organization2.yaml
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  enabled:
+    type: boolean
+  theme_name:
+    type: string
+  amp_enabled:
+    type: boolean
+  output_channel:
+    $ref: ./OutputChannel.yaml
+  apple_news_config:
+    $ref: ./AppleNewsConfig.yaml
+  articles_count:
+    $ref: ./ArticlesCountInterface.yaml
+type: object

@@ -1,0 +1,6 @@
+properties:
+  article_media:
+    $ref: ./ArticleMedia.yaml
+  position:
+    type: integer
+type: object

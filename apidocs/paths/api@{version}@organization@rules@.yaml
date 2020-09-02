@@ -1,0 +1,50 @@
+get:
+  summary: List all current organization's articles
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Rule.yaml
+            type: array
+    '500':
+      description: Returned when unexpected error occurred.
+  tags:
+    - organization rule
+post:
+  summary: Create a new organization rule
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/RuleType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Rule.yaml
+    '400':
+      description: Returned on validation error.
+    '405':
+      description: Method Not Allowed.
+  tags:
+    - organization rule

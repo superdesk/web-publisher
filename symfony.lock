@@ -187,9 +187,6 @@
     "evenement/evenement": {
         "version": "v3.0.1"
     },
-    "exsyst/swagger": {
-        "version": "v0.4.1"
-    },
     "facebook/facebook-instant-articles-sdk-php": {
         "version": "v1.10.1"
     },
@@ -497,19 +494,6 @@
         "files": [
             "config/packages/dev/nelmio_alice.yaml",
             "config/packages/test/nelmio_alice.yaml"
-        ]
-    },
-    "nelmio/api-doc-bundle": {
-        "version": "3.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.0",
-            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
-        },
-        "files": [
-            "config/packages/nelmio_api_doc.yaml",
-            "config/routes/nelmio_api_doc.yaml"
         ]
     },
     "nelmio/cors-bundle": {
@@ -1080,9 +1064,6 @@
     "symfony/property-access": {
         "version": "v4.4.3"
     },
-    "symfony/property-info": {
-        "version": "v5.0.3"
-    },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.3"
     },
@@ -1299,8 +1280,5 @@
     },
     "zendframework/zend-stdlib": {
         "version": "3.2.1"
-    },
-    "zircote/swagger-php": {
-        "version": "2.0.14"
     }
 }

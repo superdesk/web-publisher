@@ -16,41 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
-use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType;
 use SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProviderInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CurrentThemeController extends Controller
 {
     /**
-     * Uploads current theme logo.
-     *
-     * @Operation(
-     *     tags={"theme"},
-     *     summary="Uploads current theme logo",
-     *     @SWG\Parameter(
-     *         name="logo",
-     *         in="formData",
-     *         description="Logo file",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
      * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo")
      */
@@ -89,18 +67,6 @@ class CurrentThemeController extends Controller
     }
 
     /**
-     * Lists current theme settings.
-     *
-     * @Operation(
-     *     tags={"theme"},
-     *     summary="Lists current theme settings",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *          @Model(type=\SWP\Bundle\CoreBundle\Model\Settings::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
      */
     public function listSettingsAction(): SingleResourceResponseInterface

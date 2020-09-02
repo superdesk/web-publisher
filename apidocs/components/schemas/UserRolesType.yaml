@@ -1,0 +1,6 @@
+required:
+  - roles
+properties:
+  roles:
+    type: string
+type: object

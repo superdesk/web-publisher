@@ -1,0 +1,67 @@
+properties:
+  id:
+    type: integer
+  title:
+    type: string
+  body:
+    type: string
+  slug:
+    type: string
+  published_at:
+    type: string
+    format: date-time
+  status:
+    type: string
+  route:
+    $ref: ./Route.yaml
+  template_name:
+    type: string
+  publish_start_date:
+    type: string
+    format: date-time
+  publish_end_date:
+    type: string
+    format: date-time
+  is_publishable:
+    type: boolean
+  metadata:
+    additionalProperties: true
+    type: object
+  lead:
+    type: string
+  code:
+    type: string
+  extra:
+    additionalProperties: true
+    type: object
+  slideshows:
+    $ref: ./ArrayCollection.yaml
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  keywords:
+    $ref: ./ArrayCollection.yaml
+  seo_metadata:
+    $ref: ./ArticleSeoMetadata.yaml
+  feature_media:
+    $ref: ./ArticleMedia.yaml
+  is_published_fbia:
+    type: boolean
+  article_statistics:
+    $ref: ./ArticleStatistics.yaml
+  external_article:
+    $ref: ./ExternalArticle.yaml
+  comments_count:
+    type: integer
+  is_published_to_apple_news:
+    type: boolean
+  apple_news_article:
+    $ref: ./AppleNewsArticle.yaml
+  tenant:
+    $ref: ./TenantInterface.yaml
+  paywall_secured:
+    type: boolean
+type: object

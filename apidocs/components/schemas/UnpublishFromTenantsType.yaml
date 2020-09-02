@@ -1,0 +1,12 @@
+required:
+  - tenants
+properties:
+  tenants:
+    items:
+      type: string
+      enum:
+        - {}
+        - {}
+        - {}
+    type: array
+type: object

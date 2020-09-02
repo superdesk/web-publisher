@@ -1,0 +1,24 @@
+delete:
+  summary: Delete Facebook page
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned on success.
+    '404':
+      description: Page not found
+    '409':
+      description: Page is used by Instant Articles Feed
+    '500':
+      description: Unexpected error.
+  tags:
+    - facebook instant articles

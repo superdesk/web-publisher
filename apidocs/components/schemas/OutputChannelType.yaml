@@ -1,0 +1,8 @@
+required:
+  - type
+properties:
+  type:
+    type: string
+    enum:
+      - wordpress
+type: object

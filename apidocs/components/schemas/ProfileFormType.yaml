@@ -1,0 +1,27 @@
+required:
+  - email
+  - plainPassword
+properties:
+  email:
+    type: string
+  username:
+    type: string
+  firstName:
+    type: string
+  lastName:
+    type: string
+  about:
+    type: string
+  plainPassword:
+    required:
+      - first
+      - second
+    properties:
+      first:
+        type: string
+        format: password
+      second:
+        type: string
+        format: password
+    type: object
+type: object

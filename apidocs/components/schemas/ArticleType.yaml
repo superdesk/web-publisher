@@ -1,0 +1,18 @@
+required:
+  - status
+  - route
+  - template_name
+  - seoMetadata
+  - paywallSecured
+properties:
+  status:
+    type: string
+  route:
+    type: string
+  template_name:
+    type: string
+  seoMetadata:
+    $ref: ./SeoMetadataType.yaml
+  paywallSecured:
+    $ref: ./BooleanType.yaml
+type: object

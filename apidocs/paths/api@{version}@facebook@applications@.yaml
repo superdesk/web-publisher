@@ -1,0 +1,49 @@
+get:
+  summary: Lists Facebook Applications
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: todo
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/FacebookApplication.yaml
+    '500':
+      description: Unexpected error.
+  tags:
+    - facebook instant articles
+post:
+  summary: Create Facebook application
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/FacebookApplicationType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/FacebookApplication.yaml
+    '400':
+      description: Returned when not valid data.
+  tags:
+    - facebook instant articles

@@ -1,0 +1,18 @@
+properties:
+  id:
+    type: string
+  key:
+    type: string
+  file:
+    $ref: ./File2.yaml
+  image:
+    $ref: ./Image2.yaml
+  _links:
+    readOnly: true
+    properties:
+      download:
+        properties:
+          href:
+            type: string
+        type: object
+type: object

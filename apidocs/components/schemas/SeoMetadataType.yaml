@@ -1,0 +1,21 @@
+required:
+  - metaDescription
+  - metaTitle
+  - ogDescription
+  - ogTitle
+  - twitterDescription
+  - twitterTitle
+properties:
+  metaDescription:
+    type: string
+  metaTitle:
+    type: string
+  ogDescription:
+    type: string
+  ogTitle:
+    type: string
+  twitterDescription:
+    type: string
+  twitterTitle:
+    type: string
+type: object

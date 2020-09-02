@@ -1,0 +1,17 @@
+properties:
+  id:
+    type: string
+  file_extension:
+    title: Uploaded file extension.
+    type: string
+  asset_id:
+    type: string
+  _links:
+    readOnly: true
+    properties:
+      download:
+        properties:
+          href:
+            type: string
+        type: object
+type: object

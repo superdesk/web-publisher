@@ -1,0 +1,26 @@
+get:
+  summary: Lists analytics reports
+  parameters:
+    - name: limit
+      in: query
+      required: false
+      description: 'example: limit=5'
+      schema:
+        type: integer
+        default: 50
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/FailedEntry.yaml
+            type: array
+  tags:
+    - failed_queue

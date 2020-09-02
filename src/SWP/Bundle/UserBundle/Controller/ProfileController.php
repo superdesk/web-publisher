@@ -20,11 +20,9 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\UserBundle\Form\Type\ProfileFormType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
+use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -32,25 +30,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use SWP\Component\Common\Response\ResponseContext;
 
 class ProfileController extends Controller
 {
     /**
-     * @Operation(
-     *     tags={"user"},
-     *     summary="Get user profile",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned on user not found."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
      */
     public function getAction($id)
@@ -66,33 +49,6 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update user profile.
-     *
-     * @Operation(
-     *     tags={"user"},
-     *     summary="Update user profile",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=ProfileFormType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\User::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned on failure."
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned on user not found."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/users/profile/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_edit_user_profile")
      */
     public function editAction(Request $request, $id)

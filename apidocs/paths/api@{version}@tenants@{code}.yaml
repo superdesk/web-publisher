@@ -1,0 +1,83 @@
+get:
+  summary: Show single tenant/website
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: code
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '[a-z0-9]+'
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Tenant.yaml
+  tags:
+    - tenant
+patch:
+  summary: Update single tenant
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: code
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '[a-z0-9]+'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/TenantType.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Tenant.yaml
+    '400':
+      description: Returned on failure.
+    '404':
+      description: Returned when not found.
+    '409':
+      description: Returned on conflict.
+  tags:
+    - tenant
+delete:
+  summary: Delete single tenant/website
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: code
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '[a-z0-9]+'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: bool
+    description: Remove tenant ignoring attached articles
+  responses:
+    '204':
+      description: Returned on success.
+  tags:
+    - tenant

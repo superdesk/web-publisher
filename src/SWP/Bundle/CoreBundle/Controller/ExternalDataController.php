@@ -16,11 +16,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use function json_decode;
 use function json_last_error;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
-use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Superdesk\ContentApiSdk\Exception\InvalidDataException;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
@@ -28,39 +23,14 @@ use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ExternalDataController extends Controller
 {
     /**
-     * @Operation(
-     *     tags={"package"},
-     *     summary="Set new package external data",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         required=true,
-     *         @SWG\Schema(type="object")
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success."
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned on validation error.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Component\Bridge\Model\ExternalData::class))
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="405",
-     *         description="Method Not Allowed."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_add_extra_data")
      */
     public function setAction(Request $request, string $slug): SingleResourceResponseInterface
@@ -102,27 +72,6 @@ class ExternalDataController extends Controller
     }
 
     /**
-     * @Operation(
-     *     tags={"package"},
-     *     summary="Get package external data",
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Component\Bridge\Model\ExternalData::class))
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned on validation error."
-     *     ),
-     *     @SWG\Response(
-     *         response="405",
-     *         description="Method Not Allowed."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_extra_data")
      */
     public function getAction(string $slug): SingleResourceResponseInterface

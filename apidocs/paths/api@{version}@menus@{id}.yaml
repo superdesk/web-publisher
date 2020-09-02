@@ -1,0 +1,78 @@
+get:
+  summary: Get single menu
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/MenuItem.yaml
+    '404':
+      description: Menu not found
+    '422':
+      description: Menu id is not number
+  tags:
+    - menu
+patch:
+  summary: Update single menu
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/MenuType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/MenuItem.yaml
+    '404':
+      description: Menu not found
+    '405':
+      description: Method Not Allowed
+    '422':
+      description: Menu id is not number
+  tags:
+    - menu
+delete:
+  summary: Delete single menu
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned on success.
+    '404':
+      description: Menu not found
+    '422':
+      description: Menu id is not number
+  tags:
+    - menu

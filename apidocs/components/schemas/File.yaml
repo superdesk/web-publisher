@@ -1,0 +1,9 @@
+properties:
+  id:
+    type: string
+  file_extension:
+    title: Uploaded file extension.
+    type: string
+  asset_id:
+    type: string
+type: object
