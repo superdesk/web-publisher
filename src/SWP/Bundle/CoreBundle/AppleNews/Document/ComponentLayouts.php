@@ -27,6 +27,9 @@ class ComponentLayouts
     /** @var ComponentLayout|null */
     private $fullMarginBelowLayout;
 
+    /** @var ComponentLayout|null */
+    private $fullMarginAboveHalfBelowLayout;
+
     public function getHalfMarginBelowLayout(): ?ComponentLayout
     {
         return $this->halfMarginBelowLayout;
@@ -55,5 +58,15 @@ class ComponentLayouts
     public function setFullMarginBelowLayout(?ComponentLayout $fullMarginBelowLayout): void
     {
         $this->fullMarginBelowLayout = $fullMarginBelowLayout;
+    }
+
+    public function getFullMarginAboveHalfBelowLayout(): ?ComponentLayout
+    {
+        return $this->fullMarginAboveHalfBelowLayout;
+    }
+
+    public function setFullMarginAboveHalfBelowLayout(?ComponentLayout $fullMarginAboveHalfBelowLayout): void
+    {
+        $this->fullMarginAboveHalfBelowLayout = $fullMarginAboveHalfBelowLayout;
     }
 }

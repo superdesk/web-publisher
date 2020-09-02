@@ -25,7 +25,7 @@ final class TenantNotFoundExceptionListener
     public function onKernelException(ExceptionEvent $event)
     {
         $isApiRequest = $event->getRequest()->attributes->get('_fos_rest_zone');
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
         if ($isApiRequest || !$exception instanceof TenantNotFoundException) {
             return;
         }

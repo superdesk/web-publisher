@@ -9,10 +9,13 @@ SWP\Bundle\CoreBundle\Model\AppleNewsConfig:
     fields:
         channelId:
             type: string
+            nullable: true
         apiKeyId:
             type: string
+            nullable: true
         apiKeySecret:
             type: string
+            nullable: true
     oneToOne:
         tenant:
             targetEntity: SWP\Component\MultiTenancy\Model\TenantInterface

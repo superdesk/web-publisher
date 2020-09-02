@@ -14,20 +14,31 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
-use SWP\Component\MultiTenancy\Model\TenantInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use SWP\Component\Common\Model\ThemeAwareTenantInterface;
+use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListTenantsCommand extends ContainerAwareCommand
+class ListTenantsCommand extends Command
 {
     protected static $defaultName = 'swp:tenant:list';
 
-    /**
-     * {@inheritdoc}
-     */
+    private $organizationRepository;
+
+    private $tenantRepository;
+
+    public function __construct(OrganizationRepositoryInterface $organizationRepository, TenantRepositoryInterface $tenantRepository)
+    {
+        parent::__construct();
+
+        $this->organizationRepository = $organizationRepository;
+        $this->tenantRepository = $tenantRepository;
+    }
+
     protected function configure()
     {
         $this
@@ -38,41 +49,43 @@ class ListTenantsCommand extends ContainerAwareCommand
             ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /* @var TenantInterface[] $tenants */
+        /* @var ThemeAwareTenantInterface[] $tenants */
         if (null !== $input->getOption('organization')) {
-            $organization = $this->getContainer()->get('swp.repository.organization')->findOneByCode($input->getOption('organization'));
-            $tenants = $this->getContainer()->get('swp.repository.tenant')->findBy([
+            $organization = $this->organizationRepository->findOneByCode($input->getOption('organization'));
+            $tenants = $this->tenantRepository->findBy([
                 'organization' => $organization,
             ]);
         } else {
-            $tenants = $this->getContainer()->get('swp.repository.tenant')->findAll();
+            $tenants = $this->tenantRepository->findAll();
         }
 
         if (null === $tenants || 0 === count($tenants)) {
             $output->writeln('<error>There are no tenants defined.</error>');
 
-            return;
+            return 0;
         }
 
         $output->writeln('<info>List of all available tenants:</info>');
         $table = new Table($output);
-        $table->setHeaders(['Id', 'Code', 'Name', 'Is active?', 'Created at', 'Organization']);
+        $table->setHeaders(['Id', 'Code', 'Name', 'Domain', 'Subdomain', 'Is active?', 'Theme Name', 'Created at', 'Organization']);
         foreach ($tenants as $tenant) {
             $table->addRow([
                 $tenant->getId(),
                 $tenant->getCode(),
                 $tenant->getName(),
+                $tenant->getDomainName(),
+                $tenant->getSubdomain(),
                 $tenant->isEnabled() ? 'yes' : 'no',
+                $tenant instanceof ThemeAwareTenantInterface ? $tenant->getThemeName() : null,
                 $tenant->getCreatedAt()->format('Y-m-d H:i:s'),
                 $tenant->getOrganization()->getName().' (code: '.$tenant->getOrganization()->getCode().')',
             ]);
         }
 
         $table->render();
+
+        return 1;
     }
 }

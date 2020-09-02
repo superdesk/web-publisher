@@ -43,10 +43,7 @@ interface MenuItemRepositoryInterface extends RepositoryInterface
      */
     public function findChildrenAsTree(MenuItemInterface $menuItem);
 
-    /**
-     * @return PaginationInterface
-     */
-    public function findRootNodes();
+    public function findRootNodes(int $page = 1, int $limit = 10);
 
     /**
      * @param MenuItemInterface $node

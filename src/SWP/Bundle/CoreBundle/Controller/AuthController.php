@@ -132,7 +132,10 @@ class AuthController extends AbstractController
             if (null === $superdeskUser) {
                 return new SingleResourceResponse([
                     'status' => 401,
-                    'message' => 'Unauthorized (user not found in Superdesk)',
+                    'message' => <<<'MESSAGE'
+Unauthorized (user not found in Superdesk). 
+Make sure that Publisher can talk to Superdesk instance. Set it's address in "SUPERDESK_SERVERS" environment variable.
+MESSAGE,
                 ], new ResponseContext(401));
             }
 

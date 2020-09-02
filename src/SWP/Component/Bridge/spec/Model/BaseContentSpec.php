@@ -236,6 +236,7 @@ class BaseContentSpec extends ObjectBehavior
             'edNote' => $this->getEdNote(),
             'genre' => $this->getGenre(),
             'language' => $this->getLanguage(),
+            'profile' => $this->getProfile(),
         ];
 
         $this->getMetadata()->shouldReturn($metadata);

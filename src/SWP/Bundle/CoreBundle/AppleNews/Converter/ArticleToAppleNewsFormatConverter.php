@@ -29,6 +29,7 @@ use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentLayout;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentLayouts;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentTextStyle;
 use SWP\Bundle\CoreBundle\AppleNews\Document\ComponentTextStyles;
+use SWP\Bundle\CoreBundle\AppleNews\Document\InlineTextStyle;
 use SWP\Bundle\CoreBundle\AppleNews\Document\Layout;
 use SWP\Bundle\CoreBundle\AppleNews\Document\LinkedArticle;
 use SWP\Bundle\CoreBundle\AppleNews\Document\Margin;
@@ -73,8 +74,9 @@ final class ArticleToAppleNewsFormatConverter
         $articleDocument->setLanguage($article->getLocale());
 
         $articleDocument->addComponent(new Title($article->getTitle(), 'halfMarginBelowLayout'));
-        $articleDocument->addComponent(new Intro($article->getLead(), 'halfMarginBelowLayout'));
-        $articleDocument->addComponent($this->createBylineComponent($article));
+        if (null !== $article->getLead()) {
+            $articleDocument->addComponent(new Intro($article->getLead(), 'halfMarginBelowLayout'));
+        }
 
         $featureMedia = $article->getFeatureMedia();
 
@@ -89,10 +91,29 @@ final class ArticleToAppleNewsFormatConverter
             );
 
             $articleDocument->addComponent(new Photo($featureMediaUrl, (string) $featureMedia->getDescription()));
-            $articleDocument->addComponent(new Caption($featureMedia->getDescription(), 'marginBetweenComponents'));
+
+            $featureMediaCaptionText = $featureMedia->getDescription();
+
+            $imageCopyright = null;
+
+            if (null !== ($byline = $featureMedia->getByLine())) {
+                $imageCopyright = $byline;
+            }
+
+            $extra = $article->getExtra();
+            if (isset($extra['feature_media_credits']) && null !== $extra['feature_media_credits']) {
+                $imageCopyright = $extra['feature_media_credits'];
+            }
+
+            if (null !== $imageCopyright) {
+                $featureMediaCaptionText .= ' (photo: '.$imageCopyright.')';
+            }
+
+            $articleDocument->addComponent(new Caption($featureMediaCaptionText, 'marginBetweenComponents'));
             $metadata->setThumbnailURL($featureMediaUrl);
         }
 
+        $articleDocument->addComponent($this->createBylineComponent($article));
         $components = $this->articleBodyConverter->convert($article->getBody());
         $components = $this->processGalleries($components, $article, $tenant);
         $links = $this->processRelatedArticles($article, $tenant);
@@ -181,7 +202,7 @@ final class ArticleToAppleNewsFormatConverter
                     ]
                 );
 
-                $linkedArticle = new LinkedArticle($url);
+                $linkedArticle = new LinkedArticle($url, LinkedArticle::RELATIONSHIP_RELATED);
                 $links[] = $linkedArticle;
             }
         }
@@ -207,16 +228,16 @@ final class ArticleToAppleNewsFormatConverter
         $componentTextStyles->setDefaultBody($componentTextStylesBody);
 
         $componentTextStylesTitle = new ComponentTextStyle();
-        $componentTextStylesTitle->setFontName('DINAlternate-Bold');
-        $componentTextStylesTitle->setFontSize(42);
-        $componentTextStylesTitle->setLineHeight(44);
-        $componentTextStylesTitle->setTextColor('#53585F');
+        $componentTextStylesTitle->setFontName('BodoniSvtyTwoOSITCTT-Bold');
+        $componentTextStylesTitle->setFontSize(46);
+        $componentTextStylesTitle->setLineHeight(58);
+        $componentTextStylesTitle->setTextColor('#000000');
         $componentTextStyles->setDefaultTitle($componentTextStylesTitle);
 
         $componentTextStylesIntro = new ComponentTextStyle();
-        $componentTextStylesIntro->setFontName('DINAlternate-Bold');
-        $componentTextStylesIntro->setFontSize(18);
-        $componentTextStylesIntro->setLineHeight(22);
+        $componentTextStylesIntro->setFontName('ArialMT');
+        $componentTextStylesIntro->setFontSize(22);
+        $componentTextStylesIntro->setLineHeight(28);
         $componentTextStylesIntro->setTextColor('#A6AAA9');
         $componentTextStyles->setDefaultIntro($componentTextStylesIntro);
 
@@ -233,6 +254,16 @@ final class ArticleToAppleNewsFormatConverter
         $componentTextStylesByline->setLineHeight(18);
         $componentTextStylesByline->setTextColor('#53585F');
         $componentTextStyles->setDefaultByline($componentTextStylesByline);
+
+        $componentTextStylesCaption = new ComponentTextStyle();
+        $componentTextStylesCaption->setFontName('ArialMT');
+        $componentTextStylesCaption->setFontSize(14);
+        $componentTextStylesCaption->setLineHeight(16);
+        $componentTextStylesCaption->setParagraphSpacingBefore(12);
+        $componentTextStylesCaption->setParagraphSpacingAfter(12);
+        $componentTextStylesCaption->setTextColor('#888888');
+
+        $componentTextStyles->setDefaultCaption($componentTextStylesCaption);
 
         return $componentTextStyles;
     }
@@ -255,6 +286,12 @@ final class ArticleToAppleNewsFormatConverter
         $componentLayout->setMargin(new Margin(24));
         $componentLayouts->setFullMarginBelowLayout($componentLayout);
 
+        $componentLayout = new ComponentLayout();
+        $componentLayout->setColumnStart(0);
+        $componentLayout->setColumnSpan(14);
+        $componentLayout->setMargin(new Margin(12, 24));
+        $componentLayouts->setFullMarginAboveHalfBelowLayout($componentLayout);
+
         return $componentLayouts;
     }
 
@@ -263,8 +300,17 @@ final class ArticleToAppleNewsFormatConverter
         $routeName = $article->getRoute()->getName();
         $authorNames = trim(implode(', ', $article->getAuthorsNames()), ', ');
         $publishedAt = $article->getPublishedAt();
-        $publishedAtString = $publishedAt->format('M d, Y g:i A');
+        $publishedAtString = $publishedAt->format('M d, Y');
 
-        return new Byline("$authorNames | $publishedAtString | $routeName", 'fullMarginBelowLayout');
+        $inlineTextStyle = new InlineTextStyle();
+        $inlineTextStyle->setRangeStart(3);
+        $inlineTextStyle->setRangeLength(strlen($authorNames));
+        $inlineTextStyle->setTextStyle(new TextStyle('#b72025'));
+
+        return new Byline(
+            "By $authorNames | $routeName | $publishedAtString",
+            'fullMarginBelowLayout',
+            [$inlineTextStyle]
+        );
     }
 }

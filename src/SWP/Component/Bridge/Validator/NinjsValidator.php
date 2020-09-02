@@ -232,8 +232,7 @@ class NinjsValidator extends JsonValidator
           },
           "scheme":{
             "description":"The identifier of a scheme (= controlled vocabulary) which includes a code for the place",
-            "type":"string",
-            "format":"uri"
+            "type":"string"
           },
           "code":{
             "description":"The code for the place in a scheme (= controlled vocabulary) which is identified by the scheme property",

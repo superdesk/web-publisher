@@ -22,5 +22,7 @@ interface EmbeddedImageProcessorInterface extends ArticleBodyProcessorInterface
 {
     public function setDefaultImageRendition(string $renditionName): void;
 
+    public function applyCopyrightNotice(ArticleMediaInterface $articleMedia): ?string;
+
     public function applyByline(ArticleMediaInterface $articleMedia): string;
 }

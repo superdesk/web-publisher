@@ -17,10 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Matcher;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Filter\DataFilter;
-use SWP\Bundle\CoreBundle\Filter\Exception\FilterException;
 use SWP\Component\Common\Criteria\Criteria;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
 {
@@ -69,27 +66,65 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
         }
 
         if ($criteria->has('metadata') && !empty($criteria->get('metadata'))) {
-            $metadata = $criteria->get('metadata');
-            if (is_array($metadata)) {
-                foreach ($metadata as $key => $value) {
-                    if ($value !== $article->getMetadataByKey($key)) {
-                        return false;
-                    }
-                }
-            }
-            if (is_string($metadata)) {
-                $dataFilter = new DataFilter();
-                $dataFilter->loadData($article->getMetadata());
-                $expressionLanguage = new ExpressionLanguage();
+            $criteriaMetadata = $criteria->get('metadata');
 
-                try {
-                    $expressionLanguage->evaluate($metadata, ['filter' => $dataFilter]);
-                } catch (FilterException $e) {
-                    return false;
-                }
+            if (!is_array($criteriaMetadata)) {
+                return false;
             }
+
+            if ($this->isArticleMetadataMatchingCriteria($criteriaMetadata, $article)) {
+                return true;
+            }
+
+            return false;
         }
 
         return true;
+    }
+
+    private function isArticleMetadataMatchingCriteria(array $criteriaMetadata, ArticleInterface $article): bool
+    {
+        foreach ($criteriaMetadata as $key => $criteriaMetadataItem) {
+            $articleMetadataByKey = $article->getMetadataByKey($key);
+
+            if (is_array($articleMetadataByKey)) {
+                foreach ($articleMetadataByKey as $articleMetadataItem) {
+                    if ($this->isMetadataMatching($articleMetadataItem, $criteriaMetadataItem)) {
+                        return true;
+                    }
+                }
+            } elseif ($criteriaMetadataItem === $articleMetadataByKey) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isMetadataMatching(array $articleMetadataItem, array $criteriaMetadata): bool
+    {
+        foreach ($criteriaMetadata as $criteriaMetadataItem) {
+            if (!isset($articleMetadataItem['code'], $criteriaMetadataItem['code'])) {
+                continue;
+            }
+
+            if ($this->isSubjectMatching($articleMetadataItem, $criteriaMetadataItem)) {
+                return true;
+            }
+
+            if ($articleMetadataItem['code'] === $criteriaMetadataItem['code']) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isSubjectMatching(array $articleMetadataItem, array $criteriaMetadataItem): bool
+    {
+        return isset($articleMetadataItem['scheme'], $criteriaMetadataItem['scheme']) &&
+            $articleMetadataItem['code'] === $criteriaMetadataItem['code'] &&
+            $articleMetadataItem['scheme'] === $criteriaMetadataItem['scheme']
+        ;
     }
 }

@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Tests\Command;
 
+use PHPUnit\Framework\TestCase;
 use SWP\Bundle\MultiTenancyBundle\Command\ListTenantsCommand;
 use SWP\Component\MultiTenancy\Model\Organization;
 use SWP\Component\MultiTenancy\Model\Tenant;
@@ -22,7 +23,6 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use PHPUnit\Framework\TestCase;
 
 class ListTetantsCommandTest extends TestCase
 {
@@ -32,10 +32,10 @@ class ListTetantsCommandTest extends TestCase
 
     private $command;
 
-    public function setUp()
+    private function setupCommand($container)
     {
         $application = new Application();
-        $application->add(new ListTenantsCommand());
+        $application->add(new ListTenantsCommand($container->get('swp.repository.organization'), $container->get('swp.repository.tenant')));
         $this->command = $application->get('swp:tenant:list');
     }
 
@@ -46,7 +46,9 @@ class ListTetantsCommandTest extends TestCase
     {
         $tenant = new Tenant();
         $tenant->setCode('123abc');
-        $this->command->setContainer($this->getMockContainer(new Organization()));
+        $container = $this->getMockContainer(new Organization());
+        $this->setupCommand($container);
+
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
@@ -71,17 +73,20 @@ class ListTetantsCommandTest extends TestCase
         $organization->setName('Test Organization');
         $organization->addTenant($tenant);
         $tenant->setOrganization($organization);
-        $this->command->setContainer($this->getMockContainer($organization));
+
+        $container = $this->getMockContainer($organization);
+        $this->setupCommand($container);
+
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $result = <<<'EOF'
 List of all available tenants:
-+----+--------+-------------+------------+---------------------+----------------------------------+
-| Id | Code   | Name        | Is active? | Created at          | Organization                     |
-+----+--------+-------------+------------+---------------------+----------------------------------+
-| 1  | 123abc | Test Tenant | yes        | 2017-02-20 15:19:55 | Test Organization (code: 123456) |
-+----+--------+-------------+------------+---------------------+----------------------------------+
++----+--------+-------------+--------+-----------+------------+------------+---------------------+----------------------------------+
+| Id | Code   | Name        | Domain | Subdomain | Is active? | Theme Name | Created at          | Organization                     |
++----+--------+-------------+--------+-----------+------------+------------+---------------------+----------------------------------+
+| 1  | 123abc | Test Tenant |        |           | yes        |            | 2017-02-20 15:19:55 | Test Organization (code: 123456) |
++----+--------+-------------+--------+-----------+------------+------------+---------------------+----------------------------------+
 EOF;
 
         $this->assertEquals($result, trim($this->commandTester->getDisplay()));
@@ -101,19 +106,21 @@ EOF;
         $organization->setCode('123456');
         $organization->setName('Test Organization');
         $organization->addTenant($tenant);
-
         $tenant->setOrganization($organization);
-        $this->command->setContainer($this->getMockContainer($organization));
+
+        $container = $this->getMockContainer($organization);
+        $this->setupCommand($container);
+
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $result = <<<'EOF'
 List of all available tenants:
-+----+--------+-------------+------------+---------------------+----------------------------------+
-| Id | Code   | Name        | Is active? | Created at          | Organization                     |
-+----+--------+-------------+------------+---------------------+----------------------------------+
-| 1  | 123abc | Test Tenant | yes        | 2017-02-20 15:19:55 | Test Organization (code: 123456) |
-+----+--------+-------------+------------+---------------------+----------------------------------+
++----+--------+-------------+--------+-----------+------------+------------+---------------------+----------------------------------+
+| Id | Code   | Name        | Domain | Subdomain | Is active? | Theme Name | Created at          | Organization                     |
++----+--------+-------------+--------+-----------+------------+------------+---------------------+----------------------------------+
+| 1  | 123abc | Test Tenant |        |           | yes        |            | 2017-02-20 15:19:55 | Test Organization (code: 123456) |
++----+--------+-------------+--------+-----------+------------+------------+---------------------+----------------------------------+
 EOF;
 
         $this->assertEquals($result, trim($this->commandTester->getDisplay()));
@@ -129,7 +136,9 @@ EOF;
         $organization2->addTenant($tenant2);
         $tenant2->setOrganization($organization2);
 
-        $this->command->setContainer($this->getMockContainer($organization2));
+        $container = $this->getMockContainer($organization2);
+        $this->setupCommand($container);
+
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName(), '-o' => '123456']);
         $result = <<<'EOF'
@@ -140,11 +149,11 @@ EOF;
         $this->commandTester->execute(['command' => $this->command->getName()]);
         $result = <<<'EOF'
 List of all available tenants:
-+----+--------+---------------+------------+---------------------+-----------------------------------+
-| Id | Code   | Name          | Is active? | Created at          | Organization                      |
-+----+--------+---------------+------------+---------------------+-----------------------------------+
-| 2  | 345def | Test Tenant 2 | yes        | 2017-02-20 15:19:55 | Test Organization2 (code: 789012) |
-+----+--------+---------------+------------+---------------------+-----------------------------------+
++----+--------+---------------+--------+-----------+------------+------------+---------------------+-----------------------------------+
+| Id | Code   | Name          | Domain | Subdomain | Is active? | Theme Name | Created at          | Organization                      |
++----+--------+---------------+--------+-----------+------------+------------+---------------------+-----------------------------------+
+| 2  | 345def | Test Tenant 2 |        |           | yes        |            | 2017-02-20 15:19:55 | Test Organization2 (code: 789012) |
++----+--------+---------------+--------+-----------+------------+------------+---------------------+-----------------------------------+
 EOF;
         $this->assertEquals($result, trim($this->commandTester->getDisplay()));
     }

@@ -85,6 +85,7 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
             ];
 
             $articleService = $this->container->get('swp.service.article');
+            $metadataFactory = $this->container->get('swp.factory.metadata');
             foreach ($articles as $articleData) {
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
@@ -92,10 +93,14 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
-                $article->setMetadata([
+                $legacyMetadata = [
                     'located' => 'Sydney',
                     'byline' => $articleData['author'],
-                ]);
+                ];
+
+                $article->setMetadata($legacyMetadata);
+                $metadata = $metadataFactory->createFrom($legacyMetadata);
+                $article->setData($metadata);
                 $package = $this->createPackage($articleData);
                 /** @var ExternalDataInterface $firstExternalData */
                 $firstExternalData = $this->container->get('swp.factory.external_data')->create();
