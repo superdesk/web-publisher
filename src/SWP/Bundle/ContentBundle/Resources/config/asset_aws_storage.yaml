@@ -1,0 +1,25 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  SWP\Bundle\ContentBundle\Factory\S3ClientFactory:
+    class: Aws\S3\S3Client
+    factory: ['SWP\Bundle\ContentBundle\Factory\S3ClientFactory', 'createS3Client']
+    arguments:
+      - '%env(resolve:FS_AWS_S3_VERSION)%'
+      - '%env(resolve:FS_AWS_S3_REGION)%'
+      - '%env(resolve:FS_AWS_S3_ENDPOINT)%'
+      - '%env(resolve:FS_AWS_S3_KEY)%'
+      - '%env(resolve:FS_AWS_S3_SECRET)%'
+
+  SWP\Bundle\ContentBundle\Asset\AwsAssetUrlGenerator:
+    arguments:
+      - '@SWP\Bundle\ContentBundle\Factory\S3ClientFactory'
+      - '%env(resolve:FS_MAIN_ADAPTER)%'
+      - '%env(resolve:FS_AWS_S3_BUCKET)%'
+      - '%env(resolve:FS_AWS_S3_PREFIX)%'
+
+  SWP\Bundle\ContentBundle\Asset\AssetUrlGeneratorInterface:
+    alias: SWP\Bundle\ContentBundle\Asset\AwsAssetUrlGenerator

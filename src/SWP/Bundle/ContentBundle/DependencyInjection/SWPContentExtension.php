@@ -14,10 +14,10 @@
 
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
-use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -35,6 +35,13 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+
+        if (Configuration::AWS_ADAPTER === $config['media_storage_adapter']) {
+            $loader->load('asset_aws_storage.yaml');
+        } else {
+            $loader->load('asset_local_storage.yaml');
+        }
+
         $loader->load('services.yml');
         $loader->load('controllers.yaml');
         $loader->load('listeners.yaml');
@@ -53,7 +60,7 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
                     'fallback_adapter' => [
                         'fallback' => [
                             'mainAdapter' => '%env(FS_MAIN_ADAPTER)%',
-                            'fallback' => 'local_adapter',
+                            'fallback' => Configuration::LOCAL_ADAPTER,
                             'forceCopyOnMain' => false,
                         ],
                     ],

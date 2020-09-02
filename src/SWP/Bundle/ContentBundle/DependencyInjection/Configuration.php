@@ -80,7 +80,9 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    private const ADAPTERS = ['aws_adapter', 'local_adapter'];
+    public const AWS_ADAPTER = 'aws_adapter';
+
+    public const LOCAL_ADAPTER = 'local_adapter';
 
     /**
      * {@inheritdoc}
@@ -94,7 +96,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('local_adapter')
                     ->info('Choose media storage adapter from the following list: "aws_adapter", "local_adapter"')
                     ->validate()
-                        ->ifNotInArray(self::ADAPTERS)
+                        ->ifNotInArray([self::AWS_ADAPTER, self::LOCAL_ADAPTER])
                         ->thenInvalid('Invalid media adapter %s.')
                     ->end()
                 ->end()

@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  SWP\Bundle\ContentBundle\Asset\LocalAssetUrlGenerator:
+    arguments:
+      - 'uploads'
+
+  SWP\Bundle\ContentBundle\Asset\AssetUrlGeneratorInterface:
+    alias: SWP\Bundle\ContentBundle\Asset\LocalAssetUrlGenerator

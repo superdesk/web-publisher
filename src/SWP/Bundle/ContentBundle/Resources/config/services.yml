@@ -335,25 +335,10 @@ services:
         arguments:
             - '%env(json:BLACKLISTED_KEYWORDS)%'
 
-    SWP\Bundle\ContentBundle\Factory\S3ClientFactory:
-        class: Aws\S3\S3Client
-        factory: ['SWP\Bundle\ContentBundle\Factory\S3ClientFactory', 'createS3Client']
-        arguments:
-            - '%env(resolve:FS_AWS_S3_VERSION)%'
-            - '%env(resolve:FS_AWS_S3_REGION)%'
-            - '%env(resolve:FS_AWS_S3_ENDPOINT)%'
-            - '%env(resolve:FS_AWS_S3_KEY)%'
-            - '%env(resolve:FS_AWS_S3_SECRET)%'
-            
-
     swp.resolver.asset_location:
         class: SWP\Bundle\ContentBundle\Resolver\AssetLocationResolver
         arguments:
-            - '%env(resolve:FS_MAIN_ADAPTER)%'
-            - '%env(resolve:FS_AWS_S3_BUCKET)%'
-            - '%env(resolve:FS_AWS_S3_PREFIX)%'
-            - '@SWP\Bundle\ContentBundle\Factory\S3ClientFactory'
-            - 'uploads'
+            - '@SWP\Bundle\ContentBundle\Asset\AssetUrlGeneratorInterface'
 
     swp.resolver.author_asset_location:
         parent: swp.resolver.asset_location
