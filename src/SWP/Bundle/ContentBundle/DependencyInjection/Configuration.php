@@ -93,7 +93,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('media_storage_adapter')
-                    ->defaultValue('local_adapter')
+                    ->defaultValue(self::LOCAL_ADAPTER)
                     ->info('Choose media storage adapter from the following list: "aws_adapter", "local_adapter"')
                     ->validate()
                         ->ifNotInArray([self::AWS_ADAPTER, self::LOCAL_ADAPTER])
