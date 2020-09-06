@@ -73,6 +73,11 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
             true
         );
 
+        $mainAdapter = $config[0]['adapters']['fallback_adapter']['fallback']['mainAdapter'];
+
         $container->prependExtensionConfig('oneup_flysystem', $config[0]);
+        $container->prependExtensionConfig($this->getAlias(), [
+            'media_storage_adapter' => $mainAdapter,
+        ]);
     }
 }
