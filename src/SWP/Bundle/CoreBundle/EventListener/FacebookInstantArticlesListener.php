@@ -15,8 +15,8 @@
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookPage;
 use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepositoryInterface;
@@ -58,13 +58,6 @@ final class FacebookInstantArticlesListener
 
     /**
      * FacebookInstantArticlesListener constructor.
-     *
-     * @param TemplateParserInterface                           $templateParser
-     * @param MetaFactoryInterface                              $metaFactory
-     * @param RepositoryInterface                               $feedRepository
-     * @param RepositoryInterface                               $pageRepository
-     * @param FacebookInstantArticlesServiceInterface           $instantArticlesService
-     * @param FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository
      */
     public function __construct(
         TemplateParserInterface $templateParser,
@@ -82,11 +75,15 @@ final class FacebookInstantArticlesListener
         $this->facebookInstantArticlesArticleRepository = $facebookInstantArticlesArticleRepository;
     }
 
-    /**
-     * @param ContentListEvent $event
-     */
     public function sendArticleToFacebook(ContentListEvent $event)
     {
+        /** @var ArticleInterface $article */
+        $article = $event->getItem()->getContent();
+
+        if (!$article->isPublishedFBIA()) {
+            return;
+        }
+
         $feeds = $this->feedRepository->getQueryByCriteria(new Criteria([
             'contentList' => $event->getContentList(),
         ]), [], 'f')->getQuery()->getResult();
@@ -94,8 +91,6 @@ final class FacebookInstantArticlesListener
             return;
         }
 
-        /** @var ArticleInterface $article */
-        $article = $event->getItem()->getContent();
         $this->metaFactory->create($article);
         $instantArticle = $this->templateParser->parse();
 
@@ -104,14 +99,11 @@ final class FacebookInstantArticlesListener
         }
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
     public function resendUpdatedArticleToFacebook(ArticleEvent $event)
     {
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
-        if (!$article->isPublished()) {
+        if (!$article->isPublished() && !$article->isPublishedFBIA()) {
             return;
         }
 
@@ -129,9 +121,6 @@ final class FacebookInstantArticlesListener
         }
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
     public function removeArticleFromFacebook(ArticleEvent $event)
     {
         $article = $event->getArticle();
