@@ -46,7 +46,7 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $this->addSql('ALTER TABLE swp_article_metadata_service ADD CONSTRAINT FK_779FF189DC9EE959 FOREIGN KEY (metadata_id) REFERENCES swp_article_metadata (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_article_metadata_subject ADD CONSTRAINT FK_6DCC5521DC9EE959 FOREIGN KEY (metadata_id) REFERENCES swp_article_metadata (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_item ADD profile VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_route ADD COLUMN IF NOT EXISTS description VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_route ADD description VARCHAR(255) DEFAULT NULL');
     }
 
     public function postUp(Schema $schema): void
@@ -99,6 +99,6 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $this->addSql('DROP TABLE swp_article_metadata_service');
         $this->addSql('DROP TABLE swp_article_metadata_subject');
         $this->addSql('ALTER TABLE swp_item DROP profile');
-        $this->addSql('ALTER TABLE swp_route DROP IF EXISTS description');
+        $this->addSql('ALTER TABLE swp_route DROP description');
     }
 }
