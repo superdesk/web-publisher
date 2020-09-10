@@ -454,7 +454,7 @@ services:
             - '@swp.object_manager.article'
             - '@swp.repository.article'
             - '@event_dispatcher'
-            - '@fos_elastica.object_persister.swp.package'
+            - '@fos_elastica.object_persister.swp_package'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onUpdated, priority: 20 }
 
