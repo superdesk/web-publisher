@@ -18,7 +18,7 @@ php:
 
 env:
   global:
-  - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
+  - ES_VERSION=7.9.1 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}-amd64.deb
   - APP_ENV=test
   matrix:
   - DOCTRINE_CACHE_DRIVER="memcached" COMPOSER_FLAGS='update --prefer-stable'
@@ -48,7 +48,7 @@ before_install:
 
 install:
 - wget ${ES_DOWNLOAD_URL}
-- sudo dpkg -i --force-confnew elasticsearch-${ES_VERSION}.deb
+- sudo dpkg -i --force-confnew elasticsearch-${ES_VERSION}-amd64.deb
 - sudo service elasticsearch restart
 - sudo rabbitmq-plugins enable rabbitmq_management
 - sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
