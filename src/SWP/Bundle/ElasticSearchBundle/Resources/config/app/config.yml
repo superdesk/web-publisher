@@ -21,7 +21,6 @@ fos_elastica:
                         swp_sources_analyzer:
                             type: custom
                             tokenizer: keyword
-                            filter: [standard]
                         swp_folding_analyzer:
                             type: custom
                             tokenizer: standard
