@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Tests\Fragment;
 
-use Superdesk\ContentApiSdk\Exception\ClientException;
+use SWP\Bundle\BridgeBundle\Exception\ClientException;
 use SWP\Bundle\CoreBundle\Fragment\ExternalFragmentRenderer;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,10 +41,7 @@ final class ExternalFragmentRendererTest extends WebTestCase
     public function testRendering()
     {
         try {
-            $content = json_decode(
-                $this->renderer->render('localhost:3000/api/esi_fragment', new Request())->getContent(),
-                true
-            );
+            $content = json_decode($this->renderer->render('localhost:3000/api/esi_fragment', new Request())->getContent(), true, 512, JSON_THROW_ON_ERROR);
             self::assertEquals(['content' => 'some content'], $content);
         } catch (ClientException $e) {
             self::markTestSkipped();
@@ -56,7 +53,7 @@ final class ExternalFragmentRendererTest extends WebTestCase
         try {
             $content = json_decode($this->renderer->render('localhost:3001/404', new Request(), [
                 'alt' => 'localhost:3000/api/esi_fragment',
-            ])->getContent(), true);
+            ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
             self::assertEquals(['content' => 'some content'], $content);
         } catch (ClientException $e) {
             self::markTestSkipped();
@@ -68,7 +65,7 @@ final class ExternalFragmentRendererTest extends WebTestCase
         $this->expectException(ClientException::class);
         $content = json_decode($this->renderer->render('localhost:3001/404', new Request(), [
             'ignore_errors' => false,
-        ])->getContent(), true);
+        ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
         self::assertEquals(['content' => 'some content'], $content);
     }
 
@@ -78,12 +75,12 @@ final class ExternalFragmentRendererTest extends WebTestCase
         $this->loadCustomFixtures(['tenant']);
         $content = json_decode($this->renderer->render('fake_localhost:3000/esi_fragment', new Request(), [
             'ignore_errors' => true,
-        ])->getContent(), true);
+        ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
         self::assertEquals(null, $content);
 
-        self::expectException(ClientException::class);
+        $this->expectException(ClientException::class);
         json_decode($this->renderer->render('fake_localhost:3000/esi_fragment', new Request(), [
             'ignore_errors' => false,
-        ])->getContent(), true);
+        ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
     }
 }
