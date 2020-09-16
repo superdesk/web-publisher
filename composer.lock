@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1fbba2920ebd7ed15f1413afe50aabb",
+    "content-hash": "0f2164055e560712a650ff06e09f21d4",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2195,16 +2195,16 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "dev-master",
+            "version": "v6.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "652f8c7779692b4ae7591830036e0caec47ec7b7"
+                "reference": "09cdf7b110cd38200e4eea9d5d8065f8598615b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/652f8c7779692b4ae7591830036e0caec47ec7b7",
-                "reference": "652f8c7779692b4ae7591830036e0caec47ec7b7",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/09cdf7b110cd38200e4eea9d5d8065f8598615b8",
+                "reference": "09cdf7b110cd38200e4eea9d5d8065f8598615b8",
                 "shasum": ""
             },
             "require": {
@@ -2219,6 +2219,7 @@
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "^2.0",
+                "doctrine/mongodb-odm-bundle": "^4.0",
                 "doctrine/orm": "^2.7",
                 "doctrine/persistence": "^1.3.3",
                 "doctrine/phpcr-bundle": "^1.3|^2.0",
@@ -2279,7 +2280,7 @@
                 "mongodb",
                 "search"
             ],
-            "time": "2020-09-10T13:02:00+00:00"
+            "time": "2020-09-15T11:32:15+00:00"
         },
         {
             "name": "friendsofsymfony/http-cache",
@@ -19963,7 +19964,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "emanueleminotto/twig-cache-bundle": 20,
-        "friendsofsymfony/elastica-bundle": 20,
         "friendsofsymfony/user-bundle": 20,
         "gedmo/doctrine-extensions": 20,
         "takeit/amp": 20,
