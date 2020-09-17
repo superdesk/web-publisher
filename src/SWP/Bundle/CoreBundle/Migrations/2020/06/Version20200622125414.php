@@ -69,6 +69,8 @@ final class Version20200622125414 extends AbstractMigration implements Container
                 ->setMaxResults($numberOfRecordsPerPage)
                 ->setFirstResult($totalArticlesProcessed);
 
+            echo 'fetching $numberOfRecordsPerPage starting from $totalArticlesProcessed\n';
+
             $iterableResult = $query->iterate();
 
             while (false !== ($row = $iterableResult->next())) {
@@ -84,9 +86,12 @@ final class Version20200622125414 extends AbstractMigration implements Container
 
                 $article->setData($metadata);
 
+                echo 'new metadata persisted\n';
+
                 if (0 === ($totalArticlesProcessed % $batchSize)) {
                     $entityManager->flush();
                     $entityManager->clear();
+                    echo 'batch flushed\n';
                 }
 
                 ++$totalArticlesProcessed;
