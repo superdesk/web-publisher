@@ -54,8 +54,8 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $metadataFactory = $this->container->get('swp.factory.metadata');
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
 
-        $batchSize = 1000;
-        $numberOfRecordsPerPage = 5000;
+        $batchSize = 500;
+        $numberOfRecordsPerPage = 2000;
 
         $totalArticles = $entityManager
             ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a')
