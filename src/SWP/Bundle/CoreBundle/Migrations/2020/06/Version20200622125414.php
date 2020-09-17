@@ -53,6 +53,7 @@ final class Version20200622125414 extends AbstractMigration implements Container
     {
         $metadataFactory = $this->container->get('swp.factory.metadata');
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+        $entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
 
         $batchSize = 500;
         $numberOfRecordsPerPage = 2000;
@@ -69,11 +70,11 @@ final class Version20200622125414 extends AbstractMigration implements Container
                 ->setMaxResults($numberOfRecordsPerPage)
                 ->setFirstResult($totalArticlesProcessed);
 
-            echo 'fetching $numberOfRecordsPerPage starting from $totalArticlesProcessed\n';
+            echo 'fetching '.$numberOfRecordsPerPage.' starting from '.$totalArticlesProcessed;
 
             $iterableResult = $query->iterate();
 
-            while (false !== ($row = $iterableResult->next())) {
+            foreach ($iterableResult as $row) {
                 $article = $row[0];
                 $legacyMetadata = $article->getMetadata();
                 if (empty($legacyMetadata)) {
@@ -86,14 +87,10 @@ final class Version20200622125414 extends AbstractMigration implements Container
 
                 $article->setData($metadata);
 
-                echo 'new metadata persisted\n';
-
                 if (0 === ($totalArticlesProcessed % $batchSize)) {
                     $entityManager->flush();
                     $entityManager->clear();
-                    echo 'batch flushed\n';
                 }
-
                 ++$totalArticlesProcessed;
             }
 
