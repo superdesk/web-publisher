@@ -40,7 +40,7 @@ class PackageRepository extends Repository
 
             $phraseMultiMatchQuery = new MultiMatch();
             $phraseMultiMatchQuery->setQuery($criteria->getTerm());
-            $phraseMultiMatchQuery->setFields(['headline^2', 'description^1']);
+            $phraseMultiMatchQuery->setFields(['headline', 'description']);
             $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
             $phraseMultiMatchQuery->setParam('boost', 5);
 
