@@ -36,11 +36,22 @@ class PackageRepository extends Repository
         $boolFilter = new BoolQuery();
 
         if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $query = new MultiMatch();
-            $query->setFields(['headline^2', 'description^1']);
-            $query->setQuery($criteria->getTerm());
-            $query->setType(MultiMatch::TYPE_PHRASE);
-            $boolFilter->addMust($query);
+            $boolQuery = new BoolQuery();
+
+            $phraseMultiMatchQuery = new MultiMatch();
+            $phraseMultiMatchQuery->setQuery($criteria->getTerm());
+            $phraseMultiMatchQuery->setFields(['headline^2', 'description^1']);
+            $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $phraseMultiMatchQuery->setParam('boost', 5);
+
+            $boolQuery->addShould($phraseMultiMatchQuery);
+
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setQuery($criteria->getTerm());
+            $multiMatchQuery->setFields(['headline^2', 'description^1']);
+
+            $boolQuery->addShould($multiMatchQuery);
+            $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
         }

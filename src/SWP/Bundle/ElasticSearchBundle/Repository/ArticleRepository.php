@@ -36,28 +36,32 @@ class ArticleRepository extends Repository
         $boolFilter = new BoolQuery();
 
         if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $searchBy = ['title', 'lead', 'keywords.name'];
+            $searchBy = ['title', 'lead', 'keywords.name', 'authors.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
             }
 
             if ($searchByBody) {
-                $searchBy[] = 'body';
+                array_splice($searchBy, 2, 0, ['body']);
             }
 
-            $priority = 1;
-            foreach (array_reverse($searchBy) as $key => $field) {
-                $searchBy[$key] = $field.'^'.$priority;
+            $boolQuery = new BoolQuery();
 
-                ++$priority;
-            }
+            $phraseMultiMatchQuery = new MultiMatch();
+            $phraseMultiMatchQuery->setQuery($criteria->getTerm());
+            $phraseMultiMatchQuery->setFields($searchBy);
+            $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $phraseMultiMatchQuery->setParam('boost', 5);
 
-            $query = new MultiMatch();
-            $query->setQuery($criteria->getTerm());
-            $query->setFields($searchBy);
-            $query->setType(MultiMatch::TYPE_PHRASE);
-            $boolFilter->addMust($query);
+            $boolQuery->addShould($phraseMultiMatchQuery);
+
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setQuery($criteria->getTerm());
+            $multiMatchQuery->setFields($searchBy);
+
+            $boolQuery->addShould($multiMatchQuery);
+            $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
         }
