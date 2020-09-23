@@ -165,9 +165,24 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     {
         $orX = $queryBuilder->expr()->orX();
         if ($criteria->has('extra')) {
+
+            $queryBuilder
+                ->leftJoin('a.extraTextFields', 'etf')
+                ->leftJoin('a.extraEmbedFields', 'eef');
+
             foreach ((array) $criteria->get('extra') as $key => $value) {
-                $valueExpression = $queryBuilder->expr()->literal('%'.\rtrim(\ltrim(\serialize([$key => $value]), 'a:1:{'), ';}').'%');
-                $orX->add($queryBuilder->expr()->like('a.extra', $valueExpression));
+                if(is_array($value)) {
+                    $andX = $queryBuilder->expr()->andX();
+                    $andX->add($queryBuilder->expr()->eq('eef.fieldName', $queryBuilder->expr()->literal($key)));
+                    $andX->add($queryBuilder->expr()->eq('eef.embed', $queryBuilder->expr()->literal($value['embed'])));
+                    $andX->add($queryBuilder->expr()->eq('eef.description', $queryBuilder->expr()->literal($value['description'])));
+                    $orX->add($andX);
+                } else {
+                    $andX = $queryBuilder->expr()->andX();
+                    $andX->add($queryBuilder->expr()->eq('etf.fieldName', $queryBuilder->expr()->literal($key)));
+                    $andX->add($queryBuilder->expr()->eq('etf.value', $queryBuilder->expr()->literal($value)));
+                    $orX->add($andX);
+                }
             }
 
             $queryBuilder->andWhere($orX);

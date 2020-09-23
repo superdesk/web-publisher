@@ -168,4 +168,10 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     public function getData(): ?MetadataInterface;
 
     public function setData(?MetadataInterface $metadata): void;
+
+    public function getExtraTextFields();
+
+    public function getExtraEmbedFields();
+
+    public function setExtraFields(array $extra);
 }

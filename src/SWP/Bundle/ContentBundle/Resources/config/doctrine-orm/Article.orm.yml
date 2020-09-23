@@ -115,6 +115,18 @@ SWP\Bundle\ContentBundle\Model\Article:
             fetch: "EAGER"
             cascade: ["all"]
             orphanRemoval: true
+        extraTextFields:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleExtraTextFieldInterface
+            mappedBy: article
+            fetch: "EAGER"
+            cascade: [ "all" ]
+            orphanRemoval: true
+        extraEmbedFields:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedFieldInterface
+            mappedBy: article
+            fetch: "EAGER"
+            cascade: [ "all" ]
+            orphanRemoval: true
     manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface

@@ -474,6 +474,7 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
 
                 if (isset($articleData['extra'])) {
                     $article->setExtra($articleData['extra']);
+                    $article->setExtraFields($articleData['extra']);
                 }
 
                 if (isset($articleData['commentsCount'])) {

@@ -125,7 +125,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'route' => 'news',
                 'locale' => 'en',
                 'published_at' => '2017-04-05 12:12:00',
-                'extra' => ['video' => 'YES'],
+                'extra' => [
+                    'video' => 'YES',
+                    'rafal-embed' => [
+                        'embed' => 'embed link',
+                        'description' => "Shakin' Stevens"
+                    ]
+                ],
             ],
             [
                 'title' => 'Features',
@@ -205,6 +211,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
             if (isset($articleData['extra'])) {
                 $article->setExtra($articleData['extra']);
+                $article->setExtraFields($articleData['extra']);
             }
 
             $metadata = $this->articleMetadata();

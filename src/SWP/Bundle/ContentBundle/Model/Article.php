@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 use Behat\Transliterator\Transliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
 use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\Bridge\Model\AuthorsAwareTrait;
 use SWP\Component\Common\Model\DateTime;
@@ -128,6 +129,16 @@ class Article implements ArticleInterface
     /** @var MetadataInterface|null */
     protected $data;
 
+    /**
+     * @var Collection|ArticleExtraTextFieldInterface[]
+     */
+    protected $extraTextFields;
+
+    /**
+     * @var Collection|ArticleExtraTextFieldInterface[]
+     */
+    protected $extraEmbedFields;
+
     public function __construct()
     {
         $this->createdAt = DateTime::getCurrentDateTime();
@@ -139,6 +150,8 @@ class Article implements ArticleInterface
         $this->slideshows = new ArrayCollection();
         $this->relatedArticles = new ArrayCollection();
         $this->previousRelativeUrls = new ArrayCollection();
+        $this->extraTextFields = new ArrayCollection();
+        $this->extraEmbedFields = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)
@@ -445,5 +458,72 @@ class Article implements ArticleInterface
     public function setMetadata(array $metadata): void
     {
         $this->metadata = $metadata;
+    }
+
+    public function addTextExtra(ArticleExtraTextFieldInterface $articleExtra): void
+    {
+        if (!$this->extraTextFields->contains($articleExtra)) {
+            $this->extraTextFields[] = $articleExtra;
+            $articleExtra->setArticle($this);
+        }
+    }
+
+    public function addEmbedExtra(ArticleExtraEmbedFieldInterface $articleExtra): void
+    {
+        if (!$this->extraEmbedFields->contains($articleExtra)) {
+            $this->extraEmbedFields[] = $articleExtra;
+            $articleExtra->setArticle($this);
+        }
+    }
+
+    public function removeExtraTextFields(ArticleExtraFieldInterface $articleExtra): void
+    {
+        $this->extraTextFields->removeElement($articleExtra);
+    }
+
+    public function removeExtraEmbedFields(ArticleExtraEmbedFieldInterface $articleExtra): void
+    {
+        $this->extraEmbedFields->removeElement($articleExtra);
+    }
+
+    public function getExtraTextFields()
+    {
+        return $this->extraTextFields;
+    }
+
+    public function getExtraEmbedFields()
+    {
+        return $this->extraEmbedFields;
+    }
+
+    public function setExtraFields(array $extra): void
+    {
+        if (0 === count($extra)) {
+            return;
+        }
+
+        foreach ($this->getExtraTextFields() as $extra) {
+            $this->removeExtraTextFields($extra);
+        }
+
+        foreach ($this->getExtraEmbedFields() as $extra) {
+            $this->removeExtraEmbedFields($extra);
+        }
+
+        foreach ($extra as $key => $value) {
+
+            if(is_array($value)) {
+                $embed = new ArticleExtraEmbedField();
+                $embed->setFieldName($key);
+                $embed->setEmbed($value['embed']);
+                $embed->setDescription($value['description']);
+                $this->addEmbedExtra($embed);
+            } else {
+                $extraField = new ArticleExtraTextField();
+                $extraField->setFieldName($key);
+                $extraField->setValue($value);
+                $this->addTextExtra($extraField);
+            }
+        }
     }
 }
