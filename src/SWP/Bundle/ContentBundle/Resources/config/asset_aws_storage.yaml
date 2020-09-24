@@ -17,7 +17,6 @@ services:
   SWP\Bundle\ContentBundle\Asset\AwsAssetUrlGenerator:
     arguments:
       - '@SWP\Bundle\ContentBundle\Factory\S3ClientFactory'
-      - '%env(resolve:FS_MAIN_ADAPTER)%'
       - '%env(resolve:FS_AWS_S3_BUCKET)%'
       - '%env(resolve:FS_AWS_S3_PREFIX)%'
 
