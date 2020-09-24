@@ -18,17 +18,31 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEmbedFieldInterface
 {
+    /** @var string */
     protected $embed;
 
+    /** @var string */
     protected $description;
 
-    public function setEmbed($embed)
+    public function setEmbed(?string $embed)
     {
         $this->embed = $embed;
     }
 
-    public function setDescription($description)
+    public function getEmbed(): string
+    {
+        return $this->embed;
+    }
+
+    public function setDescription(?string $description)
     {
         $this->description = $description;
     }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+
 }

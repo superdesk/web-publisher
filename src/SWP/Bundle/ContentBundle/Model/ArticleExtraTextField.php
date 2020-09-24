@@ -18,10 +18,16 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 class ArticleExtraTextField extends ArticleExtraField implements ArticleExtraTextFieldInterface
 {
+    /** @var string */
     protected $value;
 
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->value = $value;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
     }
 }

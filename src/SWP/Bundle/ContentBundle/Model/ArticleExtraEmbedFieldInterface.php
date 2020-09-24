@@ -19,4 +19,12 @@ namespace SWP\Bundle\ContentBundle\Model;
 interface ArticleExtraEmbedFieldInterface extends ArticleExtraFieldInterface
 {
 
+    public function setEmbed(?string $embed);
+
+    public function getEmbed(): ?string;
+
+    public function setDescription(?string $description);
+
+    public function getDescription(): ?string;
+
 }
