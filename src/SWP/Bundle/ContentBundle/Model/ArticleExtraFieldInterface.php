@@ -12,6 +12,8 @@
  * @license http://www.superdesk.org/license
  */
 
+declare(strict_types=1);
+
 namespace SWP\Bundle\ContentBundle\Model;
 
 
@@ -22,5 +24,9 @@ interface ArticleExtraFieldInterface extends PersistableInterface
     public function getArticle(): ?ArticleInterface;
 
     public function setArticle(?ArticleInterface $article): void;
+
+    public function getFieldName(): ?string;
+
+    public function setFieldName(?string $fieldName): void;
 
 }

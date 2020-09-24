@@ -42,18 +42,12 @@ abstract class ArticleExtraField implements ArticleExtraFieldInterface
         $this->article = $article;
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldName(): string
+    public function getFieldName(): ?string
     {
         return $this->fieldName;
     }
 
-    /**
-     * @param string $fieldName
-     */
-    public function setFieldName(string $fieldName): void
+    public function setFieldName(?string $fieldName): void
     {
         $this->fieldName = $fieldName;
     }
