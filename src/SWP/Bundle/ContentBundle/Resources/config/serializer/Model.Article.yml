@@ -86,6 +86,8 @@ SWP\Bundle\ContentBundle\Model\Article:
             expose: true
             groups: [api]
             type: array
+            accessor:
+                getter: getExtraArray
         slideshows:
             expose: true
             groups: [api, api_articles_slideshows]

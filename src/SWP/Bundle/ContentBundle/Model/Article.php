@@ -317,6 +317,32 @@ class Article implements ArticleInterface
         }
     }
 
+    public function getExtraByKey(string $key)
+    {
+        foreach ($this->getExtraCollection() as $extraTextField) {
+            if($key === $extraTextField->getFieldName()) {
+                return $extraTextField;
+            }
+        }
+    }
+
+    private function getExtraCollection(): Collection
+    {
+        return new ArrayCollection(
+            array_merge($this->extraTextFields->toArray(), $this->extraEmbedFields->toArray())
+        );
+    }
+
+    public function getExtraArray(): array
+    {
+        return $this->getExtraCollection()
+            ->map(
+                function (ArticleExtraFieldInterface $field) {
+                    return $field->toApiFormat();
+                }
+            )->toArray();
+    }
+
     public function setData(?MetadataInterface $metadata): void
     {
         $this->data = $metadata;

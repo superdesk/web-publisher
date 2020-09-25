@@ -29,4 +29,5 @@ interface ArticleExtraFieldInterface extends PersistableInterface
 
     public function setFieldName(?string $fieldName): void;
 
+    public function toApiFormat();
 }

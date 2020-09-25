@@ -121,12 +121,14 @@ SWP\Bundle\ContentBundle\Model\Article:
             fetch: "EAGER"
             cascade: [ "all" ]
             orphanRemoval: true
+            indexBy: fieldName
         extraEmbedFields:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedFieldInterface
             mappedBy: article
             fetch: "EAGER"
             cascade: [ "all" ]
             orphanRemoval: true
+            indexBy: fieldName
     manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface

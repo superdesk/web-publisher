@@ -174,4 +174,8 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     public function getExtraEmbedFields();
 
     public function setExtraFields(array $extra);
+
+    public function getExtraByKey(string $key);
+
+    public function getExtraArray(): array;
 }

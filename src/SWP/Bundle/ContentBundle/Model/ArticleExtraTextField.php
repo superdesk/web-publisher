@@ -30,4 +30,9 @@ class ArticleExtraTextField extends ArticleExtraField implements ArticleExtraTex
     {
         return $this->value;
     }
+
+    public function toApiFormat()
+    {
+        return $this->value;
+    }
 }

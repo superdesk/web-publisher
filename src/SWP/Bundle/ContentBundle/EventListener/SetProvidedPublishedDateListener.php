@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\Model\ArticleExtraTextFieldInterface;
 
 class SetProvidedPublishedDateListener
 {
@@ -26,10 +27,12 @@ class SetProvidedPublishedDateListener
     public function onArticleCreate(ArticleEvent $event)
     {
         $article = $event->getArticle();
-        $extra = $article->getExtra();
+        $originalPublishedAtExtra = $article->getExtraByKey('original_published_at');
 
-        if (isset($extra['original_published_at']) && $this->validateDate($extra['original_published_at'])) {
-            $publishedDate = \DateTime::createFromFormat(self::DATE_FORMAT, $extra['original_published_at']);
+        if ($originalPublishedAtExtra &&
+            $originalPublishedAtExtra instanceof ArticleExtraTextFieldInterface &&
+            $this->validateDate($originalPublishedAtExtra->getValue())) {
+            $publishedDate = \DateTime::createFromFormat(self::DATE_FORMAT, $originalPublishedAtExtra->getValue());
             $publishedDate->setTimezone(new \DateTimeZone('UTC'));
             $article->setPublishedAt($publishedDate);
         }
