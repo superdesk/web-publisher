@@ -312,13 +312,14 @@ class Article implements ArticleInterface
         }
     }
 
-    public function getExtraByKey(string $key)
+    public function getExtraByKey(string $key): ?ArticleExtraFieldInterface
     {
-        foreach ($this->getExtraCollection() as $extraTextField) {
-            if($key === $extraTextField->getFieldName()) {
-                return $extraTextField;
+        foreach ($this->getExtraCollection() as $extraField) {
+            if($key === $extraField->getFieldName()) {
+                return $extraField;
             }
         }
+        return null;
     }
 
     private function getExtraCollection(): Collection
@@ -409,7 +410,7 @@ class Article implements ArticleInterface
         return $this->sources;
     }
 
-    public function getExtra(): ?array
+    public function getExtra(): array
     {
         return $this->getExtraArray();
     }
@@ -507,12 +508,12 @@ class Article implements ArticleInterface
         $this->extraEmbedFields->removeElement($articleExtra);
     }
 
-    public function getExtraTextFields()
+    public function getExtraTextFields(): Collection
     {
         return $this->extraTextFields;
     }
 
-    public function getExtraEmbedFields()
+    public function getExtraEmbedFields(): Collection
     {
         return $this->extraEmbedFields;
     }

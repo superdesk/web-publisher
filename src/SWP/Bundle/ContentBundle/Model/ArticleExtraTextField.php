@@ -21,7 +21,7 @@ class ArticleExtraTextField extends ArticleExtraField implements ArticleExtraTex
     /** @var string */
     protected $value;
 
-    public function setValue(string $value)
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }
@@ -31,7 +31,7 @@ class ArticleExtraTextField extends ArticleExtraField implements ArticleExtraTex
         return $this->value;
     }
 
-    public function toApiFormat()
+    public function toApiFormat(): ?string
     {
         return $this->value;
     }

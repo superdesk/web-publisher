@@ -44,7 +44,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
         return $this->description;
     }
 
-    public function toApiFormat()
+    public function toApiFormat(): array
     {
         return [
             'embed' => $this->embed,

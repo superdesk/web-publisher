@@ -19,7 +19,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 interface ArticleExtraTextFieldInterface extends ArticleExtraFieldInterface
 {
-    public function setValue(string $value);
+    public function setValue(string $value): void;
 
     public function getValue(): ?string;
 
