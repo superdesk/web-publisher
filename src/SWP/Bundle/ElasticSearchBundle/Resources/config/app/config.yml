@@ -78,8 +78,19 @@ fos_elastica:
                             properties:
                                 id: { type: integer }
                                 name: { type: string, analyzer: swp_author_name_analyzer }
-                        extra:
-                            type: object
+                        extraTextFields:
+                            type: "nested"
+                            properties:
+                                id: { type: integer }
+                                fieldName: { type: string }
+                                value: { type: string }
+                        extraEmbedFields:
+                            type: "nested"
+                            properties:
+                                id: { type: integer }
+                                fieldName: { type: string }
+                                embed: { type: string }
+                                description: { type: string }
                         articleStatistics:
                             type: "object"
                             properties:

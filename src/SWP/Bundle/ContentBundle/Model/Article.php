@@ -114,11 +114,6 @@ class Article implements ArticleInterface
     protected $sources;
 
     /**
-     * @var array|null
-     */
-    protected $extra;
-
-    /**
      * @var Collection|SlideshowInterface[]
      */
     protected $slideshows;
@@ -416,12 +411,12 @@ class Article implements ArticleInterface
 
     public function getExtra(): ?array
     {
-        return $this->extra;
+        return $this->getExtraArray();
     }
 
     public function setExtra(?array $extra): void
     {
-        $this->extra = $extra;
+        $this->setExtraFields($extra);
     }
 
     public function getSlideshows(): Collection
@@ -489,7 +484,7 @@ class Article implements ArticleInterface
     public function addTextExtra(ArticleExtraTextFieldInterface $articleExtra): void
     {
         if (!$this->extraTextFields->contains($articleExtra)) {
-            $this->extraTextFields[] = $articleExtra;
+            $this->extraTextFields[$articleExtra->getFieldName()] = $articleExtra;
             $articleExtra->setArticle($this);
         }
     }
@@ -497,7 +492,7 @@ class Article implements ArticleInterface
     public function addEmbedExtra(ArticleExtraEmbedFieldInterface $articleExtra): void
     {
         if (!$this->extraEmbedFields->contains($articleExtra)) {
-            $this->extraEmbedFields[] = $articleExtra;
+            $this->extraEmbedFields[$articleExtra->getFieldName()] = $articleExtra;
             $articleExtra->setArticle($this);
         }
     }

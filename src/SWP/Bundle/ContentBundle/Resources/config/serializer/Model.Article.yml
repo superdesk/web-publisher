@@ -1,5 +1,7 @@
 SWP\Bundle\ContentBundle\Model\Article:
     exclusion_policy: ALL
+    accessor_order: custom
+    custom_accessor_order: [id,title,body,slug,publishedAt, status, route, isPublishable,metadata,lead,code,sources,extra,slideshows,previousRelativeUrls,createdAt,updatedAt,authors,keywords,media, templateName,publishStartDate,publishEndDate,featureMedia,seoMetadata]
     properties:
         id:
             expose: true
@@ -82,12 +84,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         authors:
             expose: true
             groups: [api, api_article_authors]
-        extra:
-            expose: true
-            groups: [api]
-            type: array
-            accessor:
-                getter: getExtraArray
         slideshows:
             expose: true
             groups: [api, api_articles_slideshows]
@@ -127,3 +123,8 @@ SWP\Bundle\ContentBundle\Model\Article:
                     id: "expr(object.getId())"
             exclusion:
                 exclude_if: "expr(null === object.getId())"
+    virtual_properties:
+        getExtraArray:
+            name: extra
+            serialized_name: extra
+            type: array

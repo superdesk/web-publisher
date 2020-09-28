@@ -49,20 +49,23 @@ final class Version20200923162328 extends AbstractMigration implements Container
     public function postUp(Schema $schema): void
     {
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-        $query = $entityManager
-            ->createQuery('SELECT a FROM SWP\Bundle\CoreBundle\Model\Article a');
+
+        $query = $entityManager->getConnection()->prepare("SELECT id, extra FROM swp_article");
+        $query->execute();
+        $results = $query->fetchAll();
 
         $batchSize = 20;
         $i = 1;
-        $iterableResult = $query->iterate();
-        foreach ($iterableResult as $row) {
-            /** @var Article $article */
-            $article = $row[0];
 
-            $legacyExtra = $article->getExtra();
+        foreach ($results as $result) {
+
+            $legacyExtra = unserialize($result['extra']);
             if (empty($legacyExtra)) {
                 continue;
             }
+
+            $article = $entityManager->getReference(
+                Article::class, $result['id']);
 
             foreach ($legacyExtra as $key => $extraItem) {
                 if(is_array($extraItem)) {

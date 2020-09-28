@@ -29,10 +29,6 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         status:
             type: string
-        extra:
-            type: array
-            options:
-                default: 'a:0:{}'
         createdAt:
             type: datetime
             gedmo:

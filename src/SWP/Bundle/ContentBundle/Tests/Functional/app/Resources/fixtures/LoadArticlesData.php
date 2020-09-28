@@ -210,7 +210,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             }
 
             if (isset($articleData['extra'])) {
-                $article->setExtra($articleData['extra']);
                 $article->setExtraFields($articleData['extra']);
             }
 

@@ -473,7 +473,6 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                 $article->addKeyword($persistedKeywords[rand(3, 4)]);
 
                 if (isset($articleData['extra'])) {
-                    $article->setExtra($articleData['extra']);
                     $article->setExtraFields($articleData['extra']);
                 }
 
