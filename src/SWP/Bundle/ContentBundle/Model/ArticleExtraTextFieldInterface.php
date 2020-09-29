@@ -22,5 +22,5 @@ interface ArticleExtraTextFieldInterface extends ArticleExtraFieldInterface
 
     public function getValue(): ?string;
 
-    public static function newFromValue(string $key, string $value): ArticleExtraTextField;
+    public static function newFromValue(string $fieldName, string $value): ArticleExtraTextFieldInterface;
 }

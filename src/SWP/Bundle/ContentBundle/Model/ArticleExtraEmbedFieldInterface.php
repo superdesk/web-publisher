@@ -26,5 +26,5 @@ interface ArticleExtraEmbedFieldInterface extends ArticleExtraFieldInterface
 
     public function getDescription(): string;
 
-    public static function newFromValue(string $key, array $value): ArticleExtraEmbedField;
+    public static function newFromValue(string $fieldName, array $value): ArticleExtraEmbedFieldInterface;
 }

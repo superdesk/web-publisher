@@ -24,16 +24,15 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
     /** @var string */
     protected $description;
 
-    private function __construct(string $key, array $value)
+    public static function newFromValue(string $fieldName, array $value): ArticleExtraEmbedFieldInterface
     {
-        $this->setFieldName($key);
-        $this->setEmbed($value['embed']);
-        $this->setDescription($value['description']);
-    }
+        $extra = new self();
 
-    public static function newFromValue(string $key, array $value): ArticleExtraEmbedField
-    {
-        return new self($key, $value);
+        $extra->setFieldName($fieldName);
+        $extra->setEmbed($value['embed']);
+        $extra->setDescription($value['description']);
+
+        return $extra;
     }
 
     public function setEmbed(?string $embed): void
