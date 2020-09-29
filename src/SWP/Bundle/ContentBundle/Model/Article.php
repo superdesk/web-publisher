@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\Model;
 use Behat\Transliterator\Transliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\Bridge\Model\AuthorsAwareTrait;
 use SWP\Component\Common\Model\DateTime;
@@ -315,10 +314,11 @@ class Article implements ArticleInterface
     public function getExtraByKey(string $key): ?ArticleExtraFieldInterface
     {
         foreach ($this->getExtraCollection() as $extraField) {
-            if($key === $extraField->getFieldName()) {
+            if ($key === $extraField->getFieldName()) {
                 return $extraField;
             }
         }
+
         return null;
     }
 
@@ -524,27 +524,19 @@ class Article implements ArticleInterface
             return;
         }
 
-        foreach ($this->getExtraTextFields() as $extra) {
-            $this->removeExtraTextFields($extra);
+        foreach ($this->getExtraTextFields() as $extraTextField) {
+            $this->removeExtraTextFields($extraTextField);
         }
 
-        foreach ($this->getExtraEmbedFields() as $extra) {
-            $this->removeExtraEmbedFields($extra);
+        foreach ($this->getExtraEmbedFields() as $extraEmbedField) {
+            $this->removeExtraEmbedFields($extraEmbedField);
         }
 
         foreach ($extra as $key => $value) {
-
-            if(is_array($value)) {
-                $embed = new ArticleExtraEmbedField();
-                $embed->setFieldName($key);
-                $embed->setEmbed($value['embed']);
-                $embed->setDescription($value['description']);
-                $this->addEmbedExtra($embed);
+            if (is_array($value)) {
+                $this->addEmbedExtra(ArticleExtraEmbedField::newFromValue($key, $value));
             } else {
-                $extraField = new ArticleExtraTextField();
-                $extraField->setFieldName($key);
-                $extraField->setValue($value);
-                $this->addTextExtra($extraField);
+                $this->addTextExtra(ArticleExtraTextField::newFromValue($key, $value));
             }
         }
     }

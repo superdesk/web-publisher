@@ -24,7 +24,19 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
     /** @var string */
     protected $description;
 
-    public function setEmbed(?string $embed)
+    private function __construct(string $key, array $value)
+    {
+        $this->setFieldName($key);
+        $this->setEmbed($value['embed']);
+        $this->setDescription($value['description']);
+    }
+
+    public static function newFromValue(string $key, array $value): ArticleExtraEmbedField
+    {
+        return new self($key, $value);
+    }
+
+    public function setEmbed(?string $embed): void
     {
         $this->embed = $embed;
     }
@@ -34,7 +46,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
         return $this->embed;
     }
 
-    public function setDescription(?string $description)
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
@@ -48,7 +60,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
     {
         return [
             'embed' => $this->embed,
-            'description' => $this->description
+            'description' => $this->description,
         ];
     }
 }

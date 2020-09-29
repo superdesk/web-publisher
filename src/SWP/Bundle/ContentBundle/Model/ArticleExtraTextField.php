@@ -21,6 +21,17 @@ class ArticleExtraTextField extends ArticleExtraField implements ArticleExtraTex
     /** @var string */
     protected $value;
 
+    private function __construct(string $key, string $value)
+    {
+        $this->setFieldName($key);
+        $this->setValue($value);
+    }
+
+    public static function newFromValue(string $key, string $value): ArticleExtraTextField
+    {
+        return new self($key, $value);
+    }
+
     public function setValue(string $value): void
     {
         $this->value = $value;

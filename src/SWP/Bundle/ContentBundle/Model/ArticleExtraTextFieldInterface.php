@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
-
 interface ArticleExtraTextFieldInterface extends ArticleExtraFieldInterface
 {
     public function setValue(string $value): void;
 
     public function getValue(): ?string;
 
+    public static function newFromValue(string $key, string $value): ArticleExtraTextField;
 }

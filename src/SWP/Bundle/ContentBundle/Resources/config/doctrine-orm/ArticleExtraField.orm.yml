@@ -1,5 +1,4 @@
 SWP\Bundle\ContentBundle\Model\ArticleExtraField:
-#    type: mappedSuperclass
     type: entity
     table: swp_article_extra
     inheritanceType: SINGLE_TABLE
