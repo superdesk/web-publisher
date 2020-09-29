@@ -36,7 +36,7 @@ class ArticleRepository extends Repository
         $boolFilter = new BoolQuery();
 
         if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $searchBy = ['title', 'lead', 'keywords.name', 'authors.name'];
+            $searchBy = ['title', 'lead', 'keywords.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
@@ -61,6 +61,17 @@ class ArticleRepository extends Repository
             $multiMatchQuery->setFields($searchBy);
 
             $boolQuery->addShould($multiMatchQuery);
+
+            $bool = new BoolQuery();
+            $bool->setBoost(10);
+            $bool->addMust(new Query\Match('authors.name', $criteria->getTerm()));
+
+            $nested = new Nested();
+            $nested->setPath('authors');
+            $nested->setQuery($bool);
+
+            $boolQuery->addShould($nested);
+
             $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
@@ -135,6 +146,7 @@ class ArticleRepository extends Repository
 
         $query = Query::create($boolFilter)
             ->addSort([
+                '_score' => 'desc',
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 
