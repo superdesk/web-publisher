@@ -15,9 +15,6 @@ fos_elastica:
                             type: custom
                             tokenizer: whitespace
                             filter: [lowercase]
-                        swp_author_name_analyzer:
-                            type: custom
-                            tokenizer: keyword
                         swp_sources_analyzer:
                             type: custom
                             tokenizer: keyword
@@ -77,7 +74,7 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 id: { type: integer }
-                                name: { type: string, analyzer: swp_author_name_analyzer }
+                                name: { type: string }
                         extra:
                             type: object
                         articleStatistics:
