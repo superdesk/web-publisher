@@ -26,23 +26,21 @@ with the JSON body:
 .. code-block:: json
 
     {
-        "rule":{
-          "name":"Test rule",
-          "description":"Test rule description",
-          "priority":1,
-          "expression":"package.getLocated() matches \"/Sydney/\"",
-          "configuration":[
-            {
-              "key":"destinations",
-              "value":[
+       "name":"Test rule",
+       "description":"Test rule description",
+       "priority":1,
+       "expression":"package.getLocated() matches \"/Sydney/\"",
+       "configuration":[
+          {
+             "key":"destinations",
+             "value":[
                 {
-                  "tenant":"123abc"
+                   "tenant":"123abc"
                 }
-              ]
-            }
-          ]
-        }
-      }
+             ]
+          }
+       ]
+    }
 
 In the JSON above we define that if the content which comes from Superdesk has a field ``located`` and it matches the value of ``Sydney``,
 then push the content to the tenant with the code equal to ``123abc``.
@@ -63,23 +61,21 @@ In order to do that, a ``POST`` request must be made to the ``/api/v1/rules/`` A
 .. code-block:: json
 
     {
-        "rule":{
-          "name":"Test tenant rule",
-          "description":"Test tenant rule description",
-          "priority":1,
-          "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
-          "configuration":[
-            {
-              "key":"route",
-              "value":6
-            },
-            {
-              "key":"published",
-              "value":true
-            }
-          ]
-        }
-      }
+       "name":"Test tenant rule",
+       "description":"Test tenant rule description",
+       "priority":1,
+       "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
+       "configuration":[
+          {
+             "key":"route",
+             "value":6
+          },
+          {
+             "key":"published",
+             "value":true
+          }
+       ]
+    }
 
 The above JSON string defines, if an article's metadata field called ``located`` equals to ``Sydney`` then
 assign route with id ``6`` to the article and automatically publish it.
@@ -93,18 +89,16 @@ request to the ``/api/v1/rules/`` API endpoint with the JSON body:
 .. code-block:: json
 
     {
-        "rule":{
-          "name":"Test tenant rule",
-          "description":"Test tenant rule description",
-          "priority":1,
-          "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
-          "configuration":[
-            {
-              "key":"fbia",
-              "value":true
-            }
-          ]
-        }
+       "name":"Test tenant rule",
+       "description":"Test tenant rule description",
+       "priority":1,
+       "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
+       "configuration":[
+          {
+             "key":"fbia",
+             "value":true
+          }
+       ]
     }
 
 Note the ``fbia`` key in the ``configuration`` property is set to ``true``.
@@ -123,18 +117,16 @@ request to the ``/api/v1/rules/`` API endpoint with the JSON body:
 .. code-block:: json
 
     {
-        "rule":{
-          "name":"Make articles paywall-secured",
-          "description":"Marks articles as paywall-secured.",
-          "priority":1,
-          "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
-          "configuration":[
-            {
-              "key":"paywallSecured",
-              "value":true
-            }
-          ]
-        }
+       "name":"Make articles paywall-secured",
+       "description":"Marks articles as paywall-secured.",
+       "priority":1,
+       "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
+       "configuration":[
+          {
+             "key":"paywallSecured",
+             "value":true
+          }
+       ]
     }
 
 Note the ``paywallSecured`` key in the ``configuration`` property is set to ``true``.
