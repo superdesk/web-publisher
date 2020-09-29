@@ -1,6 +1,11 @@
 services:
-
   SWP\Bundle\ElasticSearchBundle\Controller\Api\ArticleSearchController:
+    tags: ['controller.service_arguments']
+    public: true
+    arguments:
+      - '@fos_elastica.manager'
+
+  SWP\Bundle\ElasticSearchBundle\Controller\Api\PackageSearchController:
     tags: ['controller.service_arguments']
     public: true
     arguments:
