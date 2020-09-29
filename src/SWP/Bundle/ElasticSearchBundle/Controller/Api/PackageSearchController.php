@@ -27,9 +27,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PackageSearchController extends Controller
 {
-    /** @var RepositoryManagerInterface */
-    private $repositoryManager;
-
     /**
      * @Route("/api/{version}/packages/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_packages")
      */

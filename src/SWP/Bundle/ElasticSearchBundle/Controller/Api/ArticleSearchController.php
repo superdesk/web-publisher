@@ -27,9 +27,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleSearchController extends Controller
 {
-    /** @var RepositoryManagerInterface */
-    private $repositoryManager;
-
     /**
      * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_articles")
      */
