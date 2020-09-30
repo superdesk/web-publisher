@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Service;
 use Facebook\Facebook;
 use Facebook\InstantArticles\Client\Client;
 use Facebook\InstantArticles\Client\InstantArticleStatus;
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
@@ -65,6 +66,7 @@ class FacebookInstantArticlesServiceTest extends TestCase
             $this->createMock(Factory::class),
             $this->facebookInstantArticlesArticleRepository,
             $this->createMock(UrlGenerator::class),
+            $this->createMock(Logger::class),
         ])
         ->getMock();
         $client = $this->createMock(Client::class);
@@ -85,6 +87,7 @@ class FacebookInstantArticlesServiceTest extends TestCase
             $this->createMock(Factory::class, [], [], '', false),
             $this->facebookInstantArticlesArticleRepository,
             $this->createMock(UrlGenerator::class, [], [], '', false),
+            $this->createMock(Logger::class),
         ])
         ->getMock();
         $client = $this->createMock(Client::class);
@@ -108,7 +111,8 @@ class FacebookInstantArticlesServiceTest extends TestCase
             new FacebookInstantArticlesManager($this->facebookManager),
             $this->createMock(Factory::class),
             $this->facebookInstantArticlesArticleRepository,
-            $this->createMock(UrlGenerator::class)
+            $this->createMock(UrlGenerator::class),
+            $this->createMock(Logger::class),
         );
     }
 }
