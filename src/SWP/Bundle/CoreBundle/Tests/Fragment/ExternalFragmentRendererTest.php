@@ -41,7 +41,10 @@ final class ExternalFragmentRendererTest extends WebTestCase
     public function testRendering()
     {
         try {
-            $content = json_decode($this->renderer->render('localhost:3000/api/esi_fragment', new Request())->getContent(), true, 512, JSON_THROW_ON_ERROR);
+            $content = json_decode(
+                $this->renderer->render('localhost:3000/api/esi_fragment', new Request())->getContent(),
+                true
+            );
             self::assertEquals(['content' => 'some content'], $content);
         } catch (ClientException $e) {
             self::markTestSkipped();
@@ -53,7 +56,7 @@ final class ExternalFragmentRendererTest extends WebTestCase
         try {
             $content = json_decode($this->renderer->render('localhost:3001/404', new Request(), [
                 'alt' => 'localhost:3000/api/esi_fragment',
-            ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
+            ])->getContent(), true);
             self::assertEquals(['content' => 'some content'], $content);
         } catch (ClientException $e) {
             self::markTestSkipped();
@@ -65,7 +68,7 @@ final class ExternalFragmentRendererTest extends WebTestCase
         $this->expectException(ClientException::class);
         $content = json_decode($this->renderer->render('localhost:3001/404', new Request(), [
             'ignore_errors' => false,
-        ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        ])->getContent(), true);
         self::assertEquals(['content' => 'some content'], $content);
     }
 
@@ -75,12 +78,12 @@ final class ExternalFragmentRendererTest extends WebTestCase
         $this->loadCustomFixtures(['tenant']);
         $content = json_decode($this->renderer->render('fake_localhost:3000/esi_fragment', new Request(), [
             'ignore_errors' => true,
-        ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        ])->getContent(), true);
         self::assertEquals(null, $content);
 
         $this->expectException(ClientException::class);
         json_decode($this->renderer->render('fake_localhost:3000/esi_fragment', new Request(), [
             'ignore_errors' => false,
-        ])->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        ])->getContent(), true);
     }
 }
