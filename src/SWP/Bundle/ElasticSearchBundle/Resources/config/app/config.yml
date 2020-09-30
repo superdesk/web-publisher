@@ -129,7 +129,7 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 id: { type: integer }
-                                name: { type: string, analyzer: swp_author_name_analyzer }
+                                name: { type: string }
                     persistence:
                         driver: orm
                         model: "%swp.model.package.class%"
