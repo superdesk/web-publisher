@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb507841fc28875dcbac6356b6fa7ee2",
+    "content-hash": "bc2b7b9b6eacbfae2d02fe59eb801af3",
     "packages": [
         {
             "name": "apache/log4php",
@@ -43,72 +43,17 @@
             "time": "2012-10-26T09:13:25+00:00"
         },
         {
-            "name": "asm89/twig-cache-extension",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/asm89/twig-cache-extension.git",
-                "reference": "13787226956ec766f4770722082288097aebaaf3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/asm89/twig-cache-extension/zipball/13787226956ec766f4770722082288097aebaaf3",
-                "reference": "13787226956ec766f4770722082288097aebaaf3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "twig/twig": "^1.0|^2.0"
-            },
-            "require-dev": {
-                "doctrine/cache": "~1.0",
-                "phpunit/phpunit": "^5.0 || ^4.8.10"
-            },
-            "suggest": {
-                "psr/cache-implementation": "To make use of PSR-6 cache implementation via PsrCacheAdapter."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander",
-                    "email": "iam.asm89@gmail.com"
-                }
-            ],
-            "description": "Cache fragments of templates directly within Twig.",
-            "homepage": "https://github.com/asm89/twig-cache-extension",
-            "keywords": [
-                "cache",
-                "extension",
-                "twig"
-            ],
-            "time": "2020-01-01T20:47:37+00:00"
-        },
-        {
             "name": "aws/aws-sdk-php",
-            "version": "3.156.0",
+            "version": "3.157.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "994831c4560d8c309882f5d5b9adafb85748f0e8"
+                "reference": "ad2c0183d7ebc695acb1ba39d528f2328f2c0de3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/994831c4560d8c309882f5d5b9adafb85748f0e8",
-                "reference": "994831c4560d8c309882f5d5b9adafb85748f0e8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ad2c0183d7ebc695acb1ba39d528f2328f2c0de3",
+                "reference": "ad2c0183d7ebc695acb1ba39d528f2328f2c0de3",
                 "shasum": ""
             },
             "require": {
@@ -180,7 +125,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-09-29T18:17:44+00:00"
+            "time": "2020-09-30T18:58:20+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -8523,20 +8468,20 @@
         },
         {
             "name": "stof/doctrine-extensions-bundle",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-                "reference": "4d340daa1a8304faa62260be2adb0180e2138af3"
+                "reference": "c01e73e49cee5eac3353b6c4ebdbb0a151348c85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/4d340daa1a8304faa62260be2adb0180e2138af3",
-                "reference": "4d340daa1a8304faa62260be2adb0180e2138af3",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/c01e73e49cee5eac3353b6c4ebdbb0a151348c85",
+                "reference": "c01e73e49cee5eac3353b6c4ebdbb0a151348c85",
                 "shasum": ""
             },
             "require": {
-                "gedmo/doctrine-extensions": "^2.3.4",
+                "gedmo/doctrine-extensions": "^2.3.4 || ^3.0.0",
                 "php": "^7.1.3",
                 "symfony/framework-bundle": "^4.3 || ^5.0"
             },
@@ -8552,7 +8497,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -8585,7 +8530,7 @@
                 "translatable",
                 "tree"
             ],
-            "time": "2020-03-30T09:00:40+00:00"
+            "time": "2020-09-30T13:25:17+00:00"
         },
         {
             "name": "superdesk/contentapi-sdk-php",

@@ -2,9 +2,6 @@
     "apache/log4php": {
         "version": "2.3.0"
     },
-    "asm89/twig-cache-extension": {
-        "version": "1.4.0"
-    },
     "aws/aws-sdk-php": {
         "version": "3.133.4"
     },
