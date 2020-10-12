@@ -47,8 +47,6 @@ final class Order
     }
 
     /**
-     * @param array $parameters
-     *
      * @return Order
      */
     public static function fromQueryParameters(array $parameters)

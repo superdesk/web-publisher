@@ -30,34 +30,45 @@ use SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader;
 
 class ArticleRepository extends Repository
 {
-    public function findByCriteria(Criteria $criteria, array $extraFields = [], bool $searchByBody = false): PaginatorAdapterInterface
+    public function findByCriteria(Criteria $criteria, array $extraFields = []): PaginatorAdapterInterface
     {
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
         if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $searchBy = ['title', 'lead', 'keywords.name'];
+            $searchBy = ['title', 'lead', 'body', 'keywords.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
             }
 
-            if ($searchByBody) {
-                $searchBy[] = 'body';
-            }
+            $boolQuery = new BoolQuery();
 
-            $priority = 1;
-            foreach (array_reverse($searchBy) as $key => $field) {
-                $searchBy[$key] = $field.'^'.$priority;
+            $phraseMultiMatchQuery = new MultiMatch();
+            $phraseMultiMatchQuery->setQuery($criteria->getTerm());
+            $phraseMultiMatchQuery->setFields($searchBy);
+            $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $phraseMultiMatchQuery->setParam('boost', 5);
 
-                ++$priority;
-            }
+            $boolQuery->addShould($phraseMultiMatchQuery);
 
-            $query = new MultiMatch();
-            $query->setQuery($criteria->getTerm());
-            $query->setFields($searchBy);
-            $query->setType(MultiMatch::TYPE_PHRASE);
-            $boolFilter->addMust($query);
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setQuery($criteria->getTerm());
+            $multiMatchQuery->setFields($searchBy);
+
+            $boolQuery->addShould($multiMatchQuery);
+
+            $bool = new BoolQuery();
+            $bool->setBoost(10);
+            $bool->addMust(new Query\Match('authors.name', $criteria->getTerm()));
+
+            $nested = new Nested();
+            $nested->setPath('authors');
+            $nested->setQuery($bool);
+
+            $boolQuery->addShould($nested);
+
+            $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
         }
@@ -131,6 +142,7 @@ class ArticleRepository extends Repository
 
         $query = Query::create($boolFilter)
             ->addSort([
+                '_score' => 'desc',
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 
