@@ -37,7 +37,6 @@ before_install:
 - sudo wget -P /etc/supervisor https://gist.githubusercontent.com/takeit/86c925a07cdca17e2fded7fc9f8fc557/raw/74ce3313def74a8f245a8ab53f23eb62d2ee2642/supervisord.conf
 - sudo mkdir /var/log/supervisor/
 - sudo chmod -R 777 /var/log/supervisor/
-- composer self-update --preview
 -
 - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
 - sudo chmod 600 /var/swap.1
