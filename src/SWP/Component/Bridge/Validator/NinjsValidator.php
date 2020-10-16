@@ -164,10 +164,6 @@ class NinjsValidator extends JsonValidator
       "description":"Any necessary copyright notice for claiming the intellectual property for the content.",
       "type":"string"
     },
-    "usageterms":{
-      "description":"A natural-language statement about the usage terms pertaining to the content.",
-      "type":"string"
-    },
     "language":{
       "description":"The human language used by the content. The value should follow IETF BCP47",
       "type":"string",

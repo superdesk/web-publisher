@@ -16,11 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Service;
 
-use Facebook\Exceptions\FacebookSDKException;
 use Facebook\InstantArticles\Client\Client;
 use Facebook\InstantArticles\Client\InstantArticleStatus;
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
@@ -53,21 +51,23 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
      */
     protected $urlGenerator;
 
-    /** @var LoggerInterface */
-    protected $logger;
-
+    /**
+     * FacebookInstantArticlesService constructor.
+     *
+     * @param FacebookInstantArticlesManagerInterface           $facebookInstantArticlesManager
+     * @param FactoryInterface                                  $instantArticlesArticleFactory
+     * @param FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository
+     */
     public function __construct(
         FacebookInstantArticlesManagerInterface $facebookInstantArticlesManager,
         FactoryInterface $instantArticlesArticleFactory,
         FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository,
-        UrlGeneratorInterface $urlGenerator,
-        LoggerInterface $logger
+        UrlGeneratorInterface $urlGenerator
     ) {
         $this->facebookInstantArticlesManager = $facebookInstantArticlesManager;
         $this->instantArticlesArticleFactory = $instantArticlesArticleFactory;
         $this->facebookInstantArticlesArticleRepository = $facebookInstantArticlesArticleRepository;
         $this->urlGenerator = $urlGenerator;
-        $this->logger = $logger;
     }
 
     /**
@@ -80,12 +80,9 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     ) {
         try {
             $submissionId = $this->getClient($feed)->importArticle($instantArticle, true);
-        } catch (FacebookSDKException $e) {
-            $this->logger->error($e->getMessage());
-
+        } catch (\Throwable $e) {
             return;
         }
-
         /** @var FacebookInstantArticlesArticle $instantArticleEntity */
         $instantArticleEntity = $this->facebookInstantArticlesArticleRepository->findInFeed($feed, $article);
 
@@ -96,7 +93,7 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
             $instantArticleEntity->setStatus('new');
         }
 
-        $instantArticleEntity->setSubmissionId((string) $submissionId);
+        $instantArticleEntity->setSubmissionId((string)$submissionId);
         $this->facebookInstantArticlesArticleRepository->add($instantArticleEntity);
     }
 
@@ -148,6 +145,11 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
         return new Client($facebook, $facebookPage->getPageId(), $feed->isDevelopment());
     }
 
+    /**
+     * @param InstantArticleStatus $submissionStatus
+     *
+     * @return array
+     */
     private function getSubmissionErrors(InstantArticleStatus $submissionStatus): array
     {
         $errors = [];

@@ -47,8 +47,6 @@ final class Order
     }
 
     /**
-     * @param array $parameters
-     *
      * @return Order
      */
     public static function fromQueryParameters(array $parameters)
@@ -61,8 +59,9 @@ final class Order
         }
 
         $field = self::DEFAULT_FIELD;
-        if (self::DEFAULT_FIELD !== array_keys($sort)[0]) {
-            $field = self::camelize(array_keys($sort)[0]);
+        $fieldName = array_keys($sort)[0];
+        if (self::DEFAULT_FIELD !== $fieldName) {
+            $field = self::camelize($fieldName);
         }
 
         return new self($field, $direction);
@@ -70,6 +69,10 @@ final class Order
 
     private static function camelize(string $value): string
     {
+        if (0 === strpos($value, '_')) {
+            return $value;
+        }
+
         return lcfirst(str_replace('_', '', ucwords($value, '_')));
     }
 
@@ -89,3 +92,4 @@ final class Order
         return $this->direction;
     }
 }
+
