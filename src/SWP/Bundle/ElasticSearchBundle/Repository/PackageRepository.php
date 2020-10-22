@@ -40,7 +40,7 @@ class PackageRepository extends Repository
 
             $phraseMultiMatchQuery = new MultiMatch();
             $phraseMultiMatchQuery->setQuery($criteria->getTerm());
-            $phraseMultiMatchQuery->setFields(['headline', 'description']);
+            $phraseMultiMatchQuery->setFields(['headline^2', 'description^1']);
             $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
             $phraseMultiMatchQuery->setParam('boost', 5);
 
@@ -116,7 +116,8 @@ class PackageRepository extends Repository
 
         $query = Query::create($boolFilter)
             ->addSort([
-                $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
+                '_score' => 'desc',
+                'id' => 'desc'
             ]);
 
         return $this->createPaginatorAdapter($query);

@@ -30,37 +30,44 @@ use SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader;
 
 class ArticleRepository extends Repository
 {
-    public function findByCriteria(Criteria $criteria, array $extraFields = []): PaginatorAdapterInterface
+    const AUTHOR_BOOST = 20;
+
+    public function findByCriteria(Criteria $criteria, array $extraFields = [], bool $searchByBody = false): PaginatorAdapterInterface
     {
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
-        if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $searchBy = ['title', 'lead', 'body', 'keywords.name'];
+
+        $term = $criteria->getTerm();
+        if (null !== $term && '' !== $term) {
+            $searchBy = ['title^31', 'lead^5', 'body^2', 'keywords.name^2'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
             }
 
+            if ($searchByBody) {
+                array_splice($searchBy, 2, 0, ['body']);
+            }
+
             $boolQuery = new BoolQuery();
 
             $phraseMultiMatchQuery = new MultiMatch();
-            $phraseMultiMatchQuery->setQuery($criteria->getTerm());
+            $phraseMultiMatchQuery->setQuery($term);
             $phraseMultiMatchQuery->setFields($searchBy);
             $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
-            $phraseMultiMatchQuery->setParam('boost', 5);
 
             $boolQuery->addShould($phraseMultiMatchQuery);
 
             $multiMatchQuery = new MultiMatch();
-            $multiMatchQuery->setQuery($criteria->getTerm());
+            $multiMatchQuery->setQuery($term);
             $multiMatchQuery->setFields($searchBy);
 
             $boolQuery->addShould($multiMatchQuery);
 
             $bool = new BoolQuery();
-            $bool->setBoost(10);
-            $bool->addMust(new Query\Match('authors.name', $criteria->getTerm()));
+            $bool->setBoost(self::AUTHOR_BOOST);
+            $bool->addMust(new Query\Match('authors.name', $term));
 
             $nested = new Nested();
             $nested->setPath('authors');
@@ -68,10 +75,25 @@ class ArticleRepository extends Repository
 
             $boolQuery->addShould($nested);
 
+            $ranges = [];
+            for ($i = 1; $i <= 59; $i++) {
+                $date = new \DateTime("-$i day");
+
+                $currentRange = new Range();
+                $currentRange->addField('publishedAt', [
+                    'boost' => (30 - ($i/2)),
+                    'gte' => $date->format('Y-m-d')
+                ]);
+
+                $ranges[] = $currentRange->toArray();
+            }
+            $boolFilter->addShould($ranges);
+
             $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
         }
+
 
         if (null !== $fields->get('keywords') && !empty($fields->get('keywords'))) {
             $bool = new BoolQuery();
@@ -133,7 +155,7 @@ class ArticleRepository extends Repository
                 ]
             ));
 
-            $boolFilter->addFilter(new \Elastica\Query\Term(['isPublishable' => true]));
+            $boolFilter->addFilter(new Term(['isPublishable' => true]));
         }
 
         if (!empty($bool->getParams())) {
