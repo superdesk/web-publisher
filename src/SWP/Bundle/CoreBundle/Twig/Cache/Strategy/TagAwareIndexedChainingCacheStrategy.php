@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Twig\Cache\Strategy;
 
-use Asm89\Twig\CacheExtension\CacheStrategy\IndexedChainingCacheStrategy as BaseIndexedChainingCacheStrategy;
+use Twig\CacheExtension\CacheStrategy\IndexedChainingCacheStrategy as BaseIndexedChainingCacheStrategy;
 use FOS\HttpCache\ResponseTagger;
 use SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface;
 

@@ -27,11 +27,20 @@ class BodyListener extends FosRestBodyListener
 {
     private $arrayNormalizer;
 
-    public function __construct(DecoderProviderInterface $decoderProvider, $throwExceptionOnUnsupportedContentType = false, ArrayNormalizerInterface $arrayNormalizer = null, $normalizeForms = false)
-    {
+    public function __construct(
+        DecoderProviderInterface $decoderProvider,
+        $throwExceptionOnUnsupportedContentType = false,
+        ArrayNormalizerInterface $arrayNormalizer = null,
+        bool $normalizeForms = false
+    ) {
         $this->arrayNormalizer = $arrayNormalizer;
 
-        parent::__construct($decoderProvider, $throwExceptionOnUnsupportedContentType, $arrayNormalizer, $normalizeForms);
+        parent::__construct(
+            $decoderProvider,
+            $throwExceptionOnUnsupportedContentType,
+            $arrayNormalizer,
+            true
+        );
     }
 
     public function onKernelRequest($event): void
