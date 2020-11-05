@@ -49,7 +49,68 @@ final class ArticleBodyExtension extends AbstractExtension
     {
         return [
             new TwigFunction('setRendition', [$this, 'setRendition']),
+            new TwigFunction('setInlineAds', [$this, 'setInlineAds']),
         ];
+    }
+
+    public function setInlineAds(string $body): array
+    {
+        # split the body into paragraphs
+        $paragraphs = explode("</p>", $body);
+
+        $tmp = [];
+        $splittedBody = [];
+        $parLength = 0;
+        $paragraphChars = $_ENV['ADS_CHARACTERS'];
+        foreach ($paragraphs as $key => $paragraph) {
+            $paragraph .= '</p>';
+            $safeToAdd = true;
+
+            #check if the next element is a non empty paragraph
+            if (isset($paragraphs[$key+1]) && strlen($paragraphs[$key+1]) && $key < sizeof($paragraphs)) {
+                $bodyDOM2 =  new \DOMDocument();
+                @$bodyDOM2->loadHTML((mb_convert_encoding($paragraphs[$key+1], 'HTML-ENTITIES', 'UTF-8')));
+                $pars2 = $bodyDOM2->getElementsByTagName('*')->item(2);
+                if ($pars2->tagName != 'p' || ($pars2->tagName == 'p' && strlen($pars2->textContent) == 0)) {
+                    $safeToAdd = false;
+                }
+            }
+
+            if (strlen($paragraph) > 0) {
+                $bodyDOM =  new \DOMDocument();
+                @$bodyDOM->loadHTML((mb_convert_encoding($paragraph, 'HTML-ENTITIES', 'UTF-8')));
+                $pars = $bodyDOM->getElementsByTagName('p');
+
+                # loop through all the p tags inside the array
+                foreach ($pars as $node) {
+                    $parLength += strlen($node->textContent);
+
+                    if ($parLength >= $paragraphChars && $safeToAdd) {
+                        $tmp[] = $paragraph;
+                             
+                        $parHolder = '';
+                        foreach ($tmp as $tmpParagraph) {
+                            $parHolder .= $tmpParagraph;
+                        }
+                        $splittedBody[] = $parHolder;
+                        $tmp = [];
+                        $parLength = 0;
+                    } else {
+                        $tmp[] = $paragraph;
+                    }
+                }
+            }
+        }
+  
+        if (!empty($tmp)) {
+            $parHolder = '';
+            foreach ($tmp as $tmpParagraph) {
+                $parHolder .= $tmpParagraph;
+            }
+            $splittedBody[] = $parHolder;
+        }
+
+        return $splittedBody;
     }
 
     public function setRendition(Meta $articleMeta, string $renditionName): void
