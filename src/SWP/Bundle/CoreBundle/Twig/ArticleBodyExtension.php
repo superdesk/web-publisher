@@ -36,10 +36,16 @@ final class ArticleBodyExtension extends AbstractExtension
      */
     private $fileExtensionChecker;
 
-    public function __construct(MediaManagerInterface $mediaManager, FileExtensionCheckerInterface $fileExtensionChecker)
+    /**
+     * @var int
+     */
+    private $paragraphChars;
+
+    public function __construct(MediaManagerInterface $mediaManager, FileExtensionCheckerInterface $fileExtensionChecker, $paragraphChars)
     {
         $this->mediaManager = $mediaManager;
         $this->fileExtensionChecker = $fileExtensionChecker;
+        $this->paragraphChars = $paragraphChars;
     }
 
     /**
@@ -61,7 +67,7 @@ final class ArticleBodyExtension extends AbstractExtension
         $tmp = [];
         $splittedBody = [];
         $parLength = 0;
-        $paragraphChars = $_ENV['ADS_CHARACTERS'];
+        $paragraphChars = $this->paragraphChars;
         foreach ($paragraphs as $key => $paragraph) {
             $paragraph .= '</p>';
             $safeToAdd = true;
