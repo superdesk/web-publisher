@@ -63,6 +63,7 @@ services:
         arguments:
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp.repository.author"
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: swp.meta_loader.add }
 
