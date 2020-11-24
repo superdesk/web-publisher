@@ -110,6 +110,8 @@ final class SearchResultLoader implements LoaderInterface
             }
         }
 
+        $metaCollection->suggestedTerm = $repository->getSuggestedTerm($criteria->getTerm());
+
         return $metaCollection;
     }
 

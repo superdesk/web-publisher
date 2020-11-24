@@ -92,7 +92,7 @@ script:
 - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
   && bin/phpunit
 - cd ../../../../
-- cd src/SWP/Bundle/ContentBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
+- cd src/SWP/Bundle/ContentBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist --no-cache
   && REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE=false bin/phpunit
 - cd ../../../../
 - cd src/SWP/Bundle/SettingsBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
