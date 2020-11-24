@@ -17,16 +17,16 @@ Feature: Filtering/searching existing articles by authors
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/?author[]=John Doe"
     Then the response status code should be 200
-    And the JSON node "total" should be equal to "1"
+    And the JSON node "total" should be equal to "2"
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/?author[]=John Doe Second"
     Then the response status code should be 200
-    And the JSON node "total" should be equal to "1"
+    And the JSON node "total" should be equal to "2"
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/?author[]=John"
     Then the response status code should be 200
-    And the JSON node "total" should be equal to "0"
+    And the JSON node "total" should be equal to "2"
