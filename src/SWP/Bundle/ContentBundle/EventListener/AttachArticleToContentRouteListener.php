@@ -25,8 +25,9 @@ class AttachArticleToContentRouteListener
         /** @var ArticleInterface $article */
         $article = $articleEvent->getArticle();
         $route = $articleEvent->getArticle()->getRoute();
+        $alreadyAttachedRoute = $this->routeRepository->findOneBy(['content' => $article]);
 
-        if($route && RouteInterface::TYPE_CONTENT === $route->getType()) {
+        if($route && !$alreadyAttachedRoute &&  RouteInterface::TYPE_CONTENT === $route->getType()) {
             $route->setContent($article);
             $this->routeRepository->persist($route);
             $this->routeRepository->flush();
