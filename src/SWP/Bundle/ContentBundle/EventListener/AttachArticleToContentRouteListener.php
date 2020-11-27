@@ -26,7 +26,7 @@ class AttachArticleToContentRouteListener
         $article = $articleEvent->getArticle();
         $route = $articleEvent->getArticle()->getRoute();
 
-        if(RouteInterface::TYPE_CONTENT === $route->getType()) {
+        if($route && RouteInterface::TYPE_CONTENT === $route->getType()) {
             $route->setContent($article);
             $this->routeRepository->persist($route);
             $this->routeRepository->flush();
@@ -39,7 +39,7 @@ class AttachArticleToContentRouteListener
 
         $route = $articleEvent->getArticle()->getRoute();
 
-        if(RouteInterface::TYPE_CONTENT === $route->getType()) {
+        if($route && RouteInterface::TYPE_CONTENT === $route->getType()) {
             $route->setContent(null);
             $this->routeRepository->persist($route);
             $this->routeRepository->flush();
