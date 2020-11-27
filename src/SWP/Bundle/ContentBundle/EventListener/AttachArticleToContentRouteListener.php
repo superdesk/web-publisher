@@ -11,7 +11,8 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 class AttachArticleToContentRouteListener
 {
 
-    private RouteRepositoryInterface $routeRepository;
+    /** @var RouteRepositoryInterface  */
+    private $routeRepository;
 
     public function __construct(RouteRepositoryInterface $routeRepository)
     {
