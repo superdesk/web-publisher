@@ -144,7 +144,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
         /** @var Article $article */
         foreach ($rows as $article) {
             /** @var MetadataInterface $metadata */
-            $metadata = $article->getMetadata();
+            $metadata = $article->getData();
             $data[] = [
                 $article->getId(),
                 $article->getPublishedAt()->format('Y-m-d H:i'),
