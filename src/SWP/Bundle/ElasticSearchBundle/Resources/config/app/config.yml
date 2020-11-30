@@ -15,6 +15,9 @@ fos_elastica:
                             type: custom
                             tokenizer: whitespace
                             filter: [lowercase]
+                        swp_author_name_analyzer:
+                            type: custom
+                            tokenizer: keyword
                         swp_sources_analyzer:
                             type: custom
                             tokenizer: keyword
@@ -74,7 +77,9 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 id: { type: integer }
-                                name: { type: string }
+                                name: { type: string, analyzer: swp_folding_analyzer }
+                                biography: { type: string, analyzer: swp_folding_analyzer }
+                                slug: { type: string, analyzer: swp_folding_analyzer }
                         extra:
                             type: object
                         articleStatistics:
@@ -129,7 +134,7 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 id: { type: integer }
-                                name: { type: string }
+                                name: { type: string, analyzer: swp_author_name_analyzer }
                     persistence:
                         driver: orm
                         model: "%swp.model.package.class%"

@@ -31,13 +31,12 @@ use SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader;
 
 class ArticleRepository extends Repository
 {
-    const AUTHOR_BOOST = 20;
+    private const AUTHOR_BOOST = 10;
 
     public function findByCriteria(Criteria $criteria, array $extraFields = [], bool $searchByBody = false): PaginatorAdapterInterface
     {
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
-
 
         $term = $criteria->getTerm();
         if (null !== $term && '' !== $term) {
@@ -68,33 +67,31 @@ class ArticleRepository extends Repository
 
             $bool = new BoolQuery();
             $bool->setBoost(self::AUTHOR_BOOST);
-            $bool->addMust(new Query\Match('authors.name', $term));
+            $bool->addShould(new Query\Match('authors.name', $term));
+            $bool->addShould(new Query\Match('authors.biography', $term));
+            $bool->addShould(new Query\MatchPhrase('authors.name', $term));
+            $bool->addShould(new Query\MatchPhrase('authors.biography', $term));
 
             $nested = new Nested();
             $nested->setPath('authors');
-            $nested->setQuery($bool);
+            $functionScore = new Query\FunctionScore();
+            $functionScore->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
+            $functionScore->setBoostMode(Query\FunctionScore::BOOST_MODE_MULTIPLY);
+            $functionScore->setMaxBoost(80);
+            $functionScore->setMinScore(40);
+            $functionScore->addWeightFunction(40, new Query\Match('authors.name', $term));
+            $functionScore->addWeightFunction(40, new Query\Match('authors.biography', $term));
+            $functionScore->addWeightFunction(80, new Query\MatchPhrase('authors.name', $term));
+            $functionScore->addWeightFunction(80, new Query\MatchPhrase('authors.biography', $term));
+            $functionScore->setQuery($bool);
+            $nested->setQuery($functionScore);
 
             $boolQuery->addShould($nested);
-
-            $ranges = [];
-            for ($i = 1; $i <= 59; $i++) {
-                $date = new \DateTime("-$i day");
-
-                $currentRange = new Range();
-                $currentRange->addField('publishedAt', [
-                    'boost' => (30 - ($i/2)),
-                    'gte' => $date->format('Y-m-d')
-                ]);
-
-                $ranges[] = $currentRange->toArray();
-            }
-            $boolFilter->addShould($ranges);
 
             $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
         }
-
 
         if (null !== $fields->get('keywords') && !empty($fields->get('keywords'))) {
             $bool = new BoolQuery();
@@ -109,6 +106,7 @@ class ArticleRepository extends Repository
             $bool = new BoolQuery();
             foreach ($fields->get('authors') as $author) {
                 $bool->addFilter(new Query\Match('authors.name', $author));
+                $bool->addFilter(new Query\Match('authors.biography', $author));
             }
 
             $nested = new Nested();
@@ -163,17 +161,44 @@ class ArticleRepository extends Repository
             $boolFilter->addMust($bool);
         }
 
-        $query = Query::create($boolFilter)
+        $functionScore = new Query\FunctionScore();
+        $functionScore->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
+        $functionScore->setBoostMode(Query\FunctionScore::BOOST_MODE_MULTIPLY);
+        $functionScore->addWeightFunction(1);
+        $now = new \DateTime();
+        $functionScore->addDecayFunction(
+            Query\FunctionScore::DECAY_GAUSS,
+            'publishedAt',
+            $now->format('Y-m-d'),
+            '31d',
+            null,
+            0.5,
+            5
+        );
+
+        $functionScore->addDecayFunction(
+            Query\FunctionScore::DECAY_GAUSS,
+            'publishedAt',
+            $now->format('Y-m-d'),
+            '365d',
+            null,
+            0.5,
+            2
+        );
+
+        $functionScore->setQuery($boolFilter);
+
+        $query = Query::create($functionScore)
             ->addSort([
                 '_score' => 'desc',
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 
         $query->setSize(SearchResultLoader::MAX_RESULTS);
+        $query->setTrackScores(true);
 
         return $this->createPaginatorAdapter($query);
     }
-
 
     public function getSuggestedTerm(string $term): string
     {
@@ -192,7 +217,7 @@ class ArticleRepository extends Repository
             'phrase',
             [
                 'text' => $term,
-                'phrase' => ['field' => '_all']
+                'phrase' => ['field' => '_all'],
             ]
         );
 
@@ -202,6 +227,5 @@ class ArticleRepository extends Repository
         $suggest = $adapter->getSuggests();
 
         return $suggest['phrase'][0]['options'][0]['text'] ?? '';
-
     }
 }
