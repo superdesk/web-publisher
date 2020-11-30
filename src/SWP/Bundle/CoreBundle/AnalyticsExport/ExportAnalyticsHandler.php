@@ -137,7 +137,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
     private function objectsToArray(array $rows): array
     {
         $data = [
-            ['Article ID', 'Publish Date', 'Total Views', 'Section', 'Title', 'Author(s)'],
+            ['Article ID', 'Publish Date', 'Total Views', 'Section', 'Title', 'Author(s)', 'Byline'],
         ];
 
         /** @var Article $article */
@@ -149,6 +149,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
                 $article->getRoute()->getName(),
                 $article->getTitle(),
                 implode(', ', $article->getAuthorsNames()),
+                $article->getMetadataByKey('byline')
             ];
         }
 
