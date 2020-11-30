@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\AnalyticsExport;
 
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use RuntimeException;
+use SWP\Bundle\ContentBundle\Model\MetadataInterface;
 use SWP\Bundle\CoreBundle\AnalyticsExport\Exception\AnalyticsReportNotFoundException;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
@@ -142,6 +143,8 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
 
         /** @var Article $article */
         foreach ($rows as $article) {
+            /** @var MetadataInterface $metadata */
+            $metadata = $article->getMetadata();
             $data[] = [
                 $article->getId(),
                 $article->getPublishedAt()->format('Y-m-d H:i'),
@@ -149,7 +152,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
                 $article->getRoute()->getName(),
                 $article->getTitle(),
                 implode(', ', $article->getAuthorsNames()),
-                $article->getMetadataByKey('byline')
+                $metadata->getByline(),
             ];
         }
 
