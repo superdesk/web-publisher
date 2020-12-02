@@ -152,7 +152,7 @@ final class ExportAnalyticsHandler implements MessageHandlerInterface
                 $article->getRoute()->getName(),
                 $article->getTitle(),
                 implode(', ', $article->getAuthorsNames()),
-                $metadata->getByline(),
+                null !== $metadata ? $metadata->getByline() : '',
             ];
         }
 
