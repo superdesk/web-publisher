@@ -40,7 +40,7 @@ class ArticleRepository extends Repository
 
         $term = $criteria->getTerm();
         if (null !== $term && '' !== $term) {
-            $searchBy = ['title^6', 'lead^5', 'body^60', 'keywords.name^2'];
+            $searchBy = ['title', 'lead', 'body', 'keywords.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
@@ -54,42 +54,69 @@ class ArticleRepository extends Repository
 
             $phraseMultiMatchQuery = new MultiMatch();
             $phraseMultiMatchQuery->setQuery($term);
-            $phraseMultiMatchQuery->setFields(['title^20', 'lead^15', 'body^60', 'keywords.name^5', 'extra.byline']);
+            $phraseMultiMatchQuery->setFields($searchBy);
             $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $phraseMultiMatchQuery->setParam('boost', 4);
+
+            $boolQuery->addShould($phraseMultiMatchQuery);
+
+            $phraseMultiMatchQuery2 = new MultiMatch();
+            $phraseMultiMatchQuery2->setQuery($term);
+            $phraseMultiMatchQuery2->setFields($searchBy);
+            $phraseMultiMatchQuery2->setFuzziness(1);
 
             $boolQuery->addShould($phraseMultiMatchQuery);
 
             $multiMatchQuery = new MultiMatch();
             $multiMatchQuery->setQuery($term);
             $multiMatchQuery->setFields($searchBy);
-            $multiMatchQuery->setType(MultiMatch::TYPE_BEST_FIELDS);
+            //$multiMatchQuery->setType(MultiMatch::TYPE_BEST_FIELDS);
             $multiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
-            $multiMatchQuery->setCutoffFrequency(0.0007);
+            $multiMatchQuery->setParam('boost', 2);
+            $multiMatchQuery->setFuzziness(0);
+            //$multiMatchQuery->setCutoffFrequency(0.0007);
 
             $boolQuery->addShould($multiMatchQuery);
 
             $bool = new BoolQuery();
-            $bool->setBoost(10);
-            $q = new Query\Match('authors.name', ['query' => $term, 'operator'=> 'and']);
-            $bool->addShould($q);
-            $bool->addShould(new Query\Match('authors.biography', ['query' => $term, 'operator'=> 'and']));
-            $bool->addShould(new Query\MatchPhrase('authors.name', $term));
-            $bool->addShould(new Query\MatchPhrase('authors.biography', $term));
+            $phraseMultiMatchQuery3 = new MultiMatch();
+            $phraseMultiMatchQuery3->setQuery($term);
+            $phraseMultiMatchQuery3->setFields(['authors.name', 'authors.biography']);
+            $phraseMultiMatchQuery3->setType(MultiMatch::TYPE_PHRASE);
+            $phraseMultiMatchQuery3->setParam('boost', 4);
+            $bool->addShould($phraseMultiMatchQuery3);
+
+            $multiMatchQuery4 = new MultiMatch();
+            $multiMatchQuery4->setQuery($term);
+            $multiMatchQuery4->setFields(['authors.name', 'authors.biography']);
+            //$multiMatchQuery->setType(MultiMatch::TYPE_BEST_FIELDS);
+            $multiMatchQuery4->setOperator(MultiMatch::OPERATOR_AND);
+            $multiMatchQuery4->setParam('boost', 2);
+            $multiMatchQuery4->setFuzziness(0);
+            $bool->addShould($multiMatchQuery4);
+
+            $phraseMultiMatchQuery5 = new MultiMatch();
+            $phraseMultiMatchQuery5->setQuery($term);
+            $phraseMultiMatchQuery5->setFields(['authors.name', 'authors.biography']);
+            $phraseMultiMatchQuery5->setFuzziness(1);
+//            $bool->addShould(new Query\Match('authors.biography', ['query' => $term, 'operator'=> 'and']));
+//            $bool->addShould(new Query\MatchPhrase('authors.name', $term));
+//            $bool->addShould(new Query\MatchPhrase('authors.biography', $term));
 
             $nested = new Nested();
             $nested->setPath('authors');
-            $nested->setParam('boost', 2);
+            //$nested->setParam('boost', 2);
             $functionScore = new Query\FunctionScore();
-            $functionScore->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
-            $functionScore->setBoostMode(Query\FunctionScore::BOOST_MODE_MULTIPLY);
-            $functionScore->setMaxBoost(40);
-            $functionScore->setMinScore(5);
+//            $functionScore->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
+//            $functionScore->setBoostMode(Query\FunctionScore::BOOST_MODE_MULTIPLY);
+//            $functionScore->setMaxBoost(40);
+//            $functionScore->setMinScore(5);
             $functionScore->addWeightFunction(15, new Query\Match('authors.name', $term));
             $functionScore->addWeightFunction(5, new Query\Match('authors.biography', $term));
             $functionScore->addWeightFunction(15, new Query\MatchPhrase('authors.name', $term));
             $functionScore->addWeightFunction(10, new Query\MatchPhrase('authors.biography', $term));
             $functionScore->setQuery($bool);
-            $nested->setQuery($functionScore)
+            $nested->setQuery($functionScore);
 
             $boolQuery->addShould($nested);
 
