@@ -16,28 +16,29 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Mailer;
 
-use FOS\UserBundle\Mailer\Mailer as FOSMailer;
+use Swift_Mailer;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Twig\Environment;
 
-class Mailer extends FOSMailer
+
+class Mailer extends BaseMailer
 {
     /**
      * Mailer constructor.
      *
-     * @param \Swift_Mailer            $mailer
+     * @param Swift_Mailer            $mailer
      * @param UrlGeneratorInterface    $router
-     * @param EngineInterface          $templating
+     * @param Environment          $templating
      * @param array                    $parameters
      * @param SettingsManagerInterface $settingsManager
      */
     public function __construct(
         $mailer,
         UrlGeneratorInterface $router,
-        EngineInterface $templating,
+        Environment $templating,
         array $parameters,
         SettingsManagerInterface $settingsManager,
         TenantContextInterface $tenantContext

@@ -54,9 +54,9 @@ jms_serializer:
             SWPCoreBundle:
                 namespace_prefix: "SWP\\Bundle\\CoreBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer"
-            FOSUserBundle:
-                namespace_prefix: "FOS\\UserBundle"
-                path: "@SWPCoreBundle/Resources/config/serializer/fos-user"
+            SWPUserBundle:
+                namespace_prefix: "SWP\\Bundle\\UserBundle"
+                path: "@SWPCoreBundle/Resources/config/serializer/swp-user"
             SyliusThemeBundle:
                 namespace_prefix: "Sylius\\Bundle\\ThemeBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer/sylius-theme"
@@ -69,6 +69,7 @@ swp_rule:
                 rule:
                     model: SWP\Bundle\CoreBundle\Model\Rule
                     repository: SWP\Bundle\CoreBundle\Repository\RuleRepository
+
 swp_menu:
     persistence:
         orm:
@@ -143,16 +144,16 @@ sylius_theme:
     sources:
         tenantable: ~
 
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: SWP\Bundle\CoreBundle\Model\User
-    from_email:
-        address: '%env(FROM_EMAIL)%'
-        sender_name: Publisher
-    registration:
-        confirmation:
-            enabled: true
+#fos_user:
+#    db_driver: orm
+#    firewall_name: main
+#    user_class: SWP\Bundle\CoreBundle\Model\User
+#    from_email:
+#        address: '%env(FROM_EMAIL)%'
+#        sender_name: Publisher
+#    registration:
+#        confirmation:
+#            enabled: true
 
 swp_multi_tenancy:
     use_orm_listeners: true
@@ -225,19 +226,19 @@ swp_settings:
             scope: tenant
             value: true
         registration_confirmation.template:
-            value: "%fos_user.registration.confirmation.template%"
+            value: "%swp_user.registration.confirmation.template%"
             scope: tenant
             type: string
         registration_from_email.confirmation:
-            value: "%fos_user.registration.confirmation.from_email%"
+            value: "%swp_user.registration.confirmation.from_email%"
             scope: tenant
             type: array
         registration_resetting.template:
-            value: "%fos_user.resetting.email.template%"
+            value: "%swp_user.resetting.email.template%"
             scope: tenant
             type: string
         registration_from_email.resetting:
-            value: "%fos_user.resetting.email.from_email%"
+            value: "%swp_user.resetting.email.from_email%"
             scope: tenant
             type: array
         instance_name:

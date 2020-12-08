@@ -1,0 +1,28 @@
+swp_user:
+    username:
+        already_used: 'Taki użytkownik już istnieje. Podaj inną nazwę.'
+        blank: 'Podaj nazwę użytkownika'
+        short: 'Podaj dłuższą nazwę użytkownika'
+        long: 'Podaj krótszą nazwę użytkownika'
+    email:
+        already_used: 'Taki użytkownik już istnieje. Podaj inny email.'
+        blank: 'Podaj email'
+        short: 'Podaj dłuższy email'
+        long: 'Podaj krótszy email'
+        invalid: 'Podaj prawidłowy email'
+    password:
+        blank: 'Podaj hasło'
+        short: 'Podaj dłuższe hasło'
+        mismatch: 'Hasła nie pasują do siebie. Podaj dwa razy to samo hasło.'
+    new_password:
+        blank: 'Podaj nowe hasło'
+        short: 'Podaj dłuższe hasło'
+    current_password:
+        invalid: 'Podaj prawidłowe hasło'
+    group:
+        blank: 'Podaj nazwę'
+        short: 'Podaj dłuższą nazwę'
+        long: 'Podaj krótszą nazwę'
+swp_group:
+    name:
+        already_used: 'Taka grupa już istnieje. Podaj inną nazwę.'

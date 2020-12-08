@@ -1,0 +1,8 @@
+{% trans_default_domain 'SWPUserBundle' %}
+
+{{ form_start(form, { 'action': path('swp_user_group_new'), 'attr': { 'class': 'swp_user_group_new' } }) }}
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="{{ 'group.new.submit'|trans }}" />
+    </div>
+{{ form_end(form) }}

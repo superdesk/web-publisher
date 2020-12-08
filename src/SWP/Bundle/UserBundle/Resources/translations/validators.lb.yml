@@ -1,0 +1,28 @@
+swp_user:
+    username:
+        already_used: 'Dëse Benotzernumm ass schonn am Gebrauch.'
+        blank: 'Wann ech gelift e Benotzernumm uginn.'
+        short: 'Dëse Benotzernumm ass ze kuerz.'
+        long: 'Dëse Benotzernumm ass ze laang.'
+    email:
+        already_used: 'Dës E-Mail-Adress ass schonn am Gebrauch.'
+        blank: 'Wann ech gelift eng E-Mail-Adress uginn.'
+        short: 'Dës E-Mail-Adress ass ze kuerz.'
+        long: 'Dës E-Mail-Adress ass ze laang.'
+        invalid: 'Dës E-Mail-Adress ass ongëlteg.'
+    password:
+        blank: 'Wann ech gelift e Passwuert uginn.'
+        short: 'Dëst Passwuert ass ze kuerz.'
+        mismatch: 'D''Passwierder stëmmen net iwwerteneen.'
+    new_password:
+        blank: 'Wann ech gelift en neit Passwuert aginn.'
+        short: 'Dat neit Passwuert ass ze kuerz.'
+    current_password:
+        invalid: 'D''Passwuert ass net korrekt.'
+    group:
+        blank: 'Wann ech gelift en Numm uginn.'
+        short: 'Dësen Numm ass ze kuerz.'
+        long: 'Dësen Numm ass ze laang.'
+swp_group:
+    name:
+        already_used: 'Dësen Numm ass schonn am Gebrauch.'

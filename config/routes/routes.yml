@@ -36,9 +36,9 @@ swp_redirecting_slug:
     slug: .*
   methods: [GET]
 
-fos_user_resetting:
-  resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-  prefix: /resetting
-
-fos_user_profile_show:
-  path: /
+#fos_user_resetting:
+#  resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+#  prefix: /resetting
+#
+#fos_user_profile_show:
+#  path: /

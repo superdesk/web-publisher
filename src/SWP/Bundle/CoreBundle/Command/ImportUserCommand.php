@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
-use FOS\UserBundle\Util\UserManipulator;
+use SWP\Bundle\UserBundle\Util\UserManipulator;
 use JsonSchema\Validator;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -134,12 +134,12 @@ JSON;
      */
     private $userManipulator;
 
-    public function __construct(UserManipulator $userManipulator)
-    {
-        parent::__construct();
-
-        $this->userManipulator = $userManipulator;
-    }
+//    public function __construct(UserManipulator $userManipulator)
+//    {
+//        parent::__construct();
+//
+//        $this->userManipulator = $userManipulator;
+//    }
 
     protected function configure()
     {

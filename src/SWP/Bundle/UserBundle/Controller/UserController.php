@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-use FOS\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Form\Type\SettingType;

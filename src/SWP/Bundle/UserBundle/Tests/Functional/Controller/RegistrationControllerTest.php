@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\UserBundle\Tests\Functional\Controler;
+namespace SWP\Bundle\UserBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
 

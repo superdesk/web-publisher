@@ -1,0 +1,41 @@
+SWP\Bundle\UserBundle\Model\User:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [api]
+        username:
+            expose: true
+            groups: [api]
+        email:
+            expose: true
+            groups: [api]
+        lastLogin:
+            expose: true
+            groups: [api]
+        roles:
+            expose: true
+            groups: [api]
+
+        firstName:
+            expose: true
+            groups: [ api ]
+            type: string
+        lastName:
+            expose: true
+            groups: [ api ]
+            type: string
+        about:
+            expose: true
+            groups: [ api ]
+            type: string
+        createdAt:
+            expose: true
+            groups: [ api ]
+            type: DateTime<'Y-m-d\TH:i:sO'>
+        updatedAt:
+            expose: true
+            groups: [ api ]
+            type: DateTime<'Y-m-d\TH:i:sO'>
+        externalId:
+            expose: false

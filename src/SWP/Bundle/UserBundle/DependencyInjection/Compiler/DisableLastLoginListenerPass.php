@@ -26,7 +26,7 @@ final class DisableLastLoginListenerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $serviceId = 'fos_user.security.interactive_login_listener';
+        $serviceId = 'swp_user.security.interactive_login_listener';
         if (!$container->hasDefinition($serviceId)) {
             return;
         }

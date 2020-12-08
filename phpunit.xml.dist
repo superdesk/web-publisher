@@ -13,7 +13,8 @@
         <env name="APP_ENV" value="test" />
         <env name="SHELL_VERBOSITY" value="-1" />
         <!-- ###- symfony/framework-bundle ### -->
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
+        <env name="SUPERDESK_SERVERS" value='[localhost]'/>
     </php>
 
     <testsuites>

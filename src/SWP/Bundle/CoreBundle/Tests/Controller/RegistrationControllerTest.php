@@ -47,7 +47,6 @@ class RegistrationControllerTest extends WebTestCase
                     'second' => 'testPass',
                 ],
         ]);
-
         self::assertEquals(302, $client->getResponse()->getStatusCode());
 
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
@@ -63,11 +62,12 @@ class RegistrationControllerTest extends WebTestCase
         $this->assertEquals('contact@example.com', key($message->getTo()));
 
         preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $message->getBody(), $match);
-
         $client->request('GET', $match[0][0]);
+
         self::assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->followRedirect();
+//        var_dump($client->getResponse()->getContent());
         self::assertTrue($client->getResponse()->isSuccessful());
         self::assertContains('The user has been created successfully.', $client->getResponse()->getContent());
     }

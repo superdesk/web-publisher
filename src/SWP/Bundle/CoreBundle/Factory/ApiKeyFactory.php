@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Factory;
 
-use FOS\UserBundle\Model\UserInterface;
+use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 
 class ApiKeyFactory

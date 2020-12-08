@@ -39,6 +39,9 @@ class SWPUserExtension extends Extension
         $loader->load('services.yml');
         $loader->load('controllers.yml');
 
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('flash_notifications.xml');
+
         if ($config['persistence']['orm']['enabled']) {
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
         }

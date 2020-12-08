@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SWP\Behat\Service;
 
-use FOS\UserBundle\Util\TokenGenerator;
+use SWP\Bundle\UserBundle\Util\TokenGenerator;
 
 class TokenGeneratorStub extends TokenGenerator
 {

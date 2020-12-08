@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Controller;
 use GuzzleHttp;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 
 class AuthControllerTest extends WebTestCase
@@ -142,9 +143,7 @@ class AuthControllerTest extends WebTestCase
                     'second' => 'testPass',
                 ],
         ]);
-
         $this->activateUser($client);
-
         $client->request('POST', $this->router->generate('swp_api_auth'), [
                 'username' => 'sofab.contact',
                 'password' => 'testPass',

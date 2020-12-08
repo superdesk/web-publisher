@@ -16,14 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-use FOS\UserBundle\Event\FormEvent;
-use FOS\UserBundle\Event\GetResponseUserEvent;
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\SettingsBundle\Context\AbstractScopeContext;
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
+use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Bundle\UserBundle\Event\FormEvent;
+use SWP\Bundle\UserBundle\Event\GetResponseUserEvent;
+use SWP\Bundle\UserBundle\SWPUserEvents;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\UserBundle\Form\Type\ProfileFormType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,14 +36,52 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class ProfileController extends Controller
+class ProfileController extends AbstractController
 {
+    /**
+     * @var UserManagerInterface
+     */
+    private $userManager;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+    /**
+     * @var SettingsManagerInterface
+     */
+    private $settingsManager;
+    /**
+     * @var AbstractScopeContext
+     */
+    private $scopeContext;
+    /**
+     * @var EntityRepository
+     */
+    private $userRepository;
+
+    public function __construct(UserManagerInterface $userManager,
+                                        EventDispatcherInterface $dispatcher,
+//                                SettingsManagerInterface $settingsManager,
+//                                ScopeContextInterface $scopeContext,
+                                EntityRepository $userRepository
+
+    )
+    {
+
+        $this->userManager = $userManager;
+        $this->dispatcher = $dispatcher;
+//        $this->settingsManager = $settingsManager;
+//        $this->scopeContext = $scopeContext;
+        $this->userRepository = $userRepository;
+    }
+
+
     /**
      * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
      */
     public function getAction($id)
     {
-        $requestedUser = $this->container->get('swp.repository.user')->find($id);
+        $requestedUser = $this->userRepository->find($id);
         if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {
             throw new NotFoundHttpException('Requested user don\'t exists');
         }
@@ -53,17 +96,15 @@ class ProfileController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $requestedUser = $this->container->get('swp.repository.user')->find($id);
+        $requestedUser = $this->userRepository->find($id);
         if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {
-            throw new NotFoundHttpException('Requested user don\'t exists');
+            throw $this->createNotFoundException('Requested user don\'t exists');
         }
 
         $this->checkIfCanAccess($requestedUser);
 
-        /** @var $dispatcher EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
         $event = new GetResponseUserEvent($requestedUser, $request);
-        $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_INITIALIZE, $event);
+        $this->dispatcher->dispatch($event, SWPUserEvents::PROFILE_EDIT_INITIALIZE);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
@@ -72,11 +113,10 @@ class ProfileController extends Controller
         $form = $this->get('form.factory')->createNamed('', ProfileFormType::class, $requestedUser, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var $userManager UserManagerInterface */
-            $userManager = $this->get('fos_user.user_manager');
+
             $event = new FormEvent($form, $request);
-            $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
-            $userManager->updateUser($requestedUser);
+            $this->dispatcher->dispatch($event, SWPUserEvents::PROFILE_EDIT_SUCCESS);
+            $this->userManager->updateUser($requestedUser);
 
             return new SingleResourceResponse($requestedUser);
         }

@@ -1,0 +1,7 @@
+{% extends "@SWPUser/layout.html.twig" %}
+
+{% trans_default_domain 'SWPUserBundle' %}
+
+{% block swp_user_content %}
+    <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+{% endblock swp_user_content %}
