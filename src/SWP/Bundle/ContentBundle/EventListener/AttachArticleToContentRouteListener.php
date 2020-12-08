@@ -1,5 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Superdesk Web Publisher Content Bundle.
+ *
+ * Copyright 2019 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2019 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
@@ -11,7 +24,7 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 class AttachArticleToContentRouteListener
 {
 
-    /** @var RouteRepositoryInterface  */
+    /** @var RouteRepositoryInterface */
     private $routeRepository;
 
     public function __construct(RouteRepositoryInterface $routeRepository)
@@ -24,15 +37,13 @@ class AttachArticleToContentRouteListener
     {
         /** @var ArticleInterface $article */
         $article = $articleEvent->getArticle();
-        $route = $articleEvent->getArticle()->getRoute();
+        $route = $article->getRoute();
         $alreadyAttachedRoute = $this->routeRepository->findOneBy(['content' => $article]);
 
-        if($route && !$alreadyAttachedRoute &&  RouteInterface::TYPE_CONTENT === $route->getType()) {
+        if (null !== $route && !$alreadyAttachedRoute && RouteInterface::TYPE_CONTENT === $route->getType()) {
             $route->setContent($article);
-            $this->routeRepository->persist($route);
             $this->routeRepository->flush();
         }
-
     }
 
     public function onArticleUnpublish(ArticleEvent $articleEvent): void
@@ -40,12 +51,9 @@ class AttachArticleToContentRouteListener
 
         $route = $articleEvent->getArticle()->getRoute();
 
-        if($route && RouteInterface::TYPE_CONTENT === $route->getType()) {
+        if ($route && RouteInterface::TYPE_CONTENT === $route->getType()) {
             $route->setContent(null);
-            $this->routeRepository->persist($route);
             $this->routeRepository->flush();
         }
-
     }
-
 }
