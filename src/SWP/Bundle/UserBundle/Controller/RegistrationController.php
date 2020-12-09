@@ -40,6 +40,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -64,11 +65,17 @@ class RegistrationController extends AbstractController
      */
     private $userRepository;
 
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
     public function __construct(UserManagerInterface $userManager,
                                 EventDispatcherInterface $dispatcher,
                                 SettingsManagerInterface $settingsManager,
                                 ScopeContextInterface $scopeContext,
-                                EntityRepository $userRepository
+                                EntityRepository $userRepository,
+                                TokenStorageInterface $tokenStorage
     )
     {
 
@@ -77,6 +84,7 @@ class RegistrationController extends AbstractController
         $this->settingsManager = $settingsManager;
         $this->scopeContext = $scopeContext;
         $this->userRepository = $userRepository;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -207,7 +215,7 @@ class RegistrationController extends AbstractController
     private function getTargetUrlFromSession(SessionInterface $session)
     {
         if($this->getUser()) {
-            $key = sprintf('_security.%s.target_path', $this->getUser()->getToken()->getProviderKey());
+            $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
 
             if ($session->has($key)) {
                 return $session->get($key);
