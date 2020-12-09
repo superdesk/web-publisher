@@ -4,16 +4,16 @@ Feature: Article attach to content route on publish
 
   Scenario: Check if an article has been attached to content route successfully
     Given the following Tenants:
-      | organization | name | subdomain | domainName | enabled | default  | themeName      |  code   |
-      | Default      | test |           | localhost  | true    | true     | swp/test-theme | 123abc  |
+      | organization | name | subdomain | domainName | enabled | default | themeName      | code   |
+      | Default      | test |           | localhost  | true    | true    | swp/test-theme | 123abc |
 
     Given the following Routes:
-      |  name | type       | slug |
-      |  test | content    | test |
+      | name | type    | slug |
+      | test | content | test |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username  | email                      | token      | plainPassword | role              | enabled |
+      | test.user | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API | true    |
 
     Given the following organization publishing rule:
     """
@@ -110,3 +110,23 @@ Feature: Article attach to content route on publish
     Then the response status code should be 200
     And the JSON node "content.title" should contain "Lorem"
 
+  Scenario: Check if an article has been detached from content route successfully
+    When I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "PATCH" request to "/api/v2/content/articles/lorem" with body:
+     """
+      {
+          "status": "unpublished"
+      }
+     """
+    Then the response status code should be 200
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/content/articles/lorem"
+    Then the response status code should be 200
+    And the JSON node "slug" should be equal to "lorem"
+    And the JSON node "status" should be equal to "unpublished"
+    Then I am authenticated as "test.user"
+    And I send a "GET" request to "/api/v2/content/routes/1"
+    Then the response status code should be 200
+    And the JSON node "content" should be null
