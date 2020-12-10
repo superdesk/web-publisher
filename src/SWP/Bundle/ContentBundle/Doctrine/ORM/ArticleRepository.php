@@ -18,7 +18,6 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorReference;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
@@ -162,32 +161,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         throw new \Exception('Not implemented');
     }
 
-    public function getAuthorWithMostArticles(Criteria $criteria, array $sorting, string $alias): QueryBuilder
-    {
-
-//        $query = $this->_em->createQuery('SELECT count(a) as count, aa.id FROM SWP\Bundle\CoreBundle\Model\Article a
-//            left join a.authors aa where aa.slug = :slug GROUP BY aa.id order by count desc')
-//
-//
-//            ->setParameter('slug', $parameters['slug'])
-//            ->setMaxResults(1)
-//            ->getOneOrNullResult();
-//
-//        //$author = $this->entityManager->getReference(ArticleAuthorInterface::class, $query['id']);
-
-        $queryBuilder = $this->createQueryBuilder($alias)
-            ->select('count('.$alias.') as count')
-            ->addSelect($alias)
-            ->leftJoin('a.authors', 'aa');
-
-        $this->applyCriteria($queryBuilder, $criteria, $alias);
-        $queryBuilder->groupBy('aa.id');
-        $this->applySorting($queryBuilder, $sorting, $alias, $criteria);
-        $this->applyLimiting($queryBuilder, $criteria);
-
-        return $queryBuilder;
-    }
-
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
         $orX = $queryBuilder->expr()->orX();
@@ -305,8 +278,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
         if (
             ($criteria->has('author') && !empty($criteria->get('author'))) ||
-            ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) ||
-            ($criteria->has('authorId') && !empty($criteria->get('authorId')))
+            ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author')))
         ) {
             $queryBuilder->leftJoin('a.authors', 'au');
         }
@@ -319,16 +291,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
             $queryBuilder->andWhere($orX);
             $criteria->remove('author');
-        }
-
-        if ($criteria->has('authorId') && !empty($criteria->get('authorId'))) {
-            $orX = $queryBuilder->expr()->orX();
-            foreach ((array) $criteria->get('authorId') as $value) {
-                $orX->add($queryBuilder->expr()->eq('au.id', $value));
-            }
-
-            $queryBuilder->andWhere($orX);
-            $criteria->remove('authorId');
         }
 
         if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {
