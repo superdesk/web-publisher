@@ -145,6 +145,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
+    SWP\Bundle\ContentBundle\EventListener\AttachArticleToContentRouteListener:
+        arguments:
+            - '@swp.repository.route'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.published, method: onArticlePublish }
+            - { name: kernel.event_listener, event: swp.article.unpublished, method: onArticleUnpublish }
+
     swp_content_bundle.key_generator.meta_key_generator:
         class: SWP\Bundle\ContentBundle\KeyGenerator\MetaKeyGenerator
 
