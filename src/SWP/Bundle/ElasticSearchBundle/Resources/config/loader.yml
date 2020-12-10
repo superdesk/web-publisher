@@ -3,7 +3,7 @@ services:
         class: SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader
         public: true
         arguments:
-            - '@fos_elastica.manager'
+            - '@fos_elastica.finder'
             - '@swp_template_engine_context.factory.meta_factory'
             - '@swp_multi_tenancy.tenant_context'
             - '%swp.model.article.class%'

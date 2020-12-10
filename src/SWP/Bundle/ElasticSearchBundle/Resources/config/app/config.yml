@@ -143,3 +143,16 @@ fos_elastica:
                         repository: SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
+                author:
+                    properties:
+                        id: { type: integer}
+                        slug: { type: string }
+                        name: { type: string, analyzer: swp_folding_analyzer }
+                    persistence:
+                        driver: orm
+                        model: "%swp.model.author.class%"
+                        provider: ~
+                        finder: ~
+                        repository: SWP\Bundle\ElasticSearchBundle\Repository\AuthorRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
