@@ -203,7 +203,7 @@ class ArticleRepository extends Repository
             'publishedAt',
             $now->format('Y-m-d'),
             '31d',
-            null,
+            '1d',
             0.5,
             5
         );
@@ -213,7 +213,7 @@ class ArticleRepository extends Repository
             'publishedAt',
             $now->format('Y-m-d'),
             '365d',
-            null,
+            '1d',
             0.5,
             2
         );
