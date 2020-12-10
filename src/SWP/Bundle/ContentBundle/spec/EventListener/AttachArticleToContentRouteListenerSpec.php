@@ -7,7 +7,6 @@ use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 
 class AttachArticleToContentRouteListenerSpec extends ObjectBehavior
 {
-
     public function let(RouteRepositoryInterface $routeRepository)
     {
         $this->beConstructedWith($routeRepository);

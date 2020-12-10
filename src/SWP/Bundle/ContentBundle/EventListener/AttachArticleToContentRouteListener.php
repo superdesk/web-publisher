@@ -23,13 +23,11 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 
 class AttachArticleToContentRouteListener
 {
-
     /** @var RouteRepositoryInterface */
     private $routeRepository;
 
     public function __construct(RouteRepositoryInterface $routeRepository)
     {
-
         $this->routeRepository = $routeRepository;
     }
 
@@ -48,7 +46,6 @@ class AttachArticleToContentRouteListener
 
     public function onArticleUnpublish(ArticleEvent $articleEvent): void
     {
-
         $route = $articleEvent->getArticle()->getRoute();
 
         if ($route && RouteInterface::TYPE_CONTENT === $route->getType()) {
