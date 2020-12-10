@@ -31,8 +31,6 @@ use SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader;
 
 class ArticleRepository extends Repository
 {
-    private const AUTHOR_BOOST = 10;
-
     public function findByCriteria(Criteria $criteria, array $extraFields = [], bool $searchByBody = false): PaginatorAdapterInterface
     {
         $fields = $criteria->getFilters()->getFields();
@@ -40,7 +38,7 @@ class ArticleRepository extends Repository
 
         $term = $criteria->getTerm();
         if (null !== $term && '' !== $term) {
-            $searchBy = ['title', 'lead', 'body', 'keywords.name'];
+            $searchBy = ['title^5', 'lead^4', 'body^3', 'keywords.name^2'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
@@ -70,11 +68,10 @@ class ArticleRepository extends Repository
             $multiMatchQuery = new MultiMatch();
             $multiMatchQuery->setQuery($term);
             $multiMatchQuery->setFields($searchBy);
-            //$multiMatchQuery->setType(MultiMatch::TYPE_BEST_FIELDS);
             $multiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
             $multiMatchQuery->setParam('boost', 2);
             $multiMatchQuery->setFuzziness(0);
-            //$multiMatchQuery->setCutoffFrequency(0.0007);
+            $multiMatchQuery->setTieBreaker(0.3);
 
             $boolQuery->addShould($multiMatchQuery);
 
@@ -89,7 +86,6 @@ class ArticleRepository extends Repository
             $multiMatchQuery4 = new MultiMatch();
             $multiMatchQuery4->setQuery($term);
             $multiMatchQuery4->setFields(['authors.name', 'authors.biography']);
-            //$multiMatchQuery->setType(MultiMatch::TYPE_BEST_FIELDS);
             $multiMatchQuery4->setOperator(MultiMatch::OPERATOR_AND);
             $multiMatchQuery4->setParam('boost', 2);
             $multiMatchQuery4->setFuzziness(0);
@@ -99,18 +95,10 @@ class ArticleRepository extends Repository
             $phraseMultiMatchQuery5->setQuery($term);
             $phraseMultiMatchQuery5->setFields(['authors.name', 'authors.biography']);
             $phraseMultiMatchQuery5->setFuzziness(1);
-//            $bool->addShould(new Query\Match('authors.biography', ['query' => $term, 'operator'=> 'and']));
-//            $bool->addShould(new Query\MatchPhrase('authors.name', $term));
-//            $bool->addShould(new Query\MatchPhrase('authors.biography', $term));
 
             $nested = new Nested();
             $nested->setPath('authors');
-            //$nested->setParam('boost', 2);
             $functionScore = new Query\FunctionScore();
-//            $functionScore->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
-//            $functionScore->setBoostMode(Query\FunctionScore::BOOST_MODE_MULTIPLY);
-//            $functionScore->setMaxBoost(40);
-//            $functionScore->setMinScore(5);
             $functionScore->addWeightFunction(15, new Query\Match('authors.name', $term));
             $functionScore->addWeightFunction(5, new Query\Match('authors.biography', $term));
             $functionScore->addWeightFunction(15, new Query\MatchPhrase('authors.name', $term));

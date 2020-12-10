@@ -28,7 +28,7 @@ class AuthorSearchController extends Controller
     /**
      * @Route("/api/{version}/authors/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_authors")
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): ResourcesListResponse
     {
         $criteria = Criteria::fromQueryParameters(
             $request->query->get('term', ''),
