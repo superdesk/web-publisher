@@ -18,7 +18,6 @@ namespace SWP\Bundle\UserBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SWP\Bundle\UserBundle\Model\GroupInterface;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\TimestampableTrait;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
@@ -31,26 +30,6 @@ class User implements UserInterface
      * @var mixed
      */
     protected $id;
-
-    /**
-     * @var string
-     */
-    protected $firstName;
-
-    /**
-     * @var string
-     */
-    protected $lastName;
-
-    /**
-     * @var string
-     */
-    protected $about;
-
-    /**
-     * @var string
-     */
-    protected $externalId;
 
     /**
      * @var string
@@ -71,6 +50,36 @@ class User implements UserInterface
      * @var string
      */
     protected $emailCanonical;
+
+    /**
+     * @var \DateTime|null
+     */
+    protected $lastLogin;
+
+    /**
+     * @var array
+     */
+    protected $roles;
+
+    /**
+     * @var string
+     */
+    protected $firstName;
+
+    /**
+     * @var string
+     */
+    protected $lastName;
+
+    /**
+     * @var string
+     */
+    protected $about;
+
+    /**
+     * @var string
+     */
+    protected $externalId;
 
     /**
      * @var bool
@@ -99,11 +108,6 @@ class User implements UserInterface
     protected $plainPassword;
 
     /**
-     * @var \DateTime|null
-     */
-    protected $lastLogin;
-
-    /**
      * Random string sent to the user email address in order to verify it.
      *
      * @var string|null
@@ -119,11 +123,6 @@ class User implements UserInterface
      * @var GroupInterface[]|Collection
      */
     protected $groups;
-
-    /**
-     * @var array
-     */
-    protected $roles;
 
     /**
      * User constructor.
