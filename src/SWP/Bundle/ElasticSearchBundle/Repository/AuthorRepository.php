@@ -19,7 +19,6 @@ namespace SWP\Bundle\ElasticSearchBundle\Repository;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\MatchAll;
-use Elastica\Query\MultiMatch;
 use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use FOS\ElasticaBundle\Repository;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
@@ -34,30 +33,10 @@ class AuthorRepository extends Repository
             $boolQuery = new BoolQuery();
             $term = $criteria->getTerm();
 
-            $searchBy = ['name', 'slug'];
-            $phraseMultiMatchQuery = new MultiMatch();
-            $phraseMultiMatchQuery->setQuery($term);
-            $phraseMultiMatchQuery->setFields($searchBy);
-            $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
-            $phraseMultiMatchQuery->setParam('boost', 4);
+            $regexp = new Query\Regexp();
+            $regexp->setValue('name', $term.'.*');
 
-            $boolQuery->addShould($phraseMultiMatchQuery);
-
-            $phraseMultiMatchQuery2 = new MultiMatch();
-            $phraseMultiMatchQuery2->setQuery($term);
-            $phraseMultiMatchQuery2->setFields($searchBy);
-            $phraseMultiMatchQuery2->setFuzziness(1);
-
-            $boolQuery->addShould($phraseMultiMatchQuery);
-
-            $multiMatchQuery = new MultiMatch();
-            $multiMatchQuery->setQuery($term);
-            $multiMatchQuery->setFields($searchBy);
-            $multiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
-            $multiMatchQuery->setParam('boost', 2);
-            $multiMatchQuery->setFuzziness(0);
-
-            $boolQuery->addShould($multiMatchQuery);
+            $boolQuery->addShould($regexp);
             $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
