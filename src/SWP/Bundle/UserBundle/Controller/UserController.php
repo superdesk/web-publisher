@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Form\Type\SettingType;
@@ -24,10 +23,10 @@ use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\UserBundle\Form\Type\UserRolesType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,18 +43,18 @@ class UserController extends AbstractController
 
     protected $formFactory;
 
-    protected $userRepository;
+    protected $userManager;
 
     public function __construct(
         SettingsManagerInterface $settingsManager,
         ScopeContextInterface $scopeContext,
         FormFactoryInterface $formFactory,
-        RepositoryInterface $userRepository
+        UserManagerInterface $userManager
     ) {
         $this->settingsManager = $settingsManager;
         $this->scopeContext = $scopeContext;
         $this->formFactory = $formFactory;
-        $this->userRepository = $userRepository;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -64,7 +63,7 @@ class UserController extends AbstractController
      */
     public function modifyRoles(Request $request, $id, UserManagerInterface $userManager, AuthorizationCheckerInterface $authorizationChecker)
     {
-        $requestedUser = $this->userRepository->find($id);
+        $requestedUser = $this->userManager->find($id);
         if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {
             throw new NotFoundHttpException('Requested user don\'t exists');
         }

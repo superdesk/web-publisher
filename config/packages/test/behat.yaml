@@ -13,7 +13,7 @@ services:
 
     swp.random_string_generator:
         class: SWP\Behat\Service\RandomStringGeneratorStub
-    fos_user.util.token_generator.default:
+    swp_user.util.token_generator.default:
         class: SWP\Behat\Service\TokenGeneratorStub
     swp_core.factory.version:
         arguments:

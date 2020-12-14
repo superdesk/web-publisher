@@ -23,17 +23,12 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
-
 class Mailer extends BaseMailer
 {
     /**
      * Mailer constructor.
      *
-     * @param Swift_Mailer            $mailer
-     * @param UrlGeneratorInterface    $router
-     * @param Environment          $templating
-     * @param array                    $parameters
-     * @param SettingsManagerInterface $settingsManager
+     * @param Swift_Mailer $mailer
      */
     public function __construct(
         $mailer,

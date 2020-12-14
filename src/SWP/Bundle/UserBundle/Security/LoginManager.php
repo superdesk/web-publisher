@@ -79,7 +79,6 @@ class LoginManager implements LoginManagerInterface
 
         if (null !== $request) {
             $this->sessionStrategy->onAuthentication($request, $token);
-
             if (null !== $response && null !== $this->rememberMeService) {
                 $this->rememberMeService->loginSuccess($request, $response, $token);
             }

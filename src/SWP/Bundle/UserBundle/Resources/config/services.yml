@@ -1,11 +1,20 @@
-#parameters:
-#    swp.model.user.class: 'SWP\Bundle\UserBundle\Model\User'
 parameters:
-    swp_user.registration.confirmation.template : 'email.txt.twig'
+    swp_user.registration.confirmation.template : "@@SWPUser/Registration/email.txt.twig"
     swp_user.registration.confirmation.from_email : 'test.html.twig'
-    swp_user.resetting.email.template : 'test.html.twig'
-    swp_user.resetting.email.from_email : 'test.html.twig'
-    swp_user.firewall_name: 'default'
+    swp_user.resetting.email.template :  "@@SWPUser/Resetting/email.txt.twig"
+    swp_user.resetting.email.from_email : "contact@publisher.test:Publisher"
+    swp_user.firewall_name: 'main'
+#    swp_user.resetting.email.from_email:
+#    spw_user.registration.from_email.resetting: "contact@publisher.test:Publisher"
+#    spw_user.registration.from_email.confirmation: "contact@publisher.test:Publisher"
+#    registration_from_email.confirmation: "contact@publisher.test:Publisher"
+#    from_email:
+#        address: '%env(FROM_EMAIL)%'
+#        sender_name: Publisher
+#    registration:
+#        confirmation:
+#            enabled: true
+
 
 services:
     _defaults:
@@ -23,14 +32,16 @@ services:
     SWP\Bundle\UserBundle\Util\CanonicalizerInterface: '@SWP\Bundle\UserBundle\Util\Canonicalizer'
 
     SWP\Bundle\UserBundle\Util\Canonicalizer: ~
+    SWP\Bundle\UserBundle\Doctrine\UserManager: '@swp_user.user_manager'
 
-    SWP\Bundle\UserBundle\Doctrine\UserManager:
+    swp_user.user_manager:
+        class: 'SWP\Bundle\UserBundle\Doctrine\UserManager'
+        public: true
         arguments:
             - '@SWP\Bundle\UserBundle\Util\PasswordUpdater'
             - '@SWP\Bundle\UserBundle\Util\CanonicalFieldsUpdater'
             - '@swp.object_manager.user'
             - '%swp.model.user.class%'
-#            - 'SWP\Bundle\UserBundle\Model\User'
 
 
     SWP\Bundle\UserBundle\Util\PasswordUpdater:
@@ -58,15 +69,19 @@ services:
 
     SWP\Bundle\UserBundle\Mailer\Mailer:
         arguments:
+                $tenantContext: '@swp_multi_tenancy.tenant_context'
                 $mailer: '@swiftmailer.mailer.default'
                 $parameters: { confirmation.template: 'test.html.twig',
                                resetting.template: 'test.html.twig',
                                from_email: { confirmation': 'test.html.twig', resetting: 'test.html.twig' }}
 
+
     SWP\Bundle\UserBundle\Mailer\MailerInterface: '@SWP\Bundle\UserBundle\Mailer\Mailer'
 
-    SWP\Bundle\UserBundle\Util\TokenGenerator: ~
-    SWP\Bundle\UserBundle\Util\TokenGeneratorInterface: '@SWP\Bundle\UserBundle\Util\TokenGenerator'
+    swp_user.util.token_generator.default:
+        class: SWP\Bundle\UserBundle\Util\TokenGenerator
+
+    SWP\Bundle\UserBundle\Util\TokenGeneratorInterface: '@swp_user.util.token_generator.default'
 
     SWP\Bundle\UserBundle\Security\LoginManager: ~
     SWP\Bundle\UserBundle\Security\LoginManagerInterface: '@SWP\Bundle\UserBundle\Security\LoginManager'

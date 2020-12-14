@@ -11,12 +11,10 @@
 
 namespace SWP\Bundle\UserBundle\Util;
 
-//use SWP\Bundle\UserBundle\Event\UserEvent;
-//use SWP\Bundle\UserBundle\SWPUserEvents;
-//use SWP\Bundle\UserBundle\Model\UserInterface;
-//use SWP\Bundle\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\UserBundle\Event\UserEvent;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\UserBundle\SWPUserEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -77,7 +75,7 @@ class UserManipulator
         $this->userManager->updateUser($user);
 
         $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(SWPUserEvents::USER_CREATED, $event);
+        $this->dispatcher->dispatch($event, SWPUserEvents::USER_CREATED);
 
         return $user;
     }
@@ -94,7 +92,7 @@ class UserManipulator
         $this->userManager->updateUser($user);
 
         $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(SWPUserEvents::USER_ACTIVATED, $event);
+        $this->dispatcher->dispatch($event, SWPUserEvents::USER_ACTIVATED);
     }
 
     /**
@@ -109,7 +107,7 @@ class UserManipulator
         $this->userManager->updateUser($user);
 
         $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(SWPUserEvents::USER_DEACTIVATED, $event);
+        $this->dispatcher->dispatch($event, SWPUserEvents::USER_DEACTIVATED);
     }
 
     /**
@@ -125,7 +123,7 @@ class UserManipulator
         $this->userManager->updateUser($user);
 
         $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(SWPUserEvents::USER_PASSWORD_CHANGED, $event);
+        $this->dispatcher->dispatch($event, SWPUserEvents::USER_PASSWORD_CHANGED);
     }
 
     /**
@@ -140,7 +138,7 @@ class UserManipulator
         $this->userManager->updateUser($user);
 
         $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(SWPUserEvents::USER_PROMOTED, $event);
+        $this->dispatcher->dispatch($event, SWPUserEvents::USER_PROMOTED);
     }
 
     /**
@@ -155,7 +153,7 @@ class UserManipulator
         $this->userManager->updateUser($user);
 
         $event = new UserEvent($user, $this->getRequest());
-        $this->dispatcher->dispatch(SWPUserEvents::USER_DEMOTED, $event);
+        $this->dispatcher->dispatch($event, SWPUserEvents::USER_DEMOTED);
     }
 
     /**

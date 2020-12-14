@@ -24,24 +24,24 @@ use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadUsersData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
-    /**
-     * @var \SWP\Bundle\UserBundle\Doctrine\UserManager
-     */
-    private $userManager;
-
-    public function __construct(\SWP\Bundle\UserBundle\Doctrine\UserManager $userManager)
-    {
-
-        $this->userManager = $userManager;
-    }
+//    /**
+//     * @var \SWP\Bundle\UserBundle\Doctrine\UserManager
+//     */
+//    private $userManager;
+//
+//    public function __construct(\SWP\Bundle\UserBundle\Doctrine\UserManager $userManager)
+//    {
+//
+//        $this->userManager = $userManager;
+//    }
 
     /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager): void
     {
-        $userManager = $this->userManager;
-//        $userManager = $this->container->get('fos_user.user_manager');
+//        $userManager = $this->userManager;
+        $userManager = $this->container->get('swp_user.user_manager');
 
         /** @var UserInterface $user */
         $user = $userManager->createUser();

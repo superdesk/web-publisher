@@ -110,4 +110,13 @@ class UserManager extends BaseUserManager
     {
         return $this->objectManager->getRepository($this->getClass());
     }
+
+    /**
+     * @param int $id
+     * @return object|null
+     */
+    public function find(int $id)
+    {
+        return $this->getRepository()->find($id);
+    }
 }

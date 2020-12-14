@@ -64,7 +64,7 @@ security:
             pattern: ^/
             form_login:
                 check_path: security_login_check
-                #provider: fos_userbundle
+                provider: swp_userbundle
                 target_path_parameter: _login_success_path
                 failure_path_parameter: _login_failure_path
                 success_handler:          lexik_jwt_authentication.handler.authentication_success

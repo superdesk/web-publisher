@@ -203,6 +203,15 @@ swp_user:
                 user:
                     model: SWP\Bundle\CoreBundle\Model\User
                     interface: SWP\Bundle\CoreBundle\Model\UserInterface
+    from_email:
+        address: '%env(FROM_EMAIL)%'
+        sender_name: Publisher
+    registration:
+        confirmation:
+            from_email:
+                address: '%env(FROM_EMAIL)%'
+                sender_name: Publisher
+            enabled: true
 
 swp_webhook:
     persistence:

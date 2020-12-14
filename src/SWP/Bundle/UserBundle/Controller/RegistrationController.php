@@ -30,7 +30,6 @@ use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\UserBundle\SWPUserEvents;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -76,9 +75,7 @@ class RegistrationController extends AbstractController
                                 ScopeContextInterface $scopeContext,
                                 EntityRepository $userRepository,
                                 TokenStorageInterface $tokenStorage
-    )
-    {
-
+    ) {
         $this->userManager = $userManager;
         $this->dispatcher = $dispatcher;
         $this->settingsManager = $settingsManager;
@@ -113,6 +110,7 @@ class RegistrationController extends AbstractController
             /** @var UserInterface $formData */
             $formData = $form->getData();
 
+
             if (null !== $this->userManager->findUserByEmail($formData->getEmail())) {
                 throw new ConflictHttpException(sprintf('User with email "%s" already exists', $formData->getEmail()));
             }
@@ -125,7 +123,9 @@ class RegistrationController extends AbstractController
             $this->dispatcher->dispatch($event, SWPUserEvents::REGISTRATION_SUCCESS);
             $formData->addRole('ROLE_USER');
 
+
             $this->userRepository->add($formData);
+
 
             if (null === ($response = $event->getResponse())) {
                 return new SingleResourceResponse($formData, new ResponseContext(201));
@@ -134,7 +134,6 @@ class RegistrationController extends AbstractController
 
             return $response;
         }
-
 
         $event = new FormEvent($form, $request);
         $this->dispatcher->dispatch($event, SWPUserEvents::REGISTRATION_FAILURE);
@@ -214,7 +213,7 @@ class RegistrationController extends AbstractController
      */
     private function getTargetUrlFromSession(SessionInterface $session)
     {
-        if($this->getUser()) {
+        if ($this->getUser()) {
             $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
 
             if ($session->has($key)) {
@@ -247,5 +246,4 @@ class RegistrationController extends AbstractController
             'user' => $user,
         ]);
     }
-
 }

@@ -67,7 +67,6 @@ class RegistrationControllerTest extends WebTestCase
         self::assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->followRedirect();
-//        var_dump($client->getResponse()->getContent());
         self::assertTrue($client->getResponse()->isSuccessful());
         self::assertContains('The user has been created successfully.', $client->getResponse()->getContent());
     }
