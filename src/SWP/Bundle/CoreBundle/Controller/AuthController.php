@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use GuzzleHttp;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -24,6 +23,7 @@ use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepositoryInterface;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;

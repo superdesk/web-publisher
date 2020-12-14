@@ -16,53 +16,29 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 interface UserInterface extends BaseUserInterface, PersistableInterface, TimestampableInterface
 {
-    const ROLE_DEFAULT = 'ROLE_USER';
+    public const ROLE_DEFAULT = 'ROLE_USER';
 
-    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
-    /**
-     * @return string
-     */
-    public function getAbout();
+    public function getAbout(): string;
 
-    /**
-     * @param string $about
-     */
     public function setAbout(string $about);
 
-    /**
-     * @return string
-     */
-    public function getFirstName();
+    public function getFirstName(): string;
 
-    /**
-     * @param string $firstName
-     */
     public function setFirstName(string $firstName);
 
-    /**
-     * @return string
-     */
-    public function getLastName();
+    public function getLastName(): string;
 
-    /**
-     * @param string $lastName
-     */
     public function setLastName(string $lastName);
 
-    /**
-     * @return string
-     */
-    public function getExternalId();
+    public function getExternalId(): string;
 
-    /**
-     * @param string $externalId
-     */
     public function setExternalId(string $externalId);
 }

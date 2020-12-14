@@ -607,7 +607,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getAbout()
+    public function getAbout(): string
     {
         return $this->about;
     }
@@ -623,7 +623,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
@@ -639,7 +639,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
@@ -655,7 +655,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getExternalId()
+    public function getExternalId(): string
     {
         return $this->externalId;
     }
