@@ -1,5 +1,5 @@
 
-{% trans_default_domain 'FOSUserBundle' %}
+{% trans_default_domain 'SWPUserBundle' %}
 {% block subject %}
 {%- autoescape false -%}
 {{ 'registration.email.subject'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}

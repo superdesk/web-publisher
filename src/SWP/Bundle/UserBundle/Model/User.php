@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\TimestampableTrait;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
@@ -118,11 +116,6 @@ class User implements UserInterface
      * @var \DateTime|null
      */
     protected $passwordRequestedAt;
-
-    /**
-     * @var GroupInterface[]|Collection
-     */
-    protected $groups;
 
     /**
      * User constructor.
@@ -301,10 +294,6 @@ class User implements UserInterface
     public function getRoles()
     {
         $roles = $this->roles;
-
-        foreach ($this->getGroups() as $group) {
-            $roles = array_merge($roles, $group->getRoles());
-        }
 
         // we need to make sure to have at least one role
         $roles[] = static::ROLE_DEFAULT;
@@ -522,59 +511,6 @@ class User implements UserInterface
 
         foreach ($roles as $role) {
             $this->addRole($role);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getGroups()
-    {
-        return $this->groups ?: $this->groups = new ArrayCollection();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getGroupNames()
-    {
-        $names = [];
-        foreach ($this->getGroups() as $group) {
-            $names[] = $group->getName();
-        }
-
-        return $names;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasGroup($name)
-    {
-        return in_array($name, $this->getGroupNames());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addGroup(GroupInterface $group)
-    {
-        if (!$this->getGroups()->contains($group)) {
-            $this->getGroups()->add($group);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeGroup(GroupInterface $group)
-    {
-        if ($this->getGroups()->contains($group)) {
-            $this->getGroups()->removeElement($group);
         }
 
         return $this;

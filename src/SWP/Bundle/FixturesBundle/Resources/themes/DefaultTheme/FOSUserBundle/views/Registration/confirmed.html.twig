@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% trans_default_domain 'FOSUserBundle' %}
+{% trans_default_domain 'SWPUserBundle' %}
 
 {% block body %}
 <div id="page" class="container">
@@ -8,12 +8,12 @@
   <!-- Content -->
   <section id="content">
 
-{% block fos_user_content %}
+{% block swp_user_content %}
     <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
     {% if targetUrl %}
     <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
     {% endif %}
-{% endblock fos_user_content %}
+{% endblock swp_user_content %}
 
   </section><!-- End Content -->
 
