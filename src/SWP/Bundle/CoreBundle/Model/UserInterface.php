@@ -23,7 +23,7 @@ use SWP\Component\Paywall\Model\SubscriberInterface;
 
 interface UserInterface extends BaseUserInterface, OrganizationAwareInterface, SettingsOwnerInterface, SubscriberInterface
 {
-    const ROLE_READER = 'ROLE_READER';
+    public const ROLE_READER = 'ROLE_READER';
 
     public function setId(string $id): void;
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-//use FOS\UserBundle\Model\UserManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;

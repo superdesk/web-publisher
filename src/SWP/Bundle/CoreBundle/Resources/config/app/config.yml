@@ -144,17 +144,6 @@ sylius_theme:
     sources:
         tenantable: ~
 
-#fos_user:
-#    db_driver: orm
-#    firewall_name: main
-#    user_class: SWP\Bundle\CoreBundle\Model\User
-#    from_email:
-#        address: '%env(FROM_EMAIL)%'
-#        sender_name: Publisher
-#    registration:
-#        confirmation:
-#            enabled: true
-
 swp_multi_tenancy:
     use_orm_listeners: true
     persistence:

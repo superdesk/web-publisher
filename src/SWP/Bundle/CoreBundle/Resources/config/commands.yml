@@ -10,14 +10,5 @@ services:
     SWP\Component\MultiTenancy\Context\TenantContextInterface: '@swp_multi_tenancy.tenant_context'
     SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository: '@swp.repository.package'
 
-    SWP\Bundle\CoreBundle\Command\CreateUserCommand:
-#        arguments:
-#            - "@fos_user.util.user_manipulator"
-
-    SWP\Bundle\CoreBundle\Command\ImportUserCommand:
-#        arguments:
-#            - "@fos_user.util.user_manipulator"
-
     SWP\Bundle\CoreBundle\Command\:
         resource: '../../Command/*'
-        exclude: '../../Command/{CreateUserCommand,ImportUserCommand}.php'
