@@ -24,7 +24,6 @@ use SWP\Bundle\UserBundle\Event\FilterUserResponseEvent;
 use SWP\Bundle\UserBundle\Event\FormEvent;
 use SWP\Bundle\UserBundle\Event\GetResponseUserEvent;
 use SWP\Bundle\UserBundle\Form\Type\RegistrationFormType;
-use SWP\Bundle\UserBundle\Model\User;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\UserBundle\SWPUserEvents;

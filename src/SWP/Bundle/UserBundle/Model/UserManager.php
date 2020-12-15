@@ -112,33 +112,18 @@ abstract class UserManager implements UserManagerInterface
         return $this->canonicalFieldsUpdater;
     }
 
-    public function deleteUser(UserInterface $user)
-    {
-        // TODO: Implement deleteUser() method.
-    }
+    abstract public function deleteUser(UserInterface $user);
 
-    public function findUserBy(array $criteria)
-    {
-        // TODO: Implement findUserBy() method.
-    }
+    abstract public function findUserBy(array $criteria);
 
-    public function findUsers()
-    {
-        // TODO: Implement findUsers() method.
-    }
+    abstract public function findUsers();
 
     public function getClass()
     {
         return User::class;
     }
 
-    public function reloadUser(UserInterface $user)
-    {
-        // TODO: Implement reloadUser() method.
-    }
+    abstract public function reloadUser(UserInterface $user);
 
-    public function updateUser(UserInterface $user, $andFlush = true)
-    {
-        // TODO: Implement updateUser() method.
-    }
+    abstract public function updateUser(UserInterface $user, $andFlush = true);
 }

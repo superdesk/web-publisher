@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Form\Type;
 
-//use SWP\Bundle\UserBundle\Form\Type\RegistrationFormType as BaseRegistrationFormType;
-//use SWP\Bundle\CoreBundle\Model\User;
 use SWP\Bundle\UserBundle\Model\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

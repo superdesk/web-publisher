@@ -16,20 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-use SWP\Bundle\SettingsBundle\Context\AbstractScopeContext;
-use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
-use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Bundle\UserBundle\Event\FormEvent;
 use SWP\Bundle\UserBundle\Event\GetResponseUserEvent;
-use SWP\Bundle\UserBundle\SWPUserEvents;
-use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\UserBundle\Form\Type\ProfileFormType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\UserBundle\SWPUserEvents;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -47,34 +43,18 @@ class ProfileController extends AbstractController
      */
     private $dispatcher;
     /**
-     * @var SettingsManagerInterface
-     */
-    private $settingsManager;
-    /**
-     * @var AbstractScopeContext
-     */
-    private $scopeContext;
-    /**
      * @var EntityRepository
      */
     private $userRepository;
 
     public function __construct(UserManagerInterface $userManager,
-                                        EventDispatcherInterface $dispatcher,
-//                                SettingsManagerInterface $settingsManager,
-//                                ScopeContextInterface $scopeContext,
+                                EventDispatcherInterface $dispatcher,
                                 EntityRepository $userRepository
-
-    )
-    {
-
+    ) {
         $this->userManager = $userManager;
         $this->dispatcher = $dispatcher;
-//        $this->settingsManager = $settingsManager;
-//        $this->scopeContext = $scopeContext;
         $this->userRepository = $userRepository;
     }
-
 
     /**
      * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
@@ -113,7 +93,6 @@ class ProfileController extends AbstractController
         $form = $this->get('form.factory')->createNamed('', ProfileFormType::class, $requestedUser, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $event = new FormEvent($form, $request);
             $this->dispatcher->dispatch($event, SWPUserEvents::PROFILE_EDIT_SUCCESS);
             $this->userManager->updateUser($requestedUser);
