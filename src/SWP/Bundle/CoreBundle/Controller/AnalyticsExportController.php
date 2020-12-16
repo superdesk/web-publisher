@@ -110,16 +110,17 @@ class AnalyticsExportController extends AbstractController
                 $this->cachedTenantContext->getTenant()->getCode(),
                 $fileName,
                 $currentlyLoggedInUser->getEmail(),
-                !empty($data['routes']) ? $this->toIds($data['routes'][0]) : [],
-                !empty($data['authors']) ? $this->toIds($data['authors'][0]) : [],
+                !empty($data['routes']) ? $this->toIds($data['routes']) : [],
+                !empty($data['authors']) ? $this->toIds($data['authors']) : [],
                 $data['term'] ?? ''
             );
 
             $filters = $this->processFilters(
                 $exportAnalytics->getFilters(),
-                !empty($data['routes']) ? $data['routes'][0] : [],
-                !empty($data['authors']) ? $data['authors'][0] : []
+                !empty($data['routes']) ? $data['routes'] : [],
+                !empty($data['authors']) ? $data['authors'] : []
             );
+
             $analyticsReport->setFilters($filters);
 
             $this->analyticsReportRepository->add($analyticsReport);
@@ -182,15 +183,17 @@ class AnalyticsExportController extends AbstractController
         return $response;
     }
 
-    private function toIds(array $entities): array
+    private function toIds(array $items): array
     {
         $ids = [];
-        foreach ($entities as $entity) {
-            if (!$entity instanceof PersistableInterface) {
-                continue;
-            }
+        foreach ($items as $item) {
+            foreach ($item as $entity) {
+                if (!$entity instanceof PersistableInterface) {
+                    continue;
+                }
 
-            $ids[] = $entity->getId();
+                $ids[] = $entity->getId();
+            }
         }
 
         return $ids;
@@ -199,8 +202,11 @@ class AnalyticsExportController extends AbstractController
     private function processFilters(array $filters, array $routes, array $authors): array
     {
         $routeNames = [];
+
         foreach ($routes as $route) {
-            $routeNames[] = $route->getName();
+            foreach ($route as $entity) {
+                $routeNames[] = $entity->getName();
+            }
         }
 
         $filters['routes'] = $routeNames;
@@ -208,7 +214,10 @@ class AnalyticsExportController extends AbstractController
         $authorNames = [];
         /** @var ArticleAuthorInterface $author */
         foreach ($authors as $author) {
-            $authorNames[] = $author->getName();
+            foreach ($author as $entity) {
+                $authorNames[] = $entity->getName();
+            }
+
         }
 
         $filters['authors'] = $authorNames;
