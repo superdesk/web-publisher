@@ -14,12 +14,17 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\UserBundle\Tests\Functional\Controler;
+namespace SWP\Bundle\UserBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
 
 class ProfileControllerTest extends WebTestCase
 {
+    /**
+     * @var object|\Symfony\Cmf\Component\Routing\ChainRouter|null
+     */
+    private $router;
+
     /**
      * {@inheritdoc}
      */

@@ -21,6 +21,7 @@ use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\UserBundle\SWPUserEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -49,8 +50,10 @@ class UserManipulator
     /**
      * UserManipulator constructor.
      */
-    public function __construct(UserManagerInterface $userManager, EventDispatcherInterface $dispatcher, RequestStack $requestStack)
-    {
+    public function __construct(UserManagerInterface $userManager,
+                                EventDispatcherInterface $dispatcher,
+                                RequestStack $requestStack
+    ) {
         $this->userManager = $userManager;
         $this->dispatcher = $dispatcher;
         $this->requestStack = $requestStack;
@@ -219,10 +222,7 @@ class UserManipulator
         return $user;
     }
 
-    /**
-     * @return Request
-     */
-    private function getRequest()
+    private function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
     }

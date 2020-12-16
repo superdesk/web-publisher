@@ -109,27 +109,26 @@ class RegistrationController extends AbstractController
             /** @var UserInterface $formData */
             $formData = $form->getData();
 
-
             if (null !== $this->userManager->findUserByEmail($formData->getEmail())) {
                 throw new ConflictHttpException(sprintf('User with email "%s" already exists', $formData->getEmail()));
             }
 
             if (null !== $this->userManager->findUserByUsername($formData->getUsername())) {
-                throw new ConflictHttpException(sprintf('User with username "%s" already exists', $formData->getUsername()));
+                throw new ConflictHttpException(sprintf('User with username "%s" already exists',
+                    $formData->getUsername()));
             }
 
             $event = new FormEvent($form, $request);
             $this->dispatcher->dispatch($event, SWPUserEvents::REGISTRATION_SUCCESS);
             $formData->addRole('ROLE_USER');
 
-
             $this->userRepository->add($formData);
-
 
             if (null === ($response = $event->getResponse())) {
                 return new SingleResourceResponse($formData, new ResponseContext(201));
             }
-            $this->dispatcher->dispatch(new FilterUserResponseEvent($user, $request, $response), SWPUserEvents::REGISTRATION_COMPLETED);
+            $this->dispatcher->dispatch(new FilterUserResponseEvent($user, $request, $response),
+                SWPUserEvents::REGISTRATION_COMPLETED);
 
             return $response;
         }

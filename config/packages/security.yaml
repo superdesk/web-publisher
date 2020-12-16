@@ -1,6 +1,6 @@
 security:
     encoders:
-        SWP\Bundle\UserBundle\Model\User: bcrypt
+        SWP\Bundle\UserBundle\Model\User: auto
 
     role_hierarchy:
         ROLE_USER:            [ROLE_READER]

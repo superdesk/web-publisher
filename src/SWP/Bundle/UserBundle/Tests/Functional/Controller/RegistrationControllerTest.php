@@ -21,9 +21,14 @@ use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
 class RegistrationControllerTest extends WebTestCase
 {
     /**
+     * @var object|\Symfony\Bundle\FrameworkBundle\Routing\Router|null
+     */
+    private $router;
+
+    /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();

@@ -16,10 +16,10 @@
     </parameters>
 
     <services>
-        <service id="swp_user.mailer.default" class="SWP\Bundle\UserBundle\Mailer\Mailer" public="false">
+        <service id="swp_user.mailer.default" class="SWP\Bundle\UserBundle\Mailer\BaseMailer" public="false">
             <argument type="service" id="mailer" />
             <argument type="service" id="router" />
-            <argument type="service" id="templating" />
+            <argument type="service" id="twig" />
             <argument type="collection">
                 <argument key="confirmation.template">%swp_user.registration.confirmation.template%</argument>
                 <argument key="resetting.template">%swp_user.resetting.email.template%</argument>

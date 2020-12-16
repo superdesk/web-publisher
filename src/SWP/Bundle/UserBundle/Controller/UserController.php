@@ -61,7 +61,7 @@ class UserController extends AbstractController
      * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_promote_user")
      * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_demote_user")
      */
-    public function modifyRoles(Request $request, $id, UserManagerInterface $userManager, AuthorizationCheckerInterface $authorizationChecker)
+    public function modifyRoles(Request $request, int $id, UserManagerInterface $userManager, AuthorizationCheckerInterface $authorizationChecker)
     {
         $requestedUser = $this->userManager->find($id);
         if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {

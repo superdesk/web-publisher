@@ -5,7 +5,6 @@ services:
         autoconfigure: true
         bind:
             $userRepository: '@swp.repository.user'
-#            $userManager: 'SWP\Bundle\UserBundle\Model\UserManager'
 
     SWP\Bundle\UserBundle\Controller\UserController:
         tags: ['controller.service_arguments']

@@ -16,12 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Security;
 
+use SWP\Bundle\UserBundle\Model\UserInterface;
+
 class EmailProvider extends UserProvider
 {
     /**
      * {@inheritdoc}
      */
-    protected function findUser($username)
+    protected function findUser($username): ?UserInterface
     {
         return $this->userManager->findUserByEmail($username);
     }

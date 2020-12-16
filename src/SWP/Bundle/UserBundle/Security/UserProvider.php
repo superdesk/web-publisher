@@ -75,7 +75,7 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         $userClass = $this->userManager->getClass();
 
@@ -91,7 +91,7 @@ class UserProvider implements UserProviderInterface
      *
      * @return UserInterface|null
      */
-    protected function findUser($username)
+    protected function findUser($username): ?UserInterface
     {
         return $this->userManager->findUserByUsername($username);
     }

@@ -14,16 +14,21 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\UserBundle\Tests\Functional\Controler;
+namespace SWP\Bundle\UserBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
 
 class UserControllerTest extends WebTestCase
 {
     /**
+     * @var object|\Symfony\Bundle\FrameworkBundle\Routing\Router|null
+     */
+    private $router;
+
+    /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();

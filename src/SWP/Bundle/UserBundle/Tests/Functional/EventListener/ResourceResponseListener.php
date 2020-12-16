@@ -31,9 +31,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class ResourceResponseListener
 {
-    /**
-     * @param GetResponseForControllerResultEvent $event
-     */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $controllerResult = $event->getControllerResult();
@@ -43,9 +40,9 @@ final class ResourceResponseListener
             $event->setResponse(new JsonResponse($controllerResult->getResources(), $responseContext->getStatusCode()));
         } elseif ($controllerResult instanceof SingleResourceResponseInterface) {
             if ($controllerResult->getResource() instanceof FormInterface) {
-                $errors = array();
+                $errors = [];
                 foreach ($controllerResult->getResource()->getErrors(true) as $error) {
-                    $errors[] = array('message' => $error->getMessage());
+                    $errors[] = ['message' => $error->getMessage()];
                 }
 
                 $event->setResponse(new Response($this->getSerializer()->serialize($errors, 'json'), $responseContext->getStatusCode()));
@@ -57,9 +54,6 @@ final class ResourceResponseListener
         }
     }
 
-    /**
-     * @return SerializerInterface
-     */
     private function getSerializer(): SerializerInterface
     {
         $encoders = [new JsonEncoder()];

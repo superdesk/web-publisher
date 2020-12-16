@@ -10,8 +10,8 @@ framework:
     router:
         resource: "%kernel.root_dir%/../../../Resources/config/routing.yml"
         strict_requirements: ~
-    templating:
-        engines: ['twig']
+#    templating:
+#        engines: ['twig']
     session:
         handler_id: ~
         storage_id: session.storage.mock_file
@@ -60,16 +60,6 @@ doctrine:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: true
 
-#swp_user:
-#    db_driver: orm
-#    firewall_name: main
-#    user_class: SWP\Bundle\UserBundle\Model\User
-#    from_email:
-#        address: contact@publisher.dev
-#        sender_name: Publisher
-#    registration:
-#        confirmation:
-#            enabled: true
 
 swp_settings:
     persistence:
@@ -82,6 +72,16 @@ swp_settings:
             value: true
 
 swp_user:
+#    db_driver: orm
+#    firewall_name: main
+#    user_class: SWP\Bundle\UserBundle\Model\User
+    from_email:
+        address: contact@publisher.dev
+        sender_name: Publisher
+    registration:
+        confirmation:
+            enabled: true
+
     persistence:
         orm:
             enabled: true

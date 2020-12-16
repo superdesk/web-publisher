@@ -26,19 +26,19 @@ interface UserInterface extends BaseUserInterface, PersistableInterface, Timesta
 
     public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
-    public function getAbout(): string;
+    public function getAbout(): ?string;
 
     public function setAbout(string $about);
 
-    public function getFirstName(): string;
+    public function getFirstName(): ?string;
 
     public function setFirstName(string $firstName);
 
-    public function getLastName(): string;
+    public function getLastName(): ?string;
 
     public function setLastName(string $lastName);
 
-    public function getExternalId(): string;
+    public function getExternalId(): ?string;
 
     public function setExternalId(string $externalId);
 }

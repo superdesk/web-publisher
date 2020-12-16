@@ -56,16 +56,15 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    SWP\Bundle\UserBundle\Mailer\Mailer:
-        arguments:
-                $tenantContext: '@swp_multi_tenancy.tenant_context'
-                $mailer: '@swiftmailer.mailer.default'
-                $parameters: { confirmation.template: 'test.html.twig',
-                               resetting.template: 'test.html.twig',
-                               from_email: { confirmation': 'test.html.twig', resetting: 'test.html.twig' }}
+#    SWP\Bundle\UserBundle\Mailer\Mailer:
+#        arguments:
+#                $tenantContext: '@swp_multi_tenancy.tenant_context'
+#                $mailer: '@swiftmailer.mailer.default'
+#                $parameters: { confirmation.template: 'test.html.twig',
+#                               resetting.template: 'test.html.twig',
+#                               from_email: { confirmation': 'test.html.twig', resetting: 'test.html.twig' }}
 
-
-    SWP\Bundle\UserBundle\Mailer\MailerInterface: '@SWP\Bundle\UserBundle\Mailer\Mailer'
+    SWP\Bundle\UserBundle\Mailer\MailerInterface: '@swp_user.mailer.default'
 
     swp_user.util.token_generator.default:
         class: SWP\Bundle\UserBundle\Util\TokenGenerator
