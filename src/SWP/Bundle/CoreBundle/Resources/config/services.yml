@@ -810,3 +810,9 @@ services:
     SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
         arguments:
             - '@messenger.transport.failed'
+
+    SWP\Bundle\CoreBundle\Form\Type\AuthorSelectorType:
+        arguments:
+            - '@swp.repository.author'
+        tags:
+            - { name: form.type }

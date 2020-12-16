@@ -111,7 +111,7 @@ class ExportAnalytics implements MessageInterface
             'start' => $this->start,
             'end' => $this->end,
             'routes' => array_map('intval', $this->routeIds),
-            'authors' => $this->authors,
+            'authors' => array_map('intval', $this->authors),
         ];
     }
 

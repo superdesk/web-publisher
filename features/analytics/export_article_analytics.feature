@@ -130,7 +130,11 @@ Feature: Export articles analytics report
     {
         "start": "2020-01-20",
         "end": "2020-01-23",
-        "authors": ["Tom"]
+        "authors": [
+            {
+                "id": 1
+            }
+        ]
     }
     """
     Then the response status code should be 201
@@ -258,7 +262,7 @@ Feature: Export articles analytics report
 
                    ],
                    "authors":[
-                      "Tom"
+                      "Adam"
                    ]
                 },
                 "created_at":"2019-03-10T11:00:00+00:00",
@@ -273,7 +277,7 @@ Feature: Export articles analytics report
        }
     }
     """
-    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-11:00:00.csv" should contain 2 rows
+    And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-11:00:00.csv" should contain 4 rows
 
     Given the current date time is "2019-03-10 12:00"
     Given I am authenticated as "test.user"
@@ -283,7 +287,11 @@ Feature: Export articles analytics report
     {
         "start": "2020-01-20",
         "end": "2020-01-23",
-        "authors": ["Rafal"]
+        "authors": [
+            {
+                "id": 2
+            }
+        ]
     }
     """
     Then the response status code should be 201
@@ -297,7 +305,11 @@ Feature: Export articles analytics report
     {
         "start": "2020-01-20",
         "end": "2020-01-23",
-        "authors": ["Adam"]
+        "authors": [
+            {
+                "id": 1
+            }
+        ]
     }
     """
     Then the response status code should be 201
@@ -330,3 +342,56 @@ Feature: Export articles analytics report
     """
     Then the response status code should be 201
     And the CSV file "/public/uploads/swp/123456/exports/analytics-2019-03-10-15:00:00.csv" should contain 2 rows
+
+    Given the current date time is "2019-03-10 16:00"
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v2/export/analytics/" with body:
+    """
+    {
+        "start": "2020-01-20",
+        "end": "2020-01-23",
+        "authors": [
+            {
+                "id": 99
+            }
+        ]
+    }
+    """
+    Then the response status code should be 400
+    And the JSON should be equal to:
+    """
+    {
+       "code":400,
+       "message":"Validation Failed",
+       "errors":{
+          "children":{
+             "start":{
+
+             },
+             "end":{
+
+             },
+             "routes":{
+
+             },
+             "authors":{
+                "children":[
+                   {
+                      "children":{
+                         "id":{
+                            "errors":[
+                               "The selected author does not exist!"
+                            ]
+                         }
+                      }
+                   }
+                ]
+             },
+             "term":{
+
+             }
+          }
+       }
+    }
+    """
