@@ -1,6 +1,0 @@
-vendor/
-bin/
-composer.phar
-composer.lock
-var/cache/*
-var/log/*

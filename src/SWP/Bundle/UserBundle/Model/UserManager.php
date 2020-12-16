@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Web Publisher User Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -24,8 +24,10 @@ abstract class UserManager implements UserManagerInterface
     private $passwordUpdater;
     private $canonicalFieldsUpdater;
 
-    public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater)
-    {
+    public function __construct(
+        PasswordUpdaterInterface $passwordUpdater,
+        CanonicalFieldsUpdater $canonicalFieldsUpdater
+    ) {
         $this->passwordUpdater = $passwordUpdater;
         $this->canonicalFieldsUpdater = $canonicalFieldsUpdater;
     }

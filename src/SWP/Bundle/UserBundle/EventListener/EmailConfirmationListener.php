@@ -36,12 +36,12 @@ class EmailConfirmationListener implements EventSubscriberInterface
     /**
      * EmailConfirmationListener constructor.
      */
-    public function __construct(MailerInterface $mailer,
-                                TokenGeneratorInterface $tokenGenerator,
-                                UrlGeneratorInterface $router,
-                                SessionInterface $session
-    )
-    {
+    public function __construct(
+        MailerInterface $mailer,
+        TokenGeneratorInterface $tokenGenerator,
+        UrlGeneratorInterface $router,
+        SessionInterface $session
+    ) {
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
         $this->router = $router;

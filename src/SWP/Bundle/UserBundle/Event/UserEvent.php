@@ -17,8 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Event;
 
 use SWP\Bundle\UserBundle\Model\UserInterface;
-use Symfony\Component\EventDispatcher\Event;
+
+
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class UserEvent extends Event
 {

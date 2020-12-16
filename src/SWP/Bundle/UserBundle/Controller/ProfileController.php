@@ -47,9 +47,10 @@ class ProfileController extends AbstractController
      */
     private $userRepository;
 
-    public function __construct(UserManagerInterface $userManager,
-                                EventDispatcherInterface $dispatcher,
-                                EntityRepository $userRepository
+    public function __construct(
+        UserManagerInterface $userManager,
+        EventDispatcherInterface $dispatcher,
+        EntityRepository $userRepository
     ) {
         $this->userManager = $userManager;
         $this->dispatcher = $dispatcher;
@@ -90,7 +91,8 @@ class ProfileController extends AbstractController
             return $event->getResponse();
         }
 
-        $form = $this->get('form.factory')->createNamed('', ProfileFormType::class, $requestedUser, ['method' => $request->getMethod()]);
+        $form = $this->get('form.factory')
+            ->createNamed('', ProfileFormType::class, $requestedUser, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $event = new FormEvent($form, $request);

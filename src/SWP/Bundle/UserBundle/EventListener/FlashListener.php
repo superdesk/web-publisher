@@ -17,10 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\EventListener;
 
 use SWP\Bundle\UserBundle\SWPUserEvents;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FlashListener implements EventSubscriberInterface
 {
@@ -72,10 +72,7 @@ class FlashListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param string $eventName
-     */
-    public function addSuccessFlash(Event $event, $eventName)
+    public function addSuccessFlash(Event $event, string $eventName)
     {
         if (!isset(self::$successMessages[$eventName])) {
             throw new \InvalidArgumentException('This event does not correspond to a known flash message');
@@ -84,12 +81,7 @@ class FlashListener implements EventSubscriberInterface
         $this->session->getFlashBag()->add('success', $this->trans(self::$successMessages[$eventName]));
     }
 
-    /**
-     * @param string$message
-     *
-     * @return string
-     */
-    private function trans($message, array $params = [])
+    private function trans(string $message, array $params = []): string
     {
         return $this->translator->trans($message, $params, 'SWPUserBundle');
     }
