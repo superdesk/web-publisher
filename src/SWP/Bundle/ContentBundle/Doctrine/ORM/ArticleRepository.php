@@ -293,14 +293,14 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove('author');
         }
 
-        if ($criteria->has('authors') && !empty($criteria->get('authors'))) {
+        if ($criteria->has('authorIds') && !empty($criteria->get('authorIds'))) {
             $orX = $queryBuilder->expr()->orX();
-            foreach ((array) $criteria->get('authors') as $value) {
+            foreach ((array) $criteria->get('authorIds') as $value) {
                 $orX->add($queryBuilder->expr()->eq('au.id', $value));
             }
 
             $queryBuilder->andWhere($orX);
-            $criteria->remove('authors');
+            $criteria->remove('authorIds');
         }
 
         if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {

@@ -91,6 +91,10 @@ class ContentListController extends Controller
         $form = $form = $this->get('form.factory')->createNamed('', ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
+        if (isset($filters['author'])) {
+            $filters['author'] = $this->authorsToIds($filters['author']);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('event_dispatcher')->dispatch(
                 ContentListEvents::LIST_CRITERIA_CHANGE,
@@ -202,5 +206,19 @@ class ContentListController extends Controller
         if (null !== $this->get('swp.repository.content_list')->findOneByName($name)) {
             throw new ConflictHttpException(sprintf('Content list named "%s" already exists!', $name));
         }
+    }
+
+    private function authorsToIds(array $authors): array
+    {
+        $authorIds = [];
+        foreach ($authors['author'] as $author) {
+            if (!isset($author['id'])) {
+                continue;
+            }
+
+            $authorIds[] = $author['id'];
+        }
+
+        return $authorIds;
     }
 }

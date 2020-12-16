@@ -77,7 +77,8 @@ final class UpdateContentListItemsListener
             }
 
             if (isset($filters['author'])) {
-                $filters['authors'] = $filters['author'];
+                $filters['authorIds'] = $filters['author'];
+                unset($filters['author']);
             }
 
             $articles = $this->articleRepository->getArticlesByCriteria(
