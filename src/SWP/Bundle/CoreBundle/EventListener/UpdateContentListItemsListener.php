@@ -76,6 +76,10 @@ final class UpdateContentListItemsListener
                 $criteria->set('route', $this->routeProvider->getByMixed($filters['route']));
             }
 
+            if (isset($filters['author'])) {
+                $filters['authors'] = $filters['author'];
+            }
+
             $articles = $this->articleRepository->getArticlesByCriteria(
                 $criteria,
                 ['publishedAt' => 'desc']
