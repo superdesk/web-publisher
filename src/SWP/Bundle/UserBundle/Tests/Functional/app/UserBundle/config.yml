@@ -10,8 +10,6 @@ framework:
     router:
         resource: "%kernel.root_dir%/../../../Resources/config/routing.yml"
         strict_requirements: ~
-#    templating:
-#        engines: ['twig']
     session:
         handler_id: ~
         storage_id: session.storage.mock_file
@@ -44,6 +42,7 @@ sensio_framework_extra:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: false
+    exception_controller: null
 
 doctrine:
     dbal:
@@ -57,7 +56,7 @@ doctrine:
             SWP\Bundle\UserBundle\Model\UserInterface: SWP\Bundle\UserBundle\Model\User
         entity_managers:
             default:
-                naming_strategy: doctrine.orm.naming_strategy.underscore
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 auto_mapping: true
 
 
@@ -72,9 +71,6 @@ swp_settings:
             value: true
 
 swp_user:
-#    db_driver: orm
-#    firewall_name: main
-#    user_class: SWP\Bundle\UserBundle\Model\User
     from_email:
         address: contact@publisher.dev
         sender_name: Publisher

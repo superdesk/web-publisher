@@ -37,6 +37,7 @@ class UserControllerTest extends WebTestCase
 
     public function testUserRolesModifications()
     {
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
                 'email' => 'contact@example.com',

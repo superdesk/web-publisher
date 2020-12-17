@@ -8,7 +8,7 @@ services:
 
     SWP\Bundle\UserBundle\Controller\UserController:
         tags: ['controller.service_arguments']
-#
+
     SWP\Bundle\UserBundle\Controller\RegistrationController:
         tags: ['controller.service_arguments']
 

@@ -20,10 +20,19 @@ use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\UserBundle\DependencyInjection\Compiler\DisableLastLoginListenerPass;
 use SWP\Bundle\UserBundle\DependencyInjection\Compiler\OverrideFosMailerPass;
+use SWP\Component\Storage\Bundle\BundleInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPUserBundle extends Bundle
 {
+
+    /**
+     * Default format of mapping files.
+     *
+     * @var string
+     */
+    protected $mappingFormat = BundleInterface::MAPPING_XML;
+
     /**
      * {@inheritdoc}
      */

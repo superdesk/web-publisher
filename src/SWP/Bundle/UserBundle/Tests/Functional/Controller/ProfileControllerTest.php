@@ -37,6 +37,7 @@ class ProfileControllerTest extends WebTestCase
 
     public function testUserUpdate()
     {
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
                 'email' => 'contact@example.com',
