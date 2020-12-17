@@ -33,10 +33,7 @@ class AuthorRepository extends Repository
             $boolQuery = new BoolQuery();
             $term = $criteria->getTerm();
 
-            $regexp = new Query\Regexp();
-            $regexp->setValue('name', $term.'.*');
-
-            $boolQuery->addShould($regexp);
+            $boolQuery->addShould(new Query\MatchPhrase('name', $term));
             $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
