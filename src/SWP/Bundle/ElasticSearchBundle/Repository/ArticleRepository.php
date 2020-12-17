@@ -38,7 +38,7 @@ class ArticleRepository extends Repository
 
         $term = $criteria->getTerm();
         if (null !== $term && '' !== $term) {
-            $searchBy = ['title^5', 'lead^4', 'body^3', 'keywords.name^2'];
+            $searchBy = ['title^10', 'lead^4', 'body^2', 'keywords.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
@@ -58,12 +58,11 @@ class ArticleRepository extends Repository
 
             $boolQuery->addShould($phraseMultiMatchQuery);
 
-            $phraseMultiMatchQuery2 = new MultiMatch();
-            $phraseMultiMatchQuery2->setQuery($term);
-            $phraseMultiMatchQuery2->setFields($searchBy);
-            $phraseMultiMatchQuery2->setFuzziness(1);
-
-            $boolQuery->addShould($phraseMultiMatchQuery);
+            $fuzzinessMultiMatchQuery = new MultiMatch();
+            $fuzzinessMultiMatchQuery->setQuery($term);
+            $fuzzinessMultiMatchQuery->setFields($searchBy);
+            $fuzzinessMultiMatchQuery->setFuzziness(1);
+            $boolQuery->addShould($fuzzinessMultiMatchQuery);
 
             $multiMatchQuery = new MultiMatch();
             $multiMatchQuery->setQuery($term);
@@ -71,30 +70,29 @@ class ArticleRepository extends Repository
             $multiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
             $multiMatchQuery->setParam('boost', 2);
             $multiMatchQuery->setFuzziness(0);
-            $multiMatchQuery->setTieBreaker(0.3);
-
             $boolQuery->addShould($multiMatchQuery);
 
             $bool = new BoolQuery();
-            $phraseMultiMatchQuery3 = new MultiMatch();
-            $phraseMultiMatchQuery3->setQuery($term);
-            $phraseMultiMatchQuery3->setFields(['authors.name', 'authors.biography']);
-            $phraseMultiMatchQuery3->setType(MultiMatch::TYPE_PHRASE);
-            $phraseMultiMatchQuery3->setParam('boost', 4);
-            $bool->addShould($phraseMultiMatchQuery3);
+            $authorsPhraseMultiMatchQuery = new MultiMatch();
+            $authorsPhraseMultiMatchQuery->setQuery($term);
+            $authorsPhraseMultiMatchQuery->setFields(['authors.name', 'authors.biography']);
+            $authorsPhraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $authorsPhraseMultiMatchQuery->setParam('boost', 4);
+            $bool->addShould($authorsPhraseMultiMatchQuery);
 
-            $multiMatchQuery4 = new MultiMatch();
-            $multiMatchQuery4->setQuery($term);
-            $multiMatchQuery4->setFields(['authors.name', 'authors.biography']);
-            $multiMatchQuery4->setOperator(MultiMatch::OPERATOR_AND);
-            $multiMatchQuery4->setParam('boost', 2);
-            $multiMatchQuery4->setFuzziness(0);
-            $bool->addShould($multiMatchQuery4);
+            $authorMultiMatchQuery = new MultiMatch();
+            $authorMultiMatchQuery->setQuery($term);
+            $authorMultiMatchQuery->setFields(['authors.name', 'authors.biography']);
+            $authorMultiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
+            $authorMultiMatchQuery->setParam('boost', 2);
+            $authorMultiMatchQuery->setFuzziness(0);
+            $bool->addShould($authorMultiMatchQuery);
 
-            $phraseMultiMatchQuery5 = new MultiMatch();
-            $phraseMultiMatchQuery5->setQuery($term);
-            $phraseMultiMatchQuery5->setFields(['authors.name', 'authors.biography']);
-            $phraseMultiMatchQuery5->setFuzziness(1);
+            $fuzzinessPhraseMultiMatchQuery = new MultiMatch();
+            $fuzzinessPhraseMultiMatchQuery->setQuery($term);
+            $fuzzinessPhraseMultiMatchQuery->setFields(['authors.name', 'authors.biography']);
+            $fuzzinessPhraseMultiMatchQuery->setFuzziness(1);
+            $bool->addShould($fuzzinessPhraseMultiMatchQuery);
 
             $nested = new Nested();
             $nested->setPath('authors');
@@ -107,7 +105,6 @@ class ArticleRepository extends Repository
             $nested->setQuery($functionScore);
 
             $boolQuery->addShould($nested);
-
             $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());

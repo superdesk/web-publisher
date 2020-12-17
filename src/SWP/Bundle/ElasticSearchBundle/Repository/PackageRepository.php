@@ -48,12 +48,12 @@ class PackageRepository extends Repository
 
             $boolQuery->addShould($phraseMultiMatchQuery);
 
-            $phraseMultiMatchQuery2 = new MultiMatch();
-            $phraseMultiMatchQuery2->setQuery($term);
-            $phraseMultiMatchQuery2->setFields($searchBy);
-            $phraseMultiMatchQuery2->setFuzziness(1);
+            $fuzzinessPhraseMultiMatchQuery = new MultiMatch();
+            $fuzzinessPhraseMultiMatchQuery->setQuery($term);
+            $fuzzinessPhraseMultiMatchQuery->setFields($searchBy);
+            $fuzzinessPhraseMultiMatchQuery->setFuzziness(1);
 
-            $boolQuery->addShould($phraseMultiMatchQuery);
+            $boolQuery->addShould($fuzzinessPhraseMultiMatchQuery);
 
             $multiMatchQuery = new MultiMatch();
             $multiMatchQuery->setQuery($term);
