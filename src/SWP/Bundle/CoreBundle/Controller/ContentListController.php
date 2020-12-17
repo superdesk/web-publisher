@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Exception;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Service\AuthorHelper;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Request\RequestParser;
@@ -92,7 +93,7 @@ class ContentListController extends Controller
         $form->handleRequest($request);
 
         if (isset($filters['author'])) {
-            $filters['author'] = $this->authorsToIds($filters['author']);
+            $filters['author'] = AuthorHelper::authorsToIds($filters['author']);
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -206,19 +207,5 @@ class ContentListController extends Controller
         if (null !== $this->get('swp.repository.content_list')->findOneByName($name)) {
             throw new ConflictHttpException(sprintf('Content list named "%s" already exists!', $name));
         }
-    }
-
-    private function authorsToIds(array $authors): array
-    {
-        $authorIds = [];
-        foreach ($authors['author'] as $author) {
-            if (!isset($author['id'])) {
-                continue;
-            }
-
-            $authorIds[] = $author['id'];
-        }
-
-        return $authorIds;
     }
 }

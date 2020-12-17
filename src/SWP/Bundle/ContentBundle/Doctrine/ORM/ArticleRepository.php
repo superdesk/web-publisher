@@ -277,6 +277,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         }
 
         if (
+            ($criteria->has('authorIds') && !empty($criteria->get('authorIds'))) ||
             ($criteria->has('author') && !empty($criteria->get('author'))) ||
             ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author')))
         ) {
@@ -295,6 +296,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
         if ($criteria->has('authorIds') && !empty($criteria->get('authorIds'))) {
             $orX = $queryBuilder->expr()->orX();
+
             foreach ((array) $criteria->get('authorIds') as $value) {
                 $orX->add($queryBuilder->expr()->eq('au.id', $value));
             }

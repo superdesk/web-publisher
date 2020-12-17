@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemoverInterface;
 use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
+use SWP\Bundle\CoreBundle\Service\AuthorHelper;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
@@ -77,8 +78,8 @@ final class UpdateContentListItemsListener
             }
 
             if (isset($filters['author'])) {
-                $filters['authorIds'] = $filters['author'];
-                unset($filters['author']);
+                $criteria->set('authorIds', AuthorHelper::authorsToIds($filters['author']));
+                $criteria->remove('author');
             }
 
             $articles = $this->articleRepository->getArticlesByCriteria(
