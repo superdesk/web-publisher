@@ -76,20 +76,4 @@
         </property>
     </class>
 
-    <class name="SWP\Bundle\UserBundle\Model\Group">
-        <property name="name">
-            <constraint name="NotBlank">
-                <option name="message">swp_user.group.blank</option>
-                <option name="groups">Registration</option>
-            </constraint>
-            <constraint name="Length">
-                <option name="min">2</option>
-                <option name="minMessage">swp_user.group.short</option>
-                <option name="max">180</option>
-                <option name="maxMessage">swp_user.group.long</option>
-                <option name="groups">Registration</option>
-            </constraint>
-        </property>
-    </class>
-
 </constraint-mapping>
