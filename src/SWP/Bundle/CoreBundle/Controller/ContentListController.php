@@ -17,7 +17,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Exception;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Service\AuthorHelper;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Request\RequestParser;
@@ -91,10 +90,6 @@ class ContentListController extends Controller
 
         $form = $form = $this->get('form.factory')->createNamed('', ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
-
-        if (isset($filters['author'])) {
-            $filters['author'] = AuthorHelper::authorsToIds($filters['author']);
-        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('event_dispatcher')->dispatch(

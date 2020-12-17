@@ -21,7 +21,6 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemoverInterface;
 use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
-use SWP\Bundle\CoreBundle\Service\AuthorHelper;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
@@ -65,12 +64,22 @@ final class UpdateContentListItemsListener
             $this->contentListService->removeListItemsAboveTheLimit($contentList);
         }
 
+        $contentListFilters = $contentList->getFilters();
+        if (isset($contentListFilters['author'])) {
+            $contentListFilters['author'] = $this->normalize($contentListFilters['author']);
+        }
+
+        $previousFilters = $event->getArgument('filters');
+        if (isset($previousFilters['author'])) {
+            $previousFilters['author'] = $this->normalize($previousFilters['author']);
+        }
+
         if (
-            0 === count($contentList->getFilters()) ||
-            ContentListInterface::TYPE_AUTOMATIC === $contentList->getType() && $contentList->getFilters() !== $event->getArgument('filters')
+            0 === count($contentListFilters) ||
+            (ContentListInterface::TYPE_AUTOMATIC === $contentList->getType() && $contentListFilters !== $previousFilters)
         ) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
-            $filters = $this->determineLimit($contentList, $contentList->getFilters());
+            $filters = $this->determineLimit($contentList, $contentListFilters);
             $criteria = new Criteria($filters);
             $criteria->set('status', ArticleInterface::STATUS_PUBLISHED);
             if (isset($filters['route'])) {
@@ -78,7 +87,7 @@ final class UpdateContentListItemsListener
             }
 
             if (isset($filters['author'])) {
-                $criteria->set('authorIds', AuthorHelper::authorsToIds($filters['author']));
+                $criteria->set('authorIds', $filters['author']);
                 $criteria->remove('author');
             }
 
@@ -106,5 +115,19 @@ final class UpdateContentListItemsListener
         $filters['maxResults'] = $limit;
 
         return $filters;
+    }
+
+    public function normalize(array $authors): array
+    {
+        $authorIds = [];
+        foreach ($authors as $author) {
+            if (!isset($author['id'])) {
+                continue;
+            }
+
+            $authorIds[] = $author['id'];
+        }
+
+        return $authorIds;
     }
 }
