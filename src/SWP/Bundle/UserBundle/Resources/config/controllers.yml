@@ -14,3 +14,6 @@ services:
 
     SWP\Bundle\UserBundle\Controller\ProfileController:
         tags: ['controller.service_arguments']
+
+    SWP\Bundle\UserBundle\Controller\ResettingController:
+        tags: ['controller.service_arguments']

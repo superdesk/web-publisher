@@ -21,3 +21,7 @@ swp_user_security_login:
 swp_user_registration_register:
     path: /
     defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::registerAction }
+
+swp_user_resetting:
+    resource: "@SWPUserBundle/Resources/config/resetting.xml"
+    prefix: /resetting
