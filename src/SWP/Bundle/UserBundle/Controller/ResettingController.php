@@ -20,6 +20,7 @@ use SWP\Bundle\UserBundle\Event\FilterUserResponseEvent;
 use SWP\Bundle\UserBundle\Event\FormEvent;
 use SWP\Bundle\UserBundle\Event\GetResponseNullableUserEvent;
 use SWP\Bundle\UserBundle\Event\GetResponseUserEvent;
+use SWP\Bundle\UserBundle\Form\Factory\FactoryInterface;
 use SWP\Bundle\UserBundle\Mailer\MailerInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\UserBundle\Util\TokenGeneratorInterface;
@@ -57,8 +58,7 @@ class ResettingController extends AbstractController
         TokenGeneratorInterface $tokenGenerator,
         MailerInterface $mailer,
         $retryTtl
-    )
-    {
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->formFactory = $formFactory;
         $this->userManager = $userManager;
@@ -185,7 +185,6 @@ class ResettingController extends AbstractController
             }
 
             $this->eventDispatcher->dispatch(
-
                 new FilterUserResponseEvent($user, $request, $response, SWPUserEvents::RESETTING_RESET_COMPLETED)
             );
 

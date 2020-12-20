@@ -25,7 +25,7 @@ services:
 
     swp_user.user_manager:
         class: 'SWP\Bundle\UserBundle\Doctrine\UserManager'
-        public: true
+        public: true`
         arguments:
             - '@SWP\Bundle\UserBundle\Util\PasswordUpdater'
             - '@SWP\Bundle\UserBundle\Util\CanonicalFieldsUpdater'
@@ -79,3 +79,13 @@ services:
             $firewallName: '%swp_user.firewall_name%'
         tags:
             - { name: kernel.event_subscriber }
+
+#    swp_user.resetting.form.factory:
+#        class: SWP\Bundle\UserBundle\Form\Factory\FormFactory
+##        arguments:
+##            $name: '%swp_user.resetting.form.name%'
+##            $type: '%swp_user.resetting.form.type%'
+
+
+#    SWP\Bundle\UserBundle\Form\Factory\FormFactory: ~
+#    SWP\Bundle\UserBundle\Form\Factory\FactoryInterface: '@SWP\Bundle\UserBundle\Form\Factory\FormFactory'

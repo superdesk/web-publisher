@@ -5,6 +5,7 @@ services:
         autoconfigure: true
         bind:
             $userRepository: '@swp.repository.user'
+#            $retryTtl: '%swp_user.resetting.token_ttl%'
 
     SWP\Bundle\UserBundle\Controller\UserController:
         tags: ['controller.service_arguments']
