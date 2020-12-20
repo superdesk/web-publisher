@@ -22,6 +22,7 @@ use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\SWPUserEvents;
 use SWP\Bundle\UserBundle\Util\TokenGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -73,6 +74,10 @@ class EmailConfirmationListener implements EventSubscriberInterface
         $this->session->set('swp_user_send_confirmation_email/email', $user->getEmail());
 
         $url = $this->router->generate('swp_user_registration_check_email');
-        $event->setResponse(new RedirectResponse($url));
+        $response = new RedirectResponse($url);
+        if ($event->getRequest()->isXmlHttpRequest()) {
+            $response = new JsonResponse(['url' => $url]);
+        }
+        $event->setResponse($response);
     }
 }
