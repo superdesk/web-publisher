@@ -74,10 +74,8 @@ class EmailConfirmationListener implements EventSubscriberInterface
         $this->session->set('swp_user_send_confirmation_email/email', $user->getEmail());
 
         $url = $this->router->generate('swp_user_registration_check_email');
-        $response = new RedirectResponse($url);
-        if ($event->getRequest()->isXmlHttpRequest()) {
-            $response = new JsonResponse(['url' => $url]);
-        }
+
+        $response = new JsonResponse(['url' => $url]);
         $event->setResponse($response);
     }
 }
