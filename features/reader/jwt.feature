@@ -17,11 +17,8 @@ Feature: Registering and login as new publisher reader
         }
     }
     """
-    Then the response status code should be 302
-    And I follow the redirection
     Then the response status code should be 200
-    And the response should contain "The user has been created successfully"
-    And the response should contain "An email has been sent to null@sourcefabric.org. It contains an activation link you must click to activate your account."
+    And the JSON node 'url' should exist
 
     When I send a "GET" request to "/register/confirm/abcdefghijklmn"
     Then the response status code should be 302

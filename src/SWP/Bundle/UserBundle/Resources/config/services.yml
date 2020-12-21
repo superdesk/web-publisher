@@ -56,14 +56,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-#    SWP\Bundle\UserBundle\Mailer\Mailer:
-#        arguments:
-#                $tenantContext: '@swp_multi_tenancy.tenant_context'
-#                $mailer: '@swiftmailer.mailer.default'
-#                $parameters: { confirmation.template: 'test.html.twig',
-#                               resetting.template: 'test.html.twig',
-#                               from_email: { confirmation': 'test.html.twig', resetting: 'test.html.twig' }}
-
     SWP\Bundle\UserBundle\Mailer\MailerInterface: '@swp_user.mailer.default'
 
     swp_user.util.token_generator.default:
@@ -79,13 +71,3 @@ services:
             $firewallName: '%swp_user.firewall_name%'
         tags:
             - { name: kernel.event_subscriber }
-
-#    swp_user.resetting.form.factory:
-#        class: SWP\Bundle\UserBundle\Form\Factory\FormFactory
-##        arguments:
-##            $name: '%swp_user.resetting.form.name%'
-##            $type: '%swp_user.resetting.form.type%'
-
-
-#    SWP\Bundle\UserBundle\Form\Factory\FormFactory: ~
-#    SWP\Bundle\UserBundle\Form\Factory\FactoryInterface: '@SWP\Bundle\UserBundle\Form\Factory\FormFactory'

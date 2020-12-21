@@ -23,6 +23,7 @@ use SWP\Bundle\UserBundle\Event\GetResponseUserEvent;
 use SWP\Bundle\UserBundle\Form\Factory\FactoryInterface;
 use SWP\Bundle\UserBundle\Mailer\MailerInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\UserBundle\SWPUserEvents;
 use SWP\Bundle\UserBundle\Util\TokenGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -124,7 +125,7 @@ class ResettingController extends AbstractController
             }
         }
 
-        return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email', ['username' => $username]));
+        return new RedirectResponse($this->generateUrl('swp_user_resetting_check_email', ['username' => $username]));
     }
 
     /**
@@ -138,7 +139,7 @@ class ResettingController extends AbstractController
 
         if (empty($username)) {
             // the user does not come from the sendEmail action
-            return new RedirectResponse($this->generateUrl('fos_user_resetting_request'));
+            return new RedirectResponse($this->generateUrl('swp_user_resetting_request'));
         }
 
         return $this->render('@SWPUser/Resetting/check_email.html.twig', [
@@ -158,7 +159,7 @@ class ResettingController extends AbstractController
         $user = $this->userManager->findUserByConfirmationToken($token);
 
         if (null === $user) {
-            return new RedirectResponse($this->container->get('router')->generate('fos_user_security_login'));
+            return new RedirectResponse($this->container->get('router')->generate('swp_user_security_login'));
         }
 
         $event = new GetResponseUserEvent($user, $request);
@@ -180,12 +181,12 @@ class ResettingController extends AbstractController
             $this->userManager->updateUser($user);
 
             if (null === $response = $event->getResponse()) {
-                $url = $this->generateUrl('fos_user_profile_show');
+                $url = $this->generateUrl('swp_user_profile_show');
                 $response = new RedirectResponse($url);
             }
 
             $this->eventDispatcher->dispatch(
-                new FilterUserResponseEvent($user, $request, $response, SWPUserEvents::RESETTING_RESET_COMPLETED)
+                new FilterUserResponseEvent($user, $request, $response), SWPUserEvents::RESETTING_RESET_COMPLETED
             );
 
             return $response;

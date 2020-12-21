@@ -30,6 +30,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
  */
 class SWPUserExtension extends Extension
 {
+
     /**
      * {@inheritdoc}
      */
@@ -55,7 +56,6 @@ class SWPUserExtension extends Extension
 
     private function loadResetting(array $config, ContainerBuilder $container, XmlFileLoader $loader, array $fromEmail)
     {
-        $this->mailerNeeded = true;
         $loader->load('resetting.xml');
 
         if (isset($config['email']['from_email'])) {
