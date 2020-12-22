@@ -1,0 +1,88 @@
+name: Run tests
+
+on:
+  [push, pull_request]
+
+jobs:
+
+  tests:
+    name: Run Behat tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: ['7.4', '8.0']
+
+    services:
+      postgres:
+        image: postgres:9.6-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: 'password'
+      memcached:
+        image: memcached:1.6.5
+        ports:
+          - 11211:11211
+      rabbitmq:
+        image: rabbitmq:3.8.3
+        ports:
+          - 5672:5672
+      elasticsearch:
+        image: elasticsearch:5.4
+        ports:
+          - 9200:9200
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          extensions: "json,memcached,amqp"
+          ini-values: "memory_limit=-1"
+          php-version: "${{ matrix.php }}"
+          tools: pecl
+
+      - name: Display versions
+        run: |
+          php -r 'foreach (get_loaded_extensions() as $extension) echo $extension . " " . phpversion($extension) . PHP_EOL;'
+          php -i
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=directory::$(composer config cache-dir)"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.directory }}
+          key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.php }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --ansi
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Cache NPM
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - name: Install & run server.js
+        run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
+
+      - name: Run Behat tests
+        run: ./bin/behat
+        env:
+          MEMCACHED_HOST: localhost
+          POSTGRES_HOST: localhost
