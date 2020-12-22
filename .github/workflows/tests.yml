@@ -91,6 +91,7 @@ jobs:
         env:
           FIXTURES_TYPE: dev
           WEBP_CONVERSION_ENABLED: false
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
 
       - name: Test migrations
           run: |
