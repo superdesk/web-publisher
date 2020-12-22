@@ -46,10 +46,7 @@ final class Order
         $this->direction = $direction;
     }
 
-    /**
-     * @return Order
-     */
-    public static function fromQueryParameters(array $parameters)
+    public static function fromQueryParameters(array $parameters): Order
     {
         $sort = isset($parameters['sort']) && is_array($parameters['sort']) ? $parameters['sort'] : [self::DEFAULT_FIELD => self::DEFAULT_DIRECTION];
 
@@ -76,18 +73,12 @@ final class Order
         return lcfirst(str_replace('_', '', ucwords($value, '_')));
     }
 
-    /**
-     * @return string
-     */
-    public function getField()
+    public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * @return string
-     */
-    public function getDirection()
+    public function getDirection(): string
     {
         return $this->direction;
     }
