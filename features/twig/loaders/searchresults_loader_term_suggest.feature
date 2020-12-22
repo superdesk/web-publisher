@@ -36,16 +36,10 @@ Feature: Working with Search Results Loader Phrase Suggest
 
         {% if searchResults.suggestedTerm %}
         suggested term: {{ searchResults.suggestedTerm }}
-        {% endif %}
-
+        {% else %}
         <h4>{{ article.title }}</h4>
         <p>{{ article.lead }}</p>
-
-        {% else %}
-        {% if searchResults.suggestedTerm %}
-        suggested term: {{ searchResults.suggestedTerm }}
         {% endif %}
-
     {% endgimmelist %}
      """
     Then rendered template should not contain "Test Article"

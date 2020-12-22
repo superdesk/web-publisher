@@ -46,12 +46,7 @@ final class Order
         $this->direction = $direction;
     }
 
-    /**
-     * @param array $parameters
-     *
-     * @return Order
-     */
-    public static function fromQueryParameters(array $parameters)
+    public static function fromQueryParameters(array $parameters): Order
     {
         $sort = isset($parameters['sort']) && is_array($parameters['sort']) ? $parameters['sort'] : [self::DEFAULT_FIELD => self::DEFAULT_DIRECTION];
 
@@ -61,8 +56,9 @@ final class Order
         }
 
         $field = self::DEFAULT_FIELD;
-        if (self::DEFAULT_FIELD !== array_keys($sort)[0]) {
-            $field = self::camelize(array_keys($sort)[0]);
+        $fieldName = array_keys($sort)[0];
+        if (self::DEFAULT_FIELD !== $fieldName) {
+            $field = self::camelize($fieldName);
         }
 
         return new self($field, $direction);
@@ -70,21 +66,19 @@ final class Order
 
     private static function camelize(string $value): string
     {
+        if (0 === strpos($value, '_')) {
+            return $value;
+        }
+
         return lcfirst(str_replace('_', '', ucwords($value, '_')));
     }
 
-    /**
-     * @return string
-     */
-    public function getField()
+    public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * @return string
-     */
-    public function getDirection()
+    public function getDirection(): string
     {
         return $this->direction;
     }
