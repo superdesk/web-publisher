@@ -1,0 +1,54 @@
+patch:
+  summary: Update redirect route
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RedirectRouteType.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/RedirectRoute2.yaml
+    '400':
+      description: Returned when not valid data.
+    '404':
+      description: Returned when not found.
+    '409':
+      description: Returned on conflict.
+  tags:
+    - redirect_route
+delete:
+  summary: Delete redirect route
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  responses:
+    '204':
+      description: Returned on success.
+  tags:
+    - redirect_route

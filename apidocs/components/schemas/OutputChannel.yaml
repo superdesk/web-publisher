@@ -1,0 +1,7 @@
+properties:
+  type:
+    type: string
+  config:
+    additionalProperties: true
+    type: object
+type: object

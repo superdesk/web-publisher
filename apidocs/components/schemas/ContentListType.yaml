@@ -1,0 +1,21 @@
+required:
+  - name
+  - type
+properties:
+  name:
+    type: string
+  type:
+    type: string
+    enum:
+      - automatic
+      - manual
+      - bucket
+  description:
+    type: string
+  limit:
+    type: integer
+  cacheLifeTime:
+    type: integer
+  filters:
+    type: string
+type: object

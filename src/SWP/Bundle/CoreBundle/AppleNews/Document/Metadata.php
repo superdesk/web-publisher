@@ -164,7 +164,7 @@ class Metadata
         $this->keywords = $keywords;
     }
 
-    public function getThumbnailURL(): string
+    public function getThumbnailURL(): ?string
     {
         return $this->thumbnailURL;
     }

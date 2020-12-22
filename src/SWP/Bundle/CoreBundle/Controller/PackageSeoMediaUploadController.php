@@ -16,9 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\SeoImageType;
 use SWP\Component\Common\Response\ResponseContext;
@@ -44,42 +41,7 @@ class PackageSeoMediaUploadController extends AbstractController
     }
 
     /**
-     * @Operation(
-     *     tags={"seo"},
-     *     summary="Uploads SEO image for Package",
-     *     @SWG\Parameter(
-     *         name="metaMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="ogMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="twitterMediaFile",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="file"
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\ContentBundle\Model\ArticleSeoMetadata::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/packages/seo/upload/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_package_seo_image")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
     public function uploadAction(Request $request, string $packageGuid, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse
     {

@@ -1,0 +1,6 @@
+required:
+  - pubStatus
+properties:
+  pubStatus:
+    type: string
+type: object

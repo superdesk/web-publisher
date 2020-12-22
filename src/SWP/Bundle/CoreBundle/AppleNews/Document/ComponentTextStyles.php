@@ -58,6 +58,13 @@ class ComponentTextStyles
      */
     private $defaultQuote;
 
+    /**
+     * @SerializedName("default-caption")
+     *
+     * @var ComponentTextStyle|null
+     */
+    private $defaultCaption;
+
     public function getDefault(): ComponentTextStyle
     {
         return $this->default;
@@ -116,5 +123,15 @@ class ComponentTextStyles
     public function setDefaultQuote(?ComponentTextStyle $defaultQuote): void
     {
         $this->defaultQuote = $defaultQuote;
+    }
+
+    public function getDefaultCaption(): ?ComponentTextStyle
+    {
+        return $this->defaultCaption;
+    }
+
+    public function setDefaultCaption(?ComponentTextStyle $defaultCaption): void
+    {
+        $this->defaultCaption = $defaultCaption;
     }
 }

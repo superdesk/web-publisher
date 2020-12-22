@@ -286,14 +286,14 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Test Persona"]}',
+                    'filters' => '{"author":[{"id":999}]}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Test Persona"]}', $content);
+        self::assertContains('"filters":{"author":[{"id":999}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -302,14 +302,14 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Adam Hide"]}',
+                    'filters' => '{"author":[{"id":2}]}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Adam Hide"]}', $content);
+        self::assertContains('"filters":{"author":[{"id":2}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -318,14 +318,14 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Adam Hide","John Smith"]}',
+                    'filters' => '{"author":[{"id":2},{"id":1}]}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Adam Hide","John Smith"]}', $content);
+        self::assertContains('"filters":{"author":[{"id":2},{"id":1}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -334,14 +334,14 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Fake Doe","John Smith"]}',
+                    'filters' => '{"author":[{"id":3},{"id":1}]}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Fake Doe","John Smith"]}', $content);
+        self::assertContains('"filters":{"author":[{"id":3},{"id":1}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -409,14 +409,14 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Adam Hide"],"route":[5]}',
+                    'filters' => '{"author":[{"id":2}],"route":[5]}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Adam Hide"],"route":[5]}', $content);
+        self::assertContains('"filters":{"author":[{"id":2}],"route":[5]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -425,14 +425,14 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Adam Hide"],"route":[4]}',
+                    'filters' => '{"author":[{"id":2}],"route":[4]}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Adam Hide"],"route":[4]}', $content);
+        self::assertContains('"filters":{"author":[{"id":2}],"route":[4]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -441,14 +441,14 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Adam Hide"],"route":[4],"metadata":{"located":"Warsaw"}}',
+                    'filters' => '{"author":[{"id":2}],"route":[4],"metadata":{"located":"Warsaw"}}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Adam Hide"],"route":[4],"metadata":{"located":"Warsaw"}}', $content);
+        self::assertContains('"filters":{"author":[{"id":2}],"route":[4],"metadata":{"located":"Warsaw"}}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -457,30 +457,30 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["John Smith"],"route":[3],"metadata":{"located":"Berlin"}}',
+                    'filters' => '{"author":[{"id":1}],"route":[3],"metadata":{"located":"Berlin"}}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["John Smith"],"route":[3],"metadata":{"located":"Berlin"}}', $content);
+        self::assertContains('"filters":{"author":[{"id":1}],"route":[3],"metadata":{"located":"Berlin"}}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        self::assertEquals(2, $content['total']);
+        self::assertEquals(1, $content['total']);
 
         $this->client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
-                    'filters' => '{"author":["Fake Doe"],"route":[5],"metadata":{"located":"Warsaw"}}',
+                    'filters' => '{"author":[{"id":3}],"route":[5],"metadata":{"located":"Warsaw"}}',
             ]
         );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":["Fake Doe"],"route":[5],"metadata":{"located":"Warsaw"}}', $content);
+        self::assertContains('"filters":{"author":[{"id":3}],"route":[5],"metadata":{"located":"Warsaw"}}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());

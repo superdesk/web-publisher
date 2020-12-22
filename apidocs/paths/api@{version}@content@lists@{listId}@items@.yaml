@@ -1,0 +1,36 @@
+patch:
+  summary: Update many content list items
+  description: |-
+    - make sure that "updated_at" value is filled with value fetched from list.
+
+    Possible actions: move, add, delete
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: listId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: \d+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ContentListItemsType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/ContentList.yaml
+    '400':
+      description: Returned when not valid data.
+    '404':
+      description: Returned when not found.
+  tags:
+    - content list

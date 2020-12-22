@@ -1,0 +1,21 @@
+post:
+  summary: Add a new publish destination
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/PublishDestinationType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/PublishDestination.yaml
+    '400':
+      description: Returned when form have errors
+  tags:
+    - destination

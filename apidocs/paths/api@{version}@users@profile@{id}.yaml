@@ -1,0 +1,55 @@
+get:
+  summary: Get user profile
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/User.yaml
+    '404':
+      description: Returned on user not found.
+  tags:
+    - user
+patch:
+  summary: Update user profile
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ProfileFormType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/User.yaml
+    '400':
+      description: Returned on failure.
+    '404':
+      description: Returned on user not found.
+  tags:
+    - user

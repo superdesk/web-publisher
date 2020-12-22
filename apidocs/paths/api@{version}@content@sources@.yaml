@@ -1,0 +1,23 @@
+get:
+  summary: Lists all article sources
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/ArticleSource.yaml
+  tags:
+    - article

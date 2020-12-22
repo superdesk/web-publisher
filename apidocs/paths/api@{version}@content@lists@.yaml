@@ -1,0 +1,46 @@
+get:
+  summary: Lists all content lists
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/ContentList.yaml
+            type: array
+  tags:
+    - content list
+post:
+  summary: Create new content list
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/ContentListType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+    '400':
+      description: Returned when not valid data.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/ContentList.yaml
+  tags:
+    - content list

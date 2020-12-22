@@ -31,7 +31,6 @@ return [
     new SWP\Bundle\StorageBundle\SWPStorageBundle(),
     new Knp\Bundle\MenuBundle\KnpMenuBundle(),
     new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-    new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
     new Fidry\AliceDataFixtures\Bridge\Symfony\FidryAliceDataFixturesBundle(),
     new Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle(),
     new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),

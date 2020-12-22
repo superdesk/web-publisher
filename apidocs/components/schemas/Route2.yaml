@@ -1,0 +1,58 @@
+properties:
+  requirements:
+    additionalProperties: true
+    type: object
+  id:
+    title: Unique id of this route.
+    type: integer
+  static_prefix:
+    title: |-
+      Part of the URL that does not have parameters and thus can be used to
+      naivly guess candidate routes.
+    description: Note that this field is not used by PHPCR-ODM
+    type: string
+  variable_pattern:
+    title: >-
+      Variable pattern part. The static part of the pattern is the id without
+      the prefix.
+    type: string
+  parent:
+    type: integer
+  lft:
+    type: integer
+  rgt:
+    type: integer
+  level:
+    type: integer
+  template_name:
+    type: string
+  articles_template_name:
+    type: string
+  type:
+    type: string
+  cache_time_in_seconds:
+    type: integer
+  name:
+    type: string
+  slug:
+    type: string
+  position:
+    type: integer
+  articles_count:
+    $ref: ./ArticlesCountInterface.yaml
+  paywall_secured:
+    type: boolean
+  _links:
+    readOnly: true
+    properties:
+      self:
+        properties:
+          href:
+            type: string
+        type: object
+      parent:
+        properties:
+          href:
+            type: string
+        type: object
+type: object

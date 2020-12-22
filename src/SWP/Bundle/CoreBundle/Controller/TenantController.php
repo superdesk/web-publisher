@@ -17,44 +17,23 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use function array_key_exists;
 use DateTime;
 use FOS\RestBundle\Controller\FOSRestController;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Common\Pagination\PaginationData;
-use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TenantController extends FOSRestController
 {
     /**
-     * List all tenants/websites.
-     *
-     * @Operation(
-     *     tags={"tenant"},
-     *     summary="List all tenants/websites",
-     *     @SWG\Parameter(
-     *         name="sorting",
-     *         in="query",
-     *         description="todo",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_tenants")
      */
     public function listAction(Request $request)
@@ -68,18 +47,6 @@ class TenantController extends FOSRestController
     }
 
     /**
-     * Shows a single tenant/website.
-     *
-     * @Operation(
-     *     tags={"tenant"},
-     *     summary="Show single tenant/website",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=SWP\Bundle\CoreBundle\Model\Tenant::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_tenant", requirements={"code"="[a-z0-9]+"})
      */
     public function getAction($code)
@@ -88,24 +55,6 @@ class TenantController extends FOSRestController
     }
 
     /**
-     * Deletes a single tenant.
-     *
-     * @Operation(
-     *     tags={"tenant"},
-     *     summary="Delete single tenant/website",
-     *     @SWG\Parameter(
-     *         name="force",
-     *         in="body",
-     *         description="Remove tenant ignoring attached articles",
-     *         required=false,
-     *         @SWG\Schema(type="bool")
-     *     ),
-     *     @SWG\Response(
-     *         response="204",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
      */
     public function deleteAction(Request $request, $code)
@@ -137,33 +86,6 @@ class TenantController extends FOSRestController
     }
 
     /**
-     * Creates a new tenant/website.
-     *
-     * @Operation(
-     *     tags={"tenant"},
-     *     summary="Create new tenant/website",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=TenantType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @Model(type=SWP\Bundle\CoreBundle\Model\Tenant::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned on failure."
-     *     ),
-     *     @SWG\Response(
-     *         response="409",
-     *         description="Returned on conflict."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_tenant")
      */
     public function createAction(Request $request)
@@ -189,37 +111,6 @@ class TenantController extends FOSRestController
     }
 
     /**
-     * Updates a single tenant.
-     *
-     * @Operation(
-     *     tags={"tenant"},
-     *     summary="Update single tenant",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         description="",
-     *         required=true,
-     *         @SWG\Schema(ref=@Model(type=TenantType::class))
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=SWP\Bundle\CoreBundle\Model\Tenant::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned on failure."
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when not found."
-     *     ),
-     *     @SWG\Response(
-     *         response="409",
-     *         description="Returned on conflict."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
      */
     public function updateAction(Request $request, $code)
@@ -271,9 +162,6 @@ class TenantController extends FOSRestController
     }
 
     /**
-     * @param string      $domain
-     * @param string|null $subdomain
-     *
      * @return mixed|TenantInterface|null
      */
     private function ensureTenantDontExists(string $domain, string $subdomain = null)

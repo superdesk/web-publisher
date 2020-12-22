@@ -43,7 +43,7 @@ class AppleNewsConfig implements AppleNewsConfigInterface
         return $this->apiKeyId;
     }
 
-    public function setApiKeyId(string $apiKeyId): void
+    public function setApiKeyId(?string $apiKeyId): void
     {
         $this->apiKeyId = $apiKeyId;
     }
@@ -53,7 +53,7 @@ class AppleNewsConfig implements AppleNewsConfigInterface
         return $this->apiKeySecret;
     }
 
-    public function setApiKeySecret(string $apiKeySecret): void
+    public function setApiKeySecret(?string $apiKeySecret): void
     {
         $this->apiKeySecret = $apiKeySecret;
     }
@@ -63,7 +63,7 @@ class AppleNewsConfig implements AppleNewsConfigInterface
         return $this->channelId;
     }
 
-    public function setChannelId(string $channelId): void
+    public function setChannelId(?string $channelId): void
     {
         $this->channelId = $channelId;
     }

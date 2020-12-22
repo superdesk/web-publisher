@@ -16,9 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Exception\NotFoundHttpException;
@@ -29,28 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RelatedArticleController extends Controller
 {
-    /**
-     * @Operation(
-     *     tags={"article"},
-     *     summary="List related articles",
-     *     @SWG\Parameter(
-     *         name="sorting",
-     *         in="query",
-     *         description="example: [updatedAt]=asc|desc",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=SWP\Bundle\ContentBundle\Model\RelatedArticle::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="500",
-     *         description="Unexpected error."
-     *     )
-     * )
-     */
     public function listAction(Request $request, string $id)
     {
         $article = $this->findOr404($id);

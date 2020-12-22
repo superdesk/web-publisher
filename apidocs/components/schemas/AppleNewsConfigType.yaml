@@ -1,0 +1,8 @@
+properties:
+  channelId:
+    type: string
+  apiKeyId:
+    type: string
+  apiKeySecret:
+    type: string
+type: object

@@ -1,0 +1,17 @@
+get:
+  summary: Lists current theme settings
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Settings.yaml
+  tags:
+    - theme

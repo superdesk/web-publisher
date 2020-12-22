@@ -84,6 +84,7 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         $figCaptionNode = $crawler->filter('figure figcaption')->getNode(0);
         if (null !== $figCaptionNode) {
             $this->appendImageByline($articleMedia, $figCaptionNode);
+            $this->appendImageCopyrightNotice($articleMedia, $figCaptionNode);
         }
 
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
@@ -111,6 +112,22 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
     public function applyByline(ArticleMediaInterface $articleMedia): string
     {
         return $articleMedia->getByLine();
+    }
+
+    private function appendImageCopyrightNotice(ArticleMediaInterface $articleMedia, \DOMElement $figCaptionNode): void
+    {
+        $copyrightNotice = $this->applyCopyrightNotice($articleMedia);
+        if (null != $copyrightNotice) {
+            $element = new \DOMElement('span');
+            $figCaptionNode->appendChild($element);
+            $authorDiv = $figCaptionNode->childNodes[2];
+            $authorDiv->textContent = $copyrightNotice;
+        }
+    }
+
+    public function applyCopyrightNotice(ArticleMediaInterface $articleMedia): ?string
+    {
+        return $articleMedia->getCopyrightNotice();
     }
 
     protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, ArticleMediaInterface $articleMedia): void

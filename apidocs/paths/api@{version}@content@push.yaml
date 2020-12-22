@@ -1,0 +1,20 @@
+post:
+  summary: Adds a new content from HTTP Push
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+    description: NinJS body
+    required: true
+  responses:
+    '201':
+      description: Returned on success
+  tags:
+    - content push

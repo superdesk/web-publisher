@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  title: Superdesk Publisher
+  version: 2.x
+paths:
+  '/api/{version}/content/articles/{id}/related/':
+    $ref: 'paths/api@{version}@content@articles@{id}@related@.yaml'
+  '/api/{version}/content/articles/{id}':
+    $ref: 'paths/api@{version}@content@articles@{id}.yaml'
+  '/api/{version}/authors/{id}':
+    $ref: 'paths/api@{version}@authors@{id}.yaml'
+  '/api/{version}/content/push':
+    $ref: 'paths/api@{version}@content@push.yaml'
+  '/api/{version}/assets/push':
+    $ref: 'paths/api@{version}@assets@push.yaml'
+  '/api/{version}/assets/{action}/{mediaId}.{extension}':
+    $ref: 'paths/api@{version}@assets@{action}@{mediaId}.{extension}.yaml'
+  '/api/{version}/content/routes/':
+    $ref: 'paths/api@{version}@content@routes@.yaml'
+  '/api/{version}/content/routes/{id}':
+    $ref: 'paths/api@{version}@content@routes@{id}.yaml'
+  '/api/{version}/export/analytics/':
+    $ref: 'paths/api@{version}@export@analytics@.yaml'
+  '/api/{version}/content/articles':
+    $ref: 'paths/api@{version}@content@articles.yaml'
+  '/api/{version}/content/sources/':
+    $ref: 'paths/api@{version}@content@sources@.yaml'
+  '/api/{version}/auth/':
+    $ref: 'paths/api@{version}@auth@.yaml'
+  '/api/{version}/auth/superdesk/':
+    $ref: 'paths/api@{version}@auth@superdesk@.yaml'
+  '/api/{version}/content/lists/':
+    $ref: 'paths/api@{version}@content@lists@.yaml'
+  '/api/{version}/content/lists/{id}':
+    $ref: 'paths/api@{version}@content@lists@{id}.yaml'
+  '/api/{version}/content/lists/{id}/items/':
+    $ref: 'paths/api@{version}@content@lists@{id}@items@.yaml'
+  '/api/{version}/content/lists/{listId}/items/{id}':
+    $ref: 'paths/api@{version}@content@lists@{listId}@items@{id}.yaml'
+  '/api/{version}/content/lists/{listId}/items/':
+    $ref: 'paths/api@{version}@content@lists@{listId}@items@.yaml'
+  '/api/{version}/theme/logo_upload/':
+    $ref: 'paths/api@{version}@theme@logo_upload@.yaml'
+  '/api/{version}/theme/logo_upload/{type}':
+    $ref: 'paths/api@{version}@theme@logo_upload@{type}.yaml'
+  '/api/{version}/theme/settings/':
+    $ref: 'paths/api@{version}@theme@settings@.yaml'
+  '/api/{version}/packages/extra/{slug}':
+    $ref: 'paths/api@{version}@packages@extra@{slug}.yaml'
+  '/api/{version}/failed_queue/':
+    $ref: 'paths/api@{version}@failed_queue@.yaml'
+  '/api/{version}/facebook/applications/':
+    $ref: 'paths/api@{version}@facebook@applications@.yaml'
+  '/api/{version}/facebook/applications/{id}':
+    $ref: 'paths/api@{version}@facebook@applications@{id}.yaml'
+  '/api/{version}/facebook/pages/':
+    $ref: 'paths/api@{version}@facebook@pages@.yaml'
+  '/api/{version}/facebook/pages/{id}':
+    $ref: 'paths/api@{version}@facebook@pages@{id}.yaml'
+  '/api/{version}/facebook/instantarticles/articles/':
+    $ref: 'paths/api@{version}@facebook@instantarticles@articles@.yaml'
+  '/api/{version}/facebook/instantarticles/articles/{submissionId}':
+    $ref: 'paths/api@{version}@facebook@instantarticles@articles@{submissionId}.yaml'
+  '/api/{version}/facebook/instantarticles/feed/':
+    $ref: 'paths/api@{version}@facebook@instantarticles@feed@.yaml'
+  '/api/{version}/menus/':
+    $ref: 'paths/api@{version}@menus@.yaml'
+  '/api/{version}/menus/{id}/children/':
+    $ref: 'paths/api@{version}@menus@{id}@children@.yaml'
+  '/api/{version}/menus/{id}/move/':
+    $ref: 'paths/api@{version}@menus@{id}@move@.yaml'
+  '/api/{version}/menus/{id}':
+    $ref: 'paths/api@{version}@menus@{id}.yaml'
+  '/api/{version}/organization/rules/evaluate':
+    $ref: 'paths/api@{version}@organization@rules@evaluate.yaml'
+  '/api/{version}/organization/rules/':
+    $ref: 'paths/api@{version}@organization@rules@.yaml'
+  '/api/{version}/organization/rules/{id}':
+    $ref: 'paths/api@{version}@organization@rules@{id}.yaml'
+  '/api/{version}/packages/{id}':
+    $ref: 'paths/api@{version}@packages@{id}.yaml'
+  '/api/{version}/packages/{id}/publish/':
+    $ref: 'paths/api@{version}@packages@{id}@publish@.yaml'
+  '/api/{version}/packages/{id}/unpublish/':
+    $ref: 'paths/api@{version}@packages@{id}@unpublish@.yaml'
+  '/api/{version}/packages/{id}/':
+    $ref: 'paths/api@{version}@packages@{id}@.yaml'
+  '/api/{version}/preview/package/generate_token/{routeId}':
+    $ref: 'paths/api@{version}@preview@package@generate_token@{routeId}.yaml'
+  '/api/{version}/packages/seo/upload/{packageGuid}':
+    $ref: 'paths/api@{version}@packages@seo@upload@{packageGuid}.yaml'
+  '/api/{version}/organization/destinations/':
+    $ref: 'paths/api@{version}@organization@destinations@.yaml'
+  '/api/{version}/organization/destinations/{id}':
+    $ref: 'paths/api@{version}@organization@destinations@{id}.yaml'
+  '/api/{version}/redirects/':
+    $ref: 'paths/api@{version}@redirects@.yaml'
+  '/api/{version}/redirects/{id}':
+    $ref: 'paths/api@{version}@redirects@{id}.yaml'
+  '/api/{version}/organization/articles/related/':
+    $ref: 'paths/api@{version}@organization@articles@related@.yaml'
+  '/api/{version}/packages/{id}/related/':
+    $ref: 'paths/api@{version}@packages@{id}@related@.yaml'
+  '/api/{version}/rules/':
+    $ref: 'paths/api@{version}@rules@.yaml'
+  '/api/{version}/rules/{id}':
+    $ref: 'paths/api@{version}@rules@{id}.yaml'
+  '/api/{version}/upload/seo_image/{id}':
+    $ref: 'paths/api@{version}@upload@seo_image@{id}.yaml'
+  '/api/{version}/packages/seo/{packageGuid}':
+    $ref: 'paths/api@{version}@packages@seo@{packageGuid}.yaml'
+  '/api/{version}/content/slideshows/{articleId}':
+    $ref: 'paths/api@{version}@content@slideshows@{articleId}.yaml'
+  '/api/{version}/content/slideshows/{articleId}/{id}':
+    $ref: 'paths/api@{version}@content@slideshows@{articleId}@{id}.yaml'
+  '/api/{version}/content/slideshows/{articleId}/{id}/items/':
+    $ref: 'paths/api@{version}@content@slideshows@{articleId}@{id}@items@.yaml'
+  '/api/{version}/subscriptions/{userId}':
+    $ref: 'paths/api@{version}@subscriptions@{userId}.yaml'
+  '/api/{version}/tenants/':
+    $ref: 'paths/api@{version}@tenants@.yaml'
+  '/api/{version}/tenants/{code}':
+    $ref: 'paths/api@{version}@tenants@{code}.yaml'
+  '/api/{version}/organization/themes/':
+    $ref: 'paths/api@{version}@organization@themes@.yaml'
+  '/api/{version}/themes/':
+    $ref: 'paths/api@{version}@themes@.yaml'
+  '/api/{version}/webhooks/':
+    $ref: 'paths/api@{version}@webhooks@.yaml'
+  '/api/{version}/webhooks/{id}':
+    $ref: 'paths/api@{version}@webhooks@{id}.yaml'
+  '/api/{version}/users/profile/{id}':
+    $ref: 'paths/api@{version}@users@profile@{id}.yaml'
+  '/api/{version}/users/register/':
+    $ref: 'paths/api@{version}@users@register@.yaml'
+  '/api/{version}/users/{id}/promote':
+    $ref: 'paths/api@{version}@users@{id}@promote.yaml'
+  '/api/{version}/users/{id}/demote':
+    $ref: 'paths/api@{version}@users@{id}@demote.yaml'
+  '/api/{version}/users/settings/':
+    $ref: 'paths/api@{version}@users@settings@.yaml'
+  '/api/{version}/content/articles/':
+    $ref: 'paths/api@{version}@content@articles@.yaml'
+  '/api/{version}/packages/':
+    $ref: 'paths/api@{version}@packages@.yaml'
+  '/api/{version}/settings/':
+    $ref: 'paths/api@{version}@settings@.yaml'
+  '/api/{version}/settings/revert/{scope}':
+    $ref: 'paths/api@{version}@settings@revert@{scope}.yaml'
+  '/api/{version}/settings/bulk/':
+    $ref: 'paths/api@{version}@settings@bulk@.yaml'
+  '/api/{version}/token/refresh':
+    $ref: 'paths/api@{version}@token@refresh.yaml'
+security:
+  - Bearer: []
+servers:
+  - url: 'http://www.publisher.wip'
+  - url: 'https://www.publisher.wip'
+components:
+  securitySchemes:
+    Bearer:
+      name: Authorization
+      type: apiKey
+      in: header
+      description: 'Value: Bearer {jwt}'

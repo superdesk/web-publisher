@@ -1,0 +1,28 @@
+patch:
+  summary: Change user roles
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/UserRolesType.yaml
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/User.yaml
+    '403':
+      description: Returned when user don't have permissions to change roles
+    '404':
+      description: Returned on user not found.
+  tags:
+    - user

@@ -1,0 +1,58 @@
+get:
+  summary: Lists current tenant routes
+  parameters:
+    - name: type
+      in: query
+      required: false
+      description: 'possible values: ''collection'' or ''content'''
+      schema:
+        type: string
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/Route.yaml
+            type: array
+  tags:
+    - route
+post:
+  summary: Create new route
+  description: >-
+    Parameter `type` cane have one of two values: `content`, `collection` or
+    `custom`.
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RouteType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Route.yaml
+    '400':
+      description: Returned when not valid data.
+  tags:
+    - route

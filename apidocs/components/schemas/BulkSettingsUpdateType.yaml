@@ -1,0 +1,8 @@
+required:
+  - bulk
+properties:
+  bulk:
+    items:
+      $ref: ./SettingType.yaml
+    type: array
+type: object

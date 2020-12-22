@@ -1,0 +1,9 @@
+required:
+  - pageId
+  - name
+properties:
+  pageId:
+    type: string
+  name:
+    type: string
+type: object

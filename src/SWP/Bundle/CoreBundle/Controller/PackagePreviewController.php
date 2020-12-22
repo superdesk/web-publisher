@@ -16,10 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Swagger\Annotations as SWG;
-use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Context\ArticlePreviewContext;
@@ -36,6 +32,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PackagePreviewController extends Controller
@@ -66,40 +63,11 @@ class PackagePreviewController extends Controller
         try {
             return $this->render($route->getArticlesTemplateName());
         } catch (\Exception $e) {
-            throw $this->createNotFoundException(
-                sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
-            );
+            throw $this->createNotFoundException(sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName()));
         }
     }
 
     /**
-     * Generates package preview token for specific route.
-     *
-     * @Operation(
-     *     tags={"package"},
-     *     summary="Generate package preview token for specific route",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         @SWG\Schema(
-     *             ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Package::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *          @SWG\Schema(type="string")
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when validation failed."
-     *     ),
-     *     @SWG\Response(
-     *         response="500",
-     *         description="Returned when unexpected error."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
      */
     public function generateTokenAction(Request $request, int $routeId): SingleResourceResponseInterface
@@ -189,9 +157,8 @@ class PackagePreviewController extends Controller
         $articlePreviewContext = $this->get(ArticlePreviewContext::class);
 
         $articlePreviewContext->setIsPreview(true);
-        $article = $articlePreviewer->preview($package, $packagePreviewToken->getRoute());
 
-        return $article;
+        return $articlePreviewer->preview($package, $packagePreviewToken->getRoute());
     }
 
     private function renderTemplateOr404(RouteInterface $route): Response
@@ -199,9 +166,7 @@ class PackagePreviewController extends Controller
         try {
             return $this->render($templateName = $route->getArticlesTemplateName());
         } catch (\InvalidArgumentException $e) {
-            throw $this->createNotFoundException(
-                sprintf('Template %s for route with id "%d" (%s) not found!', $templateName, $route->getId(), $route->getName())
-            );
+            throw $this->createNotFoundException(sprintf('Template %s for route with id "%d" (%s) not found!', $templateName, $route->getId(), $route->getName()));
         }
     }
 
@@ -215,13 +180,9 @@ class PackagePreviewController extends Controller
         return $route;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return object|null
-     */
-    private function findRouteOr404(int $id)
+    private function findRouteOr404(int $id): RouteInterface
     {
+        /** @var RouteInterface $route */
         if (null === ($route = $this->get('swp.repository.route')->findOneBy(['id' => $id]))) {
             throw $this->createNotFoundException(sprintf('Route with id: "%s" not found!', $id));
         }
@@ -229,13 +190,9 @@ class PackagePreviewController extends Controller
         return $route;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return object|null
-     */
-    private function findPackageOr404(string $id)
+    private function findPackageOr404(string $id): PackageInterface
     {
+        /** @var PackageInterface $package */
         if (null === ($package = $this->get('swp.repository.package')->findOneBy(['id' => $id]))) {
             throw $this->createNotFoundException(sprintf('Package with id: "%s" not found!', $id));
         }

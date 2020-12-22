@@ -1,0 +1,6 @@
+properties:
+  sticky:
+    $ref: ./BooleanType.yaml
+  stickyPosition:
+    type: integer
+type: object

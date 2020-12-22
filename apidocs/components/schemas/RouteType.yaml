@@ -1,0 +1,33 @@
+required:
+  - name
+  - type
+  - parent
+  - paywallSecured
+properties:
+  name:
+    type: string
+  slug:
+    type: string
+  type:
+    type: string
+  templateName:
+    type: string
+  articlesTemplateName:
+    type: string
+  content:
+    type: string
+  parent:
+    type: string
+  cacheTimeInSeconds:
+    type: integer
+  variablePattern:
+    type: string
+  requirements:
+    items:
+      $ref: ./KeyValueRowType.yaml
+    type: array
+  position:
+    type: integer
+  paywallSecured:
+    $ref: ./BooleanType.yaml
+type: object

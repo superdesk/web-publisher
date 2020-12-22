@@ -1,0 +1,33 @@
+get:
+  summary: Gets a single media file
+  description: 'Action route parameter values: "get" or "push"'
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: action
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: get|push
+    - name: mediaId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: .+
+    - name: extension
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on form errors
+    '404':
+      description: Returned when file doesn't exist.
+  tags:
+    - content push

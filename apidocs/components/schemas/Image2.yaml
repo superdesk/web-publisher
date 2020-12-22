@@ -1,0 +1,16 @@
+properties:
+  id:
+    type: integer
+  file_extension:
+    title: Uploaded file extension.
+    type: string
+  asset_id:
+    type: string
+  width:
+    type: integer
+  height:
+    type: integer
+  length:
+    type: number
+    format: float
+type: object

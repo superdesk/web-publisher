@@ -1,0 +1,49 @@
+get:
+  summary: Lists redirect routes
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [createdAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/RedirectRoute.yaml
+            type: array
+  tags:
+    - redirect_route
+post:
+  summary: Create new redirect route
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RedirectRouteType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/RedirectRoute2.yaml
+    '400':
+      description: Returned when not valid data.
+  tags:
+    - redirect_route

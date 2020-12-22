@@ -1,6 +1,6 @@
 ## Docker installation:
 
-See [detailed instructions here](docker/README.md).
+See [detailed instructions here](etc/docker/README.md).
 
 ## Installation:
 

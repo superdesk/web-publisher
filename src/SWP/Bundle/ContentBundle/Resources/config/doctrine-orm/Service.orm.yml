@@ -1,0 +1,19 @@
+SWP\Bundle\ContentBundle\Model\Service:
+  type: mappedSuperclass
+  table: swp_article_metadata_service
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    code:
+      type: string
+  manyToOne:
+    metadata:
+      targetEntity: SWP\Bundle\ContentBundle\Model\MetadataInterface
+      inversedBy: services
+      joinColumn:
+        name: metadata_id
+        referencedColumnName: id

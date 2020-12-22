@@ -1,0 +1,9 @@
+required:
+  - key
+  - value
+properties:
+  key:
+    type: string
+  value:
+    $ref: ./UnstructuredType.yaml
+type: object

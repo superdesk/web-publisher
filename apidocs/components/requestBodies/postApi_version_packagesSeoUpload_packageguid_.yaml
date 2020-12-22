@@ -1,0 +1,14 @@
+content:
+  application/x-www-form-urlencoded:
+    schema:
+      type: object
+      properties:
+        metaMediaFile:
+          type: string
+          format: binary
+        ogMediaFile:
+          type: string
+          format: binary
+        twitterMediaFile:
+          type: string
+          format: binary

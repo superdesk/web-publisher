@@ -1,0 +1,51 @@
+get:
+  summary: Lists Facebook Pages
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: 'example: [updatedAt]=asc|desc'
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            items:
+              $ref: ../components/schemas/FacebookPage.yaml
+            type: array
+    '500':
+      description: Unexpected error.
+  tags:
+    - facebook instant articles
+post:
+  summary: Create Facebook page
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/FacebookPageType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/FacebookPage.yaml
+    '400':
+      description: Returned when not valid data.
+  tags:
+    - facebook instant articles

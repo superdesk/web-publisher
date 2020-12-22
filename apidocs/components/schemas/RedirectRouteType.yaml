@@ -1,0 +1,17 @@
+required:
+  - routeName
+  - permanent
+  - routeSource
+  - routeTarget
+properties:
+  routeName:
+    type: string
+  uri:
+    type: string
+  permanent:
+    type: boolean
+  routeSource:
+    type: string
+  routeTarget:
+    type: string
+type: object

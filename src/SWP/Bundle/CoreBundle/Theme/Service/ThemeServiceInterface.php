@@ -16,11 +16,6 @@ namespace SWP\Bundle\CoreBundle\Theme\Service;
 
 interface ThemeServiceInterface
 {
-    /**
-     * @throws \Exception
-     *
-     * @return array
-     */
     public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, bool $processOptionalData = false, bool $activate = false);
 
     public function getDirectoriesForTheme(string $themeName): array;

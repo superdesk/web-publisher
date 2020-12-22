@@ -1,0 +1,103 @@
+get:
+  summary: Search articles
+  parameters:
+    - name: status
+      in: query
+      required: false
+      description: Package status
+      schema:
+        type: array
+        items:
+          type: string
+    - name: published_before
+      in: query
+      required: false
+      description: The datetime before which the article has been published
+      schema:
+        type: string
+    - name: published_after
+      in: query
+      required: false
+      description: The datetime after which the article has been published
+      schema:
+        type: string
+    - name: author
+      in: query
+      required: false
+      description: Article authors
+      schema:
+        type: array
+        items:
+          type: string
+    - name: keywords
+      in: query
+      required: false
+      description: Article keywords
+      schema:
+        type: array
+        items:
+          type: string
+    - name: term
+      in: query
+      required: false
+      description: Search phrase
+      schema:
+        type: string
+    - name: sorting
+      in: query
+      required: false
+      description: List order
+      schema:
+        type: array
+        items:
+          type: string
+    - name: source
+      in: query
+      required: false
+      description: Sources
+      schema:
+        type: array
+        items:
+          type: string
+    - name: limit
+      in: query
+      required: false
+      description: Items per page
+      schema:
+        type: integer
+    - name: page
+      in: query
+      required: false
+      description: Page number
+      schema:
+        type: integer
+    - name: route
+      in: query
+      required: false
+      description: Routes ids
+      schema:
+        type: array
+        items:
+          type: integer
+    - name: metadata
+      in: query
+      required: false
+      description: >-
+        Metadata (e.g. query param:
+        ?metadata[located][]=Sydney&metadata[located][]=Berlin)
+      schema:
+        type: array
+        items:
+          type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+    '500':
+      description: Unexpected error.
+  tags:
+    - article

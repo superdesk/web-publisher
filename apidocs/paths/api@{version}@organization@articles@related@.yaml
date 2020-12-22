@@ -1,0 +1,19 @@
+post:
+  summary: Returns a list of related articles
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/Package.yaml
+  responses:
+    '200':
+      description: Returned on success
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/RelatedArticleList.yaml
+  tags:
+    - related article

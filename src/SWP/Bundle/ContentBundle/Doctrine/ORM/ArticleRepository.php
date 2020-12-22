@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorReference;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
+use SWP\Bundle\ContentBundle\Model\Metadata;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -162,35 +163,48 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        foreach (['metadata', 'extra', 'exclude_metadata', 'exclude_extra'] as $name) {
-            if (!$criteria->has($name)) {
-                continue;
+        $orX = $queryBuilder->expr()->orX();
+        if ($criteria->has('extra')) {
+            foreach ((array) $criteria->get('extra') as $key => $value) {
+                $valueExpression = $queryBuilder->expr()->literal('%'.\rtrim(\ltrim(\serialize([$key => $value]), 'a:1:{'), ';}').'%');
+                $orX->add($queryBuilder->expr()->like('a.extra', $valueExpression));
             }
 
-            if (!is_array($criteria->get($name))) {
-                $criteria->remove($name);
-
-                continue;
-            }
-
-            $orX = $queryBuilder->expr()->orX();
-            foreach ($criteria->get($name) as $key => $value) {
-                $search = ('***' !== $value) ? [$key => $value] : $key;
-                if ('metadata' === $name || 'exclude_metadata' === $name) {
-                    $valueExpression = '%'.\rtrim(\ltrim(\json_encode($search), '{'), '}').'%';
-                } else {
-                    $valueExpression = '%'.\rtrim(\ltrim(\serialize($search), 'a:1:{'), ';}').'%';
-                }
-
-                $valueExpression = $queryBuilder->expr()->literal($valueExpression);
-                if (false === strpos($name, 'exclude_')) {
-                    $orX->add($queryBuilder->expr()->like('a.'.$name, $valueExpression));
-                } else {
-                    $orX->add($queryBuilder->expr()->notLike('a.'.\str_replace('exclude_', '', $name), $valueExpression));
-                }
-            }
             $queryBuilder->andWhere($orX);
-            $criteria->remove($name);
+            $criteria->remove('extra');
+        }
+
+        if ($criteria->has('metadata')) {
+            $queryBuilder
+                ->leftJoin('a.data', 'd')
+                ->leftJoin('d.services', 's')
+                ->leftJoin('d.subjects', 'sb');
+
+            foreach ((array) $criteria->get('metadata') as $key => $value) {
+                switch ($key) {
+                    case Metadata::SERVICE_KEY:
+                        foreach ($value as $service) {
+                            $orX->add($queryBuilder->expr()->eq('s.code', $queryBuilder->expr()->literal($service['code'])));
+                        }
+
+                        break;
+                    case Metadata::SUBJECT_KEY:
+                        $andX = $queryBuilder->expr()->andX();
+                        foreach ($value as $subject) {
+                            $andX->add($queryBuilder->expr()->eq('sb.code', $queryBuilder->expr()->literal($subject['code'])));
+                            $andX->add($queryBuilder->expr()->eq('sb.scheme', $queryBuilder->expr()->literal($subject['scheme'])));
+                        }
+
+                        $orX->add($andX);
+
+                        break;
+                    default:
+                        $orX->add($queryBuilder->expr()->eq("d.$key", $queryBuilder->expr()->literal($value)));
+                }
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('metadata');
         }
 
         if ($criteria->has('keywords')) {
@@ -263,6 +277,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         }
 
         if (
+            ($criteria->has('authorIds') && !empty($criteria->get('authorIds'))) ||
             ($criteria->has('author') && !empty($criteria->get('author'))) ||
             ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author')))
         ) {
@@ -277,6 +292,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
             $queryBuilder->andWhere($orX);
             $criteria->remove('author');
+        }
+
+        if ($criteria->has('authorIds') && !empty($criteria->get('authorIds'))) {
+            $orX = $queryBuilder->expr()->orX();
+
+            foreach ((array) $criteria->get('authorIds') as $value) {
+                $orX->add($queryBuilder->expr()->eq('au.id', $value));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('authorIds');
         }
 
         if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {
@@ -315,6 +341,12 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $queryBuilder->andWhere($andX);
 
             $criteria->remove('exclude_route');
+        }
+
+        if (is_array($criteria->get('route')) && !empty($criteria->get('route'))) {
+            $queryBuilder->andWhere($queryBuilder->expr()->in('a.route', (array) $criteria->get('route')));
+
+            $criteria->remove('route');
         }
     }
 }

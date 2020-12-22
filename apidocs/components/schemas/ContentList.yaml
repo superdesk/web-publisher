@@ -1,0 +1,30 @@
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+  description:
+    type: string
+  type:
+    type: string
+  cache_life_time:
+    type: integer
+  limit:
+    type: integer
+  filters:
+    additionalProperties: true
+    type: object
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  enabled:
+    type: boolean
+  content_list_items_updated_at:
+    type: string
+    format: date-time
+  content_list_items_count:
+    $ref: ./ContentListItemsCountInterface.yaml
+type: object

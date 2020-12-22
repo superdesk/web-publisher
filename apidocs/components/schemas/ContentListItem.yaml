@@ -1,0 +1,20 @@
+properties:
+  id:
+    type: integer
+  content:
+    $ref: ./Article.yaml
+  position:
+    type: integer
+  sticky:
+    type: boolean
+  sticky_position:
+    type: integer
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  enabled:
+    type: boolean
+type: object

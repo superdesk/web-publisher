@@ -96,11 +96,6 @@ final class ThemeService implements ThemeServiceInterface
         $this->tenantRepository = $tenantRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Throwable
-     */
     public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, bool $processOptionalData = false, bool $activate = false)
     {
         $messages = [];

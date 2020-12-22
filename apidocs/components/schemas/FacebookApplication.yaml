@@ -1,0 +1,24 @@
+properties:
+  id:
+    type: integer
+  app_id:
+    type: string
+  app_secret:
+    type: string
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  enabled:
+    type: boolean
+  _links:
+    readOnly: true
+    properties:
+      list:
+        properties:
+          href:
+            type: string
+        type: object
+type: object

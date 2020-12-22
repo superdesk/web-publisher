@@ -1,0 +1,15 @@
+properties:
+  impressions_number:
+    type: integer
+  page_views_number:
+    type: integer
+  internal_click_rate:
+    type: number
+    format: float
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+type: object

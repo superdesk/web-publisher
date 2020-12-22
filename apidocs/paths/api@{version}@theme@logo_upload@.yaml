@@ -1,0 +1,19 @@
+post:
+  summary: Uploads current theme logo
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: ../components/requestBodies/postApi_version_themeLogoUpload_.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Settings.yaml
+  tags:
+    - theme

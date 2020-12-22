@@ -16,17 +16,15 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
-use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
+use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
 use SWP\Component\Common\Criteria\Criteria;
-use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -36,35 +34,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class RouteController extends FOSRestController
 {
     /**
-     * Lists current tenant routes.
-     *
-     * @Operation(
-     *     tags={"route"},
-     *     summary="Lists current tenant routes",
-     *     @SWG\Parameter(
-     *         name="type",
-     *         in="query",
-     *         description="possible values: 'collection' or 'content'",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="sorting",
-     *         in="query",
-     *         description="example: [updatedAt]=asc|desc",
-     *         required=false,
-     *         type="string"
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"}))
-     *         )
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_routes")
      */
     public function listAction(Request $request)
@@ -79,16 +48,6 @@ class RouteController extends FOSRestController
     }
 
     /**
-     * @Operation(
-     *     tags={"route"},
-     *     summary="Show single tenant route",
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"})
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
      */
     public function getAction($id)
@@ -97,22 +56,9 @@ class RouteController extends FOSRestController
     }
 
     /**
-     * Delete single tenant route.
-     *
-     * @Operation(
-     *     tags={"route"},
-     *     summary="Delete single tenant route",
-     *     @SWG\Response(
-     *         response="204",
-     *         description="Returned on success."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
-     *
-     * @return Response
      */
-    public function deleteAction($id)
+    public function deleteAction(int $id): Response
     {
         $repository = $this->get('swp.repository.route');
         $route = $this->findOr404($id);
@@ -134,35 +80,9 @@ class RouteController extends FOSRestController
     }
 
     /**
-     * Creates routes for current tenant.
-     *
-     * Parameter `type` cane have one of two values: `content`, `collection` or `custom`.
-     *
-     * @Operation(
-     *     tags={"route"},
-     *     summary="Create new route",
-     *     @SWG\Parameter(
-     *         name="name",
-     *         in="body",
-     *         description="",
-     *         @SWG\Schema(
-     *             ref=@Model(type=RouteType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="201",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when not valid data."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_create_routes")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): SingleResourceResponseInterface
     {
         /** @var RouteInterface $route */
         $route = $this->get('swp.factory.route')->create();
@@ -183,44 +103,9 @@ class RouteController extends FOSRestController
     }
 
     /**
-     * Updates routes for current tenant.
-     *
-     * Parameter `type` cane have one of two values: `content` or `collection`.
-     *
-     * @Operation(
-     *     tags={"route"},
-     *     summary="Update single route",
-     *     @SWG\Parameter(
-     *         name="body",
-     *         in="body",
-     *         description="",
-     *         required=true,
-     *         @SWG\Schema(
-     *             ref=@Model(type=RouteType::class)
-     *         )
-     *     ),
-     *     @SWG\Response(
-     *         response="200",
-     *         description="Returned on success.",
-     *         @Model(type=\SWP\Bundle\CoreBundle\Model\Route::class, groups={"api"})
-     *     ),
-     *     @SWG\Response(
-     *         response="400",
-     *         description="Returned when not valid data."
-     *     ),
-     *     @SWG\Response(
-     *         response="404",
-     *         description="Returned when not found."
-     *     ),
-     *     @SWG\Response(
-     *         response="409",
-     *         description="Returned on conflict."
-     *     )
-     * )
-     *
      * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id): Response
     {
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);

@@ -1,0 +1,32 @@
+required:
+  - name
+  - domainName
+properties:
+  name:
+    type: string
+  subdomain:
+    type: string
+  domainName:
+    type: string
+  themeName:
+    type: string
+    enum:
+      - swp/default-theme
+  organization:
+    type: number
+    enum:
+      - '654321'
+      - '123456'
+  ampEnabled:
+    $ref: ./BooleanType.yaml
+  fbiaEnabled:
+    $ref: ./BooleanType.yaml
+  paywallEnabled:
+    $ref: ./BooleanType.yaml
+  outputChannel:
+    $ref: ./OutputChannelType.yaml
+  defaultLanguage:
+    type: string
+  appleNewsConfig:
+    $ref: ./AppleNewsConfigType.yaml
+type: object

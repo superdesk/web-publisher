@@ -1,0 +1,24 @@
+properties:
+  username:
+    type: string
+  email:
+    type: string
+  last_login:
+    type: string
+    format: date-time
+  roles:
+    additionalProperties: true
+    type: object
+  first_name:
+    type: string
+  last_name:
+    type: string
+  about:
+    type: string
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+type: object

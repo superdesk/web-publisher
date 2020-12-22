@@ -13,7 +13,7 @@ SWP\Component\Bridge\Model\Item:
             type: string
             nullable: true
         headline:
-            type: string
+            type: text
         slugline:
             type: string
             nullable: true
@@ -82,6 +82,9 @@ SWP\Component\Bridge\Model\Item:
             nullable: true
         firstPublishedAt:
             type: datetime
+            nullable: true
+        profile:
+            type: string
             nullable: true
         createdAt:
             type: datetime

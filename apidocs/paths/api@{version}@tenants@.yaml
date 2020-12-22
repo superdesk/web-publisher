@@ -1,0 +1,45 @@
+get:
+  summary: List all tenants/websites
+  parameters:
+    - name: sorting
+      in: query
+      required: false
+      description: todo
+      schema:
+        type: string
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned on success.
+  tags:
+    - tenant
+post:
+  summary: Create new tenant/website
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/TenantType.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/Tenant.yaml
+    '400':
+      description: Returned on failure.
+    '409':
+      description: Returned on conflict.
+  tags:
+    - tenant

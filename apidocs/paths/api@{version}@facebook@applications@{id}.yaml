@@ -1,0 +1,24 @@
+delete:
+  summary: Delete Facebook application
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned on success.
+    '404':
+      description: Application not found
+    '409':
+      description: Application is used by page
+    '500':
+      description: Unexpected error.
+  tags:
+    - facebook instant articles

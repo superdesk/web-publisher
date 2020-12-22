@@ -1,0 +1,25 @@
+post:
+  summary: Uploads SEO image for Package
+  parameters:
+    - name: version
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: packageGuid
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    $ref: >-
+      ../components/requestBodies/postApi_version_packagesSeoUpload_packageguid_.yaml
+  responses:
+    '201':
+      description: Returned on success.
+      content:
+        '*/*':
+          schema:
+            $ref: ../components/schemas/ArticleSeoMetadata.yaml
+  tags:
+    - seo
