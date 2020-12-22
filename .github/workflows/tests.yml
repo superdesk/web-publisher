@@ -82,6 +82,12 @@ jobs:
       - name: Install & run server.js
         run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 
+      - name: Test database schema update
+        run: php bin/console doctrine:schema:update -f
+
+      - name: Test loading fixtures in dev env
+        run: FIXTURES_TYPE=dev WEBP_CONVERSION_ENABLED=false php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
+
       - name: Run Behat tests
         run: ./bin/behat -f progress -vvv
         env:
