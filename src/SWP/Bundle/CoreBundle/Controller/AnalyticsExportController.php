@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Doctrine\Common\Cache\Cache;
 use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\AnalyticsExport\CsvReportFileLocationResolver;
 use SWP\Bundle\CoreBundle\AnalyticsExport\ExportAnalytics;
@@ -35,6 +36,7 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -108,12 +110,17 @@ class AnalyticsExportController extends AbstractController
                 $this->cachedTenantContext->getTenant()->getCode(),
                 $fileName,
                 $currentlyLoggedInUser->getEmail(),
-                !empty($data['routes']) ? $this->processRoutesToIds($data['routes'][0]) : [],
-                $data['authors'],
+                !empty($data['routes']) ? $this->toIds($data['routes']) : [],
+                !empty($data['authors']) ? $this->toIds($data['authors']) : [],
                 $data['term'] ?? ''
             );
 
-            $filters = $this->processFilters($exportAnalytics->getFilters(), !empty($data['routes']) ? $data['routes'][0] : []);
+            $filters = $this->processFilters(
+                $exportAnalytics->getFilters(),
+                !empty($data['routes']) ? $data['routes'] : [],
+                !empty($data['authors']) ? $data['authors'] : []
+            );
+
             $analyticsReport->setFilters($filters);
 
             $this->analyticsReportRepository->add($analyticsReport);
@@ -131,13 +138,13 @@ class AnalyticsExportController extends AbstractController
      */
     public function listAction(Request $request): ResourcesListResponseInterface
     {
-        $redirectRoutes = $this->analyticsReportRepository->getPaginatedByCriteria(
+        $reports = $this->analyticsReportRepository->getPaginatedByCriteria(
             new Criteria(),
             $request->query->get('sorting', []),
             new PaginationData($request)
         );
 
-        return new ResourcesListResponse($redirectRoutes);
+        return new ResourcesListResponse($reports);
     }
 
     /**
@@ -176,25 +183,44 @@ class AnalyticsExportController extends AbstractController
         return $response;
     }
 
-    private function processRoutesToIds(array $routes): array
+    private function toIds(array $items): array
     {
-        $routeIds = [];
+        $ids = [];
+        foreach ($items as $item) {
+            foreach ($item as $entity) {
+                if (!$entity instanceof PersistableInterface) {
+                    continue;
+                }
 
-        foreach ($routes as $route) {
-            $routeIds[] = $route->getId();
+                $ids[] = $entity->getId();
+            }
         }
 
-        return $routeIds;
+        return $ids;
     }
 
-    private function processFilters(array $filters, array $routes): array
+    private function processFilters(array $filters, array $routes, array $authors): array
     {
         $routeNames = [];
+
         foreach ($routes as $route) {
-            $routeNames[] = $route->getName();
+            foreach ($route as $entity) {
+                $routeNames[] = $entity->getName();
+            }
         }
 
         $filters['routes'] = $routeNames;
+
+        $authorNames = [];
+        /** @var ArticleAuthorInterface $author */
+        foreach ($authors as $author) {
+            foreach ($author as $entity) {
+                $authorNames[] = $entity->getName();
+            }
+
+        }
+
+        $filters['authors'] = $authorNames;
 
         return $filters;
     }

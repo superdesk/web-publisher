@@ -62,7 +62,7 @@ EOT
         $repositoryManager = $this->getContainer()->get('fos_elastica.manager');
         $repository = $repositoryManager->getRepository($this->getContainer()->getParameter('swp.model.article.class'));
         $articles = $repository
-            ->findByCriteria($criteria, [], true)
+            ->findByCriteria($criteria)
             ->getResults((int) $input->getOption('offset'), (int) $input->getOption('limit'));
 
         $output->writeln('<bg=green;options=bold>There are total of '.$articles->getTotalHits().' articles.</>');

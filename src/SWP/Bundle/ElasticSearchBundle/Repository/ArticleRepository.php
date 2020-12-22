@@ -36,29 +36,76 @@ class ArticleRepository extends Repository
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
-        if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $searchBy = ['title', 'lead', 'keywords.name'];
+        $term = $criteria->getTerm();
+        if (null !== $term && '' !== $term) {
+            $searchBy = ['title^10', 'lead^4', 'body^2', 'keywords.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
             }
 
             if ($searchByBody) {
-                $searchBy[] = 'body';
+                array_splice($searchBy, 2, 0, ['body']);
             }
 
-            $priority = 1;
-            foreach (array_reverse($searchBy) as $key => $field) {
-                $searchBy[$key] = $field.'^'.$priority;
+            $boolQuery = new BoolQuery();
 
-                ++$priority;
-            }
+            $phraseMultiMatchQuery = new MultiMatch();
+            $phraseMultiMatchQuery->setQuery($term);
+            $phraseMultiMatchQuery->setFields($searchBy);
+            $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $phraseMultiMatchQuery->setParam('boost', 4);
 
-            $query = new MultiMatch();
-            $query->setQuery($criteria->getTerm());
-            $query->setFields($searchBy);
-            $query->setType(MultiMatch::TYPE_PHRASE);
-            $boolFilter->addMust($query);
+            $boolQuery->addShould($phraseMultiMatchQuery);
+
+            $fuzzinessMultiMatchQuery = new MultiMatch();
+            $fuzzinessMultiMatchQuery->setQuery($term);
+            $fuzzinessMultiMatchQuery->setFields($searchBy);
+            $fuzzinessMultiMatchQuery->setFuzziness(1);
+            $boolQuery->addShould($fuzzinessMultiMatchQuery);
+
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setQuery($term);
+            $multiMatchQuery->setFields($searchBy);
+            $multiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
+            $multiMatchQuery->setParam('boost', 2);
+            $multiMatchQuery->setFuzziness(0);
+            $boolQuery->addShould($multiMatchQuery);
+
+            $bool = new BoolQuery();
+            $authorsPhraseMultiMatchQuery = new MultiMatch();
+            $authorsPhraseMultiMatchQuery->setQuery($term);
+            $authorsPhraseMultiMatchQuery->setFields(['authors.name', 'authors.biography']);
+            $authorsPhraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $authorsPhraseMultiMatchQuery->setParam('boost', 4);
+            $bool->addShould($authorsPhraseMultiMatchQuery);
+
+            $authorMultiMatchQuery = new MultiMatch();
+            $authorMultiMatchQuery->setQuery($term);
+            $authorMultiMatchQuery->setFields(['authors.name', 'authors.biography']);
+            $authorMultiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
+            $authorMultiMatchQuery->setParam('boost', 2);
+            $authorMultiMatchQuery->setFuzziness(0);
+            $bool->addShould($authorMultiMatchQuery);
+
+            $fuzzinessPhraseMultiMatchQuery = new MultiMatch();
+            $fuzzinessPhraseMultiMatchQuery->setQuery($term);
+            $fuzzinessPhraseMultiMatchQuery->setFields(['authors.name', 'authors.biography']);
+            $fuzzinessPhraseMultiMatchQuery->setFuzziness(1);
+            $bool->addShould($fuzzinessPhraseMultiMatchQuery);
+
+            $nested = new Nested();
+            $nested->setPath('authors');
+            $functionScore = new Query\FunctionScore();
+            $functionScore->addWeightFunction(15, new Query\Match('authors.name', $term));
+            $functionScore->addWeightFunction(5, new Query\Match('authors.biography', $term));
+            $functionScore->addWeightFunction(15, new Query\MatchPhrase('authors.name', $term));
+            $functionScore->addWeightFunction(10, new Query\MatchPhrase('authors.biography', $term));
+            $functionScore->setQuery($bool);
+            $nested->setQuery($functionScore);
+
+            $boolQuery->addShould($nested);
+            $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
         }
@@ -72,12 +119,9 @@ class ArticleRepository extends Repository
             $boolFilter->addMust($nested);
         }
 
-        if (null !== $fields->get('authors') && !empty($fields->get('authors'))) {
+        if ((null !== $fields->get('authors')) && !empty($fields->get('authors'))) {
             $bool = new BoolQuery();
-            foreach ($fields->get('authors') as $author) {
-                $bool->addFilter(new Query\Match('authors.name', $author));
-            }
-
+            $bool->addFilter(new Query\Terms('authors.id', $fields->get('authors')));
             $nested = new Nested();
             $nested->setPath('authors');
             $nested->setQuery($bool);
@@ -123,23 +167,51 @@ class ArticleRepository extends Repository
                 ]
             ));
 
-            $boolFilter->addFilter(new \Elastica\Query\Term(['isPublishable' => true]));
+            $boolFilter->addFilter(new Term(['isPublishable' => true]));
         }
 
         if (!empty($bool->getParams())) {
             $boolFilter->addMust($bool);
         }
 
-        $query = Query::create($boolFilter)
+        $functionScore = new Query\FunctionScore();
+        $functionScore->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
+        $functionScore->setBoostMode(Query\FunctionScore::BOOST_MODE_MULTIPLY);
+        $functionScore->addWeightFunction(1);
+        $now = new \DateTime();
+        $functionScore->addDecayFunction(
+            Query\FunctionScore::DECAY_GAUSS,
+            'publishedAt',
+            $now->format('Y-m-d'),
+            '31d',
+            '1d',
+            0.5,
+            5
+        );
+
+        $functionScore->addDecayFunction(
+            Query\FunctionScore::DECAY_GAUSS,
+            'publishedAt',
+            $now->format('Y-m-d'),
+            '365d',
+            '1d',
+            0.5,
+            2
+        );
+
+        $functionScore->setQuery($boolFilter);
+
+        $query = Query::create($functionScore)
             ->addSort([
+                '_score' => 'desc',
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 
         $query->setSize(SearchResultLoader::MAX_RESULTS);
+        $query->setTrackScores(true);
 
         return $this->createPaginatorAdapter($query);
     }
-
 
     public function getSuggestedTerm(string $term): string
     {
@@ -158,7 +230,7 @@ class ArticleRepository extends Repository
             'phrase',
             [
                 'text' => $term,
-                'phrase' => ['field' => '_all']
+                'phrase' => ['field' => '_all'],
             ]
         );
 
@@ -168,6 +240,5 @@ class ArticleRepository extends Repository
         $suggest = $adapter->getSuggests();
 
         return $suggest['phrase'][0]['options'][0]['text'] ?? '';
-
     }
 }
