@@ -64,7 +64,7 @@ jobs:
           restore-keys: ${{ matrix.php }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --ansi
+        run: composer install --prefer-dist --no-progress --ansi
 
       - uses: actions/setup-node@v1
         with:
@@ -83,7 +83,7 @@ jobs:
         run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 
       - name: Run Behat tests
-        run: ./bin/behat
+        run: ./bin/behat -f progress -vvv
         env:
           MEMCACHED_HOST: localhost
           POSTGRES_HOST: localhost
