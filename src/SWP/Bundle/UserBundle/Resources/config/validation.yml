@@ -1,0 +1,53 @@
+SWP\Bundle\UserBundle\Model\User:
+  username:
+    NotBlank:
+      - message: swp_user.username.blank
+      - groups:
+          - Registration
+          - Profile
+    Length:
+      - min: 2
+      - minMessage: swp_user.username.short
+      - max: 180
+      - maxMessage: swp_user.username.long
+      - groups:
+          - Registration
+          - Profile
+
+  email:
+    NotBlank:
+      - message: swp_user.email.blank
+      - groups:
+          - Registration
+          - Profile
+    Length:
+        - min: 2
+        - minMessage: swp_user.email.short
+        - max: 180
+        - maxMessage: swp_user.email.long
+        - groups:
+            - Registration
+            - Profile
+    Email:
+        - message: swp_user.email.invalid
+        - groups:
+            - Registration
+            - Profile
+
+  plainPassword:
+    NotBlank:
+      - message: swp_user.password.blank
+      - groups:
+          - Registration
+          - ResetPassword
+          - ChangePassword
+
+    Length:
+      - min: 2
+      - max: 4096
+      - minMessage: swp_user.password.short
+      - groups:
+          - Registration
+          - Profile
+          - ResetPassword
+          - ChangePassword

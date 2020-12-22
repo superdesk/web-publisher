@@ -23,7 +23,7 @@ swp_user_registration_register:
     defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::registerAction }
 
 swp_user_resetting:
-    resource: "@SWPUserBundle/Resources/config/routing/resetting.xml"
+    resource: "@SWPUserBundle/Resources/config/routing/resetting.yml"
     prefix: /resetting
 
 swp_user_profile_show:

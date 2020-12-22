@@ -1,0 +1,34 @@
+services:
+  swp_user.resetting.form.factory:
+    class: SWP\Bundle\UserBundle\Form\Factory\FormFactory
+    arguments:
+      - '@form.factory'
+      - '%swp_user.resetting.form.name%'
+      - '%swp_user.resetting.form.type%'
+      - '%swp_user.resetting.form.validation_groups%'
+
+  swp_user.resetting.form.type:
+    class: SWP\Bundle\UserBundle\Form\Type\ResettingFormType
+    tags:
+      - { name: 'form.type', alias: 'swp_user_resetting' }
+    arguments:
+      - '%swp.model.user.class%'
+
+  swp_user.resetting.controller:
+    class: SWP\Bundle\UserBundle\Controller\ResettingController
+    tags: [ 'controller.service_arguments' ]
+    public: true
+    arguments:
+      - '@event_dispatcher'
+      - '@swp_user.resetting.form.factory'
+      - '@SWP\Bundle\UserBundle\Doctrine\UserManager'
+      - '@SWP\Bundle\UserBundle\Util\TokenGeneratorInterface'
+      - '@SWP\Bundle\UserBundle\Mailer\MailerInterface'
+      - '%swp_user.resetting.retry_ttl%'
+
+  swp_user.listener.resetting:
+    class: SWP\Bundle\UserBundle\EventListener\ResettingListener
+    tags: [ 'kernel.event_subscriber' ]
+    arguments:
+      - '@router'
+      - '%swp_user.resetting.token_ttl%'

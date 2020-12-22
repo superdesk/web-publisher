@@ -1,0 +1,7 @@
+services:
+  swp_user.listener.flash:
+    class: SWP\Bundle\UserBundle\EventListener\FlashListener
+    arguments:
+      - '@session'
+      - '@translator'
+    tags: [ 'kernel.event_subscriber' ]

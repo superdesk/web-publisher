@@ -1,0 +1,21 @@
+parameters:
+  swp_user.resetting.email.template: '@@SWPUser/Resetting/email.txt.twig'
+  swp_user.registration.confirmation.template: '@@SWPUser/Registration/email.txt.twig'
+  swp_user.registration.confirmation.from_email: { 'contact@publisher.test': 'Publisher'}
+  swp_user.resetting.email.from_email:  { 'contact@publisher.test': 'Publisher'}
+services:
+  swp_user.mailer.default:
+    class: SWP\Bundle\UserBundle\Mailer\BaseMailer
+    arguments:
+      - '@mailer'
+      - '@router'
+      - '@twig'
+      - {
+            confirmation.template: '%swp_user.registration.confirmation.template%',
+            resetting.template: '%swp_user.resetting.email.template%',
+            from_email: {
+              confirmation: '%swp_user.registration.confirmation.from_email%',
+              resetting: '%swp_user.resetting.email.from_email%'
+            }
+      }
+    tags: [ 'swp_user.requires_swift' ]

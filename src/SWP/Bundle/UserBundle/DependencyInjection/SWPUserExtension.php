@@ -20,8 +20,8 @@ use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -37,13 +37,11 @@ class SWPUserExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('controllers.yml');
-
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('flash_notifications.xml');
-        $loader->load('mailer.xml');
+        $loader->load('flash_notifications.yml');
+        $loader->load('mailer.yml');
 
         if ($config['persistence']['orm']['enabled']) {
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
@@ -54,9 +52,9 @@ class SWPUserExtension extends Extension
         }
     }
 
-    private function loadResetting(array $config, ContainerBuilder $container, XmlFileLoader $loader, array $fromEmail)
+    private function loadResetting(array $config, ContainerBuilder $container, YamlFileLoader $loader, array $fromEmail)
     {
-        $loader->load('resetting.xml');
+        $loader->load('resetting.yml');
 
         if (isset($config['email']['from_email'])) {
             // overwrite the global one

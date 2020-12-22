@@ -1,0 +1,19 @@
+swp_user_resetting_request:
+  path: /request
+  methods: GET
+  controller: swp_user.resetting.controller:requestAction
+
+swp_user_resetting_send_email:
+  path: /send-email
+  methods: POST
+  controller: swp_user.resetting.controller:sendEmailAction
+
+swp_user_resetting_check_email:
+  path: /check-email
+  methods: GET
+  controller: swp_user.resetting.controller:checkEmailAction
+
+swp_user_resetting_reset:
+  path: /reset/{token}
+  methods: GET|POST
+  controller: swp_user.resetting.controller:resetAction

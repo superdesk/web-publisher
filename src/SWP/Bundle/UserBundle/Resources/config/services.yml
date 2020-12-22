@@ -1,8 +1,4 @@
 parameters:
-    swp_user.registration.confirmation.template : "@@SWPUser/Registration/email.txt.twig"
-    swp_user.registration.confirmation.from_email : 'contact@publisher.test:Publisher'
-    swp_user.resetting.email.template :  "@@SWPUser/Resetting/email.txt.twig"
-    swp_user.resetting.email.from_email : "contact@publisher.test:Publisher"
     swp_user.firewall_name: 'main'
 
 services:
