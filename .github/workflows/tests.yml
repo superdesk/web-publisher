@@ -1,4 +1,4 @@
-name: Run tests
+name: CI
 
 on:
   [push, pull_request]
@@ -20,7 +20,9 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_PASSWORD: 'password'
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
       memcached:
         image: memcached:1.6.5
         ports:
@@ -42,7 +44,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           coverage: "none"
-          extensions: "json,memcached,amqp"
+          extensions: "json,memcached,amqp,pdo_sqlite,pgsql"
           ini-values: "memory_limit=-1"
           php-version: "${{ matrix.php }}"
           tools: pecl
@@ -82,14 +84,21 @@ jobs:
       - name: Install & run server.js
         run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 
-      - name: Test database schema update
-        run: php bin/console doctrine:schema:update -f
-
       - name: Test loading fixtures in dev env
-        run: FIXTURES_TYPE=dev WEBP_CONVERSION_ENABLED=false php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
+        run: |
+          php bin/console doctrine:schema:update -f
+          php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
+        env:
+          FIXTURES_TYPE: dev
+          WEBP_CONVERSION_ENABLED: false
+
+      - name: Test migrations
+          run: |
+            php bin/console doctrine:migrations:migrate
+          env:
+            DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
 
       - name: Run Behat tests
         run: ./bin/behat -f progress -vvv
         env:
           MEMCACHED_HOST: localhost
-          POSTGRES_HOST: localhost
