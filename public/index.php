@@ -19,6 +19,10 @@ if ($_SERVER['APP_DEBUG']) {
     Debug::enable();
 }
 
+if (isset($_SERVER['HTTP_X_REAL_IP'])) {
+    $_SERVER['HTTP_X_FORWARDED_FOR'] = $_SERVER['HTTP_X_REAL_IP'];
+}
+
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
     Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
 }
