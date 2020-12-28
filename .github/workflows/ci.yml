@@ -12,17 +12,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         php: ['7.4', '8.0']
 
     services:
       postgres:
         image: postgres:9.6-alpine
         ports:
-          - 5432:5432
+          - 5432/tcp
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
       memcached:
         image: memcached:1.6.5
         ports:
@@ -44,7 +46,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           coverage: "none"
-          extensions: "json,memcached,amqp,pdo_sqlite,pgsql"
+          extensions: "json,memcached,amqp,pdo_sqlite,pgsql,mbstring,xml,ctype,iconv,intl"
           ini-values: "memory_limit=-1"
           php-version: "${{ matrix.php }}"
           tools: pecl
@@ -66,7 +68,13 @@ jobs:
           restore-keys: ${{ matrix.php }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --ansi
+        run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader
+
+      - if: matrix.php-version != '8.0'
+          run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader
+
+      - if: matrix.php-version == '8.0'
+          run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader --ignore-platform-reqs=php
 
       - uses: actions/setup-node@v1
         with:
