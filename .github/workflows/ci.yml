@@ -71,10 +71,10 @@ jobs:
         run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader
 
       - if: matrix.php-version != '8.0'
-          run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader
+        run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader
 
       - if: matrix.php-version == '8.0'
-          run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader --ignore-platform-reqs=php
+        run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader --ignore-platform-reqs=php
 
       - uses: actions/setup-node@v1
         with:
@@ -102,10 +102,10 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
 
       - name: Test migrations
-          run: |
-            php bin/console doctrine:migrations:migrate
-          env:
-            DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
+        run: |
+          php bin/console doctrine:migrations:migrate
+        env:
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
 
       - name: Run Behat tests
         run: ./bin/behat -f progress -vvv
