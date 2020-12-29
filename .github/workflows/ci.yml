@@ -93,7 +93,9 @@ jobs:
         run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 
       - name: Test loading fixtures in dev env
-        run: php bin/console doctrine:fixtures:load --env=test --no-interaction
+        run: |
+          php bin/console doctrine:schema:update -f --env=test
+          php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
         env:
           FIXTURES_TYPE: dev
           WEBP_CONVERSION_ENABLED: false
