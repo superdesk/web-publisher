@@ -6,13 +6,13 @@ on:
 jobs:
 
   tests:
-    name: Tests (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+    name: Tests (PHP ${{ matrix.php }} on ${{ matrix.os }})
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         php: ['7.4', '8.0']
 
     services:
@@ -93,7 +93,7 @@ jobs:
         run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 
       - name: Test loading fixtures in dev env
-        run: php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
+        run: php bin/console doctrine:fixtures:load --env=test --no-interaction
         env:
           FIXTURES_TYPE: dev
           WEBP_CONVERSION_ENABLED: false
