@@ -18,8 +18,7 @@
   "repositories": [
     {
       "type": "path",
-      "url": "../../*/*",
-      "canonical": false
+      "url": "../../*/*"
     }
   ],
   "require": {
