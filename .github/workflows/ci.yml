@@ -6,13 +6,13 @@ on:
 jobs:
 
   tests:
-    name: Tests (PHP ${{ matrix.php }} on ${{ matrix.os }})
+    name: Tests (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        os: ['ubuntu-latest']
         php: ['7.4', '8.0']
 
     services:
@@ -106,6 +106,6 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
 
       - name: Run Behat tests
-        run: ./bin/behat -f progress -vvv
+        run: ./bin/behat -f progress -vvv --tags '~@custom-env&&~@webp'
         env:
           MEMCACHED_HOST: localhost
