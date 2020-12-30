@@ -11,7 +11,7 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "symfony/expression-language": "^4.2",
         "psr/log": "^1.0",
         "swp/storage": "^2.0",

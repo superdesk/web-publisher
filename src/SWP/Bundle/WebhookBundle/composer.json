@@ -18,7 +18,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": "^7.3",
+    "php": "^7.4",
     "swp/webhook": "^2.0",
     "swp/storage-bundle": "^2.0",
     "symfony/form": "^4.2 | ^5.0"

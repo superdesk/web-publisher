@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "swp/multi-tenancy": "^2.1",
         "swp/storage-bundle": "^2.1",
         "doctrine/doctrine-bundle": "^1.10",
