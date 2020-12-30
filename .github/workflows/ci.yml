@@ -3,6 +3,9 @@ name: CI
 on:
   [push, pull_request]
 
+env:
+  APP_ENV: test
+
 jobs:
 
   tests:
@@ -12,14 +15,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4', '8.0']
         include:
           - php: '7.4'
             doctrine_cache_driver: 'memcached'
             composer_flags: 'update --prefer-stable'
-          - php: '8.0'
-            site: "dev"
-            datacenter: "site-b"
+          - php: '7.4'
+            doctrine_cache_driver: 'memcached'
+            composer_flags: 'install'
+          - php: '7.4'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'update --prefer-stable'
+          - php: '7.4'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'install'
+          - php: '7.3'
+            doctrine_cache_driver: 'memcached'
+            composer_flags: 'update --prefer-stable'
+          - php: '7.3'
+            doctrine_cache_driver: 'memcached'
+            composer_flags: 'install'
+          - php: '7.3'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'update --prefer-stable'
+          - php: '7.3'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'install'
 
     services:
       postgres:
@@ -74,13 +94,9 @@ jobs:
           restore-keys: ${{ matrix.php }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader
-
-      - if: matrix.php-version != '8.0'
-        run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader
-
-      - if: matrix.php-version == '8.0'
-        run: composer install --prefer-dist --no-progress --ansi --optimize-autoloader --ignore-platform-reqs=php
+        run: composer $COMPOSER_FLAGS --prefer-dist --no-progress --ansi --optimize-autoloader
+        env:
+          COMPOSER_FLAGS: ${{ matrix.composer_flags }}
 
       - uses: actions/setup-node@v1
         with:
@@ -105,11 +121,13 @@ jobs:
         env:
           FIXTURES_TYPE: dev
           WEBP_CONVERSION_ENABLED: false
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
       - name: Test migrations on Postgres
         run: php bin/console doctrine:migrations:migrate --env=test --no-debug -vvv
         env:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
       - name: Run PHPSpec
         run: ./bin/phpspec run
@@ -118,11 +136,13 @@ jobs:
         run: ./bin/behat -f progress -vvv --tags '~@custom-env&&~@webp'
         env:
           MEMCACHED_HOST: localhost
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
       - name: Run Behat redirecting scenario
         run: ./bin/behat -f progress -vvv features/redirecting/redirecting_with_unpublished_article.feature
         env:
           REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: true
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
       - name: Run PHPUnit Bridge Bundle tests
         run: |
@@ -160,3 +180,5 @@ jobs:
           echo "::group::phpunit run"
           bin/phpunit
           echo "::endgroup::"
+        env:
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
