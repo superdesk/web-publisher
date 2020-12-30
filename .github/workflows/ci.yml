@@ -9,7 +9,7 @@ env:
 jobs:
 
   tests:
-    name: Tests (PHP ${{ matrix.php }} | composer {{ matrix.composer_flags }} | ${{ matrix.doctrine_cache_driver }})
+    name: Tests (PHP ${{ matrix.php }} | composer ${{ matrix.composer_flags }} | ${{ matrix.doctrine_cache_driver }})
     runs-on: ubuntu-latest
 
     strategy:
