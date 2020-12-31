@@ -150,17 +150,17 @@ Feature: Set width and height of embedded images
       | media[0].image.asset_id                       | 20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a   |
       | media[0].renditions[0].name                   | original                                                                           |
       | media[0].renditions[0].image.asset_id         | 20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a   |
-      | media[0].renditions[0]._links.public_url.href | http://localhost/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpeg |
+      | media[0].renditions[0]._links.public_url.href | http://localhost/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpg |
       | media[0].by_line                              | Ljub. Z. Ranković                                                                  |
     When I go to "http://localhost/technews/item-test"
     Then the response status code should be 200
 
     And the response should contain "embedded9582903151"
-    And the response should contain "/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpeg"
+    And the response should contain "/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpg"
     And the response should contain "(Photo: Ljub. Z. Ranković)"
 
     When I go to "http://localhost/technews/item-test?amp"
     Then the response status code should be 200
     And the response should contain "amp-img"
-    And the response should contain "/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpeg"
+    And the response should contain "/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpg"
     And the response should contain "(Photo: Ljub. Z. Ranković)"
