@@ -257,6 +257,14 @@ class NinjsValidator extends JsonValidator
           "world_region":{
             "description":"The world region",
             "type":"string"
+          },
+          "country_code":{
+            "description":"The country code",
+            "type":"string"
+          },
+          "state_code":{
+            "description":"The state code",
+            "type":"string"
           }
         }
       }

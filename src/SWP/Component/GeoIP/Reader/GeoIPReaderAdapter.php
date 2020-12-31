@@ -31,13 +31,13 @@ class GeoIPReaderAdapter implements ReaderInterface
     {
         $record = $this->reader->city($ipAddress);
 
-        return $record->country->name;
+        return (string) $record->country->name;
     }
 
     public function getState(string $ipAddress): string
     {
         $record = $this->reader->city($ipAddress);
 
-        return $record->mostSpecificSubdivision->name;
+        return (string) $record->mostSpecificSubdivision->name;
     }
 }
