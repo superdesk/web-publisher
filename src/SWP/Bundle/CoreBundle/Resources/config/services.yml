@@ -455,9 +455,13 @@ services:
             - '@swp.object_manager.article'
             - '@swp.repository.article'
             - '@event_dispatcher'
-            - '@fos_elastica.object_persister.swp_package'
+            - '@swp_elastica.persister_registry'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onUpdated, priority: 20 }
+
+    swp_elastica.persister_registry:
+        alias: fos_elastica.persister_registry
+        public: true
 
     swp_core.listener.package_status:
         class: SWP\Bundle\CoreBundle\EventListener\PackageStatusListener

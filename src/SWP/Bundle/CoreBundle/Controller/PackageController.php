@@ -76,7 +76,7 @@ class PackageController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_core.article.publisher')->publish($package, $form->getData());
-            $this->get('fos_elastica.object_persister.swp_package')->replaceOne($package);
+            $this->get('swp_elastica.persister_registry')->getPersister('swp_package')->replaceOne($package);
 
             return new SingleResourceResponse(null, new ResponseContext(201));
         }
