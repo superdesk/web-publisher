@@ -155,7 +155,7 @@
     "symfony/phpunit-bridge": "^3.4",
     "symfony/web-profiler-bundle": "^4.4",
     "symfony/web-server-bundle": "^4.4",
-    "takeit/doctrine-data-fixtures-extension": "dev-container_aware",
+    "behat-extension/doctrine-data-fixtures-extension": "^6.0",
     "theofidry/alice-data-fixtures": "^1.1"
   },
   "replace": {

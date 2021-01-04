@@ -858,7 +858,7 @@ Feature: Handling the custom media fields
                       "id":4,
                       "image":{
                          "id":8,
-                         "file_extension":"jpeg",
+                         "file_extension":"jpg",
                          "asset_id":"1234567890987654321c",
                          "width":480,
                          "height":720,
@@ -876,7 +876,7 @@ Feature: Handling the custom media fields
                             "id":8,
                             "image":{
                                "id":6,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"1234567890987654321a",
                                "width":480,
                                "height":720,
@@ -885,7 +885,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpg"
                                }
                             }
                          },
@@ -896,7 +896,7 @@ Feature: Handling the custom media fields
                             "id":9,
                             "image":{
                                "id":7,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"1234567890987654321b",
                                "width":480,
                                "height":720,
@@ -905,7 +905,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpg"
                                }
                             }
                          },
@@ -916,7 +916,7 @@ Feature: Handling the custom media fields
                             "id":10,
                             "image":{
                                "id":8,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"1234567890987654321c",
                                "width":480,
                                "height":720,
@@ -925,7 +925,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
                                }
                             }
                          },
@@ -936,7 +936,7 @@ Feature: Handling the custom media fields
                             "id":10,
                             "image":{
                                "id":8,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"1234567890987654321c",
                                "width":480,
                                "height":720,
@@ -945,7 +945,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
                                }
                             }
                          },
@@ -956,7 +956,7 @@ Feature: Handling the custom media fields
                             "id":10,
                             "image":{
                                "id":8,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"1234567890987654321c",
                                "width":480,
                                "height":720,
@@ -965,7 +965,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
                                }
                             }
                          }
@@ -973,7 +973,7 @@ Feature: Handling the custom media fields
                       "headline":"test image",
                       "_links":{
                          "download":{
-                            "href":"\/media\/1234567890987654321c.jpeg"
+                            "href":"\/media\/1234567890987654321c.jpg"
                          }
                       }
                    },
@@ -984,7 +984,7 @@ Feature: Handling the custom media fields
                       "id":5,
                       "image":{
                          "id":11,
-                         "file_extension":"jpeg",
+                         "file_extension":"jpg",
                          "asset_id":"2234567890987654321c",
                          "width":480,
                          "height":720,
@@ -1002,7 +1002,7 @@ Feature: Handling the custom media fields
                             "id":11,
                             "image":{
                                "id":9,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"2234567890987654321a",
                                "width":480,
                                "height":720,
@@ -1011,7 +1011,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpg"
                                }
                             }
                          },
@@ -1022,7 +1022,7 @@ Feature: Handling the custom media fields
                             "id":12,
                             "image":{
                                "id":10,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"2234567890987654321b",
                                "width":480,
                                "height":720,
@@ -1031,7 +1031,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpg"
                                }
                             }
                          },
@@ -1042,7 +1042,7 @@ Feature: Handling the custom media fields
                             "id":13,
                             "image":{
                                "id":11,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"2234567890987654321c",
                                "width":480,
                                "height":720,
@@ -1051,7 +1051,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
                                }
                             }
                          },
@@ -1062,7 +1062,7 @@ Feature: Handling the custom media fields
                             "id":13,
                             "image":{
                                "id":11,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"2234567890987654321c",
                                "width":480,
                                "height":720,
@@ -1071,7 +1071,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
                                }
                             }
                          },
@@ -1082,7 +1082,7 @@ Feature: Handling the custom media fields
                             "id":13,
                             "image":{
                                "id":11,
-                               "file_extension":"jpeg",
+                               "file_extension":"jpg",
                                "asset_id":"2234567890987654321c",
                                "width":480,
                                "height":720,
@@ -1091,7 +1091,7 @@ Feature: Handling the custom media fields
                             "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
                             "_links":{
                                "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpeg"
+                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
                                }
                             }
                          }
@@ -1099,7 +1099,7 @@ Feature: Handling the custom media fields
                       "headline":"test image",
                       "_links":{
                          "download":{
-                            "href":"\/media\/2234567890987654321c.jpeg"
+                            "href":"\/media\/2234567890987654321c.jpg"
                          }
                       }
                    },
@@ -1223,7 +1223,7 @@ Feature: Handling the custom media fields
              "id":4,
              "image":{
                 "id":8,
-                "file_extension":"jpeg",
+                "file_extension":"jpg",
                 "asset_id":"1234567890987654321c",
                 "width":480,
                 "height":720,
@@ -1241,7 +1241,7 @@ Feature: Handling the custom media fields
                    "id":8,
                    "image":{
                       "id":6,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"1234567890987654321a",
                       "width":480,
                       "height":720,
@@ -1250,7 +1250,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpg"
                       }
                    }
                 },
@@ -1261,7 +1261,7 @@ Feature: Handling the custom media fields
                    "id":9,
                    "image":{
                       "id":7,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"1234567890987654321b",
                       "width":480,
                       "height":720,
@@ -1270,7 +1270,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpg"
                       }
                    }
                 },
@@ -1281,7 +1281,7 @@ Feature: Handling the custom media fields
                    "id":10,
                    "image":{
                       "id":8,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"1234567890987654321c",
                       "width":480,
                       "height":720,
@@ -1290,7 +1290,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
                       }
                    }
                 },
@@ -1301,7 +1301,7 @@ Feature: Handling the custom media fields
                    "id":10,
                    "image":{
                       "id":8,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"1234567890987654321c",
                       "width":480,
                       "height":720,
@@ -1310,7 +1310,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
                       }
                    }
                 },
@@ -1321,7 +1321,7 @@ Feature: Handling the custom media fields
                    "id":10,
                    "image":{
                       "id":8,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"1234567890987654321c",
                       "width":480,
                       "height":720,
@@ -1330,7 +1330,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
                       }
                    }
                 }
@@ -1338,7 +1338,7 @@ Feature: Handling the custom media fields
              "headline":"test image",
              "_links":{
                 "download":{
-                   "href":"\/media\/1234567890987654321c.jpeg"
+                   "href":"\/media\/1234567890987654321c.jpg"
                 }
              }
           },
@@ -1346,7 +1346,7 @@ Feature: Handling the custom media fields
              "id":5,
              "image":{
                 "id":11,
-                "file_extension":"jpeg",
+                "file_extension":"jpg",
                 "asset_id":"2234567890987654321c",
                 "width":480,
                 "height":720,
@@ -1364,7 +1364,7 @@ Feature: Handling the custom media fields
                    "id":11,
                    "image":{
                       "id":9,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"2234567890987654321a",
                       "width":480,
                       "height":720,
@@ -1373,7 +1373,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpg"
                       }
                    }
                 },
@@ -1384,7 +1384,7 @@ Feature: Handling the custom media fields
                    "id":12,
                    "image":{
                       "id":10,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"2234567890987654321b",
                       "width":480,
                       "height":720,
@@ -1393,7 +1393,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpg"
                       }
                    }
                 },
@@ -1404,7 +1404,7 @@ Feature: Handling the custom media fields
                    "id":13,
                    "image":{
                       "id":11,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"2234567890987654321c",
                       "width":480,
                       "height":720,
@@ -1413,7 +1413,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
                       }
                    }
                 },
@@ -1424,7 +1424,7 @@ Feature: Handling the custom media fields
                    "id":13,
                    "image":{
                       "id":11,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"2234567890987654321c",
                       "width":480,
                       "height":720,
@@ -1433,7 +1433,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
                       }
                    }
                 },
@@ -1444,7 +1444,7 @@ Feature: Handling the custom media fields
                    "id":13,
                    "image":{
                       "id":11,
-                      "file_extension":"jpeg",
+                      "file_extension":"jpg",
                       "asset_id":"2234567890987654321c",
                       "width":480,
                       "height":720,
@@ -1453,7 +1453,7 @@ Feature: Handling the custom media fields
                    "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
                    "_links":{
                       "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpeg"
+                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
                       }
                    }
                 }
@@ -1461,7 +1461,7 @@ Feature: Handling the custom media fields
              "headline":"test image",
              "_links":{
                 "download":{
-                   "href":"\/media\/2234567890987654321c.jpeg"
+                   "href":"\/media\/2234567890987654321c.jpg"
                 }
              }
           }
@@ -1595,7 +1595,7 @@ Feature: Handling the custom media fields
           }
        }
     }
-  """
+    """
 
     And I set "abstract-html-test-without-slideshow" as a current article in the context
 
