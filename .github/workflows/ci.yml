@@ -28,18 +28,6 @@ jobs:
           - php: '7.4'
             doctrine_cache_driver: 'array'
             composer_flags: 'install'
-          - php: '7.3'
-            doctrine_cache_driver: 'memcached'
-            composer_flags: 'update --prefer-stable'
-          - php: '7.3'
-            doctrine_cache_driver: 'memcached'
-            composer_flags: 'install'
-          - php: '7.3'
-            doctrine_cache_driver: 'array'
-            composer_flags: 'update --prefer-stable'
-          - php: '7.3'
-            doctrine_cache_driver: 'array'
-            composer_flags: 'install'
 
     services:
       postgres:
