@@ -48,7 +48,7 @@ jobs:
         ports:
           - 5672:5672
       elasticsearch:
-        image: elasticsearch:5.4
+        image: elasticsearch:7.10.1
         ports:
           - 9200:9200
 
