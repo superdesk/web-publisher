@@ -576,7 +576,7 @@ final class ContentPushTest extends WebTestCase
             $this->assertEquals(
                 [
                     'media_id' => $mediaId,
-                    'URL' => 'http://localhost/uploads/swp/123456/media/'.str_replace('/', '_', str_replace('jpg', 'jpeg', $mediaId)),
+                    'URL' => 'http://localhost/uploads/swp/123456/media/'.str_replace('/', '_', $mediaId),
                     'media' => base64_encode(file_get_contents(__DIR__.'/Functional/Resources/test_file.jpg')),
                     'mime_type' => 'image/jpeg',
                     'filemeta' => [],
@@ -611,8 +611,8 @@ final class ContentPushTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_package_preview', ['routeId' => 3, 'id' => 1, 'auth_token' => base64_encode('test_token:')]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('<figure><img src="/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpeg"', $content);
-        self::assertContains('alt="Article loaded from context" src="http://localhost/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpeg"', $content);
+        self::assertContains('<figure><img src="/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"', $content);
+        self::assertContains('alt="Article loaded from context" src="http://localhost/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"', $content);
 
         // publish package
         $client->request(

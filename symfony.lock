@@ -5,6 +5,9 @@
     "aws/aws-sdk-php": {
         "version": "3.133.4"
     },
+    "behat-extension/doctrine-data-fixtures-extension": {
+        "version": "v6.0.1"
+    },
     "behat/behat": {
         "version": "v3.5.0"
     },
@@ -1217,9 +1220,6 @@
     },
     "takeit/amp-html-bundle": {
         "version": "v1.0.1"
-    },
-    "takeit/doctrine-data-fixtures-extension": {
-        "version": "5.0.x-dev"
     },
     "takeit/stringy": {
         "version": "dev-fix"
