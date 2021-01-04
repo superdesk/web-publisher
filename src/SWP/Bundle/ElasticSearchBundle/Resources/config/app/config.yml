@@ -25,6 +25,9 @@ fos_elastica:
               type: custom
               tokenizer: standard
               filter: [lowercase, swp_ascii_folding]
+            swp_edge_ngram_analyzer:
+              type: custom
+              tokenizer: standard
           filter:
             swp_ascii_folding:
               type: 'asciifolding'
@@ -73,6 +76,7 @@ fos_elastica:
         authors:
           type: 'nested'
           properties:
+            id: { type: integer }
             name: { type: text, analyzer: swp_folding_analyzer }
             biography: { type: text, analyzer: swp_folding_analyzer }
             slug: { type: text, analyzer: swp_folding_analyzer }
