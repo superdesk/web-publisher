@@ -104,8 +104,12 @@ jobs:
 
       - name: Test loading fixtures from dev env in test env
         run: |
+          echo "::group::database schema update"
           php bin/console doctrine:schema:update -f --env=test
-          php bin/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
+          echo "::endgroup::"
+          echo "::group::load fixtures"
+          php bin/console doctrine:fixtures:load --env=test --no-interaction
+          echo "::endgroup::"
         env:
           FIXTURES_TYPE: dev
           WEBP_CONVERSION_ENABLED: false
