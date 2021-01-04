@@ -54,7 +54,7 @@ class SlideshowItemLoaderTest extends WebTestCase
         $template = '{% gimmelist slideshowItem from slideshowItems %} {{slideshowItem.slideshow.code}}-{{ url(slideshowItem.articleMedia) }} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals(' slideshow1-http://localhost/uploads/swp/123456/media/123456.mp4  slideshow1-http://localhost/uploads/swp/123456/media/12345678987654321a.jpeg  slideshow3-http://localhost/uploads/swp/123456/media/12345678987654321a.jpeg ', $result);
+        self::assertEquals(' slideshow1-http://localhost/uploads/swp/123456/media/123456.mp4  slideshow1-http://localhost/uploads/swp/123456/media/12345678987654321a.jpg  slideshow3-http://localhost/uploads/swp/123456/media/12345678987654321a.jpg ', $result);
     }
 
     public function testLoadAllArticleSlideshowsWithItems()
@@ -64,7 +64,7 @@ class SlideshowItemLoaderTest extends WebTestCase
         $template = '{% gimmelist slideshow from slideshows %}{% gimmelist slideshowItem from slideshowItems with { slideshow: slideshow } %} {{slideshowItem.slideshow.code}}-{{ url(slideshowItem.articleMedia) }} {% endgimmelist %}{% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals(' slideshow1-http://localhost/uploads/swp/123456/media/123456.mp4  slideshow1-http://localhost/uploads/swp/123456/media/12345678987654321a.jpeg  slideshow3-http://localhost/uploads/swp/123456/media/12345678987654321a.jpeg ', $result);
+        self::assertEquals(' slideshow1-http://localhost/uploads/swp/123456/media/123456.mp4  slideshow1-http://localhost/uploads/swp/123456/media/12345678987654321a.jpg  slideshow3-http://localhost/uploads/swp/123456/media/12345678987654321a.jpg ', $result);
     }
 
     public function testNotLoadingSlideshowItemsBelongingToAnotherArticle(): void
@@ -86,14 +86,14 @@ class SlideshowItemLoaderTest extends WebTestCase
         $template = '{% gimme slideshow with { name: "slideshow1"} %}{% gimmelist slideshowItem from slideshowItems with { slideshow: slideshow } %}{{slideshowItem.slideshow.code}}-{{ url(slideshowItem.articleMedia) }}{% endgimmelist %}{% endgimme %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals('slideshow1-http://localhost/uploads/swp/123456/media/123456.mp4slideshow1-http://localhost/uploads/swp/123456/media/12345678987654321a.jpeg', $result);
+        self::assertEquals('slideshow1-http://localhost/uploads/swp/123456/media/123456.mp4slideshow1-http://localhost/uploads/swp/123456/media/12345678987654321a.jpg', $result);
 
         $this->slideshowLoader->load('slideshow', ['name' => 'slideshow3']);
 
         $template = '{% gimme slideshow with { name: "slideshow3"} %}{% gimmelist slideshowItem from slideshowItems with { slideshow: slideshow } %}{{slideshowItem.slideshow.code}}-{{ url(slideshowItem.articleMedia) }}{% endgimmelist %}{% endgimme %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals('slideshow3-http://localhost/uploads/swp/123456/media/12345678987654321a.jpeg', $result);
+        self::assertEquals('slideshow3-http://localhost/uploads/swp/123456/media/12345678987654321a.jpg', $result);
     }
 
     private function getRendered($template, $context = [])
