@@ -28,9 +28,12 @@ class AuthorSearchController extends AbstractController
 {
     private RepositoryManagerInterface $repositoryManager;
 
-    public function __construct(RepositoryManagerInterface $repositoryManager)
+    private string $authorClassName;
+
+    public function __construct(RepositoryManagerInterface $repositoryManager, string $authorClassName)
     {
         $this->repositoryManager = $repositoryManager;
+        $this->authorClassName = $authorClassName;
     }
 
     /**
@@ -48,7 +51,7 @@ class AuthorSearchController extends AbstractController
         );
 
         $result = $this->repositoryManager
-            ->getRepository($this->getParameter('swp.model.author.class'))
+            ->getRepository($this->authorClassName)
             ->findByCriteria($criteria);
 
         $pagination = $this->get('knp_paginator')->paginate(

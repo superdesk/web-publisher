@@ -17,3 +17,4 @@ services:
     public: true
     arguments:
       - '@fos_elastica.manager'
+      - '%swp.model.author.class%'
