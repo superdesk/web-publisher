@@ -55,7 +55,7 @@ jobs:
 
     env:
       ELASTICA_HOST: localhost
-      ELASTICA_PORT: ${{ job.services.elasticsearch.ports[9200] }}
+      ELASTICA_PORT: 9200
       ELASTICA_INDEX_NAME: swp_test_index
 
     steps:
