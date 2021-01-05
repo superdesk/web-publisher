@@ -23,7 +23,9 @@ use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
-use Elastica\QueryBuilder\DSL\Suggest;
+use Elastica\Suggest;
+use Elastica\Suggest\CandidateGenerator\DirectGenerator;
+use Elastica\Suggest\Phrase;
 use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use FOS\ElasticaBundle\Repository;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
@@ -215,25 +217,20 @@ class ArticleRepository extends Repository
 
     public function getSuggestedTerm(string $term): string
     {
-        $suggestQuery = new Suggest();
-        $suggestQuery->phrase('our_suggestion', '_all');
+        $suggest = new Suggest();
+        $phraseSuggest = new Phrase('our_suggestion', 'title');
+        $phraseSuggest->setText($term);
+
+        $bodyCandidateGenerator = new DirectGenerator('body');
+        $phraseSuggest->addCandidateGenerator($bodyCandidateGenerator);
+        $suggest->addSuggestion($phraseSuggest);
 
         $phraseMultiMatchQuery = new MultiMatch();
         $phraseMultiMatchQuery->setQuery($term);
-        $phraseMultiMatchQuery->setFields('_all');
         $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
         $phraseMultiMatchQuery->setParam('boost', 50);
 
         $query = new \Elastica\Query($phraseMultiMatchQuery);
-        $suggest = new \Elastica\Suggest();
-        $suggest->setParam(
-            'phrase',
-            [
-                'text' => $term,
-                'phrase' => ['field' => '_all'],
-            ]
-        );
-
         $query->setSuggest($suggest);
 
         $adapter = $this->createPaginatorAdapter($query);
