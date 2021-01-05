@@ -16,11 +16,7 @@ services:
     elasticsearch:
         image: elasticsearch:7.10.1
         environment:
-            - node.name=elasticsearch
-            - discovery.seed_hosts=elasticsearch
-            - cluster.initial_master_nodes=elasticsearch
-            - cluster.name=docker-cluster
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - discovery.type=single-node
         ports:
             - 9201:9200
             - 9301:9300
