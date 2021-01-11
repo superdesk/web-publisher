@@ -1,0 +1,7 @@
+SWP\Bundle\ContentBundle\Model\License:
+  type: embeddable
+  fields:
+    name:
+      type: string
+    url:
+      type: string

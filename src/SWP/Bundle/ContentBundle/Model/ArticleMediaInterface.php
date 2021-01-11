@@ -73,8 +73,6 @@ interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInter
     public function getArticle();
 
     /**
-     * @param ArticleInterface $article
-     *
      * @return ArticleMedia
      */
     public function setArticle(ArticleInterface $article);
@@ -156,19 +154,10 @@ interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInter
      */
     public function setUsageTerms($usageTerms);
 
-    /**
-     * @return string
-     */
     public function getKey(): string;
 
-    /**
-     * @param string $key
-     */
     public function setKey(string $key);
 
-    /**
-     * @param ItemInterface $item
-     */
     public function setFromItem(ItemInterface $item);
 
     /**
@@ -179,8 +168,6 @@ interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInter
     public static function handleMediaId($mediaId);
 
     /**
-     * @param string $mediaId
-     *
      * @return mixed
      */
     public static function getOriginalMediaId(string $mediaId);
@@ -196,4 +183,8 @@ interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInter
     public function getCopyrightHolder(): ?string;
 
     public function setCopyrightHolder(?string $copyrightHolder): void;
+
+    public function getLicense(): ?License;
+
+    public function setLicense(License $license): void;
 }

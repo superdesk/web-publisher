@@ -20,6 +20,8 @@ class BaseContent implements ContentInterface
 {
     use AuthorsAwareTrait;
 
+    private const PHOTO_LICENSE = 'photo_license';
+
     /**
      * @var mixed
      */
@@ -426,6 +428,17 @@ class BaseContent implements ContentInterface
 
             return $subject;
         }, $values);
+    }
+
+    public function getLicense(): array
+    {
+        foreach ($this->subjects as $subject) {
+            if (\is_array($subject) && \array_key_exists('scheme', $subject) && self::PHOTO_LICENSE === $subject['scheme']) {
+                return $subject;
+            }
+        }
+
+        return [];
     }
 
     /**
