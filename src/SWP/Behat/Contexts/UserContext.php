@@ -6,10 +6,10 @@ namespace SWP\Behat\Contexts;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use FOS\UserBundle\Model\UserManagerInterface;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepositoryInterface;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 
 final class UserContext extends AbstractContext implements Context
 {

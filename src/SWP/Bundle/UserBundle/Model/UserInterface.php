@@ -16,12 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use FOS\UserBundle\Model\UserInterface as BaseUserInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-interface UserInterface extends BaseUserInterface, PersistableInterface, TimestampableInterface
+interface UserInterface extends PersistableInterface, TimestampableInterface, BaseUserInterface
 {
+    public const ROLE_DEFAULT = 'ROLE_USER';
+
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
     /**
      * @return string
      */

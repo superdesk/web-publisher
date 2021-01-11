@@ -235,13 +235,13 @@ services:
         class: SWP\Bundle\CoreBundle\Security\Authenticator\ExternalOauthAuthenticator
         arguments:
             - "@knpu.oauth2.registry"
-            - "@fos_user.user_manager"
+            - '@SWP\Bundle\UserBundle\Model\UserManagerInterface'
             - "@security.helper"
 
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
         arguments:
-            - "@fos_user.user_manager"
+            - '@SWP\Bundle\UserBundle\Model\UserManagerInterface'
 
     swp.checker.amp_support:
         class: SWP\Bundle\CoreBundle\Checker\AmpSupportChecker

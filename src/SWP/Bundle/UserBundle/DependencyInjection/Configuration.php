@@ -17,9 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Bundle\UserBundle\Form\RegistrationFormType;
 use SWP\Bundle\UserBundle\Model\User;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Component\Storage\Factory\Factory;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -38,6 +40,13 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('swp_user');
         $treeBuilder->getRootNode()
             ->children()
+                ->arrayNode('from_email')
+                    ->isRequired()
+                    ->children()
+                        ->scalarNode('address')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('sender_name')->isRequired()->cannotBeEmpty()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('persistence')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -66,6 +75,46 @@ class Configuration implements ConfigurationInterface
             ->end()
         ;
 
+        $this->addRegistrationSection($treeBuilder->getRootNode());
+
         return $treeBuilder;
+    }
+
+    private function addRegistrationSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('registration')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->arrayNode('confirmation')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->booleanNode('enabled')->defaultFalse()->end()
+                                ->scalarNode('template')->defaultValue('@SWPUser/Registration/email.txt.twig')->end()
+                                ->arrayNode('from_email')
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('address')->isRequired()->cannotBeEmpty()->end()
+                                        ->scalarNode('sender_name')->isRequired()->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('form')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('type')->defaultValue(RegistrationFormType::class)->end()
+                            ->scalarNode('name')->defaultValue('swp_user_registration_form')->end()
+                            ->arrayNode('validation_groups')
+                                ->prototype('scalar')->end()
+                                ->defaultValue(['Registration', 'Default'])
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+            ->end();
     }
 }

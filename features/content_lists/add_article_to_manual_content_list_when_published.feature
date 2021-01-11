@@ -35,7 +35,7 @@ Feature: Add article to manual content list when published
       | first content list    | manual    |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
+      | username   | email                      | token      | password | role                | enabled |
       | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
 
     Given the following Routes:

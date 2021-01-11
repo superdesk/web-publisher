@@ -10,7 +10,7 @@ Feature: Redirecting to an external URL
       | organization | name | code   | subdomain | domain_name | enabled | default |
       | Default      | test | 123abc |           | localhost   | true    | true    |
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
+      | username   | email                      | token      | password | role                | enabled |
       | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
 
   Scenario: Creating a new 302 redirect route to redirect to an external URL

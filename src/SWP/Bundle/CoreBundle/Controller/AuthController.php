@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use FOS\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use GuzzleHttp;
 use Psr\Log\LoggerInterface;
 use RuntimeException;

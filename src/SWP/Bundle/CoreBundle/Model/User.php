@@ -48,12 +48,9 @@ class User extends BaseUser implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         $roles = $this->roles;
-        foreach ($this->getGroups() as $group) {
-            $roles = array_merge($roles, $group->getRoles());
-        }
         // we need to make sure to have at least one role
         $roles[] = static::ROLE_READER;
 

@@ -14,17 +14,14 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\UserBundle\Form\Type;
+namespace SWP\Bundle\UserBundle\Form;
 
-use SWP\Bundle\UserBundle\Model\UserInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProfileFormType extends AbstractType
+class UserRolesType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -32,14 +29,7 @@ class ProfileFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('username')
-            ->add('firstName')
-            ->add('lastName')
-            ->add('about')
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-            ])
+            ->add('roles', TextType::class)
         ;
     }
 
@@ -49,7 +39,6 @@ class ProfileFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => UserInterface::class,
             'csrf_protection' => false,
         ));
     }

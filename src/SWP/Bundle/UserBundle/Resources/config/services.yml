@@ -1,8 +1,63 @@
-services:
-    swp_user.form.registration_type:
-        class: SWP\Bundle\UserBundle\Form\Type\RegistrationFormType
-        arguments:
-            - "%swp.model.user.class%"
-        tags:
-            - { name: form.type }
+parameters:
+  swp_user.firewall_name: 'main'
+  swp_user.resetting.email.template: '@@SWPUser/Resetting/email.txt.twig'
+  swp_user.registration.confirmation.template: '@@SWPUser/Registration/email.txt.twig'
+  swp_user.registration.confirmation.from_email: { 'contact@publisher.test': 'Publisher' }
+  swp_user.resetting.email.from_email: { 'contact@publisher.test': 'Publisher' }
 
+services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        SWP\Bundle\UserBundle\Repository\UserRepository: ~
+        SWP\Bundle\UserBundle\Security\EmailVerifier: ~
+        SWP\Bundle\UserBundle\Doctrine\UserManager: '@swp_user.user_manager'
+        SWP\Bundle\UserBundle\Util\UserManipulator: ~
+        SWP\Bundle\UserBundle\Mailer\Mailer:
+          arguments:
+            $parameters: {
+              confirmation.template: '%swp_user.registration.confirmation.template%',
+              resetting.template: '%swp_user.resetting.email.template%',
+              from_email: {
+                confirmation: '%swp_user.registration.confirmation.from_email%',
+                resetting: '%swp_user.resetting.email.from_email%'
+              }
+            }
+
+        SWP\Bundle\UserBundle\Controller\ProfileController:
+            tags: ['controller.service_arguments']
+
+        SWP\Bundle\UserBundle\Controller\RegistrationController:
+            tags: ['controller.service_arguments']
+
+        SWP\Bundle\UserBundle\Controller\UserController:
+            tags: ['controller.service_arguments']
+
+        SWP\Bundle\UserBundle\Controller\SecurityController:
+            tags: ['controller.service_arguments']
+
+        SWP\Bundle\UserBundle\Command\CreateUserCommand:
+          tags: [ 'console.command' ]
+
+        SWP\Bundle\UserBundle\Util\PasswordUpdater:
+            arguments:
+                - '@Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface'
+
+        SWP\Bundle\UserBundle\Security\SWPUserLoginAuthenticator: ~
+
+        swp_user.user_manager:
+            class: 'SWP\Bundle\UserBundle\Doctrine\UserManager'
+            public: true`
+            arguments:
+                - '@swp.object_manager.user'
+                - '%swp.model.user.class%'
+
+        SWP\Bundle\UserBundle\Model\UserManagerInterface: '@SWP\Bundle\UserBundle\Doctrine\UserManager'
+        SWP\Bundle\UserBundle\Mailer\MailerInterface: '@SWP\Bundle\UserBundle\Mailer\Mailer'
+
+#        SWP\Bundle\UserBundle\EventListener\AuthenticationListener:
+#          arguments:
+#            $firewallName: '%swp_user.firewall_name%'
+#          tags:
+#            - { name: kernel.event_subscriber }

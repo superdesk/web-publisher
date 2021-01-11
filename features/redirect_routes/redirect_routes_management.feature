@@ -10,7 +10,7 @@ Feature: Manage Redirect Routes
       | organization | name | code   | subdomain | domain_name | enabled | default |
       | Default      | test | 123abc |           | localhost   | true    | true    |
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
+      | username   | email                      | token      | password | role                | enabled |
       | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"

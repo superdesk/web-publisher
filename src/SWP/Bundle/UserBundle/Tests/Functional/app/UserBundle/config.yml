@@ -60,16 +60,16 @@ doctrine:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: true
 
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: SWP\Bundle\UserBundle\Model\User
-    from_email:
-        address: contact@publisher.dev
-        sender_name: Publisher
-    registration:
-        confirmation:
-            enabled: true
+#fos_user:
+#    db_driver: orm
+#    firewall_name: main
+#    user_class: SWP\Bundle\UserBundle\Model\User
+#    from_email:
+#        address: contact@publisher.dev
+#        sender_name: Publisher
+#    registration:
+#        confirmation:
+#            enabled: true
 
 swp_settings:
     persistence:

@@ -1,4 +1,4 @@
-@settings
+ @settings
 Feature: Checking if settings work correctly
   In order to manage settings
   As a HTTP Client
@@ -19,7 +19,7 @@ Feature: Checking if settings work correctly
         "name":"registration_enabled"
       },
       {
-        "value":"@FOSUser\/Registration\/email.txt.twig",
+        "value":"@SWPUser/Registration/email.txt.twig",
         "scope":"tenant",
         "type":"string",
         "name":"registration_confirmation.template"
@@ -33,7 +33,7 @@ Feature: Checking if settings work correctly
         "name":"registration_from_email.confirmation"
       },
       {
-        "value":"@FOSUser\/Resetting\/email.txt.twig",
+        "value":"@SWPUser/Resetting\/email.txt.twig",
         "scope":"tenant",
         "type":"string",
         "name":"registration_resetting.template"

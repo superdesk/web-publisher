@@ -62,4 +62,14 @@ final class AuthTokenContext extends RestContext
     {
         $this->request->setHttpHeader('Authorization', null);
     }
+
+    /**
+     * @When /^I grab the confirmation url and follow it$/
+     */
+    public function iGrabTheConfirmationUrlAndFollowIt()
+    {
+        $url = json_decode($this->request->getContent())->url;
+        $this->url = $url;
+        $request = $this->iSendARequestTo("GET", $url);
+    }
 }

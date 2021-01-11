@@ -29,14 +29,29 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
      */
     public function load(ObjectManager $manager): void
     {
-        $userManager = $this->container->get('fos_user.user_manager');
+        $userManager = $this->container->get('swp_user.user_manager');
 
         /** @var UserInterface $user */
         $user = $userManager->createUser();
         $user->setEnabled(true);
         $user->setUsername('test.user');
         $user->setEmail('test.user@sourcefabric.org');
-        $user->setPlainPassword('testPassword');
+        
+        $passwordEncoder = $this->container->get('security.password_encoder');          
+
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                'testPassword'
+            )
+        );
+
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                'testPassword'
+            )
+        );
 //        $user->setExternalId('1');
         $user->addRole('ROLE_INTERNAL_API');
 
@@ -50,7 +65,12 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
         $user->setEnabled(true);
         $user->setUsername('test.client1');
         $user->setEmail('test.client1@sourcefabric.org');
-        $user->setPlainPassword('testPassword');
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                'testPassword'
+            )
+        );
         $user->addRole('ROLE_INTERNAL_API');
 //        $user->setExternalId('2');
         $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('654321'));
@@ -65,7 +85,12 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
         $user->setEnabled(true);
         $user->setUsername('test.client2');
         $user->setEmail('test.client2@sourcefabric.org');
-        $user->setPlainPassword('testPassword');
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                'testPassword'
+            )
+        );
         $user->addRole('ROLE_INTERNAL_API');
 //        $user->setExternalId('3');
         $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('123456'));

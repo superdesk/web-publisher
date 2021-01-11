@@ -15,7 +15,7 @@ Feature: Pin/unpin articles in automatic content list on any position
       | first content list   | automatic | {"metadata":{"subject":[{"name":"lawyer","code":"02002001"}]}} |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
+      | username   | email                      | token      | password | role                | enabled |
       | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
 
     Given the following Routes:

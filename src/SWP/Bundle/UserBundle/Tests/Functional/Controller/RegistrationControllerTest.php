@@ -14,16 +14,21 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\UserBundle\Tests\Functional\Controler;
+namespace SWP\Bundle\UserBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
 
 class RegistrationControllerTest extends WebTestCase
 {
     /**
+     * @var object|\Symfony\Bundle\FrameworkBundle\Routing\Router|null
+     */
+    private $router;
+
+    /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();
@@ -33,6 +38,7 @@ class RegistrationControllerTest extends WebTestCase
     public function testRegistrationDisabling()
     {
         $this->getContainer()->get('swp_settings.manager.settings')->set('registration_enabled', false);
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'));
 

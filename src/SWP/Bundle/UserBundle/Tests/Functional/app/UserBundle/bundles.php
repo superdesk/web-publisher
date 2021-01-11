@@ -22,7 +22,6 @@ return [
     new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
     new Symfony\Bundle\MonologBundle\MonologBundle(),
     new Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
-    new FOS\UserBundle\FOSUserBundle(),
 
     new SWP\Bundle\SettingsBundle\SWPSettingsBundle(),
     new SWP\Bundle\UserBundle\SWPUserBundle(),

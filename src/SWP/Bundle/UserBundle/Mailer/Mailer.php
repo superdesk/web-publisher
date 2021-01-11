@@ -16,45 +16,60 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Mailer;
 
-use FOS\UserBundle\Mailer\Mailer as FOSMailer;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class Mailer extends FOSMailer
+class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
 {
     /**
-     * Mailer constructor.
-     *
-     * @param \Swift_Mailer            $mailer
-     * @param UrlGeneratorInterface    $router
-     * @param EngineInterface          $templating
-     * @param array                    $parameters
-     * @param SettingsManagerInterface $settingsManager
+     * @var MailerInterface
      */
+    private $mailer;
+    /**
+     * @var array
+     */
+    private $parameters;
+
     public function __construct(
-        $mailer,
-        UrlGeneratorInterface $router,
-        EngineInterface $templating,
+        MailerInterface $mailer,
         array $parameters,
         SettingsManagerInterface $settingsManager,
         TenantContextInterface $tenantContext
     ) {
         $this->mailer = $mailer;
-        $this->router = $router;
-        $this->templating = $templating;
         $this->parameters = $parameters;
         $tenant = $tenantContext->getTenant();
 
         if ($tenant instanceof SettingsOwnerInterface) {
             $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
 
-            $this->parameters['confirmation.template'] = $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
-            $this->parameters['from_email']['confirmation'] = $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant, $fromEmail);
-            $this->parameters['resetting.template'] = $settingsManager->get('registration_resetting.template', 'tenant', $tenant);
-            $this->parameters['from_email']['resetting'] = $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
+            $this->parameters['confirmation.template'] =
+                $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
+            $this->parameters['from_email']['confirmation'] =
+                $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant, $fromEmail);
+            $this->parameters['resetting.template'] =
+                $settingsManager->get('registration_resetting.template', 'tenant', $tenant);
+            $this->parameters['from_email']['resetting'] =
+                $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
         }
+    }
+
+    public function sendConfirmationEmail(UserInterface $user, $url): void
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('admin@sourcefabric.org', 'Admin'))
+            ->to($user->getEmail())
+            ->subject('Please Confirm your Email')
+            ->htmlTemplate($this->parameters['confirmation.template']);
+
+        $context = $email->getContext();
+        $context['signedUrl'] = $url;
+        $email->context($context);
+        $this->mailer->send($email);
     }
 }

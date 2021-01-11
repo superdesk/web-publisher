@@ -11,7 +11,7 @@ Feature: Checking if user settings works correctly
       | Default      | test |           | localhost  | true    | true     | swp/test-theme | 123abc  |
 
     Given the following Users:
-      | username   | email                        | token      | plainPassword | role        | enabled |
+      | username   | email                        | token      | password | role        | enabled |
       | test.reader  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_USER   | true    |
 
     Given I am authenticated as "test.reader"

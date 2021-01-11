@@ -14,12 +14,17 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\UserBundle\Tests\Functional\Controler;
+namespace SWP\Bundle\UserBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
 
 class ProfileControllerTest extends WebTestCase
 {
+    /**
+     * @var object|\Symfony\Cmf\Component\Routing\ChainRouter|null
+     */
+    private $router;
+
     /**
      * {@inheritdoc}
      */
@@ -32,17 +37,18 @@ class ProfileControllerTest extends WebTestCase
 
     public function testUserUpdate()
     {
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
-                'email' => 'contact@example.com',
-                'username' => 'sofab.contact',
-                'plainPassword' => [
-                    'first' => 'testPass',
-                    'second' => 'testPass',
-                ],
+            'email' => 'contact@example.com',
+            'username' => 'sofab.contact',
+            'plainPassword' => [
+                'first' => 'testPass',
+                'second' => 'testPass',
+            ],
         ]);
 
-        self::assertEquals(302, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -50,11 +56,11 @@ class ProfileControllerTest extends WebTestCase
         self::assertEquals('sofab.contact', $content['username']);
 
         $client->request('PATCH', $this->router->generate('swp_api_user_edit_user_profile', ['id' => 1]), [
-                'email' => 'contact2@example.com',
-                'username' => 'sofab.contact2',
-                'firstName' => 'Test',
-                'lastName' => 'User',
-                'about' => 'About content',
+            'email' => 'contact2@example.com',
+            'username' => 'sofab.contact2',
+            'firstName' => 'Test',
+            'lastName' => 'User',
+            'about' => 'About content',
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
@@ -64,7 +70,7 @@ class ProfileControllerTest extends WebTestCase
         self::assertEquals('About content', $content['about']);
 
         $client->request('PATCH', $this->router->generate('swp_api_user_edit_user_profile', ['id' => 1]), [
-                'about' => '',
+            'about' => '',
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
     }

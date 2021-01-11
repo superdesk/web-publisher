@@ -11,7 +11,7 @@ Feature: Export articles analytics report
       | Default      | test |           | localhost  | true    | true     | swp/test-theme | 123abc |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
+      | username   | email                      | token      | password | role                | enabled |
       | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
 
     Given the failed items exist in the failure queue
