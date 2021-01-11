@@ -33,7 +33,6 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
 
         /** @var UserInterface $user */
         $user = $userManager->createUser();
-        $user->setEnabled(true);
         $user->setUsername('test.user');
         $user->setEmail('test.user@sourcefabric.org');
         
@@ -62,7 +61,6 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
 
         /** @var UserInterface $user */
         $user = $userManager->createUser();
-        $user->setEnabled(true);
         $user->setUsername('test.client1');
         $user->setEmail('test.client1@sourcefabric.org');
         $user->setPassword(
@@ -82,7 +80,6 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
 
         /** @var UserInterface $user */
         $user = $userManager->createUser();
-        $user->setEnabled(true);
         $user->setUsername('test.client2');
         $user->setEmail('test.client2@sourcefabric.org');
         $user->setPassword(

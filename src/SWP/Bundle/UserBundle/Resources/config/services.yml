@@ -44,7 +44,7 @@ services:
             arguments:
                 - '@Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface'
 
-        SWP\Bundle\UserBundle\Security\SWPUserLoginAuthenticator: ~
+        SWP\Bundle\UserBundle\Security\LoginAuthenticator: ~
 
         swp_user.user_manager:
             class: 'SWP\Bundle\UserBundle\Doctrine\UserManager'

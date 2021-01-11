@@ -21,20 +21,21 @@ use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\UserBundle\Form\RegistrationFormType;
 use SWP\Bundle\UserBundle\Mailer\MailerInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
+use SWP\Bundle\UserBundle\Security\EmailVerifier;
+use SWP\Bundle\UserBundle\Security\LoginAuthenticator;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelper;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -46,13 +47,25 @@ class RegistrationController extends AbstractController
      * @var ScopeContextInterface
      */
     private $scopeContext;
+    /**
+     * @var EmailVerifier
+     */
+    private $emailVerifier;
+    /**
+     * @var UserManagerInterface
+     */
+    private $userManager;
 
     public function __construct(
         SettingsManagerInterface $settingsManager,
-        ScopeContextInterface $scopeContext
+        ScopeContextInterface $scopeContext,
+        EmailVerifier $emailVerifier,
+        UserManagerInterface $userManager
     ) {
         $this->settingsManager = $settingsManager;
         $this->scopeContext = $scopeContext;
+        $this->emailVerifier = $emailVerifier;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -78,7 +91,6 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->addRole('ROLE_USER');
-            $user->setEnabled(false);
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -87,18 +99,12 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
-            $user->setConfirmationToken($token);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $url = $router->generate(
-                'swp_user_registration_confirm',
-                ['token' => $user->getConfirmationToken()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-
+            $signatureComponents = $this->emailVerifier->getSignatureComponents('swp_user_verify_email', $user);
+            $url = $signatureComponents->getSignedUrl();
             $mailer->sendConfirmationEmail($user, $url);
 
             return new JsonResponse([
@@ -114,31 +120,43 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * Receive the confirmation token from user email provider, login the user.
-     *
-     * @param string $token
-     *
-     * @return Response
+     * @Route("/verify/email", name="swp_user_verify_email")
      */
-    public function confirmAction(Request $request, $token, UserManagerInterface $userManager)
+    public function verifyUserEmail(Request $request, GuardAuthenticatorHandler $guardHandler, LoginAuthenticator $authenticator): Response
     {
+        $id = (int) $request->get('id'); // retrieve the user id from the url
 
-        $user = $userManager->findUserByConfirmationToken($token);
-
-        if (null === $user) {
-            return new RedirectResponse($this->container->get('router')
-                ->generate('swp_user_security_login'));
+        // Verify the user id exists and is not null
+        if (null === $id) {
+            return $this->redirectToRoute('homepage');
         }
 
-        $user->setConfirmationToken(null);
-        $user->setEnabled(true);
+        $user = $this->userManager->find($id);
 
-        $userManager->updateUser($user);
+        // Ensure the user exists in persistence
+        if (null === $user) {
+            return $this->redirectToRoute('homepage');
+        }
+        // validate email confirmation link, sets User::isVerified=true and persists
+        try {
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
+        } catch (VerifyEmailExceptionInterface $exception) {
+            $this->addFlash('verify_email_error', $exception->getReason());
 
-        $url = $this->generateUrl('swp_user_registration_confirmed');
-        $response = new RedirectResponse($url);
+            return $this->redirectToRoute('homepage');
+        }
 
-        return $response;
+        $guardHandler->authenticateUserAndHandleSuccess(
+            $user,
+            $request,
+            $authenticator,
+            'main' // firewall name in security.yaml
+        );
+
+        // @TODO Change the redirect on success and handle or remove the flash message in your templates
+        $this->addFlash('success', 'Your email address has been verified.');
+
+        return $this->redirectToRoute('swp_user_registration_confirmed');
     }
 
     /**

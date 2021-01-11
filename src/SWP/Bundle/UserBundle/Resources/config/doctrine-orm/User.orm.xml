@@ -26,9 +26,9 @@
 
         <field name="externalId" type="string" column="external_id" nullable="true"/>
 
-        <field name="enabled" type="boolean" column="enabled"/>
+<!--        <field name="enabled" type="boolean" column="enabled"/>-->
 
-<!--        <field name="isVerified" type="boolean" column="is_verified"/>-->
+        <field name="isVerified" type="boolean" column="is_verified"/>
 
 <!--        <field name="salt" column="salt" type="string" nullable="true" />-->
 

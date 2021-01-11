@@ -51,10 +51,7 @@ class User implements UserInterface
 
     protected $about;
 
-    /**
-     * @var bool
-     */
-    protected $enabled;
+    private $isVerified = false;
 
     /**
      * Random string sent to the user email address in order to verify it.
@@ -240,21 +237,6 @@ class User implements UserInterface
         $this->username = $username;
     }
 
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setEnabled($boolean)
-    {
-        $this->enabled = (bool) $boolean;
-
-        return $this;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -283,5 +265,17 @@ class User implements UserInterface
     public function setConfirmationToken(?string $confirmationToken): void
     {
         $this->confirmationToken = $confirmationToken;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }

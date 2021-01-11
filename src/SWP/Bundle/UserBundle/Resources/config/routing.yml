@@ -6,10 +6,11 @@ swp_user:
 #    path: /register/check-email
 #    defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::checkEmailAction }
 #
+
 swp_user_registration_confirm:
     path: /register/confirm/{token}
     defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::confirmAction }
-#
+
 swp_user_registration_confirmed:
     path: /register/confirmed
     defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::confirmedAction }

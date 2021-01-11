@@ -78,7 +78,7 @@ security:
                     - swp.security.external_oauth_authenticator
                     - lexik_jwt_authentication.jwt_token_authenticator
                     - swp.security.token_authenticator
-                    - SWP\Bundle\UserBundle\Security\SWPUserLoginAuthenticator
+                    - SWP\Bundle\UserBundle\Security\LoginAuthenticator
             anonymous: lazy
 
     access_control:

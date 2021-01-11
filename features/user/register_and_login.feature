@@ -26,6 +26,7 @@ Feature: Registering and login as new user publisher
     Then the response status code should be 302
     And I follow the redirection
     Then the response status code should be 200
+    Then print last response
     And the response should contain "Logged in as null_user"
     And the response should contain "Congrats null_user, your account is now activated."
 

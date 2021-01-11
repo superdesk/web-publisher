@@ -94,7 +94,6 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $user->setUsername($oauthEmail);
         $user->setExternalId($oauthId);
         $user->setPassword(uniqid('', true));
-        $user->setEnabled(true);
         $user->setSuperAdmin(false);
         $user->addRole('ROLE_USER');
 
