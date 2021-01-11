@@ -1,4 +1,4 @@
-SWP\Bundle\ContentBundle\Model\License:
+SWP\Component\Bridge\Model\License:
     exclusion_policy: ALL
     properties:
         name:

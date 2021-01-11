@@ -3,4 +3,4 @@ SWP\Bundle\CoreBundle\Model\ArticleMedia:
     table: swp_article_media
     embedded:
         license:
-            class: SWP\Bundle\ContentBundle\Model\License
+            class: SWP\Component\Bridge\Model\License

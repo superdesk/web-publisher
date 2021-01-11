@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Content Bundle.
+ * This file is part of the Superdesk Web Publisher Bridge Component.
  *
  * Copyright 2020 Sourcefabric z.ú. and contributors.
  *
@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Model;
+namespace SWP\Component\Bridge\Model;
 
 class License
 {

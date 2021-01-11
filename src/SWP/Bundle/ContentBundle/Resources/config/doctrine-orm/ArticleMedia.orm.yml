@@ -51,7 +51,6 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             gedmo:
                 timestampable:
                     on: update
-
     oneToMany:
         renditions:
             targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface

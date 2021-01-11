@@ -430,15 +430,15 @@ class BaseContent implements ContentInterface
         }, $values);
     }
 
-    public function getLicense(): array
+    public function getLicense(): ?License
     {
         foreach ($this->subjects as $subject) {
             if (\is_array($subject) && \array_key_exists('scheme', $subject) && self::PHOTO_LICENSE === $subject['scheme']) {
-                return $subject;
+                return new License($subject['name'], $subject['code']);
             }
         }
 
-        return [];
+        return null;
     }
 
     /**

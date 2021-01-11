@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Bridge\Model\License;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 
