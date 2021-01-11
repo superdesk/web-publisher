@@ -24,7 +24,6 @@ use Elastica\Query\Nested;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
 use Elastica\Suggest;
-use Elastica\Suggest\CandidateGenerator\DirectGenerator;
 use Elastica\Suggest\Phrase;
 use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use FOS\ElasticaBundle\Repository;
@@ -220,9 +219,6 @@ class ArticleRepository extends Repository
         $suggest = new Suggest();
         $phraseSuggest = new Phrase('our_suggestion', 'title');
         $phraseSuggest->setText($term);
-
-        $bodyCandidateGenerator = new DirectGenerator('body');
-        $phraseSuggest->addCandidateGenerator($bodyCandidateGenerator);
         $suggest->addSuggestion($phraseSuggest);
 
         $phraseMultiMatchQuery = new MultiMatch();
@@ -236,6 +232,6 @@ class ArticleRepository extends Repository
         $adapter = $this->createPaginatorAdapter($query);
         $suggest = $adapter->getSuggests();
 
-        return $suggest['phrase'][0]['options'][0]['text'] ?? '';
+        return $suggest['our_suggestion'][0]['options'][0]['text'] ?? '';
     }
 }
