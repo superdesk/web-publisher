@@ -26,22 +26,14 @@
 
         <field name="externalId" type="string" column="external_id" nullable="true"/>
 
-<!--        <field name="enabled" type="boolean" column="enabled"/>-->
-
         <field name="isVerified" type="boolean" column="is_verified"/>
 
-<!--        <field name="salt" column="salt" type="string" nullable="true" />-->
-
         <field name="password" type="string" column="password"/>
-
-<!--        <field name="passwordRequestedAt" column="password_requested_at" type="datetime" nullable="true"/>-->
 
         <field name="roles" type="array" column="roles"/>
 
         <field name="confirmationToken" type="string" column="confirmation_token" length="180" unique="true"
                nullable="true"/>
-
-<!--        <field name="lastLogin" column="last_login" type="datetime" nullable="true" />-->
 
     </mapped-superclass>
 </doctrine-mapping>

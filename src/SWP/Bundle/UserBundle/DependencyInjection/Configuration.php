@@ -18,6 +18,7 @@ namespace SWP\Bundle\UserBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Bundle\UserBundle\Form\RegistrationFormType;
+use SWP\Bundle\UserBundle\Model\ResetPasswordRequest;
 use SWP\Bundle\UserBundle\Model\User;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Component\Storage\Factory\Factory;
@@ -61,6 +62,16 @@ class Configuration implements ConfigurationInterface
                                         ->addDefaultsIfNotSet()
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(User::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('interface')->defaultValue(UserInterface::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('resetpasswordrequest')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(ResetPasswordRequest::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('interface')->defaultValue(UserInterface::class)->end()

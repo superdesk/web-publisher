@@ -11,6 +11,7 @@ services:
             autoconfigure: true
 
         SWP\Bundle\UserBundle\Repository\UserRepository: ~
+        SWP\Bundle\UserBundle\Repository\ResetPasswordRequestRepository: ~
         SWP\Bundle\UserBundle\Security\EmailVerifier: ~
         SWP\Bundle\UserBundle\Doctrine\UserManager: '@swp_user.user_manager'
         SWP\Bundle\UserBundle\Util\UserManipulator: ~
@@ -36,6 +37,9 @@ services:
 
         SWP\Bundle\UserBundle\Controller\SecurityController:
             tags: ['controller.service_arguments']
+
+        SWP\Bundle\UserBundle\Controller\ResetPasswordController:
+          tags: ['controller.service_arguments']
 
         SWP\Bundle\UserBundle\Command\CreateUserCommand:
           tags: [ 'console.command' ]
