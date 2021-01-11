@@ -142,6 +142,7 @@ jobs:
         env:
           REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: true
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+          ELASTICA_PORT: ${{ job.services.elasticsearch.ports[9200] }}
 
       - name: Run PHPUnit Bridge Bundle tests
         run: |
