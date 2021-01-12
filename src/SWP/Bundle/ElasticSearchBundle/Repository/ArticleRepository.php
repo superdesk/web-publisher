@@ -209,7 +209,7 @@ class ArticleRepository extends Repository
 
         $query->setSize(SearchResultLoader::MAX_RESULTS);
         $query->setTrackScores(true);
-
+dump(json_encode($query->toArray()));die;
         return $this->createPaginatorAdapter($query);
     }
 
