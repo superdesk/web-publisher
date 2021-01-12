@@ -19,35 +19,27 @@ jobs:
           - php: '7.4'
             doctrine_cache_driver: 'memcached'
             composer_flags: 'update --prefer-stable'
-            es_index_name: 1
           - php: '7.4'
             doctrine_cache_driver: 'memcached'
             composer_flags: 'install'
-            es_index_name: 2
           - php: '7.4'
             doctrine_cache_driver: 'array'
             composer_flags: 'update --prefer-stable'
-            es_index_name: 3
           - php: '7.4'
             doctrine_cache_driver: 'array'
             composer_flags: 'install'
-            es_index_name: 4
           - php: '7.3'
             doctrine_cache_driver: 'memcached'
             composer_flags: 'update --prefer-stable'
-            es_index_name: 5
           - php: '7.3'
             doctrine_cache_driver: 'memcached'
             composer_flags: 'install'
-            es_index_name: 6
           - php: '7.3'
             doctrine_cache_driver: 'array'
             composer_flags: 'update --prefer-stable'
-            es_index_name: 7
           - php: '7.3'
             doctrine_cache_driver: 'array'
             composer_flags: 'install'
-            es_index_name: 8
 
     services:
       postgres:
@@ -70,7 +62,7 @@ jobs:
       elasticsearch:
         image: elasticsearch:5.4
         ports:
-          - 9200:9200
+          - 9200/tcp
 
     steps:
       - name: Checkout
@@ -145,7 +137,6 @@ jobs:
         env:
           MEMCACHED_HOST: localhost
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
-          ELASTICA_INDEX_NAME: swp_index_${{ matrix.es_index_name }}
 
       - name: Run Behat redirecting scenario
         run: ./bin/behat -f progress -vvv features/redirecting/redirecting_with_unpublished_article.feature
