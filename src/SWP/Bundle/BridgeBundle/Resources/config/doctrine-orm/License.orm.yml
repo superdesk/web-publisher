@@ -3,5 +3,7 @@ SWP\Component\Bridge\Model\License:
   fields:
     name:
       type: string
+      nullable: true
     url:
       type: string
+      nullable: true

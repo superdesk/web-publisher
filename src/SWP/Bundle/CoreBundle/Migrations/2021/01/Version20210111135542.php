@@ -17,8 +17,8 @@ final class Version20210111135542 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_article_media ADD license_name VARCHAR(255) NOT NULL');
-        $this->addSql('ALTER TABLE swp_article_media ADD license_url VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE swp_article_media ADD license_name VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_article_media ADD license_url VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
