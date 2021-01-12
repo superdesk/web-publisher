@@ -141,6 +141,12 @@ jobs:
           MEMCACHED_HOST: localhost
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
+      - name: Run Behat redirecting scenario
+        run: ./bin/behat -f progress -vvv features/redirecting/redirecting_with_unpublished_article.feature
+        env:
+          REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: true
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
       - name: Run PHPUnit tests
         run: |
           echo "::group::phpunit stderr"
@@ -154,12 +160,6 @@ jobs:
         env:
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
-      - name: Run Behat redirecting scenario
-        run: ./bin/behat -f progress -vvv features/redirecting/redirecting_with_unpublished_article.feature
-        env:
-          REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: true
-          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
-
       - name: Run PHPUnit Bridge Bundle tests
         run: |
           cd src/SWP/Bundle/BridgeBundle
@@ -169,7 +169,7 @@ jobs:
       - name: Run PHPUnit Content Bundle tests
         run: |
           cd src/SWP/Bundle/ContentBundle
-          composer update --prefer-dist --no-progress --ansi --optimize-autoloader
+          composer update --prefer-dist --no-progress --ansi
           bin/phpunit
         env:
           REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: false
@@ -177,11 +177,11 @@ jobs:
       - name: Run PHPUnit Settings Bundle tests
         run: |
           cd src/SWP/Bundle/SettingsBundle
-          composer update --prefer-dist --no-progress --ansi --optimize-autoloader
+          composer update --prefer-dist --no-progress --ansi
           bin/phpunit
 
       - name: Run PHPUnit User Bundle tests
         run: |
           cd src/SWP/Bundle/UserBundle
-          composer update --prefer-dist --no-progress --ansi --optimize-autoloader
+          composer update --prefer-dist --no-progress --ansi
           bin/phpunit --stder
