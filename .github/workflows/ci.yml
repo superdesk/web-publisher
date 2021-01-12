@@ -163,13 +163,13 @@ jobs:
       - name: Run PHPUnit Bridge Bundle tests
         run: |
           cd src/SWP/Bundle/BridgeBundle
-          composer update --prefer-dist --no-progress --ansi --optimize-autoloader
+          composer update --prefer-dist --no-progress --ansi
           bin/phpunit
 
       - name: Run PHPUnit Content Bundle tests
         run: |
           cd src/SWP/Bundle/ContentBundle
-          composer update --prefer-dist --no-progress --ansi
+          composer update --prefer-dist --no-progress --ansi --no-cache
           bin/phpunit
         env:
           REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: false
