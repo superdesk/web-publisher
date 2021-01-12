@@ -87,51 +87,47 @@ class AnalyticsExportController extends AbstractController
      */
     public function post(Request $request): SingleResourceResponseInterface
     {
-        try {
-            /** @var UserInterface $currentlyLoggedInUser */
-            $currentlyLoggedInUser = $this->getUser();
+        /** @var UserInterface $currentlyLoggedInUser */
+        $currentlyLoggedInUser = $this->getUser();
 
-            $now = PublisherDateTime::getCurrentDateTime();
-            $fileName = 'analytics-' . $now->format('Y-m-d-H:i:s') . '.csv';
+        $now = PublisherDateTime::getCurrentDateTime();
+        $fileName = 'analytics-'.$now->format('Y-m-d-H:i:s').'.csv';
 
-            $form = $this->get('form.factory')->createNamed('', ExportAnalyticsType::class, null, ['method' => $request->getMethod()]);
-            $form->handleRequest($request);
+        $form = $this->get('form.factory')->createNamed('', ExportAnalyticsType::class, null, ['method' => $request->getMethod()]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $data = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-                $analyticsReport = new AnalyticsReport();
-                $analyticsReport->setAssetId($fileName);
-                $analyticsReport->setFileExtension('csv');
-                $analyticsReport->setUser($currentlyLoggedInUser);
+            $analyticsReport = new AnalyticsReport();
+            $analyticsReport->setAssetId($fileName);
+            $analyticsReport->setFileExtension('csv');
+            $analyticsReport->setUser($currentlyLoggedInUser);
 
-                $exportAnalytics = new ExportAnalytics(
-                    $data['start'],
-                    $data['end'],
-                    $this->cachedTenantContext->getTenant()->getCode(),
-                    $fileName,
-                    $currentlyLoggedInUser->getEmail(),
-                    !empty($data['routes']) ? $this->toIds($data['routes']) : [],
-                    !empty($data['authors']) ? $this->toIds($data['authors']) : [],
-                    $data['term'] ?? ''
-                );
+            $exportAnalytics = new ExportAnalytics(
+                $data['start'],
+                $data['end'],
+                $this->cachedTenantContext->getTenant()->getCode(),
+                $fileName,
+                $currentlyLoggedInUser->getEmail(),
+                !empty($data['routes']) ? $this->toIds($data['routes']) : [],
+                !empty($data['authors']) ? $this->toIds($data['authors']) : [],
+                $data['term'] ?? ''
+            );
 
-                $filters = $this->processFilters(
-                    $exportAnalytics->getFilters(),
-                    !empty($data['routes']) ? $data['routes'] : [],
-                    !empty($data['authors']) ? $data['authors'] : []
-                );
+            $filters = $this->processFilters(
+                $exportAnalytics->getFilters(),
+                !empty($data['routes']) ? $data['routes'] : [],
+                !empty($data['authors']) ? $data['authors'] : []
+            );
 
-                $analyticsReport->setFilters($filters);
+            $analyticsReport->setFilters($filters);
 
-                $this->analyticsReportRepository->add($analyticsReport);
+            $this->analyticsReportRepository->add($analyticsReport);
 
-                $this->dispatchMessage($exportAnalytics);
+            $this->dispatchMessage($exportAnalytics);
 
-                return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
-            }
-        } catch (\Throwable $e) {
-            dump($e);die;
+            return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
