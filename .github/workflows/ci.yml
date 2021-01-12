@@ -141,6 +141,19 @@ jobs:
           MEMCACHED_HOST: localhost
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
+      - name: Run PHPUnit tests
+        run: |
+          echo "::group::phpunit stderr"
+          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
+          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php
+          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php
+          echo "::endgroup::"
+          echo "::group::phpunit run"
+          bin/phpunit
+          echo "::endgroup::"
+        env:
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
       - name: Run Behat redirecting scenario
         run: ./bin/behat -f progress -vvv features/redirecting/redirecting_with_unpublished_article.feature
         env:
@@ -171,17 +184,4 @@ jobs:
         run: |
           cd src/SWP/Bundle/UserBundle
           composer update --prefer-dist --no-progress --ansi --optimize-autoloader
-          bin/phpunit --stderr
-
-      - name: Run PHPUnit tests
-        run: |
-          echo "::group::phpunit stderr"
-          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
-          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php
-          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php
-          echo "::endgroup::"
-          echo "::group::phpunit run"
-          bin/phpunit
-          echo "::endgroup::"
-        env:
-          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+          bin/phpunit --stder
