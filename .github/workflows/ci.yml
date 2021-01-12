@@ -50,12 +50,8 @@ jobs:
       elasticsearch:
         image: elasticsearch:7.10.1
         ports:
-          - 9200/tcp
+          - 9200:9200
         options: -e="discovery.type=single-node"
-
-    env:
-      ELASTICA_HOST: localhost
-      ELASTICA_INDEX_NAME: swp_test_index
 
     steps:
       - name: Checkout
@@ -119,13 +115,15 @@ jobs:
           FIXTURES_TYPE: dev
           WEBP_CONVERSION_ENABLED: false
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
-          ELASTICA_PORT: ${{ job.services.elasticsearch.ports[9200] }}
 
       - name: Test migrations on Postgres
         run: php bin/console doctrine:migrations:migrate --env=test --no-debug -vvv
         env:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
+      - name: Populate Elasticsearch index
+        run: php bin/console fos:elastica:populate --env=test
 
       - name: Run PHPSpec
         run: ./bin/phpspec run
@@ -135,14 +133,12 @@ jobs:
         env:
           MEMCACHED_HOST: localhost
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
-          ELASTICA_PORT: ${{ job.services.elasticsearch.ports[9200] }}
 
       - name: Run Behat redirecting scenario
         run: ./bin/behat -f progress -vvv features/redirecting/redirecting_with_unpublished_article.feature
         env:
           REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: true
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
-          ELASTICA_PORT: ${{ job.services.elasticsearch.ports[9200] }}
 
       - name: Run PHPUnit Bridge Bundle tests
         run: |
@@ -182,4 +178,3 @@ jobs:
           echo "::endgroup::"
         env:
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
-          ELASTICA_PORT: ${{ job.services.elasticsearch.ports[9200] }}
