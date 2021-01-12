@@ -111,9 +111,6 @@ jobs:
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
 
-      - name: Populate Elasticsearch index
-        run: php bin/console fos:elastica:populate --env=test
-  
       - name: Install & run server.js
         run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 
@@ -131,6 +128,9 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
+      - name: Populate Elasticsearch index
+        run: php bin/console fos:elastica:populate --env=test
 
       - name: Run PHPSpec
         run: ./bin/phpspec run
