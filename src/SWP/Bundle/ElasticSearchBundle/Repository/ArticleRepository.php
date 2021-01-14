@@ -201,11 +201,23 @@ class ArticleRepository extends Repository
 
         $functionScore->setQuery($boolFilter);
 
-        $query = Query::create($functionScore)
-            ->addSort([
+        $sortFields = [
+            '_score' => 'desc',
+        ];
+
+        if (!empty($criteria->getOrder()->getField())) {
+            $sortFields = [
+                $criteria->getOrder()->getField() => [
+                  'order' => $criteria->getOrder()->getDirection(),
+                  //default for elastic is to put null values at the end
+                  'missing' => '_last'
+                ],
                 '_score' => 'desc',
-                $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
-            ]);
+            ];
+        }
+
+        $query = Query::create($functionScore)
+            ->addSort($sortFields);
 
         $query->setSize(SearchResultLoader::MAX_RESULTS);
         $query->setTrackScores(true);
