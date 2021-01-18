@@ -71,6 +71,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         if (null === $article) {
             return;
         }
+        $articleStatistics->setArticle($article);
 
         $this->articleStatisticsRepository->add($articleStatistics);
     }
