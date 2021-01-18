@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Bridge\Model\License;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class ArticleMedia implements ArticleMediaInterface
 {
@@ -103,6 +104,9 @@ class ArticleMedia implements ArticleMediaInterface
 
     /** @var string|null */
     protected $mediaType = ArticleMediaInterface::TYPE_EMBEDDED_IMAGE;
+
+    /** @var License|null */
+    protected $license;
 
     /**
      * ArticleMedia constructor.
@@ -411,5 +415,15 @@ class ArticleMedia implements ArticleMediaInterface
     public static function getOriginalMediaId(string $mediaId)
     {
         return str_replace('_', '/', $mediaId);
+    }
+
+    public function getLicense(): ?License
+    {
+        return $this->license;
+    }
+
+    public function setLicense(License $license): void
+    {
+        $this->license = $license;
     }
 }

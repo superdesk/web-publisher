@@ -38,4 +38,7 @@ properties:
     renditions:
         description: "Array with renditions (if file is image)"
         type: array
+    license:
+        description: "Photo License"
+        type: meta
 to_string: body
