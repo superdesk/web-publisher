@@ -32,5 +32,6 @@ final class SWPElasticSearchExtension extends Extension
         $this->processConfiguration($configuration, $configs);
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('loader.yml');
+        $loader->load('controllers.yaml');
     }
 }

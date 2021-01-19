@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php": "^7.3",
+    "php": "^7.4",
     "swp/templates-system-bundle": "^2.0",
     "swp/bridge-bundle": "^2.0",
     "swp/jms-serializer-bridge": "^2.0",

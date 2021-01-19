@@ -30,18 +30,6 @@ jobs:
           - php: '7.4'
             doctrine_cache_driver: 'array'
             composer_flags: 'install'
-          - php: '7.3'
-            doctrine_cache_driver: 'memcached'
-            composer_flags: 'update --prefer-stable'
-          - php: '7.3'
-            doctrine_cache_driver: 'memcached'
-            composer_flags: 'install'
-          - php: '7.3'
-            doctrine_cache_driver: 'array'
-            composer_flags: 'update --prefer-stable'
-          - php: '7.3'
-            doctrine_cache_driver: 'array'
-            composer_flags: 'install'
 
     services:
       postgres:
@@ -62,9 +50,10 @@ jobs:
         ports:
           - 5672:5672
       elasticsearch:
-        image: elasticsearch:5.4
+        image: elasticsearch:7.10.1
         ports:
           - 9200:9200
+        options: -e="discovery.type=single-node"
 
     steps:
       - name: Checkout
@@ -118,8 +107,12 @@ jobs:
 
       - name: Test loading fixtures from dev env in test env
         run: |
+          echo "::group::database schema update"
           php bin/console doctrine:schema:update -f --env=test
+          echo "::endgroup::"
+          echo "::group::load fixtures"
           php bin/console doctrine:fixtures:load --env=test --no-interaction
+          echo "::endgroup::"
         env:
           FIXTURES_TYPE: dev
           WEBP_CONVERSION_ENABLED: false

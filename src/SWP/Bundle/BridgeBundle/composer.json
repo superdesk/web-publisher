@@ -21,9 +21,8 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "guzzlehttp/guzzle": "^6.0",
-        "superdesk/contentapi-sdk-php": "dev-master",
         "swp/storage-bundle": "^2.0",
         "swp/bridge": "^2.0",
         "symfony/monolog-bundle": "^3.3",

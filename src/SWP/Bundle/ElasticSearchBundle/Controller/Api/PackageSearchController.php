@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
+use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -29,7 +30,7 @@ class PackageSearchController extends Controller
     /**
      * @Route("/api/{version}/packages/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_packages")
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request, RepositoryManagerInterface $repositoryManager)
     {
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
@@ -52,7 +53,7 @@ class PackageSearchController extends Controller
             ]
         );
 
-        $result = $this->get('fos_elastica.manager')
+        $result = $repositoryManager
             ->getRepository($this->getParameter('swp.model.package.class'))
             ->findByCriteria($criteria);
 

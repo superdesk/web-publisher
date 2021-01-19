@@ -11,7 +11,7 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "swp/storage": "^2.0",
         "swp/common": "^2.0"
     },
