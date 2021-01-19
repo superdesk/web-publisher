@@ -26,7 +26,5 @@ swp_user_old_password_reset_redirect:
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults:
         route: swp_user_forgot_password_request
-        # make a permanent redirection...
         permanent: true
-        # ...and keep the original query string parameters
         keepQueryParams: true
