@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
+use FOS\ElasticaBundle\Persister\PersisterRegistry;
 use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
@@ -28,23 +28,20 @@ class AnalyticsEventHandler implements MessageHandlerInterface
     /** @var ObjectManager */
     private $articleStatisticsObjectManager;
 
-    /**
-     * @var ObjectPersisterInterface
-     */
-    private $elasticaObjectPersister;
+    private PersisterRegistry $persisterRegistry;
 
     public function __construct(
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
         TenantContextInterface $tenantContext,
         ObjectManager $articleStatisticsObjectManager,
-        ObjectPersisterInterface $elasticaObjectPersister
+        PersisterRegistry $persisterRegistry
     ) {
         $this->articleStatisticsService = $articleStatisticsService;
         $this->tenantResolver = $tenantResolver;
         $this->tenantContext = $tenantContext;
         $this->articleStatisticsObjectManager = $articleStatisticsObjectManager;
-        $this->elasticaObjectPersister = $elasticaObjectPersister;
+        $this->persisterRegistry = $persisterRegistry;
     }
 
     public function __invoke(AnalyticsEvent $analyticsEvent)
@@ -67,7 +64,7 @@ class AnalyticsEventHandler implements MessageHandlerInterface
 
             $this->articleStatisticsObjectManager->clear();
 
-            $this->elasticaObjectPersister->replaceOne($articleStatistics->getArticle());
+            $this->persisterRegistry->getPersister('swp_article')->replaceOne($articleStatistics->getArticle());
         }
     }
 
