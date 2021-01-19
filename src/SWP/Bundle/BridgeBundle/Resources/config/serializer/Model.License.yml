@@ -1,0 +1,9 @@
+SWP\Component\Bridge\Model\License:
+    exclusion_policy: ALL
+    properties:
+        name:
+            expose: true
+            groups: [api]
+        url:
+            expose: true
+            groups: [api]
