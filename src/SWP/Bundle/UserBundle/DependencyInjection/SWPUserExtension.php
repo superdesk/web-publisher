@@ -16,10 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\DependencyInjection;
 
-use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**

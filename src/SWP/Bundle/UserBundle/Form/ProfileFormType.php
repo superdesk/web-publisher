@@ -39,7 +39,7 @@ class ProfileFormType extends AbstractType
             ->add('about')
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'mapped' => false
+                'mapped' => false,
             ])
         ;
     }
@@ -57,10 +57,9 @@ class ProfileFormType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => UserInterface::class,
             'csrf_protection' => false,
-        ));
+        ]);
     }
-
 }

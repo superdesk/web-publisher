@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use SWP\Bundle\UserBundle\Util\PasswordUpdaterInterface;
-
 abstract class UserManager implements UserManagerInterface
 {
     /**

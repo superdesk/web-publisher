@@ -71,11 +71,6 @@ class EmailVerifier
         $this->entityManager->flush();
     }
 
-    /**
-     * @param string $verifyEmailRouteName
-     * @param UserInterface $user
-     * @return VerifyEmailSignatureComponents
-     */
     public function getSignatureComponents(string $verifyEmailRouteName, UserInterface $user): VerifyEmailSignatureComponents
     {
         return $this->verifyEmailHelper->generateSignature(

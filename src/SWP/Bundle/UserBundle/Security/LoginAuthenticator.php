@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Security;
 
-use SWP\Bundle\UserBundle\Model\User;
 use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\UserBundle\Model\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -102,6 +102,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 

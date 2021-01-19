@@ -24,7 +24,6 @@ namespace SWP\Bundle\UserBundle\Model;
  *
  * The class also contains ACL annotations which will only work if you have the
  * SecurityExtraBundle installed, otherwise they will simply be ignored.
- *
  */
 interface UserManagerInterface
 {

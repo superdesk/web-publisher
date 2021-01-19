@@ -80,7 +80,7 @@ class UserProvider implements UserProviderInterface
     {
         $userClass = $this->userManager->getClass();
 
-        return $userClass === $class || is_subclass_of($class, $userClass) || $userClass === User::class;
+        return $userClass === $class || is_subclass_of($class, $userClass) || User::class === $userClass;
     }
 
     /**
@@ -89,8 +89,6 @@ class UserProvider implements UserProviderInterface
      * This method is meant to be an extension point for child classes.
      *
      * @param string $username
-     *
-     * @return UserInterface|null
      */
     protected function findUser($username): ?UserInterface
     {

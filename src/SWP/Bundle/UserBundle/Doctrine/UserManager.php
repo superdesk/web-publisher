@@ -14,7 +14,6 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-
 namespace SWP\Bundle\UserBundle\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -90,7 +89,6 @@ class UserManager extends BaseUserManager
      */
     public function updateUser(UserInterface $user, $andFlush = true)
     {
-
         $this->objectManager->persist($user);
         if ($andFlush) {
             $this->objectManager->flush();
@@ -106,7 +104,6 @@ class UserManager extends BaseUserManager
     }
 
     /**
-     * @param int $id
      * @return object|null
      */
     public function find(int $id)

@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-
 use SWP\Bundle\CoreBundle\Model\User;
 use SWP\Bundle\UserBundle\Form\ChangePasswordFormType;
 use SWP\Bundle\UserBundle\Form\ResetPasswordRequestFormType;

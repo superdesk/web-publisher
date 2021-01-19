@@ -113,9 +113,10 @@ class RegistrationController extends AbstractController
                  An email has been sent to %s. It contains an activation link you must click to activate your account.',
                     $user->getEmail()
                 ),
-                'url' => $url
+                'url' => $url,
             ]);
         }
+
         return new SingleResourceResponse($form, new ResponseContext(400));
     }
 

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Controller;
 
 use SWP\Bundle\UserBundle\Form\ProfileFormType;
+use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Repository\UserRepository;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -26,11 +27,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use SWP\Bundle\UserBundle\Model\UserInterface;
 
 class ProfileController extends AbstractController
 {
-
     /**
      * @var UserRepository
      */
@@ -38,7 +37,6 @@ class ProfileController extends AbstractController
 
     public function __construct(UserRepository $userRepository)
     {
-
         $this->userRepository = $userRepository;
     }
 
@@ -70,12 +68,11 @@ class ProfileController extends AbstractController
         $this->checkIfCanAccess($requestedUser);
 
         $form = $this->createForm(ProfileFormType::class, $requestedUser, [
-            'method' => 'PATCH'
+            'method' => 'PATCH',
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             if (!empty($form->get('plainPassword')->getData())) {
                 $requestedUser->setPassword(
                     $passwordEncoder->encodePassword(

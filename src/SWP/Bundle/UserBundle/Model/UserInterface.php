@@ -31,9 +31,6 @@ interface UserInterface extends PersistableInterface, TimestampableInterface, Ba
      */
     public function getAbout();
 
-    /**
-     * @param string $about
-     */
     public function setAbout(string $about);
 
     /**
@@ -41,9 +38,6 @@ interface UserInterface extends PersistableInterface, TimestampableInterface, Ba
      */
     public function getFirstName();
 
-    /**
-     * @param string $firstName
-     */
     public function setFirstName(string $firstName);
 
     /**
@@ -51,9 +45,6 @@ interface UserInterface extends PersistableInterface, TimestampableInterface, Ba
      */
     public function getLastName();
 
-    /**
-     * @param string $lastName
-     */
     public function setLastName(string $lastName);
 
     /**
@@ -61,8 +52,5 @@ interface UserInterface extends PersistableInterface, TimestampableInterface, Ba
      */
     public function getExternalId();
 
-    /**
-     * @param string $externalId
-     */
     public function setExternalId(string $externalId);
 }

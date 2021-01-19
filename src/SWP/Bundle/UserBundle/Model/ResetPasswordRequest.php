@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use SWP\Bundle\UserBundle\Repository\ResetPasswordRequestRepository;
 use Doctrine\ORM\Mapping as ORM;
+use SWP\Bundle\UserBundle\Repository\ResetPasswordRequestRepository;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestTrait;
 

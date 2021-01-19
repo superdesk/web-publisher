@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\Encoder\SelfSaltingEncoderInterface;
 
 /**
  * Class updating the hashed password in the user when there is a new password.
- *
  */
 class PasswordUpdater implements PasswordUpdaterInterface
 {

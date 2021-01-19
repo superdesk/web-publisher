@@ -18,14 +18,11 @@ namespace SWP\Bundle\UserBundle\Util;
 
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Executes some manipulations on the users.
- *
  */
 class UserManipulator
 {

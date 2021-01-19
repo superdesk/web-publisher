@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Repository;
 
-
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use SWP\Bundle\UserBundle\Model\ResetPasswordRequest;
