@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
 use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
@@ -27,16 +28,23 @@ class AnalyticsEventHandler implements MessageHandlerInterface
     /** @var ObjectManager */
     private $articleStatisticsObjectManager;
 
+    /**
+     * @var ObjectPersisterInterface
+     */
+    private $elasticaObjectPersister;
+
     public function __construct(
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
         TenantContextInterface $tenantContext,
-        ObjectManager $articleStatisticsObjectManager
+        ObjectManager $articleStatisticsObjectManager,
+        ObjectPersisterInterface $elasticaObjectPersister
     ) {
         $this->articleStatisticsService = $articleStatisticsService;
         $this->tenantResolver = $tenantResolver;
         $this->tenantContext = $tenantContext;
         $this->articleStatisticsObjectManager = $articleStatisticsObjectManager;
+        $this->elasticaObjectPersister = $elasticaObjectPersister;
     }
 
     public function __invoke(AnalyticsEvent $analyticsEvent)
@@ -53,10 +61,13 @@ class AnalyticsEventHandler implements MessageHandlerInterface
             $articleStatistics = $this->articleStatisticsService->addArticleEvent($articleId, ArticleEventInterface::ACTION_PAGEVIEW, [
                 'pageViewSource' => $this->getPageViewSource($pageViewReferrer),
             ]);
-
             $query = $this->articleStatisticsObjectManager->createQuery('UPDATE '.ArticleStatistics::class.' s SET s.pageViewsNumber = s.pageViewsNumber + 1 WHERE s.id = :id');
             $query->setParameter('id', $articleStatistics->getId());
             $query->execute();
+
+            $this->articleStatisticsObjectManager->clear();
+
+            $this->elasticaObjectPersister->replaceOne($articleStatistics->getArticle());
         }
     }
 
