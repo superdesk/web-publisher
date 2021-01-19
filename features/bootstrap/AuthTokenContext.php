@@ -69,7 +69,6 @@ final class AuthTokenContext extends RestContext
     public function iGrabTheConfirmationUrlAndFollowIt()
     {
         $url = json_decode($this->request->getContent())->url;
-        $this->url = $url;
-        $request = $this->iSendARequestTo("GET", $url);
+        $this->iSendARequestTo("GET", $url);
     }
 }

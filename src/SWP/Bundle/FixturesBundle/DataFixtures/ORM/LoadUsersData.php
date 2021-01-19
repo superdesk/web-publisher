@@ -51,7 +51,6 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
                 'testPassword'
             )
         );
-//        $user->setExternalId('1');
         $user->addRole('ROLE_INTERNAL_API');
 
         $userManager->updateUser($user);
@@ -70,7 +69,6 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
             )
         );
         $user->addRole('ROLE_INTERNAL_API');
-//        $user->setExternalId('2');
         $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('654321'));
 
         $userManager->updateUser($user);
@@ -89,7 +87,6 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
             )
         );
         $user->addRole('ROLE_INTERNAL_API');
-//        $user->setExternalId('3');
         $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('123456'));
 
         $userManager->updateUser($user);

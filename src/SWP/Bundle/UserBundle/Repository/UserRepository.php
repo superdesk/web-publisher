@@ -2,9 +2,9 @@
 
 namespace SWP\Bundle\UserBundle\Repository;
 
-use SWP\Bundle\UserBundle\Model\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use SWP\Bundle\UserBundle\Model\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

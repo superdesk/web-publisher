@@ -59,9 +59,3 @@ services:
 
         SWP\Bundle\UserBundle\Model\UserManagerInterface: '@SWP\Bundle\UserBundle\Doctrine\UserManager'
         SWP\Bundle\UserBundle\Mailer\MailerInterface: '@SWP\Bundle\UserBundle\Mailer\Mailer'
-
-#        SWP\Bundle\UserBundle\EventListener\AuthenticationListener:
-#          arguments:
-#            $firewallName: '%swp_user.firewall_name%'
-#          tags:
-#            - { name: kernel.event_subscriber }

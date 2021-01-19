@@ -17,7 +17,6 @@ namespace SWP\Bundle\CoreBundle\Tests\Controller;
 use GuzzleHttp;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 
 class AuthControllerTest extends WebTestCase
 {
@@ -180,13 +179,11 @@ class AuthControllerTest extends WebTestCase
         /** @var  \Symfony\Component\Mailer\DataCollector\MessageDataCollector $mailerCollector */
         $mailerCollector = $client->getProfile()->getCollector('mailer');
         $mailerCollector->getEvents();
-        ///** @var \Swift_Message $message */
         $this->assertEmailCount(1);
         /** @var \Symfony\Bridge\Twig\Mime\TemplatedEmail $messageBody */
         $messageBody = $this->getMailerMessage(0)->getHtmlBody();
         // activate URL
         preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $messageBody, $match);
-        var_dump($match);
         $client->request('GET', $match[0][0]);
         self::assertEquals(302, $client->getResponse()->getStatusCode());
     }
