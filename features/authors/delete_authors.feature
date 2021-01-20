@@ -10,8 +10,8 @@ Feature: Delete Authors
       | organization | name | code   | subdomain | domain_name | enabled | default |
       | Default      | test | 123abc |           | localhost   | true    | true    |
     Given the following Users:
-      | username   | email                      | token      | password | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
     Given the following Articles:
       | title               | route      | status    | isPublishable  | publishedAt | authors       |
       | First Test Article  | Sports     | published | true           | 2020-01-20  | Adam          |

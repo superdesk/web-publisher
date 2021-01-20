@@ -28,9 +28,9 @@ class User implements UserInterface
 
     protected $id;
 
-    protected $email;
-
     protected $username;
+
+    protected $email;
 
     protected $roles = ['ROLE_USER'];
 

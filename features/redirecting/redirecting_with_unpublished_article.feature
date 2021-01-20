@@ -80,8 +80,8 @@ Feature: Reprocessing already send to publisher packages
 
     Given default tenant with code "123abc"
     Given the following Users:
-      | username   | email                      | token      | password | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Then I send a "GET" request to "/redirecting/extra/articleNumber/1"
     Then the response status code should be 301

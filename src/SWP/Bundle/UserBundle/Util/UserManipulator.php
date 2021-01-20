@@ -74,7 +74,6 @@ class UserManipulator
                 $password
             )
         );
-        $user->setEnabled((bool) $active);
         $user->setSuperAdmin((bool) $superadmin);
         $this->userManager->updateUser($user);
 
@@ -89,7 +88,6 @@ class UserManipulator
     public function activate($username)
     {
         $user = $this->findUserByUsernameOrThrowException($username);
-        $user->setEnabled(true);
         $this->userManager->updateUser($user);
     }
 
@@ -101,7 +99,6 @@ class UserManipulator
     public function deactivate($username)
     {
         $user = $this->findUserByUsernameOrThrowException($username);
-        $user->setEnabled(false);
         $this->userManager->updateUser($user);
     }
 

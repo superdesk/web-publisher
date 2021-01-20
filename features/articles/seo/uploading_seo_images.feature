@@ -19,8 +19,8 @@ Feature: Adding article SEO metadata
       | Lorem               | test       | published | true           |
 
     Given the following Users:
-      | username   | email                      | token      | password | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "multipart/form-data"

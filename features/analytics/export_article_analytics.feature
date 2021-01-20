@@ -8,18 +8,18 @@ Feature: Export articles analytics report
   Background:
     Given the current date time is "2019-03-10 09:00"
     Given the following Tenants:
-      | organization | name | subdomain | domainName | enabled | default  | themeName      | code   |
-      | Default      | test |           | localhost  | true    | true     | swp/test-theme | 123abc |
+      | organization | name | subdomain | domainName | enabled | default | themeName      | code   |
+      | Default      | test |           | localhost  | true    | true    | swp/test-theme | 123abc |
 
     Given the following Users:
-      | username   | email                      | token      | password | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username  | email                      | token      | password     | role |
+      | test.user | test.user@sourcefabric.org | test_user: | testPassword | ROLE_INTERNAL_API |
 
     Given the following Articles:
-      | title               | route      | status    | isPublishable  | publishedAt | authors |
-      | First Test Article  | Sports     | published | true           | 2020-01-20  | Adam    |
-      | Second Test Article | Politics   | published | true           | 2020-01-20  | Rafal   |
-      | Third Test Article  | Sports     | published | true           | 2020-01-20  | Adam    |
+      | title               | route    | status    | isPublishable | publishedAt | authors |
+      | First Test Article  | Sports   | published | true          | 2020-01-20  | Adam    |
+      | Second Test Article | Politics | published | true          | 2020-01-20  | Rafal   |
+      | Third Test Article  | Sports   | published | true          | 2020-01-20  | Adam    |
     And I wait 2 seconds
 
   Scenario: Export analytics data by different filters
@@ -70,8 +70,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -169,8 +169,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -206,8 +206,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -243,8 +243,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -446,8 +446,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -483,8 +483,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -520,8 +520,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -557,8 +557,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -594,8 +594,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -631,8 +631,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -668,8 +668,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,
@@ -705,8 +705,8 @@ Feature: Export articles analytics report
                    "id":1,
                    "username":"test.user",
                    "email":"test.user@sourcefabric.org",
-                   "last_login":null,
                    "roles":[
+                      "ROLE_USER",
                       "ROLE_INTERNAL_API"
                    ],
                    "first_name":null,

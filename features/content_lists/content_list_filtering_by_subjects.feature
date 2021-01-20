@@ -17,8 +17,8 @@ Feature: Add article to automated content lists
       | 3 content list   | automatic | {"metadata":{"subject":[{"code": "coronavirus", "scheme": "hotTopic"}]}} |
 
     Given the following Users:
-      | username   | email                      | token      | password | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Given the following Routes:
       |  name | type       | slug |
