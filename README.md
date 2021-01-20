@@ -1,7 +1,7 @@
 Superdesk Web Publisher
 =======================
 
-[![Build Status](https://travis-ci.org/superdesk/web-publisher.svg?branch=master)](https://travis-ci.org/superdesk/web-publisher)
+![Build Status](https://github.com/superdesk/web-publisher/workflows/CI/badge.svg)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/superdesk/web-publisher/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/superdesk/web-publisher/?branch=master)
 
 Superdesk Publisher - the next generation publishing platform for journalists and newsrooms.

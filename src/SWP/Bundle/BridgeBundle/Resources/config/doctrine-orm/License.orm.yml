@@ -1,0 +1,9 @@
+SWP\Component\Bridge\Model\License:
+  type: embeddable
+  fields:
+    name:
+      type: string
+      nullable: true
+    url:
+      type: string
+      nullable: true
