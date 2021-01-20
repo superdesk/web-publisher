@@ -33,7 +33,7 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository implements 
 {
     use ResetPasswordRequestRepositoryTrait;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(\Doctrine\Common\Persistence\ManagerRegistry $registry)
     {
         parent::__construct($registry, ResetPasswordRequest::class);
     }
