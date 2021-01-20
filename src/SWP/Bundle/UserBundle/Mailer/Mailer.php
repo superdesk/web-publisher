@@ -23,6 +23,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 
 class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
 {
@@ -40,13 +41,14 @@ class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
         array $parameters,
         SettingsManagerInterface $settingsManager,
         TenantContextInterface $tenantContext
-    ) {
+    )
+    {
         $this->mailer = $mailer;
         $this->parameters = $parameters;
         $tenant = $tenantContext->getTenant();
 
         if ($tenant instanceof SettingsOwnerInterface) {
-            $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
+            $fromEmail = ['contact@' . $tenant->getDomainName() => 'contact'];
 
             $this->parameters['confirmation.template'] =
                 $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
@@ -62,7 +64,7 @@ class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
     public function sendConfirmationEmail(UserInterface $user, $url): void
     {
         $email = (new TemplatedEmail())
-            ->from(new Address('admin@sourcefabric.org', 'Admin'))
+            ->from($this->getAdminAddress())
             ->to($user->getEmail())
             ->subject('Please Confirm your Email')
             ->htmlTemplate($this->parameters['confirmation.template']);
@@ -71,5 +73,31 @@ class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
         $context['signedUrl'] = $url;
         $email->context($context);
         $this->mailer->send($email);
+    }
+
+    public function sendResetPasswordEmail(UserInterface $user,
+                                           ResetPasswordToken $resetToken
+    ): void
+    {
+        $email = (new TemplatedEmail())
+            ->from($this->getAdminAddress())
+            ->to($user->getEmail())
+            ->subject('Your password reset request')
+            ->htmlTemplate('@SWPUser/reset_password/email.html.twig')
+            ->context([
+                'resetToken' => $resetToken,
+            ]);
+
+        $this->mailer->send($email);
+    }
+
+    /**
+     * @return Address
+     */
+    private function getAdminAddress(): Address
+    {
+        return new Address(
+            key($this->parameters['from_email']['resetting']),
+            reset($this->parameters['from_email']['resetting']));
     }
 }
