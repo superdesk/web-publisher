@@ -1043,9 +1043,6 @@
     "symfony/polyfill-php56": {
         "version": "v1.13.1"
     },
-    "symfony/polyfill-php70": {
-        "version": "v1.18.1"
-    },
     "symfony/polyfill-php72": {
         "version": "v1.13.1"
     },
@@ -1054,9 +1051,6 @@
     },
     "symfony/polyfill-php80": {
         "version": "v1.18.1"
-    },
-    "symfony/polyfill-util": {
-        "version": "v1.13.1"
     },
     "symfony/polyfill-uuid": {
         "version": "v1.13.1"
