@@ -111,7 +111,7 @@ class UserManipulator
     public function changePassword($username, $password)
     {
         $user = $this->findUserByUsernameOrThrowException($username);
-        $user->setPlainPassword($password);
+        $user->setPassword($password);
         $this->userManager->updateUser($user);
     }
 
