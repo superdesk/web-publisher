@@ -18,6 +18,7 @@ namespace SWP\Bundle\UserBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use SWP\Component\Common\Model\DateTime;
 
 /**
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
@@ -55,6 +56,14 @@ class User implements UserInterface
      * @var string|null
      */
     protected $confirmationToken;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = DateTime::getCurrentDateTime();
+    }
 
     public function getId(): ?int
     {

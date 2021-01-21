@@ -44,13 +44,6 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
                 'testPassword'
             )
         );
-
-        $user->setPassword(
-            $passwordEncoder->encodePassword(
-                $user,
-                'testPassword'
-            )
-        );
         $user->addRole('ROLE_INTERNAL_API');
 
         $userManager->updateUser($user);
