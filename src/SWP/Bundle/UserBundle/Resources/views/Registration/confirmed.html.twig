@@ -1,2 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 Logged in as {{ user.username }}
 Congrats {{ user.username }}, your account is now activated.
+{% endblock body %}

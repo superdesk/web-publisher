@@ -17,12 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableTrait;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use SWP\Component\Common\Model\DateTime;
 
-/**
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- */
 class User implements UserInterface
 {
     use TimestampableTrait;

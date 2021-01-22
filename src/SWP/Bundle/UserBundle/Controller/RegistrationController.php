@@ -154,8 +154,7 @@ class RegistrationController extends AbstractController
             'main' // firewall name in security.yaml
         );
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'The user has been created successfully.');
 
         return $this->redirectToRoute('swp_user_registration_confirmed');
     }

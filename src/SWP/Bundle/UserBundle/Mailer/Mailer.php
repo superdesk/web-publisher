@@ -66,7 +66,7 @@ class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
         $email = (new TemplatedEmail())
             ->from($this->getAdminAddress())
             ->to($user->getEmail())
-            ->subject('Please Confirm your Email')
+            ->subject(sprintf('Welcome %s!', $user->getUsername()))
             ->htmlTemplate($this->parameters['confirmation.template']);
 
         $context = $email->getContext();

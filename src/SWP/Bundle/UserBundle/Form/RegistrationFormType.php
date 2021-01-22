@@ -20,6 +20,7 @@ class RegistrationFormType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'required' => false,
+                'invalid_message' => "The entered passwords don't match.",
             ])
         ;
     }
