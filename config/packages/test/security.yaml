@@ -1,0 +1,4 @@
+security:
+    encoders:
+        SWP\Bundle\UserBundle\Model\User:
+            algorithm: plaintext

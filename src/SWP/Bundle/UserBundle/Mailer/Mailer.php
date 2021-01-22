@@ -70,14 +70,12 @@ class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
             ->htmlTemplate($this->parameters['confirmation.template']);
 
         $context = $email->getContext();
-        $context['signedUrl'] = $url;
+        $context['url'] = $url;
         $email->context($context);
         $this->mailer->send($email);
     }
 
-    public function sendResetPasswordEmail(UserInterface $user,
-                                           ResetPasswordToken $resetToken
-    ): void
+    public function sendResetPasswordEmail(UserInterface $user, ResetPasswordToken $resetToken): void
     {
         $email = (new TemplatedEmail())
             ->from($this->getAdminAddress())

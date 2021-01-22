@@ -18,7 +18,7 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"registration_enabled"
       },
       {
-        "value":"@SWPUser\/Registration\/email.txt.twig",
+        "value":"@SWPUser\/Registration\/confirmation_email.html.twig",
         "scope":"tenant",
         "type":"string",
         "name":"registration_confirmation.template"
@@ -252,7 +252,7 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"registration_enabled"
       },
       {
-        "value":"@SWPUser\/Registration\/email.txt.twig",
+        "value":"@SWPUser\/Registration\/confirmation_email.html.twig",
         "scope":"tenant",
         "type":"string",
         "name":"registration_confirmation.template"
@@ -459,7 +459,7 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"registration_enabled"
       },
       {
-        "value":"@SWPUser\/Registration\/email.txt.twig",
+        "value":"@SWPUser\/Registration\/confirmation_email.html.twig",
         "scope":"tenant",
         "type":"string",
         "name":"registration_confirmation.template"

@@ -103,7 +103,7 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->booleanNode('enabled')->defaultFalse()->end()
-                                ->scalarNode('template')->defaultValue('@SWPUser/Registration/email.txt.twig')->end()
+                                ->scalarNode('template')->defaultValue('@SWPUser/Registration/confirmation_email.html.twig')->end()
                                 ->arrayNode('from_email')
                                     ->canBeUnset()
                                     ->children()
