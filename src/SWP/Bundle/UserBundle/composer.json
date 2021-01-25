@@ -5,6 +5,7 @@
   "keywords": ["user bundle", "user", "superdesk", "publisher"],
   "license":"AGPL-3.0",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Paweł Mikołajczuk",
@@ -38,7 +39,7 @@
     "symfony/monolog-bridge": "^4.2",
     "symfony/validator": "^4.2",
     "symfony/form": "^4.2",
-    "symfony/twig-bundle": "4.2.9",
+    "symfony/twig-bundle": "^4.4",
     "symfony/debug": "^4.2@stable",
     "twig/twig": "^2.9",
     "symfony/asset": "^4.2",
