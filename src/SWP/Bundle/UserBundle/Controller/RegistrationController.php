@@ -31,7 +31,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -75,7 +74,6 @@ class RegistrationController extends AbstractController
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
         UserManagerInterface $userManager,
-        RouterInterface $router,
         MailerInterface $mailer
     ) {
         try {

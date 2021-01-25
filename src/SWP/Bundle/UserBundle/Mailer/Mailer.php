@@ -41,14 +41,13 @@ class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
         array $parameters,
         SettingsManagerInterface $settingsManager,
         TenantContextInterface $tenantContext
-    )
-    {
+    ) {
         $this->mailer = $mailer;
         $this->parameters = $parameters;
         $tenant = $tenantContext->getTenant();
 
         if ($tenant instanceof SettingsOwnerInterface) {
-            $fromEmail = ['contact@' . $tenant->getDomainName() => 'contact'];
+            $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
 
             $this->parameters['confirmation.template'] =
                 $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
@@ -89,9 +88,6 @@ class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
         $this->mailer->send($email);
     }
 
-    /**
-     * @return Address
-     */
     private function getAdminAddress(): Address
     {
         return new Address(
