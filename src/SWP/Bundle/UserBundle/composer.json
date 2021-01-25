@@ -23,7 +23,10 @@
     "swp/storage-bundle": "^2.0",
     "swp/settings-bundle": "^2.0",
     "symfony/swiftmailer-bundle": "~3.2",
-    "symfony/serializer": "^4.2"
+    "symfony/serializer": "^4.2",
+    "symfonycasts/reset-password-bundle": "^1.2",
+    "symfonycasts/verify-email-bundle": "^1.1",
+    "symfony/mailer": "^4.4"
   },
   "require-dev": {
     "phpspec/phpspec": "^6.0",

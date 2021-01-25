@@ -74,6 +74,9 @@ swp_user:
     persistence:
         orm:
             enabled: true
+    from_email:
+        address: 'contact@publisher.test'
+        sender_name: Publisher
 
 services:
     swp_content_bundle.resources_list_response_listener:
@@ -82,3 +85,6 @@ services:
             - { name: kernel.event_listener, event: kernel.view }
 
     SWP\Bundle\UserBundle\Tests\Functional\UserProvider: ~
+
+symfonycasts_reset_password:
+    request_password_repository: SWP\Bundle\UserBundle\Repository\ResetPasswordRequestRepository

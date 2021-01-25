@@ -26,4 +26,6 @@ return [
     new SWP\Bundle\SettingsBundle\SWPSettingsBundle(),
     new SWP\Bundle\UserBundle\SWPUserBundle(),
     new SWP\Bundle\StorageBundle\SWPStorageBundle(),
+    new SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle(),
+    new SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle(),
 ];
