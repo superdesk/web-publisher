@@ -27,7 +27,8 @@
     "symfonycasts/reset-password-bundle": "^1.2",
     "symfonycasts/verify-email-bundle": "^1.1",
     "symfony/mailer": "^4.4",
-    "symfony/templating": "^5.2"
+    "symfony/templating": "^5.2",
+    "doctrine/doctrine-bundle": "~1.12.6"
   },
   "require-dev": {
     "phpspec/phpspec": "^6.0",
@@ -46,9 +47,8 @@
     "symfony/property-access": "^4.2",
     "symfony/security": "^4.2",
     "symfony/security-bundle": "^4.2",
-    "symfony/doctrine-bridge": "<4.2.5",
+    "symfony/doctrine-bridge": "^4.2",
     "doctrine/orm": "^2.6",
-    "doctrine/doctrine-bundle": "^1.10",
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "liip/functional-test-bundle": "^2.0",
     "sensio/framework-extra-bundle": "^5.0",

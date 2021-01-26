@@ -28,6 +28,21 @@ monolog:
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
 
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+        path:     "%kernel.cache_dir%/user_bundle.db3"
+    orm:
+        auto_generate_proxy_classes: true
+        resolve_target_entities:
+            SWP\Bundle\UserBundle\Model\UserInterface: SWP\Bundle\UserBundle\Model\User
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+
 doctrine_cache:
     providers:
         main_cache:
@@ -43,21 +58,6 @@ sensio_framework_extra:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: false
-
-doctrine:
-    dbal:
-        driver:   pdo_sqlite
-        memory:   true
-        charset:  UTF8
-        path:     "%kernel.cache_dir%/user_bundle.db3"
-    orm:
-        auto_generate_proxy_classes: true
-        resolve_target_entities:
-            SWP\Bundle\UserBundle\Model\UserInterface: SWP\Bundle\UserBundle\Model\User
-        entity_managers:
-            default:
-                naming_strategy: doctrine.orm.naming_strategy.underscore
-                auto_mapping: true
 
 swp_settings:
     persistence:

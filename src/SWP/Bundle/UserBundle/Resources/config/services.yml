@@ -18,7 +18,7 @@ services:
         SWP\Bundle\UserBundle\Mailer\Mailer:
           arguments:
             - '@Symfony\Component\Mailer\MailerInterface'
-            - $parameters: {
+            - {
                 confirmation.template: '%swp_user.registration.confirmation.template%',
                 resetting.template: '%swp_user.resetting.email.template%',
                 from_email: {

@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
-use function Webmozart\Assert\Tests\StaticAnalysis\validArrayKey;
 
 class UserControllerTest extends WebTestCase
 {

@@ -17,10 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Mailer;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface as BaseMailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
-use Symfony\Component\Mailer\MailerInterface as BaseMailerInterface;
 
 class Mailer implements MailerInterface
 {

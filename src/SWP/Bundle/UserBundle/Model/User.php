@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\DateTime;
+use SWP\Component\Common\Model\TimestampableTrait;
 
 class User implements UserInterface
 {
