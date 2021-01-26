@@ -2,6 +2,7 @@ fos_elastica:
     clients:
         default: { host: '%env(ELASTICA_HOST)%', port: '%env(ELASTICA_PORT)%', retryOnConflict: 5 }
     indexes:
+        use_alias: true
         swp:
             index_name: '%env(ELASTICA_INDEX_NAME)%'
             settings:
