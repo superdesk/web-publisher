@@ -16,6 +16,7 @@ services:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
             - '@swp.object_manager.article_statistics'
+            - '@fos_elastica.object_persister.swp.article'
 
     SWP\Bundle\CoreBundle\MessageHandler\ContentPushHandler:
         arguments:

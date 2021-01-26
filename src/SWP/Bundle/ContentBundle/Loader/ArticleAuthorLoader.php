@@ -17,7 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleAuthorRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -37,18 +39,19 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
      */
     private $authorRepository;
 
+    private $entityManager;
+
     /**
      * ArticleAuthorLoader constructor.
-     *
-     * @param MetaFactoryInterface             $metaFactory
-     * @param ArticleAuthorRepositoryInterface $authorRepository
      */
     public function __construct(
         MetaFactoryInterface $metaFactory,
-        ArticleAuthorRepositoryInterface $authorRepository
+        ArticleAuthorRepositoryInterface $authorRepository,
+        EntityManagerInterface $entityManager
     ) {
         $this->metaFactory = $metaFactory;
         $this->authorRepository = $authorRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -57,19 +60,32 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         if ('author' === $type && LoaderInterface::SINGLE === $responseType) {
-            $criteria = new Criteria();
+            $parameter = null;
+            $parameterKey = null;
             if (array_key_exists('id', $parameters) && is_numeric($parameters['id'])) {
-                $criteria->set('id', $parameters['id']);
+                $parameter = $parameters['id'];
+                $parameterKey = 'id';
             } elseif (array_key_exists('name', $parameters) && \is_string($parameters['name'])) {
-                $criteria->set('name', $parameters['name']);
+                $parameter = $parameters['name'];
+                $parameterKey = 'name';
             } elseif (array_key_exists('slug', $parameters) && \is_string($parameters['slug'])) {
-                $criteria->set('slug', $parameters['slug']);
+                $parameter = $parameters['slug'];
+                $parameterKey = 'slug';
             } else {
                 return false;
             }
 
-            $criteria->set('maxResults', 1);
-            $author = $this->authorRepository->getQueryByCriteria($criteria, [], 'a')->getQuery()->getOneOrNullResult();
+            $query = $this->entityManager->createQuery('SELECT count(a) as count, aa.id FROM SWP\Bundle\CoreBundle\Model\Article a
+            left join a.authors aa where aa.'.$parameterKey.' = ?1 GROUP BY aa.id order by count desc')
+                ->setParameter('1', $parameter)
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            if (null === $query) {
+                return false;
+            }
+
+            $author = $this->entityManager->getReference(ArticleAuthorInterface::class, $query['id']);
 
             if (null !== $author) {
                 return $this->metaFactory->create($author);

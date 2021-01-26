@@ -44,13 +44,13 @@ Feature: List sorted articles
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/?sorting[article_statistics.page_views_number]=asc"
     Then the response status code should be 200
-    And the JSON node "_embedded._items[4].id" should be equal to 2
-    And the JSON node "_embedded._items[4].article_statistics.page_views_number" should be equal to 30
-    And the JSON node "_embedded._items[3].id" should be equal to 1
-    And the JSON node "_embedded._items[3].article_statistics.page_views_number" should be equal to 20
-    And the JSON node "_embedded._items[2].id" should be equal to 3
-    And the JSON node "_embedded._items[2].article_statistics.page_views_number" should be equal to 10
-    And the JSON node "_embedded._items[1].id" should be equal to 4
-    And the JSON node "_embedded._items[1].article_statistics.page_views_number" should be equal to 5
-    And the JSON node "_embedded._items[0].id" should be equal to 5
-    And the JSON node "_embedded._items[0].article_statistics.page_views_number" should be equal to 0
+    And the JSON node "_embedded._items[0].id" should be equal to 4
+    And the JSON node "_embedded._items[0].article_statistics.page_views_number" should be equal to 5
+    And the JSON node "_embedded._items[1].id" should be equal to 3
+    And the JSON node "_embedded._items[1].article_statistics.page_views_number" should be equal to 10
+    And the JSON node "_embedded._items[2].id" should be equal to 1
+    And the JSON node "_embedded._items[2].article_statistics.page_views_number" should be equal to 20
+    And the JSON node "_embedded._items[3].id" should be equal to 2
+    And the JSON node "_embedded._items[3].article_statistics.page_views_number" should be equal to 30
+    And the JSON node "_embedded._items[4].id" should be equal to 5
+    And the JSON node "_embedded._items[4].article_statistics.page_views_number" should be equal to 0

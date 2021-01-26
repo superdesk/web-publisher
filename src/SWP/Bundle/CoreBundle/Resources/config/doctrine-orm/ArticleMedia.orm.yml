@@ -1,3 +1,6 @@
 SWP\Bundle\CoreBundle\Model\ArticleMedia:
-    type: mappedSuperclass
+    type: entity
     table: swp_article_media
+    embedded:
+        license:
+            class: SWP\Component\Bridge\Model\License
