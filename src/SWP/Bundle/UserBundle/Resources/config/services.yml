@@ -17,14 +17,15 @@ services:
         SWP\Bundle\UserBundle\Util\UserManipulator: ~
         SWP\Bundle\UserBundle\Mailer\Mailer:
           arguments:
-            $parameters: {
-              confirmation.template: '%swp_user.registration.confirmation.template%',
-              resetting.template: '%swp_user.resetting.email.template%',
-              from_email: {
-                confirmation: '%swp_user.registration.confirmation.from_email%',
-                resetting: '%swp_user.resetting.email.from_email%'
+            - '@Symfony\Component\Mailer\MailerInterface'
+            - $parameters: {
+                confirmation.template: '%swp_user.registration.confirmation.template%',
+                resetting.template: '%swp_user.resetting.email.template%',
+                from_email: {
+                  confirmation: '%swp_user.registration.confirmation.from_email%',
+                  resetting: '%swp_user.resetting.email.from_email%'
+                }
               }
-            }
 
         SWP\Bundle\UserBundle\Controller\ProfileController:
             tags: ['controller.service_arguments']

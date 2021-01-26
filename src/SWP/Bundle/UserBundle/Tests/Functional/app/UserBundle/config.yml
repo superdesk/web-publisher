@@ -18,9 +18,8 @@ framework:
     test: ~
     validation:      { enable_annotations: false }
     form: ~
-
-swiftmailer:
-    disable_delivery: true
+    mailer:
+        dsn: 'null://null'
 
 monolog:
     handlers:

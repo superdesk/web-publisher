@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\UserBundle\Tests\Functional\WebTestCase;
+use function Webmozart\Assert\Tests\StaticAnalysis\validArrayKey;
 
 class UserControllerTest extends WebTestCase
 {
@@ -60,22 +61,22 @@ class UserControllerTest extends WebTestCase
         ]);
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(3, $content['roles']);
-        self::assertEquals('ROLE_ADMIN', $content['roles'][0]);
-        self::assertEquals('ROLE_EDITOR', $content['roles'][1]);
-        self::assertEquals('ROLE_USER', $content['roles'][2]);
+        self::assertEquals('ROLE_ADMIN', $content['roles'][1]);
+        self::assertEquals('ROLE_EDITOR', $content['roles'][2]);
+        self::assertEquals('ROLE_USER', $content['roles'][0]);
 
         $client->request('PATCH', $this->router->generate('swp_api_user_demote_user', ['id' => 1]), [
             'roles' => 'ROLE_ADMIN',
         ]);
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(2, $content['roles']);
-        self::assertEquals('ROLE_EDITOR', $content['roles'][0]);
-        self::assertEquals('ROLE_USER', $content['roles'][1]);
+        self::assertEquals('ROLE_EDITOR', $content['roles'][1]);
+        self::assertEquals('ROLE_USER', $content['roles'][0]);
 
         $client->request('PATCH', $this->router->generate('swp_api_user_promote_user', ['id' => 1]), [
             'roles' => 'ROLE_ADMIN, ROLE_TEST',
         ]);
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals('ROLE_TEST', $content['roles'][2]);
+        self::assertEquals('ROLE_TEST', $content['roles'][3]);
     }
 }

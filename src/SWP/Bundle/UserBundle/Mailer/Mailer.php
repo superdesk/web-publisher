@@ -16,48 +16,28 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Mailer;
 
-use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
-use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
+use Symfony\Component\Mailer\MailerInterface as BaseMailerInterface;
 
-class Mailer implements \SWP\Bundle\UserBundle\Mailer\MailerInterface
+class Mailer implements MailerInterface
 {
     /**
      * @var MailerInterface
      */
-    private $mailer;
+    protected $mailer;
+
     /**
      * @var array
      */
-    private $parameters;
+    protected $parameters;
 
-    public function __construct(
-        MailerInterface $mailer,
-        array $parameters,
-        SettingsManagerInterface $settingsManager,
-        TenantContextInterface $tenantContext
-    ) {
+    public function __construct(BaseMailerInterface $mailer, array $parameters)
+    {
         $this->mailer = $mailer;
         $this->parameters = $parameters;
-        $tenant = $tenantContext->getTenant();
-
-        if ($tenant instanceof SettingsOwnerInterface) {
-            $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
-
-            $this->parameters['confirmation.template'] =
-                $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
-            $this->parameters['from_email']['confirmation'] =
-                $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant, $fromEmail);
-            $this->parameters['resetting.template'] =
-                $settingsManager->get('registration_resetting.template', 'tenant', $tenant);
-            $this->parameters['from_email']['resetting'] =
-                $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
-        }
     }
 
     public function sendConfirmationEmail(UserInterface $user, $url): void

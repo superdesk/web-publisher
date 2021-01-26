@@ -18,6 +18,7 @@ namespace SWP\Bundle\UserBundle;
 
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
+use SWP\Bundle\UserBundle\DependencyInjection\Compiler\OverrideMailerPass;
 use SWP\Component\Storage\Bundle\BundleInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -36,6 +37,8 @@ class SWPUserBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        $container->addCompilerPass(new OverrideMailerPass());
     }
 
     /**
