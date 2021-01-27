@@ -2,10 +2,6 @@ swp_user:
     resource: "@SWPUserBundle/Controller"
     type:     annotation
 
-swp_user_registration_confirm:
-    path: /register/confirm/{token}
-    defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::confirmAction }
-
 swp_user_registration_confirmed:
     path: /register/confirmed
     defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::confirmedAction }
