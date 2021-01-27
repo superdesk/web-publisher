@@ -25,7 +25,7 @@ use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 class Mailer implements MailerInterface
 {
     /**
-     * @var MailerInterface
+     * @var BaseMailerInterface
      */
     protected $mailer;
 

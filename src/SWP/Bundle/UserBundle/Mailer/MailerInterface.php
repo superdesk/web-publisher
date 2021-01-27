@@ -17,8 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Mailer;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 
 interface MailerInterface
 {
     public function sendConfirmationEmail(UserInterface $user, string $url): void;
+
+    public function sendResetPasswordEmail(UserInterface $user, ResetPasswordToken $resetToken): void;
+
 }

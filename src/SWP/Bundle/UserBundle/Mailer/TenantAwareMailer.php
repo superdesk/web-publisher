@@ -29,8 +29,6 @@ class TenantAwareMailer extends Mailer
         SettingsManagerInterface $settingsManager,
         TenantContextInterface $tenantContext = null
     ) {
-        $this->mailer = $mailer;
-        $this->parameters = $parameters;
         $tenant = $tenantContext->getTenant();
 
         if ($tenant instanceof SettingsOwnerInterface) {
@@ -45,5 +43,7 @@ class TenantAwareMailer extends Mailer
             $this->parameters['from_email']['resetting'] =
                 $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
         }
+
+        parent::__construct($mailer, $parameters);
     }
 }

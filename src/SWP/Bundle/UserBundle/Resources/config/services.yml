@@ -45,10 +45,6 @@ services:
         SWP\Bundle\UserBundle\Command\CreateUserCommand:
           tags: [ 'console.command' ]
 
-        SWP\Bundle\UserBundle\Util\PasswordUpdater:
-            arguments:
-                - '@Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface'
-
         SWP\Bundle\UserBundle\Security\LoginAuthenticator: ~
 
         swp_user.user_manager:

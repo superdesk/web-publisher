@@ -26,6 +26,8 @@ interface UserInterface extends PersistableInterface, TimestampableInterface, Ba
 
     public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
+    public function getEmail();
+
     /**
      * @return string
      */
@@ -53,4 +55,10 @@ interface UserInterface extends PersistableInterface, TimestampableInterface, Ba
     public function getExternalId();
 
     public function setExternalId(string $externalId);
+
+    public function setPassword(string $password);
+
+    public function addRole(string $role);
+
+    public function removeRole(string $role);
 }

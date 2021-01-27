@@ -100,4 +100,6 @@ interface UserManagerInterface
      * @param bool $andFlush
      */
     public function updateUser(UserInterface $user, $andFlush = true);
+
+    public function find(int $id);
 }

@@ -110,7 +110,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function addRole($role)
+    public function addRole(string $role)
     {
         $role = strtoupper($role);
         if ($role === static::ROLE_DEFAULT) {
@@ -127,7 +127,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function removeRole($role)
+    public function removeRole(string $role)
     {
         if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
             unset($this->roles[$key]);
