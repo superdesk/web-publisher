@@ -43,7 +43,5 @@ class TenantAwareMailer extends Mailer
             $this->parameters['from_email']['resetting'] =
                 $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
         }
-
-        parent::__construct($mailer, $parameters);
     }
 }
