@@ -29,6 +29,8 @@ class TenantAwareMailer extends Mailer
         SettingsManagerInterface $settingsManager,
         TenantContextInterface $tenantContext = null
     ) {
+        $this->mailer = $mailer;
+        $this->parameters = $parameters;
         $tenant = $tenantContext->getTenant();
 
         if ($tenant instanceof SettingsOwnerInterface) {
