@@ -1,15 +1,14 @@
 Facebook Instant Articles Integration
 =====================================
 
-Superdesk Publisher have build in integration with Facebook Instant Articles. This cookbook describes all steps needed
-for proper configuration.
+Superdesk Publisher have built-in integration with Facebook Instant Articles. This cookbook describes all steps needed for proper configuration.
 
 Step 1. Register Facebook Page and Application in Publisher
 ```````````````````````````````````````````````````````````
 
 .. note::
 
-  As at the moment of creation this documentation there is no UI in Superdesk for this feature, needed actions will   be described with CURL direct API calls.
+  As at the moment of creation this documentation there is no UI in Superdesk for this feature, needed actions will be described with CURL direct API calls.
 
 .. note::
 

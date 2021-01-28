@@ -1,8 +1,7 @@
 How to Install and Configure Superdesk Publisher with Superdesk
 ===============================================================
 
-This guide describes the functions of Superdesk Publisher and Superdesk, along with the required steps to run
-both applications concurrently in a production environment on two **different** servers.
+This guide describes the functions of Superdesk Publisher and Superdesk, along with the required steps to run both applications concurrently in a production environment on two **different** servers.
 (However, both applications can also work on a single machine.)
 
 How to Install Superdesk?

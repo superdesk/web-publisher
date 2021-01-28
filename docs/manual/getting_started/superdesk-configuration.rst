@@ -80,7 +80,7 @@ Schema configuration possibilities for content profile are numerous; this is the
 
 Every of these fields can be fine-tuned to suite your needs - from *length*, *formatting* options and *order*, to *setting its mandatoryness* on or off and *clean paste html* for example. We encourage you to explore these possibilities on your own!
 
-Keep in mind that Superdesk can also deliver **content packages** to outside world. And package can be combination of more content items, every one of different profile.
+On top of this, content profile definition can also contain *custom vocabularies* - metadata categories that are manually created and that consist of custom items. So content profile can be tailored by even the most specific needs.
 
 Publish
 -------

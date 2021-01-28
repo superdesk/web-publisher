@@ -35,14 +35,13 @@ Notable features
 
 - Multitenancy
 - Built-in support for reverse proxy caching (Varnish, Nginx, internal system as a fallback)
-- Live-site management
-- Widget support (managed by editors)
+- Twig or PWA theme support
 
 
 Website architecture
 --------------------
 
-A basic theme must have the following structure:
+A basic Twig theme must have the following structure:
 
 .. code-block:: bash
 

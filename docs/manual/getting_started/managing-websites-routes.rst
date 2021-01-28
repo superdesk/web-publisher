@@ -6,7 +6,7 @@ When Publisher is installed, it is integrated in Superdesk and it expects output
 Main concepts are: 
 
 - there can be more than one websites that you can configure and feed from Superdesk
-- each website is configured firstly by its **routes**; routes can be of type *collection* and *content*.
+- each website is configured firstly by its **routes**; routes can be of type *collection*, *content* and *custom*.
 
 .. image:: websites-routes-01.png
    :alt: Web Sites and Routes

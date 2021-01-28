@@ -6,7 +6,10 @@ Structure
 
 Themes provide templates for the customization of the appearance and functionality of your public-facing websites. Themes can also be translated to support multiple written languages and regional dialects.
 
-The Superdesk Web Publisher themes system is built on top of fast, flexible and easy to use `Twig <http://twig.sensiolabs.org/>`_ templates.
+There are two Superdesk Web Publisher themes systems; default one is built on top of fast, flexible and easy to use `Twig <http://twig.sensiolabs.org/>`_ templates. Alternativelly, `PWA <https://web.dev/progressive-web-apps/>`_ Next.js (React/Node.js) Superdesk Publisher renderer can be used.
+
+Twig - Publisher's default theme system 
+```````````````````````````````````````
 
 By default, themes are located under the :code:`app/themes` directory. A basic theme must have the following structure:
 
@@ -35,6 +38,26 @@ Minimum theme.json version:
         "name": "vendor/default-theme"
     }
 
+Progressive Web App (PWA) Themes 
+````````````````````````````````
+
+PWA theme, on the other hand, is built as Hybrid app - one React app on both server and client side. It is built on modern and highly optimised code which ensures lightning fast performance.
+
+Our PWA solution is Server Side Generated (SSG, not SSR - server side rendered) and Client Side Rendered (CSR, React) - on build, app renders pages to HTML and JSON. It refreshes these files during runtime on defined schedule. The end users ALWAYS get a static file - either HTML (on initial load) or JSON (when navigating between pages), with data needed to render given page on client side.
+
+Beside standard front - section - article page functionality, and tag - author - search pages, default Publisher's PWA theme also includes:
+
+- Responsiveness - fits any form factor: desktop, mobile, tablet, or whatever is next. It makes a project available to more people on more devices with wildly varying operating systems, browser capabilities, system APIs, and screen sizes. It ensures that websites work on any device that can access the web, regardless of a browser.
+- app-like experiences which users enjoy using. Also, it allow users to add the app to their home screen. With the option to install websites, users are offered the ability to install PWA and easily access it on their home screens without the hassle of an app store.
+- integration of Web Vitals recording into Google Analytics (that way one gets real data from users about page speed and other measurements that can be then visualised in Analytics using `custom dashboard <https://analytics.google.com/analytics/web/template?uid=H4hQiuJlTvKuzvajY86Fsw/>`_ or `online app <https://web-vitals-report.web.app/>`_. (`More about web vitals <https://web.dev/vitals/>`_) 
+- Publisher Analytics: app reports views back to publisher endpoint
+- Static/Dynamic sitemaps and sitemap-news 0.9
+- Installable as an app on mobiles and even on desktop Chrome
+- Possibility of offline usage, thanks to service workers and manifest.json
+- AMP support out of the box
+- Re-engagement - PWAs feature Push Notifications is used for promotions and specials, as those updates can be displayed to the users even if they don’t have the PWA installed or a browser tab open to the website.
+- Sentry integration
+- User Login/Register
 
 Multitenancy
 ------------
@@ -91,8 +114,7 @@ Assets
 
 To install theme assets you need to run ``sylius:theme:assets:install`` command.
 
-Theme assets (JavaScript, CSS etc. files) should be placed inside the theme directory. There are few ways of reading
-theme assets in your Twig templates. The below how-to describes where to place the assets, how to install it and use it.
+Theme assets (JavaScript, CSS etc. files) should be placed inside the theme directory. There are few ways of reading theme assets in your Twig templates. The below how-to describes where to place the assets, how to install it and use it.
 
 Load assets from the theme's public directory (``app/themes/<theme-name>/public``)
 ``````````````````````````````````````````````````````````````````````````````````

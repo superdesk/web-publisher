@@ -31,6 +31,3 @@ e.g. date: "2017-01-20". (date format must be YYYY-MM-DD)
 - ``metadata`` - metadata field is json string, e.g. ``{"metadata":{"language":"en"}}``. It matches article's metadata, and you can use all metadata fields that are defined for the article, i.e.: language, located etc.
 
 All criteria can be combined together which in the result it will add articles to the list (on publish) depending on your needs.
-
-Content Buckets
----------------

@@ -1,8 +1,7 @@
 Most popular (read) articles list
 =================================
 
-Article meta have property :code:`articleStatistics` and inside it You can find :code:`pageViewsNumber`. To simplify
-syntax for ordering we created :code:`pageViews` alias.
+Article meta have property :code:`articleStatistics` and inside it You can find :code:`pageViewsNumber`. To simplify syntax for ordering we created :code:`pageViews` alias.
 
 Here is example how to order articles by their page views number:
 

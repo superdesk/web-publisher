@@ -1,11 +1,9 @@
 Create new custom route
 =======================
 
-Our use case will be article authors pages. As we don't want to have special route for every author - we need to create
-one witch will fit all our needs.
+Our use case will be article authors pages. As we don't want to have special route for every author - we need to create one witch will fit all our needs.
 
-We need url like that: :code:`publisher.dev/authors/{authorSlug}`. Author slug is a parameter passed to template and will
-be used by us for loading desired author. Example filled route: :code:`publisher.dev/authors/john-doe`.
+We need url like that: :code:`publisher.dev/authors/{authorSlug}`. Author slug is a parameter passed to template and will be used by us for loading desired author. Example filled route: :code:`publisher.dev/authors/john-doe`.
 
 We can create route like that with API:
 
@@ -14,19 +12,17 @@ We can create route like that with API:
 .. code-block:: json
 
     {
-        "route": {
-            "name": "Authors",
-            "slug": "authors",
-            "type": "custom",
-            "templateName": "author.html.twig",
-            "variablePattern": "/{authorSlug}",
-            "requirements": [
-                {
-                    "key": "authorSlug",
-                    "value": "[a-zA-Z\\-_]+"
-                }
-            ]
-        }
+        "name": "Authors",
+        "slug": "authors",
+        "type": "custom",
+        "templateName": "author.html.twig",
+        "variablePattern": "/{authorSlug}",
+        "requirements": [
+            {
+                "key": "authorSlug",
+                "value": "[a-zA-Z\\-_]+"
+            }
+        ]
     }
 
 Important parts:
