@@ -60,6 +60,9 @@
     "composer/ca-bundle": {
         "version": "1.2.6"
     },
+    "composer/xdebug-handler": {
+        "version": "1.4.5"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -486,6 +489,30 @@
         "files": [
             "config/packages/nelmio_cors.yaml"
         ]
+    },
+    "nette/bootstrap": {
+        "version": "v3.0.2"
+    },
+    "nette/di": {
+        "version": "v3.0.7"
+    },
+    "nette/finder": {
+        "version": "v2.5.2"
+    },
+    "nette/neon": {
+        "version": "v3.2.1"
+    },
+    "nette/php-generator": {
+        "version": "v3.5.1"
+    },
+    "nette/robot-loader": {
+        "version": "v3.3.1"
+    },
+    "nette/schema": {
+        "version": "v1.1.0"
+    },
+    "nette/utils": {
+        "version": "v3.2.0"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -930,15 +957,6 @@
         "files": [
             "config/packages/mailer.yaml"
         ]
-    },
-    "symfony/maker-bundle": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
-        }
     },
     "symfony/messenger": {
         "version": "4.3",
