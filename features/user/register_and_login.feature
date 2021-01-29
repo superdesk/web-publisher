@@ -37,7 +37,6 @@ Feature: Registering and login as new user publisher
       "password": "superSecret"
     }
     """
-    Then print last response
     Then the response status code should be 200
     And the JSON node "user.username" should be equal to "null_user"
 
