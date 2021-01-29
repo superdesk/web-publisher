@@ -17,7 +17,6 @@ Feature: Registering and login as new user publisher
       }
     }
     """
-    Then print last response
     Then the response status code should be 200
     And the response should contain "The user has been created successfully"
     And the response should contain "An email has been sent to null@sourcefabric.org. It contains an activation link you must click to activate your account."
@@ -26,7 +25,6 @@ Feature: Registering and login as new user publisher
     Then the response status code should be 302
     And I follow the redirection
     Then the response status code should be 200
-    Then print last response
     And the response should contain "Logged in as null_user"
     And the response should contain "Congrats null_user, your account is now activated."
 
@@ -39,6 +37,7 @@ Feature: Registering and login as new user publisher
       "password": "superSecret"
     }
     """
+    Then print last response
     Then the response status code should be 200
     And the JSON node "user.username" should be equal to "null_user"
 
