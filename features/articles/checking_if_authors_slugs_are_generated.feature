@@ -9,6 +9,6 @@ Feature: Checking author slugs generation
     And I add "Content-Type" header equal to "application/json"
     And I run "fos:elastica:populate --env=test" command
     Then I should see "Refreshing swp" in the output
-    Then I send a "GET" request to "/api/v2/content/articles/?author[]=Tom"
+    Then I send a "GET" request to "/api/v2/content/articles/?author[]=1"
     Then the response status code should be 200
     And the JSON node "total" should be equal to "1"

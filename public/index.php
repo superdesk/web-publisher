@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Kernel;
-use Symfony\Component\Debug\Debug;
+use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 require dirname(__DIR__).'/config/bootstrap.php';
@@ -17,6 +17,10 @@ if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 
     Debug::enable();
+}
+
+if (isset($_SERVER['HTTP_X_REAL_IP'])) {
+    $_SERVER['HTTP_X_FORWARDED_FOR'] = $_SERVER['HTTP_X_REAL_IP'];
 }
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {

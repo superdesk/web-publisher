@@ -51,11 +51,11 @@ final class ExportAnalyticsType extends AbstractType
                 'help' => 'Routes ids',
             ])
             ->add('authors', CollectionType::class, [
-                'entry_type' => TextType::class,
+                'entry_type' => ExportAnalyticsAuthorType::class,
                 'allow_add' => true,
                 'allow_delete' => false,
                 'by_reference' => false,
-                'help' => 'Authors names',
+                'help' => 'Authors ids',
             ])
             ->add('term', TextType::class, [
                 'required' => false,

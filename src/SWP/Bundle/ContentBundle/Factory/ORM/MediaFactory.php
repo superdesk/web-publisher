@@ -19,9 +19,9 @@ namespace SWP\Bundle\ContentBundle\Factory\ORM;
 use Psr\Log\LoggerInterface;
 use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\File\FileDownloaderInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
@@ -73,6 +73,9 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
         $articleMedia->setMediaType($type);
+        if (null !== ($license = $item->getLicense())) {
+            $articleMedia->setLicense($license);
+        }
 
         if (MediaAwareInterface::KEY_FEATURE_MEDIA === $key) {
             $articleMedia->setMediaType(ArticleMediaInterface::TYPE_FEATURE_MEDIA);

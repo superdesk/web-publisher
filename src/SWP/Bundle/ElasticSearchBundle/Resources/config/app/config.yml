@@ -1,6 +1,6 @@
 fos_elastica:
     clients:
-        default: { host: "%env(ELASTICA_HOST)%", port: "%env(ELASTICA_PORT)%", retryOnConflict: 5 }
+        default: { host: '%env(ELASTICA_HOST)%', port: '%env(ELASTICA_PORT)%', retryOnConflict: 5 }
     indexes:
         swp:
             index_name: '%env(ELASTICA_INDEX_NAME)%'
@@ -26,11 +26,19 @@ fos_elastica:
                             type: custom
                             tokenizer: standard
                             filter: [lowercase, swp_ascii_folding]
+                        swp_edge_ngram_analyzer:
+                            type: custom
+                            tokenizer: standard
+                            filter: [ lowercase, swp_ascii_folding, swp_edge_ngram ]
                     filter:
                         swp_ascii_folding:
-                            type: "asciifolding"
+                            type: 'asciifolding'
                             preserve_original: true
-
+                        swp_edge_ngram:
+                            type: 'edge_ngram'
+                            min_gram: 3
+                            max_gram: 20
+                            token_chars: ['letter', 'digit']
             types:
                 article:
                     properties:
@@ -60,24 +68,26 @@ fos_elastica:
                         createdAt:
                             type: date
                         route:
-                            type: "object"
+                            type: 'object'
                             properties:
                                 name: { type: string }
                                 id: { type: integer }
                         sources:
-                            type: "nested"
+                            type: 'nested'
                             properties:
                                 name: { type: string, analyzer: swp_sources_analyzer }
                         keywords:
-                            type: "nested"
+                            type: 'nested'
                             include_in_root: true
                             properties:
                                 name: { type: string, analyzer: swp_folding_analyzer }
                         authors:
-                            type: "nested"
+                            type: 'nested'
                             properties:
                                 id: { type: integer }
-                                name: { type: string, analyzer: swp_author_name_analyzer }
+                                name: { type: string, analyzer: swp_folding_analyzer }
+                                biography: { type: string, analyzer: swp_folding_analyzer }
+                                slug: { type: string, analyzer: swp_folding_analyzer }
                         extraTextFields:
                             type: "nested"
                             properties:
@@ -92,12 +102,12 @@ fos_elastica:
                                 embed: { type: string }
                                 description: { type: string }
                         articleStatistics:
-                            type: "object"
+                            type: 'object'
                             properties:
                                 pageViewsNumber: { type: integer }
                     persistence:
                         driver: orm
-                        model: "%swp.model.article.class%"
+                        model: '%swp.model.article.class%'
                         provider: ~
                         finder: ~
                         repository: SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository
@@ -117,11 +127,11 @@ fos_elastica:
                         updatedAt:
                             type: date
                         organization:
-                            type: "object"
+                            type: 'object'
                             properties:
                                 id: { type: integer }
                         articles:
-                            type: "nested"
+                            type: 'nested'
                             properties:
                                 id: { type: integer}
                                 code: { type: string, analyzer: swp_code_analyzer }
@@ -135,20 +145,33 @@ fos_elastica:
                                     type: date
                                 isPublishable: { type: boolean }
                                 route:
-                                    type: "object"
+                                    type: 'object'
                                     properties:
                                         name: { type: string }
                                         id: { type: integer }
                         authors:
-                            type: "nested"
+                            type: 'nested'
                             properties:
                                 id: { type: integer }
-                                name: { type: string, analyzer: swp_author_name_analyzer }
+                                name: { type: string, analyzer: swp_folding_analyzer }
                     persistence:
                         driver: orm
-                        model: "%swp.model.package.class%"
+                        model: '%swp.model.package.class%'
                         provider: ~
                         finder: ~
                         repository: SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                author:
+                    properties:
+                        id: { type: integer}
+                        slug: { type: string }
+                        name: { type: string, analyzer: swp_edge_ngram_analyzer }
+                    persistence:
+                        driver: orm
+                        model: '%swp.model.author.class%'
+                        provider: ~
+                        finder: ~
+                        repository: SWP\Bundle\ElasticSearchBundle\Repository\AuthorRepository
                         elastica_to_model_transformer:
                             ignore_missing: true

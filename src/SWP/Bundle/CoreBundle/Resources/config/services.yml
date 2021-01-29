@@ -283,6 +283,7 @@ services:
             - "@swp.factory.facebook_instant_articles_article"
             - "@swp.repository.facebook_instant_articles_article"
             - "@router"
+            - "@logger"
 
     swp.facebook.listener.instant_articles:
         class: SWP\Bundle\CoreBundle\EventListener\FacebookInstantArticlesListener
@@ -809,3 +810,9 @@ services:
     SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
         arguments:
             - '@messenger.transport.failed'
+
+    SWP\Bundle\CoreBundle\Form\Type\AuthorSelectorType:
+        arguments:
+            - '@swp.repository.author'
+        tags:
+            - { name: form.type }
