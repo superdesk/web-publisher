@@ -22,12 +22,12 @@ Built in criteria:
 - ``author`` - an array of authors, e.g. ["Test Persona","Doe"]
 
 - ``publishedBefore`` - date string, articles published before this date will be added to the list,
-e.g. date: "2017-01-20". (date format must be YYYY-MM-DD)
+e.g. date: "2021-01-20". (date format must be YYYY-MM-DD)
 
 - ``publishedAfter`` - date string, articles published after that date will be added to the list, format is the same as in the ``publishedBefore`` case.
 
 - ``publishedAt`` - date string, when defined articles matching this publish dates will be added to the list when published, format is the same as in case of ``publishedBefore`` and ``publishedAfter``
 
-- ``metadata`` - metadata field is json string, e.g. ``{"metadata":{"language":"en"}}``. It matches article's metadata, and you can use all metadata fields that are defined for the article, i.e.: language, located etc.
+- ``metadata`` - metadata is the dropdown field where filtering can be done by any of article's metadata: Categories, Genre, Urgency, Priority, Keywords, and any custom vocabulary that is set as a field in content profile in Superdesk
 
 All criteria can be combined together which in the result it will add articles to the list (on publish) depending on your needs.
