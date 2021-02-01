@@ -28,6 +28,7 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '@Sentry\State\HubInterface'
             - '@SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface'
+            - '@lock.factory'
 
     SWP\Bundle\CoreBundle\MessageHandler\ImageConversionHandler:
         arguments:
