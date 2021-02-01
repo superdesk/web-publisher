@@ -55,8 +55,7 @@ An example of ``theme.json`` file with defined settings will look like:
 
 In the ``settings`` property of the JSON file are defined the default theme's settings.
 
-Each setting can be overridden by the API. See ``/settings/`` API endpoint for more details in the ``/api/doc`` route
-in your Superdesk Publisher instance.
+Each setting can be overridden through the Publisher settings interface or by the API (for that, see ``/settings/`` API endpoint for more details in the ``/api/doc`` route in your Superdesk Publisher instance).
 
 Read more about settings in :doc:`Settings </bundles/SWPSettingsBundle/settings_definitions>` chapter to find out more.
 
@@ -80,6 +79,16 @@ How to display current theme's settings in templates?
 
 If the theme's setting doesn't exists an exception will be thrown with a proper message that it does not exist.
 
+
+How to work with theme settings in GUI
+``````````````````````````````````````
+.. image:: website-settings.png
+   :alt: Theme customization
+   :align: cente
+
+In Publisher's Website management, after selecting desired tenant (if there are more than one), last 'tab' in horizontal navigation is 'Theme customization'. That is graphical representation of theme.json - all the fields and default settings you set there, are visible on this screen, and can be updated. 
+
+On top of these custom values are dialogues to manage up to three logos. It is meant to be be used for quick adjustments of example themes (header and footer logos, or maybe logo on inner pages if it is somehow different that the main one), but these custom upload files can be incorporated into the site in other ways; for example it can be used for graphical announcements / banners that are changed by site editors from time to time.
 
 How to display current theme's settings using API?
 ``````````````````````````````````````````````````
