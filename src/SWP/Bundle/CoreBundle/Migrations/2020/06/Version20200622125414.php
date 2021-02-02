@@ -46,36 +46,57 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $this->addSql('ALTER TABLE swp_article_metadata_service ADD CONSTRAINT FK_779FF189DC9EE959 FOREIGN KEY (metadata_id) REFERENCES swp_article_metadata (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_article_metadata_subject ADD CONSTRAINT FK_6DCC5521DC9EE959 FOREIGN KEY (metadata_id) REFERENCES swp_article_metadata (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_item ADD profile VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_route ADD description VARCHAR(255) DEFAULT NULL');
     }
 
     public function postUp(Schema $schema): void
     {
         $metadataFactory = $this->container->get('swp.factory.metadata');
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-        $query = $entityManager
-            ->createQuery('SELECT a FROM SWP\Bundle\CoreBundle\Model\Article a');
+        $entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
 
-        $batchSize = 20;
-        $i = 1;
-        $iterableResult = $query->iterate();
-        foreach ($iterableResult as $row) {
-            $article = $row[0];
-            $legacyMetadata = $article->getMetadata();
-            if (empty($legacyMetadata)) {
-                continue;
+        $batchSize = 500;
+        $numberOfRecordsPerPage = 2000;
+
+        $totalArticles = $entityManager
+            ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a')
+            ->getSingleScalarResult();
+
+        $totalArticlesProcessed = 0;
+        $isProcessing = true;
+
+        while ($isProcessing) {
+            $query = $entityManager->createQuery('SELECT a FROM SWP\Bundle\CoreBundle\Model\Article a')
+                ->setMaxResults($numberOfRecordsPerPage)
+                ->setFirstResult($totalArticlesProcessed);
+
+            echo 'fetching '.$numberOfRecordsPerPage.' starting from '.$totalArticlesProcessed;
+
+            $iterableResult = $query->iterate();
+
+            foreach ($iterableResult as $row) {
+                $article = $row[0];
+                $legacyMetadata = $article->getMetadata();
+                if (empty($legacyMetadata)) {
+                    continue;
+                }
+
+                $metadata = $metadataFactory->createFrom($legacyMetadata);
+
+                $entityManager->persist($metadata);
+
+                $article->setData($metadata);
+
+                if (0 === ($totalArticlesProcessed % $batchSize)) {
+                    $entityManager->flush();
+                    $entityManager->clear();
+                }
+                ++$totalArticlesProcessed;
             }
 
-            $metadata = $metadataFactory->createFrom($legacyMetadata);
-
-            $entityManager->persist($metadata);
-
-            $article->setData($metadata);
-
-            if (0 === ($i % $batchSize)) {
-                $entityManager->flush();
-                $entityManager->clear();
+            if ($totalArticlesProcessed === $totalArticles) {
+                break;
             }
-            ++$i;
         }
 
         $entityManager->flush();
@@ -98,5 +119,6 @@ final class Version20200622125414 extends AbstractMigration implements Container
         $this->addSql('DROP TABLE swp_article_metadata_service');
         $this->addSql('DROP TABLE swp_article_metadata_subject');
         $this->addSql('ALTER TABLE swp_item DROP profile');
+        $this->addSql('ALTER TABLE swp_route DROP description');
     }
 }
