@@ -9,6 +9,7 @@ services:
         exclude: '../../MessageHandler/Message/*'
         bind:
             $jsonToPackageTransformer: '@swp_bridge.transformer.json_to_package'
+            $lockFactory: '@lock.factory'
 
     SWP\Bundle\CoreBundle\MessageHandler\AnalyticsEventHandler:
         arguments:
@@ -28,7 +29,6 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '@Sentry\State\HubInterface'
             - '@SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface'
-            - '@lock.factory'
 
     SWP\Bundle\CoreBundle\MessageHandler\ImageConversionHandler:
         arguments:
