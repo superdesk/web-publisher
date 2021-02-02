@@ -35,4 +35,3 @@ services:
             - '@jms_serializer'
             - '@monolog.logger.swp_image_conversion'
             - '@swp.repository.image_rendition'
-            - '@lock.factory'
