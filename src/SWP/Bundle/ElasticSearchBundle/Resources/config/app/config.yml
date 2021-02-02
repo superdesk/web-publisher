@@ -84,15 +84,15 @@ fos_elastica:
           type: "nested"
           properties:
             id: { type: integer }
-            fieldName: { type: string }
-            value: { type: string }
+            fieldName: { type: text }
+            value: { type: text }
         extraEmbedFields:
           type: "nested"
           properties:
             id: { type: integer }
-            fieldName: { type: string }
-            embed: { type: string }
-            description: { type: string }
+            fieldName: { type: text }
+            embed: { type: text }
+            description: { type: text }
         articleStatistics:
           type: 'object'
           properties:
