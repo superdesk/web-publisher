@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Fragment;
 
 use SWP\Bundle\BridgeBundle\Client\GuzzleClient;
+use SWP\Bundle\BridgeBundle\Exception\ClientException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,11 +98,9 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
     }
 
     /**
-     * @param string $uri
-     *
-     * @return mixed
+     * @throws ClientException
      */
-    private function createExternalRequest(string $uri)
+    private function createExternalRequest(string $uri): string
     {
         $client = new GuzzleClient();
 
