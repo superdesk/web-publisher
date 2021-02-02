@@ -1,0 +1,191 @@
+name: CI
+
+on:
+  [push, pull_request]
+
+env:
+  APP_ENV: test
+  # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+  COMPOSER_ROOT_VERSION: "dev-master"
+
+jobs:
+
+  tests:
+    name: Tests (PHP ${{ matrix.php }} | composer ${{ matrix.composer_flags }} | ${{ matrix.doctrine_cache_driver }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '7.4'
+            doctrine_cache_driver: 'memcached'
+            composer_flags: 'update --prefer-stable'
+          - php: '7.4'
+            doctrine_cache_driver: 'memcached'
+            composer_flags: 'install'
+          - php: '7.4'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'update --prefer-stable'
+          - php: '7.4'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'install'
+          - php: '7.3'
+            doctrine_cache_driver: 'memcached'
+            composer_flags: 'update --prefer-stable'
+          - php: '7.3'
+            doctrine_cache_driver: 'memcached'
+            composer_flags: 'install'
+          - php: '7.3'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'update --prefer-stable'
+          - php: '7.3'
+            doctrine_cache_driver: 'array'
+            composer_flags: 'install'
+
+    services:
+      postgres:
+        image: postgres:9.6-alpine
+        ports:
+          - 5432/tcp
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+      memcached:
+        image: memcached:1.6.5
+        ports:
+          - 11211:11211
+      rabbitmq:
+        image: rabbitmq:3.8.3
+        ports:
+          - 5672:5672
+      elasticsearch:
+        image: elasticsearch:5.4
+        ports:
+          - 9200:9200
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          extensions: "json,memcached,amqp,pdo_sqlite,pgsql,mbstring,xml,ctype,iconv,intl"
+          ini-values: "memory_limit=-1"
+          php-version: "${{ matrix.php }}"
+          tools: pecl
+
+      - name: Display versions
+        run: |
+          php -r 'foreach (get_loaded_extensions() as $extension) echo $extension . " " . phpversion($extension) . PHP_EOL;'
+          php -i
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=directory::$(composer config cache-dir)"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.directory }}
+          key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.php }}-composer-
+
+      - name: Install dependencies
+        run: composer $COMPOSER_FLAGS --prefer-dist --no-progress --ansi --optimize-autoloader
+        env:
+          COMPOSER_FLAGS: ${{ matrix.composer_flags }}
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Cache NPM
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - name: Install & run server.js
+        run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
+
+      - name: Test loading fixtures from dev env in test env
+        run: |
+          php bin/console doctrine:schema:update -f --env=test
+          php bin/console doctrine:fixtures:load --env=test --no-interaction
+        env:
+          FIXTURES_TYPE: dev
+          WEBP_CONVERSION_ENABLED: false
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
+      - name: Test migrations on Postgres
+        run: php bin/console doctrine:migrations:migrate --env=test --no-debug -vvv
+        env:
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
+      - name: Populate Elasticsearch index
+        run: |
+          curl -XDELETE http://127.0.0.1:9200/swp_index-test
+          php bin/console fos:elastica:populate --env=test
+
+      - name: Run PHPSpec
+        run: ./bin/phpspec run
+
+      - name: Run Behat tests
+        run: ./bin/behat -f progress -vvv --tags '~@custom-env&&~@webp'
+        env:
+          MEMCACHED_HOST: localhost
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
+      - name: Run Behat redirecting scenario
+        run: ./bin/behat -f progress -vvv features/redirecting/redirecting_with_unpublished_article.feature
+        env:
+          REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: true
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
+      - name: Run PHPUnit tests
+        run: |
+          echo "::group::phpunit stderr"
+          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
+          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php
+          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php
+          echo "::endgroup::"
+          echo "::group::phpunit run"
+          bin/phpunit
+          echo "::endgroup::"
+        env:
+          DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
+
+      - name: Run PHPUnit Bridge Bundle tests
+        run: |
+          cd src/SWP/Bundle/BridgeBundle
+          composer update --prefer-dist --no-progress --ansi
+          bin/phpunit
+
+      - name: Run PHPUnit Content Bundle tests
+        run: |
+          cd src/SWP/Bundle/ContentBundle
+          composer update --prefer-dist --no-progress --ansi --no-cache
+          bin/phpunit
+        env:
+          REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE: false
+
+      - name: Run PHPUnit Settings Bundle tests
+        run: |
+          cd src/SWP/Bundle/SettingsBundle
+          composer update --prefer-dist --no-progress --ansi
+          bin/phpunit
+
+      - name: Run PHPUnit User Bundle tests
+        run: |
+          cd src/SWP/Bundle/UserBundle
+          composer update --prefer-dist --no-progress --ansi
+          bin/phpunit --stder

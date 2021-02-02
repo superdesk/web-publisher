@@ -33,6 +33,6 @@ class OverrideBodyListenerPass extends AbstractOverridePass
             BodyListener::class
         );
 
-        $definition->setArgument(3, new Reference('fos_rest.normalizer.camel_keys'));
+        $definition->setArgument(2, new Reference('fos_rest.normalizer.camel_keys'));
     }
 }

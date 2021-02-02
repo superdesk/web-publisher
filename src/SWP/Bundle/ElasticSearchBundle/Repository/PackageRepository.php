@@ -36,11 +36,34 @@ class PackageRepository extends Repository
         $boolFilter = new BoolQuery();
 
         if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
-            $query = new MultiMatch();
-            $query->setFields(['headline^2', 'description^1']);
-            $query->setQuery($criteria->getTerm());
-            $query->setType(MultiMatch::TYPE_PHRASE);
-            $boolFilter->addMust($query);
+            $boolQuery = new BoolQuery();
+
+            $searchBy = ['headline', 'description'];
+            $term = $criteria->getTerm();
+            $phraseMultiMatchQuery = new MultiMatch();
+            $phraseMultiMatchQuery->setQuery($term);
+            $phraseMultiMatchQuery->setFields($searchBy);
+            $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
+            $phraseMultiMatchQuery->setParam('boost', 4);
+
+            $boolQuery->addShould($phraseMultiMatchQuery);
+
+            $fuzzinessPhraseMultiMatchQuery = new MultiMatch();
+            $fuzzinessPhraseMultiMatchQuery->setQuery($term);
+            $fuzzinessPhraseMultiMatchQuery->setFields($searchBy);
+            $fuzzinessPhraseMultiMatchQuery->setFuzziness(1);
+
+            $boolQuery->addShould($fuzzinessPhraseMultiMatchQuery);
+
+            $multiMatchQuery = new MultiMatch();
+            $multiMatchQuery->setQuery($term);
+            $multiMatchQuery->setFields($searchBy);
+            $multiMatchQuery->setOperator(MultiMatch::OPERATOR_AND);
+            $multiMatchQuery->setParam('boost', 2);
+            $multiMatchQuery->setFuzziness(0);
+
+            $boolQuery->addShould($multiMatchQuery);
+            $boolFilter->addMust($boolQuery);
         } else {
             $boolFilter->addMust(new MatchAll());
         }
@@ -55,7 +78,7 @@ class PackageRepository extends Repository
 
         if ((null !== $fields->get('authors')) && !empty($fields->get('authors'))) {
             $bool = new BoolQuery();
-            $bool->addFilter(new Query\Terms('authors.name', $fields->get('authors')));
+            $bool->addFilter(new Query\Terms('authors.id', $fields->get('authors')));
             $nested = new Nested();
             $nested->setPath('authors');
             $nested->setQuery($bool);
@@ -103,7 +126,34 @@ class PackageRepository extends Repository
             $boolFilter->addMust($nested);
         }
 
-        $query = Query::create($boolFilter)
+        $functionScore = new Query\FunctionScore();
+        $functionScore->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
+        $functionScore->setBoostMode(Query\FunctionScore::BOOST_MODE_MULTIPLY);
+        $functionScore->addWeightFunction(1);
+        $now = new \DateTime();
+        $functionScore->addDecayFunction(
+            Query\FunctionScore::DECAY_GAUSS,
+            'publishedAt',
+            $now->format('Y-m-d'),
+            '31d',
+            '1d',
+            0.5,
+            5
+        );
+
+        $functionScore->addDecayFunction(
+            Query\FunctionScore::DECAY_GAUSS,
+            'publishedAt',
+            $now->format('Y-m-d'),
+            '365d',
+            '1d',
+            0.5,
+            2
+        );
+
+        $functionScore->setQuery($boolFilter);
+
+        $query = Query::create($functionScore)
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);

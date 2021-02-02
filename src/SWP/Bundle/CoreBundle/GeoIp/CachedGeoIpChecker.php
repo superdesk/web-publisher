@@ -59,6 +59,11 @@ class CachedGeoIpChecker
 
     private function generateCacheKey(string $ipAddress, ArticleInterface $article, array $geoIpPlaces): string
     {
-        return self::CACHE_KEY_GEO_IP.sha1($article->getId().$ipAddress.json_encode($geoIpPlaces, JSON_THROW_ON_ERROR, 512));
+        $updatedAt = $article->getUpdatedAt();
+        if (null !== $updatedAt) {
+            $updatedAt = $updatedAt->format(\DateTime::W3C);
+        }
+
+        return self::CACHE_KEY_GEO_IP.sha1($updatedAt.$article->getId().$ipAddress.json_encode($geoIpPlaces, JSON_THROW_ON_ERROR, 512));
     }
 }

@@ -1,10 +1,75 @@
 
-CHANGELOG for version <= 1.5.x
+CHANGELOG for version <= 2.1.x
 ==============================
 
-This changelog references the relevant changes (bug and security fixes) done in <= 1.1 minor versions.
+This changelog references the relevant changes (bug and security fixes) done in <= 2.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
+
+### 2.1
+* feature [#1177] Added support for photo license 
+* fix [#1179] Fix _swp_analytics and sorting by page views
+* fix [#1175] added article updated at timestamp to geo ip cache key
+* improvement [#1150] Improve full text search ES queries
+* fix [#1168] Attach article to content route on article publish
+* fix [#1170] set x-forwarded-for from x-real-ip header
+* feature [#1164] update to composer 2.0
+* feature [#1169] added byline to the analytics export
+* feature [#1167] get the author with the most articles
+* feature [#1163] Add term suggestion to search results
+* fix [#1155] catch fb ia exception and log it
+* fix [#1151] fixed aws url generator
+* fix fix docker installation guide url in manual
+* fix [#1149] fix route name to prevent duplication conflict after fixtures on theme load
+* fix [#1147] publish articles to fbia when clearly stated
+* fix [#1146] fixed awss3 adapter
+* fix [#1114] move api docs to openapi3 format and remove nelmio api bundle annotations from controllers
+* feature [#1145] Split asset url resolvers
+* fix [#1144] added migration - route description field
+* feature [#1142] FUN-34 - add copyright notice
+* feature [#1141] FUN-33 - add description to route
+* improvement [#1140] improve article metadata matching against list criteria
+* feature [#1139] configure messenger routing keys
+* fix [#1137] check if metadata exist before removing
+* fix [#1136] fixed filtering by multiple services and subjects
+* fix [#1135] delete the format from the scheme
+* fix [#1133] allow to paginate the list of menus in API
+* fix [#1134] use throwable instead of exception, added retryOnConflict in ES config
+* fix [#1132] change item headline to text
+* fix [#1131] apple news layout improvements
+* feature [#1130] exposed place in packages listing
+* fix [#1129] allow to reset apple news config
+* feature [#1123] Rewrite metadata
+* feature [#1119] Redirect to dynamic route after successful login
+* fix expose twitterMedia and ogMedia values in the seoMetadata object in twig
+* feature [#1122] exposed profile field in article metadata
+* fix [#1116] throw exception when theme installation fails
+* improvement [#1112] improve errors messages for tenant not found and issues on connection with superdesk
+* improvement [#1110] improve tenant create command
+* fix [#1113] Fix oauth endpoints for tests
+* fix [#1113] Replace implicit, hard coded, oauth endpoints with explicit endpoints from env
+* fix [#1108] Apple news quote, byline and url fixes
+* fix [#1107] apple news fixes
+* fix [#1105] set text/html as default response content type for template rendering result
+* fix [#1103] add docs for new original_url twig function
+* fix [#1102] fix content list items ordering
+* fix [#1102] add latest articles to content list when filter is empty on list update
+* fix [#1099] handle migrated article orginal url and redirect it to new article location
+* feature [#1093] pin articles on any position in content lists
+* improvement [#1096] bump dependencies to allow usage on php 7.4
+* fix [#1092] don't remove content list items when list is limited to 0
+* improvement [#1091] allow symfony 5 in settings and storage bundles
+* feature [#1086] Redirect old articles slugs to an existing article
+* fix [#1084] delete authors API endpoint
+* fix [#1085] set the host of the analytics report url
+* fix [#1083)] Fixed setting apple news config
+* feature [#1081] Apple News integration
+* feature [#1082] add limit parameter and better logging to broken embedded images remover
+* feature [#1080] add command to remove broken elements from articles body
+* improvement [#1079] use sync queues in dev env
+* fix [#1065] Fixed settings cache key, make default_language empty string
+* fix [#1064] set validator for headline min length
+* fix [#1063] fixed date times when null and export only published articles
 
 ### 2.1.0-RC
 
