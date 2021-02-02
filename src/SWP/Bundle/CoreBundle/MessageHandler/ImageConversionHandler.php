@@ -53,6 +53,8 @@ class ImageConversionHandler implements MessageHandlerInterface
 
     protected $entityManager;
 
+    protected $lockFactory;
+
     public function __construct(
         SerializerInterface $serializer,
         LoggerInterface $logger,
