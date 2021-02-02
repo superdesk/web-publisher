@@ -47,7 +47,9 @@ Navigation menu consists on menu items that can be either route based (Politics,
    :alt: 7) Manage webhooks
    :align: center
 
-Webhooks 
+Webhooks
+
+Webhooks are HTTP callbacks (with associated URLs) defined by the user. Some events trigger them. Superdesk Publisher uses webhooks to notify external applications when an event happens in Publisher. Those events are like when the editor publishes/unpublishes/updates the article when the website administrator creates a new route or creates a menu.
 
 .. image:: 08.png
    :alt: 8) Theme manager
