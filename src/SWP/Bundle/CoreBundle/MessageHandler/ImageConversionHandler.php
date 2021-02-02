@@ -20,6 +20,7 @@ use BadFunctionCallException;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use SWP\Bundle\CoreBundle\MessageHandler\Exception\LockConflictedException;
 use Symfony\Component\Lock\LockFactory;
 use Throwable;
 use function imagewebp;
