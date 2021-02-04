@@ -1,7 +1,7 @@
 Error log
 '''''''''
 
-As it's name already suggests, this screen is for listing eventual error that are appearing in process of publishing and manipulating articles. It is ment to be of informative nature for tech part of the team.
+As the name suggests, this screen is for listing potential errors that appear during the process of publishing and manipulating articles. It is meant to be informative for the tech part of the team.
 
 .. image:: 18.png
    :alt: Error log
