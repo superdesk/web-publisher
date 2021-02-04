@@ -32,7 +32,7 @@ final class PopulateArticleAuthorSlugListener
 
         // HACK: FIX: for not set created at
         if ($object instanceof TimestampableInterface && null === $object->getCreatedAt()) {
-            $object->setCreatedAt(new \DateTime());
+            //$object->setCreatedAt(new \DateTime());
         }
 
         if (!$object instanceof ArticleAuthorInterface) {
