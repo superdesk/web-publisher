@@ -1,7 +1,7 @@
 Navigation management
 =====================
 
-**Navigations** are menus that you can use on your websites. The advantage of creating them here (and not building the navigation menu only in the theme) is that it can later be managed via the Superdesk Publisher interface (meaning menu items added, removed and reordered) even by website editors, and not theme developers. 
+**Navigations** are menus that you can use on your websites. The advantage of creating them here (and not building the navigation menu only in the theme) is that they can later be managed via the Superdesk Publisher interface (meaning menu items added, removed and reordered) even by website editors, and not just theme developers. 
 
 .. image:: navigation-management-01.png
    :alt: Navigation management
