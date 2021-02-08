@@ -52,7 +52,7 @@ If :code:`content` have assigned custom template then it will always override ot
 How to change the Route/Article template name?
 ----------------------------------------------
 
-You can change default template name values for article and route with API calls (providing it on resource create or resource update calls).
+You can change default template name values for article and route either in *routes management*, or with API calls (providing it on resource create or resource update calls).
 
 Example resource update calls:
 
