@@ -107,13 +107,13 @@ fos_elastica:
                     properties:
                         id: { type: integer}
                         guid: { type: string, analyzer: swp_code_analyzer }
-                        headline: { type: string }
+                        headline: { type: string, analyzer: swp_folding_analyzer }
                         slugline: { type: string }
                         language: { type: string }
-                        description: { type: string }
-                        byline: { type: string }
+                        description: { type: string, analyzer: swp_folding_analyzer }
+                        byline: { type: string, analyzer: swp_folding_analyzer }
                         status: { type: string }
-                        source: { type: string }
+                        source: { type: string, analyzer: swp_folding_analyzer }
                         updatedAt:
                             type: date
                         organization:
