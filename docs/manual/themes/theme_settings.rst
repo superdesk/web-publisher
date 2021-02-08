@@ -77,12 +77,7 @@ How to display the current theme settings in templates?
     {# app/themes/<tenant_code>/<theme_name>/views/index.html.twig #}
     {{ themeSetting('primary_font_family') }} # will print "Roboto"
 
-<<<<<<< HEAD
-In development environment, if the theme's setting doesn't exists an exception will be thrown with a proper message that it does not exist.
-In production environment no exception will be thrown, the page will render normally.
-=======
-If the theme's setting doesn't exist, an exception will be thrown with a  message that it does not exist.
->>>>>>> 4299c6dc97f783891c6a42164727d214c9b500ce
+In development environment, if the theme's setting doesn't exists an exception will be thrown with a proper message that it does not exist. In production environment no exception will be thrown, the page will render normally.
 
 
 How to work with theme settings in the GUI
