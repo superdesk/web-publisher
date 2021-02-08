@@ -9,7 +9,6 @@ Publisher provides its own Twig functions and filters in addition to the
 Functions
 ---------
 
-- container_
 - gimme_ 
 - gimmelist_
 - redirects_
@@ -17,7 +16,6 @@ Functions
 - `knp-time-bundle`_
 
 
-.. _container: http://superdesk-publisher.readthedocs.io/en/latest/manual/templates_system/templates_features.html#container
 .. _gimme: http://superdesk-publisher.readthedocs.io/en/latest/manual/templates_system/templates_features.html#gimme
 .. _gimmelist: http://superdesk-publisher.readthedocs.io/en/latest/manual/templates_system/templates_features.html#gimmelist
 .. _redirects: http://superdesk-publisher.readthedocs.io/en/latest/manual/templates_system/templates_features.html#redirects

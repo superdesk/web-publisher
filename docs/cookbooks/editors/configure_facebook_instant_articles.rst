@@ -1,23 +1,22 @@
 Facebook Instant Articles Integration
 =====================================
 
-Superdesk Publisher have build in integration with Facebook Instant Articles. This cookbook describes all steps needed
-for proper configuration.
+Superdesk Publisher has built-in integration with Facebook Instant Articles. This cookbook describes all the steps needed for proper configuration.
 
 Step 1. Register Facebook Page and Application in Publisher
 ```````````````````````````````````````````````````````````
 
 .. note::
 
-  As at the moment of creation this documentation there is no UI in Superdesk for this feature, needed actions will   be described with CURL direct API calls.
+  As at the moment of writing this documentation there is no UI in Superdesk for this feature, needed actions will be described with CURL direct API calls.
 
 .. note::
 
-  Publisher API request require authentication. Read more about this here: :doc:`../../internal_api/authentication`
+  Any Publisher API request requires authentication. Read more about this here: :doc:`../../internal_api/authentication`
 
-Instant Articles are strongly connected with Facebook Page. To start you need to enable that feature in Your Facebook Page settings. After that call our API to register that page in Publusher.
+Instant Articles are strongly connected with a Facebook Page. To start you need to enable that feature in Your Facebook Page settings. Once this is set up,  call our API to register that page in Publisher.
 
-**Facebook Page** can be registered in Publisher with REST API :code:`/api/{version}/facebook/pages/` POST request.
+A **Facebook Page** can be registered in Publisher with a REST API :code:`/api/{version}/facebook/pages/` POST request.
 
 Required parameters:
 
@@ -28,9 +27,9 @@ Required parameters:
 
     curl -X POST 'http://webpublisher.dev/api/v1/facebook/pages/' -H 'Origin: http://webpublisher.dev' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Accept: */*' -H 'Connection: keep-alive' -H 'DNT: 1' -d "facebook_page[pageId]=1234567890987654321&facebook_page[name]=Test Page" --compressed
 
-Next step is registering Facebook Application (You need to create it first on Facebook Platform). Application is used for retrieving :code:`never expired access token` - it will be used by Publisher in Facebook API calls.
+The next step is registering the Facebook Application (You need to create it first on the Facebook Platform). The application is used for retrieving :code:`never expired access token` - it will be used by Publisher in Facebook API calls.
 
-**Facebook Application** can be registered in Publisher with REST API :code:`/api/{version}/facebook/applications/` POST request.
+**Facebook Application** can be registered in Publisher with a REST API :code:`/api/{version}/facebook/applications/` POST request.
 
 Required parameters:
 
@@ -49,12 +48,12 @@ Step 2. Facebook Page/Application authentication
 Step 3. Create Content List (bucket)
 ````````````````````````````````````
 
-In most of the cases you don't want to push everything to Instant Articles. Publisher allows to define rules for articles
-selected for Instant Articles publication. This solution is based on Content Lists. Content list allows You to define
-custom criteria and check them on every published article - if article matches criteria then it's added to that Content
+In most cases you wouldn't want to push everything to Instant Articles. Publisher allows you to define rules for articles
+selected for Instant Articles publication. This solution is based on Content Lists. Content lists allow you to define
+custom criteria and apply them to every published article - if an article matches the criteria it's added to that Content
 List and automatically published to Instant Articles.
 
-Content List can be created in Publisher with REST API :code:`/api/{version}/content/lists/` POST request.
+Content Lists can be created in Publisher with a REST API :code:`/api/{version}/content/lists/` POST request.
 
 Required parameters:
 
@@ -71,10 +70,10 @@ This list don't have :code:`expression` parameter defined so it will catch all p
 Step 3. Create Feed
 ```````````````````
 
-Feed's are used to connecting Facebook Pages and Content Lists. Thanks to them, you can send selected articles to different
+Feeds are used to connect Facebook Pages and Content Lists. With them, you can send selected articles to different
 Facebook Pages.
 
-Feed can be created in Publisher with REST API :code:`/api/{version}/facebook/instantarticles/feed/` POST request.
+Feeds can be created in Publisher with a REST API :code:`/api/{version}/facebook/instantarticles/feed/` POST request.
 
 Required parameters:
 
@@ -90,11 +89,11 @@ Required parameters:
 Step 4. Create Instant Article template
 ```````````````````````````````````````
 
-Instant Article is created from parsed template file. Look and feel of Instant Article can be controlled by templates files
-in theme. File must be located here: :code:`views\platforms\facebook_instant_article.html.twig`. Publisher autmatically
+An Instant Article is created from parsed template file. The look and feel of Instant Articles can be controlled by template files
+in the theme. That file must be located here: :code:`views\platforms\facebook_instant_article.html.twig`. Publisher autmatically
 attaches current article meta like in regular page template (remember that there is :code:`gimme.route` set in this case).
 
-Minimal code for Instant Article templates need to look like that:
+Minimal code for Instant Article templates needs to look like this:
 
 .. code-block:: twig
 
@@ -115,9 +114,9 @@ Minimal code for Instant Article templates need to look like that:
         </body>
     </html>
 
-HTML code of article body (:code:`gimme.article.body`) will be parsed by :code:`Transformer`. Transformer will try to match
-html elements to Instant Articles tags (for example images). If he will not recognize some elements then they will be
-removed. You can preview how You template works with currently published articles here: :code:`/facebook/instantarticles/preview/{articleId}`.
+The HTML code of the article body (:code:`gimme.article.body`) will be parsed by :code:`Transformer`. Transformer will try to match
+html elements to Instant Articles tags (for example images). If it does not recognize some elements they will be
+removed. You can preview how your template works with currently published articles here: :code:`/facebook/instantarticles/preview/{articleId}`.
 
 .. note::
 

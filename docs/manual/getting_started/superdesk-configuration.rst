@@ -80,7 +80,20 @@ Schema configuration possibilities for content profile are numerous; this is the
 
 Every of these fields can be fine-tuned to suite your needs - from *length*, *formatting* options and *order*, to *setting its mandatoryness* on or off and *clean paste html* for example. We encourage you to explore these possibilities on your own!
 
-Keep in mind that Superdesk can also deliver **content packages** to outside world. And package can be combination of more content items, every one of different profile.
+On top of this, content profile definition can also contain *custom vocabularies* - metadata categories that are manually created and that consist of custom items. So content profile can be tailored by even the most specific needs.
+
+Content templates
+-----------------
+
+.. image:: superdesk-configuration-09.png
+   :alt: Content templates
+   :align: center
+
+When content profile is created, system automatically creates content template with the same name and based on content profile definition. Content templates are used to predefine some values in article edit screen; for example genre field can be pre-populated with value 'Interview' and targeted subscriber set to our online publication.
+
+One content profile might have several content templates based on it - for example if we have general content profile 'Creative', we can then divide it further using content templates to 'Gallery', 'Audio' and 'Cartoon'. 
+
+Content profiles and templates can be tightly integrated into desks, by defining default values in desks. This way, in desk 'Audio content', default profile can be set to Creative and template to Audio, so anybody creating content in that desk will already have predefined article form. 
 
 Publish
 -------
