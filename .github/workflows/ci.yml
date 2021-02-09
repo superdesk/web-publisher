@@ -125,7 +125,9 @@ jobs:
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
 
       - name: Populate Elasticsearch index
-        run: php bin/console fos:elastica:populate --env=test
+        run: |
+          curl -XDELETE http://127.0.0.1:9200/swp_index-test
+          php bin/console fos:elastica:populate --env=test
 
       - name: Run PHPSpec
         run: ./bin/phpspec run

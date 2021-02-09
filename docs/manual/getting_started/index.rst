@@ -9,8 +9,6 @@ The Superdesk Publisher themes system is built on fast, flexible and easy-to-use
    installing-publisher
    superdesk-superdesk-publisher-setup
    publisher-configuration
-   setting-up
-   superdesk-configuration
    managing-websites-routes
    navigation-management
    image-formats

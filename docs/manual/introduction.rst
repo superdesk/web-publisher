@@ -4,7 +4,7 @@ Introduction
 Why choose Publisher?
 ---------------------
 
-If your organisation already creates and produces content in Superdesk, Publisher is built to work with it natively. If not, but your back-end system or systems are still fit for purpose and your need is to manage a portfolio of digital assets (from multiple websites to apps to social feeds), Superdesk Publisher can be integrated with your legacy tools until their deprecation and replacement.
+If your organisation already creates and produces content in Superdesk, Publisher is built to work with it natively. If you are not using Superdesk, but your back-end system or systems are still fit for purpose and your need is to manage a portfolio of digital assets (from multiple websites to apps to social feeds), Superdesk Publisher can be integrated with your legacy tools until their deprecation and replacement.
 
 
 What is Publisher’s focus?
@@ -19,7 +19,7 @@ What is Publisher’s focus?
 How is Publisher structured?
 ----------------------------
 
-This graphic shows how the Publisher is configured.
+This graphic shows how Publisher is configured.
 
 .. image:: publisher-architecture.png
     :align: center
@@ -35,15 +35,13 @@ Notable features
 
 - Multitenancy
 - Built-in support for reverse proxy caching (Varnish, Nginx, internal system as a fallback)
-- Live-site management
-- Widget support (managed by editors)
-- WebSocket communication handling, mainly to refresh views
+- Twig or PWA theme support
 
 
 Website architecture
 --------------------
 
-A basic theme must have the following structure:
+A basic Twig theme must have the following structure:
 
 .. code-block:: bash
 

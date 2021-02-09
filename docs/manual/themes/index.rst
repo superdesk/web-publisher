@@ -9,6 +9,5 @@ Themes
    assets
    translations
    amp
-   theme_logo
    theme_settings
    example_themes

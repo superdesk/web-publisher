@@ -33,6 +33,7 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 abstract class AbstractContentPushHandler implements MessageHandlerInterface
@@ -51,6 +52,8 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
 
     protected $packageHydrator;
 
+    protected $lockFactory;
+
     public function __construct(
         LoggerInterface $logger,
         PackageRepository $packageRepository,
@@ -59,7 +62,8 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         EntityManagerInterface $packageObjectManager,
         TenantContextInterface $tenantContext,
         HubInterface $sentryHub,
-        PackageHydratorInterface $packageHydrator
+        PackageHydratorInterface $packageHydrator,
+        LockFactory $lockFactory
     ) {
         $this->logger = $logger;
         $this->packageRepository = $packageRepository;
@@ -69,11 +73,18 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         $this->tenantContext = $tenantContext;
         $this->sentryHub = $sentryHub;
         $this->packageHydrator = $packageHydrator;
+        $this->lockFactory = $lockFactory;
     }
 
     public function execute(int $tenantId, PackageInterface $package): void
     {
+        $lock = $this->lockFactory->createLock($this->generateLockId($package->getGuid()), 120);
+
         try {
+            if (!$lock->acquire()) {
+                throw new LockConflictedException();
+            }
+
             $this->doExecute($tenantId, $package);
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
             $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
@@ -93,6 +104,11 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         } finally {
             $this->reset();
         }
+    }
+
+    private function generateLockId(string $guid): string
+    {
+        return md5(json_encode(['type' => 'package', 'guid' => $guid]));
     }
 
     private function doExecute(int $tenantId, PackageInterface $package): void
