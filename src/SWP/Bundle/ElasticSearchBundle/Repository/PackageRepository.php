@@ -155,6 +155,7 @@ class PackageRepository extends Repository
 
         $query = Query::create($functionScore)
             ->addSort([
+                '_score' => 'desc',
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 
