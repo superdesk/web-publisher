@@ -87,6 +87,13 @@ class ArticleLoaderTest extends WebTestCase
         self::assertCount(1, $articles);
         self::assertTrue(1 === $articles->getTotalItemsCount());
 
+        $articles = $this->articleLoader->load('articles', ['extra' => ['rafal-embed' => [
+            'embed' => 'embed link',
+            'description' => "Shakin' Stevens"
+        ]]], [], LoaderInterface::COLLECTION);
+        self::assertCount(1, $articles);
+        self::assertTrue(1 === $articles->getTotalItemsCount());
+
         $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], [], LoaderInterface::COLLECTION);
         self::assertCount(5, $articles);
         self::assertTrue(5 === $articles->getTotalItemsCount());

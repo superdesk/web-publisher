@@ -10,11 +10,11 @@ fos_elastica:
             default:
               type: custom
               tokenizer: standard
-              filter: [lowercase, swp_ascii_folding]
+              filter: [ lowercase, swp_ascii_folding ]
             swp_code_analyzer:
               type: custom
               tokenizer: whitespace
-              filter: [lowercase]
+              filter: [ lowercase ]
             swp_author_name_analyzer:
               type: custom
               tokenizer: keyword
@@ -24,7 +24,7 @@ fos_elastica:
             swp_folding_analyzer:
               type: custom
               tokenizer: standard
-              filter: [lowercase, swp_ascii_folding]
+              filter: [ lowercase, swp_ascii_folding ]
             swp_edge_ngram_analyzer:
               type: custom
               tokenizer: standard
@@ -34,11 +34,11 @@ fos_elastica:
               preserve_original: true
 
       properties:
-        id: { type: integer}
+        id: { type: integer }
         code: { type: text, analyzer: swp_code_analyzer }
         title: { type: text, analyzer: swp_folding_analyzer }
         body: { type: text, analyzer: swp_folding_analyzer }
-        lead: { type: text, analyzer: swp_folding_analyzer}
+        lead: { type: text, analyzer: swp_folding_analyzer }
         slug: { type: text }
         status: { type: text }
         located:
@@ -80,8 +80,19 @@ fos_elastica:
             name: { type: text, analyzer: swp_folding_analyzer }
             biography: { type: text, analyzer: swp_folding_analyzer }
             slug: { type: text, analyzer: swp_folding_analyzer }
-        extra:
-          type: object
+        extraTextFields:
+          type: "nested"
+          properties:
+            id: { type: integer }
+            fieldName: { type: text, analyzer: swp_folding_analyzer }
+            value: { type: text, analyzer: swp_folding_analyzer }
+        extraEmbedFields:
+          type: "nested"
+          properties:
+            id: { type: integer }
+            fieldName: { type: text, analyzer: swp_folding_analyzer }
+            embed: { type: text, analyzer: swp_folding_analyzer }
+            description: { type: text, analyzer: swp_folding_analyzer }
         articleStatistics:
           type: 'object'
           properties:
@@ -103,21 +114,21 @@ fos_elastica:
             default:
               type: custom
               tokenizer: standard
-              filter: [lowercase, swp_ascii_folding]
+              filter: [ lowercase, swp_ascii_folding ]
             swp_code_analyzer:
               type: custom
               tokenizer: whitespace
-              filter: [lowercase]
+              filter: [ lowercase ]
             swp_folding_analyzer:
               type: custom
               tokenizer: standard
-              filter: [lowercase, swp_ascii_folding]
+              filter: [ lowercase, swp_ascii_folding ]
           filter:
             swp_ascii_folding:
               type: 'asciifolding'
               preserve_original: true
       properties:
-        id: { type: integer}
+        id: { type: integer }
         guid: { type: text, analyzer: swp_code_analyzer }
         headline: { type: text }
         slugline: { type: text }
@@ -135,7 +146,7 @@ fos_elastica:
         articles:
           type: 'nested'
           properties:
-            id: { type: integer}
+            id: { type: integer }
             code: { type: text, analyzer: swp_code_analyzer }
             title: { type: text }
             body: { type: text }
@@ -190,7 +201,7 @@ fos_elastica:
               type: 'edge_ngram'
               min_gram: 3
               max_gram: 20
-              token_chars: ['letter', 'digit']
+              token_chars: [ 'letter', 'digit' ]
       properties:
         id: { type: integer }
         slug: { type: text }

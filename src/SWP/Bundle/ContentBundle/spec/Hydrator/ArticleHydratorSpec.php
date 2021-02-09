@@ -92,7 +92,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $data->setProfile('profile');
         $metadataFactory->createFrom(Argument::type('array'))->willReturn($data);
 
-        $article->setExtra($extra)->shouldBeCalled();
+        $article->setExtraFields($extra)->shouldBeCalled();
         $article->getData()->willReturn(null);
         $article->setData($data)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
@@ -152,7 +152,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
 
         $article->getData()->willReturn(null);
         $article->setData($data)->shouldBeCalled();
-        $article->setExtra($extra)->shouldBeCalled();
+        $article->setExtraFields($extra)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->getSlug()->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();

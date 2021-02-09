@@ -1,0 +1,20 @@
+SWP\Bundle\ContentBundle\Model\ArticleExtraField:
+    type: entity
+    table: swp_article_extra
+    inheritanceType: SINGLE_TABLE
+    discriminatorColumn:
+        name: discr
+        type: string
+    discriminatorMap:
+        text: SWP\Bundle\ContentBundle\Model\ArticleExtraTextField
+        embed: SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedField
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        fieldName:
+            type: string
+            nullable: false
