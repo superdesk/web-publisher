@@ -84,15 +84,15 @@ fos_elastica:
           type: "nested"
           properties:
             id: { type: integer }
-            fieldName: { type: text }
-            value: { type: text }
+            fieldName: { type: text, analyzer: swp_folding_analyzer }
+            value: { type: text, analyzer: swp_folding_analyzer }
         extraEmbedFields:
           type: "nested"
           properties:
             id: { type: integer }
-            fieldName: { type: text }
-            embed: { type: text }
-            description: { type: text }
+            fieldName: { type: text, analyzer: swp_folding_analyzer }
+            embed: { type: text, analyzer: swp_folding_analyzer }
+            description: { type: text, analyzer: swp_folding_analyzer }
         articleStatistics:
           type: 'object'
           properties:
