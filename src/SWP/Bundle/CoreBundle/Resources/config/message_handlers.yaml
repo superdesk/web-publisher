@@ -9,6 +9,7 @@ services:
         exclude: '../../MessageHandler/Message/*'
         bind:
             $jsonToPackageTransformer: '@swp_bridge.transformer.json_to_package'
+            $lockFactory: '@lock.factory'
 
     SWP\Bundle\CoreBundle\MessageHandler\AnalyticsEventHandler:
         arguments:
