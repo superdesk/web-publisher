@@ -18,9 +18,10 @@ namespace SWP\Bundle\UserBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-interface UserInterface extends PersistableInterface, TimestampableInterface, BaseUserInterface
+interface UserInterface extends PersistableInterface, TimestampableInterface, BaseUserInterface, EquatableInterface
 {
     public const ROLE_DEFAULT = 'ROLE_USR';
 

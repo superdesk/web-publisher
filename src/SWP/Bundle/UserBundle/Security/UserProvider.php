@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Security;
 
 use SWP\Bundle\CoreBundle\Model\User;
+use SWP\Bundle\UserBundle\Model\User as BaseUser;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -80,7 +81,7 @@ class UserProvider implements UserProviderInterface
     {
         $userClass = $this->userManager->getClass();
 
-        return $userClass === $class || is_subclass_of($class, $userClass) || User::class === $userClass;
+        return $userClass === $class || is_subclass_of($class, $userClass) || User::class === $userClass || $class === BaseUser::class;
     }
 
     /**

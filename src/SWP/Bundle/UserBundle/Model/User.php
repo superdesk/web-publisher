@@ -18,6 +18,7 @@ namespace SWP\Bundle\UserBundle\Model;
 
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\TimestampableTrait;
+use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 class User implements UserInterface
 {
@@ -272,5 +273,10 @@ class User implements UserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    public function isEqualTo(BaseUserInterface $user)
+    {
+        return $user->getUsername() === $this->getUsername();
     }
 }
