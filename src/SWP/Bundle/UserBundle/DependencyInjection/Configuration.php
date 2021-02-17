@@ -68,7 +68,7 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()
-                                    ->arrayNode('resetpasswordrequest')
+                                    ->arrayNode('reset_password_request')
                                         ->addDefaultsIfNotSet()
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(ResetPasswordRequest::class)->end()
