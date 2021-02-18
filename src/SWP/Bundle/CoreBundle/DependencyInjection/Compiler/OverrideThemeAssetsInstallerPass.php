@@ -26,7 +26,7 @@ final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
     {
         $this->overrideDefinitionClassIfExists(
             $container,
-            'sylius.theme.asset.assets_installer',
+            AssetsInstaller::class,
             AssetsInstaller::class
         );
     }

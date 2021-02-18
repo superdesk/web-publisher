@@ -61,7 +61,6 @@ class Theme extends BaseTheme implements ThemeInterface
         if ($tempName = strstr($name, ThemeHelper::SUFFIX_SEPARATOR, true)) {
             $name = $tempName;
         }
-
         parent::__construct($name, $path);
     }
 
