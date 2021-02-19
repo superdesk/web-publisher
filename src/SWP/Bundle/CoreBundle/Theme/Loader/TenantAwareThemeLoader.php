@@ -127,6 +127,7 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
 
             $theme->setTitle($configuration['title'] ?? null);
             $theme->setDescription($configuration['description'] ?? null);
+            $theme->setName($configuration['name']);
 
             //$parentThemes = $this->convertParentsNamesToParentsObjects($configuration['name'], $configuration['parents'], $themes);
             foreach ($configuration['parents'] as $parentTheme) {
@@ -142,7 +143,6 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
             foreach ($configuration['screenshots'] as $themeScreenshot) {
                 $theme->addScreenshot($themeScreenshot);
             }
-
             $themes[$themeName] = $theme;
 
             //$themes[$themeName] = $this->themeHydrator->hydrate($configuration, $themes[$themeName]);
