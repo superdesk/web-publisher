@@ -16,13 +16,13 @@ services:
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 
-    sylius.theme.locator.application_resource:
+    Sylius\Bundle\ThemeBundle\Twig\Locator\ApplicationTemplateLocator:
         class: SWP\Bundle\CoreBundle\Locator\ApplicationResourceLocator
         arguments:
             - "@filesystem"
             - "@swp_core.detection.device_detection"
 
-    sylius.theme.locator.bundle_resource:
+    Sylius\Bundle\ThemeBundle\Twig\Locator\NamespacedTemplateLocator:
         class: SWP\Bundle\CoreBundle\Locator\BundleResourceLocator
         arguments:
             - "@filesystem"
@@ -34,7 +34,7 @@ services:
         public: true
         arguments:
             - "@swp_multi_tenancy.tenant_context"
-            - "@sylius.repository.theme"
+            - '@Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface'
             - "@doctrine_cache.providers.main_cache"
 
     swp_core.resources_list_response_listener:
@@ -66,7 +66,7 @@ services:
     swp_core.provider.theme:
         class: SWP\Bundle\CoreBundle\Theme\Provider\ThemeProvider
         arguments:
-            - '@sylius.repository.theme'
+            - '@Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface'
             - '@swp_multi_tenancy.tenant_context'
 
     swp_core.uploader.theme:
@@ -108,7 +108,7 @@ services:
             - '@swp_core.processor.theme.required_data'
             - '%kernel.cache_dir%'
             - '@swp_multi_tenancy.tenant_context'
-            - '@sylius.repository.theme'
+            - '@Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface'
             - '@swp_core.theme.context.tenant_aware'
             - '@swp.repository.tenant'
 
@@ -152,9 +152,9 @@ services:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader
         arguments:
             - '@swp_core.organization.theme.configuration.provider'
-            - '@sylius.factory.theme'
-            - '@sylius.factory.theme_author'
-            - '@sylius.factory.theme_screenshot'
+            - '@Sylius\Bundle\ThemeBundle\Factory\ThemeFactoryInterface'
+            - '@Sylius\Bundle\ThemeBundle\Factory\ThemeAuthorFactoryInterface'
+            - '@Sylius\Bundle\ThemeBundle\Factory\ThemeScreenshotFactoryInterface'
             - '@Sylius\Bundle\ThemeBundle\Loader\CircularDependencyCheckerInterface'
 
     swp_core.security.session.domain_dynamic_storage:
@@ -250,11 +250,10 @@ services:
 
     swp.loader.amp_theme:
         class: SWP\Bundle\CoreBundle\Theme\AmpThemeLoader
-        public: false
         arguments:
             - "@twig.loader.filesystem"
             - "@swp_core.theme.context.tenant_aware"
-            - "@sylius.theme.hierarchy_provider"
+            - '@Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface'
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
     swp.twig.cache.tenant_aware:
@@ -759,7 +758,7 @@ services:
             - '@swp.factory.article_statistics'
             - '@swp.object_manager.article'
 
-    #Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
+#    //Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
 
     SWP\Bundle\CoreBundle\Service\SeoImageUploader:
         arguments:

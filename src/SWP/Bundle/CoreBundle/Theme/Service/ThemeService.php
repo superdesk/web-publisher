@@ -83,7 +83,7 @@ final class ThemeService implements ThemeServiceInterface
         RequiredDataProcessorInterface $requiredDataProcessor,
         string $cacheDir,
         TenantContextInterface $tenantContext,
-        ReloadableThemeRepositoryInterface $themeRepository,
+        \Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface $themeRepository,
         TenantAwareThemeContextInterface $themeContext,
         TenantRepositoryInterface $tenantRepository
     ) {

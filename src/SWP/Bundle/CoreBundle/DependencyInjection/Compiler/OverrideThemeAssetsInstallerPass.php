@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
+use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstaller as BaseAssetInstaller;
 use SWP\Bundle\CoreBundle\Theme\Asset\AssetsInstaller;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -26,7 +27,7 @@ final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
     {
         $this->overrideDefinitionClassIfExists(
             $container,
-            AssetsInstaller::class,
+            BaseAssetInstaller::class,
             AssetsInstaller::class
         );
     }

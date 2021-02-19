@@ -22,7 +22,7 @@ class PathResolver implements PathResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolve(string $path, ThemeInterface $theme): string
+    public function resolve(string $path, string $basePath, ThemeInterface $theme): string
     {
         return str_replace('theme/', 'bundles/_themes/'.$theme->getName().'/', $path);
     }
