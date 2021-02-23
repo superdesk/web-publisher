@@ -21,6 +21,8 @@ services:
         arguments:
             - "@filesystem"
             - "@swp_core.detection.device_detection"
+        tags:
+            - { name: sylius_theme.twig.template_locator }
 
     Sylius\Bundle\ThemeBundle\Twig\Locator\NamespacedTemplateLocator:
         class: SWP\Bundle\CoreBundle\Locator\BundleResourceLocator
@@ -28,6 +30,8 @@ services:
             - "@filesystem"
             - "@kernel"
             - "@swp_core.detection.device_detection"
+        tags:
+            - { name: sylius_theme.twig.template_locator }
 
     swp_core.theme.context.tenant_aware:
         class: SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContext

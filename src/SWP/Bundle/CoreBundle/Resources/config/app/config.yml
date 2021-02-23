@@ -142,6 +142,8 @@ sylius_theme:
     context: "swp_core.theme.context.tenant_aware"
     sources:
         tenantable: ~
+#    legacy_mode: true
+
 
 fos_user:
     db_driver: orm

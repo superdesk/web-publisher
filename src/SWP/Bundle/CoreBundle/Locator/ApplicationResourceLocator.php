@@ -15,12 +15,12 @@
 namespace SWP\Bundle\CoreBundle\Locator;
 
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
-use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
-use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
+//use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
+//use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ApplicationResourceLocator implements ResourceLocatorInterface
+class ApplicationResourceLocator //implements ResourceLocatorInterface
 {
     /**
      * @var Filesystem
@@ -44,7 +44,7 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locateResource(string $resourceName, ThemeInterface $theme): string
+    public function locate(string $resourceName, ThemeInterface $theme): string
     {
         if (null !== $this->deviceDetection->getType()) {
             $path = sprintf('%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
@@ -53,11 +53,16 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
             }
         }
 
-        $path = sprintf('%s/%s', $theme->getPath(), $resourceName);
+        $path = sprintf('%s/templates/%s', $theme->getPath(), $resourceName);
         if (!$this->filesystem->exists($path)) {
-            throw new ResourceNotFoundException($resourceName, $theme);
+            //throw new ResourceNotFoundException($resourceName, $theme);
         }
 
         return $path;
+    }
+
+    public function supports(string $template): bool
+    {
+        return strpos($template, '@') !== 0;
     }
 }

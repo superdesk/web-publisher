@@ -49,7 +49,7 @@ final class TenantThemesConfigurationFileLocator implements FileLocatorInterface
         $this->assertNameIsNotEmpty($name);
 
         $found = false;
-        foreach ($this->tenantThemesPathsProvider->getTenantThemesPaths($this->paths) as $path) {
+            foreach ($this->tenantThemesPathsProvider->getTenantThemesPaths($this->paths) as $path) {
             try {
                 $finder = $this->finderFactory->create();
                 $finder
