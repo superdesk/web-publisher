@@ -15,12 +15,11 @@
 namespace SWP\Bundle\CoreBundle\Locator;
 
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
-//use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
-//use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
+use Sylius\Bundle\ThemeBundle\Twig\Locator\TemplateNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ApplicationResourceLocator //implements ResourceLocatorInterface
+class ApplicationResourceLocator
 {
     /**
      * @var Filesystem
@@ -53,9 +52,9 @@ class ApplicationResourceLocator //implements ResourceLocatorInterface
             }
         }
 
-        $path = sprintf('%s/templates/%s', $theme->getPath(), $resourceName);
+        $path = sprintf('%s/views/%s', $theme->getPath(), $resourceName);
         if (!$this->filesystem->exists($path)) {
-            //throw new ResourceNotFoundException($resourceName, $theme);
+            throw new TemplateNotFoundException($resourceName, []);
         }
 
         return $path;
