@@ -46,7 +46,7 @@ class ApplicationResourceLocator
     public function locate(string $resourceName, ThemeInterface $theme): string
     {
         if (null !== $this->deviceDetection->getType()) {
-            $path = sprintf('%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
+            $path = sprintf('%s/%s/views/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
             if ($this->filesystem->exists($path)) {
                 return $path;
             }
