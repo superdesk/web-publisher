@@ -145,6 +145,9 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
             }
             $themes[$themeName] = $theme;
 
+            if(isset($configuration['generatedData'])) {
+                $theme->setGeneratedData($configuration['generatedData']);
+            }
             //$themes[$themeName] = $this->themeHydrator->hydrate($configuration, $themes[$themeName]);
         }
 

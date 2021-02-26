@@ -77,4 +77,6 @@ interface ThemeInterface extends BaseThemeInterface, \Serializable
      * @param string|null $path
      */
     public function setLogoPath(?string $path): void;
+
+    public function setGeneratedData(array $data): void;
 }

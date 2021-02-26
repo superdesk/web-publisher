@@ -160,6 +160,11 @@ class Theme extends BaseTheme implements ThemeInterface
         return null !== $this->logo;
     }
 
+    public function setGeneratedData(array $generatedData): void
+    {
+        $this->generatedData = $generatedData;
+    }
+
     /**
      * {@inheritdoc}
      */
