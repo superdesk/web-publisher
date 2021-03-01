@@ -1,166 +1,216 @@
 fos_elastica:
-    clients:
-        default: { host: '%env(ELASTICA_HOST)%', port: '%env(ELASTICA_PORT)%', retryOnConflict: 5 }
-    indexes:
-        swp:
-            index_name: '%env(ELASTICA_INDEX_NAME)%'
-            settings:
-                analysis:
-                    analyzer:
-                        default:
-                            type: custom
-                            tokenizer: standard
-                            filter: [lowercase, swp_ascii_folding]
-                        swp_code_analyzer:
-                            type: custom
-                            tokenizer: whitespace
-                            filter: [lowercase]
-                        swp_author_name_analyzer:
-                            type: custom
-                            tokenizer: keyword
-                        swp_sources_analyzer:
-                            type: custom
-                            tokenizer: keyword
-                            filter: [standard]
-                        swp_folding_analyzer:
-                            type: custom
-                            tokenizer: standard
-                            filter: [lowercase, swp_ascii_folding]
-                        swp_edge_ngram_analyzer:
-                            type: custom
-                            tokenizer: standard
-                            filter: [ lowercase, swp_ascii_folding, swp_edge_ngram ]
-                    filter:
-                        swp_ascii_folding:
-                            type: 'asciifolding'
-                            preserve_original: true
-                        swp_edge_ngram:
-                            type: 'edge_ngram'
-                            min_gram: 3
-                            max_gram: 20
-                            token_chars: ['letter', 'digit']
-            types:
-                article:
-                    properties:
-                        id: { type: integer}
-                        code: { type: string, analyzer: swp_code_analyzer }
-                        title: { type: string, analyzer: swp_folding_analyzer }
-                        body: { type: string, analyzer: swp_folding_analyzer }
-                        lead: { type: string, analyzer: swp_folding_analyzer}
-                        slug: { type: string }
-                        status: { type: string }
-                        located:
-                            property_path: metadata[located]
-                        version:
-                            property_path: metadata[version]
-                        priority:
-                            property_path: metadata[priority]
-                        urgency:
-                            property_path: metadata[urgency]
-                        language:
-                            property_path: metadata[language]
-                        tenantCode: { type: string }
-                        isPublishable: { type: boolean }
-                        publishedAt:
-                            type: date
-                        updatedAt:
-                            type: date
-                        createdAt:
-                            type: date
-                        route:
-                            type: 'object'
-                            properties:
-                                name: { type: string }
-                                id: { type: integer }
-                        sources:
-                            type: 'nested'
-                            properties:
-                                name: { type: string, analyzer: swp_sources_analyzer }
-                        keywords:
-                            type: 'nested'
-                            include_in_root: true
-                            properties:
-                                name: { type: string, analyzer: swp_folding_analyzer }
-                        authors:
-                            type: 'nested'
-                            properties:
-                                id: { type: integer }
-                                name: { type: string, analyzer: swp_folding_analyzer }
-                                biography: { type: string, analyzer: swp_folding_analyzer }
-                                slug: { type: string, analyzer: swp_folding_analyzer }
-                        extra:
-                            type: object
-                        articleStatistics:
-                            type: 'object'
-                            properties:
-                                pageViewsNumber: { type: integer }
-                    persistence:
-                        driver: orm
-                        model: '%swp.model.article.class%'
-                        provider: ~
-                        finder: ~
-                        repository: SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository
-                        elastica_to_model_transformer:
-                            ignore_missing: true
-                package:
-                    properties:
-                        id: { type: integer}
-                        guid: { type: string, analyzer: swp_code_analyzer }
-                        headline: { type: string }
-                        slugline: { type: string }
-                        language: { type: string }
-                        description: { type: string }
-                        byline: { type: string }
-                        status: { type: string }
-                        source: { type: string }
-                        updatedAt:
-                            type: date
-                        organization:
-                            type: 'object'
-                            properties:
-                                id: { type: integer }
-                        articles:
-                            type: 'nested'
-                            properties:
-                                id: { type: integer}
-                                code: { type: string, analyzer: swp_code_analyzer }
-                                title: { type: string }
-                                body: { type: string }
-                                lead: { type: string }
-                                slug: { type: string }
-                                status: { type: string }
-                                tenantCode: { type: string }
-                                publishedAt:
-                                    type: date
-                                isPublishable: { type: boolean }
-                                route:
-                                    type: 'object'
-                                    properties:
-                                        name: { type: string }
-                                        id: { type: integer }
-                        authors:
-                            type: 'nested'
-                            properties:
-                                id: { type: integer }
-                                name: { type: string, analyzer: swp_folding_analyzer }
-                    persistence:
-                        driver: orm
-                        model: '%swp.model.package.class%'
-                        provider: ~
-                        finder: ~
-                        repository: SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository
-                        elastica_to_model_transformer:
-                            ignore_missing: true
-                author:
-                    properties:
-                        id: { type: integer}
-                        slug: { type: string }
-                        name: { type: string, analyzer: swp_edge_ngram_analyzer }
-                    persistence:
-                        driver: orm
-                        model: '%swp.model.author.class%'
-                        provider: ~
-                        finder: ~
-                        repository: SWP\Bundle\ElasticSearchBundle\Repository\AuthorRepository
-                        elastica_to_model_transformer:
-                            ignore_missing: true
+  clients:
+    default: { host: '%env(ELASTICA_HOST)%', port: '%env(ELASTICA_PORT)%' }
+  indexes:
+    swp_article:
+      index_name: '%env(ELASTICA_INDEX_NAME)%_article'
+      settings:
+        analysis:
+          analyzer:
+            default:
+              type: custom
+              tokenizer: standard
+              filter: [ lowercase, swp_ascii_folding ]
+            swp_code_analyzer:
+              type: custom
+              tokenizer: whitespace
+              filter: [ lowercase ]
+            swp_author_name_analyzer:
+              type: custom
+              tokenizer: keyword
+            swp_sources_analyzer:
+              type: custom
+              tokenizer: keyword
+            swp_folding_analyzer:
+              type: custom
+              tokenizer: standard
+              filter: [ lowercase, swp_ascii_folding ]
+            swp_edge_ngram_analyzer:
+              type: custom
+              tokenizer: standard
+          filter:
+            swp_ascii_folding:
+              type: 'asciifolding'
+              preserve_original: true
+
+      properties:
+        id: { type: integer }
+        code: { type: text, analyzer: swp_code_analyzer }
+        title: { type: text, analyzer: swp_folding_analyzer }
+        body: { type: text, analyzer: swp_folding_analyzer }
+        lead: { type: text, analyzer: swp_folding_analyzer }
+        slug: { type: text }
+        status: { type: text }
+        located:
+          property_path: metadata[located]
+        version:
+          property_path: metadata[version]
+        priority:
+          property_path: metadata[priority]
+        urgency:
+          property_path: metadata[urgency]
+        language:
+          property_path: metadata[language]
+        tenantCode: { type: text }
+        isPublishable: { type: boolean }
+        publishedAt:
+          type: date
+        updatedAt:
+          type: date
+        createdAt:
+          type: date
+        route:
+          type: 'object'
+          properties:
+            name: { type: text }
+            id: { type: integer }
+        sources:
+          type: 'nested'
+          properties:
+            name: { type: text, analyzer: swp_sources_analyzer }
+        keywords:
+          type: 'nested'
+          include_in_root: true
+          properties:
+            name: { type: text, analyzer: swp_folding_analyzer }
+        authors:
+          type: 'nested'
+          properties:
+            id: { type: integer }
+            name: { type: text, analyzer: swp_folding_analyzer }
+            biography: { type: text, analyzer: swp_folding_analyzer }
+            slug: { type: text, analyzer: swp_folding_analyzer }
+        extraTextFields:
+          type: "nested"
+          properties:
+            id: { type: integer }
+            fieldName: { type: text, analyzer: swp_folding_analyzer }
+            value: { type: text, analyzer: swp_folding_analyzer }
+        extraEmbedFields:
+          type: "nested"
+          properties:
+            id: { type: integer }
+            fieldName: { type: text, analyzer: swp_folding_analyzer }
+            embed: { type: text, analyzer: swp_folding_analyzer }
+            description: { type: text, analyzer: swp_folding_analyzer }
+        articleStatistics:
+          type: 'object'
+          properties:
+            pageViewsNumber: { type: integer }
+      persistence:
+        driver: orm
+        model: '%swp.model.article.class%'
+        provider: ~
+        finder: ~
+        repository: SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository
+        elastica_to_model_transformer:
+          ignore_missing: true
+
+    swp_package:
+      index_name: '%env(ELASTICA_INDEX_NAME)%_package'
+      settings:
+        analysis:
+          analyzer:
+            default:
+              type: custom
+              tokenizer: standard
+              filter: [ lowercase, swp_ascii_folding ]
+            swp_code_analyzer:
+              type: custom
+              tokenizer: whitespace
+              filter: [ lowercase ]
+            swp_folding_analyzer:
+              type: custom
+              tokenizer: standard
+              filter: [ lowercase, swp_ascii_folding ]
+          filter:
+            swp_ascii_folding:
+              type: 'asciifolding'
+              preserve_original: true
+      properties:
+        id: { type: integer }
+        guid: { type: text, analyzer: swp_code_analyzer }
+        headline: { type: text }
+        slugline: { type: text }
+        language: { type: text }
+        description: { type: text }
+        byline: { type: text }
+        status: { type: text }
+        source: { type: text }
+        updatedAt:
+          type: date
+        organization:
+          type: 'object'
+          properties:
+            id: { type: integer }
+        articles:
+          type: 'nested'
+          properties:
+            id: { type: integer }
+            code: { type: text, analyzer: swp_code_analyzer }
+            title: { type: text }
+            body: { type: text }
+            lead: { type: text }
+            slug: { type: text }
+            status: { type: text }
+            tenantCode: { type: text }
+            publishedAt:
+              type: date
+            isPublishable: { type: boolean }
+            route:
+              type: 'object'
+              properties:
+                name: { type: text }
+                id: { type: integer }
+        authors:
+          type: 'nested'
+          properties:
+            id: { type: integer }
+            name: { type: text, analyzer: swp_folding_analyzer }
+      persistence:
+        driver: orm
+        model: '%swp.model.package.class%'
+        provider: ~
+        finder: ~
+        repository: SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository
+        elastica_to_model_transformer:
+          ignore_missing: true
+
+    swp_author:
+      index_name: '%env(ELASTICA_INDEX_NAME)%_author'
+      settings:
+        analysis:
+          analyzer:
+            default:
+              type: custom
+              tokenizer: standard
+              filter: [ lowercase, swp_ascii_folding ]
+            swp_code_analyzer:
+              type: custom
+              tokenizer: whitespace
+              filter: [ lowercase ]
+            swp_edge_ngram_analyzer:
+              type: custom
+              tokenizer: standard
+              filter: [ lowercase, swp_ascii_folding, swp_edge_ngram ]
+          filter:
+            swp_ascii_folding:
+              type: 'asciifolding'
+              preserve_original: true
+            swp_edge_ngram:
+              type: 'edge_ngram'
+              min_gram: 3
+              max_gram: 20
+              token_chars: [ 'letter', 'digit' ]
+      properties:
+        id: { type: integer }
+        slug: { type: text }
+        name: { type: text, analyzer: swp_edge_ngram_analyzer }
+      persistence:
+        driver: orm
+        model: '%swp.model.author.class%'
+        provider: ~
+        finder: ~
+        repository: SWP\Bundle\ElasticSearchBundle\Repository\AuthorRepository
+        elastica_to_model_transformer:
+          ignore_missing: true

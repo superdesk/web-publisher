@@ -33,7 +33,7 @@
             "email": "mischa.gorinskat@sourcefabric.org"
         }
     ],
-    "license": "AGPL-3.0",
+    "license":"AGPL-3.0",
     "autoload": {
         "psr-4": {
             "SWP\\Bundle\\": "src/SWP/Bundle/",
@@ -41,16 +41,11 @@
             "SWP\\Bridge\\": "src/SWP/Bridge/",
             "SWP\\Behat\\": "src/SWP/Behat/"
         },
-        "exclude-from-classmap": [
-            "**/Tests/",
-            "**/spec/"
-        ],
-        "classmap": [
-            "src/Kernel.php"
-        ]
+        "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
+        "classmap": ["src/Kernel.php"]
     },
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "ext-curl": "*",
         "ext-dom": "*",
         "ext-gd": "*",
@@ -61,7 +56,7 @@
         "behat/transliterator": "^1.3",
         "burgov/key-value-form-bundle": "^1.6",
         "cboden/ratchet": "^0.4.2",
-        "doctrine/doctrine-bundle": "1.12.6",
+        "doctrine/doctrine-bundle": "~1.12",
         "doctrine/doctrine-cache-bundle": "1.3.*",
         "doctrine/doctrine-migrations-bundle": "^1.3",
         "doctrine/inflector": "^1.3",
@@ -69,7 +64,7 @@
         "emanueleminotto/twig-cache-bundle": "dev-master",
         "evenement/evenement": "^3.0",
         "facebook/facebook-instant-articles-sdk-php": "^v1.10",
-        "friendsofsymfony/elastica-bundle": "^5.1",
+        "friendsofsymfony/elastica-bundle": "^6.0.0-beta1",
         "friendsofsymfony/http-cache": "^2.9",
         "friendsofsymfony/http-cache-bundle": "^2.8",
         "friendsofsymfony/rest-bundle": "^2.7",
@@ -104,14 +99,13 @@
         "sensio/framework-extra-bundle": "^5.5",
         "sentry/sentry-symfony": "^3.4",
         "stof/doctrine-extensions-bundle": "^1.3",
-        "superdesk/contentapi-sdk-php": "^1.0.0",
         "sylius/theme-bundle": "^1.5",
         "symfony-cmf/core-bundle": "^2.1",
         "symfony-cmf/routing": "2.3.*, !=2.3.1",
         "symfony-cmf/routing-bundle": "^2.4",
         "symfony/dom-crawler": "^4.4",
         "symfony/dotenv": "^4.4",
-        "symfony/flex": "^1.6",
+        "symfony/flex": "^1.11",
         "symfony/framework-bundle": "^4.4",
         "symfony/lock": "^4.4",
         "symfony/mailer": "^4.4",
@@ -125,8 +119,6 @@
         "symfony/validator": "^4.4",
         "symfony/web-link": "^4.4",
         "symfony/yaml": "^4.4",
-        "symfonycasts/reset-password-bundle": "^1.3",
-        "symfonycasts/verify-email-bundle": "^1.1",
         "takeit/amp": "dev-master",
         "takeit/amp-html-bundle": "^1.0",
         "takeit/stringy": "dev-fix",
@@ -207,11 +199,11 @@
         "bin-dir": "bin",
         "sort-packages": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability":"dev",
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "2.1-dev"
+            "dev-master": "2.2-dev"
         }
     },
     "repositories": [
@@ -224,8 +216,7 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "security-checker security:check": "script"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }

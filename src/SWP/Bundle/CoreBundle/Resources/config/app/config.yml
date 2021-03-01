@@ -23,7 +23,6 @@ services:
             - { name: twig.extension }
 
 framework:
-    lock: 'memcached://%env(resolve:SESSION_MEMCACHED_HOST)%:%env(resolve:SESSION_MEMCACHED_PORT)%'
     session:
         storage_id: "swp_core.security.session.domain_dynamic_storage"
         handler_id: "session.handler.memcached"

@@ -29,10 +29,6 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         status:
             type: string
-        extra:
-            type: array
-            options:
-                default: 'a:0:{}'
         createdAt:
             type: datetime
             gedmo:
@@ -115,6 +111,20 @@ SWP\Bundle\ContentBundle\Model\Article:
             fetch: "EAGER"
             cascade: ["all"]
             orphanRemoval: true
+        extraTextFields:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleExtraTextFieldInterface
+            mappedBy: article
+            fetch: "EAGER"
+            cascade: [ "all" ]
+            orphanRemoval: true
+            indexBy: fieldName
+        extraEmbedFields:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedFieldInterface
+            mappedBy: article
+            fetch: "EAGER"
+            cascade: [ "all" ]
+            orphanRemoval: true
+            indexBy: fieldName
     manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface

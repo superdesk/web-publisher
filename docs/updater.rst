@@ -1,6 +1,0 @@
-Updater Bundle
-================
-
-Overview
---------
-

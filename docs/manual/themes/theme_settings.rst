@@ -1,7 +1,7 @@
 Theme Settings
 --------------
 
-Settings of a theme are defined in ``theme.json`` configuration file which should be present in every theme directory.
+Theme settings are defined in the ``theme.json`` configuration file which should be in every theme directory.
 
 An example of ``theme.json`` file with defined settings will look like:
 
@@ -53,14 +53,13 @@ An example of ``theme.json`` file with defined settings will look like:
         }
     }
 
-In the ``settings`` property of the JSON file are defined the default theme's settings.
+In the ``settings`` property of the JSON file you will find the default theme's settings.
 
-Each setting can be overridden by the API. See ``/settings/`` API endpoint for more details in the ``/api/doc`` route
-in your Superdesk Publisher instance.
+Each setting can be overridden through the Publisher settings interface or by the API (for this, see ``/settings/`` API endpoint for more details in the ``/api/doc`` route in your Superdesk Publisher instance).
 
-Read more about settings in :doc:`Settings </bundles/SWPSettingsBundle/settings_definitions>` chapter to find out more.
+Read more about settings in the :doc:`Settings </bundles/SWPSettingsBundle/settings_definitions>` chapter to find out more.
 
-Every setting is a JSON object which can contain the following properties:
+Every setting is a JSON object which may contain the following properties:
 
 - ``label`` - Setting's label, will be visible in API when defined,
 - ``value`` - Setting's value, will be visible in API when defined,
@@ -68,9 +67,9 @@ Every setting is a JSON object which can contain the following properties:
 - ``help`` - Settins's helper text.
 - ``options`` - an array of optional values that can be used to implement select box.
 
-Read more about theme's structure in :doc:`Themes </manual/themes/index>` chapter.
+Read more about theme structure in the :doc:`Themes </manual/themes/index>` chapter.
 
-How to display current theme's settings in templates?
+How to display the current theme settings in templates?
 `````````````````````````````````````````````````````
 
 .. code-block:: twig
@@ -78,19 +77,28 @@ How to display current theme's settings in templates?
     {# app/themes/<tenant_code>/<theme_name>/views/index.html.twig #}
     {{ themeSetting('primary_font_family') }} # will print "Roboto"
 
-In development environment, if the theme's setting doesn't exists an exception will be thrown with a proper message that it does not exist.
-In production environment no exception will be thrown, the page will render normally.
+In development environment, if the theme's setting doesn't exists an exception will be thrown with a proper message that it does not exist. In production environment no exception will be thrown, the page will render normally.
 
 
-How to display current theme's settings using API?
+How to work with theme settings in the GUI
+``````````````````````````````````````
+.. image:: website-settings.png
+   :alt: Theme customization
+   :align: cente
+
+In Publisher's Website management, after selecting your desired tenant (if there is more than one), the last 'tab' in horizontal navigation will be 'Theme customization'. This is a graphical representation of theme.json - all the fields and default settings you set there, are visible on this screen, and can be updated. 
+
+Based on these custom values, there are dialogues to manage up to three logos. It is meant to be be used for quick adjustments of example themes (header and footer logos, or maybe logo on inner pages if it is somehow different than the main one), but these custom upload files can be incorporated into the site in other ways; for example they can be used for graphical announcements / banners that are changed by site editors from time to time.
+
+How to display current theme's settings using an API?
 ``````````````````````````````````````````````````
 
-Theme's settings can be accessed by calling an ``/theme/settings/`` API endpoint using ``GET`` method.
+Theme settings can be accessed by calling an ``/theme/settings/`` API endpoint using ``GET`` method.
 
-How to update current theme's settings using API?
+How to update current theme settings using an API?
 `````````````````````````````````````````````````
 
-To update theme's settings using API, a ``PATCH`` request must be submitted to the ``/settings/`` endpoint with the
+To update theme settings using an API, a ``PATCH`` request must be submitted to the ``/settings/`` endpoint with the
 JSON payload:
 
 .. code-block:: twig
@@ -102,10 +110,10 @@ JSON payload:
         }
     }
 
-How to restore current theme's settings using API?
+How to restore current theme settings using an API?
 ``````````````````````````````````````````````````
 
-There is a possibility to restore the current theme's settings to the default ones, defined in the ``theme.json`` file.
+There is an option to restore the current theme settings to the default ones, defined in the ``theme.json`` file.
 
-This can be done using API and calling a ``/settings/revert/{scope}`` endpint using ``POST`` method.
-The ``scope`` parameter should be set to ``theme`` in order to restore settings for current theme.
+This can be done using the API and calling a ``/settings/revert/{scope}`` endpoint using the ``POST`` method.
+The ``scope`` parameter should be set to ``theme`` in order to restore settings for the current theme.

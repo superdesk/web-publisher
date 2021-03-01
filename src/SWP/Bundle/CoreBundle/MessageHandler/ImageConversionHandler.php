@@ -20,6 +20,8 @@ use BadFunctionCallException;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use SWP\Bundle\CoreBundle\MessageHandler\Exception\LockConflictedException;
+use Symfony\Component\Lock\LockFactory;
 use Throwable;
 use function imagewebp;
 use InvalidArgumentException;
@@ -52,13 +54,16 @@ class ImageConversionHandler implements MessageHandlerInterface
 
     protected $entityManager;
 
+    protected $lockFactory;
+
     public function __construct(
         SerializerInterface $serializer,
         LoggerInterface $logger,
         RepositoryInterface $imageRenditionRepository,
         MediaManagerInterface $mediaManager,
         TenantContextInterface $tenantContext,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        LockFactory $lockFactory
     ) {
         $this->serializer = $serializer;
         $this->logger = $logger;
@@ -66,6 +71,7 @@ class ImageConversionHandler implements MessageHandlerInterface
         $this->mediaManager = $mediaManager;
         $this->tenantContext = $tenantContext;
         $this->entityManager = $entityManager;
+        $this->lockFactory = $lockFactory;
     }
 
     public function __invoke(ConvertImageMessage $message)
@@ -85,7 +91,12 @@ class ImageConversionHandler implements MessageHandlerInterface
         /** @var ImageInterface $image */
         $image = $this->entityManager->merge($image);
         $mediaId = $image->getAssetId();
-        $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId);
+        $uid = sha1($mediaId);
+        $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.$uid;
+        $lock = $this->lockFactory->createLock($uid, 120);
+        if (!$lock->acquire()) {
+            throw new LockConflictedException();
+        }
 
         try {
             if (!function_exists('imagewebp')) {
@@ -108,7 +119,7 @@ class ImageConversionHandler implements MessageHandlerInterface
         } catch (Throwable $e) {
             $this->logger->error('File NOT converted '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
 
-            return;
+            throw $e;
         } finally {
             $filesystem = new Filesystem();
             if ($filesystem->exists($tempLocation)) {

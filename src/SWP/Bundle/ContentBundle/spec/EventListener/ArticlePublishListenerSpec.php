@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace spec\SWP\Bundle\ContentBundle\EventListener;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -40,7 +41,7 @@ final class ArticlePublishListenerSpec extends ObjectBehavior
         ArticleInterface $article
     ) {
         $event->getArticle()->willReturn($article);
-        $article->getExtra();
+        $article->getExtraByKey(Argument::any('string'))->shouldBeCalled()->willReturn(null);
         $articleService->publish($article)->shouldBeCalled()->willReturn($article);
         $article->isPublished()->willReturn(false);
 
@@ -53,7 +54,7 @@ final class ArticlePublishListenerSpec extends ObjectBehavior
         ArticleInterface $article
     ) {
         $event->getArticle()->willReturn($article);
-        $article->getExtra();
+        $article->getExtraByKey(Argument::any('string'))->shouldBeCalled()->willReturn(null);
         $articleService->publish($article)->shouldNotBeCalled();
         $article->isPublished()->willReturn(true);
 

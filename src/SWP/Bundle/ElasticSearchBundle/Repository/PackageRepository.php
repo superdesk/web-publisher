@@ -133,7 +133,7 @@ class PackageRepository extends Repository
         $now = new \DateTime();
         $functionScore->addDecayFunction(
             Query\FunctionScore::DECAY_GAUSS,
-            'publishedAt',
+            'articles.publishedAt',
             $now->format('Y-m-d'),
             '31d',
             '1d',
@@ -143,7 +143,7 @@ class PackageRepository extends Repository
 
         $functionScore->addDecayFunction(
             Query\FunctionScore::DECAY_GAUSS,
-            'publishedAt',
+            'articles.publishedAt',
             $now->format('Y-m-d'),
             '365d',
             '1d',
@@ -155,6 +155,7 @@ class PackageRepository extends Repository
 
         $query = Query::create($functionScore)
             ->addSort([
+                '_score' => 'desc',
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 

@@ -82,10 +82,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         authors:
             expose: true
             groups: [api, api_article_authors]
-        extra:
-            expose: true
-            groups: [api]
-            type: array
         slideshows:
             expose: true
             groups: [api, api_articles_slideshows]
@@ -125,3 +121,8 @@ SWP\Bundle\ContentBundle\Model\Article:
                     id: "expr(object.getId())"
             exclusion:
                 exclude_if: "expr(null === object.getId())"
+    virtual_properties:
+        getExtraArray:
+            name: extra
+            serialized_name: extra
+            type: array

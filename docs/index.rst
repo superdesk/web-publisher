@@ -5,7 +5,7 @@ Welcome to Superdesk Publisher documentation
 
 Superdesk Publisher is a lightweight open source renderer for news articles and other content delivered via an API feed. The code is released under the `GNU Affero General Public Licence, version 3 <https://github.com/superdesk/web-publisher/blob/master/LICENSE.md>`_.
 
-Publisher is designed to work with the `Superdesk <https://www.superdesk.org/>`_ newsroom management system from `Sourcefabric <https://www.sourcefabric.org/>`_, but it can also be adapted to work with any compatible API. Publisher is a lightweight PHP 7 renderer for HTTP-pushed content in HTML/CSS/JavaScript templates, and it runs on a standard web server or in a Docker container. A PostgreSQL database is also required.
+Publisher is designed to work with the `Superdesk <https://www.superdesk.org/>`_ newsroom management system from `Sourcefabric <https://www.sourcefabric.org/>`_, but it can also be adapted to work with any compatible API. Publisher is a lightweight PHP 7 renderer for HTTP-pushed content in both HTML/CSS/JavaScript and PWA templates, and it runs on a standard web server or in a Docker container. A PostgreSQL database is also required.
 
 
 .. container:: image_bck

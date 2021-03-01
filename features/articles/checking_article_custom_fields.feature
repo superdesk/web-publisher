@@ -216,4 +216,4 @@ Feature: Validate custom fields
       | extra.limit-test              | <p>limit test field</p>                                                         |
       | extra.rafal-embed.description | Shakin' Stevens                                                                 |
       | extra.rafal-embed.embed       | embed link                                                                      |
-      | media[0].image.asset_id        | 20180131130152_f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b |
+      | media[0].image.asset_id       | 20180131130152_f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b |

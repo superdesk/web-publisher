@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\Model\ArticleExtraTextField;
 use SWP\Bundle\CoreBundle\Model\RedirectRouteInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -43,8 +44,11 @@ final class MigratedArticleListener
     public function publish(ArticleEvent $articleEvent): void
     {
         $article = $articleEvent->getArticle();
-        if (array_key_exists('original_article_url', $article->getExtra()) && is_string($article->getExtra()['original_article_url'])) {
-            $urlParts = parse_url($article->getExtra()['original_article_url']);
+        $originalArticleUrlExtra = $article->getExtraByKey('original_article_url');
+        if ($originalArticleUrlExtra &&
+            $originalArticleUrlExtra instanceof ArticleExtraTextField &&
+            is_string($originalArticleUrlExtra->getValue())) {
+            $urlParts = parse_url($originalArticleUrlExtra->getValue());
             if (isset($urlParts['path'])) {
                 /** @var RedirectRouteInterface $redirectRoute */
                 $redirectRoute = $this->redirectRouteFactory->create();
