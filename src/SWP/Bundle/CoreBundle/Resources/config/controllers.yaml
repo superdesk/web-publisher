@@ -21,6 +21,7 @@ services:
   SWP\Bundle\CoreBundle\Controller\ContentListItemController: ~
   SWP\Bundle\CoreBundle\Controller\FailedQueueController: ~
   SWP\Bundle\CoreBundle\Controller\StaticThemeAssetsController: ~
+  SWP\Bundle\CoreBundle\Controller\ThemesController: ~
 
   takeit_amp_html.amp_controller:
     class: SWP\Bundle\CoreBundle\Controller\AmpController
