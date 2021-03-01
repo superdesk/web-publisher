@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47e33083ebfbb31583ca71d6215d0f70",
+    "content-hash": "012c4dee1a2ee3e6fcf5fd660d21f459",
     "packages": [
         {
             "name": "apache/log4php",
@@ -17424,28 +17424,25 @@
         },
         {
             "name": "liip/rmt",
-            "version": "1.6.1",
+            "version": "1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/RMT.git",
-                "reference": "6186d440a417288ee83b2bd66ccffcd19a60c40e"
+                "reference": "87e0e9e109547b72f4ddaa44cf8d4a51cc55aa13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/RMT/zipball/6186d440a417288ee83b2bd66ccffcd19a60c40e",
-                "reference": "6186d440a417288ee83b2bd66ccffcd19a60c40e",
+                "url": "https://api.github.com/repos/liip/RMT/zipball/87e0e9e109547b72f4ddaa44cf8d4a51cc55aa13",
+                "reference": "87e0e9e109547b72f4ddaa44cf8d4a51cc55aa13",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6|^7.0",
-                "sensiolabs/security-checker": "^6.0",
-                "symfony/console": "~2.3|^3.0|^4.2|^5.0",
-                "symfony/process": "~2.3|^3.0|^4.2|^5.0",
-                "symfony/yaml": "~2.3|^3.0|^4.2|^5.0",
+                "ext-json": "*",
+                "php": "^7.1|^8.0",
+                "symfony/console": "^3.4|^4.0|^5.0",
+                "symfony/process": "^3.4|^4.0|^5.0",
+                "symfony/yaml": "^3.4|^4.0|^5.0",
                 "vierbergenlars/php-semver": "~3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.6.8|^6.0"
             },
             "bin": [
                 "RMT"
@@ -17489,9 +17486,9 @@
             ],
             "support": {
                 "issues": "http://github.com/liip/RMT/issues",
-                "source": "https://github.com/liip/RMT/tree/master"
+                "source": "https://github.com/liip/RMT/tree/1.6.3"
             },
-            "time": "2020-03-17T08:56:08+00:00"
+            "time": "2021-02-09T09:31:29+00:00"
         },
         {
             "name": "matthiasnoback/symfony-config-test",
@@ -20306,58 +20303,6 @@
                 "source": "https://github.com/sebastianbergmann/version/tree/master"
             },
             "time": "2016-10-03T07:35:21+00:00"
-        },
-        {
-            "name": "sensiolabs/security-checker",
-            "version": "v6.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "a576c01520d9761901f269c4934ba55448be4a54"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/a576c01520d9761901f269c4934ba55448be4a54",
-                "reference": "a576c01520d9761901f269c4934ba55448be4a54",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3",
-                "symfony/console": "^2.8|^3.4|^4.2|^5.0",
-                "symfony/http-client": "^4.3|^5.0",
-                "symfony/mime": "^4.3|^5.0",
-                "symfony/polyfill-ctype": "^1.11"
-            },
-            "bin": [
-                "security-checker"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "SensioLabs\\Security\\": "SensioLabs/Security"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien.potencier@gmail.com"
-                }
-            ],
-            "description": "A security checker for your composer.lock",
-            "support": {
-                "issues": "https://github.com/sensiolabs/security-checker/issues",
-                "source": "https://github.com/sensiolabs/security-checker/tree/master"
-            },
-            "time": "2019-11-01T13:20:14+00:00"
         },
         {
             "name": "symfony-cmf/testing",
