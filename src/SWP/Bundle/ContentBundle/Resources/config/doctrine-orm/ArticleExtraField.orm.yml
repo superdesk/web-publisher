@@ -1,5 +1,5 @@
 SWP\Bundle\ContentBundle\Model\ArticleExtraField:
-    type: entity
+    type: mappedSuperclass
     table: swp_article_extra
     inheritanceType: SINGLE_TABLE
     discriminatorColumn:
