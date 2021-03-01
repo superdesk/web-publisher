@@ -124,6 +124,8 @@
         "symfony/validator": "^4.4",
         "symfony/web-link": "^4.4",
         "symfony/yaml": "^4.4",
+        "symfonycasts/reset-password-bundle": "^1.4",
+        "symfonycasts/verify-email-bundle": "^1.2",
         "takeit/amp": "dev-master",
         "takeit/amp-html-bundle": "^1.0",
         "takeit/stringy": "dev-fix",
