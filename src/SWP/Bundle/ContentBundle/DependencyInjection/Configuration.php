@@ -30,9 +30,13 @@ use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ImageRenditionFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
+use SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedField;
+use SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedFieldInterface;
 use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleExtraTextField;
+use SWP\Bundle\ContentBundle\Model\ArticleExtraTextFieldInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
@@ -294,6 +298,26 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Place::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(PlaceInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('article_extra_text_field')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleExtraTextField::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleExtraTextFieldInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('article_extra_embed_field')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleExtraEmbedField::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleExtraEmbedFieldInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

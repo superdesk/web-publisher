@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Tests\Fragment;
 
-use Superdesk\ContentApiSdk\Exception\ClientException;
+use SWP\Bundle\BridgeBundle\Exception\ClientException;
 use SWP\Bundle\CoreBundle\Fragment\ExternalFragmentRenderer;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,7 +81,7 @@ final class ExternalFragmentRendererTest extends WebTestCase
         ])->getContent(), true);
         self::assertEquals(null, $content);
 
-        self::expectException(ClientException::class);
+        $this->expectException(ClientException::class);
         json_decode($this->renderer->render('fake_localhost:3000/esi_fragment', new Request(), [
             'ignore_errors' => false,
         ])->getContent(), true);

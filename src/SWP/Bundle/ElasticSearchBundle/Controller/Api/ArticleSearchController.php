@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
+use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -29,7 +30,7 @@ class ArticleSearchController extends Controller
     /**
      * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_articles")
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request, RepositoryManagerInterface $repositoryManager)
     {
         $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
 
@@ -58,7 +59,6 @@ class ArticleSearchController extends Controller
             'sortNestedPath' => 'articleStatistics.pageViewsNumber',
         ];
 
-        $repositoryManager = $this->get('fos_elastica.manager');
         /** @var ArticleRepository $repository */
         $repository = $repositoryManager->getRepository($this->getParameter('swp.model.article.class'));
         $articles = $repository->findByCriteria($criteria, json_decode($extraFields, true));

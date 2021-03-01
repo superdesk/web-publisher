@@ -113,11 +113,6 @@ class Article implements ArticleInterface
     protected $sources;
 
     /**
-     * @var array|null
-     */
-    protected $extra;
-
-    /**
      * @var Collection|SlideshowInterface[]
      */
     protected $slideshows;
@@ -127,6 +122,16 @@ class Article implements ArticleInterface
 
     /** @var MetadataInterface|null */
     protected $data;
+
+    /**
+     * @var Collection|ArticleExtraTextFieldInterface[]
+     */
+    protected $extraTextFields;
+
+    /**
+     * @var Collection|ArticleExtraTextFieldInterface[]
+     */
+    protected $extraEmbedFields;
 
     public function __construct()
     {
@@ -139,6 +144,8 @@ class Article implements ArticleInterface
         $this->slideshows = new ArrayCollection();
         $this->relatedArticles = new ArrayCollection();
         $this->previousRelativeUrls = new ArrayCollection();
+        $this->extraTextFields = new ArrayCollection();
+        $this->extraEmbedFields = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)
@@ -304,6 +311,34 @@ class Article implements ArticleInterface
         }
     }
 
+    public function getExtraByKey(string $key): ?ArticleExtraFieldInterface
+    {
+        foreach ($this->getExtraCollection() as $extraField) {
+            if ($key === $extraField->getFieldName()) {
+                return $extraField;
+            }
+        }
+
+        return null;
+    }
+
+    private function getExtraCollection(): Collection
+    {
+        return new ArrayCollection(
+            array_merge($this->extraTextFields->toArray(), $this->extraEmbedFields->toArray())
+        );
+    }
+
+    public function getExtraArray(): array
+    {
+        return $this->getExtraCollection()
+            ->map(
+                function (ArticleExtraFieldInterface $field) {
+                    return $field->toApiFormat();
+                }
+            )->toArray();
+    }
+
     public function setData(?MetadataInterface $metadata): void
     {
         $this->data = $metadata;
@@ -375,14 +410,14 @@ class Article implements ArticleInterface
         return $this->sources;
     }
 
-    public function getExtra(): ?array
+    public function getExtra(): array
     {
-        return $this->extra;
+        return $this->getExtraArray();
     }
 
     public function setExtra(?array $extra): void
     {
-        $this->extra = $extra;
+        $this->setExtraFields($extra);
     }
 
     public function getSlideshows(): Collection
@@ -445,5 +480,64 @@ class Article implements ArticleInterface
     public function setMetadata(array $metadata): void
     {
         $this->metadata = $metadata;
+    }
+
+    public function addTextExtra(ArticleExtraTextFieldInterface $articleExtra): void
+    {
+        if (!$this->extraTextFields->contains($articleExtra)) {
+            $this->extraTextFields[$articleExtra->getFieldName()] = $articleExtra;
+            $articleExtra->setArticle($this);
+        }
+    }
+
+    public function addEmbedExtra(ArticleExtraEmbedFieldInterface $articleExtra): void
+    {
+        if (!$this->extraEmbedFields->contains($articleExtra)) {
+            $this->extraEmbedFields[$articleExtra->getFieldName()] = $articleExtra;
+            $articleExtra->setArticle($this);
+        }
+    }
+
+    public function removeExtraTextFields(ArticleExtraFieldInterface $articleExtra): void
+    {
+        $this->extraTextFields->removeElement($articleExtra);
+    }
+
+    public function removeExtraEmbedFields(ArticleExtraEmbedFieldInterface $articleExtra): void
+    {
+        $this->extraEmbedFields->removeElement($articleExtra);
+    }
+
+    public function getExtraTextFields(): Collection
+    {
+        return $this->extraTextFields;
+    }
+
+    public function getExtraEmbedFields(): Collection
+    {
+        return $this->extraEmbedFields;
+    }
+
+    public function setExtraFields(array $extra): void
+    {
+        if (0 === count($extra)) {
+            return;
+        }
+
+        foreach ($this->getExtraTextFields() as $extraTextField) {
+            $this->removeExtraTextFields($extraTextField);
+        }
+
+        foreach ($this->getExtraEmbedFields() as $extraEmbedField) {
+            $this->removeExtraEmbedFields($extraEmbedField);
+        }
+
+        foreach ($extra as $key => $value) {
+            if (is_array($value)) {
+                $this->addEmbedExtra(ArticleExtraEmbedField::newFromValue($key, $value));
+            } else {
+                $this->addTextExtra(ArticleExtraTextField::newFromValue($key, $value));
+            }
+        }
     }
 }

@@ -1,0 +1,14 @@
+SWP\Bundle\ContentBundle\Model\ArticleExtraTextField:
+    type: entity
+    fields:
+      value:
+        type: string
+    manyToOne:
+      article:
+        targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+        inversedBy: extraTextFields
+        cascade: [ "persist" ]
+        joinColumn:
+          name: article_id
+          referencedColumnName: id
+          onDelete: CASCADE
