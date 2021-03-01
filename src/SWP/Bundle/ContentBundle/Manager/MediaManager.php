@@ -122,10 +122,11 @@ class MediaManager implements MediaManagerInterface
     private function guessExtension(UploadedFile $uploadedFile): string
     {
         $extension = $uploadedFile->guessExtension();
-        if ('mpga' === $extension && 'mp3' === $uploadedFile->getClientOriginalExtension()) {
+        $clientOriginalExtension = $uploadedFile->getClientOriginalExtension();
+        if ('mpga' === $extension && 'mp3' === $clientOriginalExtension) {
             $extension = 'mp3';
         }
 
-        return $extension;
+        return null !== $extension ? $extension : $clientOriginalExtension;
     }
 }
