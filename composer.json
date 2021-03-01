@@ -33,7 +33,7 @@
             "email": "mischa.gorinskat@sourcefabric.org"
         }
     ],
-    "license":"AGPL-3.0",
+    "license": "AGPL-3.0",
     "autoload": {
         "psr-4": {
             "SWP\\Bundle\\": "src/SWP/Bundle/",
@@ -41,8 +41,13 @@
             "SWP\\Bridge\\": "src/SWP/Bridge/",
             "SWP\\Behat\\": "src/SWP/Behat/"
         },
-        "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
-        "classmap": ["src/Kernel.php"]
+        "exclude-from-classmap": [
+            "**/Tests/",
+            "**/spec/"
+        ],
+        "classmap": [
+            "src/Kernel.php"
+        ]
     },
     "require": {
         "php": "^7.4",
@@ -199,7 +204,7 @@
         "bin-dir": "bin",
         "sort-packages": true
     },
-    "minimum-stability":"dev",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
