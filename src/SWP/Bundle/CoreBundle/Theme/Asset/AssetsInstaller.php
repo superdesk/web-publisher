@@ -67,8 +67,8 @@ final class AssetsInstaller implements AssetsInstallerInterface
         Filesystem $filesystem,
         KernelInterface $kernel,
         ReloadableThemeRepositoryInterface $themeRepository,
-        ThemeHierarchyProviderInterface $themeHierarchyProvider,
-        PathResolverInterface $pathResolver
+        PathResolverInterface $pathResolver,
+        ThemeHierarchyProviderInterface $themeHierarchyProvider
     ) {
         $this->filesystem = $filesystem;
         $this->kernel = $kernel;
@@ -194,7 +194,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
         /** @var SplFileInfo[] $finder */
         foreach ($finder as $originFile) {
             $targetFile = $targetDir.'/'.$originFile->getRelativePathname();
-            $targetFile = $this->pathResolver->resolve($targetFile, $theme);
+            $targetFile = $this->pathResolver->resolve($targetFile, $originDir, $theme);
 
             if (file_exists($targetFile) && AssetsInstallerInterface::HARD_COPY !== $symlinkMask) {
                 continue;
