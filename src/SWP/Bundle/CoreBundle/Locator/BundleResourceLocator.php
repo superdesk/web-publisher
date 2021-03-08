@@ -15,14 +15,12 @@
 namespace SWP\Bundle\CoreBundle\Locator;
 
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
-//use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
-//use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class BundleResourceLocator //implements ResourceLocatorInterface
+class BundleResourceLocator
 {
     /**
      * @var Filesystem
