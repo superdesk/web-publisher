@@ -7,8 +7,8 @@ Feature: Set alt text fallback value based on the value from headline field.
       | Default      | test | 123abc |           | localhost   | true    | true    |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Given the following Package ninjs:
     """

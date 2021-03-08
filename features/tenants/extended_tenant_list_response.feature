@@ -31,8 +31,8 @@ Feature: getting tenants lists with their routes and content lists
       | test content list 2 | manual |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Given I am authenticated as "test.user"
     When I send a "GET" request to "api/v2/tenants/?withRoutes=true"

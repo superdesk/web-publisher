@@ -14,7 +14,7 @@ framework:
     router:
         strict_requirements: ~
     form:            ~
-    csrf_protection: false
+    csrf_protection: true
     validation:      { enable_annotations: false }
     templating:
         engines: ['twig']

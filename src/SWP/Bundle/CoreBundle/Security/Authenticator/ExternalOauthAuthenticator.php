@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use FOS\UserBundle\Model\UserManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Token\AccessToken;
+use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +64,6 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $oauthUser = $this->getOauthClient()->fetchUserFromToken($credentials);
         $oauthEmail = $oauthUser->getEmail();
         $oauthId = $oauthUser->getId();
-
         if (!$oauthUser) {
             return null;
         }
@@ -95,7 +94,6 @@ class ExternalOauthAuthenticator extends SocialAuthenticator
         $user->setUsername($oauthEmail);
         $user->setExternalId($oauthId);
         $user->setPassword(uniqid('', true));
-        $user->setEnabled(true);
         $user->setSuperAdmin(false);
         $user->addRole('ROLE_USER');
 

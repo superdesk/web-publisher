@@ -15,13 +15,13 @@
 namespace SWP\Bundle\CoreBundle\Command;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use FOS\UserBundle\Command\CreateUserCommand as BaseCreateUserCommand;
+use SWP\Bundle\UserBundle\Command\CreateUserCommand as BaseCreateUserCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateUserCommand extends BaseCreateUserCommand
 {
-    protected static $defaultName = 'fos:user:create';
+    protected static $defaultName = 'swp:user:create';
 
     /**
      * {@inheritdoc}

@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use SWP\Bundle\CoreBundle\Model\User;
 use Symfony\Component\HttpFoundation\Response;
 use function stripslashes;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;

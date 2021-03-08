@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Tests\Functional;
 
 use SWP\Bundle\UserBundle\Tests\Functional\Model\User;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface
 {
