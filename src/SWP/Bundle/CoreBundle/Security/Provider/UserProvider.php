@@ -14,9 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Security\Provider;
 
-use FOS\UserBundle\Security\UserProvider as FOSUserProvider;
+use SWP\Bundle\UserBundle\Security\UserProvider as BaseUserProvider;
 
-class UserProvider extends FOSUserProvider
+class UserProvider extends BaseUserProvider
 {
     public function findOneByEmail($email)
     {

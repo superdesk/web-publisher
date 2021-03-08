@@ -1,6 +1,7 @@
 security:
     encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
+        SWP\Bundle\UserBundle\Model\User:
+            algorithm: auto
 
     role_hierarchy:
         ROLE_USER:            [ROLE_READER]
@@ -12,7 +13,7 @@ security:
         ROLE_SUPER_ADMIN:     [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        fos_userbundle:
+        swp_user_provider:
             id: swp.security.user_provider
 
     firewalls:
@@ -66,10 +67,10 @@ security:
                     - swp.security.preview_token_authenticator
             stateless: true
         main:
+            provider: swp_user_provider
             pattern: ^/
             form_login:
                 check_path: security_login_check
-                provider: fos_userbundle
                 target_path_parameter: _login_success_path
                 failure_path_parameter: _login_failure_path
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
@@ -82,6 +83,7 @@ security:
                     - swp.security.external_oauth_authenticator
                     - lexik_jwt_authentication.jwt_token_authenticator
                     - swp.security.token_authenticator
+                    - SWP\Bundle\UserBundle\Security\LoginAuthenticator
             anonymous: lazy
 
     access_control:
@@ -89,5 +91,5 @@ security:
         - { path: "^/api/[v0-9]{2}/users/profile/*", roles: ROLE_USER }
         - { path: "^/api/[v0-9]{2}/users/settings", roles: ROLE_USER }
         - { path: "^/api/[v0-9]{2}/token/refresh", roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/resetting", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/reset-password", role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/api", roles: ROLE_INTERNAL_API }

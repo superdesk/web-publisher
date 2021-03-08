@@ -7,6 +7,11 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 ### 2.1
+* fix [#1183] for timestampable update error
+* fix [#1186] get client original extension from file as a fallback
+* fix [#1184] ES- Added asciifolding analyzer to package fields
+* fix [#1181] force retry when the lock is aquired
+* improvement [#1180] Use ES index aliases
 * feature [#1177] Added support for photo license 
 * fix [#1179] Fix _swp_analytics and sorting by page views
 * fix [#1175] added article updated at timestamp to geo ip cache key

@@ -12,11 +12,11 @@ services:
 
     SWP\Bundle\CoreBundle\Command\CreateUserCommand:
         arguments:
-            - "@fos_user.util.user_manipulator"
+            - '@SWP\Bundle\UserBundle\Util\UserManipulator'
 
     SWP\Bundle\CoreBundle\Command\ImportUserCommand:
         arguments:
-            - "@fos_user.util.user_manipulator"
+            - '@SWP\Bundle\UserBundle\Util\UserManipulator'
 
     SWP\Bundle\CoreBundle\Command\:
         resource: '../../Command/*'

@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\RouterInterface;
 
 class RegistrationControllerTest extends WebTestCase
@@ -40,31 +41,30 @@ class RegistrationControllerTest extends WebTestCase
         $client = static::createClient();
         $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
-                'email' => 'contact@example.com',
-                'username' => 'sofab.contact',
-                'plainPassword' => [
-                    'first' => 'testPass',
-                    'second' => 'testPass',
-                ],
+            'email' => 'contact@example.com',
+            'username' => 'sofab.contact',
+            'plainPassword' => [
+                'first' => 'testPass',
+                'second' => 'testPass',
+            ],
         ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        /** @var \Symfony\Component\Mailer\DataCollector\MessageDataCollector $mailerCollector */
+        $mailCollector = $client->getProfile()->getCollector('mailer');
+        $this->assertEmailCount(1);
 
-        self::assertEquals(302, $client->getResponse()->getStatusCode());
-
-        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
-        $this->assertEquals(1, $mailCollector->getMessageCount());
-
-        $collectedMessages = $mailCollector->getMessages();
-        $message = $collectedMessages[0];
+        /** @var \Symfony\Bridge\Twig\Mime\TemplatedEmail $messageBody */
+        $message = $this->getMailerMessage(0);
 
         // Asserting email data
-        $this->assertInstanceOf('Swift_Message', $message);
+        $this->assertInstanceOf(TemplatedEmail::class, $message);
         $this->assertEquals('Welcome sofab.contact!', $message->getSubject());
-        $this->assertEquals('contact@localhost', key($message->getFrom()));
-        $this->assertEquals('contact@example.com', key($message->getTo()));
+        $this->assertEquals('contact@localhost', $message->getFrom()[0]->getAddress());
+        $this->assertEquals('contact@example.com', $message->getTo()[0]->getAddress());
 
-        preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $message->getBody(), $match);
-
+        preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $message->getHtmlBody(), $match);
         $client->request('GET', $match[0][0]);
+
         self::assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->followRedirect();
@@ -76,12 +76,12 @@ class RegistrationControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
-                'email' => 'notemail',
-                'username' => '',
-                'plainPassword' => [
-                    'first' => 'testPass',
-                    'second' => 'testPasss',
-                ],
+            'email' => 'notemail',
+            'username' => '',
+            'plainPassword' => [
+                'first' => 'testPass',
+                'second' => 'testPasss',
+            ],
         ]);
 
         self::assertEquals(400, $client->getResponse()->getStatusCode());

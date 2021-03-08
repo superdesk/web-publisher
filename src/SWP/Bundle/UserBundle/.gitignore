@@ -4,3 +4,4 @@ composer.phar
 composer.lock
 var/cache/*
 var/log/*
+Tests/Functional/app/var/

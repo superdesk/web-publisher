@@ -35,10 +35,3 @@ swp_redirecting_slug:
   requirements:
     slug: .*
   methods: [GET]
-
-fos_user_resetting:
-  resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-  prefix: /resetting
-
-fos_user_profile_show:
-  path: /
