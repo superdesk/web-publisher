@@ -28,8 +28,8 @@ Feature: Working with Content List limit
       | test content list | Third Test Article  |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"

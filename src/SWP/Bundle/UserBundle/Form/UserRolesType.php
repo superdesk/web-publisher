@@ -5,28 +5,32 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher User Bundle.
  *
- * Copyright 2016 Sourcefabric z.ú. and contributors.
+ * Copyright 2021 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @Copyright 2021 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\UserBundle\Form\Type;
+namespace SWP\Bundle\UserBundle\Form;
 
-use FOS\UserBundle\Form\Type\RegistrationFormType as BaseRegistrationFormType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RegistrationFormType extends BaseRegistrationFormType
+class UserRolesType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct($class)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::__construct($class);
+        $builder
+            ->add('roles', TextType::class)
+        ;
     }
 
     /**
@@ -34,9 +38,9 @@ class RegistrationFormType extends BaseRegistrationFormType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-        $resolver->setDefault('validation_groups', ['Registration', 'Default']);
-        $resolver->setDefault('csrf_protection', false);
+        $resolver->setDefaults([
+            'csrf_protection' => false,
+        ]);
     }
 
     /**

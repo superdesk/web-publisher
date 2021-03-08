@@ -11,8 +11,8 @@ Feature: Do not remove any articles from list when limit is set to 0
       | Default      | test |           | localhost   | true    | true    | 123abc |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Given the following Routes:
       |  name | type       | slug |

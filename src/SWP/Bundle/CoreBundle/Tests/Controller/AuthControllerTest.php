@@ -17,7 +17,6 @@ namespace SWP\Bundle\CoreBundle\Tests\Controller;
 use GuzzleHttp;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 
 class AuthControllerTest extends WebTestCase
 {
@@ -152,7 +151,6 @@ class AuthControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $token = $data['token']['api_key'];
-
         $client = static::createClient([], [
             'HTTP_Authorization' => $token,
         ]);
@@ -178,13 +176,12 @@ class AuthControllerTest extends WebTestCase
 
     private function activateUser(Client $client): void
     {
-        /** @var MessageDataCollector $swiftMailer */
-        $swiftMailer = $client->getProfile()->getCollector('swiftmailer');
-        /** @var \Swift_Message $message */
-        $messageBody = $swiftMailer->getMessages()[0]->getBody();
-        $client->followRedirect();
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-
+        /** @var  \Symfony\Component\Mailer\DataCollector\MessageDataCollector $mailerCollector */
+        $mailerCollector = $client->getProfile()->getCollector('mailer');
+        $mailerCollector->getEvents();
+        $this->assertEmailCount(1);
+        /** @var \Symfony\Bridge\Twig\Mime\TemplatedEmail $messageBody */
+        $messageBody = $this->getMailerMessage(0)->getHtmlBody();
         // activate URL
         preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $messageBody, $match);
         $client->request('GET', $match[0][0]);

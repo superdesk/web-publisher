@@ -5,56 +5,73 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher User Bundle.
  *
- * Copyright 2016 Sourcefabric z.ú. and contributors.
+ * Copyright 2021 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @Copyright 2021 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
 namespace SWP\Bundle\UserBundle\Mailer;
 
-use FOS\UserBundle\Mailer\Mailer as FOSMailer;
-use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
-use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface as BaseMailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Security\Core\User\UserInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 
-class Mailer extends FOSMailer
+class Mailer implements MailerInterface
 {
     /**
-     * Mailer constructor.
-     *
-     * @param \Swift_Mailer            $mailer
-     * @param UrlGeneratorInterface    $router
-     * @param EngineInterface          $templating
-     * @param array                    $parameters
-     * @param SettingsManagerInterface $settingsManager
+     * @var BaseMailerInterface
      */
-    public function __construct(
-        $mailer,
-        UrlGeneratorInterface $router,
-        EngineInterface $templating,
-        array $parameters,
-        SettingsManagerInterface $settingsManager,
-        TenantContextInterface $tenantContext
-    ) {
+    protected $mailer;
+
+    /**
+     * @var array
+     */
+    protected $parameters;
+
+    public function __construct(BaseMailerInterface $mailer, array $parameters)
+    {
         $this->mailer = $mailer;
-        $this->router = $router;
-        $this->templating = $templating;
         $this->parameters = $parameters;
-        $tenant = $tenantContext->getTenant();
+    }
 
-        if ($tenant instanceof SettingsOwnerInterface) {
-            $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
+    public function sendConfirmationEmail(UserInterface $user, $url): void
+    {
+        $email = (new TemplatedEmail())
+            ->from($this->getAdminAddress())
+            ->to($user->getEmail())
+            ->subject(sprintf('Welcome %s!', $user->getUsername()))
+            ->htmlTemplate($this->parameters['confirmation.template']);
 
-            $this->parameters['confirmation.template'] = $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
-            $this->parameters['from_email']['confirmation'] = $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant, $fromEmail);
-            $this->parameters['resetting.template'] = $settingsManager->get('registration_resetting.template', 'tenant', $tenant);
-            $this->parameters['from_email']['resetting'] = $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
-        }
+        $context = $email->getContext();
+        $context['url'] = $url;
+        $email->context($context);
+        $this->mailer->send($email);
+    }
+
+    public function sendResetPasswordEmail(UserInterface $user, ResetPasswordToken $resetToken): void
+    {
+        $email = (new TemplatedEmail())
+            ->from($this->getAdminAddress())
+            ->to($user->getEmail())
+            ->subject('Your password reset request')
+            ->htmlTemplate('@SWPUser/reset_password/email.html.twig')
+            ->context([
+                'resetToken' => $resetToken,
+            ]);
+
+        $this->mailer->send($email);
+    }
+
+    private function getAdminAddress(): Address
+    {
+        return new Address(
+            key($this->parameters['from_email']['resetting']),
+            reset($this->parameters['from_email']['resetting']));
     }
 }

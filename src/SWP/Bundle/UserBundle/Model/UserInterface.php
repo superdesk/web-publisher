@@ -5,31 +5,35 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher User Bundle.
  *
- * Copyright 2016 Sourcefabric z.ú. and contributors.
+ * Copyright 2021 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @Copyright 2021 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use FOS\UserBundle\Model\UserInterface as BaseUserInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-interface UserInterface extends BaseUserInterface, PersistableInterface, TimestampableInterface
+interface UserInterface extends PersistableInterface, TimestampableInterface, BaseUserInterface, EquatableInterface
 {
+    public const ROLE_DEFAULT = 'ROLE_USR';
+
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
+    public function getEmail();
+
     /**
      * @return string
      */
     public function getAbout();
 
-    /**
-     * @param string $about
-     */
     public function setAbout(string $about);
 
     /**
@@ -37,9 +41,6 @@ interface UserInterface extends BaseUserInterface, PersistableInterface, Timesta
      */
     public function getFirstName();
 
-    /**
-     * @param string $firstName
-     */
     public function setFirstName(string $firstName);
 
     /**
@@ -47,9 +48,6 @@ interface UserInterface extends BaseUserInterface, PersistableInterface, Timesta
      */
     public function getLastName();
 
-    /**
-     * @param string $lastName
-     */
     public function setLastName(string $lastName);
 
     /**
@@ -57,8 +55,11 @@ interface UserInterface extends BaseUserInterface, PersistableInterface, Timesta
      */
     public function getExternalId();
 
-    /**
-     * @param string $externalId
-     */
     public function setExternalId(string $externalId);
+
+    public function setPassword(string $password);
+
+    public function addRole(string $role);
+
+    public function removeRole(string $role);
 }

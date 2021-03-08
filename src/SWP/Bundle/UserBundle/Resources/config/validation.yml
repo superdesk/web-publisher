@@ -1,0 +1,18 @@
+SWP\Bundle\UserBundle\Model\User:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: [email]
+        message: There is already an account with this email
+  properties:
+    username:
+      - NotBlank:
+          message: Please enter a username.
+    email:
+      - NotBlank: ~
+      - Length:
+          min: 3
+          max: 200
+          minMessage: 'Email must be at least {{ limit }} characters long'
+          maxMessage: 'Email cannot be longer than {{ limit }} characters'
+      - Email:
+          message: The email is not valid.

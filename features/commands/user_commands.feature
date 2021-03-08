@@ -9,7 +9,7 @@ Feature: Checking if create user command working properly
     Given the following Tenants:
       | organization | name | code   | subdomain | domain_name | enabled | default |
       | Default      | test | 123abc |           | localhost   | true    | true    |
-    When I run the "fos:user:create" command with options:
+    When I run the "swp:user:create" command with options:
       | username | newTestAccount        |
       | email    | null@sourcefabric.org |
       | password | superSecretPassword   |
@@ -20,7 +20,7 @@ Feature: Checking if create user command working properly
     Given the following Tenants:
       | organization | name | code   | subdomain | domain_name | enabled | default |
       | Default      | test | 123abc |           | localhost   | true    | true    |
-    When I run the "fos:user:create" command with options:
+    When I run the "swp:user:create" command with options:
       | username | newTestAccount        |
       | email    | null@sourcefabric.org |
       | password | superSecretPassword   |
@@ -31,7 +31,7 @@ Feature: Checking if create user command working properly
     Given the following Tenants:
       | organization | name | code   | subdomain | domain_name | enabled | default |
       | Default      | test | 123abc |           | localhost   | true    | true    |
-    When I run the "fos:user:create" command with options:
+    When I run the "swp:user:create" command with options:
       | username | newTestAccount        |
       | email    | null@sourcefabric.org |
       | password | superSecretPassword   |
