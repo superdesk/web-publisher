@@ -17,28 +17,24 @@ namespace SWP\Bundle\BridgeBundle\Client;
 use GuzzleHttp\Client as BaseClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
-use Superdesk\ContentApiSdk\Client\ClientInterface;
-use Superdesk\ContentApiSdk\Exception\ClientException;
+use SWP\Bundle\BridgeBundle\Exception\ClientException;
 
 /**
  * Request service that implements all method regarding basic request/response
  * handling.
  */
-class GuzzleClient extends BaseClient implements ClientInterface
+class GuzzleClient extends BaseClient
 {
-    /**
-     * {@inheritdoc}
-     */
     public function makeCall(
         $url,
         array $headers = [],
         array $options = [],
         $method = 'GET',
         $content = null
-    ) {
+    ): array {
         $options['headers'] = $headers;
 
-        if (in_array($method, ['POST'])) {
+        if ('POST' === $method) {
             $options['body'] = $content;
         }
 
@@ -55,12 +51,10 @@ class GuzzleClient extends BaseClient implements ClientInterface
             throw new ClientException($e->getMessage(), $e->getCode(), $e);
         }
 
-        $responseArray = [
+        return [
             'headers' => $response->getHeaders(),
             'status' => $response->getStatusCode(),
             'body' => (string) $response->getBody(),
         ];
-
-        return $responseArray;
     }
 }

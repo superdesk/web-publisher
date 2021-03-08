@@ -16,15 +16,26 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
+use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AuthorSearchController extends Controller
+class AuthorSearchController extends AbstractController
 {
+    private RepositoryManagerInterface $repositoryManager;
+
+    private string $authorClassName;
+
+    public function __construct(RepositoryManagerInterface $repositoryManager, string $authorClassName)
+    {
+        $this->repositoryManager = $repositoryManager;
+        $this->authorClassName = $authorClassName;
+    }
+
     /**
      * @Route("/api/{version}/authors/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_authors")
      */
@@ -39,8 +50,8 @@ class AuthorSearchController extends Controller
             ]
         );
 
-        $result = $this->get('fos_elastica.manager')
-            ->getRepository($this->getParameter('swp.model.author.class'))
+        $result = $this->repositoryManager
+            ->getRepository($this->authorClassName)
             ->findByCriteria($criteria);
 
         $pagination = $this->get('knp_paginator')->paginate(

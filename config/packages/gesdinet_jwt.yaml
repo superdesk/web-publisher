@@ -1,4 +1,4 @@
 gesdinet_jwt_refresh_token:
     firewall: internal_api
     manager_type: doctrine
-    user_provider: fos_user.user_provider.username_email
+    user_provider: swp.security.user_provider

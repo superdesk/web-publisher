@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
-use FOS\UserBundle\Util\UserManipulator;
 use JsonSchema\Validator;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Bundle\UserBundle\Util\UserManipulator;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -147,7 +147,8 @@ JSON;
             ->setName('swp:import:user')
             ->setDescription('Import users from JSON files.')
             ->addArgument('path', InputArgument::REQUIRED, 'Path to JSON files.')
-            ->setHelp(<<<'EOT'
+            ->setHelp(
+                <<<'EOT'
 The <info>swp:import:user</info> command imports users data from JSON files:
 
   <info>php %command.full_name% /home/jack/users/</info>

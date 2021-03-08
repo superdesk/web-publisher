@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\AppleNews\Converter;
 
+use SWP\Bundle\ContentBundle\Model\ArticleExtraTextField;
 use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Byline;
 use SWP\Bundle\CoreBundle\AppleNews\Component\Caption;
@@ -100,9 +101,12 @@ final class ArticleToAppleNewsFormatConverter
                 $imageCopyright = $byline;
             }
 
-            $extra = $article->getExtra();
-            if (isset($extra['feature_media_credits']) && null !== $extra['feature_media_credits']) {
-                $imageCopyright = $extra['feature_media_credits'];
+            $featureMediaExtra = $article->getExtraByKey('feature_media_credits');
+            if ($featureMediaExtra &&
+                $featureMediaExtra instanceof ArticleExtraTextField &&
+                !empty($featureMediaExtra->getValue())
+            ) {
+                $imageCopyright = $featureMediaExtra->getValue();
             }
 
             if (null !== $imageCopyright) {

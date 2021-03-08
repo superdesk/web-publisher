@@ -96,6 +96,7 @@ final class ContentPushTest extends WebTestCase
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
+
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
@@ -120,7 +121,7 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals('test headline', $content['title']);
         self::assertEquals('urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99', $content['code']);
 
-        $this->assetsThereIsOnlyOneArticle();
+        $this->assertThereIsOnlyOneArticle();
 
         // update origin item
         $client->request(
@@ -133,7 +134,7 @@ final class ContentPushTest extends WebTestCase
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assetsThereIsOnlyOneArticle();
+        $this->assertThereIsOnlyOneArticle();
 
         $content1 = $this->getPushedArticle();
 
@@ -155,7 +156,7 @@ final class ContentPushTest extends WebTestCase
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assetsThereIsOnlyOneArticle();
+        $this->assertThereIsOnlyOneArticle();
 
         $content = $this->getPushedArticle();
 
@@ -167,7 +168,7 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals('urn:newsml:localhost:2017-03-08T12:29:27.222376:5aef400e-ee5c-4110-b929-04bd26e4a757', $content['code']);
         self::assertEquals($content1['published_at'], $content['published_at']);
         self::assertEquals($content1['route']['id'], $content['route']['id']);
-        $this->assetsThereIsOnlyOneArticle();
+        $this->assertThereIsOnlyOneArticle();
     }
 
     private function getPushedArticle()
@@ -183,8 +184,10 @@ final class ContentPushTest extends WebTestCase
         return json_decode($client->getResponse()->getContent(), true);
     }
 
-    private function assetsThereIsOnlyOneArticle()
+    private function assertThereIsOnlyOneArticle()
     {
+        sleep(1);
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request(
             'GET',

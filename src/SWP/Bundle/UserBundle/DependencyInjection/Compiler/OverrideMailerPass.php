@@ -17,18 +17,19 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\UserBundle\Mailer\Mailer;
+use SWP\Bundle\UserBundle\Mailer\TenantAwareMailer;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class OverrideFosMailerPass implements CompilerPassInterface
+final class OverrideMailerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $serviceId = 'fos_user.mailer.default';
+        $serviceId = Mailer::class;
         $multitenancyContextServiceId = 'swp_multi_tenancy.tenant_context';
         if (!$container->hasDefinition($serviceId) || !$container->hasDefinition($multitenancyContextServiceId)) {
             return;
@@ -36,7 +37,7 @@ final class OverrideFosMailerPass implements CompilerPassInterface
 
         $mailerService = $container->getDefinition($serviceId);
         $mailerService
-            ->setClass(Mailer::class)
+            ->setClass(TenantAwareMailer::class)
             ->addArgument(new Reference('swp_settings.manager.settings'))
             ->addArgument(new Reference($multitenancyContextServiceId))
         ;

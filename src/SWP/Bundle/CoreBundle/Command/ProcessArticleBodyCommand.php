@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,6 +26,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ProcessArticleBodyCommand extends ContainerAwareCommand
 {
     protected static $defaultName = 'swp:article:process:body';
+
+    public function __construct(RepositoryManagerInterface $repositoryManager)
+    {
+        $this->repositoryManager = $repositoryManager;
+
+        parent::__construct();
+    }
 
     protected function configure(): void
     {
@@ -59,8 +67,7 @@ EOT
             ]
         );
 
-        $repositoryManager = $this->getContainer()->get('fos_elastica.manager');
-        $repository = $repositoryManager->getRepository($this->getContainer()->getParameter('swp.model.article.class'));
+        $repository = $this->repositoryManager->getRepository($this->getContainer()->getParameter('swp.model.article.class'));
         $articles = $repository
             ->findByCriteria($criteria)
             ->getResults((int) $input->getOption('offset'), (int) $input->getOption('limit'));

@@ -1,0 +1,16 @@
+SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedField:
+    type: entity
+    fields:
+      embed:
+        type: string
+      description:
+        type: string
+    manyToOne:
+      article:
+        targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+        inversedBy: extraEmbedFields
+        cascade: [ "persist" ]
+        joinColumn:
+          name: article_id
+          referencedColumnName: id
+          onDelete: CASCADE

@@ -145,7 +145,7 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
      */
     public function getSources(): Collection;
 
-    public function getExtra(): ?array;
+    public function getExtra(): array;
 
     public function setExtra(?array $extra): void;
 
@@ -168,4 +168,14 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     public function getData(): ?MetadataInterface;
 
     public function setData(?MetadataInterface $metadata): void;
+
+    public function getExtraTextFields(): Collection;
+
+    public function getExtraEmbedFields(): Collection;
+
+    public function setExtraFields(array $extra): void;
+
+    public function getExtraByKey(string $key): ?ArticleExtraFieldInterface;
+
+    public function getExtraArray(): array;
 }

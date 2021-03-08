@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace spec\SWP\Bundle\CoreBundle\Model;
 
-use FOS\UserBundle\Model\UserInterface as BaseUserInterface;
+use SWP\Bundle\UserBundle\Model\UserInterface as BaseUserInterface;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Model\User;
 use SWP\Bundle\CoreBundle\Model\UserInterface;

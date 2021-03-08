@@ -14,7 +14,9 @@ services:
         ports:
             - 11211:11211
     elasticsearch:
-        image: elasticsearch:5.6
+        image: elasticsearch:7.10.1
+        environment:
+            - discovery.type=single-node
         ports:
             - 9201:9200
             - 9301:9300

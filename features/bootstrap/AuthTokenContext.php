@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use Behatch\Context\RestContext;
 use Behatch\HttpCall\Request;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use SWP\Bundle\CoreBundle\Repository\ApiKeyRepositoryInterface;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
+use SWP\Bundle\CoreBundle\Repository\ApiKeyRepositoryInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 final class AuthTokenContext extends RestContext
 {
@@ -27,11 +27,6 @@ final class AuthTokenContext extends RestContext
 
     /**
      * AuthTokenContext constructor.
-     *
-     * @param Request                   $request
-     * @param UserProviderInterface     $userProvider
-     * @param ApiKeyRepositoryInterface $apiKeyRepository
-     * @param ApiKeyFactory             $apiKeyFactory
      */
     public function __construct(Request $request, UserProviderInterface $userProvider, ApiKeyRepositoryInterface $apiKeyRepository, ApiKeyFactory $apiKeyFactory)
     {
@@ -42,8 +37,6 @@ final class AuthTokenContext extends RestContext
     }
 
     /**
-     * @param string $username
-     *
      * @Given I am authenticated as ":username"
      */
     public function iAmAuthenticatedAs(string $username)
@@ -61,5 +54,14 @@ final class AuthTokenContext extends RestContext
     public function restoreAuthHeader()
     {
         $this->request->setHttpHeader('Authorization', null);
+    }
+
+    /**
+     * @When /^I grab the confirmation url and follow it$/
+     */
+    public function iGrabTheConfirmationUrlAndFollowIt()
+    {
+        $url = json_decode($this->request->getContent())->url;
+        $this->iSendARequestTo('GET', $url);
     }
 }

@@ -18,9 +18,8 @@ framework:
     test: ~
     validation:      { enable_annotations: false }
     form: ~
-
-swiftmailer:
-    disable_delivery: true
+    mailer:
+        dsn: 'null://null'
 
 monolog:
     handlers:
@@ -28,6 +27,21 @@ monolog:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+        path:     "%kernel.cache_dir%/user_bundle.db3"
+    orm:
+        auto_generate_proxy_classes: true
+        resolve_target_entities:
+            SWP\Bundle\UserBundle\Model\UserInterface: SWP\Bundle\UserBundle\Model\User
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
 
 doctrine_cache:
     providers:
@@ -45,32 +59,6 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: false
 
-doctrine:
-    dbal:
-        driver:   pdo_sqlite
-        memory:   true
-        charset:  UTF8
-        path:     "%kernel.cache_dir%/user_bundle.db3"
-    orm:
-        auto_generate_proxy_classes: true
-        resolve_target_entities:
-            SWP\Bundle\UserBundle\Model\UserInterface: SWP\Bundle\UserBundle\Model\User
-        entity_managers:
-            default:
-                naming_strategy: doctrine.orm.naming_strategy.underscore
-                auto_mapping: true
-
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: SWP\Bundle\UserBundle\Model\User
-    from_email:
-        address: contact@publisher.dev
-        sender_name: Publisher
-    registration:
-        confirmation:
-            enabled: true
-
 swp_settings:
     persistence:
         orm:
@@ -85,6 +73,9 @@ swp_user:
     persistence:
         orm:
             enabled: true
+    from_email:
+        address: 'contact@publisher.test'
+        sender_name: Publisher
 
 services:
     swp_content_bundle.resources_list_response_listener:
@@ -93,3 +84,6 @@ services:
             - { name: kernel.event_listener, event: kernel.view }
 
     SWP\Bundle\UserBundle\Tests\Functional\UserProvider: ~
+
+symfonycasts_reset_password:
+    request_password_repository: SWP\Bundle\UserBundle\Repository\ResetPasswordRequestRepository

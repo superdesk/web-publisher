@@ -5,44 +5,54 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher User Bundle.
  *
- * Copyright 2016 Sourcefabric z.ú. and contributors.
+ * Copyright 2021 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @Copyright 2021 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
 namespace SWP\Bundle\UserBundle\Model;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\Common\Model\TimestampableTrait;
+use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-class User extends BaseUser implements UserInterface
+class User implements UserInterface
 {
     use TimestampableTrait;
 
+    protected $id;
+
+    protected $username;
+
+    protected $email;
+
+    protected $roles = ['ROLE_USER'];
+
     /**
-     * @var string
+     * @var string The hashed password
      */
+    protected $password;
+
     protected $firstName;
 
-    /**
-     * @var string
-     */
     protected $lastName;
 
-    /**
-     * @var string
-     */
+    protected $externalId;
+
     protected $about;
 
+    private $isVerified = false;
+
     /**
-     * @var string
+     * Random string sent to the user email address in order to verify it.
+     *
+     * @var string|null
      */
-    protected $externalId;
+    protected $confirmationToken;
 
     /**
      * User constructor.
@@ -50,28 +60,118 @@ class User extends BaseUser implements UserInterface
     public function __construct()
     {
         $this->createdAt = DateTime::getCurrentDateTime();
+    }
 
-        parent::__construct();
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->username;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAbout()
+    public function addRole(string $role)
     {
-        return $this->about;
+        $role = strtoupper($role);
+        if ($role === static::ROLE_DEFAULT) {
+            return $this;
+        }
+
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setAbout(string $about = null)
+    public function removeRole(string $role)
     {
-        $this->about = $about;
+        if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
+            unset($this->roles[$key]);
+            $this->roles = array_values($this->roles);
+        }
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * @return mixed
      */
     public function getFirstName()
     {
@@ -79,15 +179,15 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $firstName
      */
-    public function setFirstName(string $firstName)
+    public function setFirstName($firstName): void
     {
         $this->firstName = $firstName;
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function getLastName()
     {
@@ -95,15 +195,15 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $lastName
      */
-    public function setLastName(string $lastName)
+    public function setLastName($lastName): void
     {
         $this->lastName = $lastName;
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function getExternalId()
     {
@@ -111,10 +211,72 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $externalId
      */
-    public function setExternalId(string $externalId)
+    public function setExternalId($externalId): void
     {
         $this->externalId = $externalId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAbout()
+    {
+        return $this->about;
+    }
+
+    /**
+     * @param mixed $about
+     */
+    public function setAbout($about): void
+    {
+        $this->about = $about;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSuperAdmin($boolean)
+    {
+        if (true === $boolean) {
+            $this->addRole(static::ROLE_SUPER_ADMIN);
+        } else {
+            $this->removeRole(static::ROLE_SUPER_ADMIN);
+        }
+
+        return $this;
+    }
+
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken(?string $confirmationToken): void
+    {
+        $this->confirmationToken = $confirmationToken;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function isEqualTo(BaseUserInterface $user)
+    {
+        return $user->getUsername() === $this->getUsername();
     }
 }

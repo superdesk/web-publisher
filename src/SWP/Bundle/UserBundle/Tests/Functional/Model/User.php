@@ -34,7 +34,7 @@ class User extends \SWP\Bundle\UserBundle\Model\User implements UserInterface, P
         $this->password = $password;
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -44,17 +44,17 @@ class User extends \SWP\Bundle\UserBundle\Model\User implements UserInterface, P
         return true;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_USER', 'ROLE_ADMIN'];
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }

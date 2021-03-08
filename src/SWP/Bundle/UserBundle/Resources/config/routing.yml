@@ -2,14 +2,25 @@ swp_user:
     resource: "@SWPUserBundle/Controller"
     type:     annotation
 
-fos_user_registration_check_email:
-    path: /register/check-email
-    defaults: { _controller: fos_user.registration.controller:checkEmailAction }
-
-fos_user_registration_confirm:
-    path: /register/confirm/{token}
-    defaults: { _controller: fos_user.registration.controller:confirmAction }
-
-fos_user_registration_confirmed:
+swp_user_registration_confirmed:
     path: /register/confirmed
-    defaults: { _controller: fos_user.registration.controller:confirmedAction }
+    defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::confirmedAction }
+
+swp_user_security_login:
+    path: /login
+    defaults: { _controller: SWP\Bundle\UserBundle\Controller\SecurityController::login }
+
+swp_user_registration_register:
+    path: /
+    defaults: { _controller: SWP\Bundle\UserBundle\Controller\RegistrationController::registerAction }
+
+swp_user_profile_show:
+    path: /
+
+swp_user_old_password_reset_redirect:
+    path: /resetting/request
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults:
+        route: swp_user_forgot_password_request
+        permanent: true
+        keepQueryParams: true

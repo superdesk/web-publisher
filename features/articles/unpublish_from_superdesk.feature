@@ -15,8 +15,8 @@ Feature: As a user I want to be able to unpublish from superdesk previously publ
       |  test | collection | test |
 
     Given the following Users:
-      | username   | email                      | token      | plainPassword | role                | enabled |
-      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   | true    |
+      | username   | email                      | token      | password | role                |
+      | test.user  | test.user@sourcefabric.org | test_user: | testPassword  | ROLE_INTERNAL_API   |
 
     Given the following Package ninjs:
     """

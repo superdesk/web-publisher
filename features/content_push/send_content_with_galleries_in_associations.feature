@@ -747,853 +747,841 @@ Feature: Handling the custom media fields
     And The payload received by "http://localhost:3000/article-update-check" webhook should be equal to:
     """
     {
-       "id":6,
-       "title":"Article with added slideshow",
-       "body":"<p>some html body<\/p>",
-       "slug":"abstract-html-test-without-slideshow",
-       "published_at":"2019-03-10T09:00:00+00:00",
-       "status":"published",
-       "route":{
-          "requirements":{
-             "slug":"[a-zA-Z0-9*\\-_]+"
-          },
-          "id":3,
-          "static_prefix":"\/news",
-          "variable_pattern":"\/{slug}",
-          "children":[
-             {
-                "requirements":{
-                   "slug":"[a-zA-Z0-9*\\-_]+"
+      "extra": [],
+      "id": 6,
+      "title": "Article with added slideshow",
+      "body": "<p>some html body<\/p>",
+      "slug": "abstract-html-test-without-slideshow",
+      "published_at": "2019-03-10T09:00:00+00:00",
+      "status": "published",
+      "route": {
+        "requirements": {
+          "slug": "[a-zA-Z0-9*\\-_]+"
+        },
+        "id": 3,
+        "static_prefix": "\/news",
+        "variable_pattern": "\/{slug}",
+        "children": [
+          {
+            "requirements": {
+              "slug": "[a-zA-Z0-9*\\-_]+"
+            },
+            "id": 6,
+            "static_prefix": "\/news\/sports",
+            "variable_pattern": "\/{slug}",
+            "parent": 3,
+            "children": [],
+            "lft": 4,
+            "rgt": 5,
+            "level": 1,
+            "type": "collection",
+            "cache_time_in_seconds": 0,
+            "name": "sports",
+            "slug": "sports",
+            "position": 0,
+            "articles_count": 0,
+            "paywall_secured": false,
+            "_links": {
+              "self": {
+                "href": "\/api\/v2\/content\/routes\/6"
+              },
+              "parent": {
+                "href": "\/api\/v2\/content\/routes\/3"
+              }
+            }
+          }
+        ],
+        "lft": 3,
+        "rgt": 6,
+        "level": 0,
+        "type": "collection",
+        "cache_time_in_seconds": 0,
+        "name": "news",
+        "slug": "news",
+        "position": 1,
+        "articles_count": 0,
+        "paywall_secured": false,
+        "_links": {
+          "self": {
+            "href": "\/api\/v2\/content\/routes\/3"
+          }
+        }
+      },
+      "is_publishable": true,
+      "metadata": {
+        "subject": [
+          {
+            "name": "lawyer",
+            "code": "02002001"
+          }
+        ],
+        "urgency": 3,
+        "priority": 6,
+        "located": "Warsaw",
+        "place": [
+          {
+            "country": "Australia",
+            "world_region": "Oceania",
+            "state": "Australian Capital Territory",
+            "qcode": "ACT",
+            "name": "ACT",
+            "group": "Australia"
+          }
+        ],
+        "service": [
+          {
+            "name": "Australian General News",
+            "code": "a"
+          }
+        ],
+        "type": "text",
+        "byline": "ADmin",
+        "guid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
+        "language": "en"
+      },
+      "lead": "some abstract text",
+      "code": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
+      "sources": [],
+      "slideshows": {
+        "1": {
+          "id": 2,
+          "code": "slideshow1",
+          "items": [
+            {
+              "article_media": {
+                "id": 4,
+                "image": {
+                  "id": 8,
+                  "file_extension": "jpg",
+                  "asset_id": "1234567890987654321c",
+                  "width": 480,
+                  "height": 720,
+                  "length": 25
                 },
-                "id":6,
-                "static_prefix":"\/news\/sports",
-                "variable_pattern":"\/{slug}",
-                "parent":3,
-                "children":[
-
+                "description": "test image",
+                "by_line": "Pawe\u0142 Miko\u0142ajczuk",
+                "alt_text": "test image",
+                "usage_terms": "indefinite-usage",
+                "renditions": [
+                  {
+                    "width": 1079,
+                    "height": 720,
+                    "name": "16-9",
+                    "id": 8,
+                    "image": {
+                      "id": 6,
+                      "file_extension": "jpg",
+                      "asset_id": "1234567890987654321a",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpg"
+                      }
+                    }
+                  },
+                  {
+                    "width": 800,
+                    "height": 533,
+                    "name": "4-3",
+                    "id": 9,
+                    "image": {
+                      "id": 7,
+                      "file_extension": "jpg",
+                      "asset_id": "1234567890987654321b",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpg"
+                      }
+                    }
+                  },
+                  {
+                    "width": 4000,
+                    "height": 2667,
+                    "name": "original",
+                    "id": 10,
+                    "image": {
+                      "id": 8,
+                      "file_extension": "jpg",
+                      "asset_id": "1234567890987654321c",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
+                      }
+                    }
+                  },
+                  {
+                    "width": 4000,
+                    "height": 2667,
+                    "name": "thumbnail",
+                    "id": 10,
+                    "image": {
+                      "id": 8,
+                      "file_extension": "jpg",
+                      "asset_id": "1234567890987654321c",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
+                      }
+                    }
+                  },
+                  {
+                    "width": 4000,
+                    "height": 2667,
+                    "name": "viewImage",
+                    "id": 10,
+                    "image": {
+                      "id": 8,
+                      "file_extension": "jpg",
+                      "asset_id": "1234567890987654321c",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
+                      }
+                    }
+                  }
                 ],
-                "lft":4,
-                "rgt":5,
-                "level":1,
-                "type":"collection",
-                "cache_time_in_seconds":0,
-                "name":"sports",
-                "slug":"sports",
-                "position":0,
-                "articles_count":0,
-                "paywall_secured":false,
-                "_links":{
-                   "self":{
-                      "href":"\/api\/v2\/content\/routes\/6"
-                   },
-                   "parent":{
-                      "href":"\/api\/v2\/content\/routes\/3"
-                   }
+                "headline": "test image",
+                "_links": {
+                  "download": {
+                    "href": "\/media\/1234567890987654321c.jpg"
+                  }
                 }
-             }
-          ],
-          "lft":3,
-          "rgt":6,
-          "level":0,
-          "type":"collection",
-          "cache_time_in_seconds":0,
-          "name":"news",
-          "slug":"news",
-          "position":1,
-          "articles_count":0,
-          "paywall_secured":false,
-          "_links":{
-             "self":{
-                "href":"\/api\/v2\/content\/routes\/3"
-             }
-          }
-       },
-       "is_publishable":true,
-       "metadata":{
-          "subject":[
-             {
-                "name":"lawyer",
-                "code":"02002001"
-             }
-          ],
-          "urgency":3,
-          "priority":6,
-          "located":"Warsaw",
-          "place":[
-             {
-                "country":"Australia",
-                "world_region":"Oceania",
-                "state":"Australian Capital Territory",
-                "qcode":"ACT",
-                "name":"ACT",
-                "group":"Australia"
-             }
-          ],
-          "service":[
-             {
-                "name":"Australian General News",
-                "code":"a"
-             }
-          ],
-          "type":"text",
-          "byline":"ADmin",
-          "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
-          "language":"en"
-       },
-       "lead":"some abstract text",
-       "code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf2",
-       "sources":[
-
-       ],
-       "extra":[
-
-       ],
-       "slideshows":{
-          "1":{
-             "id":2,
-             "code":"slideshow1",
-             "items":[
-                {
-                   "article_media":{
-                      "id":4,
-                      "image":{
-                         "id":8,
-                         "file_extension":"jpg",
-                         "asset_id":"1234567890987654321c",
-                         "width":480,
-                         "height":720,
-                         "length":25
-                      },
-                      "description":"test image",
-                      "by_line":"Pawe\u0142 Miko\u0142ajczuk",
-                      "alt_text":"test image",
-                      "usage_terms":"indefinite-usage",
-                      "renditions":[
-                         {
-                            "width":1079,
-                            "height":720,
-                            "name":"16-9",
-                            "id":8,
-                            "image":{
-                               "id":6,
-                               "file_extension":"jpg",
-                               "asset_id":"1234567890987654321a",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":800,
-                            "height":533,
-                            "name":"4-3",
-                            "id":9,
-                            "image":{
-                               "id":7,
-                               "file_extension":"jpg",
-                               "asset_id":"1234567890987654321b",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":4000,
-                            "height":2667,
-                            "name":"original",
-                            "id":10,
-                            "image":{
-                               "id":8,
-                               "file_extension":"jpg",
-                               "asset_id":"1234567890987654321c",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":4000,
-                            "height":2667,
-                            "name":"thumbnail",
-                            "id":10,
-                            "image":{
-                               "id":8,
-                               "file_extension":"jpg",
-                               "asset_id":"1234567890987654321c",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":4000,
-                            "height":2667,
-                            "name":"viewImage",
-                            "id":10,
-                            "image":{
-                               "id":8,
-                               "file_extension":"jpg",
-                               "asset_id":"1234567890987654321c",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
-                               }
-                            }
-                         }
-                      ],
-                      "headline":"test image",
-                      "_links":{
-                         "download":{
-                            "href":"\/media\/1234567890987654321c.jpg"
-                         }
-                      }
-                   },
-                   "position":0
+              },
+              "position": 0
+            },
+            {
+              "article_media": {
+                "id": 5,
+                "image": {
+                  "id": 11,
+                  "file_extension": "jpg",
+                  "asset_id": "2234567890987654321c",
+                  "width": 480,
+                  "height": 720,
+                  "length": 25
                 },
-                {
-                   "article_media":{
-                      "id":5,
-                      "image":{
-                         "id":11,
-                         "file_extension":"jpg",
-                         "asset_id":"2234567890987654321c",
-                         "width":480,
-                         "height":720,
-                         "length":25
-                      },
-                      "description":"test image 2",
-                      "by_line":"Pawe\u0142 Miko\u0142ajczuk",
-                      "alt_text":"test image",
-                      "usage_terms":"indefinite-usage",
-                      "renditions":[
-                         {
-                            "width":1079,
-                            "height":720,
-                            "name":"16-9",
-                            "id":11,
-                            "image":{
-                               "id":9,
-                               "file_extension":"jpg",
-                               "asset_id":"2234567890987654321a",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":800,
-                            "height":533,
-                            "name":"4-3",
-                            "id":12,
-                            "image":{
-                               "id":10,
-                               "file_extension":"jpg",
-                               "asset_id":"2234567890987654321b",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":4000,
-                            "height":2667,
-                            "name":"original",
-                            "id":13,
-                            "image":{
-                               "id":11,
-                               "file_extension":"jpg",
-                               "asset_id":"2234567890987654321c",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":4000,
-                            "height":2667,
-                            "name":"thumbnail",
-                            "id":13,
-                            "image":{
-                               "id":11,
-                               "file_extension":"jpg",
-                               "asset_id":"2234567890987654321c",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
-                               }
-                            }
-                         },
-                         {
-                            "width":4000,
-                            "height":2667,
-                            "name":"viewImage",
-                            "id":13,
-                            "image":{
-                               "id":11,
-                               "file_extension":"jpg",
-                               "asset_id":"2234567890987654321c",
-                               "width":480,
-                               "height":720,
-                               "length":25
-                            },
-                            "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
-                            "_links":{
-                               "public_url":{
-                                  "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
-                               }
-                            }
-                         }
-                      ],
-                      "headline":"test image",
-                      "_links":{
-                         "download":{
-                            "href":"\/media\/2234567890987654321c.jpg"
-                         }
+                "description": "test image 2",
+                "by_line": "Pawe\u0142 Miko\u0142ajczuk",
+                "alt_text": "test image",
+                "usage_terms": "indefinite-usage",
+                "renditions": [
+                  {
+                    "width": 1079,
+                    "height": 720,
+                    "name": "16-9",
+                    "id": 11,
+                    "image": {
+                      "id": 9,
+                      "file_extension": "jpg",
+                      "asset_id": "2234567890987654321a",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpg"
                       }
-                   },
-                   "position":1
+                    }
+                  },
+                  {
+                    "width": 800,
+                    "height": 533,
+                    "name": "4-3",
+                    "id": 12,
+                    "image": {
+                      "id": 10,
+                      "file_extension": "jpg",
+                      "asset_id": "2234567890987654321b",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpg"
+                      }
+                    }
+                  },
+                  {
+                    "width": 4000,
+                    "height": 2667,
+                    "name": "original",
+                    "id": 13,
+                    "image": {
+                      "id": 11,
+                      "file_extension": "jpg",
+                      "asset_id": "2234567890987654321c",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
+                      }
+                    }
+                  },
+                  {
+                    "width": 4000,
+                    "height": 2667,
+                    "name": "thumbnail",
+                    "id": 13,
+                    "image": {
+                      "id": 11,
+                      "file_extension": "jpg",
+                      "asset_id": "2234567890987654321c",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
+                      }
+                    }
+                  },
+                  {
+                    "width": 4000,
+                    "height": 2667,
+                    "name": "viewImage",
+                    "id": 13,
+                    "image": {
+                      "id": 11,
+                      "file_extension": "jpg",
+                      "asset_id": "2234567890987654321c",
+                      "width": 480,
+                      "height": 720,
+                      "length": 25
+                    },
+                    "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
+                    "_links": {
+                      "public_url": {
+                        "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
+                      }
+                    }
+                  }
+                ],
+                "headline": "test image",
+                "_links": {
+                  "download": {
+                    "href": "\/media\/2234567890987654321c.jpg"
+                  }
                 }
-             ],
-             "created_at":"2019-03-10T09:00:00+00:00",
-             "updated_at":"2019-03-10T09:00:00+00:00",
-             "_links":{
-                "items":{
-                   "href":"\/api\/v2\/content\/slideshows\/6\/2\/items\/"
-                }
-             }
+              },
+              "position": 1
+            }
+          ],
+          "created_at": "2019-03-10T09:00:00+00:00",
+          "updated_at": "2019-03-10T09:00:00+00:00",
+          "_links": {
+            "items": {
+              "href": "\/api\/v2\/content\/slideshows\/6\/2\/items\/"
+            }
           }
-       },
-       "previous_relative_urls":[
-
-       ],
-       "created_at":"2019-03-10T09:00:00+00:00",
-       "updated_at":"2019-03-10T09:00:00+00:00",
-       "authors":[
-
-       ],
-       "keywords":[
-          {
-             "slug":"keyword1",
-             "name":"keyword1"
+        }
+      },
+      "previous_relative_urls": [],
+      "created_at": "2019-03-10T09:00:00+00:00",
+      "updated_at": "2019-03-10T09:00:00+00:00",
+      "authors": [],
+      "keywords": [
+        {
+          "slug": "keyword1",
+          "name": "keyword1"
+        },
+        {
+          "slug": "keyword2",
+          "name": "keyword2"
+        }
+      ],
+      "media": [
+        {
+          "id": 3,
+          "image": {
+            "id": 12,
+            "file_extension": "png",
+            "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+            "width": 255,
+            "height": 76,
+            "length": 4
           },
-          {
-             "slug":"keyword2",
-             "name":"keyword2"
+          "description": "Smoke on the water on River Gradac\u00a0",
+          "by_line": "Ljub. Z. Rankovi\u0107",
+          "alt_text": "Gradac alt text",
+          "usage_terms": "indefinite-usage",
+          "renditions": [
+            {
+              "width": 2048,
+              "height": 1365,
+              "name": "original",
+              "id": 7,
+              "image": {
+                "id": 13,
+                "file_extension": "png",
+                "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+                "width": 255,
+                "height": 76,
+                "length": 4
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+                }
+              }
+            },
+            {
+              "width": 2048,
+              "height": 1365,
+              "name": "thumbnail",
+              "id": 7,
+              "image": {
+                "id": 13,
+                "file_extension": "png",
+                "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+                "width": 255,
+                "height": 76,
+                "length": 4
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+                }
+              }
+            },
+            {
+              "width": 2048,
+              "height": 1365,
+              "name": "viewImage",
+              "id": 7,
+              "image": {
+                "id": 13,
+                "file_extension": "png",
+                "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+                "width": 255,
+                "height": 76,
+                "length": 4
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+                }
+              }
+            }
+          ],
+          "headline": "Smoke on the water",
+          "copyright_holder": "Holder",
+          "copyright_notice": "Notice",
+          "_links": {
+            "download": {
+              "href": "\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+            }
           }
-       ],
-       "media":[
-          {
-             "id":3,
-             "image":{
-                "id":12,
-                "file_extension":"png",
-                "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-                "width":255,
-                "height":76,
-                "length":4
-             },
-             "description":"Smoke on the water on River Gradac\u00a0",
-             "by_line":"Ljub. Z. Rankovi\u0107",
-             "alt_text":"Gradac alt text",
-             "usage_terms":"indefinite-usage",
-             "renditions":[
-                {
-                   "width":2048,
-                   "height":1365,
-                   "name":"original",
-                   "id":7,
-                   "image":{
-                      "id":13,
-                      "file_extension":"png",
-                      "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-                      "width":255,
-                      "height":76,
-                      "length":4
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-                      }
-                   }
-                },
-                {
-                   "width":2048,
-                   "height":1365,
-                   "name":"thumbnail",
-                   "id":7,
-                   "image":{
-                      "id":13,
-                      "file_extension":"png",
-                      "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-                      "width":255,
-                      "height":76,
-                      "length":4
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-                      }
-                   }
-                },
-                {
-                   "width":2048,
-                   "height":1365,
-                   "name":"viewImage",
-                   "id":7,
-                   "image":{
-                      "id":13,
-                      "file_extension":"png",
-                      "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-                      "width":255,
-                      "height":76,
-                      "length":4
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-                      }
-                   }
-                }
-             ],
-             "headline":"Smoke on the water",
-             "copyright_holder":"Holder",
-             "copyright_notice":"Notice",
-             "_links":{
-                "download":{
-                   "href":"\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-                }
-             }
+        },
+        {
+          "id": 4,
+          "image": {
+            "id": 8,
+            "file_extension": "jpg",
+            "asset_id": "1234567890987654321c",
+            "width": 480,
+            "height": 720,
+            "length": 25
           },
+          "description": "test image",
+          "by_line": "Pawe\u0142 Miko\u0142ajczuk",
+          "alt_text": "test image",
+          "usage_terms": "indefinite-usage",
+          "renditions": [
+            {
+              "width": 1079,
+              "height": 720,
+              "name": "16-9",
+              "id": 8,
+              "image": {
+                "id": 6,
+                "file_extension": "jpg",
+                "asset_id": "1234567890987654321a",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpg"
+                }
+              }
+            },
+            {
+              "width": 800,
+              "height": 533,
+              "name": "4-3",
+              "id": 9,
+              "image": {
+                "id": 7,
+                "file_extension": "jpg",
+                "asset_id": "1234567890987654321b",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpg"
+                }
+              }
+            },
+            {
+              "width": 4000,
+              "height": 2667,
+              "name": "original",
+              "id": 10,
+              "image": {
+                "id": 8,
+                "file_extension": "jpg",
+                "asset_id": "1234567890987654321c",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
+                }
+              }
+            },
+            {
+              "width": 4000,
+              "height": 2667,
+              "name": "thumbnail",
+              "id": 10,
+              "image": {
+                "id": 8,
+                "file_extension": "jpg",
+                "asset_id": "1234567890987654321c",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
+                }
+              }
+            },
+            {
+              "width": 4000,
+              "height": 2667,
+              "name": "viewImage",
+              "id": 10,
+              "image": {
+                "id": 8,
+                "file_extension": "jpg",
+                "asset_id": "1234567890987654321c",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
+                }
+              }
+            }
+          ],
+          "headline": "test image",
+          "_links": {
+            "download": {
+              "href": "\/media\/1234567890987654321c.jpg"
+            }
+          }
+        },
+        {
+          "id": 5,
+          "image": {
+            "id": 11,
+            "file_extension": "jpg",
+            "asset_id": "2234567890987654321c",
+            "width": 480,
+            "height": 720,
+            "length": 25
+          },
+          "description": "test image 2",
+          "by_line": "Pawe\u0142 Miko\u0142ajczuk",
+          "alt_text": "test image",
+          "usage_terms": "indefinite-usage",
+          "renditions": [
+            {
+              "width": 1079,
+              "height": 720,
+              "name": "16-9",
+              "id": 11,
+              "image": {
+                "id": 9,
+                "file_extension": "jpg",
+                "asset_id": "2234567890987654321a",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpg"
+                }
+              }
+            },
+            {
+              "width": 800,
+              "height": 533,
+              "name": "4-3",
+              "id": 12,
+              "image": {
+                "id": 10,
+                "file_extension": "jpg",
+                "asset_id": "2234567890987654321b",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpg"
+                }
+              }
+            },
+            {
+              "width": 4000,
+              "height": 2667,
+              "name": "original",
+              "id": 13,
+              "image": {
+                "id": 11,
+                "file_extension": "jpg",
+                "asset_id": "2234567890987654321c",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
+                }
+              }
+            },
+            {
+              "width": 4000,
+              "height": 2667,
+              "name": "thumbnail",
+              "id": 13,
+              "image": {
+                "id": 11,
+                "file_extension": "jpg",
+                "asset_id": "2234567890987654321c",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
+                }
+              }
+            },
+            {
+              "width": 4000,
+              "height": 2667,
+              "name": "viewImage",
+              "id": 13,
+              "image": {
+                "id": 11,
+                "file_extension": "jpg",
+                "asset_id": "2234567890987654321c",
+                "width": 480,
+                "height": 720,
+                "length": 25
+              },
+              "preview_url": "http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
+              "_links": {
+                "public_url": {
+                  "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
+                }
+              }
+            }
+          ],
+          "headline": "test image",
+          "_links": {
+            "download": {
+              "href": "\/media\/2234567890987654321c.jpg"
+            }
+          }
+        }
+      ],
+      "feature_media": {
+        "id": 3,
+        "image": {
+          "id": 12,
+          "file_extension": "png",
+          "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+          "width": 255,
+          "height": 76,
+          "length": 4
+        },
+        "description": "Smoke on the water on River Gradac\u00a0",
+        "by_line": "Ljub. Z. Rankovi\u0107",
+        "alt_text": "Gradac alt text",
+        "usage_terms": "indefinite-usage",
+        "renditions": [
           {
-             "id":4,
-             "image":{
-                "id":8,
-                "file_extension":"jpg",
-                "asset_id":"1234567890987654321c",
-                "width":480,
-                "height":720,
-                "length":25
-             },
-             "description":"test image",
-             "by_line":"Pawe\u0142 Miko\u0142ajczuk",
-             "alt_text":"test image",
-             "usage_terms":"indefinite-usage",
-             "renditions":[
-                {
-                   "width":1079,
-                   "height":720,
-                   "name":"16-9",
-                   "id":8,
-                   "image":{
-                      "id":6,
-                      "file_extension":"jpg",
-                      "asset_id":"1234567890987654321a",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321a\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321a.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":800,
-                   "height":533,
-                   "name":"4-3",
-                   "id":9,
-                   "image":{
-                      "id":7,
-                      "file_extension":"jpg",
-                      "asset_id":"1234567890987654321b",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321b\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321b.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":4000,
-                   "height":2667,
-                   "name":"original",
-                   "id":10,
-                   "image":{
-                      "id":8,
-                      "file_extension":"jpg",
-                      "asset_id":"1234567890987654321c",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":4000,
-                   "height":2667,
-                   "name":"thumbnail",
-                   "id":10,
-                   "image":{
-                      "id":8,
-                      "file_extension":"jpg",
-                      "asset_id":"1234567890987654321c",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":4000,
-                   "height":2667,
-                   "name":"viewImage",
-                   "id":10,
-                   "image":{
-                      "id":8,
-                      "file_extension":"jpg",
-                      "asset_id":"1234567890987654321c",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/1234567890987654321c\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/1234567890987654321c.jpg"
-                      }
-                   }
-                }
-             ],
-             "headline":"test image",
-             "_links":{
-                "download":{
-                   "href":"\/media\/1234567890987654321c.jpg"
-                }
-             }
+            "width": 2048,
+            "height": 1365,
+            "name": "original",
+            "id": 7,
+            "image": {
+              "id": 13,
+              "file_extension": "png",
+              "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+              "width": 255,
+              "height": 76,
+              "length": 4
+            },
+            "preview_url": "http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
+            "_links": {
+              "public_url": {
+                "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+              }
+            }
           },
           {
-             "id":5,
-             "image":{
-                "id":11,
-                "file_extension":"jpg",
-                "asset_id":"2234567890987654321c",
-                "width":480,
-                "height":720,
-                "length":25
-             },
-             "description":"test image 2",
-             "by_line":"Pawe\u0142 Miko\u0142ajczuk",
-             "alt_text":"test image",
-             "usage_terms":"indefinite-usage",
-             "renditions":[
-                {
-                   "width":1079,
-                   "height":720,
-                   "name":"16-9",
-                   "id":11,
-                   "image":{
-                      "id":9,
-                      "file_extension":"jpg",
-                      "asset_id":"2234567890987654321a",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321a\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321a.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":800,
-                   "height":533,
-                   "name":"4-3",
-                   "id":12,
-                   "image":{
-                      "id":10,
-                      "file_extension":"jpg",
-                      "asset_id":"2234567890987654321b",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321b\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321b.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":4000,
-                   "height":2667,
-                   "name":"original",
-                   "id":13,
-                   "image":{
-                      "id":11,
-                      "file_extension":"jpg",
-                      "asset_id":"2234567890987654321c",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":4000,
-                   "height":2667,
-                   "name":"thumbnail",
-                   "id":13,
-                   "image":{
-                      "id":11,
-                      "file_extension":"jpg",
-                      "asset_id":"2234567890987654321c",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
-                      }
-                   }
-                },
-                {
-                   "width":4000,
-                   "height":2667,
-                   "name":"viewImage",
-                   "id":13,
-                   "image":{
-                      "id":11,
-                      "file_extension":"jpg",
-                      "asset_id":"2234567890987654321c",
-                      "width":480,
-                      "height":720,
-                      "length":25
-                   },
-                   "preview_url":"http:\/\/localhost:3000\/api\/upload\/2234567890987654321c\/raw?_schema=http",
-                   "_links":{
-                      "public_url":{
-                         "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/2234567890987654321c.jpg"
-                      }
-                   }
-                }
-             ],
-             "headline":"test image",
-             "_links":{
-                "download":{
-                   "href":"\/media\/2234567890987654321c.jpg"
-                }
-             }
+            "width": 2048,
+            "height": 1365,
+            "name": "thumbnail",
+            "id": 7,
+            "image": {
+              "id": 13,
+              "file_extension": "png",
+              "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+              "width": 255,
+              "height": 76,
+              "length": 4
+            },
+            "preview_url": "http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
+            "_links": {
+              "public_url": {
+                "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+              }
+            }
+          },
+          {
+            "width": 2048,
+            "height": 1365,
+            "name": "viewImage",
+            "id": 7,
+            "image": {
+              "id": 13,
+              "file_extension": "png",
+              "asset_id": "20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+              "width": 255,
+              "height": 76,
+              "length": 4
+            },
+            "preview_url": "http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
+            "_links": {
+              "public_url": {
+                "href": "http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+              }
+            }
           }
-       ],
-       "feature_media":{
-          "id":3,
-          "image":{
-             "id":12,
-             "file_extension":"png",
-             "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-             "width":255,
-             "height":76,
-             "length":4
-          },
-          "description":"Smoke on the water on River Gradac\u00a0",
-          "by_line":"Ljub. Z. Rankovi\u0107",
-          "alt_text":"Gradac alt text",
-          "usage_terms":"indefinite-usage",
-          "renditions":[
-             {
-                "width":2048,
-                "height":1365,
-                "name":"original",
-                "id":7,
-                "image":{
-                   "id":13,
-                   "file_extension":"png",
-                   "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-                   "width":255,
-                   "height":76,
-                   "length":4
-                },
-                "preview_url":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
-                "_links":{
-                   "public_url":{
-                      "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-                   }
-                }
-             },
-             {
-                "width":2048,
-                "height":1365,
-                "name":"thumbnail",
-                "id":7,
-                "image":{
-                   "id":13,
-                   "file_extension":"png",
-                   "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-                   "width":255,
-                   "height":76,
-                   "length":4
-                },
-                "preview_url":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
-                "_links":{
-                   "public_url":{
-                      "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-                   }
-                }
-             },
-             {
-                "width":2048,
-                "height":1365,
-                "name":"viewImage",
-                "id":7,
-                "image":{
-                   "id":13,
-                   "file_extension":"png",
-                   "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
-                   "width":255,
-                   "height":76,
-                   "length":4
-                },
-                "preview_url":"http:\/\/localhost:3000\/api\/upload\/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea\/raw",
-                "_links":{
-                   "public_url":{
-                      "href":"http:\/\/localhost\/uploads\/swp\/123456\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-                   }
-                }
-             }
-          ],
-          "headline":"Smoke on the water",
-          "copyright_holder":"Holder",
-          "copyright_notice":"Notice",
-          "_links":{
-             "download":{
-                "href":"\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
-             }
+        ],
+        "headline": "Smoke on the water",
+        "copyright_holder": "Holder",
+        "copyright_notice": "Notice",
+        "_links": {
+          "download": {
+            "href": "\/media\/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
           }
-       },
-       "is_published_fbia":false,
-       "article_statistics":{
-          "impressions_number":0,
-          "page_views_number":0,
-          "internal_click_rate":0,
-          "created_at":"2019-03-10T09:00:00+00:00",
-          "updated_at":"2019-03-10T09:00:00+00:00"
-       },
-       "comments_count":0,
-       "is_published_to_apple_news":false,
-       "tenant":{
-          "id":1,
-          "domain_name":"localhost",
-          "name":"Default tenant",
-          "code":"123abc",
-          "amp_enabled":true,
-          "_links":{
-             "self":{
-                "href":"\/api\/v2\/tenants\/123abc"
-             }
-          },
-          "default_language":"",
-          "fbia_enabled":false,
-          "paywall_enabled":false
-       },
-       "paywall_secured":false,
-       "content_lists":[
-
-       ],
-       "_links":{
-          "self":{
-             "href":"\/api\/v2\/content\/articles\/abstract-html-test-without-slideshow"
-          },
-          "online":{
-             "href":"\/news\/abstract-html-test-without-slideshow"
-          },
-          "related":{
-             "href":"\/api\/v2\/content\/articles\/6\/related\/"
-          },
-          "slideshows":{
-             "href":"\/api\/v2\/content\/slideshows\/6"
+        }
+      },
+      "is_published_fbia": false,
+      "article_statistics": {
+        "impressions_number": 0,
+        "page_views_number": 0,
+        "internal_click_rate": 0,
+        "created_at": "2019-03-10T09:00:00+00:00",
+        "updated_at": "2019-03-10T09:00:00+00:00"
+      },
+      "comments_count": 0,
+      "is_published_to_apple_news": false,
+      "tenant": {
+        "id": 1,
+        "domain_name": "localhost",
+        "name": "Default tenant",
+        "code": "123abc",
+        "amp_enabled": true,
+        "_links": {
+          "self": {
+            "href": "\/api\/v2\/tenants\/123abc"
           }
-       }
+        },
+        "default_language": "",
+        "fbia_enabled": false,
+        "paywall_enabled": false
+      },
+      "paywall_secured": false,
+      "content_lists": [],
+      "_links": {
+        "self": {
+          "href": "\/api\/v2\/content\/articles\/abstract-html-test-without-slideshow"
+        },
+        "online": {
+          "href": "\/news\/abstract-html-test-without-slideshow"
+        },
+        "related": {
+          "href": "\/api\/v2\/content\/articles\/6\/related\/"
+        },
+        "slideshows": {
+          "href": "\/api\/v2\/content\/slideshows\/6"
+        }
+      }
     }
     """
 

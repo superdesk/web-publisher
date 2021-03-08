@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine
+FROM php:7.4-fpm-alpine
 
 RUN apk update
 RUN apk add curl-dev
@@ -24,6 +24,7 @@ RUN set -ex \
         rabbitmq-c-dev \
         libzip-dev \
         zip \
+        oniguruma-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -37,10 +38,8 @@ RUN set -ex \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
-    && docker-php-ext-configure gd \
-        --with-png-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-configure gd --with-jpeg \
+    && docker-php-ext-configure zip \
     && docker-php-ext-install zip xml gd mbstring curl bcmath
 
 RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
@@ -50,7 +49,7 @@ RUN rm -f /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN "date"
 
-COPY --from=composer:1.6 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER 1
 # create composer cache directory

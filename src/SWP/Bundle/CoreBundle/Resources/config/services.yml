@@ -238,13 +238,13 @@ services:
         class: SWP\Bundle\CoreBundle\Security\Authenticator\ExternalOauthAuthenticator
         arguments:
             - "@knpu.oauth2.registry"
-            - "@fos_user.user_manager"
+            - '@SWP\Bundle\UserBundle\Model\UserManagerInterface'
             - "@security.helper"
 
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
         arguments:
-            - "@fos_user.user_manager"
+            - '@SWP\Bundle\UserBundle\Model\UserManagerInterface'
 
     swp.checker.amp_support:
         class: SWP\Bundle\CoreBundle\Checker\AmpSupportChecker
@@ -457,9 +457,13 @@ services:
             - '@swp.object_manager.article'
             - '@swp.repository.article'
             - '@event_dispatcher'
-            - '@fos_elastica.object_persister.swp.package'
+            - '@swp_elastica.persister_registry'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onUpdated, priority: 20 }
+
+    swp_elastica.persister_registry:
+        alias: fos_elastica.persister_registry
+        public: true
 
     swp_core.listener.package_status:
         class: SWP\Bundle\CoreBundle\EventListener\PackageStatusListener
