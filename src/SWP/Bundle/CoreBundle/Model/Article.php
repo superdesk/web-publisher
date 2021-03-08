@@ -197,4 +197,11 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
     {
         $this->appleNewsArticle = $appleNewsArticle;
     }
+
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->package->setUpdatedAt($updatedAt);
+
+        parent::setUpdatedAt($updatedAt);
+    }
 }

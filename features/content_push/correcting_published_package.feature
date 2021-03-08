@@ -5,6 +5,7 @@ Feature: Checking if package corrections work fine
   I want to be able to check if submitted request is processed correctly
 
   Scenario: Package status is not updated after the correction
+    And the current date time is "2021-03-08 10:22"
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/content/push" with body:
@@ -85,6 +86,9 @@ Feature: Checking if package corrections work fine
     And the JSON nodes should contain:
       | headline                | testing correction              |
       | status                  | published                       |
+      | updated_at               | 2021-03-08T10:22:00+00:00      |
+    And the JSON node "articles[0].updated_at" should be equal to "2021-03-08T10:22:00+00:00"
+    And the current date time is "2021-03-08 10:25"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/content/push" with body:
@@ -144,7 +148,8 @@ Feature: Checking if package corrections work fine
       | headline                | testing correction corrected    |
       | status                  | published                       |
       | slugline                | abstract-html-test-corrected    |
-
+      | updated_at               | 2021-03-08T10:25:00+00:00      |
+    And the JSON node "articles[0].updated_at" should be equal to "2021-03-08T10:25:00+00:00"
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
