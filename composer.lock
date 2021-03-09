@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfbe08b7e702f620afb35ef3d084b11f",
+    "content-hash": "9f59a3d21be6d2387f29d552feb28d68",
     "packages": [
         {
             "name": "apache/log4php",
