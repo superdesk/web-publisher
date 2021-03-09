@@ -20,7 +20,6 @@ use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Installer\ThemeInstallerInterface;
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessorInterface;
-use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -67,23 +66,12 @@ final class ThemeService implements ThemeServiceInterface
      */
     private $tenantRepository;
 
-    /**
-     * ThemeService constructor.
-     *
-     * @param ThemeInstallerInterface            $themeInstaller
-     * @param RequiredDataProcessorInterface     $requiredDataProcessor
-     * @param string                             $cacheDir
-     * @param TenantContextInterface             $tenantContext
-     * @param ReloadableThemeRepositoryInterface $themeRepository
-     * @param TenantAwareThemeContextInterface   $themeContext
-     * @param TenantRepositoryInterface          $tenantRepositorys
-     */
     public function __construct(
         ThemeInstallerInterface $themeInstaller,
         RequiredDataProcessorInterface $requiredDataProcessor,
         string $cacheDir,
         TenantContextInterface $tenantContext,
-        \Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface $themeRepository,
+        ThemeRepositoryInterface $themeRepository,
         TenantAwareThemeContextInterface $themeContext,
         TenantRepositoryInterface $tenantRepository
     ) {

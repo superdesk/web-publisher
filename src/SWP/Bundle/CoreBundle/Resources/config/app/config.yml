@@ -141,8 +141,6 @@ sylius_theme:
     context: "swp_core.theme.context.tenant_aware"
     sources:
         tenantable: ~
-#    legacy_mode: true
-
 
 
 swp_multi_tenancy:

@@ -129,17 +129,14 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
             $theme->setDescription($configuration['description'] ?? null);
             $theme->setName($configuration['name']);
 
-            //$parentThemes = $this->convertParentsNamesToParentsObjects($configuration['name'], $configuration['parents'], $themes);
             foreach ($configuration['parents'] as $parentTheme) {
                 $theme->addParent($parentTheme);
             }
 
-            //$themeAuthors = $this->convertAuthorsArraysToAuthorsObjects($configuration['authors']);
             foreach ($configuration['authors'] as $themeAuthor) {
                 $theme->addAuthor($themeAuthor);
             }
 
-            //$themeScreenshots = $this->convertScreenshotsArraysToScreenshotsObjects($configuration['screenshots']);
             foreach ($configuration['screenshots'] as $themeScreenshot) {
                 $theme->addScreenshot($themeScreenshot);
             }
@@ -148,7 +145,6 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
             if(isset($configuration['generatedData'])) {
                 $theme->setGeneratedData($configuration['generatedData']);
             }
-            //$themes[$themeName] = $this->themeHydrator->hydrate($configuration, $themes[$themeName]);
         }
 
         return $themes;
