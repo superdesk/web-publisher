@@ -1,4 +1,4 @@
- * PHP >= 7.3
+ * PHP >= 7.4
    * iconv needs to be enabled
    * Intl needs to be installed with ICU 4+
    * pdo needs to be enabled
@@ -19,7 +19,7 @@
  * Memcached
    * memcached (running)
    * php-memcached
- * ElasticSearch >= 5.4
+ * ElasticSearch >= 7.0
  * RabbitMQ >= 3.5
     * php-bcmath
     * php-amqp (`pecl install amqp`)
