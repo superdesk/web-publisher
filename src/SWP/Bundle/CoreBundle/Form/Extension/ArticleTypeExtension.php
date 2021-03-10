@@ -28,8 +28,8 @@ final class ArticleTypeExtension extends AbstractTypeExtension
         $builder->add('paywallSecured', BooleanType::class);
     }
 
-    public function getExtendedType(): string
+    public static function getExtendedTypes(): iterable
     {
-        return ArticleType::class;
+        return [ArticleType::class];
     }
 }
