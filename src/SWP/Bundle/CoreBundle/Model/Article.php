@@ -201,12 +201,12 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
 
     public function setPackageUpdatedAt(LifecycleEventArgs $event): void
     {
+        $article = $event->getObject();
         if (null === ($updatedAt = $article->getUpdatedAt())) {
             return;
         }
 
         $entityManager = $event->getEntityManager();
-        $article = $event->getObject();
         $this->package->setUpdatedAt($updatedAt);
 
         $entityManager->flush();
