@@ -95,10 +95,6 @@ fos_elastica:
                             type: 'object'
                             properties:
                                 pageViewsNumber: { type: integer }
-                        package:
-                            type: 'object'
-                            properties:
-                                updatedAt: { type: date }
                     persistence:
                         driver: orm
                         model: '%swp.model.article.class%'
