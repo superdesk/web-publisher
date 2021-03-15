@@ -1,8 +1,8 @@
 @content_push
-Feature: Checking if package corrections work fine
-  In order to correct a package
+Feature: Updating package's updated at timestamp when the article is updated
+  In order to show a proper order of articles both in Output Control and Content Lists
   As a HTTP Client
-  I want to be able to check if submitted request is processed correctly
+  I want to be able to check if the order of packages and articles is the same when sorting by updated_at timestamp
 
   Scenario: Package status is not updated after the correction
     Given I am authenticated as "test.user"
@@ -85,6 +85,8 @@ Feature: Checking if package corrections work fine
     And the JSON nodes should contain:
       | headline                | testing correction              |
       | status                  | published                       |
+
+    #And the current date time is "2021-03-08 10:25"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/content/push" with body:
@@ -136,6 +138,7 @@ Feature: Checking if package corrections work fine
     }
     """
     Then the response status code should be 201
+
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/packages/6"
@@ -144,9 +147,64 @@ Feature: Checking if package corrections work fine
       | headline                | testing correction corrected    |
       | status                  | published                       |
       | slugline                | abstract-html-test-corrected    |
+#      | updated_at              | 2021-03-08T10:25:00+00:00       |
+#    And the JSON node "articles[0].updated_at" should be equal to "2021-03-08T10:25:00+00:00"
+
+    And the JSON node "updated_at" should exist
+    And we save it into "package_updated_at"
+
+#    And the JSON node "articles[0].updated_at" should exist
+#    And we save it into "article_updated_at"
+
+
+
+#    And I am authenticated as "test.user"
+#    And I add "Content-Type" header equal to "application/json"
+#    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
+#    Then the response status code should be 200
+#    And the JSON node "title" should be equal to "testing correction corrected"
+#
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/packages/?limit=20&page=1&sorting%5Bupdated_at%5D=desc&status%5B%5D=published&status%5B%5D=unpublished"
+    Then the response status code should be 200
+    And the JSON node "_embedded._items[0].updated_at" should be equal to "<<package_updated_at>>"
+    And the JSON node "_embedded._items[0].articles[0].updated_at" should be equal to "<<package_updated_at>>"
+    And the JSON node "_embedded._items[0].headline" should be equal to "testing correction corrected"
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v2/content/articles/?limit=20&page=1&sorting%5Bupdated_at%5D=desc&status%5B%5D=published&status%5B%5D=unpublished"
     Then the response status code should be 200
-    And the JSON node "title" should be equal to "testing correction corrected"
+    And the JSON node "_embedded._items[0].updated_at" should be equal to "<<package_updated_at>>"
+    And the JSON node "_embedded._items[0].title" should be equal to "testing correction corrected"
+
+    And I wait 3 seconds
+
+    Then I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "PATCH" request to "/api/v2/content/articles/abstract-html-test" with body:
+     """
+      {
+          "seo_metadata": {
+              "meta_description": "This is my meta description"
+          }
+      }
+     """
+    Then the response status code should be 200
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/packages/6"
+    Then the response status code should be 200
+
+    And the JSON node "updated_at" should exist
+    And we save it into "package_updated_at"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v2/packages/?limit=20&page=1&sorting%5Bupdated_at%5D=desc&status%5B%5D=published&status%5B%5D=unpublished"
+    Then the response status code should be 200
+    And the JSON node "_embedded._items[0].updated_at" should be equal to "<<package_updated_at>>"
+    And the JSON node "_embedded._items[0].articles[0].updated_at" should be equal to "<<package_updated_at>>"
+    And the JSON node "_embedded._items[0].headline" should be equal to "testing correction corrected"
