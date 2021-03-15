@@ -206,6 +206,10 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
             return;
         }
 
+        if (null === $this->package) {
+            return;
+        }
+
         $entityManager = $event->getEntityManager();
         $this->package->setUpdatedAt($updatedAt);
 
