@@ -22,6 +22,8 @@ interface OutputChannelInterface extends PersistableInterface
 {
     public const TYPE_WORDPRESS = 'wordpress';
 
+    public const TYPE_PWA = 'pwa';
+
     /**
      * @return string
      */

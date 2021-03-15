@@ -37,12 +37,16 @@ final class OutputChannelType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Wordpress' => OutputChannelInterface::TYPE_WORDPRESS,
+                    'PWA' => OutputChannelInterface::TYPE_PWA,
                 ],
             ])
         ;
 
         $formModifier = function (FormInterface $form, ?string $type) {
             if (OutputChannelInterface::TYPE_WORDPRESS === $type) {
+                $form->add('config', WordpressOutputChannelConfigType::class);
+            }
+            if (OutputChannelInterface::TYPE_PWA === $type) {
                 $form->add('config', WordpressOutputChannelConfigType::class);
             }
         };
