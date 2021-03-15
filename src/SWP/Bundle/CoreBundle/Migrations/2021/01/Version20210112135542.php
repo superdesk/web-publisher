@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200923162328 extends AbstractMigration implements ContainerAwareInterface
+final class Version20210112135542 extends AbstractMigration implements ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -78,15 +78,16 @@ final class Version20200923162328 extends AbstractMigration implements Container
             $query->execute();
             $results = $query->fetchAll();
 
-            echo 'fetching '.$numberOfRecordsPerPage.' starting from '.$totalArticlesProcessed;
+            echo 'fetching '.$numberOfRecordsPerPage.' starting from '.$totalArticlesProcessed.PHP_EOL;
 
             foreach ($results as $result) {
                 $legacyExtra = unserialize($result['extra']);
                 if (empty($legacyExtra)) {
+                    ++$totalArticlesProcessed;
                     continue;
                 }
 
-                $article = $entityManager->getReference(
+                $article = $entityManager->find(
                     Article::class,
                     $result['id']
                 );
