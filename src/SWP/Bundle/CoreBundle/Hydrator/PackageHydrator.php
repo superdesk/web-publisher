@@ -16,10 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Hydrator;
 
+use DateTime;
 use GeneratedHydrator\Configuration;
 use SWP\Bundle\CoreBundle\Model\Package;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
-use SWP\Component\Common\Model\DateTime;
 
 final class PackageHydrator implements PackageHydratorInterface
 {
@@ -38,7 +38,7 @@ final class PackageHydrator implements PackageHydratorInterface
         $hydrator = new $hydratorClass();
 
         $newPackage->setCreatedAt($existingPackage->getCreatedAt());
-        $newPackage->setUpdatedAt(DateTime::getCurrentDateTime());
+        $newPackage->setUpdatedAt(new DateTime());
         $newPackage->setStatus($existingPackage->getStatus());
 
         if (null !== $newPackage->getId()) {
