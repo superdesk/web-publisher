@@ -766,8 +766,6 @@ services:
             - '@swp.factory.article_statistics'
             - '@swp.object_manager.article'
 
-#    //Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface: '@sylius.theme.hierarchy_provider'
-
     SWP\Bundle\CoreBundle\Service\SeoImageUploader:
         arguments:
             - '@swp.random_string_generator'

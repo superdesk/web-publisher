@@ -54,7 +54,7 @@ class ApplicationResourceLocator
 
         $path = sprintf('%s/views/%s', $theme->getPath(), $resourceName);
         if (!$this->filesystem->exists($path)) {
-            throw new TemplateNotFoundException($resourceName, []);
+            throw new TemplateNotFoundException($resourceName, [$theme]);
         }
 
         return $path;
