@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use SWP\Bundle\AnalyticsBundle\Model\ContentListsAwareTrait;
 use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
 use SWP\Component\GeoIP\Model\GeoIpPlaceInterface;
@@ -197,22 +196,5 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
     public function setAppleNewsArticle(?AppleNewsArticleInterface $appleNewsArticle): void
     {
         $this->appleNewsArticle = $appleNewsArticle;
-    }
-
-    public function setPackageUpdatedAt(LifecycleEventArgs $event): void
-    {
-        $article = $event->getObject();
-        if (null === ($updatedAt = $article->getUpdatedAt())) {
-            return;
-        }
-
-        if (null === $this->package) {
-            return;
-        }
-
-        $entityManager = $event->getEntityManager();
-        $this->package->setUpdatedAt($updatedAt);
-
-        $entityManager->flush();
     }
 }

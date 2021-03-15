@@ -65,5 +65,3 @@ SWP\Bundle\CoreBundle\Model\Article:
             columns: [published_at]
         swp_count_route:
             columns: [deleted_at, status, tenant_code]
-    lifecycleCallbacks:
-        postUpdate: ['setPackageUpdatedAt']
