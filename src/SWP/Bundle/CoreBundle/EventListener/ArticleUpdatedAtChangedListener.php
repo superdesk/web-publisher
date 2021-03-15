@@ -17,11 +17,19 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\Package;
 
 final class ArticleUpdatedAtChangedListener
 {
+    private ObjectPersisterInterface $elasticaObjectPersister;
+
+    public function __construct(ObjectPersisterInterface $elasticaObjectPersister)
+    {
+        $this->elasticaObjectPersister = $elasticaObjectPersister;
+    }
+
     public function postUpdate(ArticleInterface $article, LifecycleEventArgs $event): void
     {
         if (null === ($updatedAt = $article->getUpdatedAt())) {
@@ -38,5 +46,7 @@ final class ArticleUpdatedAtChangedListener
         $query->setParameter('id', $package->getId());
         $query->setParameter('updatedAt', $updatedAt);
         $query->execute();
+
+        $this->elasticaObjectPersister->replaceOne($package);
     }
 }
