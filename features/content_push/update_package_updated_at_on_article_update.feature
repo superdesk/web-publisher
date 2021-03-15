@@ -86,7 +86,6 @@ Feature: Updating package's updated at timestamp when the article is updated
       | headline                | testing correction              |
       | status                  | published                       |
 
-    #And the current date time is "2021-03-08 10:25"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/content/push" with body:
@@ -147,23 +146,9 @@ Feature: Updating package's updated at timestamp when the article is updated
       | headline                | testing correction corrected    |
       | status                  | published                       |
       | slugline                | abstract-html-test-corrected    |
-#      | updated_at              | 2021-03-08T10:25:00+00:00       |
-#    And the JSON node "articles[0].updated_at" should be equal to "2021-03-08T10:25:00+00:00"
-
     And the JSON node "updated_at" should exist
     And we save it into "package_updated_at"
 
-#    And the JSON node "articles[0].updated_at" should exist
-#    And we save it into "article_updated_at"
-
-
-
-#    And I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
-#    Then the response status code should be 200
-#    And the JSON node "title" should be equal to "testing correction corrected"
-#
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/packages/?limit=20&page=1&sorting%5Bupdated_at%5D=desc&status%5B%5D=published&status%5B%5D=unpublished"
