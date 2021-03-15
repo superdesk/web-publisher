@@ -161,10 +161,6 @@ Feature: Updating package's updated at timestamp when the article is updated
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/?limit=20&page=1&sorting%5Bupdated_at%5D=desc&status%5B%5D=published&status%5B%5D=unpublished"
     Then the response status code should be 200
-    And the JSON should be equal to:
-    """
-    {}
-    """
     And the JSON node "_embedded._items[0].updated_at" should be equal to "<<package_updated_at>>"
     And the JSON node "_embedded._items[0].title" should be equal to "testing correction corrected"
 
