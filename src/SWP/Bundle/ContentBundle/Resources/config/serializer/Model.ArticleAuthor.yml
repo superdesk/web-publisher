@@ -2,7 +2,7 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
     exclusion_policy: ALL
     properties:
         id:
-            type: string
+            type: int
             groups: [api, api_article_authors]
         avatar:
             groups: [api, api_article_authors]

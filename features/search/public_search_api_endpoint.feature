@@ -123,7 +123,7 @@ Feature: Public Search API endpoint
        "page":1,
        "limit":10,
        "pages":1,
-       "total":5,
+       "total":4,
        "_links":{
           "self":{
              "href":"/api/v2/search/articles/?page=1&limit=10"

@@ -82,10 +82,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         authors:
             expose: true
             groups: [api, api_article_authors, public_api]
-        extra:
-            expose: true
-            groups: [api]
-            type: array
         slideshows:
             expose: true
             groups: [api, api_articles_slideshows]
@@ -96,6 +92,11 @@ SWP\Bundle\ContentBundle\Model\Article:
         previousRelativeUrls:
             expose: true
             groups: [api]
+    virtual_properties:
+        getExtraArray:
+            name: extra
+            serialized_name: extra
+            type: array
     relations:
         -
             rel: self
