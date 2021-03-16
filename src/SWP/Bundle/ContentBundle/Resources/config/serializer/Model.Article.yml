@@ -7,26 +7,26 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: integer
         title:
             expose: true
-            groups: [api, api_packages_list, api_articles_list]
+            groups: [api, api_packages_list, api_articles_list, public_api]
             type: string
         lead:
             expose: true
-            groups: [api, api_articles_list]
+            groups: [api, api_articles_list, public_api]
             type: string
         body:
             expose: true
-            groups: [api, api_articles_list]
+            groups: [api, api_articles_list, public_api]
             type: string
         slug:
             expose: true
-            groups: [api, api_articles_list]
+            groups: [api, api_articles_list, public_api]
             type: string
         route:
             expose: true
-            groups: [api, api_packages_list, api_articles_list]
+            groups: [api, api_packages_list, api_articles_list, public_api]
         publishedAt:
             expose: true
-            groups: [api, api_packages_list, api_articles_list]
+            groups: [api, api_packages_list, api_articles_list, public_api]
             type: DateTime
         status:
             expose: true
@@ -45,7 +45,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: DateTime
         updatedAt:
             expose: true
-            groups: [api, api_packages_list, api_articles_list]
+            groups: [api, api_packages_list, api_articles_list, public_api]
             type: DateTime
         publishStartDate:
             expose: true
@@ -64,7 +64,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             groups: [api]
         featureMedia:
             expose: true
-            groups: [api, api_articles_featuremedia]
+            groups: [api, api_articles_featuremedia, public_api]
         metadata:
             expose: true
             groups: [api]
@@ -81,7 +81,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         authors:
             expose: true
-            groups: [api, api_article_authors]
+            groups: [api, api_article_authors, public_api]
         slideshows:
             expose: true
             groups: [api, api_articles_slideshows]
@@ -92,6 +92,12 @@ SWP\Bundle\ContentBundle\Model\Article:
         previousRelativeUrls:
             expose: true
             groups: [api]
+    virtual_properties:
+        getExtraArray:
+            name: extra
+            serialized_name: extra
+            type: array
+            groups: [api]
     relations:
         -
             rel: self
@@ -99,6 +105,8 @@ SWP\Bundle\ContentBundle\Model\Article:
                 route: swp_api_content_show_articles
                 parameters:
                     id: "expr(object.getSlug())"
+            exclusion:
+                groups: [api]
         -
             rel: online
             href:
@@ -107,12 +115,14 @@ SWP\Bundle\ContentBundle\Model\Article:
                     slug: "expr(object.getSlug())"
             exclusion:
                 exclude_if: "expr(object.getRoute() !== null && object.getRoute().getType() !== 'collection')"
+                groups: [api]
         -
             rel: online
             href:
                 route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles' )"
             exclusion:
                 exclude_if: "expr(object.getRoute() !== null && object.getRoute().getType() !== 'content')"
+                groups: [api]
         -
             rel: related
             href:
@@ -121,8 +131,4 @@ SWP\Bundle\ContentBundle\Model\Article:
                     id: "expr(object.getId())"
             exclusion:
                 exclude_if: "expr(null === object.getId())"
-    virtual_properties:
-        getExtraArray:
-            name: extra
-            serialized_name: extra
-            type: array
+                groups: [api]

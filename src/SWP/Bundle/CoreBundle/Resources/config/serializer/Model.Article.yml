@@ -41,3 +41,4 @@ SWP\Bundle\CoreBundle\Model\Article:
                     articleId: "expr(object.getId())"
             exclusion:
                 exclude_if: "expr(object.getId() === null)"
+                groups: [api]

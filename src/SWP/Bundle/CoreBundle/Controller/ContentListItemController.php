@@ -79,6 +79,7 @@ class ContentListItemController extends AbstractController
         $responseContext->setSerializationGroups(
             [
                 'Default',
+                'api',
                 'api_packages_list',
                 'api_content_list_item_details',
                 'api_articles_list',

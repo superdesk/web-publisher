@@ -3,13 +3,13 @@ SWP\Component\Bridge\Model\Author:
     properties:
         name:
             type: string
-            groups: [api, api_article_authors]
+            groups: [api, api_article_authors, public_api]
         biography:
             type: string
             groups: [api, api_article_authors]
         role:
             type: string
-            groups: [api, api_article_authors]
+            groups: [api, api_article_authors, public_api]
         avatarUrl:
             type: string
             serialized_name: avatar_url

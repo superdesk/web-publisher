@@ -16,31 +16,31 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             groups: [api, api_article_media_renditions]
         byLine:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
         body:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
             serialized_name: alt_text
         description:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
         usageTerms:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
         headline:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
         copyrightNotice:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
             type: string
         copyrightHolder:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
             type: string
         license:
             expose: true
-            groups: [api]
+            groups: [api, public_api]
     relations:
         -
             rel: download
