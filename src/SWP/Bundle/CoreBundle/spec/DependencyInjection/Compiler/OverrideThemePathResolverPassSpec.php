@@ -20,6 +20,7 @@ use SWP\Bundle\CoreBundle\Theme\Asset\PathResolver;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Sylius\Bundle\ThemeBundle\Asset\PathResolverInterface;
 
 /**
  * @mixin OverrideThemePathResolverPass
@@ -40,8 +41,8 @@ class OverrideThemePathResolverPassSpec extends ObjectBehavior
         ContainerBuilder $container,
         Definition $definition
     ) {
-        $container->hasDefinition('sylius.theme.asset.path_resolver')->willReturn(true);
-        $container->getDefinition('sylius.theme.asset.path_resolver')->willReturn($definition);
+        $container->hasDefinition(PathResolverInterface::class)->willReturn(true);
+        $container->getDefinition(PathResolverInterface::class)->willReturn($definition);
 
         $definition->setClass(PathResolver::class)->shouldBeCalled();
 
@@ -52,8 +53,8 @@ class OverrideThemePathResolverPassSpec extends ObjectBehavior
         ContainerBuilder $container,
         Definition $definition
     ) {
-        $container->hasDefinition('sylius.theme.asset.path_resolver')->willReturn(false);
-        $container->getDefinition('sylius.theme.asset.path_resolver')->shouldNotBeCalled();
+        $container->hasDefinition(PathResolverInterface::class)->willReturn(false);
+        $container->getDefinition(PathResolverInterface::class)->shouldNotBeCalled();
 
         $definition->setClass(PathResolver::class)->shouldNotBeCalled();
 

@@ -15,14 +15,13 @@
 namespace SWP\Bundle\CoreBundle\Locator;
 
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
-use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
-use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
+use Sylius\Bundle\ThemeBundle\Twig\Locator\TemplateNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class BundleResourceLocator implements ResourceLocatorInterface
+class BundleResourceLocator
 {
     /**
      * @var Filesystem
@@ -49,7 +48,7 @@ class BundleResourceLocator implements ResourceLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locateResource(string $resourcePath, ThemeInterface $theme): string
+    public function locate(string $resourcePath, ThemeInterface $theme): string
     {
         $this->assertResourcePathIsValid($resourcePath);
 
@@ -101,7 +100,7 @@ class BundleResourceLocator implements ResourceLocatorInterface
             }
         }
 
-        throw new ResourceNotFoundException($resourcePath, $theme);
+        throw new TemplateNotFoundException($resourceName, [$theme]);
     }
 
     private function locateResourceBasedOnTwigNamespace(string $resourcePath, ThemeInterface $theme): string
@@ -121,7 +120,7 @@ class BundleResourceLocator implements ResourceLocatorInterface
             return $path;
         }
 
-        throw new ResourceNotFoundException($resourcePath, $theme);
+        throw new TemplateNotFoundException($resourceName, [$theme]);
     }
 
     private function getBundleOrPluginName(string $twigNamespace): string
@@ -131,5 +130,10 @@ class BundleResourceLocator implements ResourceLocatorInterface
         }
 
         return $twigNamespace.'Bundle';
+    }
+
+    public function supports(string $template): bool
+    {
+        return strpos($template, '@') !== 0;
     }
 }

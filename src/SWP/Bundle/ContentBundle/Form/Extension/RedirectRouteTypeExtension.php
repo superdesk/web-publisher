@@ -29,8 +29,8 @@ final class RedirectRouteTypeExtension extends AbstractTypeExtension
         $builder->add('routeTarget', RouteSelectorType::class);
     }
 
-    public function getExtendedType(): string
+    public static function getExtendedTypes(): iterable
     {
-        return RedirectRouteType::class;
+        return [RedirectRouteType::class];
     }
 }

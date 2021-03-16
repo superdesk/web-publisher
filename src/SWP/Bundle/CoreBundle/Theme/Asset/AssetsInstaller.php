@@ -67,8 +67,8 @@ final class AssetsInstaller implements AssetsInstallerInterface
         Filesystem $filesystem,
         KernelInterface $kernel,
         ReloadableThemeRepositoryInterface $themeRepository,
-        ThemeHierarchyProviderInterface $themeHierarchyProvider,
-        PathResolverInterface $pathResolver
+        PathResolverInterface $pathResolver,
+        ThemeHierarchyProviderInterface $themeHierarchyProvider
     ) {
         $this->filesystem = $filesystem;
         $this->kernel = $kernel;
@@ -82,7 +82,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function installAssets(string $targetDir, int $symlinkMask)
+    public function installAssets(string $targetDir, int $symlinkMask): int
     {
         $targetDir = rtrim($targetDir, '/');
         $this->filesystem->mkdir($targetDir);
@@ -101,7 +101,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function installBundleAssets(BundleInterface $bundle, string $targetDir, int $symlinkMask)
+    public function installBundleAssets(BundleInterface $bundle, string $targetDir, int $symlinkMask): int
     {
         $targetDir .= preg_replace('/bundle$/', '', strtolower($bundle->getName()));
 
@@ -194,7 +194,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
         /** @var SplFileInfo[] $finder */
         foreach ($finder as $originFile) {
             $targetFile = $targetDir.'/'.$originFile->getRelativePathname();
-            $targetFile = $this->pathResolver->resolve($targetFile, $theme);
+            $targetFile = $this->pathResolver->resolve($targetFile, $originDir, $theme);
 
             if (file_exists($targetFile) && AssetsInstallerInterface::HARD_COPY !== $symlinkMask) {
                 continue;

@@ -35,9 +35,9 @@ class StaticThemeAssetsController extends Controller
      * @Route("/public-{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root_public", requirements={"fileName"=".+"})
      * @Route("/public/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_public", requirements={"fileName"=".+"})
      */
-    public function rootAction($fileName, $fileExtension)
+    public function rootAction($fileName, $fileExtension, ThemeHierarchyProviderInterface $themeHierarchyProvider)
     {
-        $themes = $this->get(ThemeHierarchyProviderInterface::class)->getThemeHierarchy(
+        $themes = $themeHierarchyProvider->getThemeHierarchy(
             $this->get('swp_core.theme.context.tenant_aware')->getTheme()
         );
 

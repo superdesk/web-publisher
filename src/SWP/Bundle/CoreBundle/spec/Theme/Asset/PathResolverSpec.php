@@ -37,12 +37,12 @@ class PathResolverSpec extends ObjectBehavior
     public function it_returns_modified_path_if_its_referencing_asset(ThemeInterface $theme)
     {
         $theme->getName()->willReturn('theme/name');
-        $this->resolve('theme/asset.min.js', $theme)->shouldReturn('bundles/_themes/theme/name/asset.min.js');
+        $this->resolve('theme/asset.min.js', '', $theme)->shouldReturn('bundles/_themes/theme/name/asset.min.js');
     }
 
     public function it_does_not_change_path_if_its_not_referencing_asset(ThemeInterface $theme)
     {
         $theme->getName()->willReturn('theme/name');
-        $this->resolve('/path/asset.min.js', $theme)->shouldReturn('/path/asset.min.js');
+        $this->resolve('/path/asset.min.js', '', $theme)->shouldReturn('/path/asset.min.js');
     }
 }
