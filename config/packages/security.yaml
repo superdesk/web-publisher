@@ -43,6 +43,11 @@ security:
             pattern:  ^/api/[v0-9]{2}/token/refresh
             stateless: true
             anonymous: true
+        article_search:
+            pattern: ^/api/[v0-9]{2}/content/articles
+            stateless: true
+            anonymous: true
+            security: false
         internal_api:
             pattern: ^/api/(?![v0-9]{2}/users/profile/*)
             anonymous: false
