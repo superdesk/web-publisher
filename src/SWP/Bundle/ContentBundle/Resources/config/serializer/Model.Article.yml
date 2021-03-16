@@ -88,7 +88,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: array
         slideshows:
             expose: true
-            groups: [api, api_articles_slideshows, public_api]
+            groups: [api, api_articles_slideshows]
             type: ArrayCollection
         seoMetadata:
             expose: true

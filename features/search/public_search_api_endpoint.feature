@@ -147,9 +147,6 @@ Feature: Public Search API endpoint
                    "slug":"technews"
                 },
                 "lead":"abstract",
-                "slideshows":[
-
-                ],
                 "updated_at":"2021-03-15T09:46:13+00:00",
                 "authors":[
                    {
