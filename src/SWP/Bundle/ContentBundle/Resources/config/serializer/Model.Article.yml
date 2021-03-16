@@ -97,6 +97,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             name: extra
             serialized_name: extra
             type: array
+            groups: [api]
     relations:
         -
             rel: self
