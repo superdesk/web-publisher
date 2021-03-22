@@ -243,6 +243,7 @@ which will use the newly created ``CustomAdapter``.
       -H 'Cache-Control: no-cache' \
       -H 'Content-Type: application/json' \
       -d '      {
+            "tenant": {
               "domainName": "example.com",
               "name": "Custom tenant",
               "subdomain": "custom",
@@ -254,6 +255,7 @@ which will use the newly created ``CustomAdapter``.
                   "secret": "secret"
                 }
               }
+            }
           }'
 
 
