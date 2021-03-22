@@ -140,7 +140,7 @@ jobs:
         run: ./bin/phpspec run
 
       - name: Run Behat tests
-        run: ./bin/behat -f progress -vvv --tags '~@custom-env&&~@webp'
+        run: ./bin/behat -f pretty -vvv --tags '~@custom-env&&~@webp'
         env:
           MEMCACHED_HOST: localhost
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}
