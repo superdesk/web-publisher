@@ -87,6 +87,10 @@ final class TenantType extends AbstractType
             ->add('appleNewsConfig', AppleNewsConfigType::class, [
                 'required' => false,
                 'help' => 'Apple News Config',
+            ])
+            ->add('pwaConfig', PWAConfigType::class, [
+                'required' => false,
+                'help' => 'Defines PWA config).',
             ]);
     }
 

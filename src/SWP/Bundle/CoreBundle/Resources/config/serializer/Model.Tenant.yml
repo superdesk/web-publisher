@@ -15,6 +15,9 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         ampEnabled:
             expose: true
             groups: [api]
+        pwaConfig:
+            expose: true
+            groups: [api]
         articlesCount:
             expose: true
             groups: [api]

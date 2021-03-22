@@ -57,4 +57,8 @@ interface TenantInterface extends ThemeAwareTenantInterface, SettingsOwnerInterf
     public function getAppleNewsConfig(): ?AppleNewsConfig;
 
     public function setAppleNewsConfig(?AppleNewsConfig $appleNewsConfig): void;
+
+    public function getPwaConfig(): ?PWAConfig;
+
+    public function setPwaConfig(?PWAConfig $pwaConfig): void;
 }
