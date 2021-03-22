@@ -23,7 +23,7 @@ use SWP\Bundle\CoreBundle\Model\Package;
 
 final class ArticleUpdatedAtChangedListener
 {
-    private ObjectPersisterInterface $elasticaObjectPersister;
+    private $elasticaObjectPersister;
 
     public function __construct(ObjectPersisterInterface $elasticaObjectPersister)
     {

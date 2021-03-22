@@ -36,6 +36,8 @@ final class DateTime
 
     public static function resetCurrentDateTime(): void
     {
-        static::$dateTime = null;
+        if (null !== static::$dateTime) {
+            static::$dateTime = null;
+        }
     }
 }
