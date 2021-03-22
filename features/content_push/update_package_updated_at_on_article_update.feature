@@ -146,6 +146,7 @@ Feature: Updating package's updated at timestamp when the article is updated
       | headline                | testing correction corrected    |
       | status                  | published                       |
       | slugline                | abstract-html-test-corrected    |
+    And print last JSON response
     And the JSON node "updated_at" should exist
     And we save it into "package_updated_at"
 
@@ -157,10 +158,13 @@ Feature: Updating package's updated at timestamp when the article is updated
     And the JSON node "_embedded._items[0].articles[0].updated_at" should be equal to "<<package_updated_at>>"
     And the JSON node "_embedded._items[0].headline" should be equal to "testing correction corrected"
 
+    And I wait 3 seconds
+    
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v2/content/articles/?limit=20&page=1&sorting%5Bupdated_at%5D=desc&status%5B%5D=published&status%5B%5D=unpublished"
     Then the response status code should be 200
+    And print last JSON response
     And the JSON node "_embedded._items[0].updated_at" should be equal to "<<package_updated_at>>"
     And the JSON node "_embedded._items[0].title" should be equal to "testing correction corrected"
 
