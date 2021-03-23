@@ -6,12 +6,12 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 class PWAConfig
 {
-    private string $url;
+    private ?string $url = null;
 
     /**
      * @return string
      */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }

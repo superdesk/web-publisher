@@ -18,6 +18,7 @@ use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Form\Type\AppleNewsConfigType;
 use SWP\Bundle\CoreBundle\Form\Type\BooleanType;
 use SWP\Bundle\CoreBundle\Form\Type\OrganizationCodeChoiceType;
+use SWP\Bundle\CoreBundle\Form\Type\PWAConfigType;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeNameChoiceType;
 use SWP\Bundle\OutputChannelBundle\Form\Type\OutputChannelType;
@@ -144,6 +145,12 @@ class TenantTypeSpec extends ObjectBehavior
                 'help' => 'Apple News Config',
             ])
             ->willReturn($builder)
+        ;
+
+        $builder->add('pwaConfig', PWAConfigType::class, [
+            'required' => false,
+            'help' => 'Defines PWA config).',
+        ])->willReturn($builder)
         ;
 
         $this->buildForm($builder, []);

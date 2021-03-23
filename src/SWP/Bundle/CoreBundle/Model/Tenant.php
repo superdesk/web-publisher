@@ -46,7 +46,7 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
     /** @var AppleNewsConfig|null */
     protected $appleNewsConfig;
 
-    protected ?PWAConfig $pwaConfig;
+    protected ?PWAConfig $pwaConfig = null;
 
     /**
      * {@inheritdoc}
