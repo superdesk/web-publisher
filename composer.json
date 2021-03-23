@@ -201,7 +201,8 @@
     },
     "conflict": {
         "symfony/symfony": "*",
-        "knplabs/knp-time-bundle": "1.9"
+        "knplabs/knp-time-bundle": "1.9",
+        "jms/serializer-bundle": "3.9"
     },
     "config": {
         "bin-dir": "bin",
@@ -228,3 +229,4 @@
         }
     }
 }
+

@@ -820,3 +820,12 @@ services:
             - '@swp.repository.author'
         tags:
             - { name: form.type }
+
+    SWP\Bundle\CoreBundle\EventListener\ArticleUpdatedAtChangedListener:
+        arguments:
+            - '@fos_elastica.object_persister.swp.package'
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postUpdate'
+                entity: 'SWP\Bundle\CoreBundle\Model\Article'
