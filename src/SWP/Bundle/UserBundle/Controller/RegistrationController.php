@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\UserBundle\Form\RegistrationFormType;
@@ -26,7 +25,6 @@ use SWP\Bundle\UserBundle\Security\EmailVerifier;
 use SWP\Bundle\UserBundle\Security\LoginAuthenticator;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,20 +55,16 @@ class RegistrationController extends AbstractController
      */
     private $userManager;
 
-    private TenantContextInterface $tenantContext;
-
     public function __construct(
         SettingsManagerInterface $settingsManager,
         ScopeContextInterface $scopeContext,
         EmailVerifier $emailVerifier,
-        UserManagerInterface $userManager,
-        TenantContextInterface  $tenantContext
+        UserManagerInterface $userManager
     ) {
         $this->settingsManager = $settingsManager;
         $this->scopeContext = $scopeContext;
         $this->emailVerifier = $emailVerifier;
         $this->userManager = $userManager;
-        $this->tenantContext = $tenantContext;
     }
 
     /**
@@ -109,7 +103,6 @@ class RegistrationController extends AbstractController
 
             $signatureComponents = $this->emailVerifier->getSignatureComponents('swp_user_verify_email', $user);
             $url = $signatureComponents->getSignedUrl();
-            $url = $this->applyPWAUrl($url);
 
             $mailer->sendConfirmationEmail($user, $url);
 
@@ -192,17 +185,5 @@ class RegistrationController extends AbstractController
         if (!$registrationEnabled) {
             throw new NotFoundHttpException('Registration is disabled.');
         }
-    }
-
-    private function applyPWAUrl (string $url): string {
-        if ($this->tenantContext->getTenant() &&
-            $this->tenantContext->getTenant()->getPWAConfig() &&
-            $this->tenantContext->getTenant()->getPWAConfig()->getUrl()
-        ) {
-            $PWAUrlParts = parse_url($this->tenantContext->getTenant()->getPWAConfig()['url']);
-            $urlParts = parse_url($url);
-            $url = $PWAUrlParts['scheme'].'://'.$PWAUrlParts['host'].':'.$PWAUrlParts['port'].$urlParts['path'].'?'.$urlParts['query'];
-        }
-        return $url;
     }
 }
