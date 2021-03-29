@@ -9,13 +9,13 @@ SWP\Bundle\ContentBundle\Model\Route:
             groups: [api, api_routes_list]
         name:
             expose: true
-            groups: [api, api_routes_list]
+            groups: [api, api_routes_list, public_api]
         description:
             expose: true
             groups: [api]
         slug:
             expose: true
-            groups: [api, api_routes_list]
+            groups: [api, api_routes_list, public_api]
         cacheTimeInSeconds:
             expose: true
             groups: [api]
@@ -55,6 +55,8 @@ SWP\Bundle\ContentBundle\Model\Route:
                 route: swp_api_content_show_routes
                 parameters:
                     id: expr(object.getId())
+          exclusion:
+              groups: [api]
         - rel: parent
           href:
                 route: swp_api_content_show_routes
@@ -62,3 +64,4 @@ SWP\Bundle\ContentBundle\Model\Route:
                     id: expr(object.getParent().getId())
           exclusion:
                 exclude_if: expr(null === object.getParent())
+                groups: [api]

@@ -61,7 +61,6 @@ class Theme extends BaseTheme implements ThemeInterface
         if ($tempName = strstr($name, ThemeHelper::SUFFIX_SEPARATOR, true)) {
             $name = $tempName;
         }
-
         parent::__construct($name, $path);
     }
 
@@ -159,6 +158,11 @@ class Theme extends BaseTheme implements ThemeInterface
     public function hasLogo(): bool
     {
         return null !== $this->logo;
+    }
+
+    public function setGeneratedData(array $generatedData): void
+    {
+        $this->generatedData = $generatedData;
     }
 
     /**

@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 use SWP\Bundle\CoreBundle\Theme\Translation\ThemeAwareTranslator;
 use SWP\Bundle\CoreBundle\Translation\MessageFormatter;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Sylius\Bundle\ThemeBundle\Translation\ThemeAwareTranslator as SyliusThemeAwareTranslator;
 
 final class OverrideThemeTranslatorPass extends AbstractOverridePass
 {
@@ -27,7 +28,7 @@ final class OverrideThemeTranslatorPass extends AbstractOverridePass
     {
         $this->overrideDefinitionClassIfExists(
             $container,
-            'sylius.theme.translation.theme_aware_translator',
+            SyliusThemeAwareTranslator::class,
             ThemeAwareTranslator::class
         );
 

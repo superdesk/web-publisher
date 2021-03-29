@@ -25,6 +25,7 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,13 +49,13 @@ class ThemesController extends Controller
     /**
      * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_tenant_themes")
      */
-    public function listInstalledAction(): ResourcesListResponseInterface
+    public function listInstalledAction(ThemeRepositoryInterface $themeRepository): ResourcesListResponseInterface
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
         $tenantCode = $tenant->getCode();
         $themes = array_filter(
-            $this->get('sylius.repository.theme')->findAll(),
+            $themeRepository->findAll(),
             static function ($element) use (&$tenantCode) {
                 if (strpos($element->getName(), ThemeHelper::SUFFIX_SEPARATOR.$tenantCode)) {
                     return true;

@@ -25,7 +25,6 @@ use Sylius\Bundle\ThemeBundle\Loader\ThemeLoadingFailedException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeAuthor;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeScreenshot;
-use Zend\Hydrator\HydrationInterface;
 
 /**
  * @author Kamil Kokot <kamil.kokot@lakion.com>
@@ -54,11 +53,6 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
     private $themeScreenshotFactory;
 
     /**
-     * @var HydrationInterface
-     */
-    private $themeHydrator;
-
-    /**
      * @var CircularDependencyCheckerInterface
      */
     private $circularDependencyChecker;
@@ -68,7 +62,6 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
      * @param ThemeFactoryInterface              $themeFactory
      * @param ThemeAuthorFactoryInterface        $themeAuthorFactory
      * @param ThemeScreenshotFactoryInterface    $themeScreenshotFactory
-     * @param HydrationInterface                 $themeHydrator
      * @param CircularDependencyCheckerInterface $circularDependencyChecker
      */
     public function __construct(
@@ -76,14 +69,12 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
         ThemeFactoryInterface $themeFactory,
         ThemeAuthorFactoryInterface $themeAuthorFactory,
         ThemeScreenshotFactoryInterface $themeScreenshotFactory,
-        HydrationInterface $themeHydrator,
         CircularDependencyCheckerInterface $circularDependencyChecker
     ) {
         $this->configurationProvider = $configurationProvider;
         $this->themeFactory = $themeFactory;
         $this->themeAuthorFactory = $themeAuthorFactory;
         $this->themeScreenshotFactory = $themeScreenshotFactory;
-        $this->themeHydrator = $themeHydrator;
         $this->circularDependencyChecker = $circularDependencyChecker;
     }
 
@@ -132,7 +123,28 @@ final class TenantAwareThemeLoader implements ThemeLoaderInterface
             $configuration['authors'] = $this->convertAuthorsArraysToAuthorsObjects($configuration['authors']);
             $configuration['screenshots'] = $this->convertScreenshotsArraysToScreenshotsObjects($configuration['screenshots']);
 
-            $themes[$themeName] = $this->themeHydrator->hydrate($configuration, $themes[$themeName]);
+            $theme = $themes[$configuration['name']];
+
+            $theme->setTitle($configuration['title'] ?? null);
+            $theme->setDescription($configuration['description'] ?? null);
+            $theme->setName($configuration['name']);
+
+            foreach ($configuration['parents'] as $parentTheme) {
+                $theme->addParent($parentTheme);
+            }
+
+            foreach ($configuration['authors'] as $themeAuthor) {
+                $theme->addAuthor($themeAuthor);
+            }
+
+            foreach ($configuration['screenshots'] as $themeScreenshot) {
+                $theme->addScreenshot($themeScreenshot);
+            }
+            $themes[$themeName] = $theme;
+
+            if(isset($configuration['generatedData'])) {
+                $theme->setGeneratedData($configuration['generatedData']);
+            }
         }
 
         return $themes;

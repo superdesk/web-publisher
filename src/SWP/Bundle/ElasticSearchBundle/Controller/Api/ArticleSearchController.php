@@ -32,27 +32,7 @@ class ArticleSearchController extends Controller
      */
     public function searchAction(Request $request, RepositoryManagerInterface $repositoryManager)
     {
-        $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
-
-        $criteria = Criteria::fromQueryParameters(
-            $request->query->get('term', ''),
-            [
-                'page' => $request->query->get('page'),
-                'sort' => $request->query->get('sorting'),
-                'limit' => $request->query->get('limit', 10),
-                'routes' => array_filter((array) $request->query->get('route', [])),
-                'statuses' => array_filter((array) $request->query->get('status', [])),
-                'authors' => array_filter((array) $request->query->get('author', [])),
-                'publishedBefore' => $request->query->has('published_before') ? new \DateTime($request->query->get('published_before')) : null,
-                'publishedAfter' => $request->query->has('published_after') ? new \DateTime($request->query->get('published_after')) : null,
-                'publishedAt' => $request->query->get('published_at'),
-                'tenantCode' => $currentTenant->getCode(),
-                'sources' => array_filter((array) $request->query->get('source', [])),
-                'metadata' => array_filter((array) $request->query->get('metadata', [])),
-                'keywords' => array_filter((array) $request->query->get('keywords', [])),
-            ]
-        );
-
+        $criteria = $this->createCriteriaFrom($request);
         $extraFields = $this->get('service_container')->getParameter('env(ELASTICA_ARTICLE_EXTRA_FIELDS)');
 
         $options = [
@@ -71,21 +51,59 @@ class ArticleSearchController extends Controller
         );
 
         $responseContext = new ResponseContext();
-        $responseContext->setSerializationGroups(
-            [
-                'Default',
-                'api_articles_list',
-                'api_articles_featuremedia',
-                'api_article_authors',
-                'api_article_media_list',
-                'api_article_media_renditions',
-                'api_image_details',
-                'api_routes_list',
-                'api_tenant_list',
-                'api_articles_statistics_list',
-            ]
-        );
+        $responseContext->setSerializationGroups($this->getSerializationGroups());
 
         return new ResourcesListResponse($pagination, $responseContext);
+    }
+
+    private function createCriteriaFrom(Request $request): Criteria
+    {
+        return Criteria::fromQueryParameters(
+            $request->query->get('term', ''),
+            array_merge($this->createDefaultCriteria($request), $this->createAdditionalCriteria($request)
+            ));
+    }
+
+    private function createDefaultCriteria(Request $request): array
+    {
+        $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
+
+        return [
+            'page' => $request->query->get('page'),
+            'sort' => $request->query->get('sorting'),
+            'limit' => $request->query->get('limit', 10),
+            'tenantCode' => $currentTenant->getCode(),
+        ];
+    }
+
+    protected function getSerializationGroups(): array
+    {
+        return [
+            'Default',
+            'api_articles_list',
+            'api_articles_featuremedia',
+            'api_article_authors',
+            'api_article_media_list',
+            'api_article_media_renditions',
+            'api_image_details',
+            'api_routes_list',
+            'api_tenant_list',
+            'api_articles_statistics_list',
+        ];
+    }
+
+    protected function createAdditionalCriteria(Request $request): array
+    {
+        return [
+            'routes' => array_filter((array) $request->query->get('route', [])),
+            'statuses' => array_filter((array) $request->query->get('status', [])),
+            'authors' => array_filter((array) $request->query->get('author', [])),
+            'publishedBefore' => $request->query->has('published_before') ? new \DateTime($request->query->get('published_before')) : null,
+            'publishedAfter' => $request->query->has('published_after') ? new \DateTime($request->query->get('published_after')) : null,
+            'publishedAt' => $request->query->get('published_at'),
+            'sources' => array_filter((array) $request->query->get('source', [])),
+            'metadata' => array_filter((array) $request->query->get('metadata', [])),
+            'keywords' => array_filter((array) $request->query->get('keywords', [])),
+        ];
     }
 }

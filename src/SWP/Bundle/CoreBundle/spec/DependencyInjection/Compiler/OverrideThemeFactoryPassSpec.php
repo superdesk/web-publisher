@@ -20,6 +20,7 @@ use SWP\Bundle\CoreBundle\Theme\Factory\ThemeFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Sylius\Bundle\ThemeBundle\Factory\ThemeFactoryInterface;
 
 /**
  * @mixin OverrideThemeFactoryPass
@@ -40,8 +41,8 @@ class OverrideThemeFactoryPassSpec extends ObjectBehavior
         ContainerBuilder $container,
         Definition $definition
     ) {
-        $container->hasDefinition('sylius.factory.theme')->willReturn(true);
-        $container->getDefinition('sylius.factory.theme')->willReturn($definition);
+        $container->hasDefinition(ThemeFactoryInterface::class)->willReturn(true);
+        $container->getDefinition(ThemeFactoryInterface::class)->willReturn($definition);
 
         $definition->setClass(ThemeFactory::class)->shouldBeCalled();
 
@@ -52,8 +53,8 @@ class OverrideThemeFactoryPassSpec extends ObjectBehavior
         ContainerBuilder $container,
         Definition $definition
     ) {
-        $container->hasDefinition('sylius.factory.theme')->willReturn(false);
-        $container->getDefinition('sylius.factory.theme')->shouldNotBeCalled();
+        $container->hasDefinition(ThemeFactoryInterface::class)->willReturn(false);
+        $container->getDefinition(ThemeFactoryInterface::class)->shouldNotBeCalled();
 
         $definition->setClass(ThemeFactory::class)->shouldNotBeCalled();
 

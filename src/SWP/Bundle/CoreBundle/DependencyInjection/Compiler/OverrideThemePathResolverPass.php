@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Asset\PathResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Sylius\Bundle\ThemeBundle\Asset\PathResolverInterface;
 
 final class OverrideThemePathResolverPass extends AbstractOverridePass
 {
@@ -26,7 +27,7 @@ final class OverrideThemePathResolverPass extends AbstractOverridePass
     {
         $this->overrideDefinitionClassIfExists(
             $container,
-            'sylius.theme.asset.path_resolver',
+            PathResolverInterface::class,
             PathResolver::class
         );
     }

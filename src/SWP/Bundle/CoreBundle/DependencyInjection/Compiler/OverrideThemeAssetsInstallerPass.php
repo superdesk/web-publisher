@@ -15,7 +15,10 @@
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Asset\AssetsInstaller;
+use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstallerInterface;
+use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
 {
@@ -26,8 +29,12 @@ final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
     {
         $this->overrideDefinitionClassIfExists(
             $container,
-            'sylius.theme.asset.assets_installer',
+            AssetsInstallerInterface::class,
             AssetsInstaller::class
         );
+
+        if($newDefinition = $this->getDefinitionIfExists($container, AssetsInstallerInterface::class)) {
+            $newDefinition->setArgument(4, new Reference(ThemeHierarchyProviderInterface::class));
+        }
     }
 }
