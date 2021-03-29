@@ -53,6 +53,8 @@ class Route extends BaseRoute implements RouteInterface
      */
     protected $level;
 
+    protected $redirectRoute;
+
     /**
      * Route constructor.
      */
@@ -222,5 +224,17 @@ class Route extends BaseRoute implements RouteInterface
     public function __toString()
     {
         return $this->getName();
+    }
+
+
+    public function getRedirectRoute(): ?RedirectRouteInterface
+    {
+        return $this->redirectRoute;
+    }
+
+
+    public function setRedirectRoute(?RedirectRouteInterface $redirectRoute): void
+    {
+        $this->redirectRoute = $redirectRoute;
     }
 }

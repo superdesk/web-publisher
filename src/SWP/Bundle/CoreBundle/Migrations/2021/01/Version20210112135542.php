@@ -6,9 +6,9 @@ namespace SWP\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedField;
 use SWP\Bundle\ContentBundle\Model\ArticleExtraTextField;
+use SWP\Bundle\CoreBundle\Model\Article;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

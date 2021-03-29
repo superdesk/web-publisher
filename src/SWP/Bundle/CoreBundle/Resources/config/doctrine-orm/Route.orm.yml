@@ -17,3 +17,7 @@ SWP\Bundle\CoreBundle\Model\Route:
             columns: [ name, tenant_code ]
         prefix_idx:
             columns: [ staticprefix, tenant_code ]
+    oneToOne:
+        redirectRoute:
+            targetEntity: SWP\Bundle\CoreBundle\Model\RedirectRoute
+            mappedBy: routeSource
