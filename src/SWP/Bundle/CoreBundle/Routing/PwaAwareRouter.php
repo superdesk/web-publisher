@@ -63,7 +63,12 @@ class PwaAwareRouter extends Router
         ) {
             $PWAUrlParts = parse_url($this->tenantContext->getTenant()->getPWAConfig()->getUrl());
             $urlParts = parse_url($url);
-            $url = $PWAUrlParts['scheme'].'://'.$PWAUrlParts['host'].':'.$PWAUrlParts['port'].$urlParts['path'].'?'.$urlParts['query'];
+            $scheme = $PWAUrlParts['scheme'] ?? 'https';
+            $scheme .= '://';
+            $host = $PWAUrlParts['host'] . ':';
+            $port = $PWAUrlParts['port'] ?? '';
+            $query = isset($urlParts['query']) ? '?' . $urlParts['query'] : '';
+            $url = $scheme . $host . $port . $urlParts['path'] . $query;
         }
         return $url;
     }
