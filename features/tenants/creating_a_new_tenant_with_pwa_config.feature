@@ -13,18 +13,18 @@ Feature: Adding a new tenant with Apple News config
           "name": "Example tenant",
           "subdomain": "tenant1",
           "pwa_config": {
-            "url": "pwa_url"
+            "url": "http://pwaurl.local"
           }
       }
     """
     Then the response status code should be 201
     Then the JSON node "code" should exist
     And we save it into "tenant_code"
-    And the JSON node "pwa_config.url" should be equal to "pwa_url"
+    And the JSON node "pwa_config.url" should be equal to "http://pwaurl.local"
 
     Given I am authenticated as "test.user"
     And I send a "GET" request to "/api/v2/tenants/"
-    And the JSON node "_embedded._items[3].pwa_config.url" should be equal to "pwa_url"
+    And the JSON node "_embedded._items[3].pwa_config.url" should be equal to "http://pwaurl.local"
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
