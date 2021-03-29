@@ -33,7 +33,7 @@ class PWAConfigType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Length(['min' => 3]),
-                    new Url(),
+                    new Url(['message' => 'The PWA url "{{ value }}" is not a valid url.']),
                 ],
             ]);
     }
