@@ -435,7 +435,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt":4,"description":null}]}}',               true
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v2\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v2\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt":4,"description":null,"redirect_route": null}]}}',               true
             ),
             $content
         );
