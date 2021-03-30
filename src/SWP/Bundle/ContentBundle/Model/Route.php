@@ -53,7 +53,7 @@ class Route extends BaseRoute implements RouteInterface
      */
     protected $level;
 
-    protected ?RedirectRouteInterface $redirectRoute;
+    protected ?RedirectRouteInterface $redirectRoute = null;
 
     /**
      * Route constructor.
