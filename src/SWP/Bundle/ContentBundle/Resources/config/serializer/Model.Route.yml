@@ -49,6 +49,9 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
             accessor:
                 getter: getParentId
+        redirectRoute:
+            expose: true
+            groups: [api]
     relations:
         - rel: self
           href:

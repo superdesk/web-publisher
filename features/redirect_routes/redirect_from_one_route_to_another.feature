@@ -33,6 +33,92 @@ Feature: Redirecting readers from already existing routes to other existing rout
 
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
+    And I send a "GET" request to "/api/v2/content/routes/1"
+    Then the response status code should be 200
+    And the JSON should be equal to:
+    """
+    {
+       "requirements":{
+          "slug":"[a-zA-Z0-9*\\-_]+"
+       },
+       "id":1,
+       "content":null,
+       "static_prefix":"/test",
+       "variable_pattern":"/{slug}",
+       "parent":null,
+       "children":[
+
+       ],
+       "lft":1,
+       "rgt":2,
+       "level":0,
+       "redirect_route":{
+          "requirements":[
+
+          ],
+          "id":1,
+          "content":null,
+          "static_prefix":"/test",
+          "variable_pattern":null,
+          "uri":null,
+          "route_name":null,
+          "route_target":{
+             "requirements":{
+                "slug":"[a-zA-Z0-9*\\-_]+"
+             },
+             "id":2,
+             "content":null,
+             "static_prefix":"/sport",
+             "variable_pattern":"/{slug}",
+             "parent":null,
+             "children":[
+
+             ],
+             "lft":3,
+             "rgt":4,
+             "level":0,
+             "redirect_route":null,
+             "template_name":null,
+             "articles_template_name":null,
+             "type":"collection",
+             "cache_time_in_seconds":0,
+             "name":"sport",
+             "description":null,
+             "slug":"sport",
+             "position":1,
+             "articles_count":0,
+             "paywall_secured":false,
+             "_links":{
+                "self":{
+                   "href":"/api/v2/content/routes/2"
+                }
+             }
+          },
+          "permanent":false,
+          "parameters":[
+
+          ]
+       },
+       "template_name":null,
+       "articles_template_name":null,
+       "type":"collection",
+       "cache_time_in_seconds":0,
+       "name":"test",
+       "description":null,
+       "slug":"test",
+       "position":0,
+       "articles_count":0,
+       "paywall_secured":false,
+       "_links":{
+          "self":{
+             "href":"/api/v2/content/routes/1"
+          }
+       }
+    }
+    """
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v2/redirects/" with body:
      """
       {
@@ -72,7 +158,7 @@ Feature: Redirecting readers from already existing routes to other existing rout
                 ],
                 "id":1,
                 "content":null,
-                "static_prefix": "/test",
+                "static_prefix":"/test",
                 "variable_pattern":null,
                 "uri":null,
                 "route_name":null,
@@ -91,13 +177,14 @@ Feature: Redirecting readers from already existing routes to other existing rout
                    "lft":3,
                    "rgt":4,
                    "level":0,
+                   "redirect_route":null,
                    "template_name":null,
-		   "articles_template_name":null,
+                   "articles_template_name":null,
                    "type":"collection",
                    "cache_time_in_seconds":0,
                    "name":"sport",
-		   "description":null,
-		   "slug":"sport",
+                   "description":null,
+                   "slug":"sport",
                    "position":1,
                    "articles_count":0,
                    "paywall_secured":false,
@@ -126,12 +213,12 @@ Feature: Redirecting readers from already existing routes to other existing rout
                    "lft":1,
                    "rgt":2,
                    "level":0,
-		   "template_name":null,
+                   "template_name":null,
                    "articles_template_name":null,
                    "type":"collection",
                    "cache_time_in_seconds":0,
-		   "name":"test",
-		   "description":null,
+                   "name":"test",
+                   "description":null,
                    "slug":"test",
                    "position":0,
                    "articles_count":0,

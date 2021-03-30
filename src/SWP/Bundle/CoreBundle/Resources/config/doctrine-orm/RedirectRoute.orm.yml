@@ -7,3 +7,10 @@ SWP\Bundle\CoreBundle\Model\RedirectRoute:
     indexes:
         swp_redirect_route_prefix:
             columns: [staticprefix, tenant_code]
+    oneToOne:
+        routeSource:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            inversedBy: redirectRoute
+            joinColumn:
+                name: route_source_id
+                referencedColumnName: id

@@ -53,6 +53,8 @@ class Route extends BaseRoute implements RouteInterface
      */
     protected $level;
 
+    protected ?RedirectRouteInterface $redirectRoute = null;
+
     /**
      * Route constructor.
      */
@@ -80,9 +82,6 @@ class Route extends BaseRoute implements RouteInterface
         return $this->getName();
     }
 
-    /**
-     * @param ArticleInterface $article
-     */
     public function addArticle(ArticleInterface $article): void
     {
         if (!$this->articles->contains($article)) {
@@ -185,9 +184,6 @@ class Route extends BaseRoute implements RouteInterface
         return $this->rgt;
     }
 
-    /**
-     * @param int $right
-     */
     public function setRight(int $right)
     {
         $this->rgt = $right;
@@ -222,5 +218,15 @@ class Route extends BaseRoute implements RouteInterface
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getRedirectRoute(): ?RedirectRouteInterface
+    {
+        return $this->redirectRoute;
+    }
+
+    public function setRedirectRoute(?RedirectRouteInterface $redirectRoute): void
+    {
+        $this->redirectRoute = $redirectRoute;
     }
 }
