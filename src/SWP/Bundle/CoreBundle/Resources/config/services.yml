@@ -823,7 +823,7 @@ services:
 
     SWP\Bundle\CoreBundle\EventListener\ArticleUpdatedAtChangedListener:
         arguments:
-            - '@fos_elastica.object_persister.swp.package'
+            - '@swp_elastica.persister_registry'
         tags:
             -
                 name: 'doctrine.orm.entity_listener'
