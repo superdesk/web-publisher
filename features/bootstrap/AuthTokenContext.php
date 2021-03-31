@@ -71,6 +71,7 @@ final class AuthTokenContext extends RestContext
     public function iGrabTheConfirmationUrlConvertItToPublisherDomainAndFollowIt()
     {
         $url = str_replace('http://pwa_url.local:80/', $this->getMinkParameter('base_url'), json_decode($this->request->getContent())->url);
+        //$this->request->setHttpHeader('X-Requested-With', 'XMLHttpRequest');
         $this->iSendARequestTo('GET', $url);
     }
 }
