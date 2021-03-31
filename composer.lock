@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f59a3d21be6d2387f29d552feb28d68",
+    "content-hash": "2a3b602f63bcbf148a145e48cdf1768c",
     "packages": [
         {
             "name": "apache/log4php",
@@ -9205,61 +9205,52 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "v1.5.1",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "92ee6d8dbf1a74f9ee96e618808752800dd69f10"
+                "reference": "d6f4488b5b91be76e4868394f22fdfa916d81f1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/92ee6d8dbf1a74f9ee96e618808752800dd69f10",
-                "reference": "92ee6d8dbf1a74f9ee96e618808752800dd69f10",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/d6f4488b5b91be76e4868394f22fdfa916d81f1f",
+                "reference": "d6f4488b5b91be76e4868394f22fdfa916d81f1f",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "^2.5",
-                "php": "^7.2",
-                "symfony/asset": "^3.4|^4.3",
-                "symfony/config": "^3.4|^4.3",
-                "symfony/console": "^3.4|^4.3",
-                "symfony/dependency-injection": "^3.4|^4.3",
-                "symfony/filesystem": "^3.4|^4.3",
-                "symfony/finder": "^3.4|^4.3",
-                "symfony/form": "^3.4|^4.3",
-                "symfony/framework-bundle": "^3.4|^4.3",
-                "symfony/http-foundation": "^3.4|^4.3",
-                "symfony/http-kernel": "^3.4|^4.3",
-                "symfony/options-resolver": "^3.4|^4.3",
-                "symfony/templating": "^3.4|^4.3",
-                "symfony/translation": "^3.4|^4.3",
-                "symfony/translation-contracts": "^1.0",
-                "zendframework/zend-hydrator": "^2.2"
-            },
-            "conflict": {
-                "twig/twig": "^1.0"
+                "php": "^7.3",
+                "symfony/asset": "^4.4 || ^5.1",
+                "symfony/config": "^4.4 || ^5.1",
+                "symfony/console": "^4.4 || ^5.1",
+                "symfony/dependency-injection": "^4.4 || ^5.1",
+                "symfony/filesystem": "^4.4 || ^5.1",
+                "symfony/finder": "^4.4 || ^5.1",
+                "symfony/form": "^4.4 || ^5.1",
+                "symfony/framework-bundle": "^4.4 || ^5.1",
+                "symfony/http-foundation": "^4.4 || ^5.1",
+                "symfony/http-kernel": "^4.4 || ^5.1",
+                "symfony/options-resolver": "^4.4 || ^5.1",
+                "symfony/service-contracts": "^1.1 || ^2.0",
+                "symfony/translation": "^4.4 || ^5.1",
+                "symfony/translation-contracts": "^1.1 || ^2.0"
             },
             "require-dev": {
-                "matthiasnoback/symfony-config-test": "^4.0",
-                "matthiasnoback/symfony-dependency-injection-test": "^3.0",
+                "matthiasnoback/symfony-config-test": "^4.2",
+                "matthiasnoback/symfony-dependency-injection-test": "^4.2",
                 "mikey179/vfsstream": "^1.6",
-                "phpspec/phpspec": "^5.0",
-                "phpstan/phpstan": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-webmozart-assert": "^0.11",
-                "phpunit/phpunit": "^7.0",
-                "proget-hq/phpstan-phpspec": "^0.2",
-                "sylius-labs/coding-standard": "^3.0",
-                "symfony/browser-kit": "^3.4|^4.3",
-                "symfony/security-csrf": "^3.4|^4.3",
-                "symfony/twig-bundle": "^3.4|^4.3",
-                "twig/twig": "^2.0",
-                "vimeo/psalm": "^3.5"
+                "phpspec/phpspec": "^7.0",
+                "phpunit/phpunit": "^9.4",
+                "sylius-labs/coding-standard": "^3.2",
+                "symfony/browser-kit": "^4.4 || ^5.1",
+                "symfony/security-csrf": "^4.4 || ^5.1",
+                "symfony/twig-bundle": "^4.4 || ^5.1",
+                "twig/twig": "^2.0 || ^3.0",
+                "vimeo/psalm": "4.2.1"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -9274,28 +9265,28 @@
             "authors": [
                 {
                     "name": "Kamil Kokot",
-                    "homepage": "http://kamil.kokot.me"
+                    "homepage": "https://kamilkokot.com"
                 },
                 {
                     "name": "Sylius project",
-                    "homepage": "http://sylius.com"
+                    "homepage": "https://sylius.com"
                 },
                 {
                     "name": "Community contributions",
-                    "homepage": "http://github.com/Sylius/Sylius/contributors"
+                    "homepage": "https://github.com/Sylius/Sylius/contributors"
                 }
             ],
             "description": "Themes management for Symfony projects.",
-            "homepage": "http://sylius.com",
+            "homepage": "https://sylius.com",
             "keywords": [
                 "themes",
                 "theming"
             ],
             "support": {
                 "issues": "https://github.com/Sylius/SyliusThemeBundle/issues",
-                "source": "https://github.com/Sylius/SyliusThemeBundle/tree/1.5"
+                "source": "https://github.com/Sylius/SyliusThemeBundle/tree/v2.1.1"
             },
-            "time": "2020-05-05T13:02:03+00:00"
+            "time": "2021-01-13T08:21:37+00:00"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -14187,16 +14178,16 @@
         },
         {
             "name": "symfony/templating",
-            "version": "v4.4.18",
+            "version": "v4.4.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/templating.git",
-                "reference": "fcb67846db4de1bbb8cc970394b8d2bea15b704b"
+                "reference": "de52205770c4884be1ac54d5b222d4d62b073dc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/templating/zipball/fcb67846db4de1bbb8cc970394b8d2bea15b704b",
-                "reference": "fcb67846db4de1bbb8cc970394b8d2bea15b704b",
+                "url": "https://api.github.com/repos/symfony/templating/zipball/de52205770c4884be1ac54d5b222d4d62b073dc8",
+                "reference": "de52205770c4884be1ac54d5b222d4d62b073dc8",
                 "shasum": ""
             },
             "require": {
@@ -14232,10 +14223,10 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Templating Component",
+            "description": "Provides all the tools needed to build any kind of template system",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/templating/tree/v4.4.18"
+                "source": "https://github.com/symfony/templating/tree/v4.4.20"
             },
             "funding": [
                 {
@@ -14251,7 +14242,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-24T11:50:19+00:00"
+            "time": "2021-01-27T09:09:26+00:00"
         },
         {
             "name": "symfony/translation",

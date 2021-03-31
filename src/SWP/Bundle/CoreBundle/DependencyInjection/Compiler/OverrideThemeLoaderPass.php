@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Theme\Loader\TenantAwareThemeLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
 
 final class OverrideThemeLoaderPass extends AbstractOverridePass
 {
@@ -26,7 +27,7 @@ final class OverrideThemeLoaderPass extends AbstractOverridePass
     {
         $this->overrideDefinitionClassIfExists(
             $container,
-            'sylius.theme.loader',
+            ThemeLoaderInterface::class,
             TenantAwareThemeLoader::class
         );
     }

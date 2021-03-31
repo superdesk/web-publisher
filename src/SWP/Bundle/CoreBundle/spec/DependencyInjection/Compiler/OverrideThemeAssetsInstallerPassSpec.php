@@ -17,9 +17,12 @@ namespace spec\SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeAssetsInstallerPass;
 use SWP\Bundle\CoreBundle\Theme\Asset\AssetsInstaller;
+use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstallerInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @mixin OverrideThemeAssetsInstallerPass
@@ -40,9 +43,10 @@ class OverrideThemeAssetsInstallerPassSpec extends ObjectBehavior
         ContainerBuilder $container,
         Definition $definition
     ) {
-        $container->hasDefinition('sylius.theme.asset.assets_installer')->willReturn(true);
-        $container->getDefinition('sylius.theme.asset.assets_installer')->willReturn($definition);
+        $container->hasDefinition(AssetsInstallerInterface::class)->willReturn(true);
+        $container->getDefinition(AssetsInstallerInterface::class)->willReturn($definition);
 
+        $definition->setArgument(4, new Reference(ThemeHierarchyProviderInterface::class))->shouldBeCalled();
         $definition->setClass(AssetsInstaller::class)->shouldBeCalled();
 
         $this->process($container);
@@ -52,9 +56,10 @@ class OverrideThemeAssetsInstallerPassSpec extends ObjectBehavior
         ContainerBuilder $container,
         Definition $definition
     ) {
-        $container->hasDefinition('sylius.theme.asset.assets_installer')->willReturn(false);
-        $container->getDefinition('sylius.theme.asset.assets_installer')->shouldNotBeCalled();
+        $container->hasDefinition(AssetsInstallerInterface::class)->willReturn(false);
+        $container->getDefinition(AssetsInstallerInterface::class)->shouldNotBeCalled();
 
+        $definition->setArgument(4, new Reference(ThemeHierarchyProviderInterface::class))->shouldNotBeCalled();
         $definition->setClass(AssetsInstaller::class)->shouldNotBeCalled();
 
         $this->process($container)->shouldReturn(null);
