@@ -20,6 +20,7 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleSourceAdde
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideAssetLocationResolver;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideBodyListenerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideEmailVerifierPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideEmbeddedImageProcessorPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
@@ -72,6 +73,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideSerializerPass());
         $container->addCompilerPass(new OverrideEmbeddedImageProcessorPass());
         $container->addCompilerPass(new OverrideBodyListenerPass());
+        $container->addCompilerPass(new OverrideEmailVerifierPass());
     }
 
     /**

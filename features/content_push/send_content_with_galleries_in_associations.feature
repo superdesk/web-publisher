@@ -1557,6 +1557,7 @@ Feature: Handling the custom media fields
         "name": "Default tenant",
         "code": "123abc",
         "amp_enabled": true,
+        "pwa_config":[],
         "_links": {
           "self": {
             "href": "\/api\/v2\/tenants\/123abc"
