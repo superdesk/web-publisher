@@ -1,7 +1,7 @@
-Feature: Adding a new tenant with Apple News config
-  In order to publish content to multiple channels
+Feature: Adding a new tenant with PWA config
+  In order to publish content to PWA
   As a HTTP Client
-  I want to add a new tenant with Apple News config via API
+  I want to add a new tenant with PWA config via API
 
   Scenario: Adding a new tenant with Apple News integration
     Given I am authenticated as "test.user"

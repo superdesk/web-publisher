@@ -38,12 +38,13 @@ final class VerifyEmailHelper implements VerifyEmailHelperInterface
 
     private TenantContextInterface $tenantContext;
 
-    public function __construct(UrlGeneratorInterface $router,
-                                UriSigner $uriSigner,
-                                VerifyEmailQueryUtility $queryUtility,
-                                VerifyEmailTokenGenerator $generator,
-                                int $lifetime,
-                                TenantContextInterface $tenantContext
+    public function __construct(
+        UrlGeneratorInterface $router,
+        UriSigner $uriSigner,
+        VerifyEmailQueryUtility $queryUtility,
+        VerifyEmailTokenGenerator $generator,
+        int $lifetime,
+        TenantContextInterface $tenantContext
     ) {
         $this->router = $router;
         $this->uriSigner = $uriSigner;
@@ -106,7 +107,7 @@ final class VerifyEmailHelper implements VerifyEmailHelperInterface
             $urlParts = parse_url($url);
             $scheme = $PWAUrlParts['scheme'] ?? 'https';
             $scheme .= '://';
-            $host = $PWAUrlParts['host']; //. ':';
+            $host = $PWAUrlParts['host'];
             $port = isset($PWAUrlParts['port']) ? ':'.$PWAUrlParts['port'] : '';
             $query = isset($urlParts['query']) ? '?'.$urlParts['query'] : '';
             $url = $scheme.$host.$port.$urlParts['path'].$query;
