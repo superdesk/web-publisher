@@ -36,7 +36,7 @@ class Version20170301172303 extends AbstractMigration implements ContainerAwareI
 
         $this->addSql('ALTER TABLE swp_tenant ALTER subdomain DROP NOT NULL');
         $query = $this->container->get('doctrine.orm.default_entity_manager')
-            ->createQuery('SELECT t FROM SWP\Bundle\CoreBundle\Model\Tenant t');
+            ->createQuery('SELECT t.id, t.domainName, t.subdomain FROM SWP\Bundle\CoreBundle\Model\Tenant t');
         $tenants = $query->getResult();
         $domain = $this->container->getParameter('env(SWP_DOMAIN)');
         /** @var TenantInterface $tenant */

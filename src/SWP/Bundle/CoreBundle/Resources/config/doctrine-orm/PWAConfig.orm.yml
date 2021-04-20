@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\PWAConfig:
+  type: embeddable
+  fields:
+    url:
+      type: string
+      nullable: true
