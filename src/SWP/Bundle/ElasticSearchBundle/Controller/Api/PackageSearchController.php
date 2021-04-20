@@ -67,6 +67,7 @@ class PackageSearchController extends Controller
         $responseContext->setSerializationGroups(
             [
                 'Default',
+                'api',
                 'api_packages_list',
                 'api_packages_items_list',
                 'api_tenant_list',
