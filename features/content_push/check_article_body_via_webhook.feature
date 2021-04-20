@@ -242,6 +242,7 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         "name": "Default tenant",
         "code": "123abc",
         "amp_enabled": true,
+        "pwa_config":[],
         "_links": {
           "self": {
             "href": "\/api\/v2\/tenants\/123abc"

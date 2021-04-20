@@ -103,6 +103,7 @@ class RegistrationController extends AbstractController
 
             $signatureComponents = $this->emailVerifier->getSignatureComponents('swp_user_verify_email', $user);
             $url = $signatureComponents->getSignedUrl();
+
             $mailer->sendConfirmationEmail($user, $url);
 
             return new JsonResponse([
@@ -124,6 +125,10 @@ class RegistrationController extends AbstractController
     public function verifyUserEmail(Request $request, GuardAuthenticatorHandler $guardHandler, LoginAuthenticator $authenticator): Response
     {
         $id = (int) $request->get('id'); // retrieve the user id from the url
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->verifyUserEmailFromPWA($id, $request);
+        }
 
         // Verify the user id exists and is not null
         if (null === $id) {
@@ -184,5 +189,37 @@ class RegistrationController extends AbstractController
         if (!$registrationEnabled) {
             throw new NotFoundHttpException('Registration is disabled.');
         }
+    }
+
+    private function verifyUserEmailFromPWA(int $id, Request $request): JsonResponse
+    {
+        // Verify the user id exists and is not null
+        if (null === $id) {
+            return new JsonResponse(
+                ['error' => 'User does not exist']
+            );
+        }
+
+        $user = $this->userManager->find($id);
+
+        // Ensure the user exists in persistence
+        if (null === $user) {
+            return new JsonResponse(
+                ['error' => 'User does not exist']
+            );
+        }
+
+        // validate email confirmation link, sets User::isVerified=true and persists
+        try {
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
+        } catch (VerifyEmailExceptionInterface $exception) {
+            return new JsonResponse(
+                ['error' => 'Registration confirmation invalid']
+            );
+        }
+
+        return new JsonResponse(
+            ['message' => 'The user has been created successfully.']
+        );
     }
 }

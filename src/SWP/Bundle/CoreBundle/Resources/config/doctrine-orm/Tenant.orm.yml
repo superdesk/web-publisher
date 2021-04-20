@@ -7,6 +7,10 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             nullable: true
         ampEnabled:
             type: boolean
+    embedded:
+        pwaConfig:
+            class: PWAConfig
+            nulllable: true
     oneToOne:
         homepage:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
