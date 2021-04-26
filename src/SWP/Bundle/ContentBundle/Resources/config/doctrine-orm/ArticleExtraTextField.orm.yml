@@ -2,7 +2,7 @@ SWP\Bundle\ContentBundle\Model\ArticleExtraTextField:
     type: entity
     fields:
       value:
-        type: string
+        type: text
     manyToOne:
       article:
         targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface

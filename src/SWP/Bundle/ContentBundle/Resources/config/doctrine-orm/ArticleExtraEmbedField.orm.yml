@@ -2,7 +2,7 @@ SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedField:
     type: entity
     fields:
       embed:
-        type: string
+        type: text
       description:
         type: string
     manyToOne:

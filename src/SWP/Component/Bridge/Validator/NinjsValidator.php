@@ -107,7 +107,7 @@ class NinjsValidator extends JsonValidator
       "type":"array",
       "items":{
         "type":"object",
-        "additionalProperties":false,
+        "additionalProperties":true,
         "properties":{
           "code":{
             "description":"The qualified code of the category",
