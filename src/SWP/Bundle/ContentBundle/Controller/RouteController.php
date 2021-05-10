@@ -72,9 +72,9 @@ class RouteController extends FOSRestController
         }
 
         $eventDispatcher = $this->container->get('event_dispatcher');
-        $eventDispatcher->dispatch(RouteEvents::PRE_DELETE, new RouteEvent($route, RouteEvents::PRE_DELETE));
+        $eventDispatcher->dispatch(new RouteEvent($route, RouteEvents::PRE_DELETE), RouteEvents::PRE_DELETE);
         $repository->remove($route);
-        $eventDispatcher->dispatch(RouteEvents::POST_DELETE, new RouteEvent($route, RouteEvents::POST_DELETE));
+        $eventDispatcher->dispatch(new RouteEvent($route, RouteEvents::POST_DELETE), RouteEvents::POST_DELETE);
 
         return $this->handleView(View::create(true, 204));
     }

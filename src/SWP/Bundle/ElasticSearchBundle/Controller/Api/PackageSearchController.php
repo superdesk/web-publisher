@@ -22,6 +22,7 @@ use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,7 +33,7 @@ class PackageSearchController extends Controller
      */
     public function searchAction(Request $request, RepositoryManagerInterface $repositoryManager)
     {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
 
         $criteria = Criteria::fromQueryParameters(

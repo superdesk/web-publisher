@@ -31,6 +31,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,7 +43,7 @@ class PackageController extends Controller
      */
     public function listAction(Request $request)
     {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
         $packages = $this->getPackageRepository()
@@ -67,7 +68,7 @@ class PackageController extends Controller
      */
     public function publishAction(Request $request, int $id): SingleResourceResponseInterface
     {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         /** @var PackageInterface $package */
         $package = $this->findOr404($id);
 
@@ -89,7 +90,7 @@ class PackageController extends Controller
      */
     public function unpublishAction(Request $request, int $id): SingleResourceResponseInterface
     {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $package = $this->findOr404($id);
         $form = $this->get('form.factory')->createNamed('', UnpublishFromTenantsType::class, null, ['method' => $request->getMethod()]);
 
@@ -113,7 +114,7 @@ class PackageController extends Controller
      */
     public function updateAction(Request $request, int $id)
     {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $package = $this->findOr404($id);
         $form = $this->get('form.factory')->createNamed('', PackageType::class, $package, ['method' => $request->getMethod()]);
 
@@ -135,7 +136,7 @@ class PackageController extends Controller
      */
     private function findOr404(int $id)
     {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
         if (null === $package = $this->getPackageRepository()->findOneBy(['id' => $id, 'organization' => $tenantContext->getTenant()->getOrganization()])) {

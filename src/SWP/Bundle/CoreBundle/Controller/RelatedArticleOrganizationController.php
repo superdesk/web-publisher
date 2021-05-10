@@ -24,6 +24,7 @@ use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -66,7 +67,7 @@ class RelatedArticleOrganizationController extends Controller
             return $relatedArticlesList;
         }
 
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $articleRepository = $this->get('swp.repository.article');
 
         foreach ($relatedItemsGroups as $item) {
@@ -94,7 +95,7 @@ class RelatedArticleOrganizationController extends Controller
 
     private function findOr404(int $id): PackageInterface
     {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
         if (null === $package = $this->get('swp.repository.package')->findOneBy(['id' => $id, 'organization' => $tenantContext->getTenant()->getOrganization()])) {
             throw new NotFoundHttpException('Package was not found.');

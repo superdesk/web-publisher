@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Command;
 
 use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 use function explode;
 use Knp\Component\Pager\Pagination\SlidingPagination;
@@ -93,7 +94,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $currentTenant = $this->tenantContext->getTenant();
         $this->requestStack->push(new Request());
 

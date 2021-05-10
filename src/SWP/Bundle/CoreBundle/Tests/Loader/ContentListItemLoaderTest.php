@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Twig;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentListItemLoaderTest extends WebTestCase
@@ -52,7 +53,7 @@ class ContentListItemLoaderTest extends WebTestCase
 
         $this->getContainer()->get('swp_multi_tenancy.tenant_context')
             ->setTenant($this->getContainer()->get('swp.repository.tenant')->findOneByCode('123abc'));
-        $this->getContainer()->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->getContainer()->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 
     public function testFetchingContentListItems()

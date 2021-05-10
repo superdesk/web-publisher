@@ -32,6 +32,7 @@ use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AddArticleToListListener
 {
@@ -74,7 +75,7 @@ class AddArticleToListListener
         try {
             /** @var ArticleInterface $article */
             $article = $event->getArticle();
-            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+            $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
 
             /** @var ContentListInterface[] $contentLists */
             $contentLists = $this->listRepository->findByTypes([
@@ -109,7 +110,7 @@ class AddArticleToListListener
 
             $this->contentListItemRepository->flush();
 
-            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+            $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
             $this->entityManager->commit();
         } catch (\Exception $e) {
             $this->entityManager->rollback();

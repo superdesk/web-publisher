@@ -26,6 +26,7 @@ use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RulesMatcher implements RulesMatcherInterface
 {
@@ -93,7 +94,7 @@ class RulesMatcher implements RulesMatcherInterface
         $article = $this->articleFactory->createFromPackage($package);
         $article->setPackage($package);
 
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destinations = $this->publishDestinationProvider->getDestinations($package);
         $evaluatedOrganizationRules = $this->processPackageRules($package);
@@ -101,7 +102,7 @@ class RulesMatcher implements RulesMatcherInterface
         $processedRules = $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
         $result = $this->process($processedRules, $destinations);
 
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
 
         return $result;
     }

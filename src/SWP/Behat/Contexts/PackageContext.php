@@ -61,7 +61,7 @@ final class PackageContext extends AbstractContext implements Context
     public function theFollowingPackageNinjs(PyStringNode $node)
     {
         $package = $this->jsonToPackageTransformer->transform($node->getRaw());
-        $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $this->eventDispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
         $this->messageBus->dispatch(new ContentPushMessage($this->tenantContext->getTenant()->getId(), $node->getRaw()));
     }
 
@@ -70,7 +70,7 @@ final class PackageContext extends AbstractContext implements Context
      */
     public function iPublishTheSubmittedPackage(string $guid, PyStringNode $string): void
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $package = $this->packageRepository->findOneBy(['guid' => $guid]);
 

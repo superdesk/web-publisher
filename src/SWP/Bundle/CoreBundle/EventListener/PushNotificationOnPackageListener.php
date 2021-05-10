@@ -76,12 +76,12 @@ final class PushNotificationOnPackageListener
 
     private function pushNotification(PackageInterface $package, string $state)
     {
-        $this->pusher->push([
-            'package' => json_decode($this->serializer->serialize($package, 'json'), true),
-            'state' => $state,
-        ],
-            'package_created'
-        );
+//        $this->pusher->push([
+//            'package' => json_decode($this->serializer->serialize($package, 'json'), true),
+//            'state' => $state,
+//        ],
+//            'package_created'
+//        );
     }
 
     /**

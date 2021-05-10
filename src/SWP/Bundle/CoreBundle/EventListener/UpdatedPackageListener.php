@@ -75,7 +75,7 @@ final class UpdatedPackageListener
 
     private function handleArticlesUpdate(PackageInterface $package)
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $articles = $this->articleRepository
             ->getArticlesByPackage($package)
             ->getQuery()
@@ -85,35 +85,35 @@ final class UpdatedPackageListener
 
         foreach ($articles as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
-            $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
+            $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE), ArticleEvents::PRE_UPDATE);
             // Flush in loop to emit POST_UPDATE article event
             $this->articleManager->flush();
-            $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));
+            $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE), ArticleEvents::POST_UPDATE);
         }
 
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 
     private function handleCancelationAndUnpublishing(PackageInterface $package)
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         foreach ($this->articleRepository->findBy(['package' => $package]) as $article) {
             if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
                 $this->eventDispatcher->dispatch(
+                    new ArticleEvent($article, null, ArticleEvents::CANCELED),
                     ArticleEvents::CANCELED,
-                    new ArticleEvent($article, null, ArticleEvents::CANCELED)
                 );
             } elseif (ContentInterface::STATUS_UNPUBLISHED === $package->getPubStatus()) {
                 $this->eventDispatcher->dispatch(
-                    ArticleEvents::UNPUBLISH,
-                    new ArticleEvent($article, null, ArticleEvents::UNPUBLISH)
+                    new ArticleEvent($article, null, ArticleEvents::UNPUBLISH),
+                    ArticleEvents::UNPUBLISH
                 );
             }
         }
 
         $this->articleManager->flush();
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 
     private function getPackage(GenericEvent $event)

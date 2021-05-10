@@ -52,7 +52,7 @@ class PackagePreviewController extends Controller
         $articlePreview = new ArticlePreview();
         $articlePreview->setArticle($article);
 
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::PREVIEW, new GenericEvent($articlePreview));
+        $this->get('event_dispatcher')->dispatch(new GenericEvent($articlePreview), ArticleEvents::PREVIEW);
 
         if (null !== ($url = $articlePreview->getPreviewUrl())) {
             return new RedirectResponse($url);
@@ -78,7 +78,7 @@ class PackagePreviewController extends Controller
         $content = (string) $request->getContent();
         $dispatcher = $this->get('event_dispatcher');
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $dispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
 
         $tokenRepository = $this->get('swp.repository.package_preview_token');
         $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
@@ -130,7 +130,7 @@ class PackagePreviewController extends Controller
         $articlePreview = new ArticlePreview();
         $articlePreview->setArticle($article);
 
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::PREVIEW, new GenericEvent($articlePreview));
+        $this->get('event_dispatcher')->dispatch(new GenericEvent($articlePreview), ArticleEvents::PREVIEW);
 
         $url = $articlePreview->getPreviewUrl();
 
@@ -151,7 +151,7 @@ class PackagePreviewController extends Controller
     {
         $dispatcher = $this->get('event_dispatcher');
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($packagePreviewToken->getBody());
-        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $dispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
 
         $articlePreviewer = $this->get(ArticlePreviewer::class);
         $articlePreviewContext = $this->get(ArticlePreviewContext::class);

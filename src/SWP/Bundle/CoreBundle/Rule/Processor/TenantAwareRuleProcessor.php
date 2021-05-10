@@ -20,6 +20,7 @@ use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Processor\RuleProcessorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class TenantAwareRuleProcessor implements RuleProcessorInterface
 {
@@ -50,8 +51,8 @@ final class TenantAwareRuleProcessor implements RuleProcessorInterface
      */
     public function process(RuleSubjectInterface $subject)
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
         $this->decoratedRuleProcessor->process($subject);
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
     }
 }

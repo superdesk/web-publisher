@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_key_exists;
 use DateTime;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -69,7 +70,7 @@ class TenantController extends FOSRestController
         $forceRemove = $request->query->has('force');
         if (!$forceRemove) {
             $tenantContext->setTenant($tenant);
-            $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+            $eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
             $articlesRepository = $this->get('swp.repository.article');
             $existingArticles = $articlesRepository->findAll();
             if (0 !== \count($existingArticles)) {
@@ -80,7 +81,7 @@ class TenantController extends FOSRestController
         $repository->remove($tenant);
 
         $tenantContext->setTenant($currentTenant);
-        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }

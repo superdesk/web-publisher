@@ -68,7 +68,7 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
             if (isset($options['ignore_errors']) && $options['ignore_errors'] && $this->dispatcher) {
                 $event = new ExceptionEvent($this->kernel, $request, HttpKernelInterface::SUB_REQUEST, $e);
 
-                $this->dispatcher->dispatch(KernelEvents::EXCEPTION, $event);
+                $this->dispatcher->dispatch($event, KernelEvents::EXCEPTION);
             }
 
             // let's clean up the output buffers that were created by the sub-request

@@ -23,6 +23,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommand extends ContainerAwareCommand
@@ -120,7 +121,7 @@ EOT
         $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
         $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
         $tenantContext->setTenant($tenant);
-        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
         $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
         $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);
 

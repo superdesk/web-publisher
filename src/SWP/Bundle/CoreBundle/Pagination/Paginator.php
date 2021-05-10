@@ -55,12 +55,12 @@ class Paginator extends BasePaginator
 
         // before pagination start
         $beforeEvent = new Event\BeforeEvent($this->eventDispatcher);
-        $this->eventDispatcher->dispatch('knp_pager.before', $beforeEvent);
+        $this->eventDispatcher->dispatch($beforeEvent, 'knp_pager.before');
         // items
         $itemsEvent = new Event\ItemsEvent($offset, $limit);
         $itemsEvent->options = &$options;
         $itemsEvent->target = &$target;
-        $this->eventDispatcher->dispatch('knp_pager.items', $itemsEvent);
+        $this->eventDispatcher->dispatch($itemsEvent, 'knp_pager.items');
         if (!$itemsEvent->isPropagationStopped()) {
             throw new \RuntimeException('One of listeners must count and slice given target');
         }
@@ -68,7 +68,7 @@ class Paginator extends BasePaginator
         $paginationEvent = new Event\PaginationEvent();
         $paginationEvent->target = &$target;
         $paginationEvent->options = &$options;
-        $this->eventDispatcher->dispatch('knp_pager.pagination', $paginationEvent);
+        $this->eventDispatcher->dispatch($paginationEvent, 'knp_pager.pagination');
         if (!$paginationEvent->isPropagationStopped()) {
             throw new \RuntimeException('One of listeners must create pagination view');
         }
@@ -83,7 +83,7 @@ class Paginator extends BasePaginator
 
         // after
         $afterEvent = new Event\AfterEvent($paginationView);
-        $this->eventDispatcher->dispatch('knp_pager.after', $afterEvent);
+        $this->eventDispatcher->dispatch($afterEvent, 'knp_pager.after');
 
         return $paginationView;
     }

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Context;
 
+use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_key_exists;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -48,7 +49,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     public function setTenant(TenantInterface $tenant): void
     {
         parent::setTenant($tenant);
-        $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->dispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
 
         $this->resolvedTenants[self::getCacheKey(
             $tenant->getSubdomain() ? $tenant->getSubdomain().'.'.$tenant->getDomainName() : $tenant->getDomainName()

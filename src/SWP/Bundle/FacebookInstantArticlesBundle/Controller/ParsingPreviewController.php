@@ -45,11 +45,11 @@ class ParsingPreviewController extends Controller
             $contentListItem->setContent($article);
             $contentListItem->setContentList($contentList);
             $this->get('event_dispatcher')->dispatch(
-                ContentListEvents::POST_ITEM_ADD,
                 new ContentListEvent(
                     $contentList,
                     $contentListItem
-                )
+                ),
+                ContentListEvents::POST_ITEM_ADD
             );
         }
 

@@ -97,8 +97,8 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $this->addArticleToList($event);
 
         $eventDispatcher->dispatch(
-            ContentListEvents::POST_ITEM_ADD,
-            Argument::type(ContentListEvent::class)
+            Argument::type(ContentListEvent::class),
+            ContentListEvents::POST_ITEM_ADD
         )->shouldHaveBeenCalled();
     }
 
@@ -127,8 +127,8 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $this->addArticleToList($event);
 
         $eventDispatcher->dispatch(
-            ContentListEvents::POST_ITEM_ADD,
-            Argument::type(ContentListEvent::class)
+            Argument::type(ContentListEvent::class),
+            ContentListEvents::POST_ITEM_ADD
         )->shouldNotHaveBeenCalled();
     }
 
@@ -153,8 +153,8 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $this->addArticleToBucket($event);
 
         $eventDispatcher->dispatch(
-            ContentListEvents::POST_ITEM_ADD,
-            Argument::type(ContentListEvent::class)
+            Argument::type(ContentListEvent::class),
+            ContentListEvents::POST_ITEM_ADD
         )->shouldHaveBeenCalled();
     }
 
@@ -177,8 +177,8 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $this->addArticleToBucket($event);
 
         $eventDispatcher->dispatch(
-            ContentListEvents::POST_ITEM_ADD,
-            Argument::type(ContentListEvent::class)
+            Argument::type(ContentListEvent::class),
+            ContentListEvents::POST_ITEM_ADD
         )->shouldNotHaveBeenCalled();
     }
 }

@@ -24,6 +24,7 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class TenantAwareArticleSerializationSubscriber implements EventSubscriberInterface
 {
@@ -87,7 +88,7 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
         }
 
         if (!$this->isTenantableEnabled) {
-            $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+            $this->dispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         }
     }
 }

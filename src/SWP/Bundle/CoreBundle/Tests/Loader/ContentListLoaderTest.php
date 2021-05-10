@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Twig;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ContentListLoaderTest extends WebTestCase
 {
@@ -40,7 +41,7 @@ class ContentListLoaderTest extends WebTestCase
         );
 
         $this->twig = $this->getContainer()->get('twig');
-        $this->getContainer()->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->getContainer()->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 
     public function testLoadListByName()

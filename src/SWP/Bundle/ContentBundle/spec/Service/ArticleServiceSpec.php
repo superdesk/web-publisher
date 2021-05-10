@@ -29,7 +29,7 @@ class ArticleServiceSpec extends ObjectBehavior
         $article->getPublishStartDate()->shouldBeCalled();
         $article->getPublishEndDate()->shouldBeCalled();
 
-        $dispatcher->dispatch('swp.article.published', Argument::type(ArticleEvent::class))->shouldBeCalled();
+        $dispatcher->dispatch(Argument::type(ArticleEvent::class), 'swp.article.published')->shouldBeCalled();
 
         $this->publish($article)->shouldReturn($article);
     }

@@ -14,15 +14,15 @@
 
 namespace spec\SWP\Bundle\ContentBundle\Rule\Applicator;
 
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator;
-use SWP\Bundle\ContentBundle\Model\Article;
-use PhpSpec\ObjectBehavior;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
@@ -121,7 +121,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
 
         $subject->setRoute($route)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();
-        $eventDispatcher->dispatch(ArticleEvents::PUBLISH, Argument::type(ArticleEvent::class))->shouldBeCalled();
+        $eventDispatcher->dispatch(Argument::type(ArticleEvent::class), ArticleEvents::PUBLISH)->shouldBeCalled();
         $logger->info(Argument::any('string'))->shouldBeCalled();
 
         $this->apply($rule, $subject)->shouldReturn(null);
@@ -147,7 +147,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $subject->setRoute($route)->shouldBeCalled();
         $route->setContent($subject)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();
-        $eventDispatcher->dispatch(ArticleEvents::PUBLISH, Argument::type(ArticleEvent::class))->shouldBeCalled();
+        $eventDispatcher->dispatch(Argument::type(ArticleEvent::class), ArticleEvents::PUBLISH)->shouldBeCalled();
         $logger->info(Argument::any('string'))->shouldBeCalled();
 
         $this->apply($rule, $subject)->shouldReturn(null);

@@ -108,7 +108,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 /* @var TenantInterface $tenant */
                 $this->tenantContext->setTenant($tenant);
                 if ($article->getTenantCode() === $tenant->getCode()) {
-                    $this->eventDispatcher->dispatch(ArticleEvents::UNPUBLISH, new ArticleEvent($article, null, ArticleEvents::UNPUBLISH));
+                    $this->eventDispatcher->dispatch(new ArticleEvent($article, null, ArticleEvents::UNPUBLISH), ArticleEvents::UNPUBLISH);
                 }
             }
         }
@@ -129,18 +129,18 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $article->setPublishedFBIA($destination->isPublishedFbia());
                 $article->setPaywallSecured($destination->isPaywallSecured());
                 $article->setPublishedToAppleNews($destination->isPublishedToAppleNews());
-                $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-                $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
+                $this->eventDispatcher->dispatch(new GenericEvent($article), Events::SWP_VALIDATION);
+                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE), ArticleEvents::PRE_UPDATE);
                 $this->articleRepository->flush();
 
                 if ($destination->isPublished()) {
-                    $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
-                    $this->eventDispatcher->dispatch(ArticleEvents::POST_PUBLISH, new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH));
+                    $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PUBLISH), ArticleEvents::PUBLISH);
+                    $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH), ArticleEvents::POST_PUBLISH);
                 }
 
                 $this->addToContentLists($destination->getContentLists(), $article);
 
-                $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));
+                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE), ArticleEvents::POST_UPDATE);
                 $this->articleRepository->flush();
 
                 continue;
@@ -152,7 +152,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $articleStatistics = $this->articleStatisticsFactory->create();
             $articleStatistics->setArticle($article);
             $this->articleRepository->persist($articleStatistics);
-            $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
+            $this->eventDispatcher->dispatch(new GenericEvent($article), Events::SWP_VALIDATION);
             $package->addArticle($article);
             $route = $destination->getRoute();
             if (null !== $route) {
@@ -165,13 +165,13 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $article->setArticleStatistics($articleStatistics);
 
             $this->articleRepository->persist($article);
-            $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
+            $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE), ArticleEvents::PRE_CREATE);
             $this->articleRepository->flush();
-            $this->eventDispatcher->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article, $package, ArticleEvents::POST_CREATE));
+            $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_CREATE), ArticleEvents::POST_CREATE);
 
             if ($destination->isPublished()) {
-                $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
-                $this->eventDispatcher->dispatch(ArticleEvents::POST_PUBLISH, new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH));
+                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PUBLISH), ArticleEvents::PUBLISH);
+                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH), ArticleEvents::POST_PUBLISH);
             }
 
             $this->addToContentLists($destination->getContentLists(), $article);

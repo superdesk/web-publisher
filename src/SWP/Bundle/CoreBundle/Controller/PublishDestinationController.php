@@ -23,6 +23,7 @@ use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,7 +36,7 @@ class PublishDestinationController extends Controller
     {
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destination = $this->get('swp.factory.publish_destination')->create();
         $form = $form = $this->get('form.factory')->createNamed('', PublishDestinationType::class, $destination, ['method' => $request->getMethod()]);

@@ -43,7 +43,7 @@ class OrganizationRuleController extends AbstractController
         $content = $request->getContent();
         $dispatcher = $this->get('event_dispatcher');
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $dispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
 
         $rules = $this->get(RulesMatcher::class)->getMatchedRules($package);
 
@@ -57,7 +57,7 @@ class OrganizationRuleController extends AbstractController
     {
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        $this->getEventDispatcher()->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->getEventDispatcher()->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $repository = $this->getRuleRepository();
         $rules = $repository->getPaginatedByCriteria(
@@ -137,7 +137,7 @@ class OrganizationRuleController extends AbstractController
     private function findOr404(int $id)
     {
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
-        $this->getEventDispatcher()->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->getEventDispatcher()->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         if (null === ($rule = $this->getRuleRepository()->findOneBy([
                 'id' => $id,

@@ -86,7 +86,7 @@ final class ArticleRuleApplicator extends AbstractRuleApplicator
         $subject->setTemplateName($configuration['templateName']);
 
         if ((bool) $configuration['published']) {
-            $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($subject, null, ArticleEvents::PUBLISH));
+            $this->eventDispatcher->dispatch(new ArticleEvent($subject, null, ArticleEvents::PUBLISH), ArticleEvents::PUBLISH);
         }
 
         $this->logger->info(sprintf(

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
 use function stripslashes;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
@@ -64,14 +65,14 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->apiKeyRepository
             ->getValidToken(str_replace('Basic ', '', stripslashes($credentials['token'])))
             ->getQuery()
             ->getOneOrNullResult();
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
 
         if (null === $apiKey) {
             return null;

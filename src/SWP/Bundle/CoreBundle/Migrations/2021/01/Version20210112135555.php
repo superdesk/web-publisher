@@ -14,7 +14,7 @@ final class Version20210112135555 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_article DROP extra');
+        //$this->addSql('ALTER TABLE swp_article DROP extra');
 
     }
 

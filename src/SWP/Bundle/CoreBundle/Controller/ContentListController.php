@@ -93,8 +93,8 @@ class ContentListController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('event_dispatcher')->dispatch(
-                ContentListEvents::LIST_CRITERIA_CHANGE,
-                new GenericEvent($contentList, ['filters' => $filters, 'previousLimit' => $listLimit])
+                new GenericEvent($contentList, ['filters' => $filters, 'previousLimit' => $listLimit]),
+                ContentListEvents::LIST_CRITERIA_CHANGE
             );
 
             $objectManager->flush();

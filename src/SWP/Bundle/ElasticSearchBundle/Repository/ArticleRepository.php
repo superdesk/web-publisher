@@ -99,9 +99,9 @@ class ArticleRepository extends Repository
             $nested->setPath('authors');
             $functionScore = new Query\FunctionScore();
             $functionScore->addWeightFunction(15, new Query\Match('authors.name', $term));
-            $functionScore->addWeightFunction(5, new Query\Match('authors.biography', $term));
+            $functionScore->addWeightFunction(0.5, new Query\Match('authors.biography', $term));
             $functionScore->addWeightFunction(15, new Query\MatchPhrase('authors.name', $term));
-            $functionScore->addWeightFunction(10, new Query\MatchPhrase('authors.biography', $term));
+            $functionScore->addWeightFunction(1, new Query\MatchPhrase('authors.biography', $term));
             $functionScore->setQuery($bool);
             $nested->setQuery($functionScore);
 

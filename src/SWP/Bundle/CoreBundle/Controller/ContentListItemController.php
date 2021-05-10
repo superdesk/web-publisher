@@ -209,11 +209,11 @@ class ContentListItemController extends AbstractController
             $this->contentListService->repositionStickyItems($list);
 
             foreach ($updatedArticles as $updatedArticle) {
-                $eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
+                $eventDispatcher->dispatch(new ArticleEvent(
                     $updatedArticle,
                     $updatedArticle->getPackage(),
                     ArticleEvents::POST_UPDATE
-                ));
+                ), ArticleEvents::POST_UPDATE);
             }
 
             return new SingleResourceResponse($list, new ResponseContext(201));

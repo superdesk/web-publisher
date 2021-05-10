@@ -98,7 +98,7 @@ class MenuController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('swp_menu.manager.menu_item')->update($menu);
             $this->get('swp.repository.menu')->add($menu);
-            $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_CREATED, new GenericEvent($menu));
+            $this->get('event_dispatcher')->dispatch(new GenericEvent($menu), MenuEvents::MENU_CREATED);
 
             return new SingleResourceResponse($menu, new ResponseContext(201));
         }
@@ -115,7 +115,7 @@ class MenuController extends AbstractController
         $menu = $this->findOr404($id);
 
         $repository->remove($menu);
-        $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_DELETED, new GenericEvent($menu));
+        $this->get('event_dispatcher')->dispatch(new GenericEvent($menu), MenuEvents::MENU_DELETED);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
@@ -135,7 +135,7 @@ class MenuController extends AbstractController
             $this->get('swp_menu.manager.menu_item')->update($menu);
             $objectManager->flush();
 
-            $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_UPDATED, new GenericEvent($menu));
+            $this->get('event_dispatcher')->dispatch(new GenericEvent($menu), MenuEvents::MENU_UPDATED);
 
             return new SingleResourceResponse($menu);
         }

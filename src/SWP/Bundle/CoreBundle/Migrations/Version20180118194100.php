@@ -10,6 +10,7 @@ use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Add article statistics to articles.
@@ -38,7 +39,7 @@ class Version20180118194100 extends AbstractMigration implements ContainerAwareI
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-        $this->container->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->container->get('event_dispatcher')->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $articles = $entityManager
             ->createQuery('SELECT partial a.{id,tenantCode},  partial es.{id} FROM SWP\Bundle\CoreBundle\Model\Article a LEFT JOIN a.articleStatistics es')

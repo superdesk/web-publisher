@@ -63,11 +63,11 @@ class ArticleCommentsController extends AbstractController
             $article->cancelTimestampable();
             $repository->flush();
 
-            $this->container->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
+            $this->container->get('event_dispatcher')->dispatch(new ArticleEvent(
                 $article,
                 $article->getPackage(),
                 ArticleEvents::POST_UPDATE
-            ));
+            ), ArticleEvents::POST_UPDATE);
 
             return new SingleResourceResponse($article);
         }

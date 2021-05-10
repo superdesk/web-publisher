@@ -12,6 +12,7 @@ use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +40,7 @@ class SeoMetadataController extends AbstractController
      */
     public function put(Request $request, string $packageGuid): SingleResourceResponse
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $seoMetadata = $this->seoMetadataRepository->findOneByPackageGuid($packageGuid);
         if (null === $seoMetadata) {
@@ -65,7 +66,7 @@ class SeoMetadataController extends AbstractController
      */
     public function getAction(string $packageGuid): SingleResourceResponse
     {
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $existingSeoMetadata = $this->seoMetadataRepository->findOneByPackageGuid($packageGuid);
         if (null === $existingSeoMetadata) {
