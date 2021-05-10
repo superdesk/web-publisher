@@ -21,8 +21,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
     /** @var string */
     protected $embed;
 
-    /** @var string */
-    protected $description;
+    protected ?string $description;
 
     public static function newFromValue(string $fieldName, array $value): ArticleExtraEmbedFieldInterface
     {
@@ -50,7 +49,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
         $this->description = $description;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
