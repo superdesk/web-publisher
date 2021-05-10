@@ -18,8 +18,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEmbedFieldInterface
 {
-    /** @var string */
-    protected $embed;
+    protected ?string $embed;
 
     protected ?string $description;
 
@@ -39,7 +38,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
         $this->embed = $embed;
     }
 
-    public function getEmbed(): string
+    public function getEmbed(): ?string
     {
         return $this->embed;
     }
