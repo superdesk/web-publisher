@@ -15,11 +15,11 @@ SWP\Bundle\ContentBundle\Model\ImageRendition:
       type: integer
     name:
       expose: true
-      groups: [api, api_article_media_renditions]
+      groups: [api, public_api, api_article_media_renditions]
     previewUrl:
       expose: true
       groups: [api, api_article_media_renditions]
       type: string
     image:
       expose: true
-      groups: [api, api_article_media_renditions]
+      groups: [api, public_api, api_article_media_renditions]
