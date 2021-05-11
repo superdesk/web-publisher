@@ -115,7 +115,7 @@ class RedirectRouteController extends AbstractController
         return $redirectRoute;
     }
 
-    private function ensureRedirectRouteExists(string $name): void
+    private function ensureRedirectRouteExists(?string $name): void
     {
         if (null !== $this->get('swp.repository.redirect_route')->findOneBy(['routeName' => $name])) {
             throw new ConflictHttpException(sprintf('Redirect route "%s" already exists!', $name));

@@ -10,10 +10,10 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             groups: [api]
         image:
             expose: true
-            groups: [api, api_article_media_list]
+            groups: [api, public_api, api_article_media_list]
         renditions:
             expose: true
-            groups: [api, api_article_media_renditions]
+            groups: [api, public_api, api_article_media_renditions]
         byLine:
             expose: true
             groups: [api, public_api]

@@ -18,11 +18,9 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEmbedFieldInterface
 {
-    /** @var string */
-    protected $embed;
+    protected ?string $embed;
 
-    /** @var string */
-    protected $description;
+    protected ?string $description;
 
     public static function newFromValue(string $fieldName, array $value): ArticleExtraEmbedFieldInterface
     {
@@ -40,7 +38,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
         $this->embed = $embed;
     }
 
-    public function getEmbed(): string
+    public function getEmbed(): ?string
     {
         return $this->embed;
     }
@@ -50,7 +48,7 @@ class ArticleExtraEmbedField extends ArticleExtraField implements ArticleExtraEm
         $this->description = $description;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
