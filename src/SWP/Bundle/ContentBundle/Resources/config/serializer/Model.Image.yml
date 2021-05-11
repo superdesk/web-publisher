@@ -7,17 +7,17 @@ SWP\Bundle\ContentBundle\Model\Image:
             type: integer
         width:
             expose: true
-            groups: [api, api_image_details]
+            groups: [api, public_api, api_image_details]
         height:
             expose: true
-            groups: [api, api_image_details]
+            groups: [api, public_api, api_image_details]
         length:
             expose: true
             groups: [api, api_image_details]
         fileExtension:
             expose: true
-            groups: [api, api_image_details]
+            groups: [api, public_api, api_image_details]
         assetId:
             expose: true
-            groups: [api, api_image_details]
+            groups: [api, public_api, api_image_details]
             type: string
