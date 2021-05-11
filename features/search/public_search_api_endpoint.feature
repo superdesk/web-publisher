@@ -157,10 +157,60 @@ Feature: Public Search API endpoint
                    }
                 ],
                 "feature_media":{
+                   "image":{
+                      "file_extension":"png",
+                      "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+                      "width":255,
+                      "height":76
+                   },
                    "description":"Smoke on the water on River Gradac",
                    "by_line":"Ljub. Z. Ranković",
                    "alt_text":"Gradac alt text",
                    "usage_terms":"indefinite-usage",
+                   "renditions":[
+                      {
+                         "name":"original",
+                         "image":{
+                            "file_extension":"png",
+                            "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+                            "width":255,
+                            "height":76
+                         },
+                         "_links":{
+                            "public_url":{
+                               "href":"http://localhost/uploads/swp/123456/media/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+                            }
+                         }
+                      },
+                      {
+                         "name":"thumbnail",
+                         "image":{
+                            "file_extension":"png",
+                            "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+                            "width":255,
+                            "height":76
+                         },
+                         "_links":{
+                            "public_url":{
+                               "href":"http://localhost/uploads/swp/123456/media/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+                            }
+                         }
+                      },
+                      {
+                         "name":"viewImage",
+                         "image":{
+                            "file_extension":"png",
+                            "asset_id":"20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea",
+                            "width":255,
+                            "height":76
+                         },
+                         "_links":{
+                            "public_url":{
+                               "href":"http://localhost/uploads/swp/123456/media/20170111140132_979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.png"
+                            }
+                         }
+                      }
+                   ],
                    "headline":"Smoke on the water",
                    "copyright_holder":"Holder",
                    "copyright_notice":"Notice",
