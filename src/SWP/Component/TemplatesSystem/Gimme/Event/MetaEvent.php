@@ -14,7 +14,7 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 final class MetaEvent extends Event
 {

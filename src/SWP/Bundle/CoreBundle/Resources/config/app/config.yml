@@ -315,7 +315,6 @@ bazinga_hateoas:
         enabled: false
 
 gos_web_socket:
-    assetic: false
     server:
         port: '%env(WEBSOCKET_PORT)%'
         host: '%env(WEBSOCKET_HOST)%'

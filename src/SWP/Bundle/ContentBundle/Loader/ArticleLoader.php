@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
@@ -46,7 +46,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     public function __construct(
         ArticleProviderInterface $articleProvider,
         RouteProviderInterface $routeProvider,
-        ObjectManager $dm,
+        EntityManagerInterface $dm,
         MetaFactoryInterface $metaFactory,
         Context $context,
         CacheBlockTagsCollectorInterface $cacheBlockTagsCollector

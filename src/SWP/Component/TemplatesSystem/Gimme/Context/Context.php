@@ -84,7 +84,7 @@ class Context implements \ArrayAccess
 
     public function dispatchMetaEvent(MetaEvent $event): void
     {
-        $this->dispatcher->dispatch(self::META_EVENT_NAME, $event);
+        $this->dispatcher->dispatch($event, self::META_EVENT_NAME);
     }
 
     public function getAvailableConfigs(): array

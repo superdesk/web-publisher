@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
@@ -46,7 +46,7 @@ class CreateTenantCommand extends Command
     public function __construct(
         string $swpDomain,
         TenantFactoryInterface $tenantFactory,
-        ObjectManager $tenantObjectManager,
+        EntityManagerInterface $tenantObjectManager,
         TenantRepositoryInterface $tenantRepository,
         OrganizationRepositoryInterface $organizationRepository
     ) {

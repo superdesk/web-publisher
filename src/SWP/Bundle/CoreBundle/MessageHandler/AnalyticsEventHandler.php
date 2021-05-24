@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\ElasticaBundle\Persister\PersisterRegistry;
 use SWP\Bundle\AnalyticsBundle\Messenger\AnalyticsEvent;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
@@ -25,7 +25,7 @@ class AnalyticsEventHandler implements MessageHandlerInterface
     /** @var TenantContextInterface */
     private $tenantContext;
 
-    /** @var ObjectManager */
+    /** @var EntityManagerInterface */
     private $articleStatisticsObjectManager;
 
     private PersisterRegistry $persisterRegistry;
@@ -34,7 +34,7 @@ class AnalyticsEventHandler implements MessageHandlerInterface
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
         TenantContextInterface $tenantContext,
-        ObjectManager $articleStatisticsObjectManager,
+        EntityManagerInterface $articleStatisticsObjectManager,
         PersisterRegistry $persisterRegistry
     ) {
         $this->articleStatisticsService = $articleStatisticsService;

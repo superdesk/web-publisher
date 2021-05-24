@@ -2,7 +2,7 @@
 
 namespace spec\SWP\Bundle\FacebookInstantArticlesBundle\Controller;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Facebook\Facebook;
 use Facebook\Helpers\FacebookRedirectLoginHelper;
 use PhpSpec\ObjectBehavior;

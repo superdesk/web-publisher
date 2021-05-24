@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace spec\SWP\Bundle\CoreBundle\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\Factory\ExtensionInterface;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;

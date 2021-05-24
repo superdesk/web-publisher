@@ -61,7 +61,7 @@ fos_rest:
     versioning:
         enabled: false
     routing_loader:
-        default_format: json
+        enabled: false
     view:
         formats:
             json: true

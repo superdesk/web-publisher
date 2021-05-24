@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\Factory\ExtensionInterface;
 use SWP\Bundle\ContentBundle\Model\RouteAwareInterface;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
@@ -27,14 +27,10 @@ final class MenuItemManager extends BaseMenuItemManager
 {
     /**
      * MenuItemManager constructor.
-     *
-     * @param MenuItemRepositoryInterface $menuItemRepository
-     * @param ObjectManager               $objectManager
-     * @param ExtensionInterface          $extensionsChain
      */
     public function __construct(
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         ExtensionInterface $extensionsChain
     ) {
         parent::__construct($menuItemRepository, $objectManager, $extensionsChain);

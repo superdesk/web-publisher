@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Event;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class ArticleEvent extends Event
 {

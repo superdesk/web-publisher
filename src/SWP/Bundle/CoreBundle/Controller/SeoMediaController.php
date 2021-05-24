@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Controller\AbstractMediaController;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
@@ -45,7 +45,7 @@ class SeoMediaController extends AbstractMediaController
     public function __construct(
         FactoryInterface $seoMetadataFactory,
         ArticleProviderInterface $articleProvider,
-        ObjectManager $seoObjectManager,
+        EntityManagerInterface $seoObjectManager,
         MediaManagerInterface $seoMediaManager,
         Cache $cacheProvider,
         FileProviderInterface $fileProvider,
