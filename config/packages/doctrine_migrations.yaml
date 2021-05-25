@@ -1,6 +1,12 @@
 doctrine_migrations:
-    dir_name: "%kernel.root_dir%/../src/SWP/Bundle/CoreBundle/Migrations"
-    namespace: SWP\Migrations
-    table_name: swp_migration
-    name: Publisher Migrations
+    migrations_paths:
+        'SWP\Migrations': '%kernel.project_dir%/../src/SWP/Bundle/CoreBundle/Migrations'
+
+    storage:
+        # Default (SQL table) metadata storage configuration
+        table_storage:
+            table_name: 'swp_migration'
+            version_column_name: 'version'
+            version_column_length: 1024
+            executed_at_column_name: 'executed_at'
     organize_migrations: BY_YEAR_AND_MONTH

@@ -21,7 +21,7 @@ parameters:
 framework:
     secret: "Three can keep a secret, if two of them are dead."
     router:
-        resource: "%kernel.root_dir%/ContentBundle/routing.yml"
+        resource: "%kernel.project_dir%/ContentBundle/routing.yml"
         strict_requirements: ~
     profiler:
         enabled: true
@@ -60,8 +60,7 @@ fos_rest:
         - { path: ^/api/* }
     versioning:
         enabled: false
-    routing_loader:
-        enabled: false
+    routing_loader: false
     view:
         formats:
             json: true
@@ -117,7 +116,7 @@ jms_serializer:
         directories:
             TestsContentBundle:
                 namespace_prefix: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle
-                path: "%kernel.root_dir%/Resources/config/serializer"
+                path: "%kernel.project_dir%/Resources/config/serializer"
 
 swp_content:
     persistence:

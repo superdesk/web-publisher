@@ -23,10 +23,8 @@ use SWP\Component\Common\Model\TranslatableInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Seo\Model\SeoMetadataAwareInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
-use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
-use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
 
-interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareInterface, AuthorsAwareInterface, KeywordAwareInterface, RelatedArticlesAwareInterface, SeoMetadataAwareInterface
+interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, MetadataAwareInterface, MediaAwareInterface, AuthorsAwareInterface, KeywordAwareInterface, RelatedArticlesAwareInterface, SeoMetadataAwareInterface
 {
     const STATUS_NEW = 'new';
 

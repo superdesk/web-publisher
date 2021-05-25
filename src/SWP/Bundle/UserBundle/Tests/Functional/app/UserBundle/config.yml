@@ -8,7 +8,7 @@ parameters:
 framework:
     secret: "Three can keep a secret, if two of them are dead."
     router:
-        resource: "%kernel.root_dir%/../../../Resources/config/routing.yml"
+        resource: "%kernel.project_dir%/../../../Resources/config/routing.yml"
         strict_requirements: ~
     templating:
         engines: ['twig']

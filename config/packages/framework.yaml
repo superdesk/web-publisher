@@ -16,8 +16,6 @@ framework:
     form:            ~
     csrf_protection: true
     validation:      { enable_annotations: false }
-    templating:
-        engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
     fragments: { path: /_fragment }
