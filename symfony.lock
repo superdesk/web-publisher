@@ -74,6 +74,9 @@
     "doctrine/dbal": {
         "version": "2.12.1"
     },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/doctrine-bundle": {
         "version": "1.12",
         "recipe": {
@@ -153,6 +156,9 @@
     "doctrine/reflection": {
         "version": "1.2.2"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
+    },
     "egulias/email-validator": {
         "version": "2.1.25"
     },
@@ -177,6 +183,9 @@
     "facebook/graph-sdk": {
         "version": "5.7.0"
     },
+    "friends-of-behat/mink-browserkit-driver": {
+        "version": "v1.5.0"
+    },
     "friends-of-behat/mink-extension": {
         "version": "v2.4.0"
     },
@@ -191,6 +200,9 @@
             "version": "2.0",
             "ref": "3d21344765fd3440a85bdd27d4cada186ec628bd"
         }
+    },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.5"
     },
     "friendsofsymfony/elastica-bundle": {
         "version": "5.0",
@@ -348,6 +360,15 @@
             "ref": "80acc9223a205cbf5d9828fd616c82a374d281dd"
         }
     },
+    "laminas/laminas-code": {
+        "version": "4.3.0"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.3.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.2.0"
+    },
     "layershifter/tld-database": {
         "version": "1.0.69"
     },
@@ -478,6 +499,9 @@
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
+    "nyholm/dsn": {
+        "version": "2.0.0"
+    },
     "ocramius/code-generator-utils": {
         "version": "1.0.0"
     },
@@ -600,6 +624,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
     "psr/http-factory": {
         "version": "1.0.1"
     },
@@ -687,6 +714,9 @@
     "sebastian/resource-operations": {
         "version": "2.0.2"
     },
+    "sebastian/type": {
+        "version": "1.1.4"
+    },
     "sebastian/version": {
         "version": "2.0.1"
     },
@@ -744,6 +774,9 @@
     "symfony-cmf/testing": {
         "version": "2.1.12"
     },
+    "symfony/amqp-messenger": {
+        "version": "v5.2.7"
+    },
     "symfony/asset": {
         "version": "v4.4.18"
     },
@@ -798,6 +831,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.18"
+    },
+    "symfony/doctrine-messenger": {
+        "version": "v5.2.7"
     },
     "symfony/dom-crawler": {
         "version": "v4.4.18"
@@ -996,6 +1032,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.18"
+    },
+    "symfony/redis-messenger": {
+        "version": "v5.2.7"
     },
     "symfony/routing": {
         "version": "4.2",

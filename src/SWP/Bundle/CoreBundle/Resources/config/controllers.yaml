@@ -4,7 +4,7 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $cacheService: '@doctrine_cache.providers.main_cache'
+      $cacheService: '@doctrine.system_cache_pool'
       $superdeskServers: '%superdesk_servers%'
 
   SWP\Bundle\CoreBundle\Controller\AuthController: ~

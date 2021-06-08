@@ -176,9 +176,6 @@ services:
         arguments:
             - '@event_dispatcher'
 
-    swp.publish_workflow.checker:
-        alias: cmf_core.publish_workflow.checker
-
     SWP\Bundle\ContentBundle\File\FileDownloader:
         arguments:
             - '@monolog.logger.swp_asset_download'
@@ -357,7 +354,7 @@ services:
         parent: swp.resolver.asset_location
         public: true
 
-    Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
+    Doctrine\Common\Cache\Cache: '@doctrine.system_cache_provider'
 
     SWP\Bundle\ContentBundle\Form\Extension\RedirectRouteTypeExtension:
         tags:

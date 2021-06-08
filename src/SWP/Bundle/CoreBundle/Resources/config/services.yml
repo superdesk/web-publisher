@@ -39,7 +39,7 @@ services:
         arguments:
             - "@swp_multi_tenancy.tenant_context"
             - '@Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface'
-            - "@doctrine_cache.providers.main_cache"
+            - "@doctrine.system_cache_pool"
 
     swp_core.resources_list_response_listener:
         class: SWP\Component\Common\EventListener\ResourceResponseListener
@@ -642,7 +642,7 @@ services:
 
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
-            - '@gos_web_socket.amqp.pusher'
+            - '@gos_web_socket.registry.pusher'
             - '@swp.serializer'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onPostUpdate, priority: -10 }
@@ -673,7 +673,7 @@ services:
         arguments:
             - '%env(resolve:SUBSCRIPTIONS_CACHE_LIFETIME)%'
             - '@SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider'
-            - '@doctrine_cache.providers.main_cache'
+            - '@doctrine.system_cache_pool'
             - '@swp_multi_tenancy.tenant_context'
 
     SWP\Bundle\CoreBundle\Loader\SubscriptionLoader:
@@ -734,7 +734,7 @@ services:
         public: true
         arguments:
             - '@router'
-            - '@doctrine_cache.providers.main_cache'
+            - '@doctrine.system_cache_pool'
 
     SWP\Bundle\CoreBundle\EventListener\SetArticlePublishDateListener:
         arguments:

@@ -1,4 +1,4 @@
 twig_cache:
-  service: "doctrine_cache.providers.main_cache"
+  service: "doctrine.system_cache_provider"
   key_generator: "swp_core.key_generator.meta_key_generator"
   strategy: SWP\Bundle\CoreBundle\Twig\Cache\Strategy\TagAwareIndexedChainingCacheStrategy

@@ -49,12 +49,6 @@ monolog:
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
 
-doctrine_cache:
-    providers:
-        main_cache:
-            type: array
-            namespace: templates_engine
-
 fos_rest:
     zone:
         - { path: ^/api/* }

@@ -21,12 +21,6 @@ monolog:
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
 
-doctrine_cache:
-    providers:
-        main_cache:
-            type: array
-            namespace: settings_bundle
-
 liip_functional_test: ~
 
 sensio_framework_extra:

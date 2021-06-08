@@ -31,6 +31,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Lock\Factory;
+use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -50,7 +51,7 @@ class AuthController extends AbstractController
         FormFactoryInterface $formFactory,
         ApiKeyRepositoryInterface $apiKeyRepository,
         ApiKeyFactory $apiKeyFactory,
-        Factory $lockFactory
+        LockFactory $lockFactory
     ) {
         $this->formFactory = $formFactory;
         $this->apiKeyRepository = $apiKeyRepository;

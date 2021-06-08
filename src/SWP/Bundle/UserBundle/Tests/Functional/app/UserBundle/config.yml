@@ -43,12 +43,6 @@ doctrine:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: true
 
-doctrine_cache:
-    providers:
-        main_cache:
-            type: array
-            namespace: templates_engine
-
 liip_functional_test: ~
 
 sensio_framework_extra:

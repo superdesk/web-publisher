@@ -50,7 +50,7 @@ abstract class AbstractSecuredTopic implements SecuredTopicInterface
     /**
      * {@inheritdoc}
      */
-    public function secure(ConnectionInterface $conn = null, Topic $topic, WampRequest $request, $payload = null, $exclude = null, $eligible = null, $provider = null)
+    public function secure(ConnectionInterface $conn = null, Topic $topic, WampRequest $request, $payload = null, $exclude = null, $eligible = null, $provider = null): void
     {
         if (null === $conn) {
             return;

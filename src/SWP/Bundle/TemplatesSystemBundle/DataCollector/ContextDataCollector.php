@@ -30,20 +30,13 @@ class ContextDataCollector extends DataCollector
 
     /**
      * ContextDataCollector constructor.
-     *
-     * @param Context $context
      */
     public function __construct(Context $context)
     {
         $this->context = $context;
     }
 
-    /**
-     * @param Request         $request
-     * @param Response        $response
-     * @param \Exception|null $exception
-     */
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->data = [
             'currentPage' => $this->context->getCurrentPage() instanceof MetaInterface ?

@@ -9,7 +9,7 @@ services:
         class: SWP\Component\TemplatesSystem\Gimme\Context\Context
         arguments:
             - "@event_dispatcher"
-            - "@doctrine_cache.providers.main_cache"
+            - "@doctrine.system_cache_pool"
             - "%kernel.project_dir%/app/Resources/meta"
     context:
         alias: swp_template_engine_context

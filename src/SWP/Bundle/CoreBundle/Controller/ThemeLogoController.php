@@ -30,7 +30,7 @@ class ThemeLogoController extends Controller
      */
     public function getLogoAction(string $id)
     {
-        $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
+        $cacheProvider = $this->get('doctrine.system_cache_pool');
         $cacheKey = md5(serialize(['upload', $id]));
         if ($cacheProvider->contains($cacheKey)) {
             return $cacheProvider->fetch($cacheKey);

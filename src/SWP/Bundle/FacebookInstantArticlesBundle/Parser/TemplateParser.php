@@ -19,6 +19,7 @@ namespace SWP\Bundle\FacebookInstantArticlesBundle\Parser;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Symfony\Component\Templating\EngineInterface;
 use Facebook\InstantArticles\Transformer\Transformer;
+use Twig\Environment;
 
 final class TemplateParser implements TemplateParserInterface
 {
@@ -37,9 +38,9 @@ final class TemplateParser implements TemplateParserInterface
     /**
      * TemplateParser constructor.
      *
-     * @param EngineInterface $templating
+     * @param Environment $templating
      */
-    public function __construct(EngineInterface $templating)
+    public function __construct(Environment $templating)
     {
         $this->templating = $templating;
     }
