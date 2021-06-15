@@ -96,7 +96,7 @@ final class TemplateParser implements TemplateParserInterface
     /**
      * {@inheritdoc}
      */
-    public function getTemplating()
+    public function getTemplating(): Environment
     {
         return $this->templating;
     }

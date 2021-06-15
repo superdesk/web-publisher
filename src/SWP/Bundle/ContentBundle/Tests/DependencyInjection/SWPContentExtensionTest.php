@@ -24,7 +24,7 @@ class SWPContentExtensionTest extends TestCase
 
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new SWPContentExtension();
 
@@ -41,7 +41,7 @@ class SWPContentExtensionTest extends TestCase
         $this->assertTrue($this->container->has('swp_template_engine.loader.article'));
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new \ReflectionObject($this);
         foreach ($reflection->getProperties() as $prop) {

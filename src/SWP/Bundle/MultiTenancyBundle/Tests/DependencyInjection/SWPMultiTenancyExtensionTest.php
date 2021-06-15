@@ -174,7 +174,7 @@ class SWPMultiTenancyExtensionTest extends AbstractExtensionTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return [
             new SWPMultiTenancyExtension(),

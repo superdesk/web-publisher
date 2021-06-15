@@ -675,6 +675,9 @@
     "react/stream": {
         "version": "v1.1.1"
     },
+    "rector/rector": {
+        "version": "0.11.20"
+    },
     "roave/security-advisories": {
         "version": "dev-master"
     },

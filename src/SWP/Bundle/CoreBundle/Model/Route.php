@@ -27,26 +27,4 @@ class Route extends BaseRoute implements TenantAwareInterface, ArticlesCountInte
     use TenantAwareTrait;
     use ArticlesCountTrait;
     use PaywallSecuredTrait;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
-    {
-        $parentSerializedData = unserialize(parent::serialize());
-        $parentSerializedData['id'] = $this->getId();
-
-        return serialize($parentSerializedData);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized)
-    {
-        parent::unserialize($serialized);
-
-        $data = unserialize($serialized);
-        $this->id = $data['id'];
-    }
 }

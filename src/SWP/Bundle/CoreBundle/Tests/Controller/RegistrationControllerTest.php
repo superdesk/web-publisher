@@ -28,7 +28,7 @@ class RegistrationControllerTest extends WebTestCase
     /**x
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();

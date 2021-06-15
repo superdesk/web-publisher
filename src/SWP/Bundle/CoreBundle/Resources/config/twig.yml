@@ -3,10 +3,10 @@ services:
         public: true
 
     swp_core.decorating_routing.twig_extension:
-        class: SWP\Bundle\CoreBundle\Twig\RoutingExtension
+        class: SWP\Bundle\CoreBundle\Twig\DecoratingRoutingExtension
         decorates: twig.extension.routing
+        arguments: ['@.inner']
         public: false
-        parent: twig.extension.routing
 
     swp_core.decorating_menu.twig_extension:
         class: SWP\Bundle\CoreBundle\Twig\MenuExtension

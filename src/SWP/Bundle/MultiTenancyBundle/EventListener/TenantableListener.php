@@ -17,7 +17,6 @@ namespace SWP\Bundle\MultiTenancyBundle\EventListener;
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -39,16 +38,11 @@ class TenantableListener implements EventSubscriberInterface
     protected $entityManager;
 
     /**
-     * @var RegistryInterface
-     */
-    protected $doctrine;
-
-    /**
      * Construct.
      */
-    public function __construct(RegistryInterface $doctrine, TenantContextInterface $tenantContext)
+    public function __construct(EntityManagerInterface $entityManager, TenantContextInterface $tenantContext)
     {
-        $this->doctrine = $doctrine;
+        $this->entityManager = $entityManager;
         $this->tenantContext = $tenantContext;
     }
 
@@ -57,8 +51,6 @@ class TenantableListener implements EventSubscriberInterface
      */
     public function enable()
     {
-        $this->lazyLoad();
-
         $tenant = $this->tenantContext->getTenant();
         if ($tenant && $tenant->getId()) {
             $this->entityManager
@@ -73,7 +65,6 @@ class TenantableListener implements EventSubscriberInterface
      */
     public function disable()
     {
-        $this->lazyLoad();
         $filters = $this->entityManager->getFilters();
         if ($filters->isEnabled('tenantable')) {
             $filters->disable('tenantable');
@@ -90,12 +81,5 @@ class TenantableListener implements EventSubscriberInterface
             MultiTenancyEvents::TENANTABLE_ENABLE => 'enable',
             MultiTenancyEvents::TENANTABLE_DISABLE => 'disable',
         ];
-    }
-
-    private function lazyLoad()
-    {
-        if (null === $this->entityManager) {
-            $this->entityManager = $this->doctrine->getManager();
-        }
     }
 }

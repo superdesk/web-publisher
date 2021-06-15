@@ -25,7 +25,7 @@ class KeywordLoaderTest extends WebTestCase
      */
     private $twig;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->initDatabase();
 

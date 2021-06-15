@@ -30,7 +30,7 @@ class TenantAwareCacheTest extends WebTestCase
      */
     private $cachePath;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
 

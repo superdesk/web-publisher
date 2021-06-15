@@ -35,7 +35,7 @@ class CreateOrganizationCommandTest extends TestCase
      */
     private $question;
 
-    public function setUp()
+    public function setUp(): void
     {
         $application = new Application();
         $application->add(new CreateOrganizationCommand());

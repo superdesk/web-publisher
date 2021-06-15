@@ -39,7 +39,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initDatabase();
         $filesystem = new Filesystem();

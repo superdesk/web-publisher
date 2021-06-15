@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Theme;
 
-use Doctrine\Common\Cache\CacheProvider;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
@@ -22,6 +21,7 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 /**
  * Class TenantAwareThemeContext.
@@ -38,24 +38,14 @@ final class TenantAwareThemeContext implements TenantAwareThemeContextInterface
      */
     private $themeRepository;
 
-    /**
-     * @var CacheProvider
-     */
-    private $cacheService;
+    private CacheInterface $cacheService;
 
     /**
      * @var array
      */
     private $themes;
 
-    /**
-     * TenantAwareThemeContext constructor.
-     *
-     * @param TenantContextInterface   $tenantContext   Tenant context
-     * @param ThemeRepositoryInterface $themeRepository Theme repository
-     * @param CacheProvider            $cacheService    Cache Service
-     */
-    public function __construct(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository, CacheProvider $cacheService)
+    public function __construct(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository, CacheInterface $cacheService)
     {
         $this->tenantContext = $tenantContext;
         $this->themeRepository = $themeRepository;
@@ -84,26 +74,23 @@ final class TenantAwareThemeContext implements TenantAwareThemeContextInterface
             return $this->themes[$key];
         }
 
-        if ($this->cacheService->contains('theme_'.$key)) {
-            return $this->themes[$key] = $this->cacheService->fetch('theme_'.$key);
-        }
+        return $this->cacheService->get('theme_'.$key, function () use ($tenant, $key) {
+            $themeName = $this->resolveThemeName($tenant);
+            if (null === $themeName) {
+                return null;
+            }
 
-        $themeName = $this->resolveThemeName($tenant);
-        if (null === $themeName) {
-            return null;
-        }
+            $theme = $this->themeRepository->findOneByName($themeName);
+            unset($tenant);
 
-        $theme = $this->themeRepository->findOneByName($themeName);
-        unset($tenant);
+            if (null === $theme) {
+                return null;
+            }
 
-        if (null === $theme) {
-            return null;
-        }
+            $this->themes[$key] = $theme;
 
-        $this->themes[$key] = $theme;
-        $this->cacheService->save('theme_'.$key, $theme, 600);
-
-        return $theme;
+            return $theme;
+        });
     }
 
     /**

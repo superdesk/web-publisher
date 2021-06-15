@@ -19,7 +19,7 @@ namespace SWP\Bundle\BridgeBundle\EventListener;
 use SWP\Bundle\BridgeBundle\Exception\ValidationException;
 use SWP\Component\Common\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 final class ValidationExceptionListener
 {
@@ -30,17 +30,15 @@ final class ValidationExceptionListener
 
     /**
      * ValidationExceptionListener constructor.
-     *
-     * @param SerializerInterface $serializer
      */
     public function __construct(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
     }
 
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         if (!$exception instanceof ValidationException) {
             return;

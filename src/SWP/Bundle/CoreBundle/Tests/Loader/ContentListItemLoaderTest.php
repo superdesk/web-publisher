@@ -36,7 +36,7 @@ class ContentListItemLoaderTest extends WebTestCase
      */
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
 

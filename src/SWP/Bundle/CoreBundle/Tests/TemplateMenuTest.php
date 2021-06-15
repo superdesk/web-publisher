@@ -26,7 +26,7 @@ class TemplateMenuTest extends WebTestCase
      */
     protected $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();

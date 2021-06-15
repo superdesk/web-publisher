@@ -34,7 +34,7 @@ class ArticleLoaderTest extends \PHPUnit\Framework\TestCase
         self::assertCount(2, $result);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new \ReflectionObject($this);
         foreach ($reflection->getProperties() as $prop) {

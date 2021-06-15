@@ -18,7 +18,7 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class StaticThemeAssetsControllerTest extends WebTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();

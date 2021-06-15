@@ -16,16 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use Doctrine\Common\Cache\Cache;
+use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
+use SWP\Component\Common\Cache\CacheInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Hoa\Mime\Mime;
 
 abstract class AbstractMediaController extends AbstractController
 {
@@ -39,7 +39,7 @@ abstract class AbstractMediaController extends AbstractController
 
     public function __construct(
         MediaManagerInterface $mediaManager,
-        Cache $cacheProvider,
+        CacheInterface $cacheProvider,
         FileProviderInterface $fileProvider,
         FileExtensionCheckerInterface $fileExtensionChecker
     ) {
@@ -52,12 +52,9 @@ abstract class AbstractMediaController extends AbstractController
     public function getMedia(string $mediaId, string $extension): Response
     {
         $cacheKey = md5(serialize(['media_file', $mediaId]));
-        if (!$this->cacheProvider->contains($cacheKey)) {
-            $media = $this->fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);
-            $this->cacheProvider->save($cacheKey, $media, 63072000);
-        } else {
-            $media = $this->cacheProvider->fetch($cacheKey);
-        }
+        $media = $this->cacheProvider->get($cacheKey, function () use ($mediaId, $extension) {
+            return $this->fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);
+        });
 
         if (null === $media) {
             throw new NotFoundHttpException('Media was not found.');

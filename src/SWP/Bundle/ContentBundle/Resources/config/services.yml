@@ -354,7 +354,7 @@ services:
         parent: swp.resolver.asset_location
         public: true
 
-    Doctrine\Common\Cache\Cache: '@doctrine.system_cache_provider'
+    SWP\Component\Common\Cache\CacheInterface: '@doctrine.system_cache_provider'
 
     SWP\Bundle\ContentBundle\Form\Extension\RedirectRouteTypeExtension:
         tags:

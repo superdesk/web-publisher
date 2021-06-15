@@ -39,7 +39,7 @@ class ExtensionChain implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function buildOptions(array $options)
+    public function buildOptions(array $options): array
     {
         foreach ($this->getExtensions() as $extension) {
             $options = $extension->buildOptions($options);
@@ -51,7 +51,7 @@ class ExtensionChain implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function buildItem(ItemInterface $item, array $options)
+    public function buildItem(ItemInterface $item, array $options): void
     {
         foreach ($this->getExtensions() as $extension) {
             $extension->buildItem($item, $options);
@@ -61,7 +61,7 @@ class ExtensionChain implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function addExtension(ExtensionInterface $extension, int $priority = 0)
+    public function addExtension(ExtensionInterface $extension, int $priority = 0): void
     {
         $this->extensions->insert($extension, $priority);
     }

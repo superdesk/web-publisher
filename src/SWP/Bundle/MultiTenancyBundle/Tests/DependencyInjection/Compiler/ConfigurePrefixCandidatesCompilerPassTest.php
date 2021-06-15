@@ -25,7 +25,7 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
     /**
      * @param ContainerBuilder $container
      */
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ConfigurePrefixCandidatesCompilerPass());
     }

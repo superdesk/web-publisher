@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Doctrine\Common\Cache\Cache;
 use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
@@ -28,6 +27,7 @@ use SWP\Bundle\CoreBundle\Form\Type\ExportAnalyticsType;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Component\Common\Cache\CacheInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Model\DateTime as PublisherDateTime;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -46,7 +46,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AnalyticsExportController extends AbstractController
 {
-    /** @var Cache */
+    /** @var CacheInterface */
     protected $cacheProvider;
 
     /** @var RepositoryInterface */
@@ -65,7 +65,7 @@ class AnalyticsExportController extends AbstractController
     protected $routeRepository;
 
     public function __construct(
-        Cache $cacheProvider,
+        CacheInterface $cacheProvider,
         RepositoryInterface $analyticsReportRepository,
         Filesystem $filesystem,
         CsvReportFileLocationResolver $csvReportFileLocationResolver,
@@ -153,13 +153,11 @@ class AnalyticsExportController extends AbstractController
     public function downloadFile(string $fileName): Response
     {
         $cacheKey = md5(serialize(['analytics_report', $fileName]));
-        if (!$this->cacheProvider->contains($cacheKey)) {
-            /** @var AnalyticsReportInterface $analyticsReport */
-            $analyticsReport = $this->analyticsReportRepository->findOneBy(['assetId' => $fileName]);
-            $this->cacheProvider->save($cacheKey, $analyticsReport, 63072000);
-        } else {
-            $analyticsReport = $this->cacheProvider->fetch($cacheKey);
-        }
+
+        $analyticsReport = $this->cacheProvider->get($cacheKey, function () use ($fileName) {
+            /* @var AnalyticsReportInterface|null $analyticsReport */
+            return $this->analyticsReportRepository->findOneBy(['assetId' => $fileName]);
+        });
 
         if (null === $analyticsReport) {
             throw new NotFoundHttpException('Report file was not found.');
@@ -217,7 +215,6 @@ class AnalyticsExportController extends AbstractController
             foreach ($author as $entity) {
                 $authorNames[] = $entity->getName();
             }
-
         }
 
         $filters['authors'] = $authorNames;

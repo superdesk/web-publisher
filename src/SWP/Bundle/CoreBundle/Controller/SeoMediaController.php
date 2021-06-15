@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\Controller\AbstractMediaController;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
@@ -26,6 +25,7 @@ use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Service\SeoImageUploaderInterface;
 use SWP\Bundle\SeoBundle\Form\Type\SeoImageType;
+use SWP\Component\Common\Cache\CacheInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -47,7 +47,7 @@ class SeoMediaController extends AbstractMediaController
         ArticleProviderInterface $articleProvider,
         EntityManagerInterface $seoObjectManager,
         MediaManagerInterface $seoMediaManager,
-        Cache $cacheProvider,
+        CacheInterface $cacheProvider,
         FileProviderInterface $fileProvider,
         FileExtensionCheckerInterface $fileExtensionChecker
     ) {

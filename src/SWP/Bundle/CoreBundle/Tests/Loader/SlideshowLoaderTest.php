@@ -31,7 +31,7 @@ class SlideshowLoaderTest extends WebTestCase
      */
     private $articleLoader;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->initDatabase();
 

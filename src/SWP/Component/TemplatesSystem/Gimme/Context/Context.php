@@ -14,12 +14,12 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Context;
 
-use Doctrine\Common\Cache\Cache;
 use SWP\Component\TemplatesSystem\Gimme\Event\MetaEvent;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class Context implements \ArrayAccess
 {
@@ -48,7 +48,7 @@ class Context implements \ArrayAccess
 
     protected $dispatcher;
 
-    protected $metadataCache;
+    protected CacheInterface $metadataCache;
 
     /**
      * @var string
@@ -75,7 +75,7 @@ class Context implements \ArrayAccess
      */
     private $configurationCache = [];
 
-    public function __construct(EventDispatcherInterface $dispatcher, Cache $metadataCache, $configsPath = null)
+    public function __construct(EventDispatcherInterface $dispatcher, CacheInterface $metadataCache, $configsPath = null)
     {
         $this->metadataCache = $metadataCache;
         $this->configsPath = $configsPath;
@@ -97,8 +97,6 @@ class Context implements \ArrayAccess
     }
 
     /**
-     * @param array $configuration
-     *
      * @return bool
      */
     public function addAvailableConfig(array $configuration)
@@ -113,8 +111,6 @@ class Context implements \ArrayAccess
     }
 
     /**
-     * @param array $availableConfigs
-     *
      * @return Context
      */
     public function setAvailableConfigs(array $availableConfigs)
@@ -130,7 +126,7 @@ class Context implements \ArrayAccess
     public function loadConfigsFromPath($configsPath)
     {
         if (file_exists($configsPath)) {
-            if (!$this->metadataCache->contains('metadata_config_files')) {
+            $this->metadataCache->get('metadata_config_files', function () use ($configsPath) {
                 $finder = new Finder();
                 $finder->in($configsPath)->files()->name('*.{yaml,yml}');
                 $files = [];
@@ -139,12 +135,10 @@ class Context implements \ArrayAccess
                     $this->addNewConfig($file->getRealPath());
                 }
 
-                $this->metadataCache->save('metadata_config_files', $files);
-            } else {
-                foreach ($this->metadataCache->fetch('metadata_config_files') as $file) {
+                foreach ($files as $file) {
                     $this->addNewConfig($file);
                 }
-            }
+            });
         }
     }
 
@@ -195,21 +189,18 @@ class Context implements \ArrayAccess
     public function addNewConfig(string $filePath)
     {
         $cacheKey = md5($filePath);
-        if (!$this->metadataCache->contains($cacheKey)) {
+        return $this->metadataCache->get($cacheKey, function () use ($filePath) {
             if (!is_readable($filePath)) {
                 throw new \InvalidArgumentException('Configuration file is not readable for parser');
             }
             $parser = new Parser();
             $configuration = $parser->parse(file_get_contents($filePath));
-            $this->metadataCache->save($cacheKey, $configuration);
-        } else {
-            $configuration = $this->metadataCache->fetch($cacheKey);
-        }
 
-        $this->addAvailableConfig($configuration);
-        $this->supportedCache = [];
+            $this->addAvailableConfig($configuration);
+            $this->supportedCache = [];
 
-        return $configuration;
+            return $configuration;
+        });
     }
 
     public function setCurrentPage(Meta $currentPage): self
@@ -253,17 +244,11 @@ class Context implements \ArrayAccess
         return $this->registeredMeta;
     }
 
-    /**
-     * @return bool
-     */
     public function isPreviewMode(): bool
     {
         return $this->previewMode;
     }
 
-    /**
-     * @param bool $previewMode
-     */
     public function setPreviewMode(bool $previewMode)
     {
         $this->previewMode = $previewMode;
@@ -312,8 +297,6 @@ class Context implements \ArrayAccess
     }
 
     /**
-     * @param array $keys
-     *
      * @return string
      */
     public function temporaryUnset(array $keys)
@@ -344,7 +327,7 @@ class Context implements \ArrayAccess
     /**
      * @param string $id
      *
-     * @return null|true
+     * @return true|null
      */
     public function restoreTemporaryUnset($id)
     {

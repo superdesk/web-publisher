@@ -85,7 +85,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         self::assertCount(1, $this->context->getRegisteredMeta());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new \ReflectionObject($this);
         foreach ($reflection->getProperties() as $prop) {

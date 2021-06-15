@@ -22,7 +22,7 @@ class ContentRepositoryTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initDatabase();
         $this->loadFixtures(

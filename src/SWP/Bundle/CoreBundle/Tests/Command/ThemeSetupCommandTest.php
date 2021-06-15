@@ -26,7 +26,7 @@ class ThemeSetupCommandTest extends WebTestCase
 
     private $command;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();
@@ -191,7 +191,7 @@ class ThemeSetupCommandTest extends WebTestCase
         );
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $filesystem = new Filesystem();
         $filesystem->remove(__DIR__.'/../Fixtures/themes/123abc/theme_test_install');

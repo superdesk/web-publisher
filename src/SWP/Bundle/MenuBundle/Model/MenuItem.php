@@ -163,7 +163,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getRoot()
+    public function getRoot(): ItemInterface
     {
         return $this->root;
     }
@@ -192,9 +192,6 @@ class MenuItem implements MenuItemInterface
         return $this->rgt;
     }
 
-    /**
-     * @param int $right
-     */
     public function setRight(int $right)
     {
         $this->rgt = $right;
@@ -219,14 +216,14 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setFactory(FactoryInterface $factory)
+    public function setFactory(FactoryInterface $factory): ItemInterface
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -234,7 +231,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName(string $name): ItemInterface
     {
         $this->name = $name;
 
@@ -244,7 +241,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getUri()
+    public function getUri(): string
     {
         return $this->uri;
     }
@@ -252,7 +249,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setUri($uri)
+    public function setUri(?string $uri): ItemInterface
     {
         $this->uri = $uri;
 
@@ -262,7 +259,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -270,7 +267,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setLabel($label)
+    public function setLabel(?string $label): ItemInterface
     {
         $this->label = $label;
 
@@ -280,7 +277,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
@@ -288,7 +285,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes): ItemInterface
     {
         $this->attributes = $attributes;
 
@@ -310,7 +307,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setAttribute($name, $value)
+    public function setAttribute(string $name, $value): ItemInterface
     {
         $this->attributes[$name] = $value;
 
@@ -320,7 +317,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getLinkAttributes()
+    public function getLinkAttributes(): array
     {
         return $this->linkAttributes;
     }
@@ -328,7 +325,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setLinkAttributes(array $linkAttributes)
+    public function setLinkAttributes(array $linkAttributes): ItemInterface
     {
         $this->linkAttributes = $linkAttributes;
 
@@ -350,7 +347,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setLinkAttribute($name, $value)
+    public function setLinkAttribute(string $name, $value): ItemInterface
     {
         $this->linkAttributes[$name] = $value;
 
@@ -360,7 +357,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getChildrenAttributes()
+    public function getChildrenAttributes(): array
     {
         return $this->childrenAttributes;
     }
@@ -368,7 +365,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildrenAttributes(array $childrenAttributes)
+    public function setChildrenAttributes(array $childrenAttributes): ItemInterface
     {
         $this->childrenAttributes = $childrenAttributes;
 
@@ -390,7 +387,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildrenAttribute($name, $value)
+    public function setChildrenAttribute($name, $value): ItemInterface
     {
         $this->childrenAttributes[$name] = $value;
 
@@ -400,7 +397,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getLabelAttributes()
+    public function getLabelAttributes(): array
     {
         return $this->labelAttributes;
     }
@@ -408,7 +405,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setLabelAttributes(array $labelAttributes)
+    public function setLabelAttributes(array $labelAttributes): ItemInterface
     {
         $this->labelAttributes = $labelAttributes;
 
@@ -430,7 +427,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setLabelAttribute($name, $value)
+    public function setLabelAttribute($name, $value): ItemInterface
     {
         $this->labelAttributes[$name] = $value;
 
@@ -440,7 +437,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getExtras()
+    public function getExtras(): array
     {
         return $this->extras;
     }
@@ -448,7 +445,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setExtras(array $extras)
+    public function setExtras(array $extras): ItemInterface
     {
         $this->extras = $extras;
 
@@ -470,7 +467,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setExtra($name, $value)
+    public function setExtra($name, $value): ItemInterface
     {
         $this->extras[$name] = $value;
 
@@ -480,7 +477,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getDisplayChildren()
+    public function getDisplayChildren(): bool
     {
         return $this->displayChildren;
     }
@@ -488,7 +485,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setDisplayChildren($bool)
+    public function setDisplayChildren($bool): ItemInterface
     {
         $this->displayChildren = (bool) $bool;
 
@@ -498,7 +495,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function isDisplayed()
+    public function isDisplayed(): bool
     {
         return $this->display;
     }
@@ -524,7 +521,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function addChild($child, array $options = array())
+    public function addChild($child, array $options = []): ItemInterface
     {
         if (!$this->hasChild($child)) {
             $child->setParent($this);
@@ -537,7 +534,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getChild($name)
+    public function getChild($name): ItemInterface
     {
         return $this->children->get($name);
     }
@@ -545,13 +542,13 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function reorderChildren($order)
+    public function reorderChildren($order): ItemInterface
     {
         if (count($order) != $this->count()) {
             throw new \InvalidArgumentException('Cannot reorder children, order does not contain all children.');
         }
 
-        $newChildren = array();
+        $newChildren = [];
         foreach ($order as $name) {
             if (!$this->children->containsKey($name)) {
                 throw new \InvalidArgumentException('Cannot find children named '.$name);
@@ -569,7 +566,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function copy()
+    public function copy(): ItemInterface
     {
         $newMenu = clone $this;
         $newMenu->children = new ArrayCollection();
@@ -584,7 +581,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function isRoot()
+    public function isRoot(): bool
     {
         return null === $this->parent;
     }
@@ -592,7 +589,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ItemInterface
     {
         return $this->parent;
     }
@@ -600,7 +597,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent(ItemInterface $parent = null)
+    public function setParent(ItemInterface $parent = null): ItemInterface
     {
         if ($parent === $this) {
             throw new \InvalidArgumentException('Item cannot be a child of itself');
@@ -614,7 +611,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         if (is_array($this->children)) {
             return $this->children;
@@ -626,7 +623,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildren(array $children)
+    public function setChildren(array $children): ItemInterface
     {
         $this->children = new ArrayCollection($children);
 
@@ -636,7 +633,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function removeChild($name)
+    public function removeChild($name): ItemInterface
     {
         $name = $name instanceof ItemInterface ? $name->getName() : $name;
         $child = $this->getChild($name);
@@ -652,7 +649,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getFirstChild()
+    public function getFirstChild(): ItemInterface
     {
         return $this->children->first();
     }
@@ -660,7 +657,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getLastChild()
+    public function getLastChild(): ItemInterface
     {
         return $this->children->last();
     }
@@ -668,7 +665,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         foreach ($this->children as $child) {
             if ($child->isDisplayed()) {
@@ -682,7 +679,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setCurrent($bool)
+    public function setCurrent($bool): ItemInterface
     {
         $this->isCurrent = $bool;
 
@@ -692,7 +689,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function isCurrent()
+    public function isCurrent(): bool
     {
         return $this->isCurrent;
     }
@@ -700,7 +697,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function isLast()
+    public function isLast(): bool
     {
         // if this is root, then return false
         if ($this->isRoot()) {
@@ -713,7 +710,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function isFirst()
+    public function isFirst(): bool
     {
         // if this is root, then return false
         if ($this->isRoot()) {
@@ -726,7 +723,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function actsLikeFirst()
+    public function actsLikeFirst(): bool
     {
         // root items are never "marked" as first
         if ($this->isRoot()) {
@@ -757,7 +754,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function actsLikeLast()
+    public function actsLikeLast(): bool
     {
         // root items are never "marked" as last
         if ($this->isRoot()) {
@@ -789,7 +786,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->children);
     }

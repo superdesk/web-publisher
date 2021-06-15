@@ -36,7 +36,7 @@ class FacebookInstantArticlesServiceTest extends TestCase
 
     private $facebookInstantArticlesArticleRepository;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->facebookManager = $this->createMock(FacebookManager::class);
         $this->facebookManager->method('createForApp')->willReturn($this->createMock(Facebook::class));

@@ -144,7 +144,7 @@ EOF
         $twig->render('error_gimme');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new \ReflectionObject($this);
         foreach ($reflection->getProperties() as $prop) {

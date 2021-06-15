@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Twig\MenuExtension as KnpMenuExtension;
 
 class MenuExtension extends KnpMenuExtension
@@ -23,7 +24,7 @@ class MenuExtension extends KnpMenuExtension
     /**
      * {@inheritdoc}
      */
-    public function get($menu, array $path = array(), array $options = array())
+    public function get($menu, array $path = [], array $options = []): ItemInterface
     {
         try {
             return parent::get($menu, $path, $options);
@@ -35,7 +36,7 @@ class MenuExtension extends KnpMenuExtension
     /**
      * {@inheritdoc}
      */
-    public function render($menu, array $options = array(), $renderer = null)
+    public function render($menu, array $options = [], $renderer = null): string
     {
         try {
             return parent::render($menu, $options, $renderer);
@@ -47,7 +48,7 @@ class MenuExtension extends KnpMenuExtension
     /**
      * {@inheritdoc}
      */
-    public function getBreadcrumbsArray($menu, $subItem = null)
+    public function getBreadcrumbsArray($menu, $subItem = null): array
     {
         try {
             return parent::getBreadcrumbsArray($menu, $subItem);
@@ -59,7 +60,7 @@ class MenuExtension extends KnpMenuExtension
     /**
      * {@inheritdoc}
      */
-    public function getCurrentItem($menu)
+    public function getCurrentItem($menu): ItemInterface
     {
         try {
             return parent::getCurrentItem($menu);

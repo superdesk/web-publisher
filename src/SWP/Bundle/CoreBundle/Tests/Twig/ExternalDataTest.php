@@ -23,7 +23,7 @@ class ExternalDataTest extends WebTestCase
      */
     private $twig;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
         $this->initDatabase();

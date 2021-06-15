@@ -16,32 +16,34 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
-use Symfony\Bridge\Twig\Extension\RoutingExtension as SymfonyRoutingExtension;
+use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Twig\Extension\AbstractExtension;
 
-class RoutingExtension extends SymfonyRoutingExtension
+final class DecoratingRoutingExtension extends AbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getPath($name, $parameters = array(), $relative = false)
+    private RoutingExtension $routingExtension;
+
+    public function __construct(RoutingExtension $routingExtension)
+    {
+        $this->routingExtension = $routingExtension;
+    }
+
+    public function getPath($name, $parameters = [], $relative = false): ?string
     {
         try {
-            return parent::getPath($name, $parameters, $relative);
+            return $this->routingExtension->getPath($name, $parameters, $relative);
         } catch (RouteNotFoundException | MissingMandatoryParametersException | InvalidParameterException $e) {
             // allow empty path
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUrl($name, $parameters = array(), $schemeRelative = false)
+    public function getUrl($name, $parameters = [], $schemeRelative = false): ?string
     {
         try {
-            return parent::getUrl($name, $parameters, $schemeRelative);
+            return $this->routingExtension->getUrl($name, $parameters, $schemeRelative);
         } catch (RouteNotFoundException | MissingMandatoryParametersException | InvalidParameterException $e) {
             // allow empty url
         }
