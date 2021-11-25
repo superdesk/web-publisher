@@ -106,6 +106,7 @@ class ImageConversionHandler implements MessageHandlerInterface
             if (null === $imageAsResource) {
                 throw new Exception('Could not get resource from provided images');
             }
+            imagepalettetotruecolor($imageAsResource);
             imagewebp($imageAsResource, $tempLocation);
             $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
             $this->mediaManager->saveFile($uploadedFile, $mediaId);
