@@ -64,6 +64,11 @@ fos_elastica:
           properties:
             name: { type: text }
             id: { type: integer }
+            parent:
+              type: 'object'
+              properties:
+                name: { type: text }
+                id: { type: integer }
         sources:
           type: 'nested'
           properties:
