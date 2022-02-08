@@ -134,7 +134,9 @@ class ImageConversionHandler implements MessageHandlerInterface
         /** @var ImageRenditionInterface[] $articleMedia */
         $articleMedia = $this->imageRenditionRepository->findBy(['image' => $image]);
         foreach ($articleMedia as $media) {
-            $media->getMedia()->getArticle()->setMediaUpdatedAt(new DateTime());
+            $article = $media->getMedia()->getArticle();
+            $article->setMediaUpdatedAt(new DateTime());
+            $article->cancelTimestampable(true);
         }
     }
 
