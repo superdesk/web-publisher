@@ -12,7 +12,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190312113241 extends AbstractMigration
 {
-    public function getDescription()
+    public function getDescription() : string
     {
         return 'Change all comments_count with NULL to 0 to improve filtering';
     }

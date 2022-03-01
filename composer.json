@@ -73,7 +73,7 @@
         "friendsofsymfony/http-cache-bundle": "^2.8",
         "friendsofsymfony/rest-bundle": "^3.0",
         "fzaninotto/faker": "^1.9",
-        "gedmo/doctrine-extensions": "dev-patch-1 as v2.4.x-dev",
+        "gedmo/doctrine-extensions": "v3.0.5",
         "geoip2/geoip2": "^2.10",
         "gesdinet/jwt-refresh-token-bundle": "^0.12",
         "gos/web-socket-bundle": "^3.0",
@@ -200,7 +200,10 @@
     },
     "config": {
         "bin-dir": "bin",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -212,13 +215,6 @@
             "allow-contrib": false
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ahilles107/DoctrineExtensions.git",
-            "no-api": true
-        }
-    ],
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",

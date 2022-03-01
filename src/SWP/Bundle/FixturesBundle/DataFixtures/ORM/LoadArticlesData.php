@@ -327,7 +327,6 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                             $fakeImage,
                             $mediaId,
                             'image/jpeg',
-                            filesize($fakeImage),
                             null,
                             true
                         );

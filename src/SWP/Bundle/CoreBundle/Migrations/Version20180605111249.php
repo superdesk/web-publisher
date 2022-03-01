@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SWP\Migrations;
 
 use Behat\Transliterator\Transliterator;
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
@@ -39,7 +39,7 @@ final class Version20180605111249 extends AbstractMigration implements Container
     /**
      * @param Schema $schema
      */
-    public function postUp(Schema $schema)
+   public function postUp(Schema $schema) : void
     {
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager

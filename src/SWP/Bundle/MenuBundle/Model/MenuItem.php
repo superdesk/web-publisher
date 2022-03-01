@@ -503,7 +503,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setDisplay($bool)
+    public function setDisplay(bool $bool): ItemInterface
     {
         $this->display = (bool) $bool;
 

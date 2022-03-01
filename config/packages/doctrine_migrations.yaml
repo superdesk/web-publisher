@@ -1,6 +1,6 @@
 doctrine_migrations:
     migrations_paths:
-        'SWP\Migrations': '%kernel.project_dir%/../src/SWP/Bundle/CoreBundle/Migrations'
+        'SWP\Migrations': '%kernel.project_dir%/src/SWP/Bundle/CoreBundle/Migrations'
 
     storage:
         # Default (SQL table) metadata storage configuration
