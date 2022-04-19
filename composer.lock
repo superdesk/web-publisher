@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b1eafdad295ae96a3746c028d5414749",
+    "content-hash": "499dad0311f17590e3ee750668eb6403",
     "packages": [
         {
             "name": "apache/log4php",
@@ -581,24 +581,23 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.11.2",
+            "version": "1.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "9c53086695937c50c47936ed86d96150ffbcf60d"
+                "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/9c53086695937c50c47936ed86d96150ffbcf60d",
-                "reference": "9c53086695937c50c47936ed86d96150ffbcf60d",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/4cf401d14df219fa6f38b671f5493449151c9ad8",
+                "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8",
                 "shasum": ""
             },
             "require": {
                 "php": "~7.1 || ^8.0"
             },
             "conflict": {
-                "doctrine/common": ">2.2,<2.4",
-                "psr/cache": ">=3"
+                "doctrine/common": ">2.2,<2.4"
             },
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
@@ -607,8 +606,9 @@
                 "mongodb/mongodb": "^1.1",
                 "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
                 "predis/predis": "~1.0",
-                "psr/cache": "^1.0 || ^2.0",
-                "symfony/cache": "^4.4 || ^5.2"
+                "psr/cache": "^1.0 || ^2.0 || ^3.0",
+                "symfony/cache": "^4.4 || ^5.2 || ^6.0@dev",
+                "symfony/var-exporter": "^4.4 || ^5.2 || ^6.0@dev"
             },
             "suggest": {
                 "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
@@ -660,7 +660,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.11.2"
+                "source": "https://github.com/doctrine/cache/tree/1.12.1"
             },
             "funding": [
                 {
@@ -676,7 +676,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-20T14:57:29+00:00"
+            "time": "2021-07-17T14:39:21+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -1905,6 +1905,103 @@
                 }
             ],
             "time": "2020-06-20T12:56:16+00:00"
+        },
+        {
+            "name": "doctrine/phpcr-bundle",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/DoctrinePHPCRBundle.git",
+                "reference": "11a296c9d0f5233a692c078427bbbb36487d4e07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/DoctrinePHPCRBundle/zipball/11a296c9d0f5233a692c078427bbbb36487d4e07",
+                "reference": "11a296c9d0f5233a692c078427bbbb36487d4e07",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "^1.12",
+                "php": "^7.4|^8.0",
+                "phpcr/phpcr-utils": "^1.3",
+                "symfony/doctrine-bridge": "^4.3 || ^5.0 || ^6.0",
+                "symfony/framework-bundle": "^4.3 || ^5.0 || ^6.0"
+            },
+            "conflict": {
+                "doctrine/annotations": "< 1.7.0",
+                "doctrine/phpcr-odm": "< 1.5.2",
+                "jackalope/jackalope": "< 1.3.1",
+                "phpcr/phpcr-shell": "< 1.0.0-beta1",
+                "symfony/dependency-injection": "4.0.0",
+                "twig/twig": "< 1.42.3"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^1.8 || ^2.0",
+                "doctrine/phpcr-odm": "^1.5.2 || ^2.0",
+                "jackalope/jackalope-doctrine-dbal": "^1.3",
+                "matthiasnoback/symfony-dependency-injection-test": "^4.1",
+                "symfony/asset": "^4.3 || ^5.0 || ^6.0",
+                "symfony/browser-kit": "^4.3 || ^5.0 || ^6.0",
+                "symfony/css-selector": "^4.3 || ^5.0 || ^6.0",
+                "symfony/error-handler": "^4.4 || ^5.0  || ^6.0",
+                "symfony/form": "^4.3 || ^5.0 || ^6.0",
+                "symfony/monolog-bridge": "^4.3 || ^5.0 || ^6.0",
+                "symfony/monolog-bundle": "^3.4",
+                "symfony/phpunit-bridge": "^5.4",
+                "symfony/templating": "^4.3 || ^5.0 || ^6.0",
+                "symfony/translation": "^4.3 || ^5.0 || ^6.0",
+                "symfony/twig-bundle": "^4.3 || ^5.0 || ^6.0",
+                "symfony/validator": "^4.3 || ^5.0 || ^6.0",
+                "symfony/web-profiler-bundle": "^4.3 || ^5.0 || ^6.0"
+            },
+            "suggest": {
+                "burgov/key-value-form-bundle": "to edit assoc multivalue properties. require version 1.0.*",
+                "doctrine/data-fixtures": "if you want to use the fixture loading.",
+                "doctrine/doctrine-bundle": "when using jackalope-doctrine-dbal",
+                "doctrine/phpcr-odm": "if you want to use the odm as well. require version ^1.3",
+                "jackalope/jackalope-doctrine-dbal": "if you want to use jackalope-doctrine-dbal. require version ^1.3",
+                "jackalope/jackalope-jackrabbit": "if you want to connect to jackrabbit. require version ^1.3",
+                "ocramius/proxy-manager": "To avoid unnecessary database requests when using jackalope-doctrine-dbal",
+                "phpcr/phpcr-shell": "If you want native access to PHPCR-Shell to manage the PHPCR repository"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Bundle\\PHPCRBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Kahwe Smith",
+                    "email": "smith@pooteeweet.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                }
+            ],
+            "description": "Symfony DoctrinePHPCRBundle",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "odm",
+                "persistence",
+                "phpcr"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/DoctrinePHPCRBundle/issues",
+                "source": "https://github.com/doctrine/DoctrinePHPCRBundle/tree/2.4.0"
+            },
+            "time": "2021-12-14T09:00:22+00:00"
         },
         {
             "name": "doctrine/phpcr-odm",
