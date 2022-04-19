@@ -69,11 +69,14 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         FactoryInterface $listItemFactory,
         ContentListItemInterface $contentListItem,
-        EventDispatcherInterface $eventDispatcher,
-        EntityManagerInterface $entityManager
+        EventDispatcherInterface $eventDispatcher
     ) {
-        $event->getArticle()->willReturn($article);
+        $eventDispatcher->dispatch(
+            Argument::any(),
+            Argument::any()
+        )->willReturn(Argument::type(ContentListEvent::class));
 
+        $event->getArticle()->willReturn($article);
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $listRepository->findByTypes(['automatic'])->willReturn([$list]);
         $listItemRepository->persist(Argument::any())->shouldBeCalled();
@@ -112,6 +115,11 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         ContentListItemInterface $contentListItem,
         EventDispatcherInterface $eventDispatcher
     ) {
+        $eventDispatcher->dispatch(
+            Argument::any(),
+            Argument::any()
+        )->willReturn(Argument::type(ContentListEvent::class));
+
         $event->getArticle()->willReturn($article);
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
@@ -140,7 +148,13 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         FactoryInterface $listItemFactory,
         ContentListItemInterface $contentListItem,
         EventDispatcherInterface $eventDispatcher
-    ) {
+    )
+    {
+      $eventDispatcher->dispatch(
+          Argument::any(),
+          Argument::any()
+      )->willReturn(Argument::type(ContentListEvent::class));
+
         $article->isPublishedFBIA()->willReturn(true);
         $event->getArticle()->willReturn($article);
         $listRepository->findByTypes(['bucket'])->willReturn([$list]);
@@ -167,6 +181,11 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         ContentListItemInterface $contentListItem,
         EventDispatcherInterface $eventDispatcher
     ) {
+      $eventDispatcher->dispatch(
+          Argument::any(),
+          Argument::any()
+      )->willReturn(Argument::type(ContentListEvent::class));
+
         $article->isPublishedFBIA()->willReturn(false);
         $event->getArticle()->willReturn($article);
         $listRepository->findByTypes(['bucket'])->willReturn([$list]);

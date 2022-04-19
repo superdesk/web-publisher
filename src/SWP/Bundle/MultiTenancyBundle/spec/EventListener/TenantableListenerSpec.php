@@ -20,10 +20,8 @@ use SWP\Bundle\MultiTenancyBundle\EventListener\TenantableListener;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -32,7 +30,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class TenantableListenerSpec extends ObjectBehavior
 {
     public function let(
-        RegistryInterface $doctrine,
+        EntityManagerInterface $doctrine,
         TenantContextInterface $tenantContext
     ) {
         $this->beConstructedWith($doctrine, $tenantContext);
@@ -58,7 +56,7 @@ class TenantableListenerSpec extends ObjectBehavior
     }
 
     public function it_skips_tenantable_filter_on_kernel_request(
-        GetResponseEvent $event,
+        RequestEvent $event,
         $tenantContext,
         EntityManagerInterface $entityManager
     ) {

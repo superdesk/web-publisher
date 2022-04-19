@@ -162,8 +162,8 @@ class AddArticleToListListener
 
         $bucket->setUpdatedAt(new \DateTime());
         $this->eventDispatcher->dispatch(
-            ContentListEvents::POST_ITEM_ADD,
-            new ContentListEvent($bucket, $contentListItem)
+            new ContentListEvent($bucket, $contentListItem),
+            ContentListEvents::POST_ITEM_ADD
         );
     }
 }

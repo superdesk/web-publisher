@@ -5,11 +5,12 @@ namespace spec\SWP\Bundle\FacebookInstantArticlesBundle\Parser;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\Templating\EngineInterface;
+use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
+use Twig\Environment;
 
 class TemplateParserSpec extends ObjectBehavior
 {
-    public function let(EngineInterface $templating)
+    public function let(Environment $templating)
     {
         $templating->render(Argument::type('string'))
             ->willReturn('<!doctype html><meta charset=utf-8><title>shortest html5</title>');
@@ -18,7 +19,7 @@ class TemplateParserSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser');
+        $this->shouldHaveType(TemplateParser::class);
     }
 
     public function it_should_render_fbia_template()

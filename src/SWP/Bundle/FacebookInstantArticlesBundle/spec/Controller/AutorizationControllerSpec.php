@@ -23,7 +23,7 @@ class AutorizationControllerSpec extends ObjectBehavior
     public function let(
         ContainerInterface $container,
         EntityRepository $entityRepository,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         ApplicationInterface $application,
         PageInterface $page,
         FacebookManager $facebookManager,

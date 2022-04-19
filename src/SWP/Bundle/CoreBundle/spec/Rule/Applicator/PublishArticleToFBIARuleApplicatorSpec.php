@@ -83,7 +83,7 @@ final class PublishArticleToFBIARuleApplicatorSpec extends ObjectBehavior
         $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
 
         $subject->setPublishedFBIA(true)->shouldBeCalled();
-        $eventDispatcher->dispatch(ArticleEvents::PUBLISH, Argument::type(ArticleEvent::class))->shouldBeCalled();
+        $eventDispatcher->dispatch( Argument::type(ArticleEvent::class), ArticleEvents::PUBLISH)->shouldBeCalled();
         $logger->info(Argument::any('string'))->shouldBeCalled();
 
         $this->apply($rule, $subject)->shouldReturn(null);
@@ -101,7 +101,7 @@ final class PublishArticleToFBIARuleApplicatorSpec extends ObjectBehavior
         $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
 
         $subject->setPublishedFBIA(true)->shouldNotBeCalled();
-        $eventDispatcher->dispatch(ArticleEvents::PUBLISH, Argument::type(ArticleEvent::class))->shouldNotBeCalled();
+        $eventDispatcher->dispatch( Argument::type(ArticleEvent::class), ArticleEvents::PUBLISH)->shouldNotBeCalled();
         $logger->info(Argument::any('string'))->shouldNotBeCalled();
 
         $this->apply($rule, $subject)->shouldReturn(null);

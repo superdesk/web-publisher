@@ -29,7 +29,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
 {
     public function let(
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         ExtensionInterface $extensionChain
     ) {
         $this->beConstructedWith($menuItemRepository, $objectManager, $extensionChain);

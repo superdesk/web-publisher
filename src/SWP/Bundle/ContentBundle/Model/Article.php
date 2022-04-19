@@ -168,12 +168,12 @@ class Article implements ArticleInterface
         return $this->publishEndDate;
     }
 
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->isPublishable;
     }
 
-    public function setPublishable($boolean)
+    public function setPublishable(bool $boolean): void
     {
         $this->isPublishable = $boolean;
     }

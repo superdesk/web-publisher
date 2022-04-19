@@ -22,7 +22,7 @@ use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -43,7 +43,7 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
     public function __construct(
         TenantContextInterface $tenantContext,
         TenantProviderInterface $tenantProvider,
-        RegistryInterface $doctrine,
+        ManagerRegistry $doctrine,
         EventDispatcherInterface $dispatcher
     ) {
         $this->tenantContext = $tenantContext;
@@ -70,7 +70,7 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
 
     public function onPreSerialize(ObjectEvent $event): void
     {
-        $this->isTenantableEnabled = $this->doctrine->getEntityManager()->getFilters()->isEnabled('tenantable');
+        $this->isTenantableEnabled = $this->doctrine->getManager()->getFilters()->isEnabled('tenantable');
         $data = $event->getObject();
         if ($data->getTenantCode() && $this->tenantContext->getTenant()->getCode() !== $data->getTenantCode()) {
             $this->originalTenant = $this->tenantContext->getTenant();

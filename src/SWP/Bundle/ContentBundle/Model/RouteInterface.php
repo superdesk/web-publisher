@@ -172,7 +172,7 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      * @param string $name
      * @param string $value
      */
-    public function setDefault(string $name, string $value);
+    public function setDefault(string $name, ?string $value);
 
     /**
      * Set the object this url points to.

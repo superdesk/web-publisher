@@ -15,6 +15,7 @@
 namespace spec\SWP\Bundle\MultiTenancyBundle\Context;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -41,8 +42,11 @@ class TenantContextSpec extends ObjectBehavior
         $this->shouldImplement('SWP\Component\MultiTenancy\Context\TenantContextInterface');
     }
 
-    public function it_should_set_tenant(TenantInterface $tenant)
+    public function it_should_set_tenant(TenantInterface $tenant, EventDispatcherInterface $eventDispatcher)
     {
+        $eventDispatcher->dispatch(Argument::any(), Argument::any())
+            ->willReturn(Argument::type("object"));
+
         $tenant->getId()->willReturn(1);
         $tenant->getSubdomain()->willReturn('example1');
         $tenant->getName()->willReturn('example1');
@@ -54,8 +58,12 @@ class TenantContextSpec extends ObjectBehavior
         $requestStack,
         Request $request,
         $tenantResolver,
-        TenantInterface $tenant
+        TenantInterface $tenant,
+        EventDispatcherInterface $eventDispatcher
     ) {
+        $eventDispatcher->dispatch(Argument::any(), Argument::any())
+          ->willReturn(Argument::type("object"));
+
         $requestStack->getCurrentRequest()->willReturn($request);
         $request->getHost()->shouldBeCalled()->willReturn('example.com');
         $request->getRequestUri()->willReturn('/');
@@ -70,8 +78,12 @@ class TenantContextSpec extends ObjectBehavior
     public function it_should_get_default_tenant_when_no_host_found(
         $tenantResolver,
         $requestStack,
-        TenantInterface $tenant
+        TenantInterface $tenant,
+        EventDispatcherInterface $eventDispatcher
     ) {
+        $eventDispatcher->dispatch(Argument::any(), Argument::any())
+           ->willReturn(Argument::type("object"));
+
         $requestStack->getCurrentRequest()->willReturn(null);
         $tenant->getId()->willReturn(1);
         $tenant->getSubdomain()->willReturn('default');
@@ -81,8 +93,11 @@ class TenantContextSpec extends ObjectBehavior
         $this->getTenant()->shouldReturn($tenant);
     }
 
-    public function it_should_get_tenant(TenantInterface $tenant)
+    public function it_should_get_tenant(TenantInterface $tenant, EventDispatcherInterface $eventDispatcher)
     {
+        $eventDispatcher->dispatch(Argument::any(), Argument::any())
+          ->willReturn(Argument::type("object"));
+
         $tenant->getId()->willReturn(1);
         $tenant->getSubdomain()->willReturn('example1');
         $tenant->getName()->willReturn('example1');
