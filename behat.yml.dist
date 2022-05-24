@@ -2,17 +2,15 @@ default:
     calls:
         error_reporting: 16383 # E_ALL & ~E_USER_DREPRECATED
     suites:
+        paths:
+            features: 'features/fixtures'
         default:
             contexts:
                 - rdx\behatvars\BehatVariablesContext
                 - FeatureContext
                 - JsonContext
-                - AuthTokenContext:
-                    userProvider: '@swp.security.user_provider'
-                    apiKeyRepository: '@swp.repository.api_key'
-                    apiKeyFactory: '@swp.factory.api_key'
-                - GeoLocationContext:
-                    geoIpReader: '@SWP\Component\GeoIP\Reader\ReaderInterface'
+                - AuthTokenContext
+                - GeoLocationContext
                 - SWP\Behat\Contexts\CsvFileContext
                 - Behat\MinkExtension\Context\MinkContext
                 - SWP\Behat\Contexts\TenantContext
@@ -35,25 +33,28 @@ default:
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~
-        Behat\Symfony2Extension:
+        #Behat\Symfony2Extension:
+        #    kernel:
+        #        bootstrap: features/bootstrap/bootstrap.php
+        #        class: App\Kernel
+        #        path: src/Kernel.php
+        #FriendsOfBehat\ServiceContainerExtension: ~
+        FriendsOfBehat\SymfonyExtension:
+            bootstrap: features/bootstrap/bootstrap.php
             kernel:
-                bootstrap: features/bootstrap/bootstrap.php
-                class: App\Kernel
-                path: src/Kernel.php
+               class: App\Kernel
+               path: src/Kernel.php
 
         Behat\MinkExtension:
-            base_url: "http://localhost/"
-            files_path: 'features/fixtures'
             sessions:
-                default:
-                    symfony2: ~
+                symfony:
+                    symfony: ~
         Behatch\Extension: ~
-        BehatExtension\DoctrineDataFixturesExtension\Extension:
+        VIPSoft\DoctrineDataFixturesExtension\Extension:
               lifetime: feature
               autoload: false
               fixtures:
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
-        FriendsOfBehat\ServiceContainerExtension: ~
-        FriendsOfBehat\SymfonyExtension: ~
+

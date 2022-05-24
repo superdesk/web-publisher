@@ -125,10 +125,10 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         if (null !== $existingPackage) {
             $existingPackage = $this->packageHydrator->hydrate($package, $existingPackage);
 
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
+            $this->eventDispatcher->dispatch( new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PRE_UPDATE]), Events::PACKAGE_PRE_UPDATE);
             $this->packageObjectManager->flush();
-            $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_POST_UPDATE]));
-            $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PROCESSED]));
+            $this->eventDispatcher->dispatch( new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_POST_UPDATE]), Events::PACKAGE_POST_UPDATE);
+            $this->eventDispatcher->dispatch( new GenericEvent($existingPackage, ['eventName' => Events::PACKAGE_PROCESSED]), Events::PACKAGE_PROCESSED);
             $this->packageObjectManager->flush();
 
             $this->reset();
@@ -137,10 +137,10 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->eventDispatcher->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_CREATE]));
+        $this->eventDispatcher->dispatch( new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_CREATE]), Events::PACKAGE_PRE_CREATE);
         $this->packageRepository->add($package);
-        $this->eventDispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));
-        $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
+        $this->eventDispatcher->dispatch( new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]), Events::PACKAGE_POST_CREATE);
+        $this->eventDispatcher->dispatch( new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]), Events::PACKAGE_PROCESSED);
         $this->packageObjectManager->flush();
 
         $this->logger->info(sprintf('Package %s was created', $package->getGuid()));

@@ -17,7 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_key_exists;
 use DateTime;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController as FOSRestController;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;

@@ -14,7 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Resolver;
 
-use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -28,11 +29,11 @@ class ArticleResolver implements ArticleResolverInterface
     private $matcher;
 
     /**
-     * @var CacheProvider
+     * @var CacheInterface
      */
     private $cacheProvider;
 
-    public function __construct(UrlMatcherInterface $matcher, CacheProvider $cacheProvider)
+    public function __construct(UrlMatcherInterface $matcher, CacheInterface $cacheProvider)
     {
         $this->matcher = $matcher;
         $this->cacheProvider = $cacheProvider;
@@ -41,25 +42,31 @@ class ArticleResolver implements ArticleResolverInterface
     public function resolve(string $url): ?ArticleInterface
     {
         $collectionRouteCacheKey = md5('route_'.$url);
-
-        $result = null;
-
-        if ($this->cacheProvider->contains($collectionRouteCacheKey)) {
-            return $result;
-        }
-
-        try {
+        return $this->cacheProvider->get($collectionRouteCacheKey, function (ItemInterface $item, &$save) use ($url) {
+          try {
             $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
+          } catch(ResourceNotFoundException $e) {
+            $save = false;
+            return null;
+          }
+          if(!isset($route['_article_meta'])) {
+            $save = false;
+            return null;
+          }
 
-            if (isset($route['_article_meta']) && $route['_article_meta'] instanceof Meta && $route['_article_meta']->getValues() instanceof ArticleInterface) {
-                return $route['_article_meta']->getValues();
-            }
-        } catch (ResourceNotFoundException $e) {
-        }
+          if(!($route['_article_meta'] instanceof Meta)) {
+            $save = false;
+            return null;
+          }
 
-        $this->cacheProvider->save($collectionRouteCacheKey, $result);
+          $values = $route['_article_meta']->getValues();
+          if(!($values instanceof ArticleInterface)) {
+            $save = false;
+            return null;
+          }
 
-        return $result;
+          return $values;
+        });
     }
 
     private function getFragmentFromUrl(string $url, string $fragment): ?string

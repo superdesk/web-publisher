@@ -18,7 +18,7 @@ use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
  * Class MimeTypeListener.
@@ -26,9 +26,9 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 class MimeTypeListener
 {
     /**
-     * @param FilterResponseEvent $event
+     * @param ResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;

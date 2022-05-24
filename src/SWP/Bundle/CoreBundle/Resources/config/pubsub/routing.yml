@@ -1,4 +1,3 @@
 package_created:
     channel: package_created
-    handler:
-        callback: 'swp.package'
+    handler: 'swp.package'

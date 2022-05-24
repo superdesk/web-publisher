@@ -116,6 +116,8 @@ services:
             - '@swp_core.theme.context.tenant_aware'
             - '@swp.repository.tenant'
 
+    SWP\Bundle\CoreBundle\Theme\Service\ThemeServiceInterface: "@swp_core.service.theme"
+
     swp_core.generator.theme.routes:
         class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeRoutesGenerator
         arguments:

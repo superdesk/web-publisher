@@ -92,7 +92,7 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $currentTenant = $this->tenantContext->getTenant();
@@ -141,5 +141,7 @@ EOT
                 $package->getId()
             ));
         }
+
+        return 0;
     }
 }

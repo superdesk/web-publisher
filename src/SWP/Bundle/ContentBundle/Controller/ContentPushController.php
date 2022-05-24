@@ -39,7 +39,7 @@ class ContentPushController extends AbstractController
     public function pushContentAction(Request $request): SingleResourceResponseInterface
     {
         $package = $this->container->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
-        $this->container->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $this->container->get('event_dispatcher')->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
 
         $currentTenant = $this->container->get('swp_multi_tenancy.tenant_context')->getTenant();
 

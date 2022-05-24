@@ -20,11 +20,11 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArticleSourceController extends Controller
+class ArticleSourceController extends AbstractController
 {
     /**
      * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_article_sources")

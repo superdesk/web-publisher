@@ -70,6 +70,7 @@ EOT
         $this->getObjectManager()->persist($organization);
         $this->getObjectManager()->flush();
         $this->sendOutput($output, $organization);
+        return 0;
     }
 
     /**

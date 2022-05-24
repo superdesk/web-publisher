@@ -86,7 +86,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     {
         $package = $this->getContainer()->get('swp_bridge.transformer.json_to_package')->transform(self::TEST_PACKAGE);
         $article = $this->getContainer()->get('swp_content.transformer.package_to_article')->transform($package);
-        $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
+        $this->getContainer()->get('event_dispatcher')->dispatch(new ArticleEvent($article, $package), ArticleEvents::PRE_CREATE);
 
         self::assertEquals('', $article->getBody());
     }
@@ -98,7 +98,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     {
         $item = $this->getContainer()->get('swp_bridge.transformer.json_to_package')->transform(self::TEST_ITEM);
         $article = $this->getContainer()->get('swp_content.transformer.package_to_article')->transform($item);
-        $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $item));
+        $this->getContainer()->get('event_dispatcher')->dispatch( new ArticleEvent($article, $item), ArticleEvents::PRE_CREATE);
 
         $embed1 = <<<'EOT'
 <!-- EMBED START Image {id: "embedded11331114891"} --> <figure><img src="/uploads/swp/media/58512be6c3a5be49fdca1178.jpg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" data-rendition-name="original" width="1200" height="797" loading="lazy" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded11331114891"} -->

@@ -21,10 +21,10 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class RelatedArticleController extends Controller
+class RelatedArticleController extends AbstractController
 {
     public function listAction(Request $request, string $id)
     {

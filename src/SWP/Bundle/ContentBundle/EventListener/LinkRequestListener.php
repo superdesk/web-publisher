@@ -124,8 +124,8 @@ class LinkRequestListener
 
             $subEvent = new ControllerEvent($event->getKernel(), $controller, $stubRequest, HttpKernelInterface::SUB_REQUEST);
             $kernelSubEvent = new RequestEvent($event->getKernel(), $stubRequest, HttpKernelInterface::SUB_REQUEST);
-            $dispatcher->dispatch(KernelEvents::REQUEST, $kernelSubEvent);
-            $dispatcher->dispatch(KernelEvents::CONTROLLER, $subEvent);
+            $dispatcher->dispatch( $kernelSubEvent, KernelEvents::REQUEST);
+            $dispatcher->dispatch( $subEvent, KernelEvents::CONTROLLER);
             $controller = $subEvent->getController();
 
             $argumentResolver = new ArgumentResolver();

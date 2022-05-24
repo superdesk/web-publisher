@@ -22,11 +22,11 @@ use SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProviderInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CurrentThemeController extends Controller
+class CurrentThemeController extends AbstractController
 {
     /**
      * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")

@@ -18,7 +18,7 @@ namespace SWP\Bundle\TemplatesSystemBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
  * Class RedirectListener.
@@ -29,9 +29,9 @@ class RedirectListener
      * Check if request have attribute for redirection.
      * if it exists - perform redirect.
      *
-     * @param FilterResponseEvent $event
+     * @param ResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
         $request = $event->getRequest();
         // Redirect request to url set in template

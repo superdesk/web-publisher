@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController as FOSRestController;
 use FOS\RestBundle\View\View;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;

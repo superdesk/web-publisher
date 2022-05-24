@@ -1,229 +1,236 @@
 {
-    "name": "superdesk/web-publisher",
-    "description": "Superdesk Web Publisher - the next generation publishing platform for journalists and newsrooms.",
-    "type": "project",
-    "keywords": [
-        "superdesk",
-        "webpublisher",
-        "publisher",
-        "content",
-        "bridge",
-        "tool",
-        "publishing",
-        "journalism",
-        "newsroom",
-        "news",
-        "media"
-    ],
-    "authors": [
-        {
-            "name": "Paweł Mikołajczuk",
-            "email": "mikolajczuk.private@gmail.com"
-        },
-        {
-            "name": "Rafał Muszyński",
-            "email": "rafal.muszynski@sourcefabric.org"
-        },
-        {
-            "name": "Mark Lewis",
-            "email": "mark.lewis@sourcefabric.org"
-        },
-        {
-            "name": "Mischa Gorinskat",
-            "email": "mischa.gorinskat@sourcefabric.org"
-        }
-    ],
-    "license": "AGPL-3.0",
-    "autoload": {
-        "psr-4": {
-            "SWP\\Bundle\\": "src/SWP/Bundle/",
-            "SWP\\Component\\": "src/SWP/Component/",
-            "SWP\\Bridge\\": "src/SWP/Bridge/",
-            "SWP\\Behat\\": "src/SWP/Behat/"
-        },
-        "exclude-from-classmap": [
-            "**/Tests/",
-            "**/spec/"
-        ],
-        "classmap": [
-            "src/Kernel.php"
-        ]
+  "name": "superdesk/web-publisher",
+  "description": "Superdesk Web Publisher - the next generation publishing platform for journalists and newsrooms.",
+  "type": "project",
+  "keywords": [
+    "superdesk",
+    "webpublisher",
+    "publisher",
+    "content",
+    "bridge",
+    "tool",
+    "publishing",
+    "journalism",
+    "newsroom",
+    "news",
+    "media"
+  ],
+  "authors": [
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "mikolajczuk.private@gmail.com"
     },
-    "require": {
-        "php": "^7.4",
-        "ext-curl": "*",
-        "ext-dom": "*",
-        "ext-gd": "*",
-        "ext-intl": "*",
-        "ext-json": "*",
-        "ext-zip": "*",
-        "apache/log4php": "^2.3",
-        "behat/transliterator": "^1.3",
-        "burgov/key-value-form-bundle": "^1.6",
-        "cboden/ratchet": "^0.4.2",
-        "doctrine/cache": "1.12.1",
-        "doctrine/doctrine-bundle": "^2.0",
-        "doctrine/doctrine-migrations-bundle": "^3.0.1",
-        "doctrine/inflector": "^1.3",
-        "doctrine/orm": "^2.7",
-        "doctrine/phpcr-bundle": "^2.4",
-        "doctrine/phpcr-odm": "^1.6",
-        "emanueleminotto/twig-cache-bundle": "dev-master",
-        "evenement/evenement": "^3.0",
-        "facebook/facebook-instant-articles-sdk-php": "^v1.10",
-        "friendsofsymfony/elastica-bundle": "^6.0.0-beta1",
-        "friendsofsymfony/http-cache": "^2.9",
-        "friendsofsymfony/http-cache-bundle": "^2.8",
-        "friendsofsymfony/rest-bundle": "^3.0",
-        "fzaninotto/faker": "^1.9",
-        "gedmo/doctrine-extensions": "v3.0.5",
-        "geoip2/geoip2": "^2.10",
-        "gesdinet/jwt-refresh-token-bundle": "^0.12",
-        "gos/web-socket-bundle": "^3.0",
-        "graylog2/gelf-php": "^1.6",
-        "guzzlehttp/guzzle": "^6.5",
-        "hoa/file": "1.17.07.11",
-        "hoa/mime": "3.17.01.10",
-        "jackalope/jackalope-doctrine-dbal": "^1.7",
-        "jms/serializer-bundle": "^3.5",
-        "jms/translation-bundle": "^1.5.0",
-        "justinrainbow/json-schema": "~5.2",
-        "knplabs/knp-menu-bundle": "^3.0",
-        "knplabs/knp-paginator-bundle": "^5.5",
-        "knplabs/knp-time-bundle": "^1.11",
-        "knpuniversity/oauth2-client-bundle": "^1.33",
-        "layershifter/tld-extract": "^2.0",
-        "league/flysystem-aws-s3-v3": "^1.0",
-        "lexik/jwt-authentication-bundle": "^2.10",
-        "litipk/flysystem-fallback-adapter": "^0.1.3",
-        "nelmio/cors-bundle": "^2.0",
-        "ocramius/generated-hydrator": "^3.0",
-        "ocramius/proxy-manager": "<=2.1.1",
-        "oneup/flysystem-bundle": "^3.4",
-        "php-http/guzzle6-adapter": "^v1.1",
-        "phpcr/phpcr-utils": "^1.6",
-        "ramsey/uuid": "^3.9",
-        "sensio/framework-extra-bundle": "^5.5",
-        "sentry/sentry-symfony": "^3.4",
-        "stof/doctrine-extensions-bundle": "^1.3",
-        "sylius/theme-bundle": "^2.0",
-        "symfony-cmf/routing": "2.3.*, !=2.3.1",
-        "symfony-cmf/routing-bundle": "^2.4",
-        "symfony/cache": "^5.2",
-        "symfony/doctrine-bridge": "^5.2",
-        "symfony/dom-crawler": "^5.2",
-        "symfony/dotenv": "^5.2",
-        "symfony/flex": "^1.13",
-        "symfony/framework-bundle": "^5.2",
-        "symfony/http-kernel": "^5.2",
-        "symfony/lock": "^5.2",
-        "symfony/mailer": "^5.2",
-        "symfony/messenger": "^5.2",
-        "symfony/monolog-bundle": "~3.5",
-        "symfony/proxy-manager-bridge": "^5.2",
-        "symfony/routing": "^5.2",
-        "symfony/serializer": "^5.2",
-        "symfony/swiftmailer-bundle": "~3.4",
-        "symfony/templating": "^5.2",
-        "symfony/translation": "^5.2",
-        "symfony/validator": "^5.2",
-        "symfony/web-link": "^5.2",
-        "symfony/yaml": "^5.2",
-        "symfonycasts/reset-password-bundle": "^1.4",
-        "symfonycasts/verify-email-bundle": "^1.2",
-        "takeit/amp": "dev-master",
-        "takeit/amp-html-bundle": "dev-master",
-        "takeit/stringy": "dev-fix",
-        "twig/cache-extension": "^1.4",
-        "twig/extensions": "~1.5",
-        "twig/twig": "^2.12",
-        "willdurand/hateoas-bundle": "^2.1"
+    {
+      "name": "Rafał Muszyński",
+      "email": "rafal.muszynski@sourcefabric.org"
     },
-    "require-dev": {
-        "behat/behat": "^3.6",
-        "behatch/contexts": "^3.3",
-        "blackfire/php-sdk": "^1.22",
-        "doctrine/data-fixtures": "^1.4",
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "friends-of-behat/mink-browserkit-driver": "^1.5",
-        "friends-of-behat/service-container-extension": "^1.0",
-        "friends-of-behat/symfony-extension": "^2.2",
-        "liip/functional-test-bundle": "^4.3",
-        "liip/rmt": "^1.6",
-        "matthiasnoback/symfony-dependency-injection-test": "^4.2",
-        "nelmio/alice": "^3.6",
-        "phpspec/phpspec": "^6.1",
-        "phpstan/phpstan": "^0.12.88",
-        "phpunit/phpunit": "^8.0",
-        "rdx/behat-variables": "^1.2",
-        "rector/rector": "^0.11.20",
-        "roave/security-advisories": "dev-latest",
-        "symfony-cmf/testing": "^3.1",
-        "symfony/browser-kit": "^5.2",
-        "symfony/debug-bundle": "^5.2",
-        "symfony/phpunit-bridge": "^5.2",
-        "symfony/web-profiler-bundle": "^5.2",
-        "theofidry/alice-data-fixtures": "^1.1"
+    {
+      "name": "Mark Lewis",
+      "email": "mark.lewis@sourcefabric.org"
     },
-    "replace": {
-        "swp/common": "self.version",
-        "swp/multi-tenancy": "self.version",
-        "swp/multi-tenancy-bundle": "self.version",
-        "swp/analytics-bundle": "self.version",
-        "swp/bridge-bundle": "self.version",
-        "swp/bridge": "self.version",
-        "swp/storage-bundle": "self.version",
-        "swp/storage": "self.version",
-        "swp/templates-system-bundle": "self.version",
-        "swp/templates-system": "self.version",
-        "swp/rule-bundle": "self.version",
-        "swp/rule": "self.version",
-        "swp/facebook-instant-articles-bundle": "self.version",
-        "swp/elastic-search-bundle": "self.version",
-        "swp/output-channel-bundle": "self.version",
-        "swp/output-channel": "self.version",
-        "swp/paywall-bundle": "self.version",
-        "swp/paywall": "self.version",
-        "swp/menu-bundle": "self.version",
-        "swp/webhook-bundle": "self.version",
-        "swp/webhook": "self.version",
-        "swp/user-bundle": "self.version",
-        "swp/settings-bundle": "self.version",
-        "swp/content-list-bundle": "self.version",
-        "swp/content-list": "self.version",
-        "swp/seo": "self.version",
-        "swp/seo-bundle": "self.version",
-        "swp/geo-ip-bundle": "self.version",
-        "swp/geo-ip": "self.version",
-        "swp/archiver": "self.version",
-        "swp/redirect-route-bundle": "self.version",
-        "lullabot/amp": "^1.0"
-    },
-    "conflict": {
-        "symfony/symfony": "*",
-        "knplabs/knp-time-bundle": "1.9"
-    },
-    "config": {
-        "bin-dir": "bin",
-        "sort-packages": true,
-        "allow-plugins": {
-            "symfony/flex": true
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.2-dev"
-        },
-        "symfony": {
-            "allow-contrib": false
-        }
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        }
+    {
+      "name": "Mischa Gorinskat",
+      "email": "mischa.gorinskat@sourcefabric.org"
     }
+  ],
+  "license": "AGPL-3.0",
+  "autoload": {
+    "psr-4": {
+      "SWP\\Bundle\\": "src/SWP/Bundle/",
+      "SWP\\Component\\": "src/SWP/Component/",
+      "SWP\\Bridge\\": "src/SWP/Bridge/",
+      "SWP\\Behat\\": "src/SWP/Behat/"
+    },
+    "exclude-from-classmap": [
+      "**/Tests/",
+      "**/spec/"
+    ],
+    "classmap": [
+      "src/Kernel.php"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/WeaponMan/AmpHtmlBundle"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "ext-curl": "*",
+    "ext-dom": "*",
+    "ext-gd": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ext-zip": "*",
+    "apache/log4php": "^2.3",
+    "behat/transliterator": "^1.3",
+    "burgov/key-value-form-bundle": "^1.6",
+    "cboden/ratchet": "^0.4.2",
+    "doctrine/cache": "1.12.1",
+    "doctrine/doctrine-bundle": "^2.0",
+    "doctrine/doctrine-migrations-bundle": "^3.0.1",
+    "doctrine/inflector": "^1.3",
+    "doctrine/orm": "^2.7",
+    "doctrine/phpcr-bundle": "^2.4",
+    "doctrine/phpcr-odm": "^1.6",
+    "emanueleminotto/twig-cache-bundle": "dev-master",
+    "evenement/evenement": "^3.0",
+    "facebook/facebook-instant-articles-sdk-php": "^v1.10",
+    "friendsofsymfony/elastica-bundle": "^6.0.0-beta1",
+    "friendsofsymfony/http-cache": "^2.9",
+    "friendsofsymfony/http-cache-bundle": "^2.8",
+    "friendsofsymfony/rest-bundle": "^3.0",
+    "fzaninotto/faker": "^1.9",
+    "gedmo/doctrine-extensions": "v3.0.5",
+    "geoip2/geoip2": "^2.10",
+    "gesdinet/jwt-refresh-token-bundle": "^0.12",
+    "gos/web-socket-bundle": "^3.0",
+    "graylog2/gelf-php": "^1.6",
+    "guzzlehttp/guzzle": "^6.5",
+    "hoa/file": "1.17.07.11",
+    "hoa/mime": "3.17.01.10",
+    "jackalope/jackalope-doctrine-dbal": "^1.7",
+    "jms/serializer-bundle": "^3.5",
+    "jms/translation-bundle": "^1.5.0",
+    "justinrainbow/json-schema": "~5.2",
+    "knplabs/knp-menu-bundle": "^3.0",
+    "knplabs/knp-paginator-bundle": "^5.5",
+    "knplabs/knp-time-bundle": "^1.11",
+    "knpuniversity/oauth2-client-bundle": "^1.33",
+    "layershifter/tld-extract": "^2.0",
+    "league/flysystem-aws-s3-v3": "^1.0",
+    "lexik/jwt-authentication-bundle": "^2.10",
+    "litipk/flysystem-fallback-adapter": "^0.1.3",
+    "nelmio/cors-bundle": "^2.0",
+    "ocramius/generated-hydrator": "^3.0",
+    "ocramius/proxy-manager": "<=2.1.1",
+    "oneup/flysystem-bundle": "^3.4",
+    "php-http/guzzle6-adapter": "^v1.1",
+    "phpcr/phpcr-utils": "^1.6",
+    "ramsey/uuid": "^3.9",
+    "sensio/framework-extra-bundle": "^5.5",
+    "sentry/sentry-symfony": "^3.4",
+    "stof/doctrine-extensions-bundle": "^1.3",
+    "sylius/theme-bundle": "^2.0",
+    "symfony-cmf/routing": "2.3.*, !=2.3.1",
+    "symfony-cmf/routing-bundle": "^2.4",
+    "symfony/cache": "^5.2",
+    "symfony/doctrine-bridge": "^5.2",
+    "symfony/dom-crawler": "^5.2",
+    "symfony/dotenv": "^5.2",
+    "symfony/flex": "^1.13",
+    "symfony/framework-bundle": "^5.2",
+    "symfony/http-kernel": "^5.2",
+    "symfony/lock": "^5.2",
+    "symfony/mailer": "^5.2",
+    "symfony/messenger": "^5.2",
+    "symfony/monolog-bundle": "~3.5",
+    "symfony/proxy-manager-bridge": "^5.2",
+    "symfony/routing": "^5.2",
+    "symfony/serializer": "^5.2",
+    "symfony/swiftmailer-bundle": "~3.4",
+    "symfony/templating": "^5.2",
+    "symfony/translation": "^5.2",
+    "symfony/validator": "^5.2",
+    "symfony/web-link": "^5.2",
+    "symfony/yaml": "^5.2",
+    "symfonycasts/reset-password-bundle": "^1.4",
+    "symfonycasts/verify-email-bundle": "^1.2",
+    "takeit/amp": "dev-master",
+    "takeit/amp-html-bundle": "dev-master",
+    "takeit/stringy": "dev-fix",
+    "twig/cache-extension": "^1.4",
+    "twig/extensions": "~1.5",
+    "twig/twig": "^2.12",
+    "willdurand/hateoas-bundle": "^2.1"
+  },
+  "require-dev": {
+    "behat/behat": "^3.6",
+    "behatch/contexts": "^3.3",
+    "blackfire/php-sdk": "^1.22",
+    "cocolabs-sas/doctrine-data-fixtures-extension": "^5.0",
+    "doctrine/data-fixtures": "^1.4",
+    "doctrine/doctrine-fixtures-bundle": "^3.4",
+    "friends-of-behat/mink-browserkit-driver": "^1.5",
+    "friends-of-behat/service-container-extension": "^1.0",
+    "friends-of-behat/symfony-extension": "^2.0",
+    "liip/functional-test-bundle": "^4.3",
+    "liip/rmt": "^1.6",
+    "matthiasnoback/symfony-dependency-injection-test": "^4.2",
+    "nelmio/alice": "^3.6",
+    "phpspec/phpspec": "^6.1",
+    "phpstan/phpstan": "^0.12.88",
+    "phpunit/phpunit": "^8.0",
+    "rdx/behat-variables": "^1.2",
+    "rector/rector": "^0.11.20",
+    "roave/security-advisories": "dev-latest",
+    "symfony-cmf/testing": "^3.1",
+    "symfony/browser-kit": "^5.2",
+    "symfony/debug-bundle": "^5.2",
+    "symfony/phpunit-bridge": "^5.2",
+    "symfony/web-profiler-bundle": "^5.2",
+    "theofidry/alice-data-fixtures": "^1.1"
+  },
+  "replace": {
+    "swp/common": "self.version",
+    "swp/multi-tenancy": "self.version",
+    "swp/multi-tenancy-bundle": "self.version",
+    "swp/analytics-bundle": "self.version",
+    "swp/bridge-bundle": "self.version",
+    "swp/bridge": "self.version",
+    "swp/storage-bundle": "self.version",
+    "swp/storage": "self.version",
+    "swp/templates-system-bundle": "self.version",
+    "swp/templates-system": "self.version",
+    "swp/rule-bundle": "self.version",
+    "swp/rule": "self.version",
+    "swp/facebook-instant-articles-bundle": "self.version",
+    "swp/elastic-search-bundle": "self.version",
+    "swp/output-channel-bundle": "self.version",
+    "swp/output-channel": "self.version",
+    "swp/paywall-bundle": "self.version",
+    "swp/paywall": "self.version",
+    "swp/menu-bundle": "self.version",
+    "swp/webhook-bundle": "self.version",
+    "swp/webhook": "self.version",
+    "swp/user-bundle": "self.version",
+    "swp/settings-bundle": "self.version",
+    "swp/content-list-bundle": "self.version",
+    "swp/content-list": "self.version",
+    "swp/seo": "self.version",
+    "swp/seo-bundle": "self.version",
+    "swp/geo-ip-bundle": "self.version",
+    "swp/geo-ip": "self.version",
+    "swp/archiver": "self.version",
+    "swp/redirect-route-bundle": "self.version",
+    "lullabot/amp": "^1.0"
+  },
+  "conflict": {
+    "symfony/symfony": "*",
+    "knplabs/knp-time-bundle": "1.9"
+  },
+  "config": {
+    "bin-dir": "bin",
+    "sort-packages": true,
+    "allow-plugins": {
+      "symfony/flex": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.2-dev"
+    },
+    "symfony": {
+      "allow-contrib": false
+    }
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    }
+  }
 }

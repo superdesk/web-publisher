@@ -20,7 +20,7 @@ use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class MimeTypeListenerTest extends WebTestCase
@@ -34,7 +34,7 @@ class MimeTypeListenerTest extends WebTestCase
         $route->setName('Sitemap');
         $route->setStaticPrefix('/feed/siteamap.rss');
         $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
-        $event = new FilterResponseEvent(
+        $event = new ResponseEvent(
             $this->getContainer()->get('kernel'),
             $request,
             HttpKernelInterface::MASTER_REQUEST,
@@ -48,7 +48,7 @@ class MimeTypeListenerTest extends WebTestCase
         $route->setName('articles');
         $route->setStaticPrefix('/articles');
         $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
-        $event = new FilterResponseEvent(
+        $event = new ResponseEvent(
             $this->getContainer()->get('kernel'),
             $request,
             HttpKernelInterface::MASTER_REQUEST,
@@ -65,7 +65,7 @@ class MimeTypeListenerTest extends WebTestCase
         $route->setDefault('extSlug', null);
         $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
         $request->attributes->set('extSlug', 'xml');
-        $event = new FilterResponseEvent(
+        $event = new ResponseEvent(
             $this->getContainer()->get('kernel'),
             $request,
             HttpKernelInterface::MASTER_REQUEST,

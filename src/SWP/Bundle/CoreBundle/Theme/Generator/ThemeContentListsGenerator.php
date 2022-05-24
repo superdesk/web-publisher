@@ -84,8 +84,8 @@ class ThemeContentListsGenerator implements GeneratorInterface
 
             if (null !== $contentListData['filters']) {
                 $this->eventDispatcher->dispatch(
+                    new GenericEvent($contentList, ['filters' => $contentListData['filters']]),
                     ContentListEvents::LIST_CRITERIA_CHANGE,
-                    new GenericEvent($contentList, ['filters' => $contentListData['filters']])
                 );
                 $this->contentListRepository->flush();
             }

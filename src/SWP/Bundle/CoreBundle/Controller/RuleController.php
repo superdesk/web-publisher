@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController as FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Common\Criteria\Criteria;

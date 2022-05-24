@@ -21,7 +21,7 @@ use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Model\ContentListItem;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
 use SWP\Component\ContentList\ContentListEvents;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
