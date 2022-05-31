@@ -14,7 +14,7 @@
 
 namespace spec\SWP\Bundle\MultiTenancyBundle\Factory;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\MultiTenancyBundle\Factory\OrganizationFactory;

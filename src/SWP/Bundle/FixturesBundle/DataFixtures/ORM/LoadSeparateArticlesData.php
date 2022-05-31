@@ -16,7 +16,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface

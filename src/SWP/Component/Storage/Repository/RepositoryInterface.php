@@ -14,7 +14,7 @@
 
 namespace SWP\Component\Storage\Repository;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;

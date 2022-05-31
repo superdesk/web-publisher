@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\SettingsBundle\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidOwnerException;

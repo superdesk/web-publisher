@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\WebhookBundle\Controller;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\WebhookBundle\Form\Type\WebhookType;
 use SWP\Bundle\WebhookBundle\Model\WebhookInterface;
 use SWP\Component\Common\Criteria\Criteria;

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use JsonSchema\Validator;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Repository\UserRepository;

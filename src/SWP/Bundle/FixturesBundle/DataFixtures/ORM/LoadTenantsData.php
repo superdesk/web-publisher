@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadTenantsData extends AbstractFixture implements OrderedFixtureInterface

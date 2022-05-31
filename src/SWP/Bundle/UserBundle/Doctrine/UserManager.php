@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Doctrine;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Model\UserManager as BaseUserManager;
 

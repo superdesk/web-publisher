@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Factory;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Component\MultiTenancy\Factory\OrganizationFactoryInterface;
 

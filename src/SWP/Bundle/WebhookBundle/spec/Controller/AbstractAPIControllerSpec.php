@@ -2,7 +2,7 @@
 
 namespace spec\SWP\Bundle\WebhookBundle\Controller;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\WebhookBundle\Controller\AbstractAPIController;
