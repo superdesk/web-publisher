@@ -5,3 +5,6 @@ services:
     autoconfigure: true
 
   SWP\Bundle\ContentBundle\Controller\MediaController: ~
+  SWP\Bundle\ContentBundle\Controller\ArticleController: ~
+  SWP\Bundle\ContentBundle\Controller\AuthorController: ~
+  SWP\Bundle\ContentBundle\Controller\ContentPushController: ~

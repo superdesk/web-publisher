@@ -23,6 +23,10 @@ services:
   SWP\Bundle\CoreBundle\Controller\StaticThemeAssetsController: ~
   SWP\Bundle\CoreBundle\Controller\ThemesController: ~
   SWP\Bundle\CoreBundle\Controller\DefaultController: ~
+  SWP\Bundle\CoreBundle\Controller\PublishDestinationController: ~
+  SWP\Bundle\CoreBundle\Controller\RedirectRouteController: ~
+  SWP\Bundle\CoreBundle\Controller\TenantController: ~
+  SWP\Bundle\CoreBundle\Controller\PackagePreviewController: ~
 
   takeit_amp_html.amp_controller:
     class: SWP\Bundle\CoreBundle\Controller\AmpController
@@ -30,3 +34,5 @@ services:
       $ampConverter: '@takeit_amp_html.amp_converter'
       $ampThemeLoader: '@takeit_amp_html.loader.theme'
     public: true
+    tags: [ 'controller.service_arguments' ]
+
