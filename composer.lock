@@ -16543,12 +16543,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WeaponMan/AmpHtmlBundle.git",
-                "reference": "3e65b88f451bff8aea44c0583bd7c061083a016c"
+                "reference": "6b5f2ebbbcfe85d381385915e31b59d5163f3444"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WeaponMan/AmpHtmlBundle/zipball/3e65b88f451bff8aea44c0583bd7c061083a016c",
-                "reference": "3e65b88f451bff8aea44c0583bd7c061083a016c",
+                "url": "https://api.github.com/repos/WeaponMan/AmpHtmlBundle/zipball/6b5f2ebbbcfe85d381385915e31b59d5163f3444",
+                "reference": "6b5f2ebbbcfe85d381385915e31b59d5163f3444",
                 "shasum": ""
             },
             "require": {
@@ -16600,7 +16600,7 @@
             "support": {
                 "source": "https://github.com/WeaponMan/AmpHtmlBundle/tree/master"
             },
-            "time": "2022-05-24T17:29:58+00:00"
+            "time": "2022-06-01T17:50:40+00:00"
         },
         {
             "name": "takeit/stringy",
