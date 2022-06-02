@@ -46,7 +46,7 @@ default:
                path: src/Kernel.php
 
         Behat\MinkExtension:
-            files_path: %behat.paths.base%/features/fixtures/
+            files_path: '%behat.paths.base%/features/fixtures/'
             sessions:
                 symfony:
                     symfony: ~
@@ -59,3 +59,4 @@ default:
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
 
+//3408 3491
