@@ -1,29 +1,29 @@
 services:
-  SWP\Bundle\ElasticSearchBundle\Controller\Api\ArticleSearchController:
-    tags: ['controller.service_arguments']
+  _defaults:
     public: true
-    arguments:
+    autowire: true
+    autoconfigure: true
+
+  SWP\Bundle\ElasticSearchBundle\Controller\Api\ArticleSearchController:
+    bind:
       $extraFields: '%env(ELASTICA_ARTICLE_EXTRA_FIELDS)%'
       $paginator: '@knp_paginator'
       $cachedTenantContext: '@swp_multi_tenancy.tenant_context'
 
   SWP\Bundle\ElasticSearchBundle\Controller\Api\PackageSearchController:
-    tags: ['controller.service_arguments']
-    public: true
-    arguments:
+    bind:
       $paginator: '@knp_paginator'
       $eventDispatcher: '@event_dispatcher'
       $cachedTenantContext: '@swp_multi_tenancy.tenant_context'
 
-
   SWP\Bundle\ElasticSearchBundle\Controller\Api\AuthorSearchController:
-    tags: [ 'controller.service_arguments' ]
-    public: true
-    arguments:
+    bind:
       $repositoryManager: '@fos_elastica.manager'
       $paginator: '@knp_paginator'
       $authorClassName: '%swp.model.author.class%'
 
   SWP\Bundle\ElasticSearchBundle\Controller\Api\PublicArticleSearchController:
-    tags: [ 'controller.service_arguments' ]
-    public: true
+    bind:
+      $extraFields: '%env(ELASTICA_ARTICLE_EXTRA_FIELDS)%'
+      $paginator: '@knp_paginator'
+      $cachedTenantContext: '@swp_multi_tenancy.tenant_context'
