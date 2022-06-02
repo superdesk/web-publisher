@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\RedirectRouteBundle\Form\RedirectRouteType;
 use SWP\Bundle\RedirectRouteBundle\Model\RedirectRouteInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -24,106 +25,122 @@ use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RedirectRouteController extends AbstractController
-{
-    /**
-     * @Route("/api/{version}/redirects/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_redirect_routes")
-     */
-    public function listAction(Request $request)
-    {
-        $redirectRouteRepository = $this->get('swp.repository.redirect_route');
+class RedirectRouteController extends AbstractController {
 
-        $redirectRoutes = $redirectRouteRepository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
+  private FormFactoryInterface $formFactory;
+  private RepositoryInterface $redirectRouteRepository;
+  private EntityManagerInterface $entityManager;
+  private FactoryInterface $redirectRouteFactory;
 
-        return new ResourcesListResponse($redirectRoutes);
+  /**
+   * @param FormFactoryInterface $formFactory
+   * @param RepositoryInterface $redirectRouteRepository
+   * @param EntityManagerInterface $entityManager
+   * @param FactoryInterface $redirectRouteFactory
+   */
+  public function __construct(FormFactoryInterface   $formFactory, RepositoryInterface $redirectRouteRepository,
+                              EntityManagerInterface $entityManager, FactoryInterface $redirectRouteFactory) {
+    $this->formFactory = $formFactory;
+    $this->redirectRouteRepository = $redirectRouteRepository;
+    $this->entityManager = $entityManager;
+    $this->redirectRouteFactory = $redirectRouteFactory;
+  }
+
+
+  /**
+   * @Route("/api/{version}/redirects/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_redirect_routes")
+   */
+  public function listAction(Request $request) {
+    $redirectRouteRepository = $this->redirectRouteRepository;
+
+    $redirectRoutes = $redirectRouteRepository->getPaginatedByCriteria(new Criteria(), $request->query->all('sorting'), new PaginationData($request));
+
+    return new ResourcesListResponse($redirectRoutes);
+  }
+
+  /**
+   * @Route("/api/{version}/redirects/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_redirect_route", requirements={"id"="\d+"})
+   */
+  public function deleteAction(int $id): SingleResourceResponseInterface {
+    $objectManager = $this->entityManager;
+    $redirectRoute = $this->findOr404($id);
+
+    $objectManager->remove($redirectRoute);
+    $objectManager->flush();
+
+    return new SingleResourceResponse(null, new ResponseContext(204));
+  }
+
+  /**
+   * @Route("/api/{version}/redirects/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_create_redirect_route")
+   */
+  public function createAction(Request $request): SingleResourceResponseInterface {
+    $redirectRoute = $this->redirectRouteFactory->create();
+    $form = $this->formFactory->createNamed('', RedirectRouteType::class, $redirectRoute, ['method' => $request->getMethod()]);
+
+    $form->handleRequest($request);
+
+    if ($this->checkIfSourceRouteExists($redirectRoute)) {
+      $this->ensureRedirectRouteExists($redirectRoute->getRouteName());
     }
 
-    /**
-     * @Route("/api/{version}/redirects/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_redirect_route", requirements={"id"="\d+"})
-     */
-    public function deleteAction(int $id): SingleResourceResponseInterface
-    {
-        $objectManager = $this->get('swp.object_manager.redirect_route');
-        $redirectRoute = $this->findOr404($id);
+    if ($form->isSubmitted() && $form->isValid()) {
+      if ($this->checkIfSourceRouteExists($redirectRoute)) {
+        $redirectRoute->setStaticPrefix($redirectRoute->getRouteName());
+      } else {
+        $redirectRoute->setStaticPrefix($redirectRoute->getRouteSource()->getStaticPrefix());
+      }
 
-        $objectManager->remove($redirectRoute);
-        $objectManager->flush();
+      $this->redirectRouteRepository->add($redirectRoute);
 
-        return new SingleResourceResponse(null, new ResponseContext(204));
+      return new SingleResourceResponse($redirectRoute, new ResponseContext(201));
     }
 
-    /**
-     * @Route("/api/{version}/redirects/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_create_redirect_route")
-     */
-    public function createAction(Request $request): SingleResourceResponseInterface
-    {
-        $redirectRoute = $this->get('swp.factory.redirect_route')->create();
-        $form = $this->get('form.factory')->createNamed('', RedirectRouteType::class, $redirectRoute, ['method' => $request->getMethod()]);
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 
-        $form->handleRequest($request);
+  /**
+   * @Route("/api/{version}/redirects/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_update_redirect_route", requirements={"id"="\d+"})
+   */
+  public function updateAction(Request $request, int $id): SingleResourceResponseInterface {
+    $objectManager = $this->entityManager;
+    $redirectRoute = $this->findOr404($id);
+    $form = $this->formFactory->createNamed('', RedirectRouteType::class, $redirectRoute, ['method' => $request->getMethod()]);
+    $form->handleRequest($request);
 
-        if ($this->checkIfSourceRouteExists($redirectRoute)) {
-            $this->ensureRedirectRouteExists($redirectRoute->getRouteName());
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+      $objectManager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->checkIfSourceRouteExists($redirectRoute)) {
-                $redirectRoute->setStaticPrefix($redirectRoute->getRouteName());
-            } else {
-                $redirectRoute->setStaticPrefix($redirectRoute->getRouteSource()->getStaticPrefix());
-            }
-
-            $this->get('swp.repository.redirect_route')->add($redirectRoute);
-
-            return new SingleResourceResponse($redirectRoute, new ResponseContext(201));
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+      return new SingleResourceResponse($redirectRoute, new ResponseContext(200));
     }
 
-    /**
-     * @Route("/api/{version}/redirects/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_update_redirect_route", requirements={"id"="\d+"})
-     */
-    public function updateAction(Request $request, int $id): SingleResourceResponseInterface
-    {
-        $objectManager = $this->get('swp.object_manager.redirect_route');
-        $redirectRoute = $this->findOr404($id);
-        $form = $this->get('form.factory')->createNamed('', RedirectRouteType::class, $redirectRoute, ['method' => $request->getMethod()]);
-        $form->handleRequest($request);
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $objectManager->flush();
-
-            return new SingleResourceResponse($redirectRoute, new ResponseContext(200));
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+  private function findOr404(int $id): RedirectRouteInterface {
+    if (null === $redirectRoute = $this->redirectRouteRepository->findOneById($id)) {
+      throw new NotFoundHttpException('Redirect route was not found.');
     }
 
-    private function findOr404(int $id): RedirectRouteInterface
-    {
-        if (null === $redirectRoute = $this->get('swp.repository.redirect_route')->findOneById($id)) {
-            throw new NotFoundHttpException('Redirect route was not found.');
-        }
+    return $redirectRoute;
+  }
 
-        return $redirectRoute;
+  private function ensureRedirectRouteExists(?string $name): void {
+    if (null !== $this->redirectRouteRepository->findOneBy(['routeName' => $name])) {
+      throw new ConflictHttpException(sprintf('Redirect route "%s" already exists!', $name));
     }
+  }
 
-    private function ensureRedirectRouteExists(?string $name): void
-    {
-        if (null !== $this->get('swp.repository.redirect_route')->findOneBy(['routeName' => $name])) {
-            throw new ConflictHttpException(sprintf('Redirect route "%s" already exists!', $name));
-        }
-    }
-
-    private function checkIfSourceRouteExists(RedirectRouteInterface $redirectRoute): bool
-    {
-        return null === $redirectRoute->getRouteSource();
-    }
+  private function checkIfSourceRouteExists(RedirectRouteInterface $redirectRoute): bool {
+    return null === $redirectRoute->getRouteSource();
+  }
 }

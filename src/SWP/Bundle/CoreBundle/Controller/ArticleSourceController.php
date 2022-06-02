@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -24,17 +25,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArticleSourceController extends AbstractController
-{
-    /**
-     * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_article_sources")
-     */
-    public function listAction(Request $request): ResourcesListResponseInterface
-    {
-        $repository = $this->get('swp.repository.article_source');
+class ArticleSourceController extends AbstractController {
 
-        $lists = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
+  private EntityRepository $entityRepository;
 
-        return new ResourcesListResponse($lists);
-    }
+  /**
+   * @param EntityRepository $entityRepository
+   */
+  public function __construct(EntityRepository $entityRepository) {
+    $this->entityRepository = $entityRepository;
+  }
+
+  /**
+   * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_article_sources")
+   */
+  public function listAction(Request $request): ResourcesListResponseInterface {
+    $sorting = $request->query->all('sorting');
+    $lists = $this->entityRepository->getPaginatedByCriteria(
+        new Criteria(),
+        $sorting,
+        new PaginationData($request));
+
+    return new ResourcesListResponse($lists);
+  }
 }

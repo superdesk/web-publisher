@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\UserBundle\Form\RegistrationFormType;
@@ -30,196 +31,189 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-class RegistrationController extends AbstractController
-{
-    /**
-     * @var SettingsManagerInterface
-     */
-    private $settingsManager;
-    /**
-     * @var ScopeContextInterface
-     */
-    private $scopeContext;
-    /**
-     * @var EmailVerifier
-     */
-    private $emailVerifier;
-    /**
-     * @var UserManagerInterface
-     */
-    private $userManager;
+class RegistrationController extends AbstractController {
 
-    public function __construct(
-        SettingsManagerInterface $settingsManager,
-        ScopeContextInterface $scopeContext,
-        EmailVerifier $emailVerifier,
-        UserManagerInterface $userManager
-    ) {
-        $this->settingsManager = $settingsManager;
-        $this->scopeContext = $scopeContext;
-        $this->emailVerifier = $emailVerifier;
-        $this->userManager = $userManager;
+  private SettingsManagerInterface $settingsManager;
+  private ScopeContextInterface $scopeContext;
+  private EmailVerifier $emailVerifier;
+  private UserManagerInterface $userManager;
+  private EntityManagerInterface $entityManager;
+
+  /**
+   * @param SettingsManagerInterface $settingsManager
+   * @param ScopeContextInterface $scopeContext
+   * @param EmailVerifier $emailVerifier
+   * @param UserManagerInterface $userManager
+   * @param EntityManagerInterface $entityManager
+   */
+  public function __construct(SettingsManagerInterface $settingsManager, ScopeContextInterface $scopeContext,
+                              EmailVerifier            $emailVerifier, UserManagerInterface $userManager,
+                              EntityManagerInterface   $entityManager) {
+    $this->settingsManager = $settingsManager;
+    $this->scopeContext = $scopeContext;
+    $this->emailVerifier = $emailVerifier;
+    $this->userManager = $userManager;
+    $this->entityManager = $entityManager;
+  }
+
+
+  /**
+   * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
+   */
+  public function registerAction(
+      Request                     $request,
+      UserPasswordHasherInterface $passwordEncoder,
+      UserManagerInterface        $userManager,
+      MailerInterface             $mailer
+  ) {
+    try {
+      $this->ensureThatRegistrationIsEnabled();
+    } catch (NotFoundHttpException $e) {
+      return new SingleResourceResponse(null, new ResponseContext(404));
     }
 
-    /**
-     * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
-     */
-    public function registerAction(
-        Request $request,
-        UserPasswordEncoderInterface $passwordEncoder,
-        UserManagerInterface $userManager,
-        MailerInterface $mailer
-    ) {
-        try {
-            $this->ensureThatRegistrationIsEnabled();
-        } catch (NotFoundHttpException $e) {
-            return new SingleResourceResponse(null, new ResponseContext(404));
-        }
+    $user = $userManager->createUser();
+    $form = $this->createForm(RegistrationFormType::class, $user);
 
-        $user = $userManager->createUser();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+    $form->handleRequest($request);
 
-        $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $user->addRole('ROLE_USER');
+      // encode the plain password
+      $user->setPassword(
+          $passwordEncoder->hashPassword(
+              $user,
+              $form->get('plainPassword')->getData()
+          )
+      );
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->addRole('ROLE_USER');
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+      $entityManager = $this->entityManager;
+      $entityManager->persist($user);
+      $entityManager->flush();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+      $signatureComponents = $this->emailVerifier->getSignatureComponents('swp_user_verify_email', $user);
+      $url = $signatureComponents->getSignedUrl();
 
-            $signatureComponents = $this->emailVerifier->getSignatureComponents('swp_user_verify_email', $user);
-            $url = $signatureComponents->getSignedUrl();
+      $mailer->sendConfirmationEmail($user, $url);
 
-            $mailer->sendConfirmationEmail($user, $url);
-
-            return new JsonResponse([
-                'message' => sprintf(
-                    'The user has been created successfully.
+      return new JsonResponse([
+          'message' => sprintf(
+              'The user has been created successfully.
                  An email has been sent to %s. It contains an activation link you must click to activate your account.',
-                    $user->getEmail()
-                ),
-                'url' => $url,
-            ]);
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+              $user->getEmail()
+          ),
+          'url' => $url,
+      ]);
     }
 
-    /**
-     * @Route("/verify/email", name="swp_user_verify_email")
-     */
-    public function verifyUserEmail(Request $request, GuardAuthenticatorHandler $guardHandler, LoginAuthenticator $authenticator): Response
-    {
-        $id = (int) $request->get('id'); // retrieve the user id from the url
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 
-        if ($request->isXmlHttpRequest()) {
-            return $this->verifyUserEmailFromPWA($id, $request);
-        }
+  /**
+   * @Route("/verify/email", name="swp_user_verify_email")
+   */
+  public function verifyUserEmail(Request            $request, GuardAuthenticatorHandler $guardHandler,
+                                  LoginAuthenticator $authenticator): Response {
+    $id = (int)$request->get('id'); // retrieve the user id from the url
 
-        // Verify the user id exists and is not null
-        if (null === $id) {
-            return $this->redirectToRoute('homepage');
-        }
-
-        $user = $this->userManager->find($id);
-
-        // Ensure the user exists in persistence
-        if (null === $user) {
-            return $this->redirectToRoute('homepage');
-        }
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        $guardHandler->authenticateUserAndHandleSuccess(
-            $user,
-            $request,
-            $authenticator,
-            'main' // firewall name in security.yaml
-        );
-
-        $this->addFlash('success', 'The user has been created successfully.');
-
-        return $this->redirectToRoute('swp_user_registration_confirmed');
+    if ($request->isXmlHttpRequest()) {
+      return $this->verifyUserEmailFromPWA($id, $request);
     }
 
-    /**
-     * Tell the user his account is now confirmed.
-     */
-    public function confirmedAction(Request $request)
-    {
-        $user = $this->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            $this->createAccessDeniedException('This user does not have access to this section.');
-        }
-
-        return $this->render('@SWPUser/Registration/confirmed.html.twig', [
-            'user' => $user,
-        ]);
+    // Verify the user id exists and is not null
+    if (null === $id) {
+      return $this->redirectToRoute('homepage');
     }
 
-    /**
-     * @throws NotFoundHttpException
-     */
-    private function ensureThatRegistrationIsEnabled()
-    {
-        $settingName = 'registration_enabled';
-        $setting = $this->settingsManager->getOneSettingByName($settingName);
-        $registrationEnabled = $this->settingsManager
-            ->get($settingName, $setting['scope'], $this->scopeContext->getScopeOwner($setting['scope']));
-        if (!$registrationEnabled) {
-            throw new NotFoundHttpException('Registration is disabled.');
-        }
+    $user = $this->userManager->find($id);
+
+    // Ensure the user exists in persistence
+    if (null === $user) {
+      return $this->redirectToRoute('homepage');
+    }
+    // validate email confirmation link, sets User::isVerified=true and persists
+    try {
+      $this->emailVerifier->handleEmailConfirmation($request, $user);
+    } catch (VerifyEmailExceptionInterface $exception) {
+      $this->addFlash('verify_email_error', $exception->getReason());
+
+      return $this->redirectToRoute('homepage');
     }
 
-    private function verifyUserEmailFromPWA(int $id, Request $request): JsonResponse
-    {
-        // Verify the user id exists and is not null
-        if (null === $id) {
-            return new JsonResponse(
-                ['error' => 'User does not exist']
-            );
-        }
+    $guardHandler->authenticateUserAndHandleSuccess(
+        $user,
+        $request,
+        $authenticator,
+        'main' // firewall name in security.yaml
+    );
 
-        $user = $this->userManager->find($id);
+    $this->addFlash('success', 'The user has been created successfully.');
 
-        // Ensure the user exists in persistence
-        if (null === $user) {
-            return new JsonResponse(
-                ['error' => 'User does not exist']
-            );
-        }
+    return $this->redirectToRoute('swp_user_registration_confirmed');
+  }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            return new JsonResponse(
-                ['error' => 'Registration confirmation invalid']
-            );
-        }
-
-        return new JsonResponse(
-            ['message' => 'The user has been created successfully.']
-        );
+  /**
+   * Tell the user his account is now confirmed.
+   */
+  public function confirmedAction(Request $request) {
+    $user = $this->getUser();
+    if (!is_object($user) || !$user instanceof UserInterface) {
+      $this->createAccessDeniedException('This user does not have access to this section.');
     }
+
+    return $this->render('@SWPUser/Registration/confirmed.html.twig', [
+        'user' => $user,
+    ]);
+  }
+
+  /**
+   * @throws NotFoundHttpException
+   */
+  private function ensureThatRegistrationIsEnabled() {
+    $settingName = 'registration_enabled';
+    $setting = $this->settingsManager->getOneSettingByName($settingName);
+    $registrationEnabled = $this->settingsManager
+        ->get($settingName, $setting['scope'], $this->scopeContext->getScopeOwner($setting['scope']));
+    if (!$registrationEnabled) {
+      throw new NotFoundHttpException('Registration is disabled.');
+    }
+  }
+
+  private function verifyUserEmailFromPWA(int $id, Request $request): JsonResponse {
+    // Verify the user id exists and is not null
+    if (null === $id) {
+      return new JsonResponse(
+          ['error' => 'User does not exist']
+      );
+    }
+
+    $user = $this->userManager->find($id);
+
+    // Ensure the user exists in persistence
+    if (null === $user) {
+      return new JsonResponse(
+          ['error' => 'User does not exist']
+      );
+    }
+
+    // validate email confirmation link, sets User::isVerified=true and persists
+    try {
+      $this->emailVerifier->handleEmailConfirmation($request, $user);
+    } catch (VerifyEmailExceptionInterface $exception) {
+      return new JsonResponse(
+          ['error' => 'Registration confirmation invalid']
+      );
+    }
+
+    return new JsonResponse(
+        ['message' => 'The user has been created successfully.']
+    );
+  }
 }

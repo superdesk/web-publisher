@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
+use SWP\Bundle\ContentBundle\Doctrine\RelatedArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -24,33 +26,44 @@ use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class RelatedArticleController extends AbstractController
-{
-    public function listAction(Request $request, string $id)
-    {
-        $article = $this->findOr404($id);
+class RelatedArticleController extends AbstractController {
+  private RelatedArticleRepositoryInterface $relatedArticleRepository;
+  private ArticleProviderInterface $articleProvider;
 
-        $repository = $this->get('swp.repository.related_article');
+  /**
+   * @param RelatedArticleRepositoryInterface $relatedArticleRepository
+   * @param ArticleProviderInterface $articleProvider
+   */
+  public function __construct(RelatedArticleRepositoryInterface $relatedArticleRepository,
+                              ArticleProviderInterface          $articleProvider) {
+    $this->relatedArticleRepository = $relatedArticleRepository;
+    $this->articleProvider = $articleProvider;
+  }
 
-        $items = $repository->getPaginatedByCriteria(
-            new Criteria([
-                'article' => $article,
-            ]),
-            $request->query->get('sorting', []),
-            new PaginationData($request)
-        );
 
-        return new ResourcesListResponse($items);
+  public function listAction(Request $request, string $id) {
+    $article = $this->findOr404($id);
+
+    $repository = $this->relatedArticleRepository;
+
+    $items = $repository->getPaginatedByCriteria(
+        new Criteria([
+            'article' => $article,
+        ]),
+        $request->query->all('sorting'),
+        new PaginationData($request)
+    );
+
+    return new ResourcesListResponse($items);
+  }
+
+  private function findOr404(string $id): ArticleInterface {
+    $article = $this->articleProvider->getOneById($id);
+
+    if (null === $article) {
+      throw new NotFoundHttpException(sprintf('Article "%s" was not found.', $id));
     }
 
-    private function findOr404(string $id): ArticleInterface
-    {
-        $article = $this->get('swp.provider.article')->getOneById($id);
-
-        if (null === $article) {
-            throw new NotFoundHttpException(sprintf('Article "%s" was not found.', $id));
-        }
-
-        return $article;
-    }
+    return $article;
+  }
 }

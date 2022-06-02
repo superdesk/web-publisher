@@ -26,53 +26,49 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
-{
-    private CachedTenantContextInterface $tenantContext;
+class DefaultController extends AbstractController {
 
-    private MetaFactoryInterface  $metaFactory;
+  private CachedTenantContextInterface $tenantContext;
+  private MetaFactoryInterface $metaFactory;
+  private Context $templateEngineContext;
+  private RouteFactoryInterface $routeFactory;
 
-    private Context $templateEngineContext;
+  public function __construct(
+      CachedTenantContextInterface $tenantContext,
+      MetaFactoryInterface         $metaFactory,
+      Context                      $templateEngineContext,
+      RouteFactoryInterface        $routeFactory
+  ) {
+    $this->tenantContext = $tenantContext;
+    $this->metaFactory = $metaFactory;
+    $this->templateEngineContext = $templateEngineContext;
+    $this->routeFactory = $routeFactory;
+  }
 
-    private RouteFactoryInterface $routeFactory;
+  /**
+   * @Route("/", methods={"GET","POST"}, name="homepage")
+   */
+  public function indexAction(Request $request): Response {
+    /** @var TenantInterface $currentTenant */
+    $currentTenant = $this->tenantContext->getTenant();
+    $route = $currentTenant->getHomepage();
 
-    public function __construct(
-        CachedTenantContextInterface $tenantContext,
-        MetaFactoryInterface $metaFactory,
-        Context $templateEngineContext,
-        RouteFactoryInterface $routeFactory
-    ) {
-        $this->tenantContext = $tenantContext;
-        $this->metaFactory = $metaFactory;
-        $this->templateEngineContext = $templateEngineContext;
-        $this->routeFactory = $routeFactory;
+    if (null === $route) {
+      /** @var RouteInterface $route */
+      $route = $this->routeFactory->create();
+      $route->setStaticPrefix('/');
+      $route->setName('Homepage');
+      $route->setType('content');
+      $route->setTemplateName('index.html.twig');
+      $route->setCacheTimeInSeconds(360);
+      $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
     }
 
-    /**
-     * @Route("/", methods={"GET","POST"}, name="homepage")
-     */
-    public function indexAction(Request $request): Response
-    {
-        /** @var TenantInterface $currentTenant */
-        $currentTenant = $this->tenantContext->getTenant();
-        $route = $currentTenant->getHomepage();
+    $this->templateEngineContext->setCurrentPage($this->metaFactory->create($route));
 
-        if (null === $route) {
-            /** @var RouteInterface $route */
-            $route = $this->routeFactory->create();
-            $route->setStaticPrefix('/');
-            $route->setName('Homepage');
-            $route->setType('content');
-            $route->setTemplateName('index.html.twig');
-            $route->setCacheTimeInSeconds(360);
-            $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
-        }
+    $response = new Response();
+    $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
 
-        $this->templateEngineContext->setCurrentPage($this->metaFactory->create($route));
-
-        $response = new Response();
-        $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
-
-        return $this->render('index.html.twig', [], $response);
-    }
+    return $this->render('index.html.twig', [], $response);
+  }
 }

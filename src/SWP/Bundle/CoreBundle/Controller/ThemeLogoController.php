@@ -17,50 +17,62 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Hoa\Mime\Mime;
+use League\Flysystem\Filesystem;
+use Psr\Cache\CacheItemInterface;
+use SWP\Bundle\CoreBundle\Theme\Uploader\ThemeLogoUploaderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Cache\CacheInterface;
 
-class ThemeLogoController extends Controller
-{
-    /**
-     * @Route("/theme_logo/{id}", options={"expose"=true}, requirements={"id"=".+"}, methods={"GET"}, name="swp_theme_logo_get")
-     */
-    public function getLogoAction(string $id)
-    {
-        $cacheProvider = $this->get('doctrine.system_cache_pool');
-        $cacheKey = md5(serialize(['upload', $id]));
-        if ($cacheProvider->contains($cacheKey)) {
-            return $cacheProvider->fetch($cacheKey);
-        }
+class ThemeLogoController extends Controller {
 
-        $fileSystem = $this->get('swp_filesystem');
-        $themeLogoUploader = $this->get('swp_core.uploader.theme_logo');
-        $id = $themeLogoUploader->getThemeLogoUploadPath($id);
+  private Filesystem $filesystem;
+  private ThemeLogoUploaderInterface $themeLogoUploader;
+  private CacheInterface $cacheInterface;
 
-        $file = $fileSystem->has($id);
+  /**
+   * @param Filesystem $filesystem
+   * @param ThemeLogoUploaderInterface $themeLogoUploader
+   * @param CacheInterface $cacheInterface
+   */
+  public function __construct(Filesystem     $filesystem, ThemeLogoUploaderInterface $themeLogoUploader,
+                              CacheInterface $cacheInterface) {
+    $this->filesystem = $filesystem;
+    $this->themeLogoUploader = $themeLogoUploader;
+    $this->cacheInterface = $cacheInterface;
+  }
 
-        if (!$file) {
-            throw new NotFoundHttpException('File was not found.');
-        }
+  /**
+   * @Route("/theme_logo/{id}", options={"expose"=true}, requirements={"id"=".+"}, methods={"GET"}, name="swp_theme_logo_get")
+   */
+  public function getLogoAction(string $id) {
+    $cacheKey = md5(serialize(['upload', $id]));
+    return $this->cacheInterface->get($cacheKey, function (CacheItemInterface $item, &$save) use ($id) {
+      $item->expiresAfter(63072000);
 
-        $path = $fileSystem->get($id)->getPath();
+      $fileSystem = $this->filesystem;
+      $themeLogoUploader = $this->themeLogoUploader;
+      $id = $themeLogoUploader->getThemeLogoUploadPath($id);
+      $file = $fileSystem->has($id);
+      if (!$file) {
+        $save = false;
+        throw new NotFoundHttpException('File was not found.');
+      }
 
-        $response = new Response();
-        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, pathinfo($path, PATHINFO_BASENAME));
+      $path = $fileSystem->get($id)->getPath();
+      $response = new Response();
+      $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, pathinfo($path, PATHINFO_BASENAME));
+      $response->headers->set('Content-Disposition', $disposition);
+      $response->headers->set('Content-Type', Mime::getMimeFromExtension($path));
+      $response->setPublic();
+      $response->setMaxAge(63072000);
+      $response->setSharedMaxAge(63072000);
+      $response->setContent($fileSystem->read($path));
 
-        $response->headers->set('Content-Disposition', $disposition);
-        $response->headers->set('Content-Type', Mime::getMimeFromExtension($path));
-
-        $response->setPublic();
-        $response->setMaxAge(63072000);
-        $response->setSharedMaxAge(63072000);
-
-        $response->setContent($fileSystem->read($path));
-        $cacheProvider->save($cacheKey, $response, 63072000);
-
-        return $response;
-    }
+      return $response;
+    });
+  }
 }

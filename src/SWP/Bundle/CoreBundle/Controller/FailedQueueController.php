@@ -22,15 +22,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FailedQueueController extends AbstractController
-{
-    /**
-     * @Route("/api/{version}/failed_queue/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_failed_queue")
-     */
-    public function listAction(Request $request, FailedEntriesProvider $failedEntriesProvider)
-    {
-        $max = (int) $request->query->get('limit', 50);
+class FailedQueueController extends AbstractController {
+  /**
+   * @Route("/api/{version}/failed_queue/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_failed_queue")
+   */
+  public function listAction(Request $request, FailedEntriesProvider $failedEntriesProvider) {
+    $max = $request->query->getInt('limit', 50);
 
-        return new SingleResourceResponse($failedEntriesProvider->getFailedEntries($max));
-    }
+    return new SingleResourceResponse($failedEntriesProvider->getFailedEntries($max));
+  }
 }

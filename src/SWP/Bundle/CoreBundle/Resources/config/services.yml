@@ -808,11 +808,6 @@ services:
         parent: swp.resolver.asset_location
         public: true
 
-    SWP\Bundle\CoreBundle\Controller\AnalyticsExportController:
-        public: false
-        autoconfigure: true
-        autowire: true
-
     SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider:
         arguments:
             - '@messenger.transport.failed'

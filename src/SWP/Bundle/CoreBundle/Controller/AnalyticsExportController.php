@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Behat\Testwork\Output\ServiceContainer\Formatter\FormatterFactory;
 use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
@@ -27,7 +28,6 @@ use SWP\Bundle\CoreBundle\Form\Type\ExportAnalyticsType;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
-use SWP\Component\Common\Cache\CacheInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Model\DateTime as PublisherDateTime;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -39,186 +39,191 @@ use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\CacheInterface;
 
-class AnalyticsExportController extends AbstractController
-{
-    /** @var CacheInterface */
-    protected $cacheProvider;
+class AnalyticsExportController extends AbstractController {
 
-    /** @var RepositoryInterface */
-    protected $analyticsReportRepository;
+  protected CacheInterface $cacheProvider;
+  protected RepositoryInterface $analyticsReportRepository;
+  protected Filesystem $filesystem;
+  protected CsvReportFileLocationResolver $csvReportFileLocationResolver;
+  protected CachedTenantContextInterface $cachedTenantContext;
+  protected RouteRepositoryInterface $routeRepository;
+  private MessageBusInterface $messageBus;
+  private FormFactoryInterface $formFactory;
 
-    /** @var Filesystem */
-    protected $filesystem;
+  /**
+   * @param CacheInterface $cacheProvider
+   * @param RepositoryInterface $analyticsReportRepository
+   * @param Filesystem $filesystem
+   * @param CsvReportFileLocationResolver $csvReportFileLocationResolver
+   * @param CachedTenantContextInterface $cachedTenantContext
+   * @param RouteRepositoryInterface $routeRepository
+   * @param MessageBusInterface $messageBus
+   * @param FormFactoryInterface $formFactory
+   */
+  public function __construct(
+      CacheInterface                $cacheProvider,
+      RepositoryInterface           $analyticsReportRepository,
+      Filesystem                    $filesystem,
+      CsvReportFileLocationResolver $csvReportFileLocationResolver,
+      CachedTenantContextInterface  $cachedTenantContext,
+      RouteRepositoryInterface      $routeRepository,
+      MessageBusInterface           $messageBus,
+      FormFactoryInterface          $formFactory
+  ) {
+    $this->cacheProvider = $cacheProvider;
+    $this->analyticsReportRepository = $analyticsReportRepository;
+    $this->filesystem = $filesystem;
+    $this->csvReportFileLocationResolver = $csvReportFileLocationResolver;
+    $this->cachedTenantContext = $cachedTenantContext;
+    $this->routeRepository = $routeRepository;
+    $this->messageBus = $messageBus;
+    $this->formFactory = $formFactory;
+  }
 
-    /** @var CsvReportFileLocationResolver */
-    protected $csvReportFileLocationResolver;
 
-    /** @var CachedTenantContextInterface */
-    protected $cachedTenantContext;
+  /**
+   * @Route("/api/{version}/export/analytics/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
+   *
+   * @throws \Exception
+   */
+  public function post(Request $request): SingleResourceResponseInterface {
+    /** @var UserInterface $currentlyLoggedInUser */
+    $currentlyLoggedInUser = $this->getUser();
 
-    /** @var RouteRepositoryInterface */
-    protected $routeRepository;
+    $now = PublisherDateTime::getCurrentDateTime();
+    $fileName = 'analytics-' . $now->format('Y-m-d-H:i:s') . '.csv';
 
-    public function __construct(
-        CacheInterface $cacheProvider,
-        RepositoryInterface $analyticsReportRepository,
-        Filesystem $filesystem,
-        CsvReportFileLocationResolver $csvReportFileLocationResolver,
-        CachedTenantContextInterface $cachedTenantContext,
-        RouteRepositoryInterface $routeRepository
-    ) {
-        $this->cacheProvider = $cacheProvider;
-        $this->analyticsReportRepository = $analyticsReportRepository;
-        $this->filesystem = $filesystem;
-        $this->csvReportFileLocationResolver = $csvReportFileLocationResolver;
-        $this->cachedTenantContext = $cachedTenantContext;
-        $this->routeRepository = $routeRepository;
+    $form = $this->formFactory->createNamed('', ExportAnalyticsType::class, null, ['method' => $request->getMethod()]);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $data = $form->getData();
+
+      $analyticsReport = new AnalyticsReport();
+      $analyticsReport->setAssetId($fileName);
+      $analyticsReport->setFileExtension('csv');
+      $analyticsReport->setUser($currentlyLoggedInUser);
+
+      $exportAnalytics = new ExportAnalytics(
+          $data['start'],
+          $data['end'],
+          $this->cachedTenantContext->getTenant()->getCode(),
+          $fileName,
+          $currentlyLoggedInUser->getEmail(),
+          !empty($data['routes']) ? $this->toIds($data['routes']) : [],
+          !empty($data['authors']) ? $this->toIds($data['authors']) : [],
+          $data['term'] ?? ''
+      );
+
+      $filters = $this->processFilters(
+          $exportAnalytics->getFilters(),
+          !empty($data['routes']) ? $data['routes'] : [],
+          !empty($data['authors']) ? $data['authors'] : []
+      );
+
+      $analyticsReport->setFilters($filters);
+
+      $this->analyticsReportRepository->add($analyticsReport);
+
+      $this->messageBus->dispatch($exportAnalytics);
+
+      return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
 
-    /**
-     * @Route("/api/{version}/export/analytics/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
-     *
-     * @throws \Exception
-     */
-    public function post(Request $request): SingleResourceResponseInterface
-    {
-        /** @var UserInterface $currentlyLoggedInUser */
-        $currentlyLoggedInUser = $this->getUser();
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 
-        $now = PublisherDateTime::getCurrentDateTime();
-        $fileName = 'analytics-'.$now->format('Y-m-d-H:i:s').'.csv';
+  /**
+   * @Route("/api/{version}/export/analytics/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
+   */
+  public function listAction(Request $request): ResourcesListResponseInterface {
+    $sorting = $request->query->all('sorting');
+    $reports = $this->analyticsReportRepository->getPaginatedByCriteria(
+        new Criteria(),
+        $sorting,
+        new PaginationData($request)
+    );
 
-        $form = $this->get('form.factory')->createNamed('', ExportAnalyticsType::class, null, ['method' => $request->getMethod()]);
-        $form->handleRequest($request);
+    return new ResourcesListResponse($reports);
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+  /**
+   * @Route("/analytics/export/{fileName}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_export_analytics_download")
+   */
+  public function downloadFile(string $fileName): Response {
+    $cacheKey = md5(serialize(['analytics_report', $fileName]));
 
-            $analyticsReport = new AnalyticsReport();
-            $analyticsReport->setAssetId($fileName);
-            $analyticsReport->setFileExtension('csv');
-            $analyticsReport->setUser($currentlyLoggedInUser);
+    $analyticsReport = $this->cacheProvider->get($cacheKey, function () use ($fileName) {
+      /* @var AnalyticsReportInterface|null $analyticsReport */
+      return $this->analyticsReportRepository->findOneBy(['assetId' => $fileName]);
+    });
 
-            $exportAnalytics = new ExportAnalytics(
-                $data['start'],
-                $data['end'],
-                $this->cachedTenantContext->getTenant()->getCode(),
-                $fileName,
-                $currentlyLoggedInUser->getEmail(),
-                !empty($data['routes']) ? $this->toIds($data['routes']) : [],
-                !empty($data['authors']) ? $this->toIds($data['authors']) : [],
-                $data['term'] ?? ''
-            );
+    if (null === $analyticsReport) {
+      throw new NotFoundHttpException('Report file was not found.');
+    }
 
-            $filters = $this->processFilters(
-                $exportAnalytics->getFilters(),
-                !empty($data['routes']) ? $data['routes'] : [],
-                !empty($data['authors']) ? $data['authors'] : []
-            );
+    $response = new Response();
+    $disposition = $response->headers->makeDisposition(
+        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+        str_replace('/', '_', $fileName)
+    );
 
-            $analyticsReport->setFilters($filters);
+    $response->headers->set('Content-Disposition', $disposition);
+    $response->headers->set('Content-Type', Mime::getMimeFromExtension($analyticsReport->getFileExtension()));
 
-            $this->analyticsReportRepository->add($analyticsReport);
+    $response->setPublic();
+    $response->setMaxAge(63072000);
+    $response->setSharedMaxAge(63072000);
+    $response->setLastModified($analyticsReport->getUpdatedAt() ?: $analyticsReport->getCreatedAt());
+    $response->setContent($this->filesystem->read($this->csvReportFileLocationResolver->getMediaBasePath() . '/' . $analyticsReport->getAssetId()));
 
-            $this->dispatchMessage($exportAnalytics);
+    return $response;
+  }
 
-            return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
+  private function toIds(array $items): array {
+    $ids = [];
+    foreach ($items as $item) {
+      foreach ($item as $entity) {
+        if (!$entity instanceof PersistableInterface) {
+          continue;
         }
 
-        return new SingleResourceResponse($form, new ResponseContext(400));
+        $ids[] = $entity->getId();
+      }
     }
 
-    /**
-     * @Route("/api/{version}/export/analytics/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
-     */
-    public function listAction(Request $request): ResourcesListResponseInterface
-    {
-        $reports = $this->analyticsReportRepository->getPaginatedByCriteria(
-            new Criteria(),
-            $request->query->get('sorting', []),
-            new PaginationData($request)
-        );
+    return $ids;
+  }
 
-        return new ResourcesListResponse($reports);
+  private function processFilters(array $filters, array $routes, array $authors): array {
+    $routeNames = [];
+
+    foreach ($routes as $route) {
+      foreach ($route as $entity) {
+        $routeNames[] = $entity->getName();
+      }
     }
 
-    /**
-     * @Route("/analytics/export/{fileName}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_export_analytics_download")
-     */
-    public function downloadFile(string $fileName): Response
-    {
-        $cacheKey = md5(serialize(['analytics_report', $fileName]));
+    $filters['routes'] = $routeNames;
 
-        $analyticsReport = $this->cacheProvider->get($cacheKey, function () use ($fileName) {
-            /* @var AnalyticsReportInterface|null $analyticsReport */
-            return $this->analyticsReportRepository->findOneBy(['assetId' => $fileName]);
-        });
-
-        if (null === $analyticsReport) {
-            throw new NotFoundHttpException('Report file was not found.');
-        }
-
-        $response = new Response();
-        $disposition = $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            str_replace('/', '_', $fileName)
-        );
-
-        $response->headers->set('Content-Disposition', $disposition);
-        $response->headers->set('Content-Type', Mime::getMimeFromExtension($analyticsReport->getFileExtension()));
-
-        $response->setPublic();
-        $response->setMaxAge(63072000);
-        $response->setSharedMaxAge(63072000);
-        $response->setLastModified($analyticsReport->getUpdatedAt() ?: $analyticsReport->getCreatedAt());
-        $response->setContent($this->filesystem->read($this->csvReportFileLocationResolver->getMediaBasePath().'/'.$analyticsReport->getAssetId()));
-
-        return $response;
+    $authorNames = [];
+    /** @var ArticleAuthorInterface $author */
+    foreach ($authors as $author) {
+      foreach ($author as $entity) {
+        $authorNames[] = $entity->getName();
+      }
     }
 
-    private function toIds(array $items): array
-    {
-        $ids = [];
-        foreach ($items as $item) {
-            foreach ($item as $entity) {
-                if (!$entity instanceof PersistableInterface) {
-                    continue;
-                }
+    $filters['authors'] = $authorNames;
 
-                $ids[] = $entity->getId();
-            }
-        }
-
-        return $ids;
-    }
-
-    private function processFilters(array $filters, array $routes, array $authors): array
-    {
-        $routeNames = [];
-
-        foreach ($routes as $route) {
-            foreach ($route as $entity) {
-                $routeNames[] = $entity->getName();
-            }
-        }
-
-        $filters['routes'] = $routeNames;
-
-        $authorNames = [];
-        /** @var ArticleAuthorInterface $author */
-        foreach ($authors as $author) {
-            foreach ($author as $entity) {
-                $authorNames[] = $entity->getName();
-            }
-        }
-
-        $filters['authors'] = $authorNames;
-
-        return $filters;
-    }
+    return $filters;
+  }
 }

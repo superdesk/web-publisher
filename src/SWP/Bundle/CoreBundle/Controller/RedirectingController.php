@@ -25,53 +25,53 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class RedirectingController extends AbstractController
-{
-    private $router;
+class RedirectingController extends AbstractController {
 
-    private $articleRepository;
+  private RouterInterface $router;
+  private ArticleRepositoryInterface $articleRepository;
 
-    public function __construct(RouterInterface $router, ArticleRepositoryInterface $articleRepository)
-    {
-        $this->router = $router;
-        $this->articleRepository = $articleRepository;
+  /**
+   * @param RouterInterface $router
+   * @param ArticleRepositoryInterface $articleRepository
+   */
+  public function __construct(RouterInterface $router, ArticleRepositoryInterface $articleRepository) {
+    $this->router = $router;
+    $this->articleRepository = $articleRepository;
+  }
+
+
+  public function redirectBasedOnExtraDataAction(Request $request, string $key, string $value): RedirectResponse {
+    try {
+      $existingArticle = $this->articleRepository->getArticleByExtraData($key, $value)->getQuery()->getOneOrNullResult();
+      if (null === $existingArticle) {
+        $existingArticle = $this->articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
+      }
+    } catch (NonUniqueResultException $e) {
+      $existingArticle = null;
     }
 
-    public function redirectBasedOnExtraDataAction(Request $request, string $key, string $value): RedirectResponse
-    {
-        try {
-            $existingArticle = $this->articleRepository->getArticleByExtraData($key, $value)->getQuery()->getOneOrNullResult();
-            if (null === $existingArticle) {
-                $existingArticle = $this->articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
-            }
-        } catch (NonUniqueResultException $e) {
-            $existingArticle = null;
-        }
-
-        if (null === $existingArticle || null === $existingArticle->getRoute()) {
-            throw $this->createNotFoundException('Article with provided data was not found.');
-        }
-
-        return $this->redirect($this->generateArticleUrl($request, $existingArticle), 301);
+    if (null === $existingArticle || null === $existingArticle->getRoute()) {
+      throw $this->createNotFoundException('Article with provided data was not found.');
     }
 
-    public function redirectBasedOnSlugAction(Request $request, string $slug): RedirectResponse
-    {
-        $existingArticle = $this->articleRepository->findOneBySlug($slug);
-        if (null === $existingArticle || null === $existingArticle->getRoute()) {
-            throw $this->createNotFoundException('Article not found.');
-        }
+    return $this->redirect($this->generateArticleUrl($request, $existingArticle), 301);
+  }
 
-        return $this->redirect($this->generateArticleUrl($request, $existingArticle), 301);
+  public function redirectBasedOnSlugAction(Request $request, string $slug): RedirectResponse {
+    $existingArticle = $this->articleRepository->findOneBySlug($slug);
+    if (null === $existingArticle || null === $existingArticle->getRoute()) {
+      throw $this->createNotFoundException('Article not found.');
     }
 
-    private function generateArticleUrl(Request $request, ArticleInterface $article): string
-    {
-        $parameters = ['slug' => $article->getSlug()];
-        if ($request->query->has('amp')) {
-            $parameters['amp'] = 1;
-        }
+    return $this->redirect($this->generateArticleUrl($request, $existingArticle), 301);
+  }
 
-        return $this->router->generate($article->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+  private function generateArticleUrl(Request $request, ArticleInterface $article): string {
+    $parameters = ['slug' => $article->getSlug()];
+    if ($request->query->has('amp')) {
+      $parameters['amp'] = 1;
     }
+
+    return $this->router->generate($article->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+  }
 }

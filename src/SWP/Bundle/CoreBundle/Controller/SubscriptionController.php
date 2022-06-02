@@ -18,41 +18,55 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider;
+use SWP\Bundle\CoreBundle\Provider\SubscriptionsProviderInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SubscriptionController extends Controller
-{
-    /**
-     * @Route("/api/{version}/subscriptions/{userId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_paywall_list_subscriptions", requirements={"id"="\d+"})
-     */
-    public function getAction(Request $request, int $userId)
-    {
-        $subscriptionsProvider = $this->get(CachedSubscriptionsProvider::class);
+class SubscriptionController extends Controller {
 
-        $filters = [
-            'routeId' => $request->query->get('routeId'),
-            'articleId' => $request->query->get('articleId'),
-        ];
+  private SubscriptionsProviderInterface $subscriptionsProvider;
+  private RepositoryInterface $userRepository;
 
-        $user = $this->findOr404($userId);
+  /**
+   * @param SubscriptionsProviderInterface $subscriptionsProvider
+   * @param RepositoryInterface $userRepository
+   */
+  public function __construct(SubscriptionsProviderInterface $subscriptionsProvider,
+                              RepositoryInterface            $userRepository) {
+    $this->subscriptionsProvider = $subscriptionsProvider;
+    $this->userRepository = $userRepository;
+  }
 
-        $subscriptions = $subscriptionsProvider->getSubscriptions($user, $filters);
 
-        return new SingleResourceResponse($subscriptions);
+  /**
+   * @Route("/api/{version}/subscriptions/{userId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_paywall_list_subscriptions", requirements={"id"="\d+"})
+   */
+  public function getAction(Request $request, int $userId) {
+    $subscriptionsProvider = $this->subscriptionsProvider;
+
+    $filters = [
+        'routeId' => $request->query->get('routeId'),
+        'articleId' => $request->query->get('articleId'),
+    ];
+
+    $user = $this->findOr404($userId);
+
+    $subscriptions = $subscriptionsProvider->getSubscriptions($user, $filters);
+
+    return new SingleResourceResponse($subscriptions);
+  }
+
+  private function findOr404(int $id) {
+    $user = $this->userRepository->findOneById($id);
+
+    if (!$user instanceof UserInterface) {
+      throw new NotFoundHttpException(sprintf('User with id "%s" was not found.', $id));
     }
 
-    private function findOr404(int $id)
-    {
-        $user = $this->get('swp.repository.user')->findOneById($id);
-
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundHttpException(sprintf('User with id "%s" was not found.', $id));
-        }
-
-        return $user;
-    }
+    return $user;
+  }
 }

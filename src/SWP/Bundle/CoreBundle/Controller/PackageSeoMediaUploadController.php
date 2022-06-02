@@ -23,50 +23,55 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PackageSeoMediaUploadController extends AbstractController
-{
-    private $seoMetadataFactory;
+class PackageSeoMediaUploadController extends AbstractController {
+  private FactoryInterface $seoMetadataFactory;
+  private RepositoryInterface $seoMetadataRepository;
+  private FormFactoryInterface $formFactory;
 
-    private $seoMetadataRepository;
+  /**
+   * @param FactoryInterface $seoMetadataFactory
+   * @param RepositoryInterface $seoMetadataRepository
+   * @param FormFactoryInterface $formFactory
+   */
+  public function __construct(FactoryInterface     $seoMetadataFactory, RepositoryInterface $seoMetadataRepository,
+                              FormFactoryInterface $formFactory) {
+    $this->seoMetadataFactory = $seoMetadataFactory;
+    $this->seoMetadataRepository = $seoMetadataRepository;
+    $this->formFactory = $formFactory;
+  }
 
-    public function __construct(
-        FactoryInterface $seoMetadataFactory,
-        RepositoryInterface $seoMetadataRepository
-    ) {
-        $this->seoMetadataFactory = $seoMetadataFactory;
-        $this->seoMetadataRepository = $seoMetadataRepository;
+
+  /**
+   * @Route("/api/{version}/packages/seo/upload/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_package_seo_image")
+   */
+  public function uploadAction(Request                   $request, string $packageGuid,
+                               SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse {
+    $seoMetadata = $this->seoMetadataRepository->findOneByPackageGuid($packageGuid);
+
+    if (null === $seoMetadata) {
+      $seoMetadata = $this->seoMetadataFactory->create();
     }
 
-    /**
-     * @Route("/api/{version}/packages/seo/upload/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_package_seo_image")
-     */
-    public function uploadAction(Request $request, string $packageGuid, SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse
-    {
-        $seoMetadata = $this->seoMetadataRepository->findOneByPackageGuid($packageGuid);
+    $form = $this->formFactory->createNamed('', SeoImageType::class, $seoMetadata);
+    $form->handleRequest($request);
 
-        if (null === $seoMetadata) {
-            $seoMetadata = $this->seoMetadataFactory->create();
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+      try {
+        $seoMetadata->setPackageGuid($packageGuid);
+        $seoImageUploader->handleUpload($seoMetadata);
 
-        $form = $this->get('form.factory')->createNamed('', SeoImageType::class, $seoMetadata);
-        $form->handleRequest($request);
+        $this->seoMetadataRepository->add($seoMetadata);
+      } catch (\Exception $e) {
+        return new SingleResourceResponse(['message' => 'Could not upload an image.'], new ResponseContext(400));
+      }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $seoMetadata->setPackageGuid($packageGuid);
-                $seoImageUploader->handleUpload($seoMetadata);
-
-                $this->seoMetadataRepository->add($seoMetadata);
-            } catch (\Exception $e) {
-                return new SingleResourceResponse(['message' => 'Could not upload an image.'], new ResponseContext(400));
-            }
-
-            return new SingleResourceResponse($seoMetadata, new ResponseContext(201));
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+      return new SingleResourceResponse($seoMetadata, new ResponseContext(201));
     }
+
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 }

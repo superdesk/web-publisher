@@ -14,129 +14,167 @@
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController as FOSRestController;
 use FOS\RestBundle\View\View;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
+use SWP\Bundle\ContentBundle\Factory\RouteFactory;
+use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
+use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
+use SWP\Bundle\ContentBundle\Service\RouteServiceInterface;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RouteController extends FOSRestController
-{
-    /**
-     * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_routes")
-     */
-    public function listAction(Request $request)
-    {
-        $routeRepository = $this->get('swp.repository.route');
+class RouteController extends FOSRestController {
 
-        $routes = $routeRepository->getPaginatedByCriteria(new Criteria([
-            'type' => $request->query->get('type', ''),
-        ]), $request->query->get('sorting', []), new PaginationData($request));
+  private FormFactoryInterface $formFactory;
+  private EventDispatcherInterface $eventDispatcher;
+  private RouteProviderInterface $routeProvider; // swp.provider.route
+  private RouteRepositoryInterface $routeRepository; // swp.repository.route
+  private RouteServiceInterface $routeService; // swp.service.route
+  private RouteFactoryInterface $routeFactory; // swp.factory.route
+  private KnpPaginatorRepresentationFactory $knpPaginatorRepresentationFactory; //swp_pagination_rep
+  private EntityManagerInterface $entityManager; // swp.object_manager.route
 
-        return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($routes, $request), 200));
+  /**
+   * @param FormFactoryInterface $formFactory
+   * @param EventDispatcherInterface $eventDispatcher
+   * @param RouteProviderInterface $routeProvider
+   * @param RouteRepositoryInterface $routeRepository
+   * @param RouteServiceInterface $routeService
+   * @param RouteFactoryInterface $routeFactory
+   * @param KnpPaginatorRepresentationFactory $knpPaginatorRepresentationFactory
+   * @param EntityManagerInterface $entityManager
+   */
+  public function __construct(FormFactoryInterface              $formFactory, EventDispatcherInterface $eventDispatcher,
+                              RouteProviderInterface            $routeProvider,
+                              RouteRepositoryInterface          $routeRepository, RouteServiceInterface $routeService,
+                              RouteFactoryInterface             $routeFactory,
+                              KnpPaginatorRepresentationFactory $knpPaginatorRepresentationFactory,
+                              EntityManagerInterface            $entityManager) {
+    $this->formFactory = $formFactory;
+    $this->eventDispatcher = $eventDispatcher;
+    $this->routeProvider = $routeProvider;
+    $this->routeRepository = $routeRepository;
+    $this->routeService = $routeService;
+    $this->routeFactory = $routeFactory;
+    $this->knpPaginatorRepresentationFactory = $knpPaginatorRepresentationFactory;
+    $this->entityManager = $entityManager;
+  }
+
+
+  /**
+   * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_routes")
+   */
+  public function listAction(Request $request) {
+    $routeRepository = $this->routeRepository;
+
+    $routes = $routeRepository->getPaginatedByCriteria(new Criteria([
+        'type' => $request->query->get('type', ''),
+    ]), $request->query->all('sorting'), new PaginationData($request));
+
+    return $this->handleView(View::create($this->knpPaginatorRepresentationFactory->createRepresentation($routes, $request), 200));
+  }
+
+  /**
+   * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
+   */
+  public function getAction($id) {
+    return new SingleResourceResponse($this->findOr404($id));
+  }
+
+  /**
+   * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
+   */
+  public function deleteAction(int $id): Response {
+    $repository = $this->routeRepository;
+    $route = $this->findOr404($id);
+
+    if (null !== $route->getContent()) {
+      throw new ConflictHttpException('Route has content attached to it.');
     }
 
-    /**
-     * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
-     */
-    public function getAction($id)
-    {
-        return new SingleResourceResponse($this->findOr404($id));
+    if (0 < $route->getChildren()->count()) {
+      throw new ConflictHttpException('Remove route children before removing this route.');
     }
 
-    /**
-     * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
-     */
-    public function deleteAction(int $id): Response
-    {
-        $repository = $this->get('swp.repository.route');
-        $route = $this->findOr404($id);
+    $eventDispatcher = $this->eventDispatcher;
+    $eventDispatcher->dispatch(new RouteEvent($route, RouteEvents::PRE_DELETE), RouteEvents::PRE_DELETE);
+    $repository->remove($route);
+    $eventDispatcher->dispatch(new RouteEvent($route, RouteEvents::POST_DELETE), RouteEvents::POST_DELETE);
 
-        if (null !== $route->getContent()) {
-            throw new ConflictHttpException('Route has content attached to it.');
-        }
+    return $this->handleView(View::create(true, 204));
+  }
 
-        if (0 < $route->getChildren()->count()) {
-            throw new ConflictHttpException('Remove route children before removing this route.');
-        }
+  /**
+   * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_create_routes")
+   */
+  public function createAction(Request $request): SingleResourceResponseInterface {
+    /** @var RouteInterface $route */
+    $route = $this->routeFactory->create();
+    $form = $this->formFactory->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
 
-        $eventDispatcher = $this->container->get('event_dispatcher');
-        $eventDispatcher->dispatch(new RouteEvent($route, RouteEvents::PRE_DELETE), RouteEvents::PRE_DELETE);
-        $repository->remove($route);
-        $eventDispatcher->dispatch(new RouteEvent($route, RouteEvents::POST_DELETE), RouteEvents::POST_DELETE);
+    $form->handleRequest($request);
+    $this->ensureRouteExists($route->getName());
 
-        return $this->handleView(View::create(true, 204));
+    if ($form->isSubmitted() && $form->isValid()) {
+      $route = $this->routeService->createRoute($form->getData());
+
+      $this->routeRepository->add($route);
+
+      return new SingleResourceResponse($route, new ResponseContext(201));
     }
 
-    /**
-     * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_create_routes")
-     */
-    public function createAction(Request $request): SingleResourceResponseInterface
-    {
-        /** @var RouteInterface $route */
-        $route = $this->get('swp.factory.route')->create();
-        $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 
-        $form->handleRequest($request);
-        $this->ensureRouteExists($route->getName());
+  /**
+   * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
+   */
+  public function updateAction(Request $request, $id): Response {
+    $objectManager = $this->entityManager;
+    $route = $this->findOr404($id);
+    $previousRoute = clone $route;
+    $form = $this->formFactory->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $route = $this->get('swp.service.route')->createRoute($form->getData());
+    if ($form->isSubmitted() && $form->isValid()) {
+      $route = $this->routeService->updateRoute($previousRoute, $form->getData());
 
-            $this->get('swp.repository.route')->add($route);
+      $objectManager->flush();
 
-            return new SingleResourceResponse($route, new ResponseContext(201));
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+      return $this->handleView(View::create($route, 200));
     }
 
-    /**
-     * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
-     */
-    public function updateAction(Request $request, $id): Response
-    {
-        $objectManager = $this->get('swp.object_manager.route');
-        $route = $this->findOr404($id);
-        $previousRoute = clone  $route;
-        $form = $this->get('form.factory')->createNamed('', RouteType::class, $route, ['method' => $request->getMethod()]);
-        $form->handleRequest($request);
+    return $this->handleView(View::create($form, 400));
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $route = $this->get('swp.service.route')->updateRoute($previousRoute, $form->getData());
-
-            $objectManager->flush();
-
-            return $this->handleView(View::create($route, 200));
-        }
-
-        return $this->handleView(View::create($form, 400));
+  private function findOr404($id) {
+    if (null === $route = $this->routeProvider->getOneById($id)) {
+      throw new NotFoundHttpException('Route was not found.');
     }
 
-    private function findOr404($id)
-    {
-        if (null === $route = $this->get('swp.provider.route')->getOneById($id)) {
-            throw new NotFoundHttpException('Route was not found.');
-        }
+    return $route;
+  }
 
-        return $route;
+  private function ensureRouteExists($name) {
+    if (null !== $this->routeRepository->findOneByName($name)) {
+      throw new ConflictHttpException(sprintf('Route "%s" already exists!', $name));
     }
-
-    private function ensureRouteExists($name)
-    {
-        if (null !== $this->get('swp.repository.route')->findOneByName($name)) {
-            throw new ConflictHttpException(sprintf('Route "%s" already exists!', $name));
-        }
-    }
+  }
 }

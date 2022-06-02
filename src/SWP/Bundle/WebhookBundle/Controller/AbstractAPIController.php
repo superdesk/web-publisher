@@ -34,7 +34,7 @@ abstract class AbstractAPIController extends Controller
 {
     public function listWebhooks(RepositoryInterface $repository, Request $request): ResourcesListResponse
     {
-        $webhooks = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
+        $webhooks = $repository->getPaginatedByCriteria(new Criteria(), $request->query->all('sorting', ), new PaginationData($request));
 
         return new ResourcesListResponse($webhooks);
     }

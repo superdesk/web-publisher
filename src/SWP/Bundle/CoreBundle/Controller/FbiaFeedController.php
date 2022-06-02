@@ -23,56 +23,77 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FbiaFeedController extends AbstractController
-{
-    /**
-     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_feed")
-     */
-    public function listAction(Request $request): ResourcesListResponseInterface
-    {
-        $repository = $this->get('swp.repository.facebook_instant_articles_feed');
+class FbiaFeedController extends AbstractController {
 
-        $items = $repository->getPaginatedByCriteria(
-            new Criteria(),
-            $request->query->get('sorting', ['createdAt' => 'desc']),
-            new PaginationData($request)
-        );
+  private FormFactoryInterface $formFactory;
+  private RepositoryInterface $facebookInstantArticlesFeedRepository;
+  private FactoryInterface $facebookInstantArticlesFeedFactory;
 
-        return new ResourcesListResponse($items);
+  /**
+   * @param FormFactoryInterface $formFactory
+   * @param RepositoryInterface $facebookInstantArticlesFeedRepository
+   * @param FactoryInterface $facebookInstantArticlesFeedFactory
+   */
+  public function __construct(FormFactoryInterface $formFactory,
+                              RepositoryInterface  $facebookInstantArticlesFeedRepository,
+                              FactoryInterface     $facebookInstantArticlesFeedFactory) {
+    $this->formFactory = $formFactory;
+    $this->facebookInstantArticlesFeedRepository = $facebookInstantArticlesFeedRepository;
+    $this->facebookInstantArticlesFeedFactory = $facebookInstantArticlesFeedFactory;
+  }
+
+  /**
+   * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_feed")
+   */
+  public function listAction(Request $request): ResourcesListResponseInterface {
+    $repository = $this->facebookInstantArticlesFeedRepository;
+    $sort = $request->query->all('sorting');
+    if (empty($sort)) {
+      $sort = ['createdAt' => 'desc'];
     }
 
-    /**
-     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_instant_articles_feed")
-     */
-    public function createAction(Request $request): SingleResourceResponseInterface
-    {
-        /* @var FacebookInstantArticlesFeedInterface $feed */
-        $feed = $this->get('swp.factory.facebook_instant_articles_feed')->create();
-        $form = $form = $this->get('form.factory')->createNamed('', FacebookInstantArticlesFeedType::class, $feed, ['method' => $request->getMethod()]);
+    $items = $repository->getPaginatedByCriteria(
+        new Criteria(),
+        $sort,
+        new PaginationData($request)
+    );
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->checkIfFeedExists($feed->getContentBucket(), $feed->getFacebookPage());
-            $this->get('swp.repository.facebook_instant_articles_feed')->add($feed);
+    return new ResourcesListResponse($items);
+  }
 
-            return new SingleResourceResponse($feed, new ResponseContext(201));
-        }
+  /**
+   * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_instant_articles_feed")
+   */
+  public function createAction(Request $request): SingleResourceResponseInterface {
+    /* @var FacebookInstantArticlesFeedInterface $feed */
+    $feed = $this->facebookInstantArticlesFeedFactory->create();
+    $form = $this->formFactory->createNamed('', FacebookInstantArticlesFeedType::class, $feed, ['method' => $request->getMethod()]);
 
-        return new SingleResourceResponse($form, new ResponseContext(400));
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $this->checkIfFeedExists($feed->getContentBucket(), $feed->getFacebookPage());
+      $this->facebookInstantArticlesFeedRepository->add($feed);
+
+      return new SingleResourceResponse($feed, new ResponseContext(201));
     }
 
-    private function checkIfFeedExists($contentBucket, $facebookPage)
-    {
-        if (null !== $this->get('swp.repository.facebook_instant_articles_feed')->findOneBy([
-                'contentBucket' => $contentBucket,
-                'facebookPage' => $facebookPage,
-            ])) {
-            throw new ConflictHttpException('Feed for that page and content bucket already exists!');
-        }
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
+
+  private function checkIfFeedExists($contentBucket, $facebookPage) {
+    if (null !== $this->facebookInstantArticlesFeedRepository->findOneBy([
+            'contentBucket' => $contentBucket,
+            'facebookPage' => $facebookPage,
+        ])) {
+      throw new ConflictHttpException('Feed for that page and content bucket already exists!');
     }
+  }
 }

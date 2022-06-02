@@ -23,76 +23,98 @@ use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Storage\Factory\Factory;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FbApplicationController extends Controller
-{
-    /**
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_applications")
-     */
-    public function listAction(Request $request): ResourcesListResponseInterface
-    {
-        $repository = $this->get('swp.repository.facebook_application');
+class FbApplicationController extends Controller {
 
-        $items = $repository->getPaginatedByCriteria(
-            new Criteria(),
-            $request->query->get('sorting', ['id' => 'asc']),
-            new PaginationData($request)
-        );
+  private FormFactoryInterface $formFactory;
+  private RepositoryInterface $facebookAppRepository;
+  private RepositoryInterface $facebookPageRepository;
+  private Factory $facebookAppFactory;
 
-        return new ResourcesListResponse($items);
+  /**
+   * @param FormFactoryInterface $formFactory
+   * @param RepositoryInterface $facebookAppRepository
+   * @param RepositoryInterface $facebookPageRepository
+   * @param Factory $facebookAppFactory
+   */
+  public function __construct(FormFactoryInterface $formFactory, RepositoryInterface $facebookAppRepository,
+                              RepositoryInterface  $facebookPageRepository, Factory $facebookAppFactory) {
+    $this->formFactory = $formFactory;
+    $this->facebookAppRepository = $facebookAppRepository;
+    $this->facebookPageRepository = $facebookPageRepository;
+    $this->facebookAppFactory = $facebookAppFactory;
+  }
+
+
+  /**
+   * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_applications")
+   */
+  public function listAction(Request $request): ResourcesListResponseInterface {
+    $repository = $this->facebookAppRepository;
+    $sort = $request->query->all('sorting');
+    if (empty($sort)) {
+      $sort = ['id' => 'asc'];
+    }
+    $items = $repository->getPaginatedByCriteria(
+        new Criteria(),
+        $sort,
+        new PaginationData($request)
+    );
+
+    return new ResourcesListResponse($items);
+  }
+
+  /**
+   * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_applications")
+   */
+  public function createAction(Request $request) {
+    /* @var FacebookApplication $feed */
+    $application = $this->facebookAppFactory->create();
+    $form = $this->formFactory->createNamed('', FacebookApplicationType::class, $application, ['method' => $request->getMethod()]);
+
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $this->checkIfApplicationExists($application);
+      $this->facebookAppRepository->add($application);
+
+      return new SingleResourceResponse($application, new ResponseContext(201));
     }
 
-    /**
-     * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_create_facebook_applications")
-     */
-    public function createAction(Request $request)
-    {
-        /* @var FacebookApplication $feed */
-        $application = $this->get('swp.factory.facebook_application')->create();
-        $form = $form = $this->get('form.factory')->createNamed('', FacebookApplicationType::class, $application, ['method' => $request->getMethod()]);
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->checkIfApplicationExists($application);
-            $this->get('swp.repository.facebook_application')->add($application);
-
-            return new SingleResourceResponse($application, new ResponseContext(201));
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+  /**
+   * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
+   */
+  public function deleteAction($id) {
+    $repository = $this->facebookAppRepository;
+    if (null === $application = $repository->findOneBy(['id' => $id])) {
+      throw new NotFoundHttpException('There is no Application with provided id!');
     }
 
-    /**
-     * @Route("/api/{version}/facebook/applications/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_delete_facebook_applications")
-     */
-    public function deleteAction($id)
-    {
-        $repository = $this->get('swp.repository.facebook_application');
-        if (null === $application = $repository->findOneBy(['id' => $id])) {
-            throw new NotFoundHttpException('There is no Application with provided id!');
-        }
-
-        if (null !== $page = $this->get('swp.repository.facebook_page')->findOneBy(['id' => $id])) {
-            throw new ConflictHttpException(sprintf('This Application is used by page with id: %s!', $page->getId()));
-        }
-
-        $repository->remove($application);
-
-        return new SingleResourceResponse(null, new ResponseContext(204));
+    if (null !== $page = $this->facebookPageRepository->findOneBy(['id' => $id])) {
+      throw new ConflictHttpException(sprintf('This Application is used by page with id: %s!', $page->getId()));
     }
 
-    private function checkIfApplicationExists(ApplicationInterface $application)
-    {
-        if (null !== $this->get('swp.repository.facebook_application')->findOneBy([
-                'appId' => $application->getAppId(),
-            ])
-        ) {
-            throw new ConflictHttpException('This Application already exists!');
-        }
+    $repository->remove($application);
+
+    return new SingleResourceResponse(null, new ResponseContext(204));
+  }
+
+  private function checkIfApplicationExists(ApplicationInterface $application) {
+    if (null !== $this->facebookAppRepository->findOneBy([
+            'appId' => $application->getAppId(),
+        ])
+    ) {
+      throw new ConflictHttpException('This Application already exists!');
     }
+  }
 }
