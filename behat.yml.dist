@@ -46,7 +46,7 @@ default:
                path: src/Kernel.php
 
         Behat\MinkExtension:
-            files_path: '%behat.paths.base%/features/fixtures/'
+            files_path: '%paths.base%/features/fixtures/'
             sessions:
                 symfony:
                     symfony: ~
