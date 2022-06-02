@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Matcher\RulesMatcherInterface;
 use SWP\Bundle\CoreBundle\Repository\RuleRepositoryInterface;
@@ -34,6 +33,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,6 +99,7 @@ class OrganizationRuleController extends AbstractController {
 
     $repository = $this->getRuleRepository();
     $rules = $repository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria([
             'organization' => $tenantContext->getTenant()->getOrganization(),
             'tenantCode' => null,

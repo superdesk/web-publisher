@@ -26,6 +26,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -37,27 +38,32 @@ class RuleController extends FOSRestController {
   private EntityManagerInterface $entityManager;
   private RuleRepositoryInterface $ruleRepository;
   private FactoryInterface $ruleFactory;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param FormFactoryInterface $formFactory
    * @param EntityManagerInterface $entityManager
    * @param RuleRepositoryInterface $ruleRepository
    * @param FactoryInterface $ruleFactory
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(FormFactoryInterface    $formFactory, EntityManagerInterface $entityManager,
-                              RuleRepositoryInterface $ruleRepository, FactoryInterface $ruleFactory) {
+                              RuleRepositoryInterface $ruleRepository, FactoryInterface $ruleFactory,
+                              EventDispatcherInterface         $eventDispatcher) {
     $this->formFactory = $formFactory;
     $this->entityManager = $entityManager;
     $this->ruleRepository = $ruleRepository;
     $this->ruleFactory = $ruleFactory;
+    $this->eventDispatcher = $eventDispatcher;
   }
-  
+
+
   /**
    * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_rule")
    */
   public function listAction(Request $request) {
     $rules = $this->ruleRepository
-        ->getPaginatedByCriteria(new Criteria(), $request->query->all('sorting'), new PaginationData($request));
+        ->getPaginatedByCriteria($this->eventDispatcher, new Criteria(), $request->query->all('sorting'), new PaginationData($request));
 
     if (0 === $rules->count()) {
       throw new NotFoundHttpException('No rules were found.');

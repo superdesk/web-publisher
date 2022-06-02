@@ -24,20 +24,25 @@ use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class RelatedArticleController extends AbstractController {
   private RelatedArticleRepositoryInterface $relatedArticleRepository;
   private ArticleProviderInterface $articleProvider;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param RelatedArticleRepositoryInterface $relatedArticleRepository
    * @param ArticleProviderInterface $articleProvider
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(RelatedArticleRepositoryInterface $relatedArticleRepository,
-                              ArticleProviderInterface          $articleProvider) {
+                              ArticleProviderInterface          $articleProvider,
+                              EventDispatcherInterface          $eventDispatcher) {
     $this->relatedArticleRepository = $relatedArticleRepository;
     $this->articleProvider = $articleProvider;
+    $this->eventDispatcher = $eventDispatcher;
   }
 
 
@@ -47,6 +52,7 @@ class RelatedArticleController extends AbstractController {
     $repository = $this->relatedArticleRepository;
 
     $items = $repository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria([
             'article' => $article,
         ]),

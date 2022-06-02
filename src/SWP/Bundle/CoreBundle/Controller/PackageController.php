@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\ElasticaBundle\Persister\PersisterRegistry;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Form\Type\PackageType;
@@ -37,6 +36,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,7 +82,7 @@ class PackageController extends Controller {
     $tenantContext = $this->cachedTenantContext;
 
     $packages = $this->getPackageRepository()
-        ->getPaginatedByCriteria(new Criteria([
+        ->getPaginatedByCriteria($this->eventDispatcher, new Criteria([
             'organization' => $tenantContext->getTenant()->getOrganization()->getId(),
             'status' => $request->query->get('status', ''),
         ]), $request->query->all('sorting'), new PaginationData($request));

@@ -19,6 +19,7 @@ namespace SWP\Bundle\MenuBundle\Doctrine;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface MenuItemRepositoryInterface extends RepositoryInterface
 {
@@ -41,9 +42,9 @@ interface MenuItemRepositoryInterface extends RepositoryInterface
      *
      * @return PaginationInterface
      */
-    public function findChildrenAsTree(MenuItemInterface $menuItem);
+    public function findChildrenAsTree(EventDispatcherInterface $eventDispatcher, MenuItemInterface $menuItem);
 
-    public function findRootNodes(int $page = 1, int $limit = 10);
+    public function findRootNodes(EventDispatcherInterface $eventDispatcher, int $page = 1, int $limit = 10);
 
     /**
      * @param MenuItemInterface $node

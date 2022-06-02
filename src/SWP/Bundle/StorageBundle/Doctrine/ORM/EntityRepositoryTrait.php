@@ -15,11 +15,13 @@
 namespace SWP\Bundle\StorageBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
+use JMS\Serializer\EventDispatcher\EventDispatcher;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 trait EntityRepositoryTrait
 {
@@ -62,7 +64,7 @@ trait EntityRepositoryTrait
     /**
      * {@inheritdoc}
      */
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
+    public function getPaginatedByCriteria(EventDispatcherInterface $eventDispatcher, Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 's');
 
@@ -70,7 +72,7 @@ trait EntityRepositoryTrait
             $paginationData = new PaginationData();
         }
 
-        return $this->getPaginator($queryBuilder, $paginationData);
+        return $this->getPaginator($eventDispatcher, $queryBuilder, $paginationData);
     }
 
     /**
@@ -101,14 +103,15 @@ trait EntityRepositoryTrait
     }
 
     /**
+     * @param EventDispatcherInterface $eventDispatcher
      * @param QueryBuilder   $queryBuilder
      * @param PaginationData $paginationData
      *
      * @return PaginationInterface
      */
-    protected function getPaginator(QueryBuilder $queryBuilder, PaginationData $paginationData)
+    protected function getPaginator(EventDispatcherInterface $eventDispatcher, QueryBuilder $queryBuilder, PaginationData $paginationData)
     {
-        $paginator = new Paginator();
+        $paginator = new Paginator($eventDispatcher);
 
         return $paginator->paginate($queryBuilder, $paginationData->getPageNumber(), $paginationData->getLimit());
     }

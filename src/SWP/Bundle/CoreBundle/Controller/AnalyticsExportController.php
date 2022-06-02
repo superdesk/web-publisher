@@ -39,6 +39,7 @@ use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,6 +58,7 @@ class AnalyticsExportController extends AbstractController {
   protected RouteRepositoryInterface $routeRepository;
   private MessageBusInterface $messageBus;
   private FormFactoryInterface $formFactory;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param CacheInterface $cacheProvider
@@ -67,17 +69,14 @@ class AnalyticsExportController extends AbstractController {
    * @param RouteRepositoryInterface $routeRepository
    * @param MessageBusInterface $messageBus
    * @param FormFactoryInterface $formFactory
+   * @param EventDispatcherInterface $eventDispatcher
    */
-  public function __construct(
-      CacheInterface                $cacheProvider,
-      RepositoryInterface           $analyticsReportRepository,
-      Filesystem                    $filesystem,
-      CsvReportFileLocationResolver $csvReportFileLocationResolver,
-      CachedTenantContextInterface  $cachedTenantContext,
-      RouteRepositoryInterface      $routeRepository,
-      MessageBusInterface           $messageBus,
-      FormFactoryInterface          $formFactory
-  ) {
+  public function __construct(CacheInterface                $cacheProvider,
+                              RepositoryInterface           $analyticsReportRepository, Filesystem $filesystem,
+                              CsvReportFileLocationResolver $csvReportFileLocationResolver,
+                              CachedTenantContextInterface  $cachedTenantContext,
+                              RouteRepositoryInterface      $routeRepository, MessageBusInterface $messageBus,
+                              FormFactoryInterface          $formFactory, EventDispatcherInterface $eventDispatcher) {
     $this->cacheProvider = $cacheProvider;
     $this->analyticsReportRepository = $analyticsReportRepository;
     $this->filesystem = $filesystem;
@@ -86,6 +85,7 @@ class AnalyticsExportController extends AbstractController {
     $this->routeRepository = $routeRepository;
     $this->messageBus = $messageBus;
     $this->formFactory = $formFactory;
+    $this->eventDispatcher = $eventDispatcher;
   }
 
 
@@ -147,6 +147,7 @@ class AnalyticsExportController extends AbstractController {
   public function listAction(Request $request): ResourcesListResponseInterface {
     $sorting = $request->query->all('sorting');
     $reports = $this->analyticsReportRepository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria(),
         $sorting,
         new PaginationData($request)

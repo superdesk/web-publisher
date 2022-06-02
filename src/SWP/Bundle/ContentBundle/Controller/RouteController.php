@@ -17,7 +17,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController as FOSRestController;
 use FOS\RestBundle\View\View;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
@@ -33,6 +32,7 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,7 +84,7 @@ class RouteController extends FOSRestController {
   public function listAction(Request $request) {
     $routeRepository = $this->routeRepository;
 
-    $routes = $routeRepository->getPaginatedByCriteria(new Criteria([
+    $routes = $routeRepository->getPaginatedByCriteria($this->eventDispatcher, new Criteria([
         'type' => $request->query->get('type', ''),
     ]), $request->query->all('sorting'), new PaginationData($request));
 

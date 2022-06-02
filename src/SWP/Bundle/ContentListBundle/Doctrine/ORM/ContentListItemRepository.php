@@ -24,6 +24,7 @@ use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentListItemRepository extends SortableEntityRepository implements ContentListItemRepositoryInterface
 {
@@ -58,7 +59,7 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     /**
      * {@inheritdoc}
      */
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
+    public function getPaginatedByCriteria(EventDispatcherInterface $eventDispatcher, Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getSortedItems($criteria, $sorting, ['contentList' => $criteria->get('contentList')]);
 
@@ -71,7 +72,7 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
         }
 
         if (null === $paginationData) {
-            $paginator = new \Knp\Component\Pager\Paginator();
+            $paginator = new \Knp\Component\Pager\Paginator($eventDispatcher);
 
             return $paginator->paginate(
                 $queryBuilder,
@@ -80,7 +81,7 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
             );
         }
 
-        return $this->getPaginator($queryBuilder, $paginationData);
+        return $this->getPaginator( $eventDispatcher,$queryBuilder, $paginationData);
     }
 
     public function getCountByCriteria(Criteria $criteria): int

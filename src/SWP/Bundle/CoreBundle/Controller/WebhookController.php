@@ -22,6 +22,7 @@ use SWP\Bundle\WebhookBundle\Repository\WebhookRepositoryInterface;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,19 +32,23 @@ class WebhookController extends AbstractAPIController {
   private FormFactoryInterface $formFactory;
   private FactoryInterface $webhookFactory;
   private EntityManagerInterface $entityManager;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param WebhookRepositoryInterface $webhookRepository
    * @param FormFactoryInterface $formFactory
    * @param FactoryInterface $webhookFactory
    * @param EntityManagerInterface $entityManager
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(WebhookRepositoryInterface $webhookRepository, FormFactoryInterface $formFactory,
-                              FactoryInterface           $webhookFactory, EntityManagerInterface $entityManager) {
+                              FactoryInterface           $webhookFactory, EntityManagerInterface $entityManager,
+                              EventDispatcherInterface            $eventDispatcher) {
     $this->webhookRepository = $webhookRepository;
     $this->formFactory = $formFactory;
     $this->webhookFactory = $webhookFactory;
     $this->entityManager = $entityManager;
+    $this->eventDispatcher = $eventDispatcher;
   }
 
 
@@ -51,7 +56,7 @@ class WebhookController extends AbstractAPIController {
    * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_webhook")
    */
   public function listAction(Request $request): ResourcesListResponseInterface {
-    return $this->listWebhooks($this->webhookRepository, $request);
+    return $this->listWebhooks($this->eventDispatcher,$this->webhookRepository, $request);
   }
 
   /**

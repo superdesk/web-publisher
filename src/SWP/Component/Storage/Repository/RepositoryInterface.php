@@ -19,6 +19,7 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface RepositoryInterface extends ObjectRepository
 {
@@ -56,13 +57,14 @@ interface RepositoryInterface extends ObjectRepository
     public function remove(PersistableInterface $object);
 
     /**
+     * @param EventDispatcherInterface $eventDispatcher,
      * @param Criteria            $criteria
      * @param array               $sorting
      * @param PaginationData|null $paginationData
      *
      * @return mixed
      */
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
+    public function getPaginatedByCriteria(EventDispatcherInterface $eventDispatcher, Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
 
     /**
      * @param Criteria $criteria

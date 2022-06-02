@@ -44,7 +44,7 @@ final class UpdatedPackageListener
 
     public function __construct(
         ArticleHydratorInterface $articleHydrator,
-        ObjectManager $articleManager,
+        EntityManagerInterface $articleManager,
         ArticleRepositoryInterface $articleRepository,
         EventDispatcherInterface $eventDispatcher,
         PersisterRegistry $persisterRegistry

@@ -25,6 +25,7 @@ use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Pagination\PaginationData;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MenuItemRepository extends EntityRepository implements MenuItemRepositoryInterface
 {
@@ -101,7 +102,7 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function findChildrenAsTree(MenuItemInterface $menuItem)
+    public function findChildrenAsTree(EventDispatcherInterface $eventDispatcher,MenuItemInterface $menuItem)
     {
         $queryBuilder = $this->createQueryBuilder('m');
         $queryBuilder
@@ -113,13 +114,13 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
             ->orderBy('m.lft', 'asc')
         ;
 
-        return $this->getPaginator($queryBuilder, new PaginationData());
+        return $this->getPaginator($eventDispatcher,$queryBuilder, new PaginationData());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findRootNodes(int $page = 1, int $limit = 10)
+    public function findRootNodes(EventDispatcherInterface $eventDispatcher, int $page = 1, int $limit = 10)
     {
         if ($page <= 0) {
             $page = 1;

@@ -36,29 +36,35 @@ use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\ContentList\Model\ContentListAction;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ContentListItemController extends AbstractController {
-  private $contentListItemRepository;
+  private ContentListItemRepositoryInterface $contentListItemRepository;
+  private EntityManagerInterface $entityManager;
+  private ContentListServiceInterface $contentListService;
+  private EventDispatcherInterface $eventDispatcher;
 
-  private $entityManager;
-
-  private $contentListService;
-
-  public function __construct(
-      ContentListItemRepositoryInterface $contentListItemRepository,
-      EntityManagerInterface             $entityManager,
-      ContentListServiceInterface        $contentListService
-  ) {
+  /**
+   * @param ContentListItemRepositoryInterface $contentListItemRepository
+   * @param EntityManagerInterface $entityManager
+   * @param ContentListServiceInterface $contentListService
+   * @param EventDispatcherInterface $eventDispatcher
+   */
+  public function __construct(ContentListItemRepositoryInterface                          $contentListItemRepository,
+                              EntityManagerInterface                                      $entityManager,
+                              ContentListServiceInterface                                 $contentListService,
+                              EventDispatcherInterface $eventDispatcher) {
     $this->contentListItemRepository = $contentListItemRepository;
     $this->entityManager = $entityManager;
     $this->contentListService = $contentListService;
+    $this->eventDispatcher = $eventDispatcher;
   }
+
 
   /**
    * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
@@ -70,6 +76,7 @@ class ContentListItemController extends AbstractController {
     }
 
     $items = $this->contentListItemRepository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria([
             'contentList' => $id,
             'sticky' => $request->query->get('sticky', ''),

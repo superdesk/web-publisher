@@ -26,6 +26,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Factory\Factory;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -38,19 +39,23 @@ class FbApplicationController extends Controller {
   private RepositoryInterface $facebookAppRepository;
   private RepositoryInterface $facebookPageRepository;
   private Factory $facebookAppFactory;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param FormFactoryInterface $formFactory
    * @param RepositoryInterface $facebookAppRepository
    * @param RepositoryInterface $facebookPageRepository
    * @param Factory $facebookAppFactory
+   * @param EventDispatcherInterface $eventDispatcher
    */
-  public function __construct(FormFactoryInterface $formFactory, RepositoryInterface $facebookAppRepository,
-                              RepositoryInterface  $facebookPageRepository, Factory $facebookAppFactory) {
+  public function __construct(FormFactoryInterface     $formFactory, RepositoryInterface $facebookAppRepository,
+                              RepositoryInterface      $facebookPageRepository, Factory $facebookAppFactory,
+                              EventDispatcherInterface $eventDispatcher) {
     $this->formFactory = $formFactory;
     $this->facebookAppRepository = $facebookAppRepository;
     $this->facebookPageRepository = $facebookPageRepository;
     $this->facebookAppFactory = $facebookAppFactory;
+    $this->eventDispatcher = $eventDispatcher;
   }
 
 
@@ -64,6 +69,7 @@ class FbApplicationController extends Controller {
       $sort = ['id' => 'asc'];
     }
     $items = $repository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria(),
         $sort,
         new PaginationData($request)

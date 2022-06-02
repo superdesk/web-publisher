@@ -23,6 +23,7 @@ use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,19 +31,24 @@ class SlideshowItemController extends Controller {
   private ArticleRepositoryInterface $articleRepository;
   private SlideshowRepositoryInterface $slideshowRepository;
   private SlideshowItemRepositoryInterface $slideshowItemRepository;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param ArticleRepositoryInterface $articleRepository
    * @param SlideshowRepositoryInterface $slideshowRepository
    * @param SlideshowItemRepositoryInterface $slideshowItemRepository
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(ArticleRepositoryInterface       $articleRepository,
                               SlideshowRepositoryInterface     $slideshowRepository,
-                              SlideshowItemRepositoryInterface $slideshowItemRepository) {
+                              SlideshowItemRepositoryInterface $slideshowItemRepository,
+                              EventDispatcherInterface         $eventDispatcher) {
     $this->articleRepository = $articleRepository;
     $this->slideshowRepository = $slideshowRepository;
     $this->slideshowItemRepository = $slideshowItemRepository;
+    $this->eventDispatcher = $eventDispatcher;
   }
+
 
   /**
    * @Route("/api/{version}/content/slideshows/{articleId}/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_slideshow_items", requirements={"id"="\d+"})
@@ -52,6 +58,7 @@ class SlideshowItemController extends Controller {
     $repository = $this->slideshowItemRepository;
 
     $items = $repository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria([
             'article' => $article,
             'slideshow' => $this->findOr404($id),

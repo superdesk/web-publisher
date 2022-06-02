@@ -26,6 +26,7 @@ use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -38,21 +39,26 @@ class FbPageController extends AbstractController {
   private RepositoryInterface $facebookInstantArticlesFeedRepository;
   private RepositoryInterface $facebookPageRepository;
   private FactoryInterface $facebookPageFactory;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param FormFactoryInterface $formFactory
    * @param RepositoryInterface $facebookInstantArticlesFeedRepository
    * @param RepositoryInterface $facebookPageRepository
    * @param FactoryInterface $facebookPageFactory
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(FormFactoryInterface $formFactory,
                               RepositoryInterface  $facebookInstantArticlesFeedRepository,
-                              RepositoryInterface  $facebookPageRepository, FactoryInterface $facebookPageFactory) {
+                              RepositoryInterface  $facebookPageRepository, FactoryInterface $facebookPageFactory,
+                              EventDispatcherInterface      $eventDispatcher) {
     $this->formFactory = $formFactory;
     $this->facebookInstantArticlesFeedRepository = $facebookInstantArticlesFeedRepository;
     $this->facebookPageRepository = $facebookPageRepository;
     $this->facebookPageFactory = $facebookPageFactory;
+    $this->eventDispatcher = $eventDispatcher;
   }
+
 
   /**
    * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_pages")
@@ -64,6 +70,7 @@ class FbPageController extends AbstractController {
       $sort = ['id' => 'asc'];
     }
     $items = $repository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria(),
         $sort,
         new PaginationData($request)

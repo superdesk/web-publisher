@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\CoreBundle\Manager\MenuItemManager;
 use SWP\Bundle\CoreBundle\Repository\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Factory\MenuFactoryInterface;
@@ -29,6 +28,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,7 +72,7 @@ class MenuController extends AbstractController {
     $page = $request->query->get('page', 1);
     $limit = $request->query->get('limit', 10);
 
-    return new ResourcesListResponse($menuRepository->findRootNodes($page, $limit));
+    return new ResourcesListResponse($menuRepository->findRootNodes($this->eventDispatcher, $page, $limit));
   }
 
   /**
@@ -81,7 +81,7 @@ class MenuController extends AbstractController {
   public function listChildrenAction($id): ResourcesListResponseInterface {
     $menuRepository = $this->menuItemRepository;
 
-    $menus = $menuRepository->findChildrenAsTree($this->findOr404($id));
+    $menus = $menuRepository->findChildrenAsTree($this->eventDispatcher, $this->findOr404($id));
 
     return new ResourcesListResponse($menus);
   }

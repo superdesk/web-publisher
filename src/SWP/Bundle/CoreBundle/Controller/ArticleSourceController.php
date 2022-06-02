@@ -22,18 +22,22 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleSourceController extends AbstractController {
 
   private EntityRepository $entityRepository;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param EntityRepository $entityRepository
+   * @param EventDispatcherInterface $eventDispatcher
    */
-  public function __construct(EntityRepository $entityRepository) {
+  public function __construct(EntityRepository $entityRepository, EventDispatcherInterface $eventDispatcher) {
     $this->entityRepository = $entityRepository;
+    $this->eventDispatcher = $eventDispatcher;
   }
 
   /**
@@ -42,6 +46,7 @@ class ArticleSourceController extends AbstractController {
   public function listAction(Request $request): ResourcesListResponseInterface {
     $sorting = $request->query->all('sorting');
     $lists = $this->entityRepository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria(),
         $sorting,
         new PaginationData($request));

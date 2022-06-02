@@ -82,7 +82,7 @@ class ContentListController extends AbstractController {
    * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_list_lists")
    */
   public function listAction(Request $request): ResourcesListResponseInterface {
-    $lists = $this->contentListRepository->getPaginatedByCriteria(new Criteria(), $request->query->all('sorting'), new PaginationData($request));
+    $lists = $this->contentListRepository->getPaginatedByCriteria($this->eventDispatcher, new Criteria(), $request->query->all('sorting'), new PaginationData($request));
 
     return new ResourcesListResponse($lists);
   }

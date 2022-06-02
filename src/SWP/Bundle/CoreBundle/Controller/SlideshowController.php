@@ -23,6 +23,7 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,15 +31,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class SlideshowController extends Controller {
   private ArticleRepositoryInterface $articleRepository;
   private SlideshowRepositoryInterface $slideshowRepository;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param ArticleRepositoryInterface $articleRepository
    * @param SlideshowRepositoryInterface $slideshowRepository
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(ArticleRepositoryInterface   $articleRepository,
-                              SlideshowRepositoryInterface $slideshowRepository) {
+                              SlideshowRepositoryInterface $slideshowRepository,
+                              EventDispatcherInterface     $eventDispatcher) {
     $this->articleRepository = $articleRepository;
     $this->slideshowRepository = $slideshowRepository;
+    $this->eventDispatcher = $eventDispatcher;
   }
 
 
@@ -50,7 +55,7 @@ class SlideshowController extends Controller {
 
     $article = $this->findArticleOr404($articleId);
 
-    $slideshows = $repository->getPaginatedByCriteria(new Criteria([
+    $slideshows = $repository->getPaginatedByCriteria($this->eventDispatcher, new Criteria([
         'article' => $article,
     ]), $request->query->all('sorting'), new PaginationData($request));
 

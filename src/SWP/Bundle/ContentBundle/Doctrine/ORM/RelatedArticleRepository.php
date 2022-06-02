@@ -22,6 +22,7 @@ use SWP\Bundle\ContentBundle\Doctrine\RelatedArticleRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RelatedArticleRepository extends EntityRepository implements RelatedArticleRepositoryInterface
 {
@@ -51,7 +52,7 @@ class RelatedArticleRepository extends EntityRepository implements RelatedArticl
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null): PaginationInterface
+    public function getPaginatedByCriteria(EventDispatcherInterface $eventDispatcher, Criteria $criteria, array $sorting = [], PaginationData $paginationData = null): PaginationInterface
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'ra');
         $this->applyCustomCriteria($queryBuilder, $criteria);
@@ -60,7 +61,7 @@ class RelatedArticleRepository extends EntityRepository implements RelatedArticl
             $paginationData = new PaginationData();
         }
 
-        return $this->getPaginator($queryBuilder, $paginationData);
+        return $this->getPaginator($eventDispatcher,$queryBuilder, $paginationData);
     }
 
     private function applyCustomCriteria(QueryBuilder $queryBuilder, Criteria $criteria): void

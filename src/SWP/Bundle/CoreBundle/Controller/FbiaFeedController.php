@@ -26,6 +26,7 @@ use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -36,19 +37,24 @@ class FbiaFeedController extends AbstractController {
   private FormFactoryInterface $formFactory;
   private RepositoryInterface $facebookInstantArticlesFeedRepository;
   private FactoryInterface $facebookInstantArticlesFeedFactory;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param FormFactoryInterface $formFactory
    * @param RepositoryInterface $facebookInstantArticlesFeedRepository
    * @param FactoryInterface $facebookInstantArticlesFeedFactory
+   * @param EventDispatcherInterface $eventDispatcher
    */
-  public function __construct(FormFactoryInterface $formFactory,
-                              RepositoryInterface  $facebookInstantArticlesFeedRepository,
-                              FactoryInterface     $facebookInstantArticlesFeedFactory) {
+  public function __construct(FormFactoryInterface     $formFactory,
+                              RepositoryInterface      $facebookInstantArticlesFeedRepository,
+                              FactoryInterface         $facebookInstantArticlesFeedFactory,
+                              EventDispatcherInterface $eventDispatcher) {
     $this->formFactory = $formFactory;
     $this->facebookInstantArticlesFeedRepository = $facebookInstantArticlesFeedRepository;
     $this->facebookInstantArticlesFeedFactory = $facebookInstantArticlesFeedFactory;
+    $this->eventDispatcher = $eventDispatcher;
   }
+
 
   /**
    * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_feed")
@@ -61,6 +67,7 @@ class FbiaFeedController extends AbstractController {
     }
 
     $items = $repository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria(),
         $sort,
         new PaginationData($request)

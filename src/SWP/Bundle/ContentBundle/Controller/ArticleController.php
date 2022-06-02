@@ -28,6 +28,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,25 +40,28 @@ class ArticleController extends AbstractController {
   private RouteProviderInterface $routeProvider; // swp.provider.route
   private ArticleRepositoryInterface $articleRepository; //swp.repository.article
   private ArticleProviderInterface $articleProvider; //swp.provider.article
-
+  private EventDispatcherInterface  $eventDispatcher;
   private EntityManagerInterface $entityManager; // swp.object_manager.article
   private ArticleServiceInterface $articleService; // swp.service.article
 
   /**
+   * @param FormFactoryInterface $formFactory
    * @param RouteProviderInterface $routeProvider
    * @param ArticleRepositoryInterface $articleRepository
    * @param ArticleProviderInterface $articleProvider
-   * @param FormFactoryInterface $formFactory
+   * @param EventDispatcherInterface $eventDispatcher
    * @param EntityManagerInterface $entityManager
    * @param ArticleServiceInterface $articleService
    */
-  public function __construct(RouteProviderInterface   $routeProvider, ArticleRepositoryInterface $articleRepository,
-                              ArticleProviderInterface $articleProvider, FormFactoryInterface $formFactory,
-                              EntityManagerInterface   $entityManager, ArticleServiceInterface $articleService) {
+  public function __construct(FormFactoryInterface       $formFactory, RouteProviderInterface $routeProvider,
+                              ArticleRepositoryInterface $articleRepository, ArticleProviderInterface $articleProvider,
+                              EventDispatcherInterface   $eventDispatcher, EntityManagerInterface $entityManager,
+                              ArticleServiceInterface    $articleService) {
+    $this->formFactory = $formFactory;
     $this->routeProvider = $routeProvider;
     $this->articleRepository = $articleRepository;
     $this->articleProvider = $articleProvider;
-    $this->formFactory = $formFactory;
+    $this->eventDispatcher = $eventDispatcher;
     $this->entityManager = $entityManager;
     $this->articleService = $articleService;
   }
@@ -87,7 +91,7 @@ class ArticleController extends AbstractController {
     }
 
     $articles = $this->articleRepository
-        ->getPaginatedByCriteria(new Criteria([
+        ->getPaginatedByCriteria($this->eventDispatcher, new Criteria([
             'status' => $request->query->get('status', ''),
             'route' => $request->query->get('route', ''),
             'publishedBefore' => $request->query->has('publishedBefore') ? new \DateTime($request->query->get('publishedBefore')) : null,

@@ -15,12 +15,12 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use function array_key_exists;
@@ -82,7 +82,7 @@ class TenantController extends FOSRestController {
    */
   public function listAction(Request $request) {
     $tenants = $this->getTenantRepository()
-        ->getPaginatedByCriteria(new Criteria(), $request->query->all('sorting'), new PaginationData($request));
+        ->getPaginatedByCriteria($this->eventDispatcher, new Criteria(), $request->query->all('sorting'), new PaginationData($request));
     $responseContext = new ResponseContext();
     $responseContext->setSerializationGroups(['Default', 'api', 'details_api']);
 

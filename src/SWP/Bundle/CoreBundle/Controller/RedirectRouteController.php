@@ -28,6 +28,7 @@ use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -40,19 +41,23 @@ class RedirectRouteController extends AbstractController {
   private RepositoryInterface $redirectRouteRepository;
   private EntityManagerInterface $entityManager;
   private FactoryInterface $redirectRouteFactory;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param FormFactoryInterface $formFactory
    * @param RepositoryInterface $redirectRouteRepository
    * @param EntityManagerInterface $entityManager
    * @param FactoryInterface $redirectRouteFactory
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(FormFactoryInterface   $formFactory, RepositoryInterface $redirectRouteRepository,
-                              EntityManagerInterface $entityManager, FactoryInterface $redirectRouteFactory) {
+                              EntityManagerInterface $entityManager, FactoryInterface $redirectRouteFactory,
+                              EventDispatcherInterface        $eventDispatcher) {
     $this->formFactory = $formFactory;
     $this->redirectRouteRepository = $redirectRouteRepository;
     $this->entityManager = $entityManager;
     $this->redirectRouteFactory = $redirectRouteFactory;
+    $this->eventDispatcher = $eventDispatcher;
   }
 
 
@@ -62,7 +67,7 @@ class RedirectRouteController extends AbstractController {
   public function listAction(Request $request) {
     $redirectRouteRepository = $this->redirectRouteRepository;
 
-    $redirectRoutes = $redirectRouteRepository->getPaginatedByCriteria(new Criteria(), $request->query->all('sorting'), new PaginationData($request));
+    $redirectRoutes = $redirectRouteRepository->getPaginatedByCriteria($this->eventDispatcher, new Criteria(), $request->query->all('sorting'), new PaginationData($request));
 
     return new ResourcesListResponse($redirectRoutes);
   }

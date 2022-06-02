@@ -23,6 +23,7 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,16 +31,21 @@ class FbiaArticleController extends Controller {
 
   private FacebookInstantArticlesArticleRepository $facebookInstantArticlesArticleRepository;
   private FacebookInstantArticlesService $facebookInstantArticlesService;
+  private EventDispatcherInterface $eventDispatcher;
 
   /**
    * @param FacebookInstantArticlesArticleRepository $facebookInstantArticlesArticleRepository
    * @param FacebookInstantArticlesService $facebookInstantArticlesService
+   * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(FacebookInstantArticlesArticleRepository $facebookInstantArticlesArticleRepository,
-                              FacebookInstantArticlesService           $facebookInstantArticlesService) {
+                              FacebookInstantArticlesService           $facebookInstantArticlesService,
+                              EventDispatcherInterface                 $eventDispatcher) {
     $this->facebookInstantArticlesArticleRepository = $facebookInstantArticlesArticleRepository;
     $this->facebookInstantArticlesService = $facebookInstantArticlesService;
+    $this->eventDispatcher = $eventDispatcher;
   }
+
 
   /**
    * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_articles")
@@ -51,6 +57,7 @@ class FbiaArticleController extends Controller {
       $sort = ['createdAt' => 'desc'];
     }
     $items = $repository->getPaginatedByCriteria(
+        $this->eventDispatcher,
         new Criteria(),
         $sort,
         new PaginationData($request)
