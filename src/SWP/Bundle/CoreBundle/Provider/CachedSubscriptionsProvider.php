@@ -62,7 +62,7 @@ final class CachedSubscriptionsProvider implements SubscriptionsProviderInterfac
 
     public function getSubscriptions(SubscriberInterface $subscriber, array $filters = []): array
     {
-        $cacheKey = $this->generateCacheKey($subscriber).implode('_', $filters);
+        $cacheKey = urlencode($this->generateCacheKey($subscriber).implode('_', $filters));
 
         return $this->cacheProvider->get($cacheKey, function (ItemInterface $item) use ($subscriber, $filters) {
           $item->expiresAfter($this->cacheLifeTime);
@@ -72,7 +72,7 @@ final class CachedSubscriptionsProvider implements SubscriptionsProviderInterfac
 
     public function getSubscription(SubscriberInterface $subscriber, array $filters = []): ?SubscriptionInterface
     {
-        $cacheKey = $this->generateCacheKey($subscriber, self::CACHE_KEY_VALID).implode('_', $filters);
+        $cacheKey = urlencode($this->generateCacheKey($subscriber, self::CACHE_KEY_VALID).implode('_', $filters));
         return $this->cacheProvider->get($cacheKey, function (ItemInterface $item) use ($subscriber, $filters) {
           $item->expiresAfter($this->cacheLifeTime);
           return $this->decoratedProvider->getSubscription($subscriber, $filters);

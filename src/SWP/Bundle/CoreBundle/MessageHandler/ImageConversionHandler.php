@@ -106,6 +106,7 @@ class ImageConversionHandler implements MessageHandlerInterface
             if (null === $imageAsResource) {
                 throw new Exception('Could not get resource from provided images');
             }
+            imagepalettetotruecolor($imageAsResource);
             imagewebp($imageAsResource, $tempLocation);
             $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
             $this->mediaManager->saveFile($uploadedFile, $mediaId);
@@ -133,7 +134,9 @@ class ImageConversionHandler implements MessageHandlerInterface
         /** @var ImageRenditionInterface[] $articleMedia */
         $articleMedia = $this->imageRenditionRepository->findBy(['image' => $image]);
         foreach ($articleMedia as $media) {
-            $media->getMedia()->getArticle()->setMediaUpdatedAt(new DateTime());
+            $article = $media->getMedia()->getArticle();
+            $article->setMediaUpdatedAt(new DateTime());
+            $article->cancelTimestampable(true);
         }
     }
 
