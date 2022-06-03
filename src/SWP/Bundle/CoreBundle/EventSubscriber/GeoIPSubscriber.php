@@ -9,7 +9,7 @@ use SWP\Bundle\CoreBundle\GeoIp\CachedGeoIpChecker;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -37,9 +37,9 @@ final class GeoIPSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
-        if (false === $this->isGeoIpEnabled || HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+        if (false === $this->isGeoIpEnabled || HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
             return;
         }
 
