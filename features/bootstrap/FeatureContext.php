@@ -5,12 +5,11 @@ declare(strict_types=1);
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\MinkAwareContext;
-use Behat\MinkExtension\Context\RawMinkContext;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext extends RawMinkContext implements Context, SnippetAcceptingContext, MinkAwareContext
+class FeatureContext extends Behat\MinkExtension\Context\MinkContext implements Context, SnippetAcceptingContext, MinkAwareContext
 {
     private $output = '';
 

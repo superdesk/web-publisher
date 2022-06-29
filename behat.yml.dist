@@ -2,17 +2,13 @@ default:
     calls:
         error_reporting: 16383 # E_ALL & ~E_USER_DREPRECATED
     suites:
-        paths:
-            features: 'features/fixtures'
         default:
             contexts:
                 - rdx\behatvars\BehatVariablesContext
-                - FeatureContext
                 - JsonContext
                 - AuthTokenContext
                 - GeoLocationContext
                 - SWP\Behat\Contexts\CsvFileContext
-                - Behat\MinkExtension\Context\MinkContext
                 - SWP\Behat\Contexts\TenantContext
                 - SWP\Behat\Contexts\ContentListContext
                 - SWP\Behat\Contexts\ContentListItemContext
@@ -30,9 +26,23 @@ default:
                 - SWP\Behat\Contexts\ArticleMediaContext
                 - SWP\Behat\Contexts\Hook\DoctrineORMContext
                 - SWP\Behat\Contexts\MessengerContext
+                - FeatureContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~
+        Behatch\Extension: ~
+        Behat\MinkExtension:
+                  files_path: '%paths.base%/features/fixtures/'
+                  sessions:
+                      symfony:
+                          symfony: ~
+        VIPSoft\DoctrineDataFixturesExtension\Extension:
+                  lifetime: feature
+                  autoload: false
+                  fixtures:
+                    - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
+                    - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
+                    - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
         #Behat\Symfony2Extension:
         #    kernel:
         #        bootstrap: features/bootstrap/bootstrap.php
@@ -45,16 +55,5 @@ default:
                class: App\Kernel
                path: src/Kernel.php
 
-        Behat\MinkExtension:
-            files_path: '%paths.base%/features/fixtures/'
-            sessions:
-                symfony:
-                    symfony: ~
-        Behatch\Extension: ~
-        VIPSoft\DoctrineDataFixturesExtension\Extension:
-              lifetime: feature
-              autoload: false
-              fixtures:
-                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
-                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
-                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
+
+
