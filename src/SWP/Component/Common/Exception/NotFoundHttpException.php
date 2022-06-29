@@ -16,10 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Component\Common\Exception;
 
-class NotFoundHttpException extends HttpException
-{
-    public function __construct($message = null, \Exception $previous = null, $code = 0)
-    {
-        parent::__construct(404, $message, $previous, array(), $code);
-    }
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as SymNotFoundHttpException;
+
+
+class NotFoundHttpException extends SymNotFoundHttpException {
 }
