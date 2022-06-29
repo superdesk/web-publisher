@@ -17,7 +17,6 @@ namespace SWP\Bundle\MultiTenancyBundle\Routing;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-use Symfony\Component\Routing\Route as SymfonyRoute;
 
 class TenantAwareRouter extends DynamicRouter
 {

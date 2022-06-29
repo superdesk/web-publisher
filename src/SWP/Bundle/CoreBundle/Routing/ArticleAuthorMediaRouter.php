@@ -61,7 +61,7 @@ class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInter
    * {@inheritdoc}
    */
   public function supports($name) {
-    return is_string($name)  || $name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface);
+    return $name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface);
   }
 
   public function getRouteDebugMessage($name, array $parameters = []) {

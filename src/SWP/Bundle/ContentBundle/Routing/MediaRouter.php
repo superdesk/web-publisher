@@ -56,7 +56,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface {
   }
 
   public function supports($meta): bool {
-    return is_string($meta) || $meta instanceof Meta && (
+    return  $meta instanceof Meta && (
             $meta->getValues() instanceof ArticleMediaInterface ||
             $meta->getValues() instanceof ImageRenditionInterface
         );

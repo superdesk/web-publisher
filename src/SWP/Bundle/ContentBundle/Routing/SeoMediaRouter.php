@@ -45,7 +45,7 @@ class SeoMediaRouter extends Router implements VersatileGeneratorInterface {
   }
 
   public function supports($name): bool {
-    return is_string($name) || $name instanceof Meta && $name->getValues() instanceof ArticleSeoMediaInterface;
+    return $name instanceof Meta && $name->getValues() instanceof ArticleSeoMediaInterface;
   }
 
   public function getRouteDebugMessage($name, array $parameters = array()): string {

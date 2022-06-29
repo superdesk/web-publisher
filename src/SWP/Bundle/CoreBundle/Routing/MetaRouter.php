@@ -90,7 +90,6 @@ class MetaRouter extends DynamicRouter {
    */
   public function supports($name) {
     return
-        is_string($name) ||
         ($name instanceof Meta && (
                 $name->getValues() instanceof ArticleInterface ||
                 $name->getValues() instanceof RouteInterface
