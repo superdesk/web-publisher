@@ -43,7 +43,7 @@ class BodyListener
     $this->decoderProvider = $decoderProvider;
     $this->throwExceptionOnUnsupportedContentType = $throwExceptionOnUnsupportedContentType;
     $this->arrayNormalizer = $arrayNormalizer;
-    $this->normalizeForms = $normalizeForms;
+    $this->normalizeForms = true;
   }
 
   public function setDefaultFormat(?string $defaultFormat): void
