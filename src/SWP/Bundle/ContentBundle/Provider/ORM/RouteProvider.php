@@ -72,7 +72,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
         $redirectRoute = $this->redirectRouteRepository->findOneBy(['staticPrefix' => $candidates[0]]);
 
         if (null !== $redirectRoute) {
-            $collection->add($redirectRoute->getRouteName(), $redirectRoute);
+            $collection->add($redirectRoute->getRouteName() ??  '', $redirectRoute);
 
             return $collection;
         }
