@@ -76,8 +76,8 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
 
             return $paginator->paginate(
                 $queryBuilder,
-                $criteria->get('firstResult', 0),
-                $criteria->get('maxResults', RepositoryInterface::MAX_RESULTS)
+                (int)$criteria->get('firstResult', 0),
+                (int)$criteria->get('maxResults', RepositoryInterface::MAX_RESULTS)
             );
         }
 

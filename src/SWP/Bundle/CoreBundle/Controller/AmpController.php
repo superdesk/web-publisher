@@ -52,6 +52,7 @@ final class AmpController extends AbstractController {
 
       $response = new Response();
       $response->setContent($this->converter->convertToAmp($content));
+      return $response;
     });
   }
 

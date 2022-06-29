@@ -62,7 +62,7 @@ class AuthorSearchController extends AbstractController {
 
     $pagination = $this->paginator->paginate(
         $result,
-        $request->query->get('page', 1),
+        $request->query->getInt('page', 1),
         $criteria->getPagination()->getItemsPerPage()
     );
 

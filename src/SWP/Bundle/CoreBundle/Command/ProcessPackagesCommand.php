@@ -123,8 +123,8 @@ EOT
         /** @var SlidingPagination $pagination */
         $pagination = $this->paginator->paginate(
             $queryBuilder,
-            $input->getOption('page'),
-            $input->getOption('limit')
+            (int)  $input->getOption('page'),
+            (int)  $input->getOption('limit')
         );
 
         $output->writeln(sprintf('<bg=green;options=bold>Packages found: %s</>', $pagination->getTotalItemCount()));

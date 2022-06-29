@@ -19,31 +19,37 @@ namespace SWP\Bundle\ContentBundle\Routing;
 use SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Route as SymfonyRoute;
 
-class SeoMediaRouter extends Router implements VersatileGeneratorInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
-    {
-        $item = $name->getValues()->getImage();
+class SeoMediaRouter extends Router implements VersatileGeneratorInterface {
+  /**
+   * {@inheritdoc}
+   */
+  public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
+    $item = $name->getValues()->getImage();
 
-        $parameters['mediaId'] = $item->getAssetId();
-        $parameters['extension'] = $item->getFileExtension();
+    $parameters['mediaId'] = $item->getAssetId();
+    $parameters['extension'] = $item->getFileExtension();
 
-        return parent::generate('swp_seo_media_get', $parameters, $referenceType);
+    return parent::generate('swp_seo_media_get', $parameters, $referenceType);
+  }
+
+  public function supports($name): bool {
+    return $name instanceof Meta && $name->getValues() instanceof ArticleSeoMediaInterface;
+  }
+
+  public function getRouteDebugMessage($name, array $parameters = array()): string {
+    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
+        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+        && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof SymfonyRoute
+    ) {
+      $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
 
-    public function supports($name): bool
-    {
-        return $name instanceof Meta && $name->getValues() instanceof ArticleSeoMediaInterface;
-    }
-
-    public function getRouteDebugMessage($name, array $parameters = array()): string
-    {
-        return 'Route for media '.$name->getValues()->getId().' not found';
-    }
+    return 'Route for media ' . $name->getValues()->getId() . ' not found';
+  }
 }

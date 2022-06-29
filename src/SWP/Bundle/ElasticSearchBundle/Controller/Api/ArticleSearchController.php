@@ -60,7 +60,7 @@ class ArticleSearchController extends AbstractController {
     $paginator = $this->paginator;
     $pagination = $paginator->paginate(
         $articles,
-        $request->query->get('page', 1),
+        $request->query->getInt('page', 1),
         $criteria->getPagination()->getItemsPerPage(),
         $options
     );

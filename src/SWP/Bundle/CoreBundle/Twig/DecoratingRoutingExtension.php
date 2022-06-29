@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Twig;
 
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -35,8 +36,10 @@ final class DecoratingRoutingExtension extends AbstractExtension {
       return null;
     }
 
-    if(is_object($name)) {
-      $name = $name->__toString();
+    if (is_object($name)) {
+      $object = $name;
+      $name = RouteObjectInterface::OBJECT_BASED_ROUTE_NAME;
+      $parameters[RouteObjectInterface::ROUTE_OBJECT] = $object;
     }
 
     try {
@@ -53,8 +56,10 @@ final class DecoratingRoutingExtension extends AbstractExtension {
       return null;
     }
 
-    if(is_object($name)) {
-      $name = $name->__toString();
+    if (is_object($name)) {
+      $object = $name;
+      $name = RouteObjectInterface::OBJECT_BASED_ROUTE_NAME;
+      $parameters[RouteObjectInterface::ROUTE_OBJECT] = $object;
     }
 
     try {
