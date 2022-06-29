@@ -25,7 +25,7 @@ use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class WebhookController extends AbstractAPIController {
   private WebhookRepositoryInterface $webhookRepository;

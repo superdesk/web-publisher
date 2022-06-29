@@ -24,7 +24,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class SubscriptionController extends Controller {
 

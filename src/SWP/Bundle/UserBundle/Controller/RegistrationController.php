@@ -33,6 +33,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route as FOSRoute;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -65,7 +66,7 @@ class RegistrationController extends AbstractController {
 
 
   /**
-   * @Route("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
+   * @FOSRoute("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
    */
   public function registerAction(
       Request                     $request,

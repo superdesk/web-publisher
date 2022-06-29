@@ -20,7 +20,7 @@ use SWP\Bundle\CoreBundle\Provider\FailedEntriesProvider;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class FailedQueueController extends AbstractController {
   /**

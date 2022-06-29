@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManagerInterface;
 use FOS\ElasticaBundle\Persister\PersisterRegistry;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
@@ -41,7 +40,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class PackageController extends Controller {
 

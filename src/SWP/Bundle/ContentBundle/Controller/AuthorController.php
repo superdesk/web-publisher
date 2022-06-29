@@ -23,7 +23,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class AuthorController extends AbstractController {
 

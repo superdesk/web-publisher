@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
-use JMS\Serializer\EventDispatcher\EventDispatcher;
 use Knp\Component\Pager\PaginatorInterface;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContext;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
@@ -28,7 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class PackageSearchController extends AbstractController {
 

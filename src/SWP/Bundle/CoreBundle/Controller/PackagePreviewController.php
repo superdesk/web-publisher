@@ -41,6 +41,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route as FOSRoute;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PackagePreviewController extends Controller {
@@ -117,7 +118,7 @@ class PackagePreviewController extends Controller {
   }
 
   /**
-   * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
+   * @FOSRoute("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
    */
   public function generateTokenAction(Request $request, int $routeId): SingleResourceResponseInterface {
     $route = $this->findRouteOr404($routeId);

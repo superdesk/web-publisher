@@ -32,7 +32,7 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class RelatedArticleOrganizationController extends Controller {
   private EventDispatcherInterface $eventDispatcher;

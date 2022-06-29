@@ -34,6 +34,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
+use FOS\RestBundle\Controller\Annotations\Route as FOSRoute;
 
 class SeoMediaController extends AbstractMediaController {
   private FactoryInterface $seoMetadataFactory;
@@ -67,7 +68,7 @@ class SeoMediaController extends AbstractMediaController {
   }
 
   /**
-   * @Route("/api/{version}/upload/seo_image/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_seo_image")
+   * @FOSRoute("/api/{version}/upload/seo_image/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_seo_image")
    */
   public function uploadSeoImageAction(Request                   $request, string $id,
                                        SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse {

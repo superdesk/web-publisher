@@ -47,6 +47,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
+use FOS\RestBundle\Controller\Annotations\Route as FosRoute;
 
 class AnalyticsExportController extends AbstractController {
 
@@ -90,7 +91,7 @@ class AnalyticsExportController extends AbstractController {
 
 
   /**
-   * @Route("/api/{version}/export/analytics/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
+   * @FosRoute("/api/{version}/export/analytics/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
    *
    * @throws \Exception
    */
@@ -142,7 +143,7 @@ class AnalyticsExportController extends AbstractController {
   }
 
   /**
-   * @Route("/api/{version}/export/analytics/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
+   * @FosRoute("/api/{version}/export/analytics/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
    */
   public function listAction(Request $request): ResourcesListResponseInterface {
     $sorting = $request->query->all('sorting');

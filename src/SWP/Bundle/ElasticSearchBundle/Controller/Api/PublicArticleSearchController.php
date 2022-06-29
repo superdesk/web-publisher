@@ -19,7 +19,7 @@ namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
 class PublicArticleSearchController extends ArticleSearchController
 {
