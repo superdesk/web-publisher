@@ -241,7 +241,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getUri(): string
+    public function getUri(): ?string
     {
         return $this->uri;
     }
@@ -589,7 +589,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getParent(): ItemInterface
+    public function getParent(): ?ItemInterface
     {
         return $this->parent;
     }

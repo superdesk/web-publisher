@@ -23,47 +23,43 @@ use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 
-class CachedTenantContext extends TenantContext implements CachedTenantContextInterface
-{
-    private $resolvedTenants = [];
+class CachedTenantContext extends TenantContext implements CachedTenantContextInterface {
+  private $resolvedTenants = [];
 
-    public function getTenant(): ?TenantInterface
-    {
-        $currentRequest = $this->requestStack->getCurrentRequest();
-        if ($currentRequest && $this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
-            return null;
-        }
-
-        if (null === $this->tenant && null !== $currentRequest) {
-            $cacheKey = self::getCacheKey($currentRequest->getHost());
-            if (!array_key_exists($cacheKey, $this->resolvedTenants) || $this->resolvedTenants[$cacheKey] instanceof TenantInterface) {
-                $this->resolvedTenants[$cacheKey] = parent::getTenant();
-            } else {
-                $this->tenant = $this->resolvedTenants[$cacheKey];
-            }
-        }
-
-        return $this->tenant;
+  public function getTenant(): ?TenantInterface {
+    $currentRequest = $this->requestStack->getCurrentRequest();
+    if ($currentRequest && $this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
+      return null;
+    }
+    if (null === $this->tenant && null !== $currentRequest) {
+      $cacheKey = self::getCacheKey($currentRequest->getHost());
+      if (!array_key_exists($cacheKey, $this->resolvedTenants) || $this->resolvedTenants[$cacheKey] instanceof TenantInterface) {
+        $this->resolvedTenants[$cacheKey] = parent::getTenant();
+      } else {
+        $this->tenant = $this->resolvedTenants[$cacheKey];
+      }
+    } else {
+      return parent::getTenant();
     }
 
-    public function setTenant(TenantInterface $tenant): void
-    {
-        parent::setTenant($tenant);
-        $this->dispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
+    return $this->tenant;
+  }
 
-        $this->resolvedTenants[self::getCacheKey(
-            $tenant->getSubdomain() ? $tenant->getSubdomain().'.'.$tenant->getDomainName() : $tenant->getDomainName()
-        )] = $tenant;
-    }
+  public function setTenant(TenantInterface $tenant): void {
+    parent::setTenant($tenant);
+    $this->dispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
 
-    public function reset(): void
-    {
-        $this->tenant = null;
-        $this->resolvedTenants = [];
-    }
+    $this->resolvedTenants[self::getCacheKey(
+        $tenant->getSubdomain() ? $tenant->getSubdomain() . '.' . $tenant->getDomainName() : $tenant->getDomainName()
+    )] = $tenant;
+  }
 
-    private static function getCacheKey(string $host): string
-    {
-        return md5('tenant_cache__'.$host);
-    }
+  public function reset(): void {
+    $this->tenant = null;
+    $this->resolvedTenants = [];
+  }
+
+  private static function getCacheKey(string $host): string {
+    return md5('tenant_cache__' . $host);
+  }
 }

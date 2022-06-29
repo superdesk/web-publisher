@@ -20,6 +20,7 @@ services:
   SWP\Bundle\CoreBundle\Controller\DefaultController: ~
   SWP\Bundle\CoreBundle\Controller\AuthController: ~
   SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
+  SWP\Bundle\CoreBundle\Controller\ContentController: ~
 
   SWP\Bundle\CoreBundle\Controller\AnalyticsExportController:
     bind:
