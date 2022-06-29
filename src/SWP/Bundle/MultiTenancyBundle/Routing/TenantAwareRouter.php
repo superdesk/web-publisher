@@ -33,7 +33,6 @@ class TenantAwareRouter extends DynamicRouter
     {
       if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
           && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-          && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof SymfonyRoute
       ) {
         $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
         unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);

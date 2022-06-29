@@ -29,7 +29,6 @@ use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route as SymfonyRoute;
 
 class MediaRouter extends Router implements VersatileGeneratorInterface {
   private $mediaManager;
@@ -49,21 +48,22 @@ class MediaRouter extends Router implements VersatileGeneratorInterface {
   }
 
   public function getRouteDebugMessage($meta, array $parameters = array()): string {
+    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
+      $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
+    }
     return 'Route for media ' . $meta->getValues()->getId() . ' not found';
   }
 
   public function supports($meta): bool {
-    return $meta instanceof Meta && (
+    return is_string($meta) || $meta instanceof Meta && (
             $meta->getValues() instanceof ArticleMediaInterface ||
             $meta->getValues() instanceof ImageRenditionInterface
         );
   }
 
   public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $meta
-        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-        && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof SymfonyRoute
-    ) {
+    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
       $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
@@ -100,6 +100,8 @@ class MediaRouter extends Router implements VersatileGeneratorInterface {
     if (($file = $meta->getValues()->getFile()) instanceof FileInterface) {
       return $file;
     }
+
+    return null;
   }
 
   private function getUrlWithCorrectExtension(FileInterface $item, array $parameters): string {

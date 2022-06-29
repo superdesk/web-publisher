@@ -45,7 +45,6 @@ class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInter
   public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
     if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $meta
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-        && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof SymfonyRoute
     ) {
       $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
@@ -62,10 +61,16 @@ class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInter
    * {@inheritdoc}
    */
   public function supports($name) {
-    return $name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface);
+    return is_string($name)  || $name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface);
   }
 
   public function getRouteDebugMessage($name, array $parameters = []) {
+    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
+        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+    ) {
+      $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
+    }
     return 'Route for article author media ' . $name->getValues()->getId() . ' not found';
   }
 }

@@ -29,7 +29,6 @@ class MetaRouter extends DynamicRouter {
   public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
     if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-        && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof SymfonyRoute
     ) {
       $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
@@ -91,6 +90,7 @@ class MetaRouter extends DynamicRouter {
    */
   public function supports($name) {
     return
+        is_string($name) ||
         ($name instanceof Meta && (
                 $name->getValues() instanceof ArticleInterface ||
                 $name->getValues() instanceof RouteInterface
