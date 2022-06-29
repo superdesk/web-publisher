@@ -196,7 +196,6 @@ EOT
         } catch (\Throwable $e) {
             $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
             $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
-            throw  $e;
             return 1;
         }
 

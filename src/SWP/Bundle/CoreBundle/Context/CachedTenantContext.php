@@ -39,7 +39,11 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         $this->tenant = $this->resolvedTenants[$cacheKey];
       }
     } else {
-      return parent::getTenant();
+      try {
+        return parent::getTenant();
+      } catch (\Throwable $e) {
+        return null;
+      }
     }
 
     return $this->tenant;
