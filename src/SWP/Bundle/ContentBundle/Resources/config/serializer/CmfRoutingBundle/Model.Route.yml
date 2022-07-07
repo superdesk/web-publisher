@@ -5,9 +5,10 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             expose: true
             groups: [api, api_routes_list]
             type: integer
-        #content:
-        #    expose: true
-        #    groups: [api]
+        content:
+            expose: true
+            groups: [api]
+            exclude_if: "object.getTenantCode() != service('swp_multi_tenancy.tenant_context').getTenant().getCode()"
         staticPrefix:
             expose: true
             groups: [api]
