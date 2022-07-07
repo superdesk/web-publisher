@@ -31,7 +31,7 @@ swp_redirecting_extra_data:
 
 swp_redirecting_slug:
   path: /r/{slug}
-  defaults: { _controller: SWP\Bundle\CoreBundle\Controller\RedirectingController::redirectBasedOnSlug }
+  defaults: { _controller: SWP\Bundle\CoreBundle\Controller\RedirectingController::redirectBasedOnSlugAction }
   requirements:
     slug: .*
   methods: [GET]
