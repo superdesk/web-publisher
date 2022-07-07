@@ -192,11 +192,11 @@ services:
 
     SWP\Bundle\ContentBundle\Manager\MediaManagerInterface $mediaManager: '@swp_content_bundle.manager.media'
 
-    SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain:
-        public: true
 
     swp_content_bundle.processor.article_body:
-        alias: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain
+        class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain
+
+    SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain $articleBodyProcessorChain: '@swp_content_bundle.processor.article_body'
 
     SWP\Bundle\ContentBundle\Processor\EmbeddedImageProcessor:
         arguments:
