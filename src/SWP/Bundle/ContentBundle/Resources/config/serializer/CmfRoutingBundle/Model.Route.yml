@@ -5,9 +5,9 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             expose: true
             groups: [api, api_routes_list]
             type: integer
-        content:
-            expose: true
-            groups: [api]
+        #content:
+        #    expose: true
+        #    groups: [api]
         staticPrefix:
             expose: true
             groups: [api]
