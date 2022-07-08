@@ -43,6 +43,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations\Route as FOSRoute;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Error\LoaderError;
 
 class PackagePreviewController extends Controller {
 
@@ -209,7 +210,7 @@ class PackagePreviewController extends Controller {
   private function renderTemplateOr404(RouteInterface $route): Response {
     try {
       return $this->render($templateName = $route->getArticlesTemplateName());
-    } catch (\InvalidArgumentException $e) {
+    } catch (\InvalidArgumentException | LoaderError $e) {
       throw $this->createNotFoundException(sprintf('Template %s for route with id "%d" (%s) not found!', $templateName, $route->getId(), $route->getName()));
     }
   }
