@@ -33,6 +33,8 @@ use Symfony\Component\Routing\RequestContext;
 class MediaRouter extends Router implements VersatileGeneratorInterface {
   private $mediaManager;
 
+  const OBJECT_BASED_ROUTE_NAME = "__media_router_route_name__";
+
   public function __construct(
       ContainerInterface $container,
                          $resource,
@@ -48,22 +50,22 @@ class MediaRouter extends Router implements VersatileGeneratorInterface {
   }
 
   public function getRouteDebugMessage($meta, array $parameters = array()): string {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
+    if (self::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
       $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
     return 'Route for media ' . $meta->getValues()->getId() . ' not found';
   }
 
-  public function supports($meta): bool {
-    return  $meta instanceof Meta && (
-            $meta->getValues() instanceof ArticleMediaInterface ||
-            $meta->getValues() instanceof ImageRenditionInterface
-        );
+  public function supports($name): bool {
+    return (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) ||
+        ($name instanceof Meta && (
+                $name->getValues() instanceof ArticleMediaInterface ||
+                $name->getValues() instanceof ImageRenditionInterface));
   }
 
   public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
+    if (self::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
       $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }

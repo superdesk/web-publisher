@@ -25,13 +25,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 
 class SeoMediaRouter extends Router implements VersatileGeneratorInterface {
+
+  const OBJECT_BASED_ROUTE_NAME = "__seo_media_router_route_name__";
+
   /**
    * {@inheritdoc}
    */
   public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
-        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-    ) {
+    if (self::OBJECT_BASED_ROUTE_NAME === $name && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
       $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
@@ -45,13 +46,11 @@ class SeoMediaRouter extends Router implements VersatileGeneratorInterface {
   }
 
   public function supports($name): bool {
-    return $name instanceof Meta && $name->getValues() instanceof ArticleSeoMediaInterface;
+    return (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) || ($name instanceof Meta && $name->getValues() instanceof ArticleSeoMediaInterface);
   }
 
   public function getRouteDebugMessage($name, array $parameters = array()): string {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
-        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-    ) {
+    if (self::OBJECT_BASED_ROUTE_NAME === $name && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
       $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }

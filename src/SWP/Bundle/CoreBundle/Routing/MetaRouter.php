@@ -24,10 +24,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 
 class MetaRouter extends DynamicRouter {
+  const OBJECT_BASED_ROUTE_NAME = "__meta_router_route_name__";
+
   protected $internalRoutesCache = [];
 
   public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
+    if (self::OBJECT_BASED_ROUTE_NAME === $name
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
     ) {
       $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
@@ -96,6 +98,7 @@ class MetaRouter extends DynamicRouter {
             )) ||
         $name instanceof RouteInterface ||
         $name instanceof ArticleInterface ||
+        (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) ||
         (
             is_string($name) &&
             'homepage' !== $name &&

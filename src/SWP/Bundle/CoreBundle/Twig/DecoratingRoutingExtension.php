@@ -16,6 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleSeoMediaInterface;
+use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Routing\MediaRouter;
+use SWP\Bundle\ContentBundle\Routing\SeoMediaRouter;
+use SWP\Bundle\CoreBundle\Routing\ArticleAuthorMediaRouter;
+use SWP\Bundle\CoreBundle\Routing\MetaRouter;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
@@ -38,8 +49,8 @@ final class DecoratingRoutingExtension extends AbstractExtension {
 
     if (is_object($name)) {
       $object = $name;
-      $name = RouteObjectInterface::OBJECT_BASED_ROUTE_NAME;
-      $parameters[RouteObjectInterface::ROUTE_OBJECT] = $object;
+      $name = null;
+      self::setupParams($object, $name, $parameters);
     }
 
     try {
@@ -58,8 +69,8 @@ final class DecoratingRoutingExtension extends AbstractExtension {
 
     if (is_object($name)) {
       $object = $name;
-      $name = RouteObjectInterface::OBJECT_BASED_ROUTE_NAME;
-      $parameters[RouteObjectInterface::ROUTE_OBJECT] = $object;
+      $name = null;
+      self::setupParams($object, $name, $parameters);
     }
 
     try {
@@ -69,6 +80,38 @@ final class DecoratingRoutingExtension extends AbstractExtension {
     }
 
     return null;
+  }
+
+  private static function setupParams(object $object, &$name, &$parameters) {
+    $name = RouteObjectInterface::OBJECT_BASED_ROUTE_NAME;
+    $parameters[RouteObjectInterface::ROUTE_OBJECT] = $object;
+
+    if ($object instanceof Meta) {
+      $values = $object->getValues();
+      if (($values instanceof ArticleMediaInterface || $values instanceof ImageRenditionInterface)) {
+        $name = MediaRouter::OBJECT_BASED_ROUTE_NAME;
+        return;
+      }
+
+      if ($values instanceof ArticleSeoMediaInterface) {
+        $name = SeoMediaRouter::OBJECT_BASED_ROUTE_NAME;
+        return;
+      }
+
+      if ($values instanceof AuthorMediaInterface) {
+        $name = ArticleAuthorMediaRouter::OBJECT_BASED_ROUTE_NAME;
+        return;
+      }
+
+      if ($values instanceof ArticleInterface || $values instanceof RouteInterface) {
+        $name = MetaRouter::OBJECT_BASED_ROUTE_NAME;
+        return;
+      }
+    }
+
+    if ($object instanceof RouteInterface || $object instanceof ArticleInterface) {
+      $name = MetaRouter::OBJECT_BASED_ROUTE_NAME;
+    }
   }
 
   public function getFunctions(): array {

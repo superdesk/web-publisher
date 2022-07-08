@@ -26,6 +26,9 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 
 class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInterface {
+
+  const OBJECT_BASED_ROUTE_NAME = "__article_author_media_router_route_name__";
+
   protected $authorMediaManager;
 
   public function __construct(
@@ -43,7 +46,7 @@ class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInter
   }
 
   public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $meta
+    if (self::OBJECT_BASED_ROUTE_NAME === $meta
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
     ) {
       $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
@@ -61,11 +64,11 @@ class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInter
    * {@inheritdoc}
    */
   public function supports($name) {
-    return $name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface);
+    return (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) || ($name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface));
   }
 
   public function getRouteDebugMessage($name, array $parameters = []) {
-    if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
+    if (self::OBJECT_BASED_ROUTE_NAME === $name
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
     ) {
       $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
