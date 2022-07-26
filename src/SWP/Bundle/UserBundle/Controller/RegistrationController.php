@@ -31,7 +31,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations\Route as FOSRoute;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -70,7 +69,7 @@ class RegistrationController extends AbstractController {
    */
   public function registerAction(
       Request                     $request,
-      UserPasswordHasherInterface $passwordEncoder,
+      UserPasswordEncoderInterface $passwordEncoder,
       UserManagerInterface        $userManager,
       MailerInterface             $mailer
   ) {
@@ -89,7 +88,7 @@ class RegistrationController extends AbstractController {
       $user->addRole('ROLE_USER');
       // encode the plain password
       $user->setPassword(
-          $passwordEncoder->hashPassword(
+          $passwordEncoder->encodePassword(
               $user,
               $form->get('plainPassword')->getData()
           )

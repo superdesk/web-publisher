@@ -26,69 +26,77 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Class TenantContext.
  */
-class TenantContext implements TenantContextInterface
-{
-    /**
-     * @var TenantInterface
-     */
-    protected $tenant;
+class TenantContext implements TenantContextInterface {
+  /**
+   * @var TenantInterface
+   */
+  protected $tenant;
 
-    /**
-     * @var TenantResolverInterface
-     */
-    protected $tenantResolver;
+  /**
+   * @var TenantResolverInterface
+   */
+  protected $tenantResolver;
 
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
+  /**
+   * @var RequestStack
+   */
+  protected $requestStack;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $dispatcher;
+  /**
+   * @var EventDispatcherInterface
+   */
+  protected $dispatcher;
 
-    /**
-     * TenantContext constructor.
-     */
-    public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher)
-    {
-        $this->tenantResolver = $tenantResolver;
-        $this->requestStack = $requestStack;
-        $this->dispatcher = $dispatcher;
-    }
+  /**
+   * TenantContext constructor.
+   */
+  public function __construct(TenantResolverInterface  $tenantResolver, RequestStack $requestStack,
+                              EventDispatcherInterface $dispatcher) {
+    $this->tenantResolver = $tenantResolver;
+    $this->requestStack = $requestStack;
+    $this->dispatcher = $dispatcher;
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTenant()
-    {
-        if (null === $this->tenant) {
-            $currentRequest = $this->requestStack->getCurrentRequest();
+  /**
+   * {@inheritdoc}
+   */
+  public function getTenant() {
+    if (null === $this->tenant || !$this->isHostSame()) {
+      $currentRequest = $this->requestStack->getCurrentRequest();
 
-            if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
-                $profilerTenant = new Tenant();
-                $profilerTenant->setDomainName($currentRequest->getHost());
-                $this->setTenant($profilerTenant);
-
-                return $this->tenant;
-            }
-
-            $this->setTenant($this->tenantResolver->resolve(
-                $currentRequest ? $currentRequest->getHost() : null
-            ));
-        }
+      if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
+        $profilerTenant = new Tenant();
+        $profilerTenant->setDomainName($currentRequest->getHost());
+        $this->setTenant($profilerTenant);
 
         return $this->tenant;
+      }
+
+      $this->setTenant($this->tenantResolver->resolve(
+          $currentRequest ? $currentRequest->getHost() : null
+      ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setTenant(TenantInterface $tenant)
-    {
-        $this->tenant = $tenant;
+    return $this->tenant;
+  }
 
-        $this->dispatcher->dispatch(new GenericEvent($tenant), MultiTenancyEvents::TENANT_SET);
+  /**
+   * {@inheritdoc}
+   */
+  public function setTenant(TenantInterface $tenant) {
+    $this->tenant = $tenant;
+
+    $this->dispatcher->dispatch(new GenericEvent($tenant), MultiTenancyEvents::TENANT_SET);
+  }
+
+  protected function isHostSame() {
+    if ($this->tenant == null) {
+      return false;
     }
+
+    $currentRequest = $this->requestStack->getCurrentRequest();
+    $host = $currentRequest !== null ? $currentRequest->getHost() : 'localhost';
+    $tenantHost = $this->tenant->getSubdomain() ? $this->tenant->getSubdomain() . '.' . $this->tenant->getDomainName() : $this->tenant->getDomainName();
+    return $host === $tenantHost;
+  }
 }

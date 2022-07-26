@@ -94,7 +94,7 @@ class ResetPasswordController extends AbstractController {
    *
    * @Route("/reset/{token}", name="swp_user_reset_password")
    */
-  public function reset(Request $request, UserPasswordHasherInterface $passwordEncoder,
+  public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder,
                         string  $token = null): Response {
     if ($token) {
       // We store the token in session and remove it from the URL, to avoid the URL being
@@ -129,7 +129,7 @@ class ResetPasswordController extends AbstractController {
       $this->resetPasswordHelper->removeResetRequest($token);
 
       // Encode the plain password, and set it.
-      $encodedPassword = $passwordEncoder->hashPassword(
+      $encodedPassword = $passwordEncoder->encodePassword(
           $user,
           $form->get('plainPassword')->getData()
       );

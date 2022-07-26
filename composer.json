@@ -160,6 +160,7 @@
     "friends-of-behat/symfony-extension": "^2.0",
     "liip/functional-test-bundle": "^4.3",
     "liip/rmt": "^1.6",
+    "liip/test-fixtures-bundle": "^2.4",
     "matthiasnoback/symfony-dependency-injection-test": "^4.2",
     "nelmio/alice": "^3.6",
     "phpspec/phpspec": "^6.1",

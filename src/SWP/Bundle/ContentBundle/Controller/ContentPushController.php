@@ -18,11 +18,10 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Hoa\Mime\Mime;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
-use SWP\Bundle\ContentBundle\Provider\FileProvider;
 use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;

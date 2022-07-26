@@ -31,19 +31,16 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     if ($currentRequest && $this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
       return null;
     }
-    if (null === $this->tenant && null !== $currentRequest) {
-      $cacheKey = self::getCacheKey($currentRequest->getHost());
-      if (!array_key_exists($cacheKey, $this->resolvedTenants) || $this->resolvedTenants[$cacheKey] instanceof TenantInterface) {
-        $this->resolvedTenants[$cacheKey] = parent::getTenant();
-      } else {
-        $this->tenant = $this->resolvedTenants[$cacheKey];
-      }
+
+    if ($currentRequest === null) {
+      return $this->tenant;
+    }
+
+    $cacheKey = self::getCacheKey($currentRequest->getHost());
+    if (!array_key_exists($cacheKey, $this->resolvedTenants) || $this->resolvedTenants[$cacheKey] instanceof TenantInterface) {
+      $this->resolvedTenants[$cacheKey] = parent::getTenant();
     } else {
-      try {
-        return parent::getTenant();
-      } catch (\Throwable $e) {
-        return null;
-      }
+      $this->tenant = $this->resolvedTenants[$cacheKey];
     }
 
     return $this->tenant;

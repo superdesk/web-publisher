@@ -387,6 +387,9 @@
     "liip/rmt": {
         "version": "1.6.1"
     },
+    "liip/test-fixtures-bundle": {
+        "version": "2.4.0"
+    },
     "litipk/flysystem-fallback-adapter": {
         "version": "0.1.3"
     },
