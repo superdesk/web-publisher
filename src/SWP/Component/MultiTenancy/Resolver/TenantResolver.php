@@ -46,7 +46,7 @@ class TenantResolver implements TenantResolverInterface
         return $tenant;
     }
 
-    protected function extractDomain(string $host = null): string
+    protected function extractDomain(string $host = null): ?string
     {
         if (null === $host || TenantResolverInterface::LOCALHOST === $host) {
             return TenantResolverInterface::LOCALHOST;
