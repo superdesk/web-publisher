@@ -61,6 +61,7 @@ class TenantContext implements TenantContextInterface {
    * {@inheritdoc}
    */
   public function getTenant() {
+
     if (null === $this->tenant || !$this->isHostSame()) {
       $currentRequest = $this->requestStack->getCurrentRequest();
 
@@ -90,13 +91,17 @@ class TenantContext implements TenantContextInterface {
   }
 
   protected function isHostSame() {
-    if ($this->tenant == null) {
+    if ($this->tenant === null) {
       return false;
     }
 
     $currentRequest = $this->requestStack->getCurrentRequest();
-    $host = $currentRequest !== null ? $currentRequest->getHost() : 'localhost';
-    $tenantHost = $this->tenant->getSubdomain() ? $this->tenant->getSubdomain() . '.' . $this->tenant->getDomainName() : $this->tenant->getDomainName();
+    if ($currentRequest === null) {
+      return true;
+    }
+    $host = $currentRequest->getHost();
+    $tenantHostDom = $this->tenant->getDomainName();
+    $tenantHost = $this->tenant->getSubdomain() ? $this->tenant->getSubdomain() . '.' . $tenantHostDom : $tenantHostDom;
     return $host === $tenantHost;
   }
 }
