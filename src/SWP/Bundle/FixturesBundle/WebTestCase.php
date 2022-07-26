@@ -92,6 +92,7 @@ class WebTestCase extends BaseWebTestCase {
 
     $newClient = clone self::$client;
     $newClient->setServerParameters($server);
+    $newClient->getKernel()->shutdown();
     return $newClient;
   }
 }
