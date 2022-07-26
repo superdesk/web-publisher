@@ -17,6 +17,7 @@ namespace SWP\Bundle\MultiTenancyBundle\Context;
 use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -61,7 +62,6 @@ class TenantContext implements TenantContextInterface {
    * {@inheritdoc}
    */
   public function getTenant() {
-
     if (null === $this->tenant || !$this->isHostSame()) {
       $currentRequest = $this->requestStack->getCurrentRequest();
 
@@ -72,10 +72,17 @@ class TenantContext implements TenantContextInterface {
 
         return $this->tenant;
       }
-
-      $this->setTenant($this->tenantResolver->resolve(
-          $currentRequest ? $currentRequest->getHost() : null
-      ));
+      $newTenant = null;
+      try {
+        $newTenant = $this->tenantResolver->resolve($currentRequest ? $currentRequest->getHost() : null);
+      } catch (TenantNotFoundException $e) {
+        if ($this->tenant === null) {
+          throw $e;
+        }
+      }
+      if ($newTenant !== null && $this->tenant === null) {
+        $this->setTenant($newTenant);
+      }
     }
 
     return $this->tenant;
@@ -101,6 +108,9 @@ class TenantContext implements TenantContextInterface {
     }
     $host = $currentRequest->getHost();
     $tenantHostDom = $this->tenant->getDomainName();
+    if ($tenantHostDom == null) {
+      return true;
+    }
     $tenantHost = $this->tenant->getSubdomain() ? $this->tenant->getSubdomain() . '.' . $tenantHostDom : $tenantHostDom;
     return $host === $tenantHost;
   }
