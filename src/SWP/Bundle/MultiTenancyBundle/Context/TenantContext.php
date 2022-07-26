@@ -62,30 +62,20 @@ class TenantContext implements TenantContextInterface {
    * {@inheritdoc}
    */
   public function getTenant() {
-    if (null === $this->tenant || !$this->isHostSame()) {
-      $currentRequest = $this->requestStack->getCurrentRequest();
+    if ($this->tenant !== null)
+      return $this->tenant;
 
-      if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
-        $profilerTenant = new Tenant();
-        $profilerTenant->setDomainName($currentRequest->getHost());
-        $this->setTenant($profilerTenant);
-
-        return $this->tenant;
-      }
-      $newTenant = null;
-      try {
-        $newTenant = $this->tenantResolver->resolve($currentRequest ? $currentRequest->getHost() : null);
-      } catch (TenantNotFoundException $e) {
-        if ($this->tenant === null) {
-          throw $e;
-        }
-      }
-      if ($newTenant !== null && $this->tenant === null) {
-        $this->setTenant($newTenant);
-      }
+    $currentRequest = $this->requestStack->getCurrentRequest();
+    if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
+      $profilerTenant = new Tenant();
+      $profilerTenant->setDomainName($currentRequest->getHost());
+      $this->setTenant($profilerTenant);
+      return $profilerTenant;
     }
 
-    return $this->tenant;
+    $newTenant = $this->tenantResolver->resolve($currentRequest ? $currentRequest->getHost() : null);
+    $this->setTenant($newTenant);
+    return $newTenant;
   }
 
   /**
@@ -95,23 +85,5 @@ class TenantContext implements TenantContextInterface {
     $this->tenant = $tenant;
 
     $this->dispatcher->dispatch(new GenericEvent($tenant), MultiTenancyEvents::TENANT_SET);
-  }
-
-  protected function isHostSame() {
-    if ($this->tenant === null) {
-      return false;
-    }
-
-    $currentRequest = $this->requestStack->getCurrentRequest();
-    if ($currentRequest === null) {
-      return true;
-    }
-    $host = $currentRequest->getHost();
-    $tenantHostDom = $this->tenant->getDomainName();
-    if ($tenantHostDom == null) {
-      return true;
-    }
-    $tenantHost = $this->tenant->getSubdomain() ? $this->tenant->getSubdomain() . '.' . $tenantHostDom : $tenantHostDom;
-    return $host === $tenantHost;
   }
 }
