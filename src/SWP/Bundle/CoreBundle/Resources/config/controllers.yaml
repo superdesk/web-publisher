@@ -182,6 +182,7 @@ services:
   SWP\Bundle\CoreBundle\Controller\ThemesController:
     bind:
       $themeService: '@swp_core.service.theme'
+      $themeLoader: '@swp_core.loader.organization.theme'
       $themeUploader: '@swp_core.uploader.theme'
 
   SWP\Bundle\CoreBundle\Controller\WebhookController:

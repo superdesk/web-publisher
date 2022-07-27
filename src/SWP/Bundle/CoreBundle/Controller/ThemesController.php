@@ -18,7 +18,6 @@ use Knp\Component\Pager\Pagination\SlidingPagination;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeInstallType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType;
-use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Bundle\CoreBundle\Theme\Service\ThemeServiceInterface;
@@ -28,7 +27,7 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
+use Sylius\Bundle\ThemeBundle\Loader\ThemeLoader;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -39,19 +38,19 @@ class ThemesController extends Controller {
 
   private CachedTenantContextInterface $cachedTenantContext;
   private FormFactoryInterface $formFactory;
-  private ThemeLoaderInterface $themeLoader;
+  private ThemeLoader $themeLoader;
   private ThemeServiceInterface $themeService;
   private ThemeUploaderInterface $themeUploader;
 
   /**
    * @param CachedTenantContextInterface $cachedTenantContext
    * @param FormFactoryInterface $formFactory
-   * @param ThemeLoaderInterface $themeLoader
+   * @param ThemeLoader $themeLoader
    * @param ThemeServiceInterface $themeService
    * @param ThemeUploaderInterface $themeUploader
    */
   public function __construct(CachedTenantContextInterface $cachedTenantContext, FormFactoryInterface $formFactory,
-                              ThemeLoaderInterface         $themeLoader, ThemeServiceInterface $themeService,
+                              ThemeLoader         $themeLoader, ThemeServiceInterface $themeService,
                               ThemeUploaderInterface       $themeUploader) {
     $this->cachedTenantContext = $cachedTenantContext;
     $this->formFactory = $formFactory;
