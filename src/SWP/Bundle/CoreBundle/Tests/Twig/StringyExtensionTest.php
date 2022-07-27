@@ -25,7 +25,7 @@ class StringyExtensionTest extends WebTestCase
 
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->loadCustomFixtures(['tenant']);
 

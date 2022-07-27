@@ -66,7 +66,7 @@ final class ContentPushTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
@@ -208,9 +208,9 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321a'],
             [
-                'media_id' => '1234567890987654321a',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -218,9 +218,10 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321b',],
             [
-                'media_id' => '1234567890987654321b',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -228,9 +229,10 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321c'],
             [
-                'media_id' => '1234567890987654321c',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -396,9 +398,10 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321a'],
             [
-                'media_id' => '1234567890987654321a',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -406,9 +409,9 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321b',],
             [
-                'media_id' => '1234567890987654321b',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -416,9 +419,9 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321c'],
             [
-                'media_id' => '1234567890987654321c',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -569,9 +572,10 @@ final class ContentPushTest extends WebTestCase
             $client->request(
                 'POST',
                 $this->router->generate('swp_api_assets_push'),
+                ['media_id' => $mediaId],
                 [
-                    'media_id' => $mediaId,
-                    'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.jpg', 'test_file.jpg', 'image/jpeg', 3992, null, true),
+
+                    'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.jpg', 'test_file.jpg', 'image/jpeg', null, true),
                 ]
             );
 

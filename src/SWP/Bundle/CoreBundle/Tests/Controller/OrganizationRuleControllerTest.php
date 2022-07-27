@@ -31,7 +31,7 @@ class OrganizationRuleControllerTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');

@@ -32,7 +32,7 @@ final class AuthorsTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);

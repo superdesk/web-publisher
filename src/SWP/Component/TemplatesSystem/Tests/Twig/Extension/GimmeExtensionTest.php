@@ -19,13 +19,14 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class GimmeExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor()
     {
-        $context = new Context(new EventDispatcher(), new ArrayCache());
+        $context = new Context(new EventDispatcher(), new ArrayAdapter());
         $loader = new ArticleLoader(__DIR__.'/Node/Resources/meta', new MetaFactory($context));
 
         $gimmeExtension = new GimmeExtension($context, $loader);

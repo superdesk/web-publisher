@@ -24,160 +24,158 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateOrganizationCommandTest extends TestCase
-{
-    private $commandTester;
+class CreateOrganizationCommandTest extends TestCase {
+  private $commandTester;
 
-    private $command;
+  private $command;
 
-    /**
-     * @var QuestionHelper
-     */
-    private $question;
+  /**
+   * @var QuestionHelper
+   */
+  private $question;
 
-    public function setUp(): void
-    {
-        $application = new Application();
-        $application->add(new CreateOrganizationCommand());
-        $this->command = $application->get('swp:organization:create');
-        $this->question = $this->command->getHelper('question');
-    }
 
-    /**
-     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
-     */
-    public function testExecuteWhenCreatingNewOrganization()
-    {
-        $organization = new Organization();
-        $organization->setCode('123456');
-        $this->command->setContainer($this->getMockContainer(null, $organization, 'Test'));
-        $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->setInputs(['Test']);
-        $this->commandTester->execute(['command' => $this->command->getName()]);
+  private function setupCommand($container) {
+    $application = new Application();
+    $application->add(new CreateOrganizationCommand(
+        $container->get("swp.repository.organization"),
+        $container->get("swp.factory.organization"),
+    ));
+    $this->command = $application->get('swp:organization:create');
+    $this->question = $this->command->getHelper('question');
+  }
 
-        $this->assertEquals(
-            'Please enter name:Organization Test (code: 123456) has been created and enabled!',
-            trim($this->commandTester->getDisplay())
-        );
-    }
+  /**
+   * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+   */
+  public function testExecuteWhenCreatingNewOrganization() {
+    $organization = new Organization();
+    $organization->setCode('123456');
+    $this->setupCommand($this->getMockContainer(null, $organization, 'Test'));
 
-    /**
-     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
-     */
-    public function testExecuteWhenCreatingDefaultOrganization()
-    {
-        $organization = new Organization();
-        $organization->setCode('123456');
-        $this->command->setContainer($this->getMockContainer(null, $organization));
-        $this->commandTester = new CommandTester($this->command);
+    $this->commandTester = new CommandTester($this->command);
+    $this->commandTester->setInputs(['Test']);
+    $this->commandTester->execute(['command' => $this->command->getName()]);
 
-        $this->commandTester->execute([
-            'command' => $this->command->getName(),
-            '--default' => true,
-        ]);
+    $this->assertEquals(
+        'Please enter name:Organization Test (code: 123456) has been created and enabled!',
+        trim($this->commandTester->getDisplay())
+    );
+  }
 
-        $this->assertEquals(
-            'Organization default (code: 123456) has been created and enabled!',
-            trim($this->commandTester->getDisplay())
-        );
-    }
+  /**
+   * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+   */
+  public function testExecuteWhenCreatingDefaultOrganization() {
+    $organization = new Organization();
+    $organization->setCode('123456');
+    $this->setupCommand($this->getMockContainer(null, $organization));
+    $this->commandTester = new CommandTester($this->command);
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
-     */
-    public function testExecuteWhenDefaultTenantExists()
-    {
-        $organization = new Organization();
-        $organization->setCode('123456');
-        $this->command->setContainer($this->getMockContainer($organization));
-        $this->commandTester = new CommandTester($this->command);
+    $this->commandTester->execute([
+        'command' => $this->command->getName(),
+        '--default' => true,
+    ]);
 
-        $this->commandTester->execute([
-            'command' => $this->command->getName(),
-            '--default' => true,
-        ]);
-    }
+    $this->assertEquals(
+        'Organization default (code: 123456) has been created and enabled!',
+        trim($this->commandTester->getDisplay())
+    );
+  }
 
-    /**
-     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
-     */
-    public function testExecuteDisabledOrganization()
-    {
-        $organization = new Organization();
-        $organization->setCode('123456');
-        $this->command->setContainer($this->getMockContainer(null, $organization, 'Example'));
-        $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->setInputs(['Example']);
-        $this->commandTester->execute([
-            'command' => $this->command->getName(),
-            '--disabled' => true,
-        ]);
+  /**
+   * @expectedException \InvalidArgumentException
+   * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+   */
+  public function testExecuteWhenDefaultTenantExists() {
+    $organization = new Organization();
+    $organization->setCode('123456');
+    $this->setupCommand($this->getMockContainer($organization));
+    $this->commandTester = new CommandTester($this->command);
 
-        $this->assertEquals(
-            'Please enter name:Organization Example (code: 123456) has been created and disabled!',
-            trim($this->commandTester->getDisplay())
-        );
-    }
+    $this->commandTester->execute([
+        'command' => $this->command->getName(),
+        '--default' => true,
+    ]);
+  }
 
-    private function getMockContainer($mockOrganization = null, $mockedOrganizationInFactory = null, $name = OrganizationInterface::DEFAULT_NAME)
-    {
-        $mockRepo = $this->getMockBuilder(OrganizationRepositoryInterface::class)
-            ->getMock();
+  /**
+   * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+   */
+  public function testExecuteDisabledOrganization() {
+    $organization = new Organization();
+    $organization->setCode('123456');
+    $this->setupCommand($this->getMockContainer(null, $organization, 'Example'));
+    $this->commandTester = new CommandTester($this->command);
+    $this->commandTester->setInputs(['Example']);
+    $this->commandTester->execute([
+        'command' => $this->command->getName(),
+        '--disabled' => true,
+    ]);
 
-        $mockRepo->expects($this->any())
-            ->method('findOneByName')
-            ->with($name)
-            ->willReturn($mockOrganization);
+    $this->assertEquals(
+        'Please enter name:Organization Example (code: 123456) has been created and disabled!',
+        trim($this->commandTester->getDisplay())
+    );
+  }
 
-        $mockDoctrine = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+  private function getMockContainer($mockOrganization = null, $mockedOrganizationInFactory = null,
+                                    $name = OrganizationInterface::DEFAULT_NAME) {
+    $mockRepo = $this->getMockBuilder(OrganizationRepositoryInterface::class)
+        ->getMock();
 
-        $mockDoctrine->expects($this->any())
-            ->method('persist')
-            ->will($this->returnValue(null));
-        $mockDoctrine->expects($this->any())
-            ->method('flush')
-            ->will($this->returnValue(null));
+    $mockRepo->expects($this->any())
+        ->method('findOneByName')
+        ->with($name)
+        ->willReturn($mockOrganization);
 
-        $mockFactory = $this->getMockBuilder(OrganizationFactoryInterface::class)
-            ->getMock();
+    $mockDoctrine = $this
+        ->getMockBuilder('Doctrine\ORM\EntityManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-        $mockFactory->expects($this->any())
-            ->method('createWithCode')
-            ->willReturn($mockedOrganizationInFactory);
+    $mockDoctrine->expects($this->any())
+        ->method('persist')
+        ->will($this->returnValue(null));
+    $mockDoctrine->expects($this->any())
+        ->method('flush')
+        ->will($this->returnValue(null));
 
-        $mockFactory->expects($this->any())
-            ->method('create')
-            ->willReturn(new Organization());
+    $mockFactory = $this->getMockBuilder(OrganizationFactoryInterface::class)
+        ->getMock();
 
-        $mockContainer = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')
-            ->getMock();
+    $mockFactory->expects($this->any())
+        ->method('createWithCode')
+        ->willReturn($mockedOrganizationInFactory);
 
-        $mockContainer->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap([
-                ['swp.object_manager.organization', 1, $mockDoctrine],
-                ['swp.repository.organization', 1, $mockRepo],
-                ['swp.factory.organization', 1, $mockFactory],
-            ]));
+    $mockFactory->expects($this->any())
+        ->method('create')
+        ->willReturn(new Organization());
 
-        return $mockContainer;
-    }
+    $mockContainer = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')
+        ->getMock();
 
-    /**
-     * @param $input
-     *
-     * @return resource
-     */
-    protected function getInputStream($input)
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        fwrite($stream, $input);
-        rewind($stream);
+    $mockContainer->expects($this->any())
+        ->method('get')
+        ->will($this->returnValueMap([
+            ['swp.object_manager.organization', 1, $mockDoctrine],
+            ['swp.repository.organization', 1, $mockRepo],
+            ['swp.factory.organization', 1, $mockFactory],
+        ]));
 
-        return $stream;
-    }
+    return $mockContainer;
+  }
+
+  /**
+   * @param $input
+   *
+   * @return resource
+   */
+  protected function getInputStream($input) {
+    $stream = fopen('php://memory', 'r+', false);
+    fwrite($stream, $input);
+    rewind($stream);
+
+    return $stream;
+  }
 }

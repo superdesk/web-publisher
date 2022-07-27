@@ -21,15 +21,8 @@ use Symfony\Component\Finder\SplFileInfo;
 
 final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterface
 {
-    /**
-     * @var FinderFactoryInterface
-     */
-    private $finderFactory;
-
-    /**
-     * @var array
-     */
-    private $paths;
+    private FinderFactoryInterface $finderFactory;
+    private ThemeUploaderInterface $themeUploader;
 
     /**
      * @param FinderFactoryInterface $finderFactory
@@ -38,7 +31,12 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
     public function __construct(FinderFactoryInterface $finderFactory, ThemeUploaderInterface $themeUploader)
     {
         $this->finderFactory = $finderFactory;
-        $this->paths = [$themeUploader->getAvailableThemesPath()];
+        $this->themeUploader = $themeUploader;
+    }
+
+    private function getPaths() : array
+    {
+      return [$this->themeUploader->getAvailableThemesPath()];
     }
 
     /**
@@ -67,7 +65,7 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
         $this->assertNameIsNotEmpty($name);
 
         $found = false;
-        foreach ($this->paths as $path) {
+        foreach ($this->getPaths() as $path) {
             try {
                 $finder = $this->finderFactory->create();
                 $finder
@@ -90,7 +88,7 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
             throw new \InvalidArgumentException(sprintf(
                 'The file "%s" does not exist (searched in the following directories: %s).',
                 $name,
-                implode(', ', $this->paths)
+                implode(', ', $this->getPaths())
             ));
         }
     }

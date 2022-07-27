@@ -35,14 +35,14 @@ class ContentListItemControllerTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
         $this->client = static::createClient();
 
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',

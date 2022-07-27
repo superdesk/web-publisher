@@ -36,11 +36,11 @@ final class MultipleWebsitesPublish extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
         ], true);
 
@@ -60,7 +60,10 @@ final class MultipleWebsitesPublish extends WebTestCase
             $this->router->generate('swp_api_assets_push'),
             [
                 'media_id' => '1234567890987654321a',
-                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ],
+            [
+
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -70,7 +73,9 @@ final class MultipleWebsitesPublish extends WebTestCase
             $this->router->generate('swp_api_assets_push'),
             [
                 'media_id' => '1234567890987654321b',
-                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ],
+            [
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -79,8 +84,10 @@ final class MultipleWebsitesPublish extends WebTestCase
             'POST',
             $this->router->generate('swp_api_assets_push'),
             [
-                'media_id' => '1234567890987654321c',
-                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                  'media_id' => '1234567890987654321c',
+            ],
+            [
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -372,9 +379,10 @@ final class MultipleWebsitesPublish extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321a',],
             [
-                'media_id' => '1234567890987654321a',
-                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -383,8 +391,9 @@ final class MultipleWebsitesPublish extends WebTestCase
             'POST',
             $this->router->generate('swp_api_assets_push'),
             [
-                'media_id' => '1234567890987654321b',
-                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media_id' => '1234567890987654321b'],
+            [
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -392,9 +401,9 @@ final class MultipleWebsitesPublish extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321c',],
             [
-                'media_id' => '1234567890987654321c',
-                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -410,15 +419,12 @@ final class MultipleWebsitesPublish extends WebTestCase
                 'content' => null,
         ]);
         self::assertEquals(201, $client2->getResponse()->getStatusCode());
-
         $client2->request('POST', $this->router->generate('swp_api_core_publishing_destination_create'), [
-            'publish_destination' => [
                 'tenant' => '678iop',
                 'route' => 3,
                 'isPublishedFbia' => false,
                 'published' => true,
                 'packageGuid' => 'urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0',
-            ],
         ]);
         self::assertEquals(200, $client2->getResponse()->getStatusCode());
 

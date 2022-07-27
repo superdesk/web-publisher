@@ -38,10 +38,10 @@ class ContentListItemLoaderTest extends WebTestCase
 
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->loadCustomFixtures(['tenant']);
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -120,7 +120,7 @@ class ContentListItemLoaderTest extends WebTestCase
     {
         $template = '{% gimmelist item from contentListItems|start(0)|limit(3) with { contentListName: "List1"} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true":"false" }} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertEquals(' article1-0-true  article3-2-true  article2-1-false ', $result);
+          self::assertEquals(' article1-0-true  article3-2-true  article2-1-false ', $result);
 
         $template = '{% gimmelist item from contentListItems|start(3)|limit(3) with { contentListName: "List1"} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true":"false" }} {% endgimmelist %}';
         $result = $this->getRendered($template);

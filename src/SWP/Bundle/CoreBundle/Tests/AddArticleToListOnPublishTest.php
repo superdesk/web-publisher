@@ -32,10 +32,11 @@ final class AddArticleToListOnPublishTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
+        $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
         ], true, null, 'doctrine', 0);
         $this->router = $this->getContainer()->get('router');

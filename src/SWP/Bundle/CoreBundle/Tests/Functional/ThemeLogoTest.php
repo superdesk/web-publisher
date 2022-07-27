@@ -43,7 +43,7 @@ final class ThemeLogoTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
@@ -70,8 +70,8 @@ final class ThemeLogoTest extends WebTestCase
 
         $fileName = realpath(__DIR__.'/../Fixtures/logo.png');
 
-        $client->request('POST', $this->router->generate('swp_api_upload_theme_logo'), [
-            'logo' => new UploadedFile($fileName, 'logo.png', 'image/png', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme_logo'), [],[
+            'logo' => new UploadedFile($fileName, 'logo.png', 'image/png', null, true),
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         // Test fix - set it to clear tests settings manager instance internal cache.

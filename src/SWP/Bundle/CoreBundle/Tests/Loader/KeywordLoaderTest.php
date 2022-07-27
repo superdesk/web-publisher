@@ -27,6 +27,7 @@ class KeywordLoaderTest extends WebTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant', 'article']);

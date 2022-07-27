@@ -27,8 +27,7 @@ class TenantAwareRouterCompilerPassTest extends TestCase
 
     public function setUp(): void
     {
-        $this->container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
-            ->getMock();
+        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $this->definition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->setMethods(['setArguments', 'addMethodCall', 'setMethodCalls'])
             ->getMock();

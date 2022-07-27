@@ -20,6 +20,7 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class MetaRouterTest extends WebTestCase
@@ -28,7 +29,7 @@ class MetaRouterTest extends WebTestCase
     {
         $article = $this->createMock('SWP\Bundle\ContentBundle\Model\ArticleInterface');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertTrue($router->supports(new Meta(new Context(new EventDispatcher(), new ArrayCache()), $article, ['name' => 'article', 'properties' => []])));
+        $this->assertTrue($router->supports(new Meta(new Context(new EventDispatcher(), new ArrayAdapter()), $article, ['name' => 'article', 'properties' => []])));
     }
 
     public function testSupports()
@@ -40,8 +41,6 @@ class MetaRouterTest extends WebTestCase
 
     public function testGenerate()
     {
-        self::bootKernel();
-
         $this->loadCustomFixtures(['tenant', 'article']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
@@ -56,8 +55,6 @@ class MetaRouterTest extends WebTestCase
 
     public function testGenerateForRouteWithContentWithoutRouteAssigned()
     {
-        self::bootKernel();
-
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');

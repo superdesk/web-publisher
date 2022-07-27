@@ -35,7 +35,7 @@ class ContentListControllerTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+      parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
@@ -165,7 +165,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByRouteFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -221,7 +221,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByPublishedAfterFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -262,7 +262,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testEmbedingFirstContentListItemsInContentList()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -278,7 +278,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByAuthorFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -351,7 +351,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByRouteNamesApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -376,7 +376,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByRouteIdsAsStringApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -401,7 +401,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByManyFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -490,7 +490,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testLinkingAndUnlinkingItemsToContentListApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
         ], true);
@@ -522,7 +522,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testLinkingOnExactPositionApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
         ], true);

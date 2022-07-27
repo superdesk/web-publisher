@@ -18,6 +18,7 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ChainLoaderTest extends \PHPUnit\Framework\TestCase
@@ -33,7 +34,7 @@ class ChainLoaderTest extends \PHPUnit\Framework\TestCase
     {
         $articleLoader = new ArticleLoader(
             __DIR__.'/../../Twig/Node',
-            new MetaFactory(new Context(new EventDispatcher(), new ArrayCache()))
+            new MetaFactory(new Context(new EventDispatcher(), new ArrayAdapter()))
         );
         $this->loader->addLoader($articleLoader);
 

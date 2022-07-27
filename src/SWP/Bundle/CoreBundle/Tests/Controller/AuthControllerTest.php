@@ -25,7 +25,7 @@ class AuthControllerTest extends WebTestCase {
    * {@inheritdoc}
    */
   public function setUp(): void {
-    parent::setUp();;
+    parent::setUp();
     $this->initDatabase();
     $this->loadCustomFixtures(['tenant']);
     $this->router = $this->getContainer()->get('router');

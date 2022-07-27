@@ -143,7 +143,7 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
         $pagination->setPageNumber($page);
         $pagination->setLimit($limit);
 
-        return $this->getPaginator($queryBuilder, $pagination);
+        return $this->getPaginator($eventDispatcher, $queryBuilder, $pagination);
     }
 
     /**

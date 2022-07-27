@@ -15,7 +15,10 @@
 namespace SWP\Bundle\CoreBundle\Tests\Command;
 
 use SWP\Bundle\CoreBundle\Command\ThemeSetupCommand;
+use SWP\Bundle\CoreBundle\Theme\Service\ThemeServiceInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
@@ -28,7 +31,7 @@ class ThemeSetupCommandTest extends WebTestCase
 
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
 
@@ -38,11 +41,8 @@ class ThemeSetupCommandTest extends WebTestCase
 
     protected static function createCommand()
     {
-        $kernel = self::createKernel();
-        $kernel->boot();
+        $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add(new ThemeSetupCommand());
-
         return $application->find('swp:theme:install');
     }
 

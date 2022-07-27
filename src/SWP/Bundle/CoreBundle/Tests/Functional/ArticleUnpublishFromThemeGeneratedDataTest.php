@@ -33,7 +33,7 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
 
@@ -65,7 +65,7 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
 
         $client->request('GET', $this->router->generate('swp_api_list_available_themes'));
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertCount(0, $data['_embedded']['_items']);
+        self::assertCount(1, $data['_embedded']['_items']);
 
         $filesystem = new Filesystem();
         $tempThemeDir = $this->getContainer()->getParameter('kernel.cache_dir').'/temp_theme/';
@@ -73,8 +73,8 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
         $filesystem->mirror(realpath(__DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data/'), $tempThemeDir.'/test_theme', null, ['override' => true, 'delete' => true]);
 
         $fileName = $this->createZipArchive($tempThemeDir);
-        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
-                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [],[
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', null, true),
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -82,7 +82,7 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
 
         $client->request('GET', $this->router->generate('swp_api_list_tenant_themes'));
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertCount(0, $data['_embedded']['_items']);
+        self::assertCount(1, $data['_embedded']['_items']);
 
         $client->request('POST', $this->router->generate('swp_api_install_theme'), [
                 'name' => 'swp/test-theme-install-generated-data',
@@ -92,7 +92,7 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
 
         $client->request('GET', $this->router->generate('swp_api_list_tenant_themes'));
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertCount(1, $data['_embedded']['_items']);
+        self::assertCount(2, $data['_embedded']['_items']);
         self::assertEquals('swp/test-theme-install-generated-data@'.$newTenant['code'], $data['_embedded']['_items'][0]['name']);
 
         $filesystem->remove(realpath(__DIR__.'/../Fixtures/themes/'.$newTenant['code'].'/'));

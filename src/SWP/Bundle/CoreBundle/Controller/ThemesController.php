@@ -68,6 +68,8 @@ class ThemesController extends Controller {
     $themeLoader = $this->themeLoader;
     $themes = $themeLoader->load();
     $pagination = new SlidingPagination();
+    $pagination->setItemNumberPerPage(10);
+    $pagination->setCurrentPageNumber(1);
     $pagination->setItems($themes);
     $pagination->setTotalItemCount(count($themes));
 
@@ -91,6 +93,8 @@ class ThemesController extends Controller {
     );
 
     $pagination = new SlidingPagination();
+    $pagination->setItemNumberPerPage(10);
+    $pagination->setCurrentPageNumber(1);
     $pagination->setItems($themes);
     $pagination->setTotalItemCount(count($themes));
 

@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentListBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
+
+use SWP\Bundle\CoreBundle\Pagination\Paginator;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -72,12 +74,11 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
         }
 
         if (null === $paginationData) {
-            $paginator = new \Knp\Component\Pager\Paginator($eventDispatcher);
-
+            $paginator = new Paginator($eventDispatcher);
             return $paginator->paginate(
                 $queryBuilder,
                 (int)$criteria->get('firstResult', 0),
-                (int)$criteria->get('maxResults', RepositoryInterface::MAX_RESULTS)
+                 (int)$criteria->get('maxResults', RepositoryInterface::MAX_RESULTS)
             );
         }
 

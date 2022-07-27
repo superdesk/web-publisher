@@ -28,7 +28,7 @@ class TwigRenderArticlesByCriteriaTest extends WebTestCase
 
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant', 'metadata_articles']);
         $this->router = $this->getContainer()->get('router');
