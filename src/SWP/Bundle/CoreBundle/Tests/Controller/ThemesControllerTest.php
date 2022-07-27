@@ -152,7 +152,7 @@ class ThemesControllerTest extends WebTestCase
         $client->request('POST', $this->router->generate('swp_api_upload_theme'), [], [
                 'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', null, true),
         ]);
-
+        var_dump($client->getResponse()->getContent());
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $filesystem->remove($fileName);
 
