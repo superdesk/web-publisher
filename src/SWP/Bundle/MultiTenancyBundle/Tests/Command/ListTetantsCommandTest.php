@@ -52,7 +52,7 @@ class ListTetantsCommandTest extends TestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'There are no tenants defined.',
             trim($this->commandTester->getDisplay())
         );

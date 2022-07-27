@@ -45,10 +45,10 @@ class FbPageControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"page_id":"1234567890987654321"', $content);
-        self::assertContains('"name":"Test Page"', $content);
-        self::assertContains('"access_token":null', $content);
-        self::assertContains('"application":null', $content);
+        self::assertStringContainsString('"page_id":"1234567890987654321"', $content);
+        self::assertStringContainsString('"name":"Test Page"', $content);
+        self::assertStringContainsString('"access_token":null', $content);
+        self::assertStringContainsString('"application":null', $content);
     }
 
     public function testPageDuplication()

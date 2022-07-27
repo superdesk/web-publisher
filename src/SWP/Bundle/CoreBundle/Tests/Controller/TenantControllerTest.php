@@ -299,7 +299,7 @@ class TenantControllerTest extends WebTestCase
 
         $client->request('GET', '/');
         self::assertEquals(404, $client->getResponse()->getStatusCode());
-        self::assertContains('Tenant for host "notexisting.localhost" could not be found!', $client->getResponse()->getContent());
+        self::assertStringContainsString('Tenant for host "notexisting.localhost" could not be found!', $client->getResponse()->getContent());
         self::assertEquals('text/html; charset=UTF-8', $client->getResponse()->headers->get('Content-Type'));
     }
 

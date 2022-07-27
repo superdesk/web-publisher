@@ -65,7 +65,7 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
 
         $client->request('GET', $this->router->generate('swp_api_list_available_themes'));
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertCount(1, $data['_embedded']['_items']);
+        self::assertCount(0, $data['_embedded']['_items']);
 
         $filesystem = new Filesystem();
         $tempThemeDir = $this->getContainer()->getParameter('kernel.cache_dir').'/temp_theme/';

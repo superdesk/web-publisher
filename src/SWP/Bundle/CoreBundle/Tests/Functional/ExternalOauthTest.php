@@ -28,7 +28,7 @@ final class ExternalOauthTest extends WebTestCase
         $client->request('GET', $this->router->generate('connect_oauth_start'));
         self::assertEquals(302, $client->getResponse()->getStatusCode());
         $authorizeUrl = $client->getResponse()->headers->all()['location'][0];
-        self::assertContains('/authorize', $authorizeUrl);
+        self::assertStringContainsString('/authorize', $authorizeUrl);
     }
 
     private function authorizeWithCode(string $code): Client
@@ -62,7 +62,7 @@ final class ExternalOauthTest extends WebTestCase
         self::assertEquals(302, $client->getResponse()->getStatusCode());
         // Make sure the correct user was logged in
         $client->request('GET', $this->router->generate('homepage'));
-        self::assertContains('superdesk.test.user@sourcefabric.org', $client->getResponse()->getContent());
+        self::assertStringContainsString('superdesk.test.user@sourcefabric.org', $client->getResponse()->getContent());
     }
 
     public function testAuthorizeExistingUserNewEmail(): void
@@ -71,7 +71,7 @@ final class ExternalOauthTest extends WebTestCase
         self::assertEquals(302, $client->getResponse()->getStatusCode());
         // Make sure the correct user was logged in
         $client->request('GET', $this->router->generate('homepage'));
-        self::assertContains('new.email@example.com', $client->getResponse()->getContent());
+        self::assertStringContainsString('new.email@example.com', $client->getResponse()->getContent());
     }
 
     public function testAuthorizeNewUser(): void
@@ -80,7 +80,7 @@ final class ExternalOauthTest extends WebTestCase
         self::assertEquals(302, $client->getResponse()->getStatusCode());
         // Make sure the correct user was logged in
         $client->request('GET', $this->router->generate('homepage'));
-        self::assertContains('new.user@example.com', $client->getResponse()->getContent());
+        self::assertStringContainsString('new.user@example.com', $client->getResponse()->getContent());
     }
 
     public function testWrongAuthCode(): void

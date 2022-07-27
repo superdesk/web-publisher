@@ -66,7 +66,7 @@ final class ThemeLogoTest extends WebTestCase
         $template = '{{ themeLogo(asset(\'theme/logo.png\')) }}';
         $result = $this->getRendered($template);
 
-        self::assertContains('/bundles/_themes/swp/test-theme@123abc/logo.png', $result);
+        self::assertStringContainsString('/bundles/_themes/swp/test-theme@123abc/logo.png', $result);
 
         $fileName = realpath(__DIR__.'/../Fixtures/logo.png');
 
@@ -90,7 +90,7 @@ final class ThemeLogoTest extends WebTestCase
 
         $template = '{{ themeLogo(asset(\'theme/logo.png\')) }}';
         $result = $this->getRendered($template);
-        self::assertContains(ltrim($route, '/'), $result);
+        self::assertStringContainsString(ltrim($route, '/'), $result);
     }
 
     private function getRendered($template, $context = [])

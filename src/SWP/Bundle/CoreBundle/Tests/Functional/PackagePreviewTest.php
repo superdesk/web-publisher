@@ -129,8 +129,8 @@ EOD;
         ));
 
         self::assertTrue($client->getResponse()->isSuccessful());
-        self::assertContains('<script async src="https://cdn.ampproject.org/v0.js"></script>', $client->getResponse()->getContent());
-        self::assertContains('art1 not published', $client->getResponse()->getContent());
+        self::assertStringContainsString('<script async src="https://cdn.ampproject.org/v0.js"></script>', $client->getResponse()->getContent());
+        self::assertStringContainsString('art1 not published', $client->getResponse()->getContent());
     }
 
     public function testPackagePreviewWithoutToken()

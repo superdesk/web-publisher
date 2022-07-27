@@ -62,7 +62,7 @@ class FbiaFeedControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"mode":0', $content);
+        self::assertStringContainsString('"mode":0', $content);
 
         $client->request('GET', $this->router->generate('swp_api_list_facebook_instant_articles_feed'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

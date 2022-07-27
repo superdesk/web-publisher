@@ -37,7 +37,7 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles %} {{ article.extra[\'custom-field\'] }}  {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('my custom field', $result);
+        self::assertStringContainsString('my custom field', $result);
     }
 
     public function testRenderingPlace()
@@ -45,29 +45,29 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles|limit(1) %} {{ article.place.qcode }} - {{ article.place.world_region }}  {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('AUS - Rest Of World', $result);
+        self::assertStringContainsString('AUS - Rest Of World', $result);
     }
 
     public function testRenderingRouteParent()
     {
         $template = '{% gimmelist article from articles with {"route": ["/news/sports"]} %} {{ article.route.parent.name }}  {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertContains('news', $result);
+        self::assertStringContainsString('news', $result);
     }
 
     public function testFilteringByKeyword()
     {
         $template = '{% gimmelist article from articles with {keywords: ["car"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertContains('car', $result);
+        self::assertStringContainsString('car', $result);
 
         $template = '{% gimmelist article from articles with {keywords: ["big-city"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertContains('Big city', $result);
+        self::assertStringContainsString('Big city', $result);
 
         $template = '{% gimmelist article from articles with {keywords: ["mazda"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertNotContains('car', $result);
+        self::assertStringNotContainsString('car', $result);
     }
 
     public function testFilteringByMultipleRoutes()
@@ -75,8 +75,8 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles with {"route": [3, 5]} %} {{ article.route.id }} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('3', $result);
-        self::assertContains('5', $result);
+        self::assertStringContainsString('3', $result);
+        self::assertStringContainsString('5', $result);
 
         $template = '{% gimmelist article from articles with {"route": [1, 2]} %} {{ article.route.id }} {% endgimmelist %}';
         $result = $this->getRendered($template);
@@ -89,7 +89,7 @@ class ArticleLoaderTest extends WebTestCase
         $context = $this->getContainer()->get('context');
         $template = '{% gimmelist article from articles with {"route": ["/news", "/articles"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertContains('/news', $result);
+        self::assertStringContainsString('/news', $result);
 
         $context->reset();
         $template = '{% gimmelist article from articles with {"route": ["/articles"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
@@ -99,22 +99,22 @@ class ArticleLoaderTest extends WebTestCase
         $context->reset();
         $template = '{% gimmelist article from articles with {"route": ["/news", "/news/sports"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertContains('/news', $result);
-        self::assertContains('/news/sports', $result);
+        self::assertStringContainsString('/news', $result);
+        self::assertStringContainsString('/news/sports', $result);
 
         $context->reset();
         $template = '{% gimmelist article from articles with {"route": ["/news/*"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertContains('/news', $result);
-        self::assertContains('/news/sports', $result);
+        self::assertStringContainsString('/news', $result);
+        self::assertStringContainsString('/news/sports', $result);
     }
 
     public function testFilteringBySources()
     {
         $template = '{% gimmelist article from articles with {source: ["Forbes"]} ignoreContext ["route"] %} {% for source in article.sources %} {{ source.name }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertContains('Forbes', $result);
-        self::assertNotContains('Reuters', $result);
+        self::assertStringContainsString('Forbes', $result);
+        self::assertStringNotContainsString('Reuters', $result);
 
         $template = '{% gimmelist article from articles ignoreContext ["route"] if article.sources is empty %} {% for source in article.sources %} {{ source.name }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
@@ -127,8 +127,8 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles with {source: ["Forbes"]} without {source: ["AAP"]} %} {% for source in article.sources %} {{ source.name }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('Forbes', $result);
-        self::assertNotContains('AAP', $result);
+        self::assertStringContainsString('Forbes', $result);
+        self::assertStringNotContainsString('AAP', $result);
     }
 
     public function testFilteringByAuthors()
@@ -136,9 +136,9 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles with {author: ["Test Person"]} %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('Test Person', $result);
-        self::assertNotContains('John Doe', $result);
-        self::assertNotContains('Tom', $result);
+        self::assertStringContainsString('Test Person', $result);
+        self::assertStringNotContainsString('John Doe', $result);
+        self::assertStringNotContainsString('Tom', $result);
 
         $template = '{% gimmelist article from articles if article.authors is empty %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
@@ -151,9 +151,9 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles with {author: ["Tom"]} without {author: ["Test Person", "John Doe"]} %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('Tom', $result);
-        self::assertNotContains('Test Person', $result);
-        self::assertNotContains('John Doe', $result);
+        self::assertStringContainsString('Tom', $result);
+        self::assertStringNotContainsString('Test Person', $result);
+        self::assertStringNotContainsString('John Doe', $result);
     }
 
     public function testFilteringByIncludedAndExcludedAuthors()
@@ -161,9 +161,9 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles with {author: ["Tom"]} without {author: ["Test Person", "John Doe"]} %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('Tom', $result);
-        self::assertNotContains('Test Person', $result);
-        self::assertNotContains('John Doe', $result);
+        self::assertStringContainsString('Tom', $result);
+        self::assertStringNotContainsString('Test Person', $result);
+        self::assertStringNotContainsString('John Doe', $result);
     }
 
     public function testFilteringByExcludedArticles()

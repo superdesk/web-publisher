@@ -37,7 +37,7 @@ class ExternalDataTest extends WebTestCase
         $template = '{% gimmelist article from articles %} {{ article.packageExternalData[\'some test data\'] }} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('SOME TEST VALUE', $result);
+        self::assertStringContainsString('SOME TEST VALUE', $result);
     }
 
     private function getRendered($template, $context = [])

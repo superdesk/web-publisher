@@ -42,7 +42,7 @@ class DynamicArticleContentListsLoadingInMetaTest extends WebTestCase
         $template = '{% gimme article with {id: 1} %}{% for contentList in article.contentLists %} {{ contentList.name }} {% endfor %}{% endgimme %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('List1', $result);
+        self::assertStringContainsString('List1', $result);
     }
 
     private function getRendered($template, $context = [])

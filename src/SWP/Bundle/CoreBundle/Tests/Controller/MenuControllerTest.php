@@ -47,8 +47,8 @@ class MenuControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
 
-        self::assertContains('"name":"main-menu"', $content);
-        self::assertContains('"label":"Main menu"', $content);
+        self::assertStringContainsString('"name":"main-menu"', $content);
+        self::assertStringContainsString('"label":"Main menu"', $content);
     }
 
     public function testCreateMenuAndModifyRoute()
@@ -98,8 +98,8 @@ class MenuControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"politics"', $content);
-        self::assertContains('"label":"My first politics menu item"', $content);
+        self::assertStringContainsString('"name":"politics"', $content);
+        self::assertStringContainsString('"label":"My first politics menu item"', $content);
 
         $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
                 'name' => 'politics',
@@ -109,8 +109,8 @@ class MenuControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"politics"', $content);
-        self::assertContains('"label":"My second politics menu item"', $content);
+        self::assertStringContainsString('"name":"politics"', $content);
+        self::assertStringContainsString('"label":"My second politics menu item"', $content);
     }
 
     public function testCreateMenuWithTheSameLabelAndNameApi()
@@ -123,8 +123,8 @@ class MenuControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"main-menu"', $content);
-        self::assertContains('"label":"main-menu"', $content);
+        self::assertStringContainsString('"name":"main-menu"', $content);
+        self::assertStringContainsString('"label":"main-menu"', $content);
     }
 
     public function testGetMenuApi()
@@ -134,7 +134,7 @@ class MenuControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"test"', $content);
+        self::assertStringContainsString('"name":"test"', $content);
     }
 
     public function testListMenuApi()
@@ -143,7 +143,7 @@ class MenuControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_core_list_menu'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"test"', $content);
+        self::assertStringContainsString('"name":"test"', $content);
     }
 
     public function testUpdateMenuApi()
@@ -155,8 +155,8 @@ class MenuControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"name":"test"', $content);
-        self::assertContains('"label":"Tested"', $content);
+        self::assertStringContainsString('"name":"test"', $content);
+        self::assertStringContainsString('"label":"Tested"', $content);
     }
 
     public function testDeleteMenuApi()
@@ -444,9 +444,9 @@ class MenuControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
 
-        self::assertContains('"name":"navigation"', $content);
-        self::assertContains('"label":"Navigation"', $content);
-        self::assertContains('"route":null', $content);
+        self::assertStringContainsString('"name":"navigation"', $content);
+        self::assertStringContainsString('"label":"Navigation"', $content);
+        self::assertStringContainsString('"route":null', $content);
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
                 'name' => 'my-menu-route',

@@ -48,6 +48,6 @@ class TemplateMenuTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
 
-        self::assertContains('<div></div>', $content);
+        self::assertStringContainsString('<div></div>', $content);
     }
 }

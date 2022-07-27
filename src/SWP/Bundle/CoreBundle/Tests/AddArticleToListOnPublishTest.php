@@ -66,8 +66,8 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals($content['total'], 1);
-        self::assertContains('Abstract html test', $client->getResponse()->getContent());
+        self::assertEquals(1, $content['total']);
+        self::assertStringContainsString('Abstract html test', $client->getResponse()->getContent());
         $client->request('GET', $this->router->generate('swp_api_content_show_lists', ['id' => 1]));
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertNotEquals($content['updated_at'], $contentUpdated['updated_at']);

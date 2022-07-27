@@ -37,7 +37,7 @@ class ThemeTwigSettingsTest extends WebTestCase
         $template = '{{ themeSetting(\'primary_font_family\') }}';
         $result = $this->getRendered($template);
 
-        self::assertContains('Roboto', $result);
+        self::assertStringContainsString('Roboto', $result);
     }
 
     /**

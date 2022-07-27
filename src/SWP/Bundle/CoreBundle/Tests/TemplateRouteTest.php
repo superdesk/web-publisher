@@ -47,7 +47,7 @@ class TemplateRouteTest extends WebTestCase
         $client->request('GET', '/myroute');
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('<a href="">Not existing path link</a>', $content);
-        self::assertContains('<a href="">Not existing url link</a>', $content);
+        self::assertStringContainsString('<a href="">Not existing path link</a>', $content);
+        self::assertStringContainsString('<a href="">Not existing url link</a>', $content);
     }
 }
