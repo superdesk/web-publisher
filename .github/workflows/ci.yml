@@ -64,7 +64,7 @@ jobs:
         with:
           coverage: "none"
           extensions: "json,memcached,amqp,pdo_sqlite,pgsql,mbstring,xml,ctype,iconv,intl"
-          ini-values: "memory_limit=-1"
+          ini-values: "memory_limit=-1, post_max_size=100M, upload_max_filesize=100M"
           php-version: "${{ matrix.php }}"
           tools: pecl
 
