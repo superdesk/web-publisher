@@ -47,12 +47,12 @@ class MenuExtension extends KnpMenuExtension {
   /**
    * {@inheritdoc}
    */
-  public function getBreadcrumbsArray($menu, $subItem = null): array {
+  public function getBreadcrumbsArrayMy($menu, $subItem = null): ?array {
     try {
       return parent::getBreadcrumbsArray($menu, $subItem);
     } catch (\InvalidArgumentException $e) {
       // allow to render empty value
-      return [];
+      return null;
     }
   }
 
@@ -71,7 +71,7 @@ class MenuExtension extends KnpMenuExtension {
     return [
         new TwigFunction('knp_menu_get', [$this, 'getMy']),
         new TwigFunction('knp_menu_render', [$this, 'render'], ['is_safe' => ['html']]),
-        new TwigFunction('knp_menu_get_breadcrumbs_array', [$this, 'getBreadcrumbsArray']),
+        new TwigFunction('knp_menu_get_breadcrumbs_array', [$this, 'getBreadcrumbsArrayMy']),
         new TwigFunction('knp_menu_get_current_item', [$this, 'getCurrentItemMy']),
     ];
   }

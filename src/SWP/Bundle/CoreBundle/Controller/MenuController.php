@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use SWP\Bundle\CoreBundle\Manager\MenuItemManager;
 use SWP\Bundle\CoreBundle\Repository\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Factory\MenuFactoryInterface;
@@ -27,7 +28,6 @@ use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -35,14 +35,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\Annotations\Route;
 
-class MenuController extends AbstractController {
+class MenuController extends AbstractFOSRestController {
 
   private FormFactoryInterface $formFactory;
   private EventDispatcherInterface $eventDispatcher;
   private MenuItemRepositoryInterface $menuItemRepository;
   private MenuItemManager $menuItemManager;
   private MenuFactoryInterface $menuFactory;
-  private EntityManagerInterface $entityManager;
 
   /**
    * @param FormFactoryInterface $formFactory
@@ -50,17 +49,15 @@ class MenuController extends AbstractController {
    * @param MenuItemRepositoryInterface $menuItemRepository
    * @param MenuItemManager $menuItemManager
    * @param MenuFactoryInterface $menuFactory
-   * @param EntityManagerInterface $entityManager
    */
   public function __construct(FormFactoryInterface        $formFactory, EventDispatcherInterface $eventDispatcher,
                               MenuItemRepositoryInterface $menuItemRepository, MenuItemManager $menuItemManager,
-                              MenuFactoryInterface        $menuFactory, EntityManagerInterface $entityManager) {
+                              MenuFactoryInterface        $menuFactory) {
     $this->formFactory = $formFactory;
     $this->eventDispatcher = $eventDispatcher;
     $this->menuItemRepository = $menuItemRepository;
     $this->menuItemManager = $menuItemManager;
     $this->menuFactory = $menuFactory;
-    $this->entityManager = $entityManager;
   }
 
 
@@ -151,18 +148,17 @@ class MenuController extends AbstractController {
    * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_menu")
    */
   public function updateAction(Request $request, $id): SingleResourceResponseInterface {
-    $objectManager = $this->entityManager;
     $menu = $this->findOr404($id);
-
+    $parent = $menu->getParent();
     $form = $this->formFactory->createNamed('', MenuType::class, $menu, ['method' => $request->getMethod()]);
     $form->handleRequest($request);
-
     if ($form->isSubmitted() && $form->isValid()) {
       $this->menuItemManager->update($menu);
-      $objectManager->flush();
-
+      if($parent !== $menu->getParent()) {
+          $this->menuItemManager->update($parent);
+      }
+      $this->menuItemRepository->flush();
       $this->eventDispatcher->dispatch(new GenericEvent($menu), MenuEvents::MENU_UPDATED);
-
       return new SingleResourceResponse($menu);
     }
 

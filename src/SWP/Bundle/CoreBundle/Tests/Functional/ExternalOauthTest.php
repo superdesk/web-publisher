@@ -21,6 +21,13 @@ final class ExternalOauthTest extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
+    public function testWrongAuthCode(): void
+    {
+      $client = $this->authorizeWithCode('231');
+      // Make sure we get unauthorized response when using an invalid authorization code.
+      self::assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
     public function testConnectStart(): void
     {
         $client = static::createClient();
@@ -81,12 +88,5 @@ final class ExternalOauthTest extends WebTestCase
         // Make sure the correct user was logged in
         $client->request('GET', $this->router->generate('homepage'));
         self::assertStringContainsString('new.user@example.com', $client->getResponse()->getContent());
-    }
-
-    public function testWrongAuthCode(): void
-    {
-        $client = $this->authorizeWithCode('231');
-        // Make sure we get unauthorized response when using an invalid authorization code.
-        self::assertEquals(403, $client->getResponse()->getStatusCode());
     }
 }

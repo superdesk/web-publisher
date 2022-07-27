@@ -27,12 +27,6 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 class ResourceResponseListenerTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        BypassFinals::enable();
-    }
-
     public function testInitialization()
     {
         $viewHandler = $this->createMock(ViewHandler::class);
