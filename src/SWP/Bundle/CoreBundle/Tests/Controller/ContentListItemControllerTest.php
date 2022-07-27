@@ -14,12 +14,15 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentListItemControllerTest extends WebTestCase
 {
+
+    use ArraySubsetAsserts;
     /**
      * @var RouterInterface
      */

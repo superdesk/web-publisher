@@ -14,11 +14,13 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
 class MenuControllerTest extends WebTestCase
 {
+    use ArraySubsetAsserts;
     /**
      * @var RouterInterface
      */

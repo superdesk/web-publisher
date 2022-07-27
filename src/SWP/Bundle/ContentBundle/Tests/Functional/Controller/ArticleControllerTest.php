@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Controller;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
@@ -22,6 +23,7 @@ use SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticle
 
 class ArticleControllerTest extends WebTestCase
 {
+    use ArraySubsetAsserts;
     /**
      * @var RouterInterface
      */

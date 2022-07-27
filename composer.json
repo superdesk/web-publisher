@@ -154,6 +154,7 @@
     "behatch/contexts": "^3.3",
     "blackfire/php-sdk": "^1.22",
     "cocolabs-sas/doctrine-data-fixtures-extension": "^5.0",
+    "dms/phpunit-arraysubset-asserts": "^0.4.0",
     "doctrine/data-fixtures": "^1.4",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "friends-of-behat/mink-browserkit-driver": "^1.5",

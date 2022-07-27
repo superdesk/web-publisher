@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Tests;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,6 +24,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class ContentPushTest extends WebTestCase
 {
+    use ArraySubsetAsserts;
+
     const TEST_ITEM_UPDATE_ORIGIN = '{"body_html": "<p>this is test body</p><p>footer text</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:23:34+0000", "description_text": "test abstract", "byline": "Test Persona", "place": [], "version": "2", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "language": "en", "urgency": 3, "slugline": "test item update", "headline": "test headline", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:18:57+0000", "located": "Berlin", "type": "text", "description_html": "<p>test abstract</p>"}';
 
     const TEST_ITEM_UPDATE_UPDATE_1 = '{"body_html": "<p>this is test body&nbsp;updated</p><p>footer text &nbsp;updated</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:26:08+0000", "description_text": "test abstract\u00a0updated", "byline": "Test Persona", "place": [], "version": "3", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:25:35.466333:df630dd5-9f99-42be-8e01-645a338a9521", "language": "en", "urgency": 3, "slugline": "test item update", "type": "text", "headline": "test headline 2", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:25:35+0000", "evolvedfrom": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "located": "Berlin", "description_html": "<p>test abstract&nbsp;updated</p>"}';
