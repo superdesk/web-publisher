@@ -1,0 +1,4 @@
+Articles by metadata: author Karen Ruhiger
+{% gimmelist article from articles with {metadata: {byline: "Karen Ruhiger"}} %}
+<li><a href="{{ url(article) }}">{{ article.title }} </a></li>
+{% endgimmelist %}

@@ -40,11 +40,9 @@ class ThemeTwigSettingsTest extends WebTestCase
         self::assertStringContainsString('Roboto', $result);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testRenderingNotExistingThemeSettings()
     {
+        static::expectException(\Exception::class);
         $template = '{{ themeSetting(\'fake\') }}';
         $this->getRendered($template);
     }

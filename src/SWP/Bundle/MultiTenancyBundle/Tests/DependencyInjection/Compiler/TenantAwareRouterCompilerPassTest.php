@@ -111,11 +111,9 @@ class TenantAwareRouterCompilerPassTest extends TestCase
         $this->assertNull($this->pass->process($this->container));
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
-     */
     public function testNoBundle()
     {
+        static::expectException(\Symfony\Component\DependencyInjection\Exception\RuntimeException::class);
         $this->container->expects($this->any())
             ->method('hasParameter')
             ->will($this->returnValueMap([

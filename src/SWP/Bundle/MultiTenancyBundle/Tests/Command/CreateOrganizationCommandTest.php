@@ -84,10 +84,10 @@ class CreateOrganizationCommandTest extends TestCase {
   }
 
   /**
-   * @expectedException \InvalidArgumentException
    * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
    */
   public function testExecuteWhenDefaultTenantExists() {
+    static::expectException(\InvalidArgumentException::class);
     $organization = new Organization();
     $organization->setCode('123456');
     $this->setupCommand($this->getMockContainer($organization));

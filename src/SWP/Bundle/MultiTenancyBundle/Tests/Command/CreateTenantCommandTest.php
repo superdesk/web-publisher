@@ -95,10 +95,10 @@ class CreateTenantCommandTest extends TestCase
 
     /**
      * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
-     * @expectedException \InvalidArgumentException
      */
     public function testExecuteWhenCreatingDefaultTenantAndDefaultOrganizationDoesntExist()
     {
+        static::expectException(\InvalidArgumentException::class);
         $container = $this->getMockContainer();
         $this->setupCommand($container);
         $this->commandTester = new CommandTester($this->command);
@@ -115,11 +115,11 @@ class CreateTenantCommandTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      */
     public function testExecuteWhenDefaultTenantExists()
     {
+        static::expectException(\InvalidArgumentException::class);
         $container = $this->getMockContainer(new Tenant());
         $this->setupCommand($container);
 

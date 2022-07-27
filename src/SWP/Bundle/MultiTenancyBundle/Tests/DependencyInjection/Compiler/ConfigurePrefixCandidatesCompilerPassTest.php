@@ -18,6 +18,7 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Reference;
 
 class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTestCase
@@ -100,11 +101,9 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
         );
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
-     */
     public function testProcessWhenNoBundle()
     {
+        static::expectException(RuntimeException::class);
         $this->container->setParameter('swp_multi_tenancy.backend_type_phpcr', true);
         $this->container->setParameter('cmf_routing.backend_type_phpcr', true);
 

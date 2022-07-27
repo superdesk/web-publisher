@@ -82,7 +82,7 @@ final class DecoratingRoutingExtension extends AbstractExtension {
     return null;
   }
 
-  private static function setupParams(object $object, &$name, &$parameters) {
+  public static function setupParams(object $object, &$name, &$parameters) {
     $name = RouteObjectInterface::OBJECT_BASED_ROUTE_NAME;
     $parameters[RouteObjectInterface::ROUTE_OBJECT] = $object;
 

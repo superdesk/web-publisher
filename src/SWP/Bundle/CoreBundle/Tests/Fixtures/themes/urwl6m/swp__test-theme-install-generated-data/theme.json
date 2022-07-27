@@ -1,0 +1,97 @@
+{
+    "name": "swp/test-theme-install-generated-data",
+    "title": "Test Theme with generated data",
+    "description": "Superdesk Web Publisher test theme",
+    "authors": [
+        {
+            "name": "Sourcefabric z.ú.",
+            "email": "contact@sourcefabric.org",
+            "homepage": "https://www.sourcefabric.org",
+            "role": "Organization"
+        }
+    ],
+    "screenshots": [
+        {
+            "path": "screenshots/front.png"
+        }
+    ],
+    "generatedData": {
+        "routes": [
+            {
+                "name": "Politics",
+                "slug": "politics",
+                "type": "collection",
+                "templateName": "category.html.twig",
+                "articlesTemplateName": "article.html.twig",
+                "numberOfArticles": 1
+            },
+            {
+                "name": "Sports",
+                "slug": "sports",
+                "type": "collection"
+            },
+            {
+                "name": "Sports",
+                "slug": "sports",
+                "type": "collection"
+            },
+            {
+                "name": "Football",
+                "slug": "football",
+                "type": "collection",
+                "parent": "Sports"
+            }
+        ],
+        "menus": [
+            {
+                "name": "mainNavigation",
+                "label": "Main Navigation",
+                "children": [
+                    {
+                        "name": "home",
+                        "label": "Home",
+                        "uri": "/"
+                    },
+                    {
+                        "name": "politics",
+                        "label": "Politics",
+                        "route": "Politics"
+                    }
+                ]
+            },
+            {
+                "name": "footerPrim",
+                "label": "Footer Navigation",
+                "children": [
+                    {
+                        "name": "politics",
+                        "label": "Politics",
+                        "route": "Politics"
+                    },
+                    {
+                        "name": "sports",
+                        "label": "Sports",
+                        "route": "Sports",
+                        "children": [
+                            {
+                                "name": "football",
+                                "label": "Football",
+                                "route": "Football"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "contentLists": [
+            {
+                "name": "Example automatic list",
+                "type": "automatic",
+                "description": "New list",
+                "limit": 5,
+                "cacheLifeTime": 30,
+                "filters": "{\"metadata\":{\"located\":\"Porto\"}}"
+            }
+        ]
+    }
+}
