@@ -86,7 +86,9 @@ class OrganizationRuleController extends AbstractController {
 
     $rules = $this->rulesMatcher->getMatchedRules($package);
 
-    return new SingleResourceResponse($rules);
+    $context = new ResponseContext();
+    $context->setSerializationGroups(['Default', 'api']);
+    return new SingleResourceResponse($rules, $context);
   }
 
   /**

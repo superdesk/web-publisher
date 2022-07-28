@@ -7,9 +7,7 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             type: integer
         content:
             expose: true
-            groups: [api]
-            maxDepth: 1
-            exclude_if: "!is_granted('view',object)"
+            groups: [api_route_content]
         staticPrefix:
             expose: true
             groups: [api]
