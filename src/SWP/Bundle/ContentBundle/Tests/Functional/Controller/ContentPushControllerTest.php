@@ -32,6 +32,7 @@ final class ContentPushControllerTest extends WebTestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
         self::bootKernel();
         $this->initDatabase();
         /* @var RouterInterface router */
@@ -94,9 +95,9 @@ final class ContentPushControllerTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            [   'mediaId' => 'testinstance/2016083108080/7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg'],
             [
-                'mediaId' => 'testinstance/2016083108080/7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
-                'media' => new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
 

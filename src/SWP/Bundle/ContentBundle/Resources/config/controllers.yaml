@@ -22,7 +22,6 @@ services:
 
   SWP\Bundle\ContentBundle\Controller\ContentPushController:
     bind:
-      $cachedTenantContext: '@swp_multi_tenancy.tenant_context'
       $dataTransformer: '@swp_bridge.transformer.json_to_package'
       $mediaManager: '@swp_content_bundle.manager.media'
       $entityManager: '@swp.object_manager.media'

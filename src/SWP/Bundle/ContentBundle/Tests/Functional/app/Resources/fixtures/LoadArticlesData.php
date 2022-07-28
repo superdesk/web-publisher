@@ -77,7 +77,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         ];
 
         $routeService = $this->container->get('swp.service.route');
-
+        $routeProvider =  $this->container->get('swp.provider.route')->getRouteRepository();
         $routesCache = [];
         foreach ($routes as $routeData) {
             $route = $this->container->get('swp.factory.route')->create();
@@ -103,10 +103,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $route = $routeService->fillRoute($route);
 
             $routesCache[$routeData['name']] = $route;
-            $manager->persist($route);
+           $routeProvider->persist($route);
         }
 
-        $manager->flush();
+       $routeProvider->flush($route);
     }
 
     public function loadArticles(ObjectManager $manager)
@@ -174,15 +174,17 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             ],
         ];
 
+        $repoArticle = $this->container->get('swp.repository.article');
         $routeProvider = $this->container->get('swp.provider.route');
         $keywordFactory = $this->container->get('swp.factory.keyword');
         $metadataFactory = $this->container->get('swp.factory.metadata');
         foreach ($articles as $articleData) {
+          $route = $routeProvider->getRouteByName($articleData['route']);
             /** @var ArticleInterface $article */
             $article = $this->container->get('swp.factory.article')->create();
             $article->setTitle($articleData['title']);
             $article->setBody($articleData['content']);
-            $article->setRoute($routeProvider->getRouteByName($articleData['route']));
+            $article->setRoute($route);
             $article->setLocale($articleData['locale']);
 
             $author = new ArticleAuthor();
@@ -223,16 +225,15 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 }
             }
 
-            $manager->persist($article);
-
+            $repoArticle->persist($article);
             $this->addReference($article->getSlug(), $article);
         }
 
-        $manager->flush();
+        $repoArticle->flush();
 
-        $article = $this->container->get('swp.repository.article')->findOneById(1);
-        $relatedArticle1 = $this->container->get('swp.repository.article')->findOneById(2);
-        $relatedArticle2 = $this->container->get('swp.repository.article')->findOneById(3);
+        $article = $repoArticle->findOneById(1);
+        $relatedArticle1 = $repoArticle->findOneById(2);
+        $relatedArticle2 = $repoArticle->findOneById(3);
 
         $related1 = new RelatedArticle();
         $related1->setArticle($relatedArticle1);

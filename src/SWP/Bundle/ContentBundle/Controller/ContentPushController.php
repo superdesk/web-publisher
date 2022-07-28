@@ -18,14 +18,14 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Hoa\Mime\Mime;
+use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
-use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;
-use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\Common\Response\ResponseContext;
@@ -42,19 +42,17 @@ use FOS\RestBundle\Controller\Annotations\Route;
 class ContentPushController extends AbstractController {
   private EventDispatcherInterface $eventDispatcher;
   private FormFactoryInterface $formFactory;
-  private MessageBusInterface $messageBus;
-  private CachedTenantContextInterface $cachedTenantContext; //swp_multi_tenancy.tenant_context
+  private MessageBusInterface $messageBus;//swp_multi_tenancy.tenant_context
   private DataTransformerInterface $dataTransformer; // swp_bridge.transformer.json_to_package
   private MediaManagerInterface $mediaManager; // swp_content_bundle.manager.media
   private EntityManagerInterface $entityManager; // swp.object_manager.media
-  private PackageRepositoryInterface $packageRepository;//swp.repository.package
+  private PackageRepository $packageRepository;//swp.repository.package
   private FileProviderInterface $fileProvider;
 
   /**
    * @param EventDispatcherInterface $eventDispatcher
    * @param FormFactoryInterface $formFactory
    * @param MessageBusInterface $messageBus
-   * @param CachedTenantContextInterface $cachedTenantContext
    * @param DataTransformerInterface $dataTransformer
    * @param MediaManagerInterface $mediaManager
    * @param EntityManagerInterface $entityManager
@@ -62,14 +60,13 @@ class ContentPushController extends AbstractController {
    * @param FileProviderInterface $fileProvider
    */
   public function __construct(EventDispatcherInterface $eventDispatcher, FormFactoryInterface $formFactory,
-                              MessageBusInterface      $messageBus, CachedTenantContextInterface $cachedTenantContext,
+                              MessageBusInterface      $messageBus,
                               DataTransformerInterface $dataTransformer, MediaManagerInterface $mediaManager,
-                              EntityManagerInterface   $entityManager, PackageRepositoryInterface $packageRepository,
+                              EntityManagerInterface   $entityManager, PackageRepository $packageRepository,
                               FileProviderInterface    $fileProvider) {
     $this->eventDispatcher = $eventDispatcher;
     $this->formFactory = $formFactory;
     $this->messageBus = $messageBus;
-    $this->cachedTenantContext = $cachedTenantContext;
     $this->dataTransformer = $dataTransformer;
     $this->mediaManager = $mediaManager;
     $this->entityManager = $entityManager;
@@ -81,11 +78,11 @@ class ContentPushController extends AbstractController {
   /**
    * @Route("/api/{version}/content/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_push")
    */
-  public function pushContentAction(Request $request): SingleResourceResponseInterface {
+  public function pushContentAction(Request $request, TenantContextInterface $tenantContext): SingleResourceResponseInterface {
     $package = $this->dataTransformer->transform($request->getContent());
     $this->eventDispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
 
-    $currentTenant = $this->cachedTenantContext->getTenant();
+    $currentTenant = $tenantContext->getTenant();
 
     $this->messageBus->dispatch(new ContentPushMessage($currentTenant->getId(), $request->getContent()));
 

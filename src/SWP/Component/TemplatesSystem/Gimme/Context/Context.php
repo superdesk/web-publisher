@@ -126,19 +126,19 @@ class Context implements \ArrayAccess
     public function loadConfigsFromPath($configsPath)
     {
         if (file_exists($configsPath)) {
-            $this->metadataCache->get('metadata_config_files', function () use ($configsPath) {
+            $files = $this->metadataCache->get('metadata_config_files', function () use ($configsPath) {
                 $finder = new Finder();
                 $finder->in($configsPath)->files()->name('*.{yaml,yml}');
                 $files = [];
                 foreach ($finder as $file) {
-                    $files[] = $file->getRealPath();
-                    $this->addNewConfig($file->getRealPath());
+                  $files[] = $file->getRealPath();
                 }
-
-                foreach ($files as $file) {
-                    $this->addNewConfig($file);
-                }
+                return $files;
             });
+
+          foreach ($files as $file) {
+            $this->addNewConfig($file);
+          }
         }
     }
 
@@ -189,18 +189,16 @@ class Context implements \ArrayAccess
     public function addNewConfig(string $filePath)
     {
         $cacheKey = md5($filePath);
-        return $this->metadataCache->get($cacheKey, function () use ($filePath) {
-            if (!is_readable($filePath)) {
-                throw new \InvalidArgumentException('Configuration file is not readable for parser');
-            }
-            $parser = new Parser();
-            $configuration = $parser->parse(file_get_contents($filePath));
-
-            $this->addAvailableConfig($configuration);
-            $this->supportedCache = [];
-
-            return $configuration;
+        $configuration  = $this->metadataCache->get($cacheKey, function () use ($filePath) {
+              if (!is_readable($filePath)) {
+                  throw new \InvalidArgumentException('Configuration file is not readable for parser');
+              }
+              $parser = new Parser();
+              return $parser->parse(file_get_contents($filePath));
         });
+        $this->addAvailableConfig($configuration);
+        $this->supportedCache = [];
+        return $configuration;
     }
 
     public function setCurrentPage(Meta $currentPage): self
