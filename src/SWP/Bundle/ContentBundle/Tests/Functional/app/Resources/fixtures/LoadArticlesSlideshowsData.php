@@ -118,7 +118,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
 
             /* @var $rendition Rendition */
             foreach ($renditions as $key => $rendition) {
-                $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', filesize($fakeImage), null, true);
+                $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', null, true);
                 $image = $mediaManager->handleUploadedFile($uploadedFile, $rendition['media']);
 
                 if ('original' === $key) {

@@ -32,7 +32,7 @@ class RouteControllerTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->router = $this->getContainer()->get('router');
@@ -63,7 +63,7 @@ class RouteControllerTest extends WebTestCase
 
     public function testCreateContentRoutesApi()
     {
-        $this->loadFixtureFiles(
+        $this->databaseTool->loadAliceFixture(
             ['@SWPContentBundle/Tests/Functional/app/Resources/fixtures/separate_article.yml'],
             'default'
         );
@@ -131,7 +131,7 @@ class RouteControllerTest extends WebTestCase
 
     public function testCreateAndUpdateAndDeleteRoutesApi()
     {
-        $this->loadFixtureFiles(
+        $this->databaseTool->loadAliceFixture(
             [
                 '@SWPContentBundle/Tests/Functional/app/Resources/fixtures/separate_article.yml',
             ],
@@ -466,7 +466,7 @@ class RouteControllerTest extends WebTestCase
 
     public function testRemoveParentRoute()
     {
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData',
             ], 'default'

@@ -19,15 +19,15 @@
   ],
   "require": {
     "php": "^7.4",
-    "knplabs/knp-menu-bundle": "^2.0",
-    "symfony/form": "^4.2",
-    "symfony/validator": "^4.2",
+    "knplabs/knp-menu-bundle": "^3.0",
+    "symfony/form": "^5.4",
+    "symfony/validator": "^5.4",
     "swp/storage": "^2.0",
     "swp/common": "^2.0"
   },
   "require-dev": {
-    "phpspec/phpspec": "^5.1",
-    "phpspec/prophecy": "1.7.*"
+    "phpspec/phpspec": "^6.1",
+    "phpspec/prophecy": "1.15.*"
   },
   "autoload": {
     "psr-4": { "SWP\\Bundle\\MenuBundle\\": "" }

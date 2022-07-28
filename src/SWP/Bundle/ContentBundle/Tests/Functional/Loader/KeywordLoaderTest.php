@@ -31,8 +31,9 @@ class KeywordLoaderTest extends WebTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 LoadArticlesData::class,
             ]

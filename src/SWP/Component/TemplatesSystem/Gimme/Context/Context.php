@@ -223,14 +223,16 @@ class Context implements \ArrayAccess
     public function registerMeta(Meta $meta = null)
     {
         $configuration = $meta->getConfiguration();
-        $name = $configuration['name'];
-        if (!array_key_exists($name, $this->registeredMeta)) {
+        if(array_key_exists("name" ,$configuration)) {
+          $name = $configuration['name'];
+          if (!array_key_exists($name, $this->registeredMeta)) {
             $this->registeredMeta[$name] = $configuration;
             if (null !== $meta) {
-                $this[$name] = $meta;
+              $this[$name] = $meta;
             }
 
             return true;
+          }
         }
 
         return false;

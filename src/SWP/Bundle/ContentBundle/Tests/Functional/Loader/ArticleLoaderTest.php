@@ -31,11 +31,11 @@ class ArticleLoaderTest extends WebTestCase
      */
     public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
 
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData',
             ], 'default'

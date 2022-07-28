@@ -101,8 +101,10 @@ class Meta implements MetaInterface
             return $this->copiedValues[$name];
         }
         $this->load($name);
-
-        return $this->copiedValues[$name];
+        if (array_key_exists($name, $this->copiedValues)) {
+          return $this->copiedValues[$name];
+        }
+        return null;
     }
 
     /**

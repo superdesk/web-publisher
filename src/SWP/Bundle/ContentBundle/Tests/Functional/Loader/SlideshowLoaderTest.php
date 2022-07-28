@@ -31,8 +31,9 @@ class SlideshowLoaderTest extends WebTestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 LoadArticlesSlideshowsData::class,
             ]

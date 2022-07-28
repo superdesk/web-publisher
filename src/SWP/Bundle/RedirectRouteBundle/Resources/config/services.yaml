@@ -5,5 +5,5 @@ services:
         public: false
 
     SWP\Bundle\RedirectRouteBundle\:
-        resource: '../../*'
-        exclude: '../../{DependencyInjection,Model}'
+        resource: './*'
+        exclude: './{DependencyInjection,Model}'

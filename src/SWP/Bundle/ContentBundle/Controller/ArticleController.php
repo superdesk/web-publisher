@@ -98,7 +98,7 @@ class ArticleController extends AbstractController {
             'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : null,
             'author' => $authors,
             'query' => $request->query->get('query', ''),
-            'source' => $request->query->all('source'),
+            'source' => $request->query->get('source'),
         ]), $request->query->all('sorting'), new PaginationData($request));
 
     return new ResourcesListResponse($articles);

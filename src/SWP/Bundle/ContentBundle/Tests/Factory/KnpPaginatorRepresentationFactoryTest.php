@@ -16,8 +16,9 @@ use Knp\Component\Pager\Paginator;
 use SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class KnpPaginatorRepresentationFactoryTest extends \PHPUnit\Framework\TestCase
+class KnpPaginatorRepresentationFactoryTest extends \SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase
 {
     public function testRepresentation()
     {
@@ -26,7 +27,7 @@ class KnpPaginatorRepresentationFactoryTest extends \PHPUnit\Framework\TestCase
             PaginationInterface::LIMIT_PARAMETER_NAME
         );
 
-        $paginator = new Paginator();
+        $paginator = new Paginator($this->getContainer()->get('event_dispatcher'));
 
         $pagination = $paginator->paginate(['item_1', 'item_2'], 1, 10);
         $response = $representation->createRepresentation($pagination, new Request());

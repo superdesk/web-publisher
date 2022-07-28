@@ -49,11 +49,9 @@ class SWPBridgeExtensionTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
     public function testLoadWhenHostIsRequiredAndCannotBeEmpty()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
@@ -64,11 +62,9 @@ class SWPBridgeExtensionTest extends TestCase
         $loader->load([$config], $container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
     public function testLoadWhenClientIdIsRequiredAndCannotBeEmpty()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
@@ -79,11 +75,9 @@ class SWPBridgeExtensionTest extends TestCase
         $loader->load([$config], $container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
     public function testLoadWhenUsernameIsRequiredAndCannotBeEmpty()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
@@ -94,11 +88,9 @@ class SWPBridgeExtensionTest extends TestCase
         $loader->load([$config], $container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
     public function testLoadWhenPasswordIsRequiredAndCannotBeEmpty()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
