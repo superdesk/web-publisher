@@ -17,7 +17,6 @@ return [
     new Symfony\Bundle\SecurityBundle\SecurityBundle(),
     new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
     new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-    new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
     new Symfony\Bundle\MonologBundle\MonologBundle(),
     new Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
 
