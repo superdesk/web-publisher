@@ -8,7 +8,8 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
         content:
             expose: true
             groups: [api]
-           # exclude_if: "object.getTenantCode() != service('swp_multi_tenancy.tenant_context').getTenant().getCode()"
+            maxDepth: 1
+            #exclude_if: "is_tenant(object) or object.getTenantCode() != service('swp_multi_tenancy.tenant_context').getTenant().getCode()"
         staticPrefix:
             expose: true
             groups: [api]
