@@ -77,7 +77,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         ];
 
         $routeService = $this->container->get('swp.service.route');
-        $routeProvider =  $this->container->get('swp.provider.route')->getRouteRepository();
+        $routeProvider =  $this->container->get('swp.provider.route')->getRepository();
         $routesCache = [];
         foreach ($routes as $routeData) {
             $route = $this->container->get('swp.factory.route')->create();
