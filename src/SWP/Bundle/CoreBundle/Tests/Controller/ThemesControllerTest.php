@@ -167,6 +167,8 @@ class ThemesControllerTest extends WebTestCase
         $client->request('POST', $this->router->generate('swp_api_install_theme'), [
             'name' => 'swp/test-theme-install-generated-data', 'processGeneratedData' => true,
         ]);
+        // ElaticSearch takes ages...
+        sleep(2);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $client->request('GET', $this->router->generate('swp_api_content_list_articles'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

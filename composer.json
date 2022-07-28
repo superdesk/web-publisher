@@ -78,7 +78,7 @@
     "emanueleminotto/twig-cache-bundle": "dev-master",
     "evenement/evenement": "^3.0",
     "facebook/facebook-instant-articles-sdk-php": "^v1.10",
-    "friendsofsymfony/elastica-bundle": "^6.0.0-beta1",
+    "friendsofsymfony/elastica-bundle": "^6.1",
     "friendsofsymfony/http-cache": "^2.9",
     "friendsofsymfony/http-cache-bundle": "^2.8",
     "friendsofsymfony/rest-bundle": "^3.0",

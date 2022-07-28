@@ -14,13 +14,13 @@
 
 namespace SWP\Bundle\FixturesBundle;
 
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\ClearableCache;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use SWP\Bundle\FixturesBundle\Registry\FixtureRegistry;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class WebTestCase extends BaseWebTestCase {
   protected ?AbstractDatabaseTool $databaseTool;
@@ -45,10 +45,10 @@ class WebTestCase extends BaseWebTestCase {
    */
   private function clearMetadataCache() {
     $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
-    /** @var ClearableCache $cacheDriver */
+
     $cacheDriver = $entityManager->getConfiguration()->getMetadataCacheImpl();
 
-    if (!$cacheDriver instanceof ArrayCache) {
+    if (!$cacheDriver instanceof ArrayAdapter) {
       $cacheDriver->deleteAll();
     }
   }
