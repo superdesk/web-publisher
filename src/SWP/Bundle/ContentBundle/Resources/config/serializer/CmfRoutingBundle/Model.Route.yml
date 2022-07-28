@@ -9,7 +9,7 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             expose: true
             groups: [api]
             maxDepth: 1
-            #exclude_if: "is_tenant(object) or object.getTenantCode() != service('swp_multi_tenancy.tenant_context').getTenant().getCode()"
+            exclude_if: "!is_granted('view',object)"
         staticPrefix:
             expose: true
             groups: [api]
