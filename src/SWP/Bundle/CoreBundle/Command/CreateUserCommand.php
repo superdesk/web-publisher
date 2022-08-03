@@ -32,6 +32,9 @@ class CreateUserCommand extends BaseCreateUserCommand
             parent::execute($input, $output);
         } catch (UniqueConstraintViolationException $e) {
             $output->writeln(sprintf('<error>User with username %s already exists!</error>', $input->getArgument('username')));
+            return 1;
         }
+
+        return 0;
     }
 }

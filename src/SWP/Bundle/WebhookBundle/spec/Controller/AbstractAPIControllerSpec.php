@@ -2,7 +2,7 @@
 
 namespace spec\SWP\Bundle\WebhookBundle\Controller;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\WebhookBundle\Controller\AbstractAPIController;
@@ -13,6 +13,7 @@ use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,11 +32,12 @@ class AbstractAPIControllerSpec extends ObjectBehavior
 
     public function it_lists_webhooks(
         RepositoryInterface $repository,
+        EventDispatcherInterface $eventDispatcher,
         \Countable $pagination
     ) {
         $request = new Request();
-        $repository->getPaginatedByCriteria(Argument::type(Criteria::class), Argument::type('array'), Argument::type(PaginationData::class))->shouldBeCalled()->willReturn($pagination);
-        $this->listWebhooks($repository, $request)->shouldBeAnInstanceOf(ResourcesListResponse::class);
+        $repository->getPaginatedByCriteria(Argument::type(EventDispatcherInterface::class),Argument::type(Criteria::class), Argument::type('array'), Argument::type(PaginationData::class))->shouldBeCalled()->willReturn($pagination);
+        $this->listWebhooks($eventDispatcher, $repository, $request)->shouldBeAnInstanceOf(ResourcesListResponse::class);
     }
 
     public function it_get_single_webhook(WebhookInterface $webhook)

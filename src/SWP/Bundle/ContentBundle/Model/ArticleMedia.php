@@ -214,6 +214,8 @@ class ArticleMedia implements ArticleMediaInterface
         if ($this->getFile() instanceof File) {
             return $this->getFile()->getAssetId();
         }
+
+        return null;
     }
 
     /**

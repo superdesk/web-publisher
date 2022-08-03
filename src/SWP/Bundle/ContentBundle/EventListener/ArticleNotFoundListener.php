@@ -37,7 +37,7 @@ final class ArticleNotFoundListener
 
     public function onKernelException(ExceptionEvent $event)
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
         $request = $event->getRequest();
         if (!$this->redirectNotFoundArticles || !$exception instanceof ArticleNotFoundException) {
             return;

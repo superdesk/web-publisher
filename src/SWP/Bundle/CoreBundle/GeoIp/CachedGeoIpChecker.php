@@ -16,22 +16,20 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\GeoIp;
 
-use Doctrine\Common\Cache\Cache;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\GeoIP\Checker\GeoIPChecker;
 use SWP\Component\GeoIP\Model\GeoIpPlaceInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class CachedGeoIpChecker
 {
     public const CACHE_KEY_GEO_IP = '_swp_geoip_';
 
-    /** @var GeoIPChecker */
-    private $geoIpChecker;
+    private GeoIPChecker $geoIpChecker;
 
-    /** @var Cache */
-    private $cacheProvider;
+    private CacheInterface $cacheProvider;
 
-    public function __construct(GeoIPChecker $geoIPChecker, Cache $cacheProvider)
+    public function __construct(GeoIPChecker $geoIPChecker, CacheInterface $cacheProvider)
     {
         $this->geoIpChecker = $geoIPChecker;
         $this->cacheProvider = $cacheProvider;
@@ -44,17 +42,11 @@ class CachedGeoIpChecker
         }
 
         $geoIpPlaces = $article->getGeoIpPlaces();
-
         $cacheKey = $this->generateCacheKey($ipAddress, $article, $geoIpPlaces);
-        if (true === $this->cacheProvider->contains($cacheKey)) {
-            return $this->cacheProvider->fetch($cacheKey);
-        }
 
-        $isGranted = $this->geoIpChecker->isGranted($ipAddress, $geoIpPlaces);
-
-        $this->cacheProvider->save($cacheKey, $isGranted);
-
-        return $isGranted;
+        return $this->cacheProvider->get($cacheKey, function () use ($ipAddress, $geoIpPlaces) {
+            return $this->geoIpChecker->isGranted($ipAddress, $geoIpPlaces);
+        });
     }
 
     private function generateCacheKey(string $ipAddress, ArticleInterface $article, array $geoIpPlaces): string

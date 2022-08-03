@@ -26,6 +26,7 @@ use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class ArticlesCountHandler implements SubscribingHandlerInterface
 {
@@ -80,7 +81,7 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
         if ($object instanceof TenantInterface) {
             $tenantCode = $object->getCode();
             $criteria->set('tenantCode', $tenantCode);
-            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+            $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
             return $this->articleRepository->countByCriteria($criteria, null);
         }

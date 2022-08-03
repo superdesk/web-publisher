@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Provider;
 
-use Doctrine\Common\Cache\Cache;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\Paywall\Model\SubscriberInterface;
 use SWP\Component\Paywall\Model\SubscriptionInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 final class CachedSubscriptionsProvider implements SubscriptionsProviderInterface
 {
@@ -38,7 +39,7 @@ final class CachedSubscriptionsProvider implements SubscriptionsProviderInterfac
     private $decoratedProvider;
 
     /**
-     * @var Cache
+     * @var CacheInterface
      */
     private $cacheProvider;
 
@@ -50,7 +51,7 @@ final class CachedSubscriptionsProvider implements SubscriptionsProviderInterfac
     public function __construct(
         int $cacheLifeTime,
         SubscriptionsProviderInterface $decoratedProvider,
-        Cache $cacheProvider,
+        CacheInterface $cacheProvider,
         TenantContextInterface $tenantContext
     ) {
         $this->cacheLifeTime = $cacheLifeTime;
@@ -63,30 +64,19 @@ final class CachedSubscriptionsProvider implements SubscriptionsProviderInterfac
     {
         $cacheKey = urlencode($this->generateCacheKey($subscriber).implode('_', $filters));
 
-        if ($this->cacheProvider->contains($cacheKey)) {
-            $subscriptions = $this->cacheProvider->fetch($cacheKey);
-        } else {
-            $subscriptions = $this->decoratedProvider->getSubscriptions($subscriber, $filters);
-
-            $this->cacheProvider->save($cacheKey, $subscriptions, $this->cacheLifeTime);
-        }
-
-        return $subscriptions;
+        return $this->cacheProvider->get($cacheKey, function (ItemInterface $item) use ($subscriber, $filters) {
+          $item->expiresAfter($this->cacheLifeTime);
+          return $this->decoratedProvider->getSubscriptions($subscriber, $filters);
+        });
     }
 
     public function getSubscription(SubscriberInterface $subscriber, array $filters = []): ?SubscriptionInterface
     {
         $cacheKey = urlencode($this->generateCacheKey($subscriber, self::CACHE_KEY_VALID).implode('_', $filters));
-
-        if ($this->cacheProvider->contains($cacheKey)) {
-            $subscription = $this->cacheProvider->fetch($cacheKey);
-        } else {
-            $subscription = $this->decoratedProvider->getSubscription($subscriber, $filters);
-
-            $this->cacheProvider->save($cacheKey, $subscription, $this->cacheLifeTime);
-        }
-
-        return $subscription;
+        return $this->cacheProvider->get($cacheKey, function (ItemInterface $item) use ($subscriber, $filters) {
+          $item->expiresAfter($this->cacheLifeTime);
+          return $this->decoratedProvider->getSubscription($subscriber, $filters);
+        });
     }
 
     private function generateCacheKey(SubscriberInterface $subscriber, string $prefix = self::CACHE_KEY_PREFIX): string

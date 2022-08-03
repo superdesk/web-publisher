@@ -16,6 +16,7 @@ namespace SWP\Bundle\MultiTenancyBundle\Routing;
 
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 
 class TenantAwareRouter extends DynamicRouter
 {
@@ -29,6 +30,13 @@ class TenantAwareRouter extends DynamicRouter
      */
     public function generate($name, $parameters = [], $referenceType = false)
     {
+      if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
+          && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+      ) {
+        $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+        unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
+      }
+
         if (null === $name && isset($parameters['content_id'])) {
             $contentId = $this->checkAndRemoveFirstSlash($parameters['content_id']);
             $parameters['content_id'] = $this->pathBuilder->build('/', $contentId);

@@ -25,8 +25,9 @@ class KeywordLoaderTest extends WebTestCase
      */
     private $twig;
 
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant', 'article']);

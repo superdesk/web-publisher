@@ -1,6 +1,6 @@
 swp_api_content_list_related_articles:
     path: /api/v2/content/articles/{id}/related/
-    defaults: { _controller: SWPContentBundle:RelatedArticle:list }
+    defaults: { _controller: SWP\Bundle\ContentBundle\Controller\RelatedArticleController::listAction }
     requirements:
         id: '\d'
     methods: [GET]

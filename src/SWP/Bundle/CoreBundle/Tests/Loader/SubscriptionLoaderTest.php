@@ -26,9 +26,9 @@ class SubscriptionLoaderTest extends WebTestCase
      */
     private $twig;
 
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant']);

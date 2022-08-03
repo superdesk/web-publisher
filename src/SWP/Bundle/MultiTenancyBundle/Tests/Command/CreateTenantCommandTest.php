@@ -65,7 +65,7 @@ class CreateTenantCommandTest extends TestCase
         $this->commandTester->setInputs(['domain.dev', null, 'Test', '123456']);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Please enter domain:Please enter subdomain:Please enter name:Please enter organization code:Tenant Test (code: 123abc) has been created and enabled!',
             $this->commandTester->getDisplay()
         );
@@ -87,7 +87,7 @@ class CreateTenantCommandTest extends TestCase
             '--default' => true,
         ]);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Tenant Default tenant (code: 123abc) has been created and enabled!',
             $this->commandTester->getDisplay()
         );
@@ -95,10 +95,10 @@ class CreateTenantCommandTest extends TestCase
 
     /**
      * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
-     * @expectedException \InvalidArgumentException
      */
     public function testExecuteWhenCreatingDefaultTenantAndDefaultOrganizationDoesntExist()
     {
+        static::expectException(\InvalidArgumentException::class);
         $container = $this->getMockContainer();
         $this->setupCommand($container);
         $this->commandTester = new CommandTester($this->command);
@@ -115,11 +115,11 @@ class CreateTenantCommandTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      */
     public function testExecuteWhenDefaultTenantExists()
     {
+        static::expectException(\InvalidArgumentException::class);
         $container = $this->getMockContainer(new Tenant());
         $this->setupCommand($container);
 
@@ -148,7 +148,7 @@ class CreateTenantCommandTest extends TestCase
             '--disabled' => true,
         ]);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Please enter domain:Please enter subdomain:Please enter name:Please enter organization code:Tenant Example (code: 123abc) has been created and disabled!',
             $this->commandTester->getDisplay()
         );

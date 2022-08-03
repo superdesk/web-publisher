@@ -5,7 +5,16 @@ parameters:
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l'
     cache:
-        default_doctrine_provider: doctrine_cache.providers.main_cache
+        pools:
+            doctrine.result_cache_pool:
+                adapters:
+                   # - cache.adapter.apcu
+                    - cache.adapter.array
+            doctrine.system_cache_pool:
+                adapters:
+                    - cache.adapter.array
+               # adapter: cache.adapter.memcached
+               # provider: 'memcached://localhost'
     esi: { enabled: true }
     translator:
         fallbacks: ["%locale%"]
@@ -16,8 +25,6 @@ framework:
     form:            ~
     csrf_protection: true
     validation:      { enable_annotations: false }
-    templating:
-        engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
     fragments: { path: /_fragment }

@@ -32,7 +32,7 @@ class ResponseContext implements ResponseContextInterface
         int $statusCode = 200,
         string $intention = ResponseContextInterface::INTENTION_API,
         array $headers = [],
-        array $serializationGroups = ['Default', 'api']
+        array $serializationGroups = ['Default', 'api', 'api_route_content']
     ) {
         $this->intention = $intention;
         $this->statusCode = $statusCode;

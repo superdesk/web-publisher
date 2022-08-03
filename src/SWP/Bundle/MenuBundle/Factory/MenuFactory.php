@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\MenuBundle\Factory;
 
 use Knp\Menu\Factory\ExtensionInterface;
+use Knp\Menu\ItemInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
@@ -55,7 +56,7 @@ final class MenuFactory implements MenuFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createItem($name, array $options = [])
+    public function createItem($name, array $options = []): ItemInterface
     {
         /** @var MenuItemInterface $item */
         $item = $this->create();

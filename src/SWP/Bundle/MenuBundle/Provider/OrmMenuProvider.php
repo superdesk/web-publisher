@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\MenuBundle\Provider;
 
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
@@ -45,7 +46,7 @@ final class OrmMenuProvider implements MenuProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function get($name, array $options = [])
+    public function get($name, array $options = []): ItemInterface
     {
         if (null !== $result = $this->getFromInternalCache($name)) {
             return $result;
@@ -63,7 +64,7 @@ final class OrmMenuProvider implements MenuProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function has($name, array $options = [])
+    public function has($name, array $options = []): bool
     {
         if (null === $name) {
             return false;
@@ -78,16 +79,12 @@ final class OrmMenuProvider implements MenuProviderInterface
         return $result;
     }
 
-    private function getFromInternalCache($name)
+    private function getFromInternalCache($name): ?MenuItemInterface
     {
-        if (array_key_exists($name, $this->internalCache)) {
-            return $this->internalCache[$name];
-        }
-
-        return;
+        return $this->internalCache[$name] ?? null;
     }
 
-    private function addToInternalCache($name, $value)
+    private function addToInternalCache($name, $value): void
     {
         $this->internalCache[$name] = $value;
     }

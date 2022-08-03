@@ -14,22 +14,41 @@
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Component\MultiTenancy\Exception\OrganizationNotFoundException;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ThemeGenerateCommand extends ContainerAwareCommand
+class ThemeGenerateCommand extends Command
 {
     const HOME_TWIG = 'home.html.twig';
 
     protected static $defaultName = 'theme:generate';
+
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
+    /** @var OrganizationRepositoryInterface */
+    private $organizationRepository;
+
+    /**
+     * @param ParameterBagInterface $parameterBag
+     * @param OrganizationRepositoryInterface $organizationRepository
+     */
+    public function __construct(ParameterBagInterface $parameterBag, OrganizationRepositoryInterface $organizationRepository) {
+      $this->parameterBag = $parameterBag;
+      $this->organizationRepository = $organizationRepository;
+      parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -66,7 +85,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
         try {
             $tenant = $this->getTenant($input, $output);
             if (null === $tenant) {
-                return;
+                return 1;
             }
 
             $themeDir = $this->createSkeleton(new Filesystem(), $tenant->getCode(), $themeName);
@@ -76,7 +95,10 @@ class ThemeGenerateCommand extends ContainerAwareCommand
         } catch (\Exception $e) {
             $output->writeln('Theme '.$themeName.' could not be generated!');
             $output->writeln($e->getMessage());
+            return 1;
         }
+
+        return 0;
     }
 
     /**
@@ -91,7 +113,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      */
     protected function getTenant(InputInterface $input, OutputInterface $output)
     {
-        $organizationRepository = $this->getContainer()->get('swp.repository.organization');
+        $organizationRepository =$this->organizationRepository;
         $organizationName = $input->getArgument('organizationName');
         $organization = $organizationRepository->findOneByName($organizationName);
         if (null === $organization) {
@@ -130,6 +152,8 @@ class ThemeGenerateCommand extends ContainerAwareCommand
         } else {
             $output->writeln('Creation of tenant here still to be implemented - you can create a tenant using the swp:tenant:create command');
         }
+
+        return null;
     }
 
     /**
@@ -143,8 +167,8 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      */
     protected function createSkeleton(Filesystem $fileSystem, $tenantCode, $themeName)
     {
-        $configFilename = $this->getContainer()->getParameter('swp.theme.configuration.filename');
-        $themesDir = $this->getContainer()->getParameter('swp.theme.configuration.default_directory');
+        $configFilename = $this->parameterBag->get('swp.theme.configuration.filename');
+        $themesDir = $this->parameterBag->get('swp.theme.configuration.default_directory');
 
         $paths = [
             'phone/views/'.self::HOME_TWIG,
@@ -223,7 +247,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
 }
 EOT;
         $contents = vsprintf($contents, $values);
-        $configFilename = $this->getContainer()->getParameter('swp.theme.configuration.filename');
+        $configFilename = $this->parameterBag->get('swp.theme.configuration.filename');
 
         file_put_contents($themeDir.\DIRECTORY_SEPARATOR.$configFilename, $contents);
     }
@@ -254,8 +278,7 @@ EOT;
     protected function updateTenantReferenceToTheme(Tenant $tenant, $themeName)
     {
         $tenant->setThemeName(sprintf('swp/%s', $themeName));
-        $documentManager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
-        $documentManager->flush();
+        $this->organizationRepository->flush();
     }
 
     /**

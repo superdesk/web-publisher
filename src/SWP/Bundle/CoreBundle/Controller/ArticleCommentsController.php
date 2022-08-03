@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
+use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
+use SWP\Bundle\CoreBundle\Resolver\ArticleResolverInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use function array_key_exists;
 use function parse_url;
 use function str_replace;
@@ -29,59 +33,77 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
-class ArticleCommentsController extends AbstractController
-{
-    /**
-     * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_article_comments")
-     */
-    public function updateAction(Request $request): SingleResourceResponseInterface
-    {
-        $repository = $this->get('swp.repository.article');
-        $articleResolver = $this->container->get('swp.resolver.article');
-        $form = $this->get('form.factory')->createNamed('', ArticleCommentsType::class, [], ['method' => $request->getMethod()]);
+class ArticleCommentsController extends AbstractController {
 
-        $form->handleRequest($request);
+  private ArticleRepositoryInterface $articleRepository;
+  private ArticleResolverInterface $articleResolver;
+  private FormFactoryInterface $formFactory;
+  private EventDispatcherInterface $eventDispatcher;
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $article = null;
-            if (null !== $data['url']) {
-                $article = strpos($data['url'], '/r/') ? $repository->findOneBySlug(
-                    str_replace('/r/', '', $this->getFragmentFromUrl($data['url'], 'path'))
-                ) : $articleResolver->resolve($data['url']);
-            } elseif (null !== $data['id']) {
-                $article = $repository->findOneBy(['id' => $data['id']]);
-            }
+  /**
+   * @param ArticleRepositoryInterface $articleRepository
+   * @param ArticleResolverInterface $articleResolver
+   * @param FormFactoryInterface $formFactory
+   * @param EventDispatcherInterface $eventDispatcher
+   */
+  public function __construct(ArticleRepositoryInterface $articleRepository, ArticleResolverInterface $articleResolver,
+                              FormFactoryInterface       $formFactory, EventDispatcherInterface $eventDispatcher) {
+    $this->articleRepository = $articleRepository;
+    $this->articleResolver = $articleResolver;
+    $this->formFactory = $formFactory;
+    $this->eventDispatcher = $eventDispatcher;
+  }
 
-            if (null === $article) {
-                throw new NotFoundHttpException('Article was not found');
-            }
 
-            $article->setCommentsCount((int) $data['commentsCount']);
-            $article->cancelTimestampable();
-            $repository->flush();
+  /**
+   * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_article_comments")
+   */
+  public function updateAction(Request $request): SingleResourceResponseInterface {
+    $repository = $this->articleRepository;
+    $articleResolver = $this->articleResolver;
+    $form = $this->formFactory->createNamed('', ArticleCommentsType::class, [], ['method' => $request->getMethod()]);
 
-            $this->container->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
-                $article,
-                $article->getPackage(),
-                ArticleEvents::POST_UPDATE
-            ));
+    $form->handleRequest($request);
 
-            return new SingleResourceResponse($article);
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+      $data = $form->getData();
+      $article = null;
+      if (null !== $data['url']) {
+        $article = strpos($data['url'], '/r/') ? $repository->findOneBySlug(
+            str_replace('/r/', '', $this->getFragmentFromUrl($data['url'], 'path'))
+        ) : $articleResolver->resolve($data['url']);
+      } elseif (null !== $data['id']) {
+        $article = $repository->findOneBy(['id' => $data['id']]);
+      }
 
-        return new SingleResourceResponse($form, new ResponseContext(400));
+      if (null === $article) {
+        throw new NotFoundHttpException('Article was not found');
+      }
+
+      $article->setCommentsCount((int)$data['commentsCount']);
+      $article->cancelTimestampable();
+      $repository->flush();
+
+      $this->eventDispatcher->dispatch(new ArticleEvent(
+          $article,
+          $article->getPackage(),
+          ArticleEvents::POST_UPDATE
+      ), ArticleEvents::POST_UPDATE);
+
+      return new SingleResourceResponse($article);
     }
 
-    private function getFragmentFromUrl(string $url, string $fragment): ?string
-    {
-        $fragments = parse_url($url);
-        if (!array_key_exists($fragment, $fragments)) {
-            return null;
-        }
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
 
-        return $fragments[$fragment];
+  private function getFragmentFromUrl(string $url, string $fragment): ?string {
+    $fragments = parse_url($url);
+    if (!array_key_exists($fragment, $fragments)) {
+      return null;
     }
+
+    return $fragments[$fragment];
+  }
 }

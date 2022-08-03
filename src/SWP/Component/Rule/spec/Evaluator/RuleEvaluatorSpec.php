@@ -81,13 +81,12 @@ final class RuleEvaluatorSpec extends ObjectBehavior
         LoggerInterface $logger,
         ExpressionLanguage $expression
     ) {
-        $rule->getExpression()->shouldBeCalled();
+        $rule->getExpression()->willReturn('')->shouldBeCalled();
         $subject->getSubjectType()->shouldBeCalled();
-
         $expression->evaluate(
             Argument::type('string'),
             Argument::type('array')
-        )->willReturn(false);
+        )->willThrow(\Exception::class);
 
         $logger->error(Argument::type('string'), Argument::type('array'))->shouldBeCalled();
 

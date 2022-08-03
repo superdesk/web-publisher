@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -50,7 +49,7 @@ class LinkRequestListener
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      *
      * @return array
      */
@@ -124,8 +123,8 @@ class LinkRequestListener
 
             $subEvent = new ControllerEvent($event->getKernel(), $controller, $stubRequest, HttpKernelInterface::SUB_REQUEST);
             $kernelSubEvent = new RequestEvent($event->getKernel(), $stubRequest, HttpKernelInterface::SUB_REQUEST);
-            $dispatcher->dispatch(KernelEvents::REQUEST, $kernelSubEvent);
-            $dispatcher->dispatch(KernelEvents::CONTROLLER, $subEvent);
+            $dispatcher->dispatch( $kernelSubEvent, KernelEvents::REQUEST);
+            $dispatcher->dispatch( $subEvent, KernelEvents::CONTROLLER);
             $controller = $subEvent->getController();
 
             $argumentResolver = new ArgumentResolver();

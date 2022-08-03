@@ -17,48 +17,130 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use FOS\RestBundle\Decoder\DecoderProviderInterface;
-use FOS\RestBundle\EventListener\BodyListener as FosRestBodyListener;
+use FOS\RestBundle\FOSRestBundle;
 use FOS\RestBundle\Normalizer\ArrayNormalizerInterface;
 use FOS\RestBundle\Normalizer\Exception\NormalizationException;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
-class BodyListener extends FosRestBodyListener
+class BodyListener
 {
-    private $arrayNormalizer;
+  private $decoderProvider;
+  private $throwExceptionOnUnsupportedContentType;
+  private $defaultFormat;
+  private $arrayNormalizer;
+  private $normalizeForms;
 
-    public function __construct(
-        DecoderProviderInterface $decoderProvider,
-        $throwExceptionOnUnsupportedContentType = false,
-        ArrayNormalizerInterface $arrayNormalizer = null,
-        bool $normalizeForms = false
-    ) {
-        $this->arrayNormalizer = $arrayNormalizer;
+  public function __construct(
+      DecoderProviderInterface $decoderProvider,
+      bool $throwExceptionOnUnsupportedContentType = false,
+      ArrayNormalizerInterface $arrayNormalizer = null,
+      bool $normalizeForms = false
+  ) {
+    $this->decoderProvider = $decoderProvider;
+    $this->throwExceptionOnUnsupportedContentType = $throwExceptionOnUnsupportedContentType;
+    $this->arrayNormalizer = $arrayNormalizer;
+    $this->normalizeForms = true;
+  }
 
-        parent::__construct(
-            $decoderProvider,
-            $throwExceptionOnUnsupportedContentType,
-            $arrayNormalizer,
-            true
-        );
+  public function setDefaultFormat(?string $defaultFormat): void
+  {
+    $this->defaultFormat = $defaultFormat;
+  }
+
+  public function onKernelRequest(RequestEvent $event): void
+  {
+    $request = $event->getRequest();
+
+    if (!$request->attributes->get(FOSRestBundle::ZONE_ATTRIBUTE, true)) {
+      return;
     }
 
-    public function onKernelRequest($event): void
-    {
-        parent::onKernelRequest($event);
+    $method = $request->getMethod();
+    $contentType = $request->headers->get('Content-Type');
+    $normalizeRequest = $this->normalizeForms && $this->isFormRequest($request);
 
-        $request = $event->getRequest();
+    if ($this->isDecodeable($request)) {
+      $format = null === $contentType
+          ? $request->getRequestFormat()
+          : $request->getFormat($contentType);
 
-        if (null !== $this->arrayNormalizer && !$this->isDecodeable($request) && !empty($request->files->all())) {
-            $data = $request->files->all();
+      $format = $format ?: $this->defaultFormat;
 
-            try {
-                $data = $this->arrayNormalizer->normalize($data);
-            } catch (NormalizationException $e) {
-                throw new BadRequestHttpException($e->getMessage());
-            }
+      $content = $request->getContent();
 
-            $request->files = new ParameterBag($data);
+      if (null === $format || !$this->decoderProvider->supports($format)) {
+        if ($this->throwExceptionOnUnsupportedContentType
+            && $this->isNotAnEmptyDeleteRequestWithNoSetContentType($method, $content, $contentType)
+        ) {
+          throw new UnsupportedMediaTypeHttpException("Request body format '$format' not supported");
         }
+
+        return;
+      }
+
+      if (!empty($content)) {
+        $decoder = $this->decoderProvider->getDecoder($format);
+        $data = $decoder->decode($content);
+        if (is_array($data)) {
+          $request->request = new ParameterBag($data);
+          $normalizeRequest = true;
+        } else {
+          throw new BadRequestHttpException('Invalid '.$format.' message received');
+        }
+      }
     }
+
+    if (null !== $this->arrayNormalizer && $normalizeRequest) {
+      $data = $request->request->all();
+
+      try {
+        $data = $this->arrayNormalizer->normalize($data);
+      } catch (NormalizationException $e) {
+        throw new BadRequestHttpException($e->getMessage());
+      }
+
+      $request->request = new ParameterBag($data);
+
+      if(!empty($request->files->all())) {
+        $data = $request->files->all();
+
+        try {
+          $data = $this->arrayNormalizer->normalize($data);
+        } catch (NormalizationException $e) {
+          throw new BadRequestHttpException($e->getMessage());
+        }
+
+        $request->files = new ParameterBag($data);
+      }
+    }
+  }
+
+  private function isNotAnEmptyDeleteRequestWithNoSetContentType(string $method, $content, ?string $contentType): bool
+  {
+    return false === ('DELETE' === $method && empty($content) && empty($contentType));
+  }
+
+  private function isDecodeable(Request $request): bool
+  {
+    if (!in_array($request->getMethod(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+      return false;
+    }
+
+    return !$this->isFormRequest($request);
+  }
+
+  private function isFormRequest(Request $request): bool
+  {
+    $contentTypeParts = explode(';', $request->headers->get('Content-Type', ''));
+
+    if (isset($contentTypeParts[0])) {
+      return in_array($contentTypeParts[0], ['multipart/form-data', 'application/x-www-form-urlencoded']);
+    }
+
+    return false;
+  }
 }

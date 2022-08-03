@@ -14,12 +14,13 @@
 
 namespace SWP\Component\MultiTenancy\Model;
 
+use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\Common\Model\EnableableInterface;
 use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface TenantInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface, PersistableInterface
+interface TenantInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface, PersistableInterface, SettingsOwnerInterface
 {
     const DEFAULT_TENANT_NAME = 'Default tenant';
 

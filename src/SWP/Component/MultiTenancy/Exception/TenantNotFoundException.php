@@ -14,10 +14,10 @@
 
 namespace SWP\Component\MultiTenancy\Exception;
 
-class TenantNotFoundException extends \RuntimeException
-{
-    public function __construct($name, \Exception $previousException = null)
-    {
-        parent::__construct(sprintf('Tenant for host "%s" could not be found! Please check tenants configuration.', $name), 404, $previousException);
-    }
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class TenantNotFoundException extends NotFoundHttpException {
+  public function __construct(?string $message = '', \Throwable $previous = null, int $code = 0, array $headers = []) {
+    parent::__construct(sprintf('Tenant for host "%s" could not be found! Please check tenants configuration.', $message), $previous, $code, $headers);
+  }
 }

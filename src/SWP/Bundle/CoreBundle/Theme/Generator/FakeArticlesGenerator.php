@@ -181,7 +181,7 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
         imagejpeg($im, $fakeImage);
         imagedestroy($im);
 
-        $uploadedFile = new UploadedFile($fakeImage, $mediaId, 'image/jpeg', filesize($fakeImage), null, true);
+        $uploadedFile = new UploadedFile($fakeImage, $mediaId, 'image/jpeg', filesize($fakeImage), true);
         /** @var Image $image */
         $image = $this->mediaManager->handleUploadedFile($uploadedFile, $mediaId);
         /** @var ArticleMediaInterface $articleMedia */

@@ -26,6 +26,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
 use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepositoryInterface;
+use SWP\Bundle\CoreBundle\Twig\DecoratingRoutingExtension;
 use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManagerInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -125,10 +126,14 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     public function removeInstantArticle(FacebookInstantArticlesFeedInterface $feed, ArticleInterface $article)
     {
         if ($article->getRoute() instanceof RouteInterface) {
-            $url = $this->urlGenerator->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $name = "";
+            $params = ['slug' => $article->getSlug()];
+            DecoratingRoutingExtension::setupParams($article->getRoute(), $name, $params);
+            $url = $this->urlGenerator->generate($name, $params , UrlGeneratorInterface::ABSOLUTE_URL);
 
             return $this->getClient($feed)->removeArticle($url);
         }
+        return null;
     }
 
     /**

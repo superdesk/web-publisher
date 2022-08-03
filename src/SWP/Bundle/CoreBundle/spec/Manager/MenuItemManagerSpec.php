@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace spec\SWP\Bundle\CoreBundle\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\Factory\ExtensionInterface;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -29,7 +29,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
 {
     public function let(
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         ExtensionInterface $extensionChain
     ) {
         $this->beConstructedWith($menuItemRepository, $objectManager, $extensionChain);

@@ -14,12 +14,15 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentListItemControllerTest extends WebTestCase
 {
+
+    use ArraySubsetAsserts;
     /**
      * @var RouterInterface
      */
@@ -33,16 +36,16 @@ class ContentListItemControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
         $this->client = static::createClient();
 
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',

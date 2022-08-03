@@ -176,9 +176,6 @@ services:
         arguments:
             - '@event_dispatcher'
 
-    swp.publish_workflow.checker:
-        alias: cmf_core.publish_workflow.checker
-
     SWP\Bundle\ContentBundle\File\FileDownloader:
         arguments:
             - '@monolog.logger.swp_asset_download'
@@ -195,8 +192,11 @@ services:
 
     SWP\Bundle\ContentBundle\Manager\MediaManagerInterface $mediaManager: '@swp_content_bundle.manager.media'
 
+
     swp_content_bundle.processor.article_body:
         class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain
+
+    SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain $articleBodyProcessorChain: '@swp_content_bundle.processor.article_body'
 
     SWP\Bundle\ContentBundle\Processor\EmbeddedImageProcessor:
         arguments:
@@ -356,8 +356,6 @@ services:
     swp.resolver.seo_asset_location:
         parent: swp.resolver.asset_location
         public: true
-
-    Doctrine\Common\Cache\Cache: '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\ContentBundle\Form\Extension\RedirectRouteTypeExtension:
         tags:

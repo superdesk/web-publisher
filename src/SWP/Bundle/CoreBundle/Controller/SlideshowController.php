@@ -14,58 +14,75 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Bundle\ContentBundle\Doctrine\SlideshowRepositoryInterface;
+use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
-class SlideshowController extends Controller
-{
-    /**
-     * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_slideshows_list")
-     */
-    public function listAction(Request $request, string $articleId): ResourcesListResponseInterface
-    {
-        $repository = $this->get('swp.repository.slideshow');
+class SlideshowController extends Controller {
+  private ArticleRepositoryInterface $articleRepository;
+  private SlideshowRepositoryInterface $slideshowRepository;
+  private EventDispatcherInterface $eventDispatcher;
 
-        $article = $this->findArticleOr404($articleId);
+  /**
+   * @param ArticleRepositoryInterface $articleRepository
+   * @param SlideshowRepositoryInterface $slideshowRepository
+   * @param EventDispatcherInterface $eventDispatcher
+   */
+  public function __construct(ArticleRepositoryInterface   $articleRepository,
+                              SlideshowRepositoryInterface $slideshowRepository,
+                              EventDispatcherInterface     $eventDispatcher) {
+    $this->articleRepository = $articleRepository;
+    $this->slideshowRepository = $slideshowRepository;
+    $this->eventDispatcher = $eventDispatcher;
+  }
 
-        $slideshows = $repository->getPaginatedByCriteria(new Criteria([
+
+  /**
+   * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_slideshows_list")
+   */
+  public function listAction(Request $request, string $articleId): ResourcesListResponseInterface {
+    $repository = $this->slideshowRepository;
+
+    $article = $this->findArticleOr404($articleId);
+
+    $slideshows = $repository->getPaginatedByCriteria($this->eventDispatcher, new Criteria([
+        'article' => $article,
+    ]), $request->query->all('sorting'), new PaginationData($request));
+
+    return new ResourcesListResponse($slideshows);
+  }
+
+  /**
+   * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
+   */
+  public function getAction($id, string $articleId): SingleResourceResponseInterface {
+    $article = $this->findArticleOr404($articleId);
+
+    if (null === $list = $this->slideshowRepository->findOneBy([
+            'id' => $id,
             'article' => $article,
-        ]), $request->query->get('sorting', []), new PaginationData($request));
-
-        return new ResourcesListResponse($slideshows);
+        ])) {
+      throw new NotFoundHttpException(sprintf('Slideshow with id "%s" was not found.', $id));
     }
 
-    /**
-     * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
-     */
-    public function getAction($id, string $articleId): SingleResourceResponseInterface
-    {
-        $article = $this->findArticleOr404($articleId);
+    return new SingleResourceResponse($list);
+  }
 
-        if (null === $list = $this->get('swp.repository.slideshow')->findOneBy([
-                'id' => $id,
-                'article' => $article,
-            ])) {
-            throw new NotFoundHttpException(sprintf('Slideshow with id "%s" was not found.', $id));
-        }
-
-        return new SingleResourceResponse($list);
+  private function findArticleOr404($id) {
+    if (null === $article = $this->articleRepository->findOneById($id)) {
+      throw new NotFoundHttpException(sprintf('Article with id "%s" was not found.', $id));
     }
 
-    private function findArticleOr404($id)
-    {
-        if (null === $article = $this->get('swp.repository.article')->findOneById($id)) {
-            throw new NotFoundHttpException(sprintf('Article with id "%s" was not found.', $id));
-        }
-
-        return $article;
-    }
+    return $article;
+  }
 }

@@ -4,7 +4,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
@@ -87,6 +87,7 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
             $articleService = $this->container->get('swp.service.article');
             $metadataFactory = $this->container->get('swp.factory.metadata');
             foreach ($articles as $articleData) {
+
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);

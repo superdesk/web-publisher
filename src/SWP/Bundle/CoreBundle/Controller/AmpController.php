@@ -14,68 +14,58 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Doctrine\Common\Cache\CacheProvider;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Cache\CacheInterface;
 use Takeit\Bundle\AmpHtmlBundle\Converter\AmpConverterInterface;
 use Takeit\Bundle\AmpHtmlBundle\Loader\ThemeLoaderInterface;
 use Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface;
 use Twig\Environment;
 
-final class AmpController extends AbstractController
-{
-    private $twig;
+final class AmpController extends AbstractController {
 
-    private $converter;
+  private Environment $twig;
+  private AmpConverterInterface $converter;
+  private ThemeLoaderInterface $themeLoader;
+  private CacheInterface $cacheService;
 
-    private $themeLoader;
+  public function __construct(
+      Environment           $twig,
+      AmpConverterInterface $ampConverter,
+      ThemeLoaderInterface  $ampThemeLoader,
+      CacheInterface        $cacheService
+  ) {
+    $this->twig = $twig;
+    $this->converter = $ampConverter;
+    $this->themeLoader = $ampThemeLoader;
+    $this->cacheService = $cacheService;
+  }
 
-    private $cacheService;
+  public function viewAction(AmpInterface $object): Response {
+    return $this->cacheService->get($this->getCacheKey($object), function () use ($object) {
+      $this->themeLoader->load();
+      $content = $this->twig->render(sprintf('@%s/index.html.twig', ThemeLoaderInterface::THEME_NAMESPACE), [
+          'object' => $object,
+      ]);
 
-    public function __construct(
-        Environment $twig,
-        AmpConverterInterface $ampConverter,
-        ThemeLoaderInterface $ampThemeLoader,
-        CacheProvider $cacheService
-    ) {
-        $this->twig = $twig;
-        $this->converter = $ampConverter;
-        $this->themeLoader = $ampThemeLoader;
-        $this->cacheService = $cacheService;
+      $response = new Response();
+      $response->setContent($this->converter->convertToAmp($content));
+      return $response;
+    });
+  }
+
+  private function getCacheKey(AmpInterface $object): string {
+    $elements = ['amp_article'];
+    if ($object instanceof PersistableInterface) {
+      $elements[] = $object->getId();
     }
 
-    public function viewAction(AmpInterface $object): Response
-    {
-        if ($this->cacheService->contains($cacheKey = $this->getCacheKey($object))) {
-            return $this->cacheService->fetch($cacheKey);
-        }
-
-        $this->themeLoader->load();
-        $content = $this->twig->render(sprintf('@%s/index.html.twig', ThemeLoaderInterface::THEME_NAMESPACE), [
-            'object' => $object,
-        ]);
-
-        $response = new Response();
-        $response->setContent($this->converter->convertToAmp($content));
-
-        $this->cacheService->save($cacheKey, $response);
-
-        return $response;
+    if ($object instanceof TimestampableInterface && null !== $object->getUpdatedAt()) {
+      $elements[] = $object->getUpdatedAt()->getTimestamp();
     }
 
-    private function getCacheKey(AmpInterface $object): string
-    {
-        $elements = ['amp_article'];
-        if ($object instanceof PersistableInterface) {
-            $elements[] = $object->getId();
-        }
-
-        if ($object instanceof TimestampableInterface && null !== $object->getUpdatedAt()) {
-            $elements[] = $object->getUpdatedAt()->getTimestamp();
-        }
-
-        return md5(implode('__', $elements));
-    }
+    return md5(implode('__', $elements));
+  }
 }

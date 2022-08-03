@@ -26,9 +26,9 @@ class ArticleEventsExtensionTest extends WebTestCase
 
     private $metaFactory;
 
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->loadCustomFixtures(['tenant']);
         $this->twig = $this->getContainer()->get('twig');

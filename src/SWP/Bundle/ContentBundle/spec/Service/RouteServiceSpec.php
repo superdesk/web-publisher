@@ -59,8 +59,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->getParent()->willReturn($parent);
 
         $eventDispatcher->dispatch(
-            RouteEvents::PRE_CREATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::PRE_CREATE
         )->shouldBeCalled();
 
         $route->setVariablePattern(null)->shouldBeCalled();
@@ -68,8 +68,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
+            Argument::type(RouteEvent::class),
             RouteEvents::POST_CREATE,
-            Argument::type(RouteEvent::class)
         )->shouldBeCalled();
 
         $this->createRoute($route)->shouldReturn($route);
@@ -87,8 +87,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->getParent()->willReturn($parent);
 
         $eventDispatcher->dispatch(
-            RouteEvents::PRE_CREATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::PRE_CREATE
         )->shouldBeCalled();
 
         $route->setVariablePattern(null)->shouldBeCalled();
@@ -96,8 +96,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setStaticPrefix('/test-name-2')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
-            RouteEvents::POST_CREATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::POST_CREATE
         )->shouldBeCalled();
 
         $this->createRoute($route)->shouldReturn($route);
@@ -115,8 +115,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->getParent()->willReturn($parent);
 
         $eventDispatcher->dispatch(
-            RouteEvents::PRE_CREATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::PRE_CREATE
         )->shouldBeCalled();
 
         $route->setVariablePattern(null)->shouldBeCalled();
@@ -124,8 +124,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
-            RouteEvents::POST_CREATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::POST_CREATE
         )->shouldBeCalled();
 
         $this->createRoute($route)->shouldReturn($route);
@@ -143,8 +143,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->getParent()->willReturn($parent);
 
         $eventDispatcher->dispatch(
-            RouteEvents::PRE_CREATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::PRE_CREATE
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
@@ -153,8 +153,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
-            RouteEvents::POST_CREATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::POST_CREATE
         )->shouldBeCalled();
 
         $this->createRoute($route)->shouldReturn($route);
@@ -171,8 +171,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->getSlug()->willReturn('test-name');
 
         $eventDispatcher->dispatch(
-            RouteEvents::PRE_UPDATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::PRE_UPDATE
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
@@ -181,8 +181,8 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
-            RouteEvents::POST_UPDATE,
-            Argument::type(RouteEvent::class)
+            Argument::type(RouteEvent::class),
+            RouteEvents::POST_UPDATE
         )->shouldBeCalled();
 
         $this->updateRoute($route, $route)->shouldReturn($route);

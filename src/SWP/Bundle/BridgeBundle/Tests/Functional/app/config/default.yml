@@ -3,7 +3,7 @@ parameters:
 
 framework:
     secret: "Three can keep a secret, if two of them are dead."
-    router: { resource: "%kernel.root_dir%/%kernel.test_case%/routing.yml" }
+    router: { resource: "%kernel.project_dir%/%kernel.test_case%/routing.yml" }
     translator: ~
     test: ~
     validation:      { enable_annotations: false }

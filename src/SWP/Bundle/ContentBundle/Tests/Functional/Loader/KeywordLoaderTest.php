@@ -29,10 +29,11 @@ class KeywordLoaderTest extends WebTestCase
      */
     protected $keywordLoader;
 
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 LoadArticlesData::class,
             ]

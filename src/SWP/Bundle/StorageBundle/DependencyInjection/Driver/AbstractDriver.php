@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Component\Storage\DependencyInjection\Driver\PersistenceDriverInterface;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentListBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
+
 use SWP\Bundle\CoreBundle\Pagination\Paginator;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
@@ -25,6 +26,7 @@ use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentListItemRepository extends SortableEntityRepository implements ContentListItemRepositoryInterface
 {
@@ -59,7 +61,7 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     /**
      * {@inheritdoc}
      */
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
+    public function getPaginatedByCriteria(EventDispatcherInterface $eventDispatcher, Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getSortedItems($criteria, $sorting, ['contentList' => $criteria->get('contentList')]);
 
@@ -72,16 +74,15 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
         }
 
         if (null === $paginationData) {
-            $paginator = new Paginator();
-
+            $paginator = new Paginator($eventDispatcher);
             return $paginator->paginate(
                 $queryBuilder,
-                $criteria->get('firstResult', 0),
-                $criteria->get('maxResults', RepositoryInterface::MAX_RESULTS)
+                (int)$criteria->get('firstResult', 0),
+                 (int)$criteria->get('maxResults', RepositoryInterface::MAX_RESULTS)
             );
         }
 
-        return $this->getPaginator($queryBuilder, $paginationData);
+        return $this->getPaginator( $eventDispatcher,$queryBuilder, $paginationData);
     }
 
     public function getCountByCriteria(Criteria $criteria): int

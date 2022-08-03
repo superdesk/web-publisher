@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\EventListener;
 
+use DG\BypassFinals;
 use FOS\RestBundle\View\ViewHandler;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +44,12 @@ class ResourceResponseListenerTest extends TestCase
 
         $listener = new ResourceResponseListener($viewHandler);
 
-        $resourcesListResponse = new ResourcesListResponse(new SlidingPagination([]));
+        $pagination = new SlidingPagination([]);
+        $pagination->setItems([]);
+        $pagination->setTotalItemCount(0);
+        $pagination->setCurrentPageNumber(1);
+        $pagination->setItemNumberPerPage(10);
+        $resourcesListResponse = new ResourcesListResponse($pagination);
         $event = $this->createMock(ViewEvent::class);
         $event
             ->expects($this->once())

@@ -23,7 +23,7 @@ swp_elasticsearch:
 
 swp_redirecting_extra_data:
     path: /redirecting/extra/{key}/{value}
-    defaults: { _controller: SWPCoreBundle:Redirecting:redirectBasedOnExtraData }
+    defaults: { _controller: SWP\Bundle\CoreBundle\Controller\RedirectingController::redirectBasedOnExtraDataAction }
     requirements:
         key: \w+
         value: \+?\w+
@@ -31,7 +31,7 @@ swp_redirecting_extra_data:
 
 swp_redirecting_slug:
   path: /r/{slug}
-  defaults: { _controller: SWPCoreBundle:Redirecting:redirectBasedOnSlug }
+  defaults: { _controller: SWP\Bundle\CoreBundle\Controller\RedirectingController::redirectBasedOnSlugAction }
   requirements:
     slug: .*
   methods: [GET]

@@ -22,6 +22,7 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface ContentListItemRepositoryInterface extends RepositoryInterface
 {
@@ -29,7 +30,7 @@ interface ContentListItemRepositoryInterface extends RepositoryInterface
 
     public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = []): QueryBuilder;
 
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
+    public function getPaginatedByCriteria(EventDispatcherInterface $eventDispatcher,Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
 
     public function getCountByCriteria(Criteria $criteria): int;
 

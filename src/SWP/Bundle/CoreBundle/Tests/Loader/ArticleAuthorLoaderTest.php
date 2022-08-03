@@ -33,9 +33,9 @@ class ArticleAuthorLoaderTest extends WebTestCase
     /**
      * SetUp test.
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->loadCustomFixtures(['tenant', 'article']);
 

@@ -4,4 +4,42 @@ services:
     autowire: true
     autoconfigure: true
 
+  SWP\Bundle\ContentBundle\Controller\ArticleController:
+    bind:
+      $routeProvider: '@swp.provider.route'
+      $articleRepository: '@swp.repository.article'
+      $articleProvider: '@swp.provider.article'
+      $entityManager: '@swp.object_manager.article'
+      $articleService: '@swp.service.article'
+
+  SWP\Bundle\ContentBundle\Controller\AuthorController:
+    bind:
+      $articleAuthorRepository: '@swp.repository.author'
+
+  SWP\Bundle\ContentBundle\Controller\AuthorMediaController:
+    bind:
+      $mediaManager: '@swp_core_bundle.manager.author_media'
+
+  SWP\Bundle\ContentBundle\Controller\ContentPushController:
+    bind:
+      $dataTransformer: '@swp_bridge.transformer.json_to_package'
+      $mediaManager: '@swp_content_bundle.manager.media'
+      $entityManager: '@swp.object_manager.media'
+      $packageRepository: '@swp.repository.package'
+
   SWP\Bundle\ContentBundle\Controller\MediaController: ~
+  SWP\Bundle\ContentBundle\Controller\RelatedArticleController:
+    bind:
+      $relatedArticleRepository: '@swp.repository.related_article'
+      $articleProvider: '@swp.provider.article'
+
+  SWP\Bundle\ContentBundle\Controller\RouteController:
+    bind:
+      $routeProvider: '@swp.provider.route'
+      $routeRepository: '@swp.repository.route'
+      $routeService: '@swp.service.route'
+      $routeFactory: '@swp.factory.route'
+      $entityManager: '@swp.object_manager.route'
+      $knpPaginatorRepresentationFactory: '@swp_pagination_rep'
+
+

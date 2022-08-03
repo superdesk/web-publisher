@@ -18,7 +18,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Behat\Transliterator\Transliterator;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -327,7 +327,6 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
                             $fakeImage,
                             $mediaId,
                             'image/jpeg',
-                            filesize($fakeImage),
                             null,
                             true
                         );

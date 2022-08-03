@@ -23,159 +23,168 @@ use SWP\Component\Common\Model\TranslatableInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Seo\Model\SeoMetadataAwareInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
-use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
-use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
 
-interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareInterface, AuthorsAwareInterface, KeywordAwareInterface, RelatedArticlesAwareInterface, SeoMetadataAwareInterface
-{
-    const STATUS_NEW = 'new';
+interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, MetadataAwareInterface, MediaAwareInterface, AuthorsAwareInterface, KeywordAwareInterface, RelatedArticlesAwareInterface, SeoMetadataAwareInterface {
+  const STATUS_NEW = 'new';
 
-    const STATUS_PUBLISHED = 'published';
+  const STATUS_PUBLISHED = 'published';
 
-    const STATUS_UNPUBLISHED = 'unpublished';
+  const STATUS_UNPUBLISHED = 'unpublished';
 
-    const STATUS_CANCELED = 'canceled';
+  const STATUS_CANCELED = 'canceled';
 
-    /**
-     * @return mixed
-     */
-    public function getId();
+  /**
+   * @return mixed
+   */
+  public function getId();
 
-    /**
-     * @return string
-     */
-    public function getBody();
+  /**
+   * @return string
+   */
+  public function getBody();
 
-    /**
-     * @param string $body
-     */
-    public function setBody($body);
+  /**
+   * @param string $body
+   */
+  public function setBody($body);
 
-    /**
-     * @return string
-     */
-    public function getTitle();
+  /**
+   * @return string
+   */
+  public function getTitle();
 
-    /**
-     * @param string $title
-     */
-    public function setTitle($title);
+  /**
+   * @param string $title
+   */
+  public function setTitle($title);
 
-    /**
-     * @return string
-     */
-    public function getSlug();
+  /**
+   * @return string
+   */
+  public function getSlug();
 
-    /**
-     * @param string $slug
-     */
-    public function setSlug($slug);
+  /**
+   * @param string $slug
+   */
+  public function setSlug($slug);
 
-    /**
-     * @return \DateTime
-     */
-    public function getPublishedAt();
+  /**
+   * @return \DateTime
+   */
+  public function getPublishedAt();
 
-    /**
-     * @param string $publishedAt
-     *
-     * @return \DateTime
-     */
-    public function setPublishedAt(\DateTime $publishedAt);
+  /**
+   * @param string $publishedAt
+   *
+   * @return \DateTime
+   */
+  public function setPublishedAt(\DateTime $publishedAt);
 
-    /**
-     * @return bool
-     */
-    public function isPublished();
+  /**
+   * @return bool
+   */
+  public function isPublished();
 
-    /**
-     * @param string $status
-     *
-     * @return string
-     */
-    public function setStatus($status);
+  /**
+   * @param string $status
+   *
+   * @return string
+   */
+  public function setStatus($status);
 
-    /**
-     * @return string
-     */
-    public function getStatus();
+  /**
+   * @return string
+   */
+  public function getStatus();
 
-    /**
-     * @return string
-     */
-    public function getTemplateName();
+  /**
+   * @return string
+   */
+  public function getTemplateName();
 
-    /**
-     * @param string $templateName
-     */
-    public function setTemplateName($templateName);
+  /**
+   * @param string $templateName
+   */
+  public function setTemplateName($templateName);
 
-    /**
-     * @param RouteInterface|void $route
-     */
-    public function setRoute(RouteInterface $route = null);
+  /**
+   * @param RouteInterface|void $route
+   */
+  public function setRoute(RouteInterface $route = null);
 
-    /**
-     * @return RouteInterface
-     */
-    public function getRoute();
+  /**
+   * @return RouteInterface
+   */
+  public function getRoute();
 
-    /**
-     * @return string
-     */
-    public function getLead();
+  /**
+   * @return string
+   */
+  public function getLead();
 
-    /**
-     * @param string $lead
-     */
-    public function setLead($lead);
+  /**
+   * @param string $lead
+   */
+  public function setLead($lead);
 
-    public function getCode(): string;
+  public function getCode(): string;
 
-    public function setCode(string $code);
+  public function setCode(string $code);
 
-    public function addSourceReference(ArticleSourceReferenceInterface $source);
+  public function addSourceReference(ArticleSourceReferenceInterface $source);
 
-    public function removeSourceReference(ArticleSourceReferenceInterface $source);
+  public function removeSourceReference(ArticleSourceReferenceInterface $source);
 
-    public function hasSourceReference(ArticleSourceReferenceInterface $source): bool;
+  public function hasSourceReference(ArticleSourceReferenceInterface $source): bool;
 
-    /**
-     * @return Collection|ArticleSourceReferenceInterface[]
-     */
-    public function getSources(): Collection;
+  /**
+   * @return Collection|ArticleSourceReferenceInterface[]
+   */
+  public function getSources(): Collection;
 
-    public function getExtra(): array;
+  public function getExtra(): array;
 
-    public function setExtra(?array $extra): void;
+  public function setExtra(?array $extra): void;
 
-    public function getSlideshows(): Collection;
+  public function getSlideshows(): Collection;
 
-    public function hasSlideshow(SlideshowInterface $slideshow): bool;
+  public function hasSlideshow(SlideshowInterface $slideshow): bool;
 
-    public function addSlideshow(SlideshowInterface $slideshow): void;
+  public function addSlideshow(SlideshowInterface $slideshow): void;
 
-    public function removeSlideshow(SlideshowInterface $slideshow): void;
+  public function removeSlideshow(SlideshowInterface $slideshow): void;
 
-    public function getPreviousRelativeUrl(): Collection;
+  public function getPreviousRelativeUrl(): Collection;
 
-    public function hasPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): bool;
+  public function hasPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): bool;
 
-    public function addPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
+  public function addPreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
 
-    public function removePreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
+  public function removePreviousRelativeUrl(ArticlePreviousRelativeUrlInterface $previousRelativeUrl): void;
 
-    public function getData(): ?MetadataInterface;
+  public function getData(): ?MetadataInterface;
 
-    public function setData(?MetadataInterface $metadata): void;
+  public function setData(?MetadataInterface $metadata): void;
 
-    public function getExtraTextFields(): Collection;
+  public function getExtraTextFields(): Collection;
 
-    public function getExtraEmbedFields(): Collection;
+  public function getExtraEmbedFields(): Collection;
 
-    public function setExtraFields(array $extra): void;
+  public function setExtraFields(array $extra): void;
 
-    public function getExtraByKey(string $key): ?ArticleExtraFieldInterface;
+  public function getExtraByKey(string $key): ?ArticleExtraFieldInterface;
 
-    public function getExtraArray(): array;
+  public function getExtraArray(): array;
+
+  public function isPublishable(): bool;
+
+  public function setPublishable(bool $boolean): void;
+
+  public function setPublishStartDate(\DateTime $startDate = null);
+
+  public function getPublishStartDate();
+
+  public function setPublishEndDate(\DateTime $endDate = null);
+
+  public function getPublishEndDate();
 }

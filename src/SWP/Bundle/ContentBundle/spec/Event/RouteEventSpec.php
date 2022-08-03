@@ -17,7 +17,7 @@ namespace spec\SWP\Bundle\ContentBundle\Event;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @mixin RouteEvent

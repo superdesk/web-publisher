@@ -21,7 +21,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ContentController extends AbstractController
 {
-    public function renderPageAction(string $contentTemplate): Response
+
+  public function __construct() {
+  }
+
+  public function renderPageAction(string $contentTemplate): Response
     {
         $response = new Response();
         $response->headers->set('Content-Type', 'text/html; charset=UTF-8');

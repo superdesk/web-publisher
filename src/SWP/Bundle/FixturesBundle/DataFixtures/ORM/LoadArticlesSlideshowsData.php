@@ -16,7 +16,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
@@ -114,7 +114,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
 
                 /* @var $rendition Rendition */
                 foreach ($renditions as $key => $rendition) {
-                    $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', filesize($fakeImage), null, true);
+                    $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', null, true);
                     $image = $mediaManager->handleUploadedFile($uploadedFile, $rendition['media']);
 
                     if ('original' === $key) {
@@ -147,7 +147,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                             $articleMediaVideo->setDescription('Media description');
                             $articleMediaVideo->setUsageTerms('Some super open terms');
                             $articleMediaVideo->setMimetype('video/mp4');
-                            $uploadedFile = new UploadedFile($fakeVideo, $articleMedia->getKey(), 'video/mp4', filesize($fakeVideo), null, true);
+                            $uploadedFile = new UploadedFile($fakeVideo, $articleMedia->getKey(), 'video/mp4', null, true);
                             $file = $mediaManager->handleUploadedFile($uploadedFile, $articleMediaVideo->getKey());
                             $articleMediaVideo->setFile($file);
                             $manager->persist($articleMediaVideo);

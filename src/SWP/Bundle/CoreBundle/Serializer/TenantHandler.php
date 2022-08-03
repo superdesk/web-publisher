@@ -148,7 +148,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
 
         $masterRequest = $this->requestStack->getMasterRequest();
         if (null !== $masterRequest && (null !== $masterRequest->get('withRoutes') || null !== $masterRequest->get('withContentLists'))) {
-            $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE, new GenericEvent($tenant));
+            $this->dispatcher->dispatch(new GenericEvent($tenant), MultiTenancyEvents::TENANTABLE_ENABLE);
             if (null !== $masterRequest->get('withRoutes')) {
                 $routes = $this->routeRepository->getQueryByCriteria(new Criteria(['maxResults' => 9999]), [], 'r')->getQuery()->getResult();
                 $routesArray = $this->serializer->toArray($routes, SerializationContext::create()->setGroups(['Default', 'api_routes_list']));

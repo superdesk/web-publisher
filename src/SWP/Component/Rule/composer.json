@@ -12,13 +12,13 @@
     "license":"AGPL-3.0",
     "require": {
         "php": "^7.4",
-        "symfony/expression-language": "^4.2",
+        "symfony/expression-language": "^5.4",
         "psr/log": "^1.0",
         "swp/storage": "^2.0",
-        "symfony/options-resolver": "^4.2"
+        "symfony/options-resolver": "^5.4"
     },
     "require-dev": {
-        "phpspec/phpspec": "^5.1"
+        "phpspec/phpspec": "^6.1"
     },
     "config": {
         "bin-dir": "bin"

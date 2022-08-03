@@ -8,7 +8,7 @@ parameters:
 framework:
     secret: "Three can keep a secret, if two of them are dead."
     router:
-        resource: "%kernel.root_dir%/../../../Resources/config/routing.yml"
+        resource: "%kernel.project_dir%/Resources/config/routing.yml"
         strict_requirements: ~
     templating:
         engines: ['twig']
@@ -42,12 +42,6 @@ doctrine:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: true
-
-doctrine_cache:
-    providers:
-        main_cache:
-            type: array
-            namespace: templates_engine
 
 liip_functional_test: ~
 

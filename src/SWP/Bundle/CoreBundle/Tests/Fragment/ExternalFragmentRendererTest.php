@@ -28,9 +28,9 @@ final class ExternalFragmentRendererTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->renderer = new ExternalFragmentRenderer(
             $this->getContainer()->get('kernel'),

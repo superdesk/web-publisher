@@ -27,7 +27,7 @@ final class Version20181008115755 extends AbstractMigration implements Container
     /**
      * @param Schema $schema
      */
-    public function postUp(Schema $schema)
+   public function postUp(Schema $schema) : void
     {
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager

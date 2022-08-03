@@ -23,9 +23,9 @@ class ThemeTwigSettingsTest extends WebTestCase
      */
     private $twig;
 
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant']);
@@ -37,14 +37,12 @@ class ThemeTwigSettingsTest extends WebTestCase
         $template = '{{ themeSetting(\'primary_font_family\') }}';
         $result = $this->getRendered($template);
 
-        self::assertContains('Roboto', $result);
+        self::assertStringContainsString('Roboto', $result);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testRenderingNotExistingThemeSettings()
     {
+        static::expectException(\Exception::class);
         $template = '{{ themeSetting(\'fake\') }}';
         $this->getRendered($template);
     }

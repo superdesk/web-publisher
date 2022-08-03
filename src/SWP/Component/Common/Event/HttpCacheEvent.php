@@ -14,7 +14,7 @@
 
 namespace SWP\Component\Common\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @deprecated HttpCacheEvent is deprecated from 2.0.1, will be removed in 3.0

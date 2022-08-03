@@ -29,9 +29,9 @@ class ThemesControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
 
@@ -52,8 +52,8 @@ class ThemesControllerTest extends WebTestCase
         self::assertCount(0, $data['_embedded']['_items']);
 
         $fileName = $this->createZipArchive(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
-        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
-                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [],[
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', null, true),
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -69,8 +69,8 @@ class ThemesControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $fileName = $this->createZipArchive(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
-        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
-                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [], [
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', null, true),
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -92,8 +92,8 @@ class ThemesControllerTest extends WebTestCase
         self::assertCount(0, $data['_embedded']['_items']);
 
         $fileName = $this->createZipArchive(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
-        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
-                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'),[],  [
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', null, true),
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $filesystem = new Filesystem();
@@ -149,8 +149,8 @@ class ThemesControllerTest extends WebTestCase
         $filesystem->mirror(realpath(__DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data/'), $tempThemeDir.'/test_theme', null, ['override' => true, 'delete' => true]);
 
         $fileName = $this->createZipArchive($tempThemeDir);
-        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
-                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [], [
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', null, true),
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -167,6 +167,8 @@ class ThemesControllerTest extends WebTestCase
         $client->request('POST', $this->router->generate('swp_api_install_theme'), [
             'name' => 'swp/test-theme-install-generated-data', 'processGeneratedData' => true,
         ]);
+        // ElaticSearch takes ages...
+        sleep(2);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $client->request('GET', $this->router->generate('swp_api_content_list_articles'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

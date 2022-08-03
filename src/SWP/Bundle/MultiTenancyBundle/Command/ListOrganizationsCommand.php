@@ -14,13 +14,13 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
+use Aws\Command;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListOrganizationsCommand extends ContainerAwareCommand
+class ListOrganizationsCommand extends Command
 {
     protected static $defaultName = 'swp:organization:list';
 

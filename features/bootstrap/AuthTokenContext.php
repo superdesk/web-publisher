@@ -53,7 +53,7 @@ final class AuthTokenContext extends RestContext
      */
     public function restoreAuthHeader()
     {
-        $this->request->setHttpHeader('Authorization', null);
+        $this->request->setHttpHeader('Authorization', '');
     }
 
     /**

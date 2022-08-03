@@ -14,7 +14,7 @@
 
 namespace spec\SWP\Bundle\MenuBundle\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Knp\Menu\Factory\ExtensionInterface;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Manager\MenuItemManager;
@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 final class MenuItemManagerSpec extends ObjectBehavior
 {
-    public function let(MenuItemRepositoryInterface $menuItemRepository, ObjectManager $objectManager, ExtensionInterface $extensionChain)
+    public function let(MenuItemRepositoryInterface $menuItemRepository, EntityManager $objectManager, ExtensionInterface $extensionChain)
     {
         $this->beConstructedWith($menuItemRepository, $objectManager, $extensionChain);
     }
@@ -48,7 +48,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
         MenuItemInterface $sourceItem,
         MenuItemInterface $parentItem,
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager
+        EntityManager $objectManager
     ) {
         $sourceItem->getPosition()->willReturn(2);
         $menuItemRepository->persistAsFirstChildOf($sourceItem, $parentItem)->shouldBeCalled();
@@ -63,7 +63,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
         MenuItemInterface $parentItem,
         MenuItemInterface $afterItem,
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager
+        EntityManager $objectManager
     ) {
         $sourceItem->getPosition()->willReturn(2);
         $menuItemRepository->findChildByParentAndPosition($parentItem, 0)->willReturn($afterItem);
@@ -80,7 +80,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
         MenuItemInterface $parentItem,
         MenuItemInterface $afterItem,
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager
+        EntityManager $objectManager
     ) {
         $sourceItem->getPosition()->willReturn(1);
         $menuItemRepository->findChildByParentAndPosition($parentItem, 2)->willReturn($afterItem);
@@ -96,7 +96,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
         MenuItemInterface $sourceItem,
         MenuItemInterface $parentItem,
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager
+        EntityManager $objectManager
     ) {
         $sourceItem->getPosition()->willReturn(0);
         $sourceItem->getId()->willReturn(5);
@@ -114,7 +114,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
         MenuItemInterface $parentItem,
         MenuItemInterface $afterItem,
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager
+        EntityManager $objectManager
     ) {
         $sourceItem->getPosition()->willReturn(2);
         $sourceItem->getId()->shouldBeCalled();
@@ -132,7 +132,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
         MenuItemInterface $parentItem,
         MenuItemInterface $afterItem,
         MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager
+        EntityManager $objectManager
     ) {
         $sourceItem->getPosition()->willReturn(1);
         $menuItemRepository->findChildByParentAndPosition($parentItem, 2)->willReturn(null);

@@ -19,13 +19,14 @@ use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ArticleLoaderTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoadingCollection()
     {
-        $context = new Context(new EventDispatcher(), new ArrayCache());
+        $context = new Context(new EventDispatcher(), new ArrayAdapter());
         $metaFactory = new MetaFactory($context);
         $articleLoader = new ArticleLoader(__DIR__.'/../../Twig/Node', $metaFactory);
 
@@ -34,7 +35,7 @@ class ArticleLoaderTest extends \PHPUnit\Framework\TestCase
         self::assertCount(2, $result);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new \ReflectionObject($this);
         foreach ($reflection->getProperties() as $prop) {

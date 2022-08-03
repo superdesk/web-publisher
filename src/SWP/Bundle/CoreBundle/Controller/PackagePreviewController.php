@@ -16,187 +16,229 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Context\ArticlePreviewContext;
+use SWP\Bundle\CoreBundle\Context\ArticlePreviewContextInterface;
+use SWP\Bundle\CoreBundle\Factory\PackagePreviewTokenFactoryInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticlePreview;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface;
-use SWP\Bundle\CoreBundle\Service\ArticlePreviewer;
+use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
+use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolverInterface;
+use SWP\Bundle\CoreBundle\Service\ArticlePreviewerInterface;
 use SWP\Component\Bridge\Events;
+use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route as FOSRoute;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Error\LoaderError;
 
-class PackagePreviewController extends Controller
-{
-    /**
-     * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"id"="\d+", "routeId"="\d+", "token"=".+"}, methods={"GET"}, name="swp_package_preview")
-     */
-    public function previewAction(int $routeId, $id)
-    {
-        /** @var RouteInterface $route */
-        $route = $this->findRouteOr404($routeId);
-        /** @var PackageInterface $package */
-        $package = $this->findPackageOr404($id);
-        $articlePreviewer = $this->get(ArticlePreviewer::class);
-        $article = $articlePreviewer->preview($package, $route);
+class PackagePreviewController extends Controller {
 
-        $articlePreview = new ArticlePreview();
-        $articlePreview->setArticle($article);
+  private EventDispatcherInterface $eventDispatcher;
+  private DataTransformerInterface $dataTransformer;
+  private PackageRepositoryInterface $packageRepository;
+  private RouteRepositoryInterface $routeRepository;
+  private RepositoryInterface $packagePreviewTokenRepository;
+  private PackagePreviewTokenFactoryInterface $packagePreviewTokenFactory;
+  private TemplateNameResolverInterface $templateNameResolver;
+  private ArticlePreviewerInterface $articlePreviewer;
+  private ArticlePreviewContextInterface $articlePreviewContext;
 
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::PREVIEW, new GenericEvent($articlePreview));
+  /**
+   * @param EventDispatcherInterface $eventDispatcher
+   * @param DataTransformerInterface $dataTransformer
+   * @param PackageRepositoryInterface $packageRepository
+   * @param RouteRepositoryInterface $routeRepository
+   * @param RepositoryInterface $packagePreviewTokenRepository
+   * @param PackagePreviewTokenFactoryInterface $packagePreviewTokenFactory
+   * @param TemplateNameResolverInterface $templateNameResolver
+   * @param ArticlePreviewerInterface $articlePreviewer
+   * @param ArticlePreviewContextInterface $articlePreviewContext
+   */
+  public function __construct(EventDispatcherInterface            $eventDispatcher,
+                              DataTransformerInterface            $dataTransformer,
+                              PackageRepositoryInterface          $packageRepository,
+                              RouteRepositoryInterface            $routeRepository,
+                              RepositoryInterface                 $packagePreviewTokenRepository,
+                              PackagePreviewTokenFactoryInterface $packagePreviewTokenFactory,
+                              TemplateNameResolverInterface       $templateNameResolver,
+                              ArticlePreviewerInterface           $articlePreviewer,
+                              ArticlePreviewContextInterface      $articlePreviewContext) {
+    $this->eventDispatcher = $eventDispatcher;
+    $this->dataTransformer = $dataTransformer;
+    $this->packageRepository = $packageRepository;
+    $this->routeRepository = $routeRepository;
+    $this->packagePreviewTokenRepository = $packagePreviewTokenRepository;
+    $this->packagePreviewTokenFactory = $packagePreviewTokenFactory;
+    $this->templateNameResolver = $templateNameResolver;
+    $this->articlePreviewer = $articlePreviewer;
+    $this->articlePreviewContext = $articlePreviewContext;
+  }
 
-        if (null !== ($url = $articlePreview->getPreviewUrl())) {
-            return new RedirectResponse($url);
-        }
 
-        $route = $this->ensureRouteTemplateExists($route, $article);
+  /**
+   * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"id"="\d+", "routeId"="\d+", "token"=".+"}, methods={"GET"}, name="swp_package_preview")
+   */
+  public function previewAction(int $routeId, $id) {
+    /** @var RouteInterface $route */
+    $route = $this->findRouteOr404($routeId);
+    /** @var PackageInterface $package */
+    $package = $this->findPackageOr404($id);
+    $articlePreviewer = $this->articlePreviewer;
+    $article = $articlePreviewer->preview($package, $route);
 
-        try {
-            return $this->render($route->getArticlesTemplateName());
-        } catch (\Exception $e) {
-            throw $this->createNotFoundException(sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName()));
-        }
+    $articlePreview = new ArticlePreview();
+    $articlePreview->setArticle($article);
+
+    $this->eventDispatcher->dispatch(new GenericEvent($articlePreview), ArticleEvents::PREVIEW);
+
+    if (null !== ($url = $articlePreview->getPreviewUrl())) {
+      return new RedirectResponse($url);
     }
 
-    /**
-     * @Route("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
-     */
-    public function generateTokenAction(Request $request, int $routeId): SingleResourceResponseInterface
-    {
-        $route = $this->findRouteOr404($routeId);
+    $route = $this->ensureRouteTemplateExists($route, $article);
 
-        /** @var string $content */
-        $content = (string) $request->getContent();
-        $dispatcher = $this->get('event_dispatcher');
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+    try {
+      return $this->render($route->getArticlesTemplateName());
+    } catch (\Exception $e) {
+      throw $this->createNotFoundException(sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName()));
+    }
+  }
 
-        $tokenRepository = $this->get('swp.repository.package_preview_token');
-        $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
+  /**
+   * @FOSRoute("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
+   */
+  public function generateTokenAction(Request $request, int $routeId): SingleResourceResponseInterface {
+    $route = $this->findRouteOr404($routeId);
 
-        if (null === $existingPreviewToken) {
-            $packagePreviewToken = $this->get('swp.factory.package_preview_token')->createTokenizedWith($route, $content);
+    /** @var string $content */
+    $content = (string)$request->getContent();
+    $dispatcher = $this->eventDispatcher;
+    $package = $this->dataTransformer->transform($content);
+    $dispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
 
-            $tokenRepository->persist($packagePreviewToken);
-            $tokenRepository->flush();
+    $tokenRepository = $this->packagePreviewTokenRepository;
+    $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
 
-            return $this->returnResponseWithPreviewUrl($packagePreviewToken);
-        }
+    if (null === $existingPreviewToken) {
+      $packagePreviewToken = $this->packagePreviewTokenFactory->createTokenizedWith($route, $content);
 
-        $this->updatePackagePreviewTokenBody($content, $existingPreviewToken);
+      $tokenRepository->persist($packagePreviewToken);
+      $tokenRepository->flush();
 
-        return $this->returnResponseWithPreviewUrl($existingPreviewToken);
+      return $this->returnResponseWithPreviewUrl($packagePreviewToken);
     }
 
-    /**
-     * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, methods={"GET"}, name="swp_package_preview_publish")
-     */
-    public function publishPreviewAction(string $token)
-    {
-        $existingPreviewToken = $this->get('swp.repository.package_preview_token')->findOneBy(['token' => $token]);
+    $this->updatePackagePreviewTokenBody($content, $existingPreviewToken);
 
-        if (null === $existingPreviewToken) {
-            throw $this->createNotFoundException(sprintf('Token %s is not valid.', $token));
-        }
+    return $this->returnResponseWithPreviewUrl($existingPreviewToken);
+  }
 
-        $article = $this->getArticleForPreview($existingPreviewToken);
-        $route = $article->getRoute();
-        $route = $this->ensureRouteTemplateExists($route, $article);
+  /**
+   * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, methods={"GET"}, name="swp_package_preview_publish")
+   */
+  public function publishPreviewAction(string $token) {
+    $existingPreviewToken = $this->packagePreviewTokenRepository->findOneBy(['token' => $token]);
 
-        return $this->renderTemplateOr404($route);
+    if (null === $existingPreviewToken) {
+      throw $this->createNotFoundException(sprintf('Token %s is not valid.', $token));
     }
 
-    private function updatePackagePreviewTokenBody(string $content, PackagePreviewTokenInterface $packagePreviewToken)
-    {
-        if (md5($content) !== md5($packagePreviewToken->getBody())) {
-            $packagePreviewToken->setBody($content);
+    $article = $this->getArticleForPreview($existingPreviewToken);
+    $route = $article->getRoute();
+    $route = $this->ensureRouteTemplateExists($route, $article);
 
-            $this->get('swp.repository.package_preview_token')->flush();
-        }
+    return $this->renderTemplateOr404($route);
+  }
+
+  private function updatePackagePreviewTokenBody(string $content, PackagePreviewTokenInterface $packagePreviewToken) {
+    if (md5($content) !== md5($packagePreviewToken->getBody())) {
+      $packagePreviewToken->setBody($content);
+
+      $this->packagePreviewTokenRepository->flush();
+    }
+  }
+
+  private function returnResponseWithPreviewUrl(PackagePreviewTokenInterface $packagePreviewToken): SingleResourceResponseInterface {
+    $article = $this->getArticleForPreview($packagePreviewToken);
+    $articlePreview = new ArticlePreview();
+    $articlePreview->setArticle($article);
+
+    $this->eventDispatcher->dispatch(new GenericEvent($articlePreview), ArticleEvents::PREVIEW);
+
+    $url = $articlePreview->getPreviewUrl();
+
+    if (null === $url) {
+      $url = $this->generateUrl(
+          'swp_package_preview_publish',
+          ['token' => $packagePreviewToken->getToken()],
+          UrlGeneratorInterface::ABSOLUTE_URL
+      );
     }
 
-    private function returnResponseWithPreviewUrl(PackagePreviewTokenInterface $packagePreviewToken): SingleResourceResponseInterface
-    {
-        $article = $this->getArticleForPreview($packagePreviewToken);
-        $articlePreview = new ArticlePreview();
-        $articlePreview->setArticle($article);
+    return new SingleResourceResponse([
+        'preview_url' => $url,
+    ]);
+  }
 
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::PREVIEW, new GenericEvent($articlePreview));
+  private function getArticleForPreview(PackagePreviewTokenInterface $packagePreviewToken): ArticleInterface {
+    $dispatcher = $this->eventDispatcher;
+    $package = $this->dataTransformer->transform($packagePreviewToken->getBody());
+    $dispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
 
-        $url = $articlePreview->getPreviewUrl();
+    $articlePreviewer = $this->articlePreviewer;
+    $articlePreviewContext = $this->articlePreviewContext;
 
-        if (null === $url) {
-            $url = $this->generateUrl(
-                'swp_package_preview_publish',
-                ['token' => $packagePreviewToken->getToken()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-        }
+    $articlePreviewContext->setIsPreview(true);
 
-        return new SingleResourceResponse([
-            'preview_url' => $url,
-        ]);
+    return $articlePreviewer->preview($package, $packagePreviewToken->getRoute());
+  }
+
+  private function renderTemplateOr404(RouteInterface $route): Response {
+    try {
+      return $this->render($templateName = $route->getArticlesTemplateName());
+    } catch (\InvalidArgumentException | LoaderError $e) {
+      throw $this->createNotFoundException(sprintf('Template %s for route with id "%d" (%s) not found!', $templateName, $route->getId(), $route->getName()));
+    }
+  }
+
+  private function ensureRouteTemplateExists(RouteInterface $route, ArticleInterface $article): RouteInterface {
+    if (null === $route->getArticlesTemplateName()) {
+      $templateNameResolver = $this->templateNameResolver;
+      $route->setArticlesTemplateName($templateNameResolver->resolve($article));
     }
 
-    private function getArticleForPreview(PackagePreviewTokenInterface $packagePreviewToken): ArticleInterface
-    {
-        $dispatcher = $this->get('event_dispatcher');
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($packagePreviewToken->getBody());
-        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+    return $route;
+  }
 
-        $articlePreviewer = $this->get(ArticlePreviewer::class);
-        $articlePreviewContext = $this->get(ArticlePreviewContext::class);
-
-        $articlePreviewContext->setIsPreview(true);
-
-        return $articlePreviewer->preview($package, $packagePreviewToken->getRoute());
+  private function findRouteOr404(int $id): RouteInterface {
+    /** @var RouteInterface $route */
+    if (null === ($route = $this->routeRepository->findOneBy(['id' => $id]))) {
+      throw $this->createNotFoundException(sprintf('Route with id: "%s" not found!', $id));
     }
 
-    private function renderTemplateOr404(RouteInterface $route): Response
-    {
-        try {
-            return $this->render($templateName = $route->getArticlesTemplateName());
-        } catch (\InvalidArgumentException $e) {
-            throw $this->createNotFoundException(sprintf('Template %s for route with id "%d" (%s) not found!', $templateName, $route->getId(), $route->getName()));
-        }
+    return $route;
+  }
+
+  private function findPackageOr404(string $id): PackageInterface {
+    /** @var PackageInterface $package */
+    if (null === ($package = $this->packageRepository->findOneBy(['id' => $id]))) {
+      throw $this->createNotFoundException(sprintf('Package with id: "%s" not found!', $id));
     }
 
-    private function ensureRouteTemplateExists(RouteInterface $route, ArticleInterface $article): RouteInterface
-    {
-        if (null === $route->getArticlesTemplateName()) {
-            $templateNameResolver = $this->get('swp_core.theme.resolver.template_name');
-            $route->setArticlesTemplateName($templateNameResolver->resolve($article));
-        }
-
-        return $route;
-    }
-
-    private function findRouteOr404(int $id): RouteInterface
-    {
-        /** @var RouteInterface $route */
-        if (null === ($route = $this->get('swp.repository.route')->findOneBy(['id' => $id]))) {
-            throw $this->createNotFoundException(sprintf('Route with id: "%s" not found!', $id));
-        }
-
-        return $route;
-    }
-
-    private function findPackageOr404(string $id): PackageInterface
-    {
-        /** @var PackageInterface $package */
-        if (null === ($package = $this->get('swp.repository.package')->findOneBy(['id' => $id]))) {
-            throw $this->createNotFoundException(sprintf('Package with id: "%s" not found!', $id));
-        }
-
-        return $package;
-    }
+    return $package;
+  }
 }

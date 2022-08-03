@@ -28,11 +28,11 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
                 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRoutesData',

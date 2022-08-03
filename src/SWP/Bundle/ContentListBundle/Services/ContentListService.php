@@ -60,8 +60,8 @@ final class ContentListService implements ContentListServiceInterface
         $this->contentListItemRepository->add($contentListItem);
 
         $this->eventDispatcher->dispatch(
-            ContentListEvents::POST_ITEM_ADD,
-            new ContentListEvent($contentList, $contentListItem)
+            new ContentListEvent($contentList, $contentListItem),
+            ContentListEvents::POST_ITEM_ADD
         );
         $contentList->setUpdatedAt(new \DateTime());
 

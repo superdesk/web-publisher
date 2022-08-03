@@ -18,7 +18,7 @@ namespace SWP\Bundle\ContentListBundle\Event;
 
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class ContentListEvent extends Event
 {

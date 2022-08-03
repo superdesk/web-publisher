@@ -16,52 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\MenuBundle\Doctrine\ORM;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Gedmo\Exception\UnexpectedValueException;
 use Gedmo\Tool\Wrapper\EntityWrapper;
-use Gedmo\Tree\TreeListener;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\NestedTreeEntityRepository;
 use SWP\Component\Common\Pagination\PaginationData;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class MenuItemRepository extends EntityRepository implements MenuItemRepositoryInterface
+class MenuItemRepository extends NestedTreeEntityRepository implements MenuItemRepositoryInterface
 {
-    /**
-     * Tree listener on event manager.
-     *
-     * @var TreeListener
-     */
-    protected $treeListener;
-
-    /**
-     * MenuItemRepository constructor.
-     */
-    public function __construct(EntityManager $em, ClassMetadata $class)
-    {
-        parent::__construct($em, $class);
-        $treeListener = null;
-        foreach ($em->getEventManager()->getListeners() as $listeners) {
-            foreach ($listeners as $listener) {
-                if ($listener instanceof TreeListener) {
-                    $treeListener = $listener;
-
-                    break;
-                }
-            }
-            if ($treeListener) {
-                break;
-            }
-        }
-
-        if (is_null($treeListener)) {
-            throw new \Gedmo\Exception\InvalidMappingException('Tree listener was not found on your entity manager, it must be hooked into the event manager');
-        }
-
-        $this->treeListener = $treeListener;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -101,7 +65,7 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function findChildrenAsTree(MenuItemInterface $menuItem)
+    public function findChildrenAsTree(EventDispatcherInterface $eventDispatcher,MenuItemInterface $menuItem)
     {
         $queryBuilder = $this->createQueryBuilder('m');
         $queryBuilder
@@ -113,13 +77,13 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
             ->orderBy('m.lft', 'asc')
         ;
 
-        return $this->getPaginator($queryBuilder, new PaginationData());
+        return $this->getPaginator($eventDispatcher,$queryBuilder, new PaginationData());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findRootNodes(int $page = 1, int $limit = 10)
+    public function findRootNodes(EventDispatcherInterface $eventDispatcher, int $page = 1, int $limit = 10)
     {
         if ($page <= 0) {
             $page = 1;
@@ -142,7 +106,7 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
         $pagination->setPageNumber($page);
         $pagination->setLimit($limit);
 
-        return $this->getPaginator($queryBuilder, $pagination);
+        return $this->getPaginator($eventDispatcher, $queryBuilder, $pagination);
     }
 
     /**
@@ -163,55 +127,20 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
             ->getOneOrNullResult();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function persistAsFirstChildOf(MenuItemInterface $node, MenuItemInterface $parent)
-    {
-        $wrapped = new EntityWrapper($node, $this->_em);
-        $meta = $this->getClassMetadata();
-        $config = $this->treeListener->getConfiguration($this->_em, $meta->name);
 
-        $wrapped->setPropertyValue($config['parent'], $parent);
+  /**
+   * @param MenuItemInterface $node
+   * @param MenuItemInterface $parent
+   */
+  public function persistAsFirstChildOf(MenuItemInterface $node, MenuItemInterface $parent) {
+    parent::persistAsFirstChildOf($node, $parent);
+  }
 
-        $wrapped->setPropertyValue($config['left'], 0);
-        $oid = spl_object_hash($node);
-        $this->treeListener
-            ->getStrategy($this->_em, $meta->name)
-            ->setNodePosition($oid, 'FirstChild')
-        ;
-
-        $this->_em->persist($node);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function persistAsNextSiblingOf(MenuItemInterface $node, MenuItemInterface $sibling)
-    {
-        $wrapped = new EntityWrapper($node, $this->_em);
-        $meta = $this->getClassMetadata();
-        $config = $this->treeListener->getConfiguration($this->_em, $meta->name);
-
-        $wrappedSibling = new EntityWrapper($sibling, $this->_em);
-        $newParent = $wrappedSibling->getPropertyValue($config['parent']);
-        if (null === $newParent && isset($config['root'])) {
-            throw new UnexpectedValueException('Cannot persist sibling for a root node, tree operation is not possible');
-        }
-
-        $node->sibling = $sibling;
-        $sibling = $newParent;
-
-        $wrapped->setPropertyValue($config['parent'], $sibling);
-        $wrapped->setPropertyValue($config['left'], 0);
-        $oid = spl_object_hash($node);
-        $this->treeListener
-            ->getStrategy($this->_em, $meta->name)
-            ->setNodePosition($oid, 'NextSibling')
-        ;
-
-        $this->_em->persist($node);
-
-        return $this;
-    }
+  /**
+   * @param MenuItemInterface $node
+   * @param MenuItemInterface $sibling
+   */
+  public function persistAsNextSiblingOf(MenuItemInterface $node, MenuItemInterface $sibling) {
+    parent::persistAsNextSiblingOf($node, $sibling);
+  }
 }

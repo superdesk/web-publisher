@@ -14,22 +14,66 @@
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use SWP\Bundle\CoreBundle\Theme\Service\ThemeServiceInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ThemeSetupCommand extends ContainerAwareCommand
+class ThemeSetupCommand extends Command
 {
     protected static $defaultName = 'swp:theme:install';
 
+    /** @var TenantContextInterface  */
+    private $tenantContext;
+
+    /** @var TenantRepositoryInterface  */
+    private $tenantRepository;
+
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+
+    /** @var ParameterBagInterface */
+    private  $parameterBag;
+
+    /** @var ThemeServiceInterface */
+    private $themeService;
+
     /**
+     * @param TenantContextInterface $tenantContext
+     * @param TenantRepositoryInterface $tenantRepository
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ParameterBagInterface $parameterBag
+     * @param ThemeServiceInterface $themeService
+     */
+    public function __construct(
+        TenantContextInterface $tenantContext,
+        TenantRepositoryInterface $tenantRepository,
+        EventDispatcherInterface $eventDispatcher,
+        ParameterBagInterface $parameterBag,
+        ThemeServiceInterface $themeService
+    ) {
+      $this->tenantContext = $tenantContext;
+      $this->tenantRepository = $tenantRepository;
+      $this->eventDispatcher = $eventDispatcher;
+      $this->parameterBag = $parameterBag;
+      $this->themeService = $themeService;
+      parent::__construct();
+    }
+
+
+  /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -103,25 +147,24 @@ EOT
         if (!$fileSystem->exists($sourceDir) || !\is_dir($sourceDir)) {
             $output->writeln(sprintf('<error>Directory "%s" does not exist or it is not a directory!</error>', $sourceDir));
 
-            return;
+            return 1;
         }
 
         if (!$fileSystem->exists($sourceDir.DIRECTORY_SEPARATOR.'theme.json')) {
             $output->writeln('<error>Source directory doesn\'t contain a theme!</error>');
 
-            return;
+            return 1;
         }
 
-        $container = $this->getContainer();
-        $tenantRepository = $container->get('swp.repository.tenant');
-        $tenantContext = $container->get('swp_multi_tenancy.tenant_context');
-        $eventDispatcher = $container->get('event_dispatcher');
+        $tenantRepository = $this->tenantRepository;
+        $tenantContext = $this->tenantContext;
+        $eventDispatcher = $this->eventDispatcher;
 
         $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
         $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
         $tenantContext->setTenant($tenant);
-        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
+        $eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
+        $themesDir = $this->parameterBag->get('swp.theme.configuration.default_directory');
         $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);
 
         $helper = $this->getHelper('question');
@@ -134,12 +177,12 @@ EOT
         if (!$input->getOption('force')) {
             $answer = $helper->ask($input, $output, $question);
             if (!$answer) {
-                return;
+                return 1;
             }
         }
 
         try {
-            $themeService = $container->get('swp_core.service.theme');
+            $themeService = $this->themeService;
             $installationResult = $themeService->installAndProcessGeneratedData(
                 $sourceDir,
                 $themeDir,
@@ -153,7 +196,10 @@ EOT
         } catch (\Throwable $e) {
             $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
             $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
+            return 1;
         }
+
+        return 0;
     }
 
     private function assertTenantIsFound(string $tenantCode, ThemeAwareTenantInterface $tenant = null)

@@ -86,19 +86,19 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
         $destinationsCount = $this->publishDestinationProvider->countDestinationsByPackageGuid($package);
 
         if (0 < $destinationsCount) {
-            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+            $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
             $result = $this->rulesMatcher->getMatchedRules($package);
             $publishAction = new CompositePublishAction($this->createDestinations($result));
 
             $this->articlePublisher->publish($package, $publishAction);
-            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+            $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
 
             return;
         }
 
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
         $this->ruleProcessor->process($package);
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 
     private function createDestinations(array $result): array

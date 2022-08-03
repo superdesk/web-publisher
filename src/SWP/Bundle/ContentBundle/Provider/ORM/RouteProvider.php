@@ -22,7 +22,7 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RouteProvider as BaseRouteProvider;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Cmf\Component\Routing\Candidates\CandidatesInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
@@ -72,7 +72,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
         $redirectRoute = $this->redirectRouteRepository->findOneBy(['staticPrefix' => $candidates[0]]);
 
         if (null !== $redirectRoute) {
-            $collection->add($redirectRoute->getRouteName(), $redirectRoute);
+            $collection->add($redirectRoute->getRouteName() ??  '', $redirectRoute);
 
             return $collection;
         }

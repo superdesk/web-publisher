@@ -14,12 +14,14 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Controller;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
 class RouteControllerTest extends WebTestCase
 {
+    use ArraySubsetAsserts;
     /**
      * @var RouterInterface
      */
@@ -28,9 +30,9 @@ class RouteControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->router = $this->getContainer()->get('router');
@@ -61,7 +63,7 @@ class RouteControllerTest extends WebTestCase
 
     public function testCreateContentRoutesApi()
     {
-        $this->loadFixtureFiles(
+        $this->databaseTool->loadAliceFixture(
             ['@SWPContentBundle/Tests/Functional/app/Resources/fixtures/separate_article.yml'],
             'default'
         );
@@ -129,7 +131,7 @@ class RouteControllerTest extends WebTestCase
 
     public function testCreateAndUpdateAndDeleteRoutesApi()
     {
-        $this->loadFixtureFiles(
+        $this->databaseTool->loadAliceFixture(
             [
                 '@SWPContentBundle/Tests/Functional/app/Resources/fixtures/separate_article.yml',
             ],
@@ -464,7 +466,7 @@ class RouteControllerTest extends WebTestCase
 
     public function testRemoveParentRoute()
     {
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData',
             ], 'default'

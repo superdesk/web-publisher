@@ -14,12 +14,14 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentListControllerTest extends WebTestCase
 {
+    use ArraySubsetAsserts;
     /**
      * @var RouterInterface
      */
@@ -33,9 +35,9 @@ class ContentListControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+      parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
@@ -165,7 +167,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByRouteFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -179,7 +181,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"metadata":[],"author":[],"route":[3,4]}', $content);
+        self::assertStringContainsString('"filters":{"metadata":[],"author":[],"route":[3,4]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -195,7 +197,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"route":[3]}', $content);
+        self::assertStringContainsString('"filters":{"route":[3]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -211,7 +213,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"route":[4]}', $content);
+        self::assertStringContainsString('"filters":{"route":[4]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -221,7 +223,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByPublishedAfterFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -238,7 +240,7 @@ class ContentListControllerTest extends WebTestCase
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
-        self::assertContains('"filters":{"published_after":"'.$yesterday.'"}', $content);
+        self::assertStringContainsString('"filters":{"published_after":"'.$yesterday.'"}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -252,7 +254,7 @@ class ContentListControllerTest extends WebTestCase
         );
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
-        self::assertContains('"filters":{"published_after":"'.$tomorrow.'"}', $content);
+        self::assertStringContainsString('"filters":{"published_after":"'.$tomorrow.'"}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -262,7 +264,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testEmbedingFirstContentListItemsInContentList()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -278,7 +280,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByAuthorFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -293,7 +295,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":999}]}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":999}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -309,7 +311,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":2}]}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":2}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -325,7 +327,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":2},{"id":1}]}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":2},{"id":1}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -341,7 +343,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":3},{"id":1}]}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":3},{"id":1}]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -351,7 +353,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByRouteNamesApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -366,7 +368,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"route":"politics"}', $content);
+        self::assertStringContainsString('"filters":{"route":"politics"}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -376,7 +378,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByRouteIdsAsStringApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -391,7 +393,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"route":["5"]}', $content);
+        self::assertStringContainsString('"filters":{"route":["5"]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -401,7 +403,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testContentListItemsByManyFiltersApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -416,7 +418,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":2}],"route":[5]}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":2}],"route":[5]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -432,7 +434,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":2}],"route":[4]}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":2}],"route":[4]}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -448,7 +450,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":2}],"route":[4],"metadata":{"located":"Warsaw"}}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":2}],"route":[4],"metadata":{"located":"Warsaw"}}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -464,7 +466,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":1}],"route":[3],"metadata":{"located":"Berlin"}}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":1}],"route":[3],"metadata":{"located":"Berlin"}}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -480,7 +482,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
 
-        self::assertContains('"filters":{"author":[{"id":3}],"route":[5],"metadata":{"located":"Warsaw"}}', $content);
+        self::assertStringContainsString('"filters":{"author":[{"id":3}],"route":[5],"metadata":{"located":"Warsaw"}}', $content);
         $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -490,7 +492,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testLinkingAndUnlinkingItemsToContentListApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
         ], true);
@@ -522,7 +524,7 @@ class ContentListControllerTest extends WebTestCase
 
     public function testLinkingOnExactPositionApi()
     {
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
         ], true);

@@ -20,6 +20,7 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class DocumentRepository extends BaseDocumentRepository implements RepositoryInterface
 {
@@ -63,6 +64,7 @@ class DocumentRepository extends BaseDocumentRepository implements RepositoryInt
      * {@inheritdoc}
      */
     public function getPaginatedByCriteria(
+        EventDispatcherInterface $eventDispatcher,
         Criteria $criteria,
         array $sorting = [],
         PaginationData $paginationData = null

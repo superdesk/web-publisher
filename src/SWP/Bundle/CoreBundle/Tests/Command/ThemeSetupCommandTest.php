@@ -15,7 +15,11 @@
 namespace SWP\Bundle\CoreBundle\Tests\Command;
 
 use SWP\Bundle\CoreBundle\Command\ThemeSetupCommand;
+use SWP\Bundle\CoreBundle\Theme\Service\ThemeServiceInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
@@ -26,9 +30,9 @@ class ThemeSetupCommandTest extends WebTestCase
 
     private $command;
 
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
 
@@ -38,11 +42,8 @@ class ThemeSetupCommandTest extends WebTestCase
 
     protected static function createCommand()
     {
-        $kernel = self::createKernel();
-        $kernel->boot();
+        $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add(new ThemeSetupCommand());
-
         return $application->find('swp:theme:install');
     }
 
@@ -67,7 +68,7 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Theme has been installed successfully!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWhenDirectoryNotValid()
@@ -80,7 +81,7 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        self::assertContains('Directory "fake/dir" does not exist or it is not a directory!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Directory "fake/dir" does not exist or it is not a directory!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWhenFailure()
@@ -93,7 +94,7 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        self::assertContains('Source directory doesn\'t contain a theme!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Source directory doesn\'t contain a theme!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWithActivation()
@@ -107,8 +108,8 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
-        self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Theme was activated!', $this->commandTester->getDisplay());
 
         $client = self::createClient();
         $router = $this->getContainer()->get('router');
@@ -129,7 +130,7 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        self::assertContains('Theme could not be installed, files are reverted to previous version!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Theme could not be installed, files are reverted to previous version!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWithActivationAndDataGeneration()
@@ -144,8 +145,8 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
-        self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertStringContainsString('Theme was activated!', $this->commandTester->getDisplay());
 
         $client = self::createClient();
         $router = $this->getContainer()->get('router');
@@ -177,11 +178,9 @@ class ThemeSetupCommandTest extends WebTestCase
         self::assertCount(2, $content['_embedded']['_items'][1]['children']);
     }
 
-    /**
-     * @expectedException \SWP\Component\MultiTenancy\Exception\TenantNotFoundException
-     */
     public function testExecuteWhenTenantNotFound()
     {
+        self::expectException(TenantNotFoundException::class);
         $this->commandTester->execute(
             [
                 'tenant' => '111',
@@ -191,7 +190,7 @@ class ThemeSetupCommandTest extends WebTestCase
         );
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $filesystem = new Filesystem();
         $filesystem->remove(__DIR__.'/../Fixtures/themes/123abc/theme_test_install');

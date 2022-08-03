@@ -23,6 +23,7 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 abstract class AbstractWebhookEventSubscriber implements EventSubscriberInterface
 {
@@ -63,7 +64,7 @@ abstract class AbstractWebhookEventSubscriber implements EventSubscriberInterfac
             $originalTenant = $this->tenantContext->getTenant();
             $this->tenantContext->setTenant($subjectTenant);
         } else {
-            $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+            $dispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
         }
 
         $webhooks = $this->webhooksRepository->getEnabledForEvent($webhookEventName)->getResult();

@@ -16,25 +16,41 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
-class ArticleSourceController extends Controller
-{
-    /**
-     * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_article_sources")
-     */
-    public function listAction(Request $request): ResourcesListResponseInterface
-    {
-        $repository = $this->get('swp.repository.article_source');
+class ArticleSourceController extends AbstractController {
 
-        $lists = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
+  private EntityRepository $entityRepository;
+  private EventDispatcherInterface $eventDispatcher;
 
-        return new ResourcesListResponse($lists);
-    }
+  /**
+   * @param EntityRepository $entityRepository
+   * @param EventDispatcherInterface $eventDispatcher
+   */
+  public function __construct(EntityRepository $entityRepository, EventDispatcherInterface $eventDispatcher) {
+    $this->entityRepository = $entityRepository;
+    $this->eventDispatcher = $eventDispatcher;
+  }
+
+  /**
+   * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_article_sources")
+   */
+  public function listAction(Request $request): ResourcesListResponseInterface {
+    $sorting = $request->query->all('sorting');
+    $lists = $this->entityRepository->getPaginatedByCriteria(
+        $this->eventDispatcher,
+        new Criteria(),
+        $sorting,
+        new PaginationData($request));
+
+    return new ResourcesListResponse($lists);
+  }
 }

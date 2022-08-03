@@ -39,9 +39,9 @@ final class ArticleTitleChangeTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
 

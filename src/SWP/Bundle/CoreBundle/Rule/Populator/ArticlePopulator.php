@@ -101,14 +101,14 @@ final class ArticlePopulator implements ArticlePopulatorInterface
 
             $this->articleRepository->persist($articleStatistics);
 
-            $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
+            $this->eventDispatcher->dispatch( new GenericEvent($article), Events::SWP_VALIDATION);
 
             $article->setPackage($package);
             $article->setArticleStatistics($articleStatistics);
             $this->articleRepository->persist($article);
-            $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
+            $this->eventDispatcher->dispatch( new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE), ArticleEvents::PRE_CREATE);
             $this->articleRepository->flush();
-            $this->eventDispatcher->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article, $package, ArticleEvents::POST_CREATE));
+            $this->eventDispatcher->dispatch( new ArticleEvent($article, $package, ArticleEvents::POST_CREATE),ArticleEvents::POST_CREATE);
             $this->entityManager->flush($article);
         }
         $this->tenantContext->setTenant($originalTenant);

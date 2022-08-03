@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
+use Gos\Bundle\WebSocketBundle\Pusher\PusherRegistry;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\Common\Serializer\SerializerInterface;
@@ -38,23 +39,12 @@ final class PushNotificationOnPackageListener
      */
     private $serializer;
 
-    /**
-     * PushNotificationOnPackageProcessedListener constructor.
-     *
-     * @param PusherInterface     $pusher
-     * @param SerializerInterface $serializer
-     */
-    public function __construct(PusherInterface $pusher, SerializerInterface $serializer)
+    public function __construct(PusherRegistry $pusher, SerializerInterface $serializer)
     {
-        $this->pusher = $pusher;
+        $this->pusher = $pusher->getPusher('amqp');
         $this->serializer = $serializer;
     }
 
-    /**
-     * @param GenericEvent $event
-     *
-     * @throws \SWP\Component\Common\Exception\UnexpectedTypeException
-     */
     public function onPostCreate(GenericEvent $event): void
     {
         $package = $this->getPackage($event);
@@ -62,11 +52,6 @@ final class PushNotificationOnPackageListener
         $this->pushNotification($package, self::PACKAGE_STATE_CREATE);
     }
 
-    /**
-     * @param GenericEvent $event
-     *
-     * @throws \SWP\Component\Common\Exception\UnexpectedTypeException
-     */
     public function onPostUpdate(GenericEvent $event): void
     {
         $package = $this->getPackage($event);
@@ -84,21 +69,11 @@ final class PushNotificationOnPackageListener
         );
     }
 
-    /**
-     * @param GenericEvent $event
-     *
-     * @return PackageInterface
-     *
-     * @throws \SWP\Component\Common\Exception\UnexpectedTypeException
-     */
     private function getPackage(GenericEvent $event): PackageInterface
     {
         /** @var PackageInterface $package */
         if (!($package = $event->getSubject()) instanceof PackageInterface) {
-            throw UnexpectedTypeException::unexpectedType(
-                \is_object($package) ? \get_class($package) : \gettype($package),
-                PackageInterface::class
-            );
+            throw UnexpectedTypeException::unexpectedType(\is_object($package) ? \get_class($package) : \gettype($package), PackageInterface::class);
         }
 
         return $package;

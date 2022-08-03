@@ -31,9 +31,9 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
 
@@ -73,8 +73,8 @@ class ArticleUnpublishFromThemeGeneratedDataTest extends WebTestCase
         $filesystem->mirror(realpath(__DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data/'), $tempThemeDir.'/test_theme', null, ['override' => true, 'delete' => true]);
 
         $fileName = $this->createZipArchive($tempThemeDir);
-        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
-                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [],  [
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', null, true),
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());

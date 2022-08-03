@@ -25,9 +25,9 @@ class DefaultControllerTest extends WebTestCase
         'no_agent_0' => 'html:contains("Homepage theme_test")',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant', 'article']);
     }

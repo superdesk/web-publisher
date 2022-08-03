@@ -29,13 +29,14 @@ class RenditionLoaderTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesMediaData',
             ], 'default'

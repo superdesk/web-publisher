@@ -4,24 +4,194 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $cacheService: '@doctrine_cache.providers.main_cache'
+      $cacheService: '@doctrine.system_cache_pool'
       $superdeskServers: '%superdesk_servers%'
+      $formFactory: '@form.factory'
+      $eventDispatcher: '@event_dispatcher'
+      $contentListService: '@swp.service.content_list'
+      $contentListItemRepository: '@swp.repository.content_list_item'
+      $cachedTenantContext: '@swp_multi_tenancy.tenant_context'
+      $packageRepository: '@swp.repository.package'
+      $routeRepository: '@swp.repository.route'
 
+  SWP\Bundle\SettingsBundle\Controller\SettingsController: ~
+
+  SWP\Bundle\CoreBundle\Controller\FailedQueueController: ~
+  SWP\Bundle\CoreBundle\Controller\DefaultController: ~
   SWP\Bundle\CoreBundle\Controller\AuthController: ~
   SWP\Bundle\CoreBundle\Controller\SeoMediaController: ~
-  SWP\Bundle\CoreBundle\Controller\SeoMetadataController: ~
-  SWP\Bundle\ContentBundle\Controller\AuthorMediaController:
-    bind:
-      $mediaManager: '@swp_core_bundle.manager.author_media'
+  SWP\Bundle\CoreBundle\Controller\ContentController: ~
 
-  SWP\Bundle\CoreBundle\Controller\PackageSeoMediaUploadController: ~
-  SWP\Bundle\CoreBundle\Controller\RedirectingController: ~
-  SWP\Bundle\SettingsBundle\Controller\SettingsController: ~
-  SWP\Bundle\CoreBundle\Controller\ExternalOauthController: ~
-  SWP\Bundle\CoreBundle\Controller\ContentListItemController: ~
-  SWP\Bundle\CoreBundle\Controller\FailedQueueController: ~
-  SWP\Bundle\CoreBundle\Controller\StaticThemeAssetsController: ~
-  SWP\Bundle\CoreBundle\Controller\ThemesController: ~
+  SWP\Bundle\CoreBundle\Controller\AnalyticsExportController:
+    bind:
+      $analyticsReportRepository: '@swp.repository.analytics_report'
+
+  SWP\Bundle\CoreBundle\Controller\ArticleCommentsController:
+    bind:
+      $articleRepository: '@swp.repository.article'
+      $articleResolver: '@swp.resolver.article'
+
+  SWP\Bundle\CoreBundle\Controller\ArticleSourceController:
+    bind:
+      $entityRepository: '@swp.repository.article_source'
+
+  SWP\Bundle\CoreBundle\Controller\ContentListController:
+    bind:
+      $entityManager: '@swp.object_manager.content_list'
+      $factory: '@swp.factory.content_list'
+
+  SWP\Bundle\CoreBundle\Controller\ContentListItemController:
+    bind:
+      $entityManager: '@swp.object_manager.content_list_item'
+
+  SWP\Bundle\CoreBundle\Controller\CurrentThemeController:
+    bind:
+      $tenantContext: '@swp_multi_tenancy.tenant_context'
+      $tenantAwareThemeContext: '@swp_core.theme.context.tenant_aware'
+      $settingsManager: '@swp_settings.manager.settings'
+      $themeLogoUploader: '@swp_core.uploader.theme_logo'
+
+  SWP\Bundle\CoreBundle\Controller\ExternalDataController:
+    bind:
+      $factory: '@swp.factory.external_data'
+
+  SWP\Bundle\CoreBundle\Controller\ExternalOauthController:
+    bind:
+      $clientRegistry: '@knpu.oauth2.registry'
+
+  SWP\Bundle\CoreBundle\Controller\FbApplicationController:
+    bind:
+      $facebookAppRepository: '@swp.repository.facebook_application'
+      $facebookAppFactory: '@swp.factory.facebook_application'
+      $facebookPageRepository: '@swp.repository.facebook_page'
+
+  SWP\Bundle\CoreBundle\Controller\FbiaArticleController:
+    bind:
+      $facebookInstantArticlesArticleRepository: '@swp.repository.facebook_instant_articles_article'
+      $facebookInstantArticlesService: '@swp.facebook.service.instant_articles'
+
+  SWP\Bundle\CoreBundle\Controller\FbiaFeedController:
+    bind:
+      $facebookInstantArticlesFeedRepository: '@swp.repository.facebook_instant_articles_feed'
+      $facebookInstantArticlesFeedFactory: '@swp.factory.facebook_instant_articles_feed'
+
+  SWP\Bundle\CoreBundle\Controller\FbPageController:
+    bind:
+      $facebookInstantArticlesFeedRepository: '@swp.repository.facebook_instant_articles_feed'
+      $facebookPageFactory: '@swp.factory.facebook_page'
+      $facebookPageRepository: '@swp.repository.facebook_page'
+
+  SWP\Bundle\CoreBundle\Controller\MenuController:
+    bind:
+      $menuItemRepository: '@swp.repository.menu'
+      $menuItemManager: '@swp_menu.manager.menu_item'
+      $menuFactory: '@swp.factory.menu'
+
+  SWP\Bundle\CoreBundle\Controller\OrganizationRuleController:
+    bind:
+      $ruleRepository: '@swp.repository.rule'
+      $ruleFactory: '@swp.factory.rule'
+      $rulesMatcher: '@SWP\Bundle\CoreBundle\Matcher\RulesMatcher'
+      $dataTransformer: '@swp_bridge.transformer.json_to_package'
+
+  SWP\Bundle\CoreBundle\Controller\PackageController:
+    bind:
+      $articlePublisher: '@swp_core.article.publisher'
+      $elasticaPersisterRegistry: '@swp_elastica.persister_registry'
+
+  SWP\Bundle\CoreBundle\Controller\PackagePreviewController:
+    bind:
+      $dataTransformer: '@swp_bridge.transformer.json_to_package'
+      $packagePreviewTokenRepository: '@swp.repository.package_preview_token'
+      $packagePreviewTokenFactory: '@swp.factory.package_preview_token'
+      $templateNameResolver: '@swp_core.theme.resolver.template_name'
+      $articlePreviewer: '@SWP\Bundle\CoreBundle\Service\ArticlePreviewer'
+      $articlePreviewContext: '@SWP\Bundle\CoreBundle\Context\ArticlePreviewContext'
+
+  SWP\Bundle\CoreBundle\Controller\PackageSeoMediaUploadController:
+    bind:
+      $seoMetadataFactory: '@swp.factory.seo_metadata'
+      $seoMetadataRepository: '@swp.repository.seo_metadata'
+
+  SWP\Bundle\CoreBundle\Controller\PublishDestinationController:
+    bind:
+      $entityManager: '@swp.object_manager.publish_destination'
+      $publishDestinationRepository: '@swp.repository.publish_destination'
+      $publishDestinationFactory: '@swp.factory.publish_destination'
+
+  SWP\Bundle\CoreBundle\Controller\RedirectingController:
+    bind:
+      $articleRepository: '@swp.repository.article'
+
+  SWP\Bundle\CoreBundle\Controller\RedirectRouteController:
+    bind:
+      $redirectRouteRepository: '@swp.repository.redirect_route'
+      $redirectRouteFactory: '@swp.factory.redirect_route'
+      $entityManager: '@swp.object_manager.redirect_route'
+
+  SWP\Bundle\CoreBundle\Controller\RelatedArticleOrganizationController:
+    bind:
+      $dataTransformer: '@swp_bridge.transformer.json_to_package'
+      $articleRepository: '@swp.repository.article'
+      $tenantRepository: '@swp.repository.tenant'
+
+  SWP\Bundle\CoreBundle\Controller\RuleController:
+    bind:
+      $ruleRepository: '@swp.repository.rule'
+      $entityManager: '@swp.object_manager.rule'
+      $ruleFactory: '@swp.factory.rule'
+
+  SWP\Bundle\CoreBundle\Controller\SeoMetadataController:
+    bind:
+      $seoMetadataFactory: '@swp.factory.seo_metadata'
+      $seoMetadataRepository: '@swp.repository.seo_metadata'
+
+  SWP\Bundle\CoreBundle\Controller\SlideshowController:
+    bind:
+      $articleRepository: '@swp.repository.article'
+      $slideshowRepository: '@swp.repository.slideshow'
+
+  SWP\Bundle\CoreBundle\Controller\SlideshowItemController:
+    bind:
+      $articleRepository: '@swp.repository.article'
+      $slideshowRepository: '@swp.repository.slideshow'
+      $slideshowItemRepository: '@swp.repository.slideshow_item'
+
+  SWP\Bundle\CoreBundle\Controller\StaticThemeAssetsController:
+    bind:
+      $tenantAwareThemeContext: '@swp_core.theme.context.tenant_aware'
+
+  SWP\Bundle\CoreBundle\Controller\SubscriptionController:
+    bind:
+      $subscriptionsProvider: '@SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider'
+      $userRepository: '@swp.repository.user'
+
+  SWP\Bundle\CoreBundle\Controller\TenantController:
+    bind:
+      $articleRepository: '@swp.repository.article'
+      $tenantRepository: '@swp.repository.tenant'
+      $entityManager: '@swp.object_manager.tenant'
+      $settingsManager: '@swp_settings.manager.settings'
+      $tenantFactory: '@swp.factory.tenant'
+
+  SWP\Bundle\CoreBundle\Controller\ThemeLogoController:
+    bind:
+      $themeLogoUploader: '@swp_core.uploader.theme_logo'
+      $cacheInterface: '@doctrine.system_cache_pool'
+
+  SWP\Bundle\CoreBundle\Controller\ThemesController:
+    bind:
+      $themeService: '@swp_core.service.theme'
+      $themeLoader: '@swp_core.loader.organization.theme'
+      $themeUploader: '@swp_core.uploader.theme'
+
+  SWP\Bundle\CoreBundle\Controller\WebhookController:
+    bind:
+      $webhookRepository: '@swp.repository.webhook'
+      $webhookFactory: '@swp.factory.webhook'
+      $entityManager: '@swp.object_manager.webhook'
+
+
 
   takeit_amp_html.amp_controller:
     class: SWP\Bundle\CoreBundle\Controller\AmpController
@@ -29,3 +199,5 @@ services:
       $ampConverter: '@takeit_amp_html.amp_converter'
       $ampThemeLoader: '@takeit_amp_html.loader.theme'
     public: true
+    tags: [ 'controller.service_arguments' ]
+

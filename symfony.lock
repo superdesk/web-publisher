@@ -2,11 +2,11 @@
     "apache/log4php": {
         "version": "2.3.0"
     },
+    "aws/aws-crt-php": {
+        "version": "v1.0.2"
+    },
     "aws/aws-sdk-php": {
         "version": "3.171.10"
-    },
-    "behat-extension/doctrine-data-fixtures-extension": {
-        "version": "v6.0.1"
     },
     "behat/behat": {
         "version": "v3.8.1"
@@ -16,12 +16,6 @@
     },
     "behat/mink": {
         "version": "v1.8.1"
-    },
-    "behat/mink-browserkit-driver": {
-        "version": "v1.3.4"
-    },
-    "behat/symfony2-extension": {
-        "version": "2.1.5"
     },
     "behat/transliterator": {
         "version": "v1.3.0"
@@ -41,11 +35,14 @@
     "clue/stream-filter": {
         "version": "v1.5.0"
     },
+    "cocolabs-sas/doctrine-data-fixtures-extension": {
+        "version": "v5.0.2"
+    },
     "composer/ca-bundle": {
         "version": "1.2.8"
     },
-    "composer/xdebug-handler": {
-        "version": "1.4.5"
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.5"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -74,6 +71,9 @@
     "doctrine/dbal": {
         "version": "2.12.1"
     },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/doctrine-bundle": {
         "version": "1.12",
         "recipe": {
@@ -88,9 +88,6 @@
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
         ]
-    },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.3.5"
     },
     "doctrine/doctrine-fixtures-bundle": {
         "version": "3.0",
@@ -150,8 +147,8 @@
     "doctrine/phpcr-odm": {
         "version": "1.5.2"
     },
-    "doctrine/reflection": {
-        "version": "1.2.2"
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
     },
     "egulias/email-validator": {
         "version": "2.1.25"
@@ -177,6 +174,9 @@
     "facebook/graph-sdk": {
         "version": "5.7.0"
     },
+    "friends-of-behat/mink-browserkit-driver": {
+        "version": "v1.5.0"
+    },
     "friends-of-behat/mink-extension": {
         "version": "v2.4.0"
     },
@@ -192,6 +192,9 @@
             "ref": "3d21344765fd3440a85bdd27d4cada186ec628bd"
         }
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.12"
+    },
     "friendsofsymfony/elastica-bundle": {
         "version": "5.0",
         "recipe": {
@@ -206,15 +209,6 @@
     },
     "friendsofsymfony/http-cache-bundle": {
         "version": "2.10.1"
-    },
-    "friendsofsymfony/jsrouting-bundle": {
-        "version": "2.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.3",
-            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
-        }
     },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
@@ -239,9 +233,6 @@
     },
     "gos/pubsub-router-bundle": {
         "version": "v0.3.5"
-    },
-    "gos/react-amqp": {
-        "version": "v0.3.0"
     },
     "gos/web-socket-bundle": {
         "version": "v1.10.4"
@@ -297,9 +288,6 @@
     "jackalope/jackalope-doctrine-dbal": {
         "version": "1.6.0"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
-    },
     "jean85/pretty-package-versions": {
         "version": "1.5.1"
     },
@@ -348,6 +336,12 @@
             "ref": "80acc9223a205cbf5d9828fd616c82a374d281dd"
         }
     },
+    "laminas/laminas-code": {
+        "version": "4.5.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.5.0"
+    },
     "layershifter/tld-database": {
         "version": "1.0.69"
     },
@@ -392,6 +386,9 @@
     },
     "liip/rmt": {
         "version": "1.6.1"
+    },
+    "liip/test-fixtures-bundle": {
+        "version": "2.4.0"
     },
     "litipk/flysystem-fallback-adapter": {
         "version": "0.1.3"
@@ -451,41 +448,17 @@
             "config/packages/nelmio_cors.yaml"
         ]
     },
-    "nette/bootstrap": {
-        "version": "v3.1.0"
-    },
-    "nette/di": {
-        "version": "v3.0.7"
-    },
-    "nette/finder": {
-        "version": "v2.5.2"
-    },
-    "nette/neon": {
-        "version": "v3.2.1"
-    },
-    "nette/php-generator": {
-        "version": "v3.5.1"
-    },
-    "nette/robot-loader": {
-        "version": "v3.3.1"
-    },
-    "nette/schema": {
-        "version": "v1.1.0"
-    },
-    "nette/utils": {
-        "version": "v3.2.0"
-    },
     "nikic/php-parser": {
         "version": "v4.10.4"
+    },
+    "nyholm/dsn": {
+        "version": "2.0.0"
     },
     "ocramius/code-generator-utils": {
         "version": "1.0.0"
     },
     "ocramius/generated-hydrator": {
         "version": "3.1.0"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.1.1"
     },
     "oneup/flysystem-bundle": {
         "version": "3.0",
@@ -591,13 +564,13 @@
             "tests/bootstrap.php"
         ]
     },
-    "pixers/doctrine-profiler-bundle": {
-        "version": "v1.0.6"
-    },
     "psr/cache": {
         "version": "1.0.1"
     },
     "psr/container": {
+        "version": "1.0.0"
+    },
+    "psr/event-dispatcher": {
         "version": "1.0.0"
     },
     "psr/http-factory": {
@@ -648,6 +621,9 @@
     "react/stream": {
         "version": "v1.1.1"
     },
+    "rector/rector": {
+        "version": "0.11.20"
+    },
     "roave/security-advisories": {
         "version": "dev-master"
     },
@@ -686,6 +662,9 @@
     },
     "sebastian/resource-operations": {
         "version": "2.0.2"
+    },
+    "sebastian/type": {
+        "version": "1.1.4"
     },
     "sebastian/version": {
         "version": "2.0.1"
@@ -732,9 +711,6 @@
     "sylius/theme-bundle": {
         "version": "v1.5.1"
     },
-    "symfony-cmf/core-bundle": {
-        "version": "2.1.1"
-    },
     "symfony-cmf/routing": {
         "version": "2.3.3"
     },
@@ -743,6 +719,9 @@
     },
     "symfony-cmf/testing": {
         "version": "2.1.12"
+    },
+    "symfony/amqp-messenger": {
+        "version": "v5.2.7"
     },
     "symfony/asset": {
         "version": "v4.4.18"
@@ -775,9 +754,6 @@
     "symfony/css-selector": {
         "version": "v4.4.18"
     },
-    "symfony/debug": {
-        "version": "v4.4.18"
-    },
     "symfony/debug-bundle": {
         "version": "4.1",
         "recipe": {
@@ -798,6 +774,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.18"
+    },
+    "symfony/doctrine-messenger": {
+        "version": "v5.2.7"
     },
     "symfony/dom-crawler": {
         "version": "v4.4.18"
@@ -871,9 +850,6 @@
     "symfony/http-kernel": {
         "version": "v4.4.18"
     },
-    "symfony/intl": {
-        "version": "v5.2.1"
-    },
     "symfony/lock": {
         "version": "4.4",
         "recipe": {
@@ -934,6 +910,9 @@
     "symfony/options-resolver": {
         "version": "v4.4.18"
     },
+    "symfony/password-hasher": {
+        "version": "v5.4.8"
+    },
     "symfony/phpunit-bridge": {
         "version": "3.3",
         "recipe": {
@@ -982,6 +961,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.20.0"
     },
+    "symfony/polyfill-php81": {
+        "version": "v1.25.0"
+    },
     "symfony/polyfill-uuid": {
         "version": "v1.20.0"
     },
@@ -996,6 +978,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.18"
+    },
+    "symfony/redis-messenger": {
+        "version": "v5.2.7"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -1133,15 +1118,6 @@
             "config/routes/dev/web_profiler.yaml"
         ]
     },
-    "symfony/web-server-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
-    },
     "symfony/yaml": {
         "version": "v4.4.18"
     },
@@ -1222,12 +1198,6 @@
     },
     "willdurand/negotiation": {
         "version": "3.0.0"
-    },
-    "zendframework/zend-code": {
-        "version": "3.4.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
     },
     "zendframework/zend-hydrator": {
         "version": "2.4.2"

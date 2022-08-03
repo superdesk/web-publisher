@@ -21,7 +21,7 @@ parameters:
 framework:
     secret: "Three can keep a secret, if two of them are dead."
     router:
-        resource: "%kernel.root_dir%/ContentBundle/routing.yml"
+        resource: "%kernel.project_dir%/app/ContentBundle/routing.yml"
         strict_requirements: ~
     profiler:
         enabled: true
@@ -30,11 +30,15 @@ framework:
     validation:      { enable_annotations: false }
     form: ~
     fragments: ~
-    templating:
-        engines: ['twig']
     translator:
         fallbacks: ["en"]
         logging: false
+    cache:
+        pools:
+            doctrine.result_cache_pool:
+                adapter: cache.app
+            doctrine.system_cache_pool:
+                adapter: cache.system
 
 monolog:
     channels:
@@ -49,19 +53,12 @@ monolog:
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
 
-doctrine_cache:
-    providers:
-        main_cache:
-            type: array
-            namespace: templates_engine
-
 fos_rest:
     zone:
         - { path: ^/api/* }
     versioning:
         enabled: false
-    routing_loader:
-        default_format: json
+    routing_loader: false
     view:
         formats:
             json: true
@@ -112,12 +109,12 @@ doctrine:
         charset:  UTF8
         path:     "%kernel.cache_dir%/content_bundle.db3"
 
-jms_serializer:
-    metadata:
-        directories:
-            TestsContentBundle:
-                namespace_prefix: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle
-                path: "%kernel.root_dir%/Resources/config/serializer"
+#jms_serializer:
+#    metadata:
+#        directories:
+#            TestsContentBundle:
+#                namespace_prefix: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle
+#                path: "%kernel.project_dir%/Resources/config/serializer"
 
 swp_content:
     persistence:
@@ -150,12 +147,20 @@ services:
         resource: '../Resources/fixtures/*'
         tags: ['doctrine.fixture.orm']
 
+
+
+    swp_core_bundle.manager.author_media:
+        class: SWP\Bundle\ContentBundle\Manager\MediaManagerInterface
+
     swp_content_bundle.resources_list_response_listener:
         class: SWP\Component\Common\EventListener\ResourceResponseListener
         arguments:
             - "@fos_rest.view_handler"
         tags:
             - { name: kernel.event_listener, event: kernel.view }
+
+    swp_multi_tenancy.tenant_context:
+        class: SWP\Component\MultiTenancy\Context\TenantContextInterface
 
 swp_redirect_route:
     persistence:

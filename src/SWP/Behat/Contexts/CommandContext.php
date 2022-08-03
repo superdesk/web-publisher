@@ -78,7 +78,7 @@ final class CommandContext implements Context
             $this->command->mergeApplicationDefinition();
             $input = new ArrayInput($this->options);
             $input->bind($this->command->getDefinition());
-            $this->eventDispatcher->dispatch(ConsoleEvents::COMMAND, new ConsoleCommandEvent($this->command, $input, new ConsoleOutput()));
+            $this->eventDispatcher->dispatch(new ConsoleCommandEvent($this->command, $input, new ConsoleOutput()), ConsoleEvents::COMMAND);
 
             $this->getTester($this->command)->execute($this->options);
         } catch (Exception $exception) {

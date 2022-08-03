@@ -28,9 +28,9 @@ class RegistrationControllerTest extends WebTestCase
     /**x
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
@@ -39,6 +39,7 @@ class RegistrationControllerTest extends WebTestCase
     public function testRegistration()
     {
         $client = static::createClient();
+        $client->getKernel()->boot();
         $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
             'email' => 'contact@example.com',
@@ -69,7 +70,7 @@ class RegistrationControllerTest extends WebTestCase
 
         $client->followRedirect();
         self::assertTrue($client->getResponse()->isSuccessful());
-        self::assertContains('The user has been created successfully.', $client->getResponse()->getContent());
+        self::assertStringContainsString('The user has been created successfully.', $client->getResponse()->getContent());
     }
 
     public function testValidation()

@@ -18,48 +18,62 @@ use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route as SymfonyRoute;
 
-class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInterface
-{
-    protected $authorMediaManager;
+class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInterface {
 
-    public function __construct(
-        ContainerInterface $container,
-        $resource,
-        array $options = [],
-        RequestContext $context = null,
-        ContainerInterface $parameters = null,
-        LoggerInterface $logger = null,
-        string $defaultLocale = null
+  const OBJECT_BASED_ROUTE_NAME = "__article_author_media_router_route_name__";
+
+  protected $authorMediaManager;
+
+  public function __construct(
+      ContainerInterface $container,
+                         $resource,
+      array              $options = [],
+      RequestContext     $context = null,
+      ContainerInterface $parameters = null,
+      LoggerInterface    $logger = null,
+      string             $defaultLocale = null
+  ) {
+    $this->authorMediaManager = $container->get('swp_core_bundle.manager.author_media');
+
+    parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
+  }
+
+  public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
+    if (self::OBJECT_BASED_ROUTE_NAME === $meta
+        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
     ) {
-        $this->authorMediaManager = $container->get('swp_core_bundle.manager.author_media');
-
-        parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
+      $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
 
-    public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
-    {
-        if ($meta instanceof Meta && ($meta->getValues() instanceof AuthorMediaInterface)) {
-            return $this->authorMediaManager->getMediaPublicUrl($meta->getValues()->getImage());
-        }
-
-        return '';
+    if ($meta instanceof Meta && ($meta->getValues() instanceof AuthorMediaInterface)) {
+      return $this->authorMediaManager->getMediaPublicUrl($meta->getValues()->getImage());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($name)
-    {
-        return $name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface);
-    }
+    return '';
+  }
 
-    public function getRouteDebugMessage($name, array $parameters = [])
-    {
-        return 'Route for article author media '.$name->getValues()->getId().' not found';
+  /**
+   * {@inheritdoc}
+   */
+  public function supports($name) {
+    return (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) || ($name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface));
+  }
+
+  public function getRouteDebugMessage($name, array $parameters = []) {
+    if (self::OBJECT_BASED_ROUTE_NAME === $name
+        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+    ) {
+      $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
+    return 'Route for article author media ' . $name->getValues()->getId() . ' not found';
+  }
 }

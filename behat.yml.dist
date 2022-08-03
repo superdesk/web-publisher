@@ -5,16 +5,10 @@ default:
         default:
             contexts:
                 - rdx\behatvars\BehatVariablesContext
-                - FeatureContext
                 - JsonContext
-                - AuthTokenContext:
-                    userProvider: '@swp.security.user_provider'
-                    apiKeyRepository: '@swp.repository.api_key'
-                    apiKeyFactory: '@swp.factory.api_key'
-                - GeoLocationContext:
-                    geoIpReader: '@SWP\Component\GeoIP\Reader\ReaderInterface'
+                - AuthTokenContext
+                - GeoLocationContext
                 - SWP\Behat\Contexts\CsvFileContext
-                - Behat\MinkExtension\Context\MinkContext
                 - SWP\Behat\Contexts\TenantContext
                 - SWP\Behat\Contexts\ContentListContext
                 - SWP\Behat\Contexts\ContentListItemContext
@@ -32,28 +26,34 @@ default:
                 - SWP\Behat\Contexts\ArticleMediaContext
                 - SWP\Behat\Contexts\Hook\DoctrineORMContext
                 - SWP\Behat\Contexts\MessengerContext
+                - FeatureContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~
-        Behat\Symfony2Extension:
-            kernel:
-                bootstrap: features/bootstrap/bootstrap.php
-                class: App\Kernel
-                path: src/Kernel.php
-
-        Behat\MinkExtension:
-            base_url: "http://localhost/"
-            files_path: 'features/fixtures'
-            sessions:
-                default:
-                    symfony2: ~
         Behatch\Extension: ~
-        BehatExtension\DoctrineDataFixturesExtension\Extension:
-              lifetime: feature
-              autoload: false
-              fixtures:
-                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
-                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
-                - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
-        FriendsOfBehat\ServiceContainerExtension: ~
-        FriendsOfBehat\SymfonyExtension: ~
+        Behat\MinkExtension:
+                  files_path: '%paths.base%/features/fixtures/'
+                  sessions:
+                      symfony:
+                          symfony: ~
+        VIPSoft\DoctrineDataFixturesExtension\Extension:
+                  lifetime: feature
+                  autoload: false
+                  fixtures:
+                    - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
+                    - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
+                    - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
+        #Behat\Symfony2Extension:
+        #    kernel:
+        #        bootstrap: features/bootstrap/bootstrap.php
+        #        class: App\Kernel
+        #        path: src/Kernel.php
+        #FriendsOfBehat\ServiceContainerExtension: ~
+        FriendsOfBehat\SymfonyExtension:
+            bootstrap: features/bootstrap/bootstrap.php
+            kernel:
+               class: App\Kernel
+               path: src/Kernel.php
+
+
+

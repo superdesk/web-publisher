@@ -23,14 +23,13 @@
         "symfony/framework-bundle": "^4.2 | ^5.0",
         "symfony/doctrine-bridge": "^4.2 | ^5.0",
         "symfony/property-info": "^4.2 | ^5.0",
-        "doctrine/orm": "^2.6",
-        "doctrine/doctrine-bundle": "^1.10 | ^2.0"
+        "doctrine/orm": "^2.7",
+        "doctrine/doctrine-bundle": "^2.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "^5.1",
+        "phpspec/phpspec": "^6.1",
         "phpdocumentor/reflection-docblock": "^4.0",
-        "jackalope/jackalope-jackrabbit": ">=1.2.2 <1.3",
-        "jackalope/jackalope-doctrine-dbal": ">=1.2.2 <1.3",
+        "jackalope/jackalope-doctrine-dbal": "^1.7",
         "doctrine/phpcr-odm": "1.5.*"
     },
     "suggest": {

@@ -41,9 +41,9 @@ final class ThemeLogoTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
@@ -66,12 +66,12 @@ final class ThemeLogoTest extends WebTestCase
         $template = '{{ themeLogo(asset(\'theme/logo.png\')) }}';
         $result = $this->getRendered($template);
 
-        self::assertContains('/bundles/_themes/swp/test-theme@123abc/logo.png', $result);
+        self::assertStringContainsString('/bundles/_themes/swp/test-theme@123abc/logo.png', $result);
 
         $fileName = realpath(__DIR__.'/../Fixtures/logo.png');
 
-        $client->request('POST', $this->router->generate('swp_api_upload_theme_logo'), [
-            'logo' => new UploadedFile($fileName, 'logo.png', 'image/png', filesize($fileName), null, true),
+        $client->request('POST', $this->router->generate('swp_api_upload_theme_logo'), [],[
+            'logo' => new UploadedFile($fileName, 'logo.png', 'image/png', null, true),
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         // Test fix - set it to clear tests settings manager instance internal cache.
@@ -90,7 +90,7 @@ final class ThemeLogoTest extends WebTestCase
 
         $template = '{{ themeLogo(asset(\'theme/logo.png\')) }}';
         $result = $this->getRendered($template);
-        self::assertContains(ltrim($route, '/'), $result);
+        self::assertStringContainsString(ltrim($route, '/'), $result);
     }
 
     private function getRendered($template, $context = [])

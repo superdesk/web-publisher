@@ -14,11 +14,13 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
 class TenantControllerTest extends WebTestCase
 {
+    use ArraySubsetAsserts;
     const TEST_ITEM_ORIGIN = '{"body_html": "<p>this is test body</p><p>footer text</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:23:34+0000", "description_text": "test abstract", "byline": "Test Persona", "place": [], "version": "2", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "language": "en", "urgency": 3, "slugline": "test item update", "headline": "test headline", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:18:57+0000", "located": "Berlin", "type": "text", "description_html": "<p>test abstract</p>"}';
 
     /**
@@ -29,9 +31,9 @@ class TenantControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
 
@@ -299,7 +301,7 @@ class TenantControllerTest extends WebTestCase
 
         $client->request('GET', '/');
         self::assertEquals(404, $client->getResponse()->getStatusCode());
-        self::assertContains('Tenant for host "notexisting.localhost" could not be found!', $client->getResponse()->getContent());
+        self::assertStringContainsString('Tenant for host "notexisting.localhost" could not be found!', $client->getResponse()->getContent());
         self::assertEquals('text/html; charset=UTF-8', $client->getResponse()->headers->get('Content-Type'));
     }
 

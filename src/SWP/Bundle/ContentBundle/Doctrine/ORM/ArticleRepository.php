@@ -26,6 +26,7 @@ use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class ArticleRepository.
@@ -141,7 +142,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
+    public function getPaginatedByCriteria(EventDispatcherInterface $eventDispatcher, Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'a');
         $this->applyCustomFiltering($queryBuilder, $criteria);
@@ -150,7 +151,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $paginationData = new PaginationData();
         }
 
-        return $this->getPaginator($queryBuilder, $paginationData);
+        return $this->getPaginator($eventDispatcher,$queryBuilder, $paginationData);
     }
 
     /**

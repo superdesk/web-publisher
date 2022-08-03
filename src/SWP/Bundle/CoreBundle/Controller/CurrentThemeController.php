@@ -16,71 +16,101 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType;
 use SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProviderInterface;
+use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
+use SWP\Bundle\CoreBundle\Theme\Uploader\ThemeLogoUploaderInterface;
+use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
-class CurrentThemeController extends Controller
-{
-    /**
-     * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
-     * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo")
-     */
-    public function uploadThemeLogoAction(Request $request, string $type = ThemeLogoProviderInterface::SETTING_NAME_DEFAULT): SingleResourceResponseInterface
-    {
-        $themeContext = $this->get('swp_core.theme.context.tenant_aware');
+class CurrentThemeController extends AbstractController {
 
-        if (null === ($theme = $themeContext->getTheme())) {
-            throw new \LogicException('Theme is not set!');
-        }
+  private TenantAwareThemeContextInterface $tenantAwareThemeContext;
+  private FormFactoryInterface $formFactory;
+  private CachedTenantContextInterface $tenantContext;
+  private SettingsManagerInterface $settingsManager;
+  private ThemeLogoUploaderInterface $themeLogoUploader;
 
-        $form = $this->get('form.factory')->createNamed('', ThemeLogoUploadType::class, $theme);
-        $form->handleRequest($request);
+  /**
+   * @param TenantAwareThemeContextInterface $tenantAwareThemeContext
+   * @param FormFactoryInterface $formFactory
+   * @param CachedTenantContextInterface $tenantContext
+   * @param SettingsManagerInterface $settingsManager
+   * @param ThemeLogoUploaderInterface $themeLogoUploader
+   */
+  public function __construct(TenantAwareThemeContextInterface $tenantAwareThemeContext,
+                              FormFactoryInterface             $formFactory,
+                              CachedTenantContextInterface     $tenantContext,
+                              SettingsManagerInterface         $settingsManager,
+                              ThemeLogoUploaderInterface       $themeLogoUploader) {
+    $this->tenantAwareThemeContext = $tenantAwareThemeContext;
+    $this->formFactory = $formFactory;
+    $this->tenantContext = $tenantContext;
+    $this->settingsManager = $settingsManager;
+    $this->themeLogoUploader = $themeLogoUploader;
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
-            $currentTenant = $tenantContext->getTenant();
 
-            try {
-                $settingsManager = $this->get('swp_settings.manager.settings');
-                $setting = $settingsManager->get($type, ScopeContextInterface::SCOPE_THEME, $currentTenant);
-                $theme->setLogoPath($setting);
-                $themeLogoUploader = $this->get('swp_core.uploader.theme_logo');
-                $themeLogoUploader->upload($theme);
-            } catch (\Exception $e) {
-                return new SingleResourceResponse(['message' => 'Could not upload logo.'], new ResponseContext(400));
-            }
+  /**
+   * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
+   * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo")
+   */
+  public function uploadThemeLogoAction(Request $request,
+                                        string  $type = ThemeLogoProviderInterface::SETTING_NAME_DEFAULT): SingleResourceResponseInterface {
+    $themeContext = $this->tenantAwareThemeContext;
 
-            $settingsManager = $this->get('swp_settings.manager.settings');
-            $setting = $settingsManager->set($type, $theme->getLogoPath(), ScopeContextInterface::SCOPE_THEME, $currentTenant);
-
-            return new SingleResourceResponse($setting, new ResponseContext(201));
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+    if (null === ($theme = $themeContext->getTheme())) {
+      throw new \LogicException('Theme is not set!');
     }
 
-    /**
-     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
-     */
-    public function listSettingsAction(): SingleResourceResponseInterface
-    {
-        $themeContext = $this->get('swp_core.theme.context.tenant_aware');
+    $form = $this->formFactory->createNamed('', ThemeLogoUploadType::class, $theme);
+    $form->handleRequest($request);
 
-        if (null === $themeContext->getTheme()) {
-            throw new \LogicException('Theme is not set!');
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+      $tenantContext = $this->tenantContext;
+      $currentTenant = $tenantContext->getTenant();
 
-        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
-        $settingsManager = $this->get('swp_settings.manager.settings');
-        $settings = $settingsManager->getByScopeAndOwner(ScopeContextInterface::SCOPE_THEME, $tenantContext->getTenant());
+      try {
+        $settingsManager = $this->settingsManager;
+        $setting = $settingsManager->get($type, ScopeContextInterface::SCOPE_THEME, $currentTenant);
+        $theme->setLogoPath($setting);
+        $themeLogoUploader = $this->themeLogoUploader;
+        $themeLogoUploader->upload($theme);
+      } catch (\Exception $e) {
+        return new SingleResourceResponse(['message' => 'Could not upload logo.'], new ResponseContext(400));
+      }
 
-        return new SingleResourceResponse($settings);
+      $settingsManager = $this->settingsManager;
+      $setting = $settingsManager->set($type, $theme->getLogoPath(), ScopeContextInterface::SCOPE_THEME, $currentTenant);
+
+      return new SingleResourceResponse($setting, new ResponseContext(201));
     }
+
+    return new SingleResourceResponse($form, new ResponseContext(400));
+  }
+
+  /**
+   * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
+   */
+  public function listSettingsAction(): SingleResourceResponseInterface {
+    $themeContext = $this->tenantAwareThemeContext;
+
+    if (null === $themeContext->getTheme()) {
+      throw new \LogicException('Theme is not set!');
+    }
+
+    $tenantContext = $this->tenantContext;
+    $settingsManager = $this->settingsManager;
+    $settings = $settingsManager->getByScopeAndOwner(ScopeContextInterface::SCOPE_THEME, $tenantContext->getTenant());
+
+    return new SingleResourceResponse($settings);
+  }
 }

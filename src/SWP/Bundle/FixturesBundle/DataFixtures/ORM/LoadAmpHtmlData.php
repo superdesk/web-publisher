@@ -4,10 +4,11 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -107,9 +108,9 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface, Order
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
-                $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+                $dispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
                 $article->setRoute($this->getRouteByName($articleData['route']));
-                $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+                $dispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $package = $this->createPackage($articleData);

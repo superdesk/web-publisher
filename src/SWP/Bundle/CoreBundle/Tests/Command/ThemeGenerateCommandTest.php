@@ -16,21 +16,28 @@ namespace SWP\Bundle\CoreBundle\Tests\Command;
 
 use SWP\Bundle\CoreBundle\Command\ThemeGenerateCommand;
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeGenerateCommandTest extends WebTestCase
 {
+
+    private ?ThemeGenerateCommand $command;
+
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
 
-        $this->command = new ThemeGenerateCommand();
-        $this->command->setContainer($this->getContainer());
+        $this->command = new ThemeGenerateCommand(
+            $this->getContainer()->get(ParameterBagInterface::class),
+            $this->getContainer()->get(OrganizationRepositoryInterface::class),
+        );
     }
 
     public function testCommand()

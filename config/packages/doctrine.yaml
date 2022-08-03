@@ -11,10 +11,23 @@ doctrine:
                 auto_mapping: false
                 metadata_cache_driver:
                     type: service
-                    id: doctrine_cache.providers.main_cache
+                    id: doctrine.system_cache_provider
                 query_cache_driver:
                     type: service
-                    id: doctrine_cache.providers.main_cache
+                    id: doctrine.system_cache_provider
                 result_cache_driver:
                     type: service
-                    id: doctrine_cache.providers.main_cache
+                    id: doctrine.result_cache_provider
+
+services:
+    doctrine.system_cache_provider:
+        class: Symfony\Component\Cache\DoctrineProvider
+        public: false
+        arguments:
+            - '@doctrine.system_cache_pool'
+
+    doctrine.result_cache_provider:
+        class: Symfony\Component\Cache\DoctrineProvider
+        public: false
+        arguments:
+            - '@doctrine.result_cache_pool'

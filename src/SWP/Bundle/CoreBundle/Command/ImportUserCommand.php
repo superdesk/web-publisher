@@ -16,16 +16,18 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use Doctrine\Persistence\ObjectManager;
 use JsonSchema\Validator;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Bundle\UserBundle\Repository\UserRepository;
 use SWP\Bundle\UserBundle\Util\UserManipulator;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
-class ImportUserCommand extends ContainerAwareCommand
+class ImportUserCommand extends Command
 {
     private $schema = <<<'JSON'
 {
@@ -134,11 +136,22 @@ JSON;
      */
     private $userManipulator;
 
-    public function __construct(UserManipulator $userManipulator)
+    /**
+     * @var ObjectManager
+     */
+    private $userManager;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    public function __construct(UserManipulator $userManipulator, ObjectManager  $userManager, UserRepository $userRepository)
     {
         parent::__construct();
-
         $this->userManipulator = $userManipulator;
+        $this->userManager = $userManager;
+        $this->userRepository = $userRepository;
     }
 
     protected function configure()
@@ -165,8 +178,8 @@ EOT
         $finder = new Finder();
         $finder->files()->in($path);
 
-        $objectManager = $this->getContainer()->get('swp.object_manager.user');
-        $userRepository = $this->getContainer()->get('swp.repository.user');
+        $objectManager = $this->userManager;
+        $userRepository = $this->userRepository;
         $validator = new Validator();
 
         foreach ($finder as $file) {
@@ -218,5 +231,7 @@ EOT
         $objectManager->flush();
 
         $output->writeln('<bg=green;options=bold>Done.</>');
+
+        return 0;
     }
 }

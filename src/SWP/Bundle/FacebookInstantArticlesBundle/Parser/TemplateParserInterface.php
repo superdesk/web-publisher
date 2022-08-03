@@ -18,29 +18,15 @@ namespace SWP\Bundle\FacebookInstantArticlesBundle\Parser;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
 use Facebook\InstantArticles\Transformer\Transformer;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 interface TemplateParserInterface
 {
-    /**
-     * @param string|null $html
-     *
-     * @return InstantArticle
-     */
     public function parse(string $html = null): InstantArticle;
 
-    /**
-     * @return string
-     */
     public function renderTemplate(): string;
 
-    /**
-     * @return Transformer
-     */
     public function getTransformer(): Transformer;
 
-    /**
-     * @return EngineInterface
-     */
-    public function getTemplating();
+    public function getTemplating(): Environment;
 }

@@ -26,9 +26,9 @@ class FbiaFeedControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
@@ -62,7 +62,7 @@ class FbiaFeedControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"mode":0', $content);
+        self::assertStringContainsString('"mode":0', $content);
 
         $client->request('GET', $this->router->generate('swp_api_list_facebook_instant_articles_feed'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

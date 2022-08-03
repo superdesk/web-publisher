@@ -28,7 +28,7 @@ class MetaLoaderCollector extends DataCollector
         $this->traceableChainLoader = $traceableChainLoader;
     }
 
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null)
     {
         $data = $this->traceableChainLoader->getData();
 

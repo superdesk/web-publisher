@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Slideshow;
@@ -118,7 +118,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
 
             /* @var $rendition Rendition */
             foreach ($renditions as $key => $rendition) {
-                $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', filesize($fakeImage), null, true);
+                $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', null, true);
                 $image = $mediaManager->handleUploadedFile($uploadedFile, $rendition['media']);
 
                 if ('original' === $key) {

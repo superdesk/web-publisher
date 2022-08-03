@@ -14,8 +14,8 @@
 
 namespace SWP\Bundle\ContentBundle\Twig\Cache;
 
-use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class CacheBlockTagsCollector implements CacheBlockTagsCollectorInterface
 {
@@ -23,9 +23,9 @@ class CacheBlockTagsCollector implements CacheBlockTagsCollectorInterface
 
     private $currentCacheBlockTags;
 
-    private $cache;
+    private CacheInterface $cache;
 
-    public function __construct(Cache $cache)
+    public function __construct(CacheInterface $cache)
     {
         $this->currentCacheBlockTags = new ArrayCollection();
         $this->cache = $cache;
@@ -46,7 +46,7 @@ class CacheBlockTagsCollector implements CacheBlockTagsCollectorInterface
     public function flushCurrentCacheBlockTags(): void
     {
         if (null !== $this->currentCacheBlockKey) {
-            $this->cache->save($this->currentCacheBlockKey, $this->currentCacheBlockTags);
+            $this->getSavedCacheBlockTags($this->currentCacheBlockKey);
         }
 
         $this->currentCacheBlockKey = null;
@@ -59,11 +59,16 @@ class CacheBlockTagsCollector implements CacheBlockTagsCollectorInterface
 
     public function getSavedCacheBlockTags(string $cacheKey)
     {
-        $savedData = $this->cache->fetch($cacheKey);
-        if ($savedData instanceof ArrayCollection) {
-            return $savedData->toArray();
-        }
+        return $this->cache->get($cacheKey, function () {
+            if (null !== $this->currentCacheBlockKey) {
+                $this->currentCacheBlockKey = null;
 
-        return [];
+                if ($this->currentCacheBlockTags instanceof ArrayCollection) {
+                    return $this->currentCacheBlockTags->toArray();
+                }
+            }
+
+            return [];
+        });
     }
 }

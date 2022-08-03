@@ -17,6 +17,7 @@ namespace SWP\Bundle\MultiTenancyBundle\Context;
 use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,69 +27,63 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Class TenantContext.
  */
-class TenantContext implements TenantContextInterface
-{
-    /**
-     * @var TenantInterface
-     */
-    protected $tenant;
+class TenantContext implements TenantContextInterface {
+  /**
+   * @var TenantInterface
+   */
+  protected $tenant;
 
-    /**
-     * @var TenantResolverInterface
-     */
-    protected $tenantResolver;
+  /**
+   * @var TenantResolverInterface
+   */
+  protected $tenantResolver;
 
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
+  /**
+   * @var RequestStack
+   */
+  protected $requestStack;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $dispatcher;
+  /**
+   * @var EventDispatcherInterface
+   */
+  protected $dispatcher;
 
-    /**
-     * TenantContext constructor.
-     */
-    public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher)
-    {
-        $this->tenantResolver = $tenantResolver;
-        $this->requestStack = $requestStack;
-        $this->dispatcher = $dispatcher;
+  /**
+   * TenantContext constructor.
+   */
+  public function __construct(TenantResolverInterface  $tenantResolver, RequestStack $requestStack,
+                              EventDispatcherInterface $dispatcher) {
+    $this->tenantResolver = $tenantResolver;
+    $this->requestStack = $requestStack;
+    $this->dispatcher = $dispatcher;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTenant() {
+    if ($this->tenant !== null)
+      return $this->tenant;
+
+    $currentRequest = $this->requestStack->getCurrentRequest();
+    if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
+      $profilerTenant = new Tenant();
+      $profilerTenant->setDomainName($currentRequest->getHost());
+      $this->setTenant($profilerTenant);
+      return $profilerTenant;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTenant()
-    {
-        if (null === $this->tenant) {
-            $currentRequest = $this->requestStack->getCurrentRequest();
+    $newTenant = $this->tenantResolver->resolve($currentRequest ? $currentRequest->getHost() : null);
+    $this->setTenant($newTenant);
+    return $newTenant;
+  }
 
-            if (null !== $currentRequest && false !== strpos($currentRequest->getRequestUri(), '_profiler')) {
-                $profilerTenant = new Tenant();
-                $profilerTenant->setDomainName($currentRequest->getHost());
-                $this->setTenant($profilerTenant);
+  /**
+   * {@inheritdoc}
+   */
+  public function setTenant(TenantInterface $tenant) {
+    $this->tenant = $tenant;
 
-                return $this->tenant;
-            }
-
-            $this->setTenant($this->tenantResolver->resolve(
-                $currentRequest ? $currentRequest->getHost() : null
-            ));
-        }
-
-        return $this->tenant;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setTenant(TenantInterface $tenant)
-    {
-        $this->tenant = $tenant;
-
-        $this->dispatcher->dispatch(MultiTenancyEvents::TENANT_SET, new GenericEvent($tenant));
-    }
+    $this->dispatcher->dispatch(new GenericEvent($tenant), MultiTenancyEvents::TENANT_SET);
+  }
 }

@@ -15,7 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Event;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class RouteEvent extends Event
 {

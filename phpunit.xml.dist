@@ -7,6 +7,9 @@
          colors="true"
          bootstrap="config/bootstrap.php"
 >
+    <extensions>
+        <extension class="App\BypassFinalHook" file="src/BypassFinalHook.php"/>
+    </extensions>
     <php>
         <ini name="error_reporting" value="-1" />
         <!-- ###+ symfony/framework-bundle ### -->

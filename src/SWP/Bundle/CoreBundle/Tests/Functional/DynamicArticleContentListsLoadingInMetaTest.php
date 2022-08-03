@@ -23,13 +23,13 @@ class DynamicArticleContentListsLoadingInMetaTest extends WebTestCase
      */
     private $twig;
 
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant']);
-        $this->loadFixtureFiles([
+        $this->databaseTool->loadAliceFixture([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
@@ -42,7 +42,7 @@ class DynamicArticleContentListsLoadingInMetaTest extends WebTestCase
         $template = '{% gimme article with {id: 1} %}{% for contentList in article.contentLists %} {{ contentList.name }} {% endfor %}{% endgimme %}';
         $result = $this->getRendered($template);
 
-        self::assertContains('List1', $result);
+        self::assertStringContainsString('List1', $result);
     }
 
     private function getRendered($template, $context = [])

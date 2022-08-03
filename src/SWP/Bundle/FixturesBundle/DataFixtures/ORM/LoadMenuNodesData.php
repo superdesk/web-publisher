@@ -20,7 +20,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\CoreBundle\Model\MenuItem;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {

@@ -16,55 +16,63 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Twig\MenuExtension as KnpMenuExtension;
+use Twig\TwigFunction;
 
-class MenuExtension extends KnpMenuExtension
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function get($menu, array $path = array(), array $options = array())
-    {
-        try {
-            return parent::get($menu, $path, $options);
-        } catch (\InvalidArgumentException $e) {
-            // allow to render void
-        }
+class MenuExtension extends KnpMenuExtension {
+  /**
+   * {@inheritdoc}
+   */
+  public function getMy($menu, array $path = [], array $options = []): ?ItemInterface {
+    try {
+      return parent::get($menu, $path, $options);
+    } catch (\InvalidArgumentException $e) {
+      return null;
     }
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function render($menu, array $options = array(), $renderer = null)
-    {
-        try {
-            return parent::render($menu, $options, $renderer);
-        } catch (\InvalidArgumentException $e) {
-            // allow to render empty value
-        }
+  /**
+   * {@inheritdoc}
+   */
+  public function render($menu, array $options = [], $renderer = null): string {
+    try {
+      return parent::render($menu, $options, $renderer);
+    } catch (\InvalidArgumentException $e) {
+      // allow to render empty value
+      return "";
     }
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBreadcrumbsArray($menu, $subItem = null)
-    {
-        try {
-            return parent::getBreadcrumbsArray($menu, $subItem);
-        } catch (\InvalidArgumentException $e) {
-            // allow to render empty value
-        }
+  /**
+   * {@inheritdoc}
+   */
+  public function getBreadcrumbsArrayMy($menu, $subItem = null): ?array {
+    try {
+      return parent::getBreadcrumbsArray($menu, $subItem);
+    } catch (\InvalidArgumentException $e) {
+      // allow to render empty value
+      return null;
     }
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCurrentItem($menu)
-    {
-        try {
-            return parent::getCurrentItem($menu);
-        } catch (\InvalidArgumentException $e) {
-            // allow to render empty value
-        }
+  /**
+   * {@inheritdoc}
+   */
+  public function getCurrentItemMy($menu): ?ItemInterface {
+    try {
+      return parent::getCurrentItem($menu);
+    } catch (\InvalidArgumentException $e) {
+      return null;
     }
+  }
+
+  public function getFunctions(): array {
+    return [
+        new TwigFunction('knp_menu_get', [$this, 'getMy']),
+        new TwigFunction('knp_menu_render', [$this, 'render'], ['is_safe' => ['html']]),
+        new TwigFunction('knp_menu_get_breadcrumbs_array', [$this, 'getBreadcrumbsArrayMy']),
+        new TwigFunction('knp_menu_get_current_item', [$this, 'getCurrentItemMy']),
+    ];
+  }
 }

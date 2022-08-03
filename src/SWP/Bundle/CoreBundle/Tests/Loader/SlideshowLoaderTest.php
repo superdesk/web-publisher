@@ -31,8 +31,9 @@ class SlideshowLoaderTest extends WebTestCase
      */
     private $articleLoader;
 
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant', 'article_slideshows']);

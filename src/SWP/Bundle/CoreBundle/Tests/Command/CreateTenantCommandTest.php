@@ -18,9 +18,9 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class CreateTenantCommandTest extends WebTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
     }
@@ -28,9 +28,9 @@ class CreateTenantCommandTest extends WebTestCase
     public function testCommand()
     {
         $commandTester = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'subdomain' => 'test23', 'domain' => 'localhost', 'name' => 'Tenant'], true);
-        self::assertContains('has been created and', $commandTester->getDisplay());
+        self::assertStringContainsString('has been created and', $commandTester->getDisplay());
 
         $commandTester = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'domain' => 'localhost2', 'name' => 'Tenant 2'], true);
-        self::assertContains('has been created and', $commandTester->getDisplay());
+        self::assertStringContainsString('has been created and', $commandTester->getDisplay());
     }
 }

@@ -21,9 +21,9 @@ class ContentControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
     }
@@ -59,7 +59,7 @@ class ContentControllerTest extends WebTestCase
         $client->request('GET', '/collection-no-template');
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertContains('This is default "category.html.twig" template file.', $client->getResponse()->getContent());
+        self::assertStringContainsString('This is default "category.html.twig" template file.', $client->getResponse()->getContent());
     }
 
     public function testLoadingCollectionRouteWithArticles()
@@ -117,7 +117,7 @@ class ContentControllerTest extends WebTestCase
 
         $client->request('GET', '/collection-content');
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertContains('This is default "category.html.twig" template file.', $client->getResponse()->getContent());
+        self::assertStringContainsString('This is default "category.html.twig" template file.', $client->getResponse()->getContent());
     }
 
     public function testTestLoadingRouteWithCustomTemplate()

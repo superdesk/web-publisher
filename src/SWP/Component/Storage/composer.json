@@ -12,11 +12,11 @@
     "license":"AGPL-3.0",
     "require": {
         "php": "^7.4",
-        "doctrine/common": "^2.6"
+        "doctrine/common": "^3.3.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.4",
-        "symfony/dependency-injection": "^3.1"
+        "phpspec/phpspec": "^6.1",
+        "symfony/dependency-injection": "^5.4"
     },
     "suggest": {
         "symfony/dependency-injection": "To make use of dependency injection classes."

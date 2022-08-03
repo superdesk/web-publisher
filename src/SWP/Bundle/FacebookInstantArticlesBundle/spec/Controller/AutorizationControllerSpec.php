@@ -2,7 +2,7 @@
 
 namespace spec\SWP\Bundle\FacebookInstantArticlesBundle\Controller;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Facebook\Facebook;
 use Facebook\Helpers\FacebookRedirectLoginHelper;
 use PhpSpec\ObjectBehavior;
@@ -23,7 +23,7 @@ class AutorizationControllerSpec extends ObjectBehavior
     public function let(
         ContainerInterface $container,
         EntityRepository $entityRepository,
-        ObjectManager $objectManager,
+        EntityManagerInterface $objectManager,
         ApplicationInterface $application,
         PageInterface $page,
         FacebookManager $facebookManager,

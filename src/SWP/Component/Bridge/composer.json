@@ -15,11 +15,11 @@
         "justinrainbow/json-schema": "~5.0",
         "swp/common": "^2.0",
         "swp/storage": "^2.0",
-        "doctrine/common": "^2.6",
+        "doctrine/common": "^3.3",
         "psr/log": "^1.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.4"
+        "phpspec/phpspec": "^6.1"
     },
     "config": {
         "bin-dir": "bin"

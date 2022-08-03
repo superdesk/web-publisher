@@ -25,10 +25,9 @@ class TenantAwareRouterCompilerPassTest extends TestCase
 
     private $pass;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
-            ->getMock();
+        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $this->definition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->setMethods(['setArguments', 'addMethodCall', 'setMethodCalls'])
             ->getMock();
@@ -112,11 +111,9 @@ class TenantAwareRouterCompilerPassTest extends TestCase
         $this->assertNull($this->pass->process($this->container));
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
-     */
     public function testNoBundle()
     {
+        static::expectException(\Symfony\Component\DependencyInjection\Exception\RuntimeException::class);
         $this->container->expects($this->any())
             ->method('hasParameter')
             ->will($this->returnValueMap([

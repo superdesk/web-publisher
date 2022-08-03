@@ -98,7 +98,7 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      * @param string $key   The key
      * @param string $regex The regex
      */
-    public function setRequirement($key, $regex);
+    public function setRequirement(string $key, string $regex);
 
     /**
      * Gets a requirement for the given key.
@@ -107,7 +107,7 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      *
      * @return string|null The regex or null when not given
      */
-    public function getRequirement($key);
+    public function getRequirement(string $key);
 
     /**
      * @param string $name
@@ -172,7 +172,7 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      * @param string $name
      * @param string $value
      */
-    public function setDefault($name, $value);
+    public function setDefault(string $name, ?string $value);
 
     /**
      * Set the object this url points to.

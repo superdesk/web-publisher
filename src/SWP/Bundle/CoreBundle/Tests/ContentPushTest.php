@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Tests;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,6 +24,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class ContentPushTest extends WebTestCase
 {
+    use ArraySubsetAsserts;
+
     const TEST_ITEM_UPDATE_ORIGIN = '{"body_html": "<p>this is test body</p><p>footer text</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:23:34+0000", "description_text": "test abstract", "byline": "Test Persona", "place": [], "version": "2", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "language": "en", "urgency": 3, "slugline": "test item update", "headline": "test headline", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:18:57+0000", "located": "Berlin", "type": "text", "description_html": "<p>test abstract</p>"}';
 
     const TEST_ITEM_UPDATE_UPDATE_1 = '{"body_html": "<p>this is test body&nbsp;updated</p><p>footer text &nbsp;updated</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:26:08+0000", "description_text": "test abstract\u00a0updated", "byline": "Test Persona", "place": [], "version": "3", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:25:35.466333:df630dd5-9f99-42be-8e01-645a338a9521", "language": "en", "urgency": 3, "slugline": "test item update", "type": "text", "headline": "test headline 2", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:25:35+0000", "evolvedfrom": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "located": "Berlin", "description_html": "<p>test abstract&nbsp;updated</p>"}';
@@ -64,9 +67,9 @@ final class ContentPushTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
@@ -208,9 +211,9 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321a'],
             [
-                'media_id' => '1234567890987654321a',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -218,9 +221,10 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321b',],
             [
-                'media_id' => '1234567890987654321b',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -228,9 +232,10 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321c'],
             [
-                'media_id' => '1234567890987654321c',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png',  null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -396,9 +401,10 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321a'],
             [
-                'media_id' => '1234567890987654321a',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -406,9 +412,9 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321b',],
             [
-                'media_id' => '1234567890987654321b',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -416,9 +422,9 @@ final class ContentPushTest extends WebTestCase
         $client->request(
             'POST',
             $this->router->generate('swp_api_assets_push'),
+            ['media_id' => '1234567890987654321c'],
             [
-                'media_id' => '1234567890987654321c',
-                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+                'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.png', 'test_file.png', 'image/png', null, true),
             ]
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -569,9 +575,10 @@ final class ContentPushTest extends WebTestCase
             $client->request(
                 'POST',
                 $this->router->generate('swp_api_assets_push'),
+                ['media_id' => $mediaId],
                 [
-                    'media_id' => $mediaId,
-                    'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.jpg', 'test_file.jpg', 'image/jpeg', 3992, null, true),
+
+                    'media' => new UploadedFile(__DIR__.'/Functional/Resources/test_file.jpg', 'test_file.jpg', 'image/jpeg', null, true),
                 ]
             );
 
@@ -614,8 +621,8 @@ final class ContentPushTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_package_preview', ['routeId' => 3, 'id' => 1, 'auth_token' => base64_encode('test_token:')]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('<figure><img src="/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"', $content);
-        self::assertContains('alt="Article loaded from context" src="http://localhost/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"', $content);
+        self::assertStringContainsString('<figure><img src="/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"', $content);
+        self::assertStringContainsString('alt="Article loaded from context" src="http://localhost/uploads/swp/123456/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"', $content);
 
         // publish package
         $client->request(

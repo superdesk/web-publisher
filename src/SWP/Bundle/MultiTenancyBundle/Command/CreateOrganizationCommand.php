@@ -14,10 +14,12 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
+use SWP\Component\MultiTenancy\Factory\OrganizationFactoryInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\Console\Command\Command;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,11 +29,28 @@ use Symfony\Component\Console\Question\Question;
 /**
  * Class CreateOrganizationCommand.
  */
-class CreateOrganizationCommand extends ContainerAwareCommand
+class CreateOrganizationCommand extends Command
 {
     protected static $defaultName = 'swp:organization:create';
 
-    /**
+    /** @var OrganizationRepositoryInterface */
+    private $organizationRepository;
+
+    /** @var OrganizationFactoryInterface */
+    private  $organizationFactory;
+
+  /**
+   * @param OrganizationRepositoryInterface $organizationRepository
+   * @param OrganizationFactoryInterface $organizationFactory
+   */
+  public function __construct( OrganizationRepositoryInterface $organizationRepository, OrganizationFactoryInterface $organizationFactory) {
+    $this->organizationRepository = $organizationRepository;
+    $this->organizationFactory = $organizationFactory;
+    parent::__construct();
+  }
+
+
+  /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -76,6 +95,8 @@ EOT
         $this->getObjectManager()->flush();
 
         $this->sendOutput($output, $organization);
+
+        return 0;
     }
 
     protected function sendOutput(OutputInterface $output, OrganizationInterface $organization)
@@ -123,7 +144,7 @@ EOT
 
     protected function createOrganization(string $name, InputInterface $input, string $code = null): OrganizationInterface
     {
-        $organizationFactory = $this->getContainer()->get('swp.factory.organization');
+        $organizationFactory = $this->organizationFactory;
         /* @var OrganizationInterface $organization */
         if (null !== $code) {
             $organization = $organizationFactory->create();
@@ -139,11 +160,11 @@ EOT
     }
 
     /**
-     * @return ObjectManager
+     * @return RepositoryInterface
      */
     protected function getObjectManager()
     {
-        return $this->getContainer()->get('swp.object_manager.organization');
+        return $this->organizationRepository;
     }
 
     /**
@@ -151,6 +172,6 @@ EOT
      */
     protected function getOrganizationRepository()
     {
-        return $this->getContainer()->get('swp.repository.organization');
+        return $this->organizationRepository;
     }
 }

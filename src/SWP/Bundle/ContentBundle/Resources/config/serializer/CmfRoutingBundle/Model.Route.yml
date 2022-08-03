@@ -7,7 +7,7 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             type: integer
         content:
             expose: true
-            groups: [api]
+            groups: [api_route_content]
         staticPrefix:
             expose: true
             groups: [api]

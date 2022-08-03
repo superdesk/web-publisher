@@ -114,10 +114,10 @@ class SWPMultiTenancyExtensionTest extends AbstractExtensionTestCase
 
     /**
      * @test
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function if_persistence_backend_is_not_enabled()
     {
+        static::expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
         $this->load();
     }
 
@@ -174,7 +174,7 @@ class SWPMultiTenancyExtensionTest extends AbstractExtensionTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return [
             new SWPMultiTenancyExtension(),

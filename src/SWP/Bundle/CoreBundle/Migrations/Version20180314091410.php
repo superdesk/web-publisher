@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SWP\Migrations;
 
 use Behat\Transliterator\Transliterator;
-use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
@@ -35,7 +35,7 @@ class Version20180314091410 extends AbstractMigration implements ContainerAwareI
      *
      * @throws \Doctrine\DBAL\Migrations\AbortMigrationException
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
@@ -46,7 +46,7 @@ class Version20180314091410 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function postUp(Schema $schema)
+   public function postUp(Schema $schema) : void
     {
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager
@@ -72,7 +72,7 @@ class Version20180314091410 extends AbstractMigration implements ContainerAwareI
      *
      * @throws \Doctrine\DBAL\Migrations\AbortMigrationException
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');

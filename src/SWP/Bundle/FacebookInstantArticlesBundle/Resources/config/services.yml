@@ -11,4 +11,4 @@ services:
     swp_facebook.template_parser:
         class: SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser
         arguments:
-            - "@templating"
+            - "@twig"

@@ -25,11 +25,12 @@ class RouteLoaderTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
         self::bootKernel();
 
-        $this->loadFixtures([LoadArticlesData::class]);
+        $this->databaseTool->loadFixtures([LoadArticlesData::class]);
     }
 
     public function testFindRoute()

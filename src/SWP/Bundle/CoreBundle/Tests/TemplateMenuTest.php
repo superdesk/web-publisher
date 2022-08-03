@@ -26,9 +26,9 @@ class TemplateMenuTest extends WebTestCase
      */
     protected $router;
 
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
@@ -48,6 +48,6 @@ class TemplateMenuTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
 
-        self::assertContains('<div></div>', $content);
+        self::assertStringContainsString('<div></div>', $content);
     }
 }

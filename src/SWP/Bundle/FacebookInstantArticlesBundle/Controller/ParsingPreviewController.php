@@ -21,7 +21,7 @@ use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Model\ContentListItem;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
 use SWP\Component\ContentList\ContentListEvents;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -45,11 +45,11 @@ class ParsingPreviewController extends Controller
             $contentListItem->setContent($article);
             $contentListItem->setContentList($contentList);
             $this->get('event_dispatcher')->dispatch(
-                ContentListEvents::POST_ITEM_ADD,
                 new ContentListEvent(
                     $contentList,
                     $contentListItem
-                )
+                ),
+                ContentListEvents::POST_ITEM_ADD
             );
         }
 

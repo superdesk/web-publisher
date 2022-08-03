@@ -39,12 +39,13 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
         $this->initDatabase();
         $filesystem = new Filesystem();
         $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
-        $this->loadFixtures(
+        $this->databaseTool->loadFixtures(
             [
                 'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesMediaData',
             ], 'default'
@@ -86,7 +87,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     {
         $package = $this->getContainer()->get('swp_bridge.transformer.json_to_package')->transform(self::TEST_PACKAGE);
         $article = $this->getContainer()->get('swp_content.transformer.package_to_article')->transform($package);
-        $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
+        $this->getContainer()->get('event_dispatcher')->dispatch(new ArticleEvent($article, $package), ArticleEvents::PRE_CREATE);
 
         self::assertEquals('', $article->getBody());
     }
@@ -98,7 +99,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     {
         $item = $this->getContainer()->get('swp_bridge.transformer.json_to_package')->transform(self::TEST_ITEM);
         $article = $this->getContainer()->get('swp_content.transformer.package_to_article')->transform($item);
-        $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $item));
+        $this->getContainer()->get('event_dispatcher')->dispatch( new ArticleEvent($article, $item), ArticleEvents::PRE_CREATE);
 
         $embed1 = <<<'EOT'
 <!-- EMBED START Image {id: "embedded11331114891"} --> <figure><img src="/uploads/swp/media/58512be6c3a5be49fdca1178.jpg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" data-rendition-name="original" width="1200" height="797" loading="lazy" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded11331114891"} -->
@@ -107,7 +108,7 @@ EOT;
         $embed2 = <<<'EOT'
 <!-- EMBED START Image {id: "embedded5366428123"} --> <figure><img src="/uploads/swp/media/58512be4c3a5be49fdca1168.jpg" data-media-id="embedded5366428123" data-image-id="58512be4c3a5be49fdca1168" data-rendition-name="original" width="1200" height="900" loading="lazy" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis<span>Ljuba Ranković</span></figcaption></figure> <!-- EMBED END Image {id: "embedded5366428123"} -->
 EOT;
-        self::assertContains($embed1, $article->getBody());
-        self::assertContains($embed2, $article->getBody());
+        self::assertStringContainsString($embed1, $article->getBody());
+        self::assertStringContainsString($embed2, $article->getBody());
     }
 }

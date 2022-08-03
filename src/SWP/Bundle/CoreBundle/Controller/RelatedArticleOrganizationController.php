@@ -16,90 +16,121 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
+use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleList;
 use SWP\Bundle\CoreBundle\Model\RelatedArticleListItem;
+use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
+use SWP\Bundle\CoreBundle\Repository\PackageRepositoryInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Route;
 
-class RelatedArticleOrganizationController extends Controller
-{
-    /**
-     * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_organization_related_articles")
-     */
-    public function postAction(Request $request)
-    {
-        $content = $request->getContent();
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+class RelatedArticleOrganizationController extends Controller {
+  private EventDispatcherInterface $eventDispatcher;
+  private DataTransformerInterface $dataTransformer;
+  private CachedTenantContextInterface $cachedTenantContext;
+  private PackageRepositoryInterface $packageRepository;
+  private ArticleRepositoryInterface $articleRepository;
+  private TenantRepositoryInterface $tenantRepository;
 
-        $relatedArticlesList = $this->getRelated($package);
+  /**
+   * @param EventDispatcherInterface $eventDispatcher
+   * @param DataTransformerInterface $dataTransformer
+   * @param CachedTenantContextInterface $cachedTenantContext
+   * @param PackageRepositoryInterface $packageRepository
+   * @param ArticleRepositoryInterface $articleRepository
+   * @param TenantRepositoryInterface $tenantRepository
+   */
+  public function __construct(EventDispatcherInterface     $eventDispatcher,
+                              DataTransformerInterface     $dataTransformer,
+                              CachedTenantContextInterface $cachedTenantContext,
+                              PackageRepositoryInterface   $packageRepository,
+                              ArticleRepositoryInterface   $articleRepository,
+                              TenantRepositoryInterface    $tenantRepository) {
+    $this->eventDispatcher = $eventDispatcher;
+    $this->dataTransformer = $dataTransformer;
+    $this->cachedTenantContext = $cachedTenantContext;
+    $this->packageRepository = $packageRepository;
+    $this->articleRepository = $articleRepository;
+    $this->tenantRepository = $tenantRepository;
+  }
 
-        return new SingleResourceResponse($relatedArticlesList);
+
+  /**
+   * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_organization_related_articles")
+   */
+  public function postAction(Request $request) {
+    $content = $request->getContent();
+    $package = $this->dataTransformer->transform($content);
+    $relatedArticlesList = $this->getRelated($package);
+
+    return new SingleResourceResponse($relatedArticlesList);
+  }
+
+  /**
+   * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
+   */
+  public function getRelatedAction(string $id) {
+    $package = $this->findOr404((int)$id);
+
+    $relatedArticlesList = $this->getRelated($package);
+
+    return new SingleResourceResponse($relatedArticlesList);
+  }
+
+  private function getRelated(PackageInterface $package): RelatedArticleList {
+    $relatedItemsGroups = $package->getItems()->filter(static function ($group) {
+      return ItemInterface::TYPE_TEXT === $group->getType();
+    });
+
+    $relatedArticlesList = new RelatedArticleList();
+
+    if (null === $package || (null !== $package && 0 === \count($relatedItemsGroups))) {
+      return $relatedArticlesList;
     }
 
-    /**
-     * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
-     */
-    public function getRelatedAction(string $id)
-    {
-        $package = $this->findOr404((int) $id);
+    $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
+    $articleRepository = $this->articleRepository;
 
-        $relatedArticlesList = $this->getRelated($package);
+    foreach ($relatedItemsGroups as $item) {
+      if (null === ($existingArticles = $articleRepository->findBy(['code' => $item->getGuid()]))) {
+        continue;
+      }
 
-        return new SingleResourceResponse($relatedArticlesList);
+      $tenants = [];
+      foreach ($existingArticles as $existingArticle) {
+        $tenantCode = $existingArticle->getTenantCode();
+        $tenant = $this->tenantRepository->findOneByCode($tenantCode);
+
+        $tenants[] = $tenant;
+      }
+
+      $relatedArticleListItem = new RelatedArticleListItem();
+      $relatedArticleListItem->setTenants($tenants);
+      $relatedArticleListItem->setTitle($item->getHeadline());
+
+      $relatedArticlesList->addRelatedArticleItem($relatedArticleListItem);
     }
 
-    private function getRelated(PackageInterface $package): RelatedArticleList
-    {
-        $relatedItemsGroups = $package->getItems()->filter(static function ($group) {
-            return ItemInterface::TYPE_TEXT === $group->getType();
-        });
+    return $relatedArticlesList;
+  }
 
-        $relatedArticlesList = new RelatedArticleList();
-
-        if (null === $package || (null !== $package && 0 === \count($relatedItemsGroups))) {
-            return $relatedArticlesList;
-        }
-
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-        $articleRepository = $this->get('swp.repository.article');
-
-        foreach ($relatedItemsGroups as $item) {
-            if (null === ($existingArticles = $articleRepository->findBy(['code' => $item->getGuid()]))) {
-                continue;
-            }
-
-            $tenants = [];
-            foreach ($existingArticles as $existingArticle) {
-                $tenantCode = $existingArticle->getTenantCode();
-                $tenant = $this->get('swp.repository.tenant')->findOneByCode($tenantCode);
-
-                $tenants[] = $tenant;
-            }
-
-            $relatedArticleListItem = new RelatedArticleListItem();
-            $relatedArticleListItem->setTenants($tenants);
-            $relatedArticleListItem->setTitle($item->getHeadline());
-
-            $relatedArticlesList->addRelatedArticleItem($relatedArticleListItem);
-        }
-
-        return $relatedArticlesList;
+  private function findOr404(int $id): PackageInterface {
+    $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
+    $tenantContext = $this->cachedTenantContext;
+    if (null === $package = $this->packageRepository->findOneBy(['id' => $id, 'organization' => $tenantContext->getTenant()->getOrganization()])) {
+      throw new NotFoundHttpException('Package was not found.');
     }
 
-    private function findOr404(int $id): PackageInterface
-    {
-        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
-        if (null === $package = $this->get('swp.repository.package')->findOneBy(['id' => $id, 'organization' => $tenantContext->getTenant()->getOrganization()])) {
-            throw new NotFoundHttpException('Package was not found.');
-        }
-
-        return $package;
-    }
+    return $package;
+  }
 }

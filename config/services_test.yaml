@@ -1,9 +1,34 @@
 services:
-    _defaults:
-        public: true
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
 
     # If you need to access services in a test, create an alias
     # and then fetch that alias from the container. As a convention,
     # aliases are prefixed with test. For example:
     #
     # test.App\Service\MyService: '@App\Service\MyService'
+  behatch.http_call.request:
+    class: Behatch\HttpCall\Request
+    arguments:
+      - '@behat.mink'
+    public: false
+
+  GeoLocationContext:
+    class: 'GeoLocationContext'
+    public: true
+    arguments:
+      - '@behatch.http_call.request'
+      - '@SWP\Component\GeoIP\Reader\ReaderInterface'
+
+  AuthTokenContext:
+    class: "AuthTokenContext"
+    public: true
+    arguments:
+      - '@behatch.http_call.request'
+      - '@swp.security.user_provider'
+      - '@swp.repository.api_key'
+      - '@swp.factory.api_key'
+
+

@@ -21,6 +21,7 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeListNode;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\AssignNameExpression;
@@ -44,7 +45,7 @@ class GimmeListNodeTest extends NodeTestCase
     {
         $env = $this->getEnvironment();
         $metaLoader = new ChainLoader();
-        $context = new Context(new EventDispatcher(), new ArrayCache());
+        $context = new Context(new EventDispatcher(), new ArrayAdapter());
         $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
         $env->addExtension(new GimmeExtension($context, $metaLoader));
 
@@ -173,7 +174,7 @@ EOF
             [$node2, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [\$context["articles"], 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = \$this->env->getFilter('start')->getCallable()(\$context["articles"], 0)['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader2 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -208,7 +209,7 @@ EOF
             [$node3, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = \$this->env->getFilter('start')->getCallable()(\$this->env->getFilter('limit')->getCallable()(\$this->env->getFilter('order')->getCallable()(\$context["articles"], ["id" => "desc"]), 10), 0)['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = \$context['_collection_type_filters'];
 \$withoutParameters = [];
 \$swpCollectionMetaLoader3 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -252,7 +253,7 @@ EOF
             [$node4, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = \$this->env->getFilter('start')->getCallable()(\$this->env->getFilter('limit')->getCallable()(\$this->env->getFilter('order')->getCallable()(\$context["articles"], ["id" => "desc"]), 10), 0)['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader4 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -296,7 +297,7 @@ EOF
             [$node5, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = \$this->env->getFilter('start')->getCallable()(\$this->env->getFilter('limit')->getCallable()(\$this->env->getFilter('order')->getCallable()(\$context["articles"], ["id" => "desc"]), 10), 0)['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader5 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -326,7 +327,7 @@ EOF
             [$node6, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), [call_user_func_array(\$this->env->getFilter('limit')->getCallable(), [call_user_func_array(\$this->env->getFilter('order')->getCallable(), [\$context["articles"], ["id" => "desc"]]), 10]), 0])['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = \$this->env->getFilter('start')->getCallable()(\$this->env->getFilter('limit')->getCallable()(\$this->env->getFilter('order')->getCallable()(\$context["articles"], ["id" => "desc"]), 10), 0)['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader6 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -359,7 +360,7 @@ EOF
         ];
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new \ReflectionObject($this);
         foreach ($reflection->getProperties() as $prop) {

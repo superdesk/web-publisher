@@ -27,9 +27,9 @@ class FbApplicationControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
-        self::bootKernel();
+        parent::setUp();
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
@@ -45,8 +45,8 @@ class FbApplicationControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"app_id":"1234567890987654321"', $content);
-        self::assertContains('"app_secret":"ge56g3wegsysd56h6d76z47sugy56hts6gyd"', $content);
+        self::assertStringContainsString('"app_id":"1234567890987654321"', $content);
+        self::assertStringContainsString('"app_secret":"ge56g3wegsysd56h6d76z47sugy56hts6gyd"', $content);
     }
 
     public function testCreateDumplicateApplication()

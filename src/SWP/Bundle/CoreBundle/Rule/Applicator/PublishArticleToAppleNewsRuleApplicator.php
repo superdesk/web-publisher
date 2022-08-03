@@ -52,7 +52,7 @@ final class PublishArticleToAppleNewsRuleApplicator extends AbstractRuleApplicat
 
         if ($isPublishedToAppleNews = (bool) $configuration[$this->supportedKeys[0]]) {
             $subject->setPublishedToAppleNews($isPublishedToAppleNews);
-            $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($subject, null, ArticleEvents::PUBLISH));
+            $this->eventDispatcher->dispatch( new ArticleEvent($subject, null, ArticleEvents::PUBLISH), ArticleEvents::PUBLISH);
 
             $this->logger->info(sprintf(
                 'Configuration: "%s" for "%s" rule has been applied!',

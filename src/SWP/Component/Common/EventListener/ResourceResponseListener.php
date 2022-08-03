@@ -98,6 +98,7 @@ final class ResourceResponseListener
     {
         $context = new Context();
         $context->setGroups($serializationGroups);
+        $context->enableMaxDepth();
         $view->setContext($context);
 
         return $view;

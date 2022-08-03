@@ -15,7 +15,7 @@
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\CoreBundle\Detection\DeviceDetectionInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent ;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class CurrentDeviceListener
@@ -34,11 +34,11 @@ class CurrentDeviceListener
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
-        if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+        if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
             // don't do anything if it's not the master request
             return;
         }
