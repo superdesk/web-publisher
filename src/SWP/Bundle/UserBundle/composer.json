@@ -48,7 +48,7 @@
     "symfony/security": "^4.2",
     "symfony/security-bundle": "^4.2",
     "symfony/doctrine-bridge": "^4.2",
-    "doctrine/orm": "^2.6",
+    "doctrine/orm": "^2.7 <2.13",
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "liip/functional-test-bundle": "^2.0",
     "sensio/framework-extra-bundle": "^5.0",

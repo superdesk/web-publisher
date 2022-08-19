@@ -42,7 +42,7 @@
         "symfony/stopwatch": "^5.4",
         "sensio/framework-extra-bundle": "^5.0",
         "doctrine/doctrine-bundle": "^2.0",
-        "doctrine/orm": "^2.7",
+        "doctrine/orm": "^2.7 <2.13",
         "swp/jms-serializer-bridge": "^2.0"
     },
     "config": {
