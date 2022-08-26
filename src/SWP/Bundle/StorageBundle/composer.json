@@ -23,7 +23,7 @@
         "symfony/framework-bundle": "^4.2 | ^5.0",
         "symfony/doctrine-bridge": "^4.2 | ^5.0",
         "symfony/property-info": "^4.2 | ^5.0",
-        "doctrine/orm": "^2.7",
+        "doctrine/orm": "^2.7 <2.13",
         "doctrine/doctrine-bundle": "^2.0"
     },
     "require-dev": {

@@ -59,7 +59,8 @@
     "symfony/templating": "^5.4",
     "sentry/sentry-symfony": "^3.3 >3.3.1",
     "symfony/messenger": "^5.4",
-    "symfony/mime": "^5.4"
+    "symfony/mime": "^5.4",
+    "doctrine/orm": "^2.7 <2.13"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
@@ -82,7 +83,6 @@
     "nelmio/alice": "3.5.*",
     "sensio/framework-extra-bundle": "^5.5",
     "twig/cache-extension": "^1.4",
-    "doctrine/orm": "^2.7",
     "dms/phpunit-arraysubset-asserts": "^0.4.0",
     "liip/test-fixtures-bundle": "^2.4",
     "doctrine/dbal": "^2.6"

@@ -26,7 +26,7 @@
     "symfony/validator": "^5.4",
     "symfony/security-core": "^5.4",
     "sensio/framework-extra-bundle": "^5.5",
-    "doctrine/orm": "^2.7",
+    "doctrine/orm": "^2.7 <2.13",
     "doctrine/doctrine-bundle": "^1.10 | ^2.0"
   },
   "require-dev": {
