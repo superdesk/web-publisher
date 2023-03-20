@@ -35,7 +35,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
             'Migration can only be executed safely on \'postgresql\'.'
         );
 
-        $this->addSql('CREATE SEQUENCE swp_article_extra_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE OR REPLACE SEQUENCE swp_article_extra_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql(
             'CREATE TABLE swp_article_extra (id INT NOT NULL, article_id INT DEFAULT NULL, field_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, embed VARCHAR(255) DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))'
         );
