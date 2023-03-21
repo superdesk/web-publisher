@@ -100,7 +100,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
                     if (is_array($extraItem)) {
                         $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
                     } else {
-                        $extra = ArticleExtraTextField::newFromValue($key, $extraItem);
+                        $extra = ArticleExtraTextField::newFromValue($key, (string)$extraItem);
                     }
                     $extra->setArticle($article);
                 }
