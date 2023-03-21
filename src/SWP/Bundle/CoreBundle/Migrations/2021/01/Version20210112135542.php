@@ -37,7 +37,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
 
         $this->addSql('CREATE SEQUENCE IF NOT EXISTS swp_article_extra_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql(
-            'CREATE TABLE swp_article_extra (id INT NOT NULL, article_id INT DEFAULT NULL, field_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, embed VARCHAR(255) DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))'
+            'CREATE TABLE IF NOT EXISTS swp_article_extra (id INT NOT NULL, article_id INT DEFAULT NULL, field_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, embed VARCHAR(255) DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))'
         );
         $this->addSql('CREATE INDEX IDX_9E61B3177294869C ON swp_article_extra (article_id)');
         $this->addSql(
