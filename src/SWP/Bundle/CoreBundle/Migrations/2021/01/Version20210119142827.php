@@ -30,7 +30,9 @@ final class Version20210119142827 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_user DROP salt');
         $this->addSql('ALTER TABLE swp_user DROP last_login');
         $this->addSql('ALTER TABLE swp_user DROP password_requested_at');
-        $this->addSql('ALTER TABLE swp_user RENAME COLUMN enabled TO is_verified');
+        if($schema->getTable('swp_user')->hasColumn('enabled')) {
+            $this->addSql('ALTER TABLE swp_user RENAME COLUMN enabled TO is_verified');
+        }
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7384FB31F85E0677 ON swp_user (username)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7384FB31E7927C74 ON swp_user (email)');
     }
@@ -49,7 +51,9 @@ final class Version20210119142827 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_user ADD salt VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_user ADD last_login TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_user ADD password_requested_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_user RENAME COLUMN is_verified TO enabled');
+        if($schema->getTable('swp_user')->hasColumn('is_verified')) {
+            $this->addSql('ALTER TABLE swp_user RENAME COLUMN is_verified TO enabled');
+        }
         $this->addSql('CREATE UNIQUE INDEX uniq_7384fb3192fc23a8 ON swp_user (username_canonical)');
         $this->addSql('CREATE UNIQUE INDEX uniq_7384fb31a0d96fbf ON swp_user (email_canonical)');
     }
