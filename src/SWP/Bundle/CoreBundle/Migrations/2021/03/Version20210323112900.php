@@ -11,7 +11,7 @@ final class Version20210323112900 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-//        $this->addSql('ALTER TABLE swp_tenant ADD pwa_config_url VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_tenant ADD pwa_config_url VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
