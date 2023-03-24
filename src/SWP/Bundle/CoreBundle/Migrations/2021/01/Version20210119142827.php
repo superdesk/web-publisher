@@ -30,9 +30,9 @@ final class Version20210119142827 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_user DROP salt');
         $this->addSql('ALTER TABLE swp_user DROP last_login');
         $this->addSql('ALTER TABLE swp_user DROP password_requested_at');
-//        if($schema->getTable('swp_user')->hasColumn('enabled')) {
-//            $this->addSql('ALTER TABLE swp_user RENAME COLUMN enabled TO is_verified');
-//        }
+        if($schema->getTable('swp_user')->hasColumn('enabled')) {
+            $this->addSql('ALTER TABLE swp_user RENAME COLUMN enabled TO is_verified');
+        }
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7384FB31F85E0677 ON swp_user (username)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7384FB31E7927C74 ON swp_user (email)');
     }
