@@ -44,7 +44,7 @@ trait TimestampableTrait
      */
     public function getUpdatedAt()
     {
-        return (!empty($this->updatedAt)?$this->updatedAt:$this->createdAt);
+        return $this->updatedAt;
     }
 
     /**
