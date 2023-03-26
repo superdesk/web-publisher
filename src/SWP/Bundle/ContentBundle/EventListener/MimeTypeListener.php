@@ -30,7 +30,7 @@ class MimeTypeListener
      */
     public function onKernelResponse(ResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
         /** @var RouteInterface $routeObject */
