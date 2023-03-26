@@ -45,6 +45,8 @@ class User implements UserInterface
 
     protected $about;
 
+    protected $enabled = true;
+
     private $isVerified = false;
 
     /**
@@ -278,5 +280,21 @@ class User implements UserInterface
     public function isEqualTo(BaseUserInterface $user)
     {
         return $user->getUsername() === $this->getUsername();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
 }
