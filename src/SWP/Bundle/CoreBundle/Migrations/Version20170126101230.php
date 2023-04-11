@@ -34,7 +34,7 @@ class Version20170126101230 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE IF NOT EXISTS  swp_rule_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE IF NOT EXISTS  swp_tenant_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE IF NOT EXISTS  swp_user_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE IF NOT EXISTS IF NOT EXISTS ext_log_entries (id INT NOT NULL, action VARCHAR(8) NOT NULL, logged_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, object_id VARCHAR(64) DEFAULT NULL, object_class VARCHAR(255) NOT NULL, version INT NOT NULL, data TEXT DEFAULT NULL, username VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE IF NOT EXISTS ext_log_entries (id INT NOT NULL, action VARCHAR(8) NOT NULL, logged_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, object_id VARCHAR(64) DEFAULT NULL, object_class VARCHAR(255) NOT NULL, version INT NOT NULL, data TEXT DEFAULT NULL, username VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IF NOT EXISTS log_class_lookup_idx ON ext_log_entries (object_class)');
         $this->addSql('CREATE INDEX IF NOT EXISTS log_date_lookup_idx ON ext_log_entries (logged_at)');
         $this->addSql('CREATE INDEX IF NOT EXISTS log_user_lookup_idx ON ext_log_entries (username)');
