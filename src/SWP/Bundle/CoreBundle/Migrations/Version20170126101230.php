@@ -167,8 +167,8 @@ class Version20170126101230 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_menu ADD CONSTRAINT FK_831217EB727ACA70 FOREIGN KEY (parent_id) REFERENCES swp_menu (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_menu DROP CONSTRAINT IF EXISTS FK_831217EB34ECB4E6'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_menu ADD CONSTRAINT FK_831217EB34ECB4E6 FOREIGN KEY (route_id) REFERENCES swp_route (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE swp_route DROP CONSTRAINT IF EXISTS FK_5CE4CE5A79066886'); //DROP constant that usually exists in current installs
-        $this->addSql('ALTER TABLE swp_route ADD CONSTRAINT FK_5CE4CE5A79066886 FOREIGN KEY (root_id) REFERENCES swp_route (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        //$this->addSql('ALTER TABLE swp_route DROP CONSTRAINT IF EXISTS FK_5CE4CE5A79066886'); //DROP constant that usually exists in current installs
+        //$this->addSql('ALTER TABLE swp_route ADD CONSTRAINT FK_5CE4CE5A79066886 FOREIGN KEY (root_id) REFERENCES swp_route (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE'); //column shouldn't exist
         $this->addSql('ALTER TABLE swp_route DROP CONSTRAINT IF EXISTS FK_5CE4CE5A727ACA70'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_route ADD CONSTRAINT FK_5CE4CE5A727ACA70 FOREIGN KEY (parent_id) REFERENCES swp_route (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_route DROP CONSTRAINT IF EXISTS FK_5CE4CE5A8AD7690A'); //DROP constant that usually exists in current installs
