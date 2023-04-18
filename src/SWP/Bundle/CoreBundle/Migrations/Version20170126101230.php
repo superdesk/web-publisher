@@ -135,26 +135,47 @@ class Version20170126101230 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_item ADD CONSTRAINT FK_E10C0866F44CABFF FOREIGN KEY (package_id) REFERENCES swp_package (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_image_rendition DROP CONSTRAINT IF EXISTS FK_932D0BFB3DA5256D'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_image_rendition ADD CONSTRAINT FK_932D0BFB3DA5256D FOREIGN KEY (image_id) REFERENCES swp_image (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_image_rendition DROP CONSTRAINT IF EXISTS FK_932D0BFBEA9FDD75'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_image_rendition ADD CONSTRAINT FK_932D0BFBEA9FDD75 FOREIGN KEY (media_id) REFERENCES swp_article_media (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_api_key DROP CONSTRAINT IF EXISTS FK_30090BA3A76ED395'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_api_key ADD CONSTRAINT FK_30090BA3A76ED395 FOREIGN KEY (user_id) REFERENCES swp_user (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_article DROP CONSTRAINT IF EXISTS FK_FB21E85834ECB4E6'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E85834ECB4E6 FOREIGN KEY (route_id) REFERENCES swp_route (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_article_media DROP CONSTRAINT IF EXISTS FK_B9721F7E7294869C'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_article_media ADD CONSTRAINT FK_B9721F7E7294869C FOREIGN KEY (article_id) REFERENCES swp_article (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_article_media DROP CONSTRAINT IF EXISTS FK_B9721F7E93CB796C'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_article_media ADD CONSTRAINT FK_B9721F7E93CB796C FOREIGN KEY (file_id) REFERENCES swp_file (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_article_media DROP CONSTRAINT IF EXISTS FK_B9721F7E3DA5256D'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_article_media ADD CONSTRAINT FK_B9721F7E3DA5256D FOREIGN KEY (image_id) REFERENCES swp_image (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_content_list_item DROP CONSTRAINT IF EXISTS FK_8513AA6984A0A3ED'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_content_list_item ADD CONSTRAINT FK_8513AA6984A0A3ED FOREIGN KEY (content_id) REFERENCES swp_article (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_content_list_item DROP CONSTRAINT IF EXISTS FK_8513AA69E2A6CF38'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_content_list_item ADD CONSTRAINT FK_8513AA69E2A6CF38 FOREIGN KEY (content_list_id) REFERENCES swp_content_list (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_fbia_article DROP CONSTRAINT IF EXISTS FK_F9B0A4377294869C'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_fbia_article ADD CONSTRAINT FK_F9B0A4377294869C FOREIGN KEY (article_id) REFERENCES swp_article (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_fbia_article DROP CONSTRAINT IF EXISTS FK_F9B0A43751A5BC03'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_fbia_article ADD CONSTRAINT FK_F9B0A43751A5BC03 FOREIGN KEY (feed_id) REFERENCES swp_fbia_feed (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_fbia_feed DROP CONSTRAINT IF EXISTS FK_36D3F8097A7D7F9F'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_fbia_feed ADD CONSTRAINT FK_36D3F8097A7D7F9F FOREIGN KEY (facebook_page_id) REFERENCES swp_fbia_page (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_fbia_feed DROP CONSTRAINT IF EXISTS FK_36D3F809E2A6CF38'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_fbia_feed ADD CONSTRAINT FK_36D3F809E2A6CF38 FOREIGN KEY (content_list_id) REFERENCES swp_content_list (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_fbia_page DROP CONSTRAINT IF EXISTS FK_1990A823E030ACD'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_fbia_page ADD CONSTRAINT FK_1990A823E030ACD FOREIGN KEY (application_id) REFERENCES swp_fbia_application (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_menu DROP CONSTRAINT IF EXISTS FK_831217EB79066886'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_menu ADD CONSTRAINT FK_831217EB79066886 FOREIGN KEY (root_id) REFERENCES swp_menu (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_menu DROP CONSTRAINT IF EXISTS FK_831217EB727ACA70'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_menu ADD CONSTRAINT FK_831217EB727ACA70 FOREIGN KEY (parent_id) REFERENCES swp_menu (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_menu DROP CONSTRAINT IF EXISTS FK_831217EB34ECB4E6'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_menu ADD CONSTRAINT FK_831217EB34ECB4E6 FOREIGN KEY (route_id) REFERENCES swp_route (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_route DROP CONSTRAINT IF EXISTS FK_5CE4CE5A79066886'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_route ADD CONSTRAINT FK_5CE4CE5A79066886 FOREIGN KEY (root_id) REFERENCES swp_route (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_route DROP CONSTRAINT IF EXISTS FK_5CE4CE5A727ACA70'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_route ADD CONSTRAINT FK_5CE4CE5A727ACA70 FOREIGN KEY (parent_id) REFERENCES swp_route (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_route DROP CONSTRAINT IF EXISTS FK_5CE4CE5A8AD7690A'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_route ADD CONSTRAINT FK_5CE4CE5A8AD7690A FOREIGN KEY (route_content_id) REFERENCES swp_article (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_tenant DROP CONSTRAINT IF EXISTS FK_EC6095FE32C8A3DE'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_tenant ADD CONSTRAINT FK_EC6095FE32C8A3DE FOREIGN KEY (organization_id) REFERENCES swp_organization (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_tenant DROP CONSTRAINT IF EXISTS FK_EC6095FE154AD611'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_tenant ADD CONSTRAINT FK_EC6095FE154AD611 FOREIGN KEY (tenant_route_id) REFERENCES swp_route (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
