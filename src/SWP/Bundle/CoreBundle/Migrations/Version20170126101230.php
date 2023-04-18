@@ -133,6 +133,7 @@ class Version20170126101230 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_container_widgets ADD CONSTRAINT FK_EC017811BC21F742 FOREIGN KEY (container_id) REFERENCES swp_container (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_item DROP CONSTRAINT IF EXISTS FK_E10C0866F44CABFF'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_item ADD CONSTRAINT FK_E10C0866F44CABFF FOREIGN KEY (package_id) REFERENCES swp_package (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE swp_image_rendition DROP CONSTRAINT IF EXISTS FK_932D0BFB3DA5256D'); //DROP constant that usually exists in current installs
         $this->addSql('ALTER TABLE swp_image_rendition ADD CONSTRAINT FK_932D0BFB3DA5256D FOREIGN KEY (image_id) REFERENCES swp_image (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_image_rendition ADD CONSTRAINT FK_932D0BFBEA9FDD75 FOREIGN KEY (media_id) REFERENCES swp_article_media (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_api_key ADD CONSTRAINT FK_30090BA3A76ED395 FOREIGN KEY (user_id) REFERENCES swp_user (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
