@@ -2,7 +2,7 @@
 
 namespace SWP\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
+use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -13,12 +13,16 @@ class Version20170207132939 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_article ADD feature_media INT DEFAULT NULL');
+        if(!$schema->getTable('swp_article')->hasColumn('feature_media')) {
+            $this->addSql('ALTER TABLE swp_article ADD feature_media INT DEFAULT NULL');
+        }
+
+        //$this->addSql('ALTER TABLE swp_article ADD feature_media INT DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E858A372AB05 FOREIGN KEY (feature_media) REFERENCES swp_article_media (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_FB21E858A372AB05 ON swp_article (feature_media)');
     }
@@ -26,7 +30,7 @@ class Version20170207132939 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
