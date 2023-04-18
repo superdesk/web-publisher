@@ -30,20 +30,16 @@ final class Version20210112135542 extends AbstractMigration implements Container
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-
         $this->abortIf(
             'postgresql' !== $this->connection->getDatabasePlatform()->getName(),
             'Migration can only be executed safely on \'postgresql\'.'
         );
 
-        $this->addSql('CREATE SEQUENCE IF NOT EXISTS swp_article_extra_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE swp_article_extra_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql(
-            'CREATE TABLE IF NOT EXISTS swp_article_extra (id INT NOT NULL, article_id INT DEFAULT NULL, field_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, embed VARCHAR(255) DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))'
+            'CREATE TABLE swp_article_extra (id INT NOT NULL, article_id INT DEFAULT NULL, field_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, embed VARCHAR(255) DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))'
         );
-        $this->addSql('CREATE INDEX IF NOT EXISTS IDX_9E61B3177294869C ON swp_article_extra (article_id)');
-        $this->addSql(
-            'ALTER TABLE swp_article_extra DROP CONSTRAINT IF EXISTS FK_9E61B3177294869C;'
-        );
+        $this->addSql('CREATE INDEX IDX_9E61B3177294869C ON swp_article_extra (article_id)');
         $this->addSql(
             'ALTER TABLE swp_article_extra ADD CONSTRAINT FK_9E61B3177294869C FOREIGN KEY (article_id) REFERENCES swp_article (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE'
         );
@@ -100,7 +96,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
                     if (is_array($extraItem)) {
                         $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
                     } else {
-                        $extra = ArticleExtraTextField::newFromValue($key, (string)$extraItem);
+                        $extra = ArticleExtraTextField::newFromValue($key, $extraItem);
                     }
                     $extra->setArticle($article);
                 }
