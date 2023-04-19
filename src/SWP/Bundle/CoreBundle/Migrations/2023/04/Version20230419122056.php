@@ -30,7 +30,6 @@ final class Version20230419122056 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_user DROP IF EXISTS salt');
         $this->addSql('ALTER TABLE swp_user DROP IF EXISTS last_login');
         $this->addSql('ALTER TABLE swp_user DROP IF EXISTS password_requested_at');
-        $this->addSql('ALTER TABLE swp_user RENAME COLUMN enabled TO is_verified');
 
     }
 
@@ -45,7 +44,6 @@ final class Version20230419122056 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_user ADD IF NOT EXISTS salt VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_user ADD IF NOT EXISTS last_login TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_user ADD IF NOT EXISTS password_requested_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_user RENAME COLUMN is_verified TO enabled');
         $this->addSql('CREATE UNIQUE INDEX IF NOT EXISTS uniq_7384fb3192fc23a8 ON swp_user (username_canonical)');
         $this->addSql('CREATE UNIQUE INDEX IF NOT EXISTS uniq_7384fb31a0d96fbf ON swp_user (email_canonical)');
     }
