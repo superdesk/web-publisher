@@ -108,7 +108,7 @@ class ImageConversionHandler implements MessageHandlerInterface
             }
             imagepalettetotruecolor($imageAsResource);
             imagewebp($imageAsResource, $tempLocation);
-            $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), null, true);
+            $uploadedFile = new UploadedFile($tempLocation, $mediaId, 'image/webp', strlen($tempLocation), false);
             $this->mediaManager->saveFile($uploadedFile, $mediaId);
 
             $this->logger->info(sprintf('File "%s" converted successfully to WEBP', $mediaId));
