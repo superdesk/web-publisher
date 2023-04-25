@@ -40,8 +40,12 @@ final class Version20210112135542 extends AbstractMigration implements Container
             'CREATE TABLE IF NOT EXISTS swp_article_extra (id INT NOT NULL, article_id INT DEFAULT NULL, field_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, embed VARCHAR(255) DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))'
         );
         $this->addSql('CREATE INDEX IF NOT EXISTS IDX_9E61B3177294869C ON swp_article_extra (article_id)');
+        ALTER TABLE foo DROP CONSTRAINT IF EXISTS bar;
         $this->addSql(
-            'ALTER TABLE swp_article_extra ADD CONSTRAINT IF NOT EXISTS FK_9E61B3177294869C FOREIGN KEY (article_id) REFERENCES swp_article (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE'
+            'ALTER TABLE swp_article_extra DROP CONSTRAINT IF EXISTS FK_9E61B3177294869C'
+        );
+        $this->addSql(
+            'ALTER TABLE swp_article_extra ADD CONSTRAINT FK_9E61B3177294869C FOREIGN KEY (article_id) REFERENCES swp_article (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE'
         );
     }
 
