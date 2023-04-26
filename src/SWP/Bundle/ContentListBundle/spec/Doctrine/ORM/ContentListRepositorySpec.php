@@ -26,11 +26,6 @@ use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
  */
 final class ContentListRepositorySpec extends ObjectBehavior
 {
-    public function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
-    {
-        $this->beConstructedWith($entityManager, $classMetadata);
-    }
-
     public function it_is_initializable()
     {
         $this->shouldHaveType(ContentListRepository::class);
