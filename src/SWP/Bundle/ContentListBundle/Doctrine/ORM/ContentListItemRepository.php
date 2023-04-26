@@ -31,7 +31,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class ContentListItemRepository extends SortableEntityRepository implements ContentListItemRepositoryInterface
 {
     /**
-     * {@inheritdoc}
+     * @param ContentListInterface $contentList
+     * @return void
      */
     public function removeItems(ContentListInterface $contentList)
     {
@@ -44,7 +45,10 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     }
 
     /**
-     * {@inheritdoc}
+     * @param Criteria $criteria
+     * @param array $sorting
+     * @param array $groupValues
+     * @return QueryBuilder
      */
     public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = []): QueryBuilder
     {
