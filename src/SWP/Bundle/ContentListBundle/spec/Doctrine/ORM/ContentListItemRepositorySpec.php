@@ -22,6 +22,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListItemRepository;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
+use SWP\Bundle\ContentListBundle\EventSubscriber\ContentListSubscriber;
+use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 
 /**
  * @mixin ContentListItemRepository
@@ -30,11 +32,7 @@ final class ContentListItemRepositorySpec extends ObjectBehavior
 {
     public function let(EntityManager $entityManager, ClassMetadata $classMetadata, EventManager $em)
     {
-        if (method_exists($em, 'getAllListeners')) {
-            $em->getAllListeners()->willReturn([]);
-        } else {
-            $em->getListeners()->willReturn([]);
-        }
+        $em->getListeners()->willReturn([]);
         $entityManager->getEventManager()->willReturn($em);
         $this->beConstructedWith($entityManager, $classMetadata);
     }
