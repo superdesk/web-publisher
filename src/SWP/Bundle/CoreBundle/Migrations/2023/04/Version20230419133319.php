@@ -20,8 +20,7 @@ final class Version20230419133319 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
-        //$this->addSql('ALTER TABLE IF EXISTS swp_user ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT \'false\' NOT NULL;
-');
+        //$this->addSql('ALTER TABLE IF EXISTS swp_user ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT \'false\' NOT NULL;');
 	//Done manually ALTER TABLE IF EXISTS swp_user ADD COLUMN is_verified BOOLEAN DEFAULT 'false' NOT NULL;
     }
 
