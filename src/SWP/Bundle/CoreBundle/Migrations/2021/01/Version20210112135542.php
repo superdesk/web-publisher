@@ -59,4 +59,63 @@ final class Version20210112135542 extends AbstractMigration implements Container
         $this->addSql('DROP SEQUENCE swp_article_extra_id_seq CASCADE');
         $this->addSql('DROP TABLE swp_article_extra');
     }
+
+    public function postUp(Schema $schema): void
+    {
+        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+        $entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
+
+        $batchSize = 500;
+        $numberOfRecordsPerPage = 2000;
+
+        $totalArticles = $entityManager
+            ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a')
+            ->getSingleScalarResult();
+
+        $totalArticlesProcessed = 0;
+        $isProcessing = true;
+
+        while ($isProcessing) {
+            $sql = "SELECT id, extra FROM swp_article LIMIT $numberOfRecordsPerPage OFFSET $totalArticlesProcessed";
+            $query = $entityManager->getConnection()->prepare($sql);
+            $query->execute();
+            $results = $query->fetchAll();
+
+            foreach ($results as $result) {
+                $legacyExtra = unserialize($result['extra']);
+                if (empty($legacyExtra)) {
+                    ++$totalArticlesProcessed;
+                    continue;
+                }
+
+                $article = $entityManager->find(
+                    Article::class,
+                    $result['id']
+                );
+
+                foreach ($legacyExtra as $key => $extraItem) {
+                    if (is_array($extraItem)) {
+                        $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
+                    } else {
+                        $extra = ArticleExtraTextField::newFromValue($key, (string)$extraItem);
+                    }
+                    $extra->setArticle($article);
+                }
+
+                $entityManager->persist($extra);
+
+                if (0 === ($totalArticlesProcessed % $batchSize)) {
+                    $entityManager->flush();
+                    $entityManager->clear();
+                }
+                ++$totalArticlesProcessed;
+            }
+
+            if ($totalArticlesProcessed === $totalArticles) {
+                break;
+            }
+
+            $entityManager->flush();
+        }
+    }
 }
