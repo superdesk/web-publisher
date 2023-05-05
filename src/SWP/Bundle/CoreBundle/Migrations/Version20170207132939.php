@@ -17,10 +17,7 @@ class Version20170207132939 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-
-        if(!$schema->getTable('swp_article')->hasColumn('feature_media')) {
-            $this->addSql('ALTER TABLE swp_article ADD feature_media INT DEFAULT NULL');
-        }
+        $this->addSql('ALTER TABLE swp_article ADD COLUMN IF NOT EXITS feature_media INT DEFAULT NULL');
 
         //$this->addSql('ALTER TABLE swp_article ADD feature_media INT DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E858A372AB05 FOREIGN KEY (feature_media) REFERENCES swp_article_media (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
