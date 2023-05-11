@@ -22,6 +22,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListItemRepository;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
+use SWP\Bundle\ContentListBundle\EventSubscriber\ContentListSubscriber;
+use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 
 /**
  * @mixin ContentListItemRepository

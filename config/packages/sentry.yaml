@@ -1,5 +1,5 @@
 parameters:
-    env(SENTRY_DSN): false
+    env(SENTRY_DSN): ''
 
 sentry:
     dsn: '%env(resolve:SENTRY_DSN)%'

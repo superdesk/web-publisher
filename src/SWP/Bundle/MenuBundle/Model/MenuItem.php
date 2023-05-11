@@ -691,7 +691,7 @@ class MenuItem implements MenuItemInterface
      */
     public function isCurrent(): bool
     {
-        return $this->isCurrent;
+        return ($this->isCurrent?true:false);
     }
 
     /**
