@@ -24,7 +24,6 @@ services:
         arguments:
             - '@swp.repository.tenant'
             - '@doctrine.system_cache_pool'
-            - '@service_container'
 
     swp_multi_tenancy.tenant_context:
         class: '%swp_multi_tenancy.tenant_context.class%'

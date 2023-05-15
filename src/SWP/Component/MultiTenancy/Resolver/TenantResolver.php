@@ -28,7 +28,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class TenantResolver implements TenantResolverInterface
 {
-    private ContainerInterface $container;
     private Rules $publicSuffixList;
     private CacheInterface $cacheProvider;
     private string $suffixListFilename;
@@ -129,7 +128,7 @@ class TenantResolver implements TenantResolverInterface
     private function getPublicSuffixList(): string
     {
         return $this->cacheProvider->get('suffix_list', function (ItemInterface $item) {
-            $dir = $this->container->getParameter('kernel.project_dir') . '/data/public-suffix-list/';
+            $dir = __DIR__ . '/../';
             $filesystem = new Filesystem();
             if (!$filesystem->exists($dir . $this->suffixListFilename)) {
                 throw new \LogicException(

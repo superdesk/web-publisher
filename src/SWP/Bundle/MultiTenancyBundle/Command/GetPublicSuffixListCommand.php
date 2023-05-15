@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class GetPublicSuffixListCommand extends Command
 {
@@ -25,8 +24,8 @@ class GetPublicSuffixListCommand extends Command
     )
     {
         $this->container = $container;
-        $this->suffixListFilename = $suffixListFilename;
         $this->suffixListEndpoint = $suffixListEndpoint;
+        $this->suffixListFilename = $suffixListFilename;
         parent::__construct();
     }
 
@@ -34,7 +33,7 @@ class GetPublicSuffixListCommand extends Command
     {
         $output->writeln('<info>Fetching data from </info> ' . $this->suffixListEndpoint);
         $filesystem = new Filesystem();
-        $dir = $this->container->getParameter('kernel.project_dir') . '/data/public-suffix-list/';
+        $dir = $this->container->getParameter('kernel.project_dir') . '/src/SWP/Component/MultiTenancy/';
         if ($filesystem->exists($dir . $this->suffixListFilename)) {
             $filesystem->remove($dir . $this->suffixListFilename);
         }
