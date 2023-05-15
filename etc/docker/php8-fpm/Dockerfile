@@ -1,5 +1,5 @@
-FROM php:7.4-fpm-alpine
-
+FROM php:8.0-fpm-alpine
+LABEL authors="zkabic"
 RUN apk update
 RUN apk add curl-dev
 
@@ -25,6 +25,8 @@ RUN set -ex \
         libzip-dev \
         zip \
         oniguruma-dev \
+        vim \
+        nano \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
