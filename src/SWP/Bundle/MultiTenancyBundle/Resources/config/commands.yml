@@ -8,3 +8,10 @@ services:
 
     SWP\Bundle\MultiTenancyBundle\Command\:
         resource: '../../Command/*'
+
+    SWP\Bundle\MultiTenancyBundle\Command\GetPublicSuffixListCommand:
+        bind:
+            $suffixListEndpoint: '%env(PUBLIC_SUFFIX_LIST_ENDPOINT)%'
+            $suffixListFilename: '%env(PUBLIC_SUFFIX_LIST_FILENAME)%'
+        arguments:
+            - '@service_container'

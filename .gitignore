@@ -51,3 +51,5 @@ behat.yml
 ###< symfony/web-server-bundle ###
 
 .php-version
+.idea/
+data/
