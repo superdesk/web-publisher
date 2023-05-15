@@ -21,7 +21,6 @@ use Psr\Cache\InvalidArgumentException;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -40,13 +39,11 @@ class TenantResolver implements TenantResolverInterface
     public function __construct(
         TenantRepositoryInterface $tenantRepository,
         CacheInterface            $cacheProvider,
-        ContainerInterface        $container,
         string                    $suffixListFilename,
     )
     {
         $this->tenantRepository = $tenantRepository;
         $this->cacheProvider = $cacheProvider;
-        $this->container = $container;
         $this->suffixListFilename = $suffixListFilename;
         $this->publicSuffixList = Rules::fromString($this->getPublicSuffixList());
     }
