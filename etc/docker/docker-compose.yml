@@ -60,6 +60,7 @@ services:
             - php
         volumes:
             - nginx_logs:/var/log/nginx:rw
+            - ../../:/var/www/publisher/
         networks:
             default:
                 aliases:
