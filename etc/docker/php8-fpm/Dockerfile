@@ -27,6 +27,7 @@ RUN set -ex \
         oniguruma-dev \
         vim \
         nano \
+        libwebp-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -40,7 +41,7 @@ RUN set -ex \
     && pecl install xdebug-3.1.5 \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
-    && docker-php-ext-configure gd --with-jpeg \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip xml gd mbstring curl bcmath
 
