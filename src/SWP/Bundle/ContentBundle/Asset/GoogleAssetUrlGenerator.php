@@ -18,7 +18,6 @@ class GoogleAssetUrlGenerator implements AssetUrlGeneratorInterface
     public function generateUrl(FileInterface $file, string $basePath): string
     {
         $key = $basePath . DIRECTORY_SEPARATOR . $file->getAssetId() . '.' . $file->getFileExtension();
-        $image = $this->bucket->object($key);
-        return $image->signedUrl(new \DateTime('+1 hour'));
+        return $this->bucket->object($key)->gcsUri();
     }
 }
