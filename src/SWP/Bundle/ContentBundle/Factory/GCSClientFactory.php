@@ -1,0 +1,23 @@
+<?php
+
+namespace SWP\Bundle\ContentBundle\Factory;
+
+use Google\Cloud\Storage\Bucket;
+use Google\Cloud\Storage\StorageClient;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class GCSClientFactory
+{
+    public static function createGCSClient(ContainerInterface $container, string $keyFilePath, string $projectId = ''): StorageClient
+    {
+        $path = $container->getParameter('kernel.project_dir') . '/config/gcs/' . $keyFilePath;
+        return new StorageClient([
+            'keyFilePath' => $path,
+        ]);
+    }
+
+    public static function bucket(ContainerInterface $container, string $keyFilePath, string $projectId, string $bucket): Bucket
+    {
+        return self::createGCSClient($container, $keyFilePath, $projectId)->bucket($bucket);
+    }
+}

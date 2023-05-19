@@ -38,6 +38,8 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
 
         if (Configuration::AWS_ADAPTER === $config['media_storage_adapter']) {
             $loader->load('asset_aws_storage.yaml');
+        } else if (Configuration::GCS_ADAPTER === $config['media_storage_adapter']) {
+            $loader->load('asset_gcs_storage.yaml');
         } else {
             $loader->load('asset_local_storage.yaml');
         }
