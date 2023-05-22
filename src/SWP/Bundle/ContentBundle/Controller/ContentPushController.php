@@ -112,11 +112,11 @@ class ContentPushController extends AbstractController {
 
         return new SingleResourceResponse(
             [
-                'media_id' => $mediaId,
-                'URL' => $mediaManager->getMediaPublicUrl($file),
-                'media' => base64_encode($mediaManager->getFile($file)),
-                'mime_type' => Mime::getMimeFromExtension($file->getFileExtension()),
-                'filemeta' => [],
+//                'media_id' => $mediaId,
+//                'URL' => $mediaManager->getMediaPublicUrl($file),
+//                'media' => base64_encode($mediaManager->getFile($file)),
+//                'mime_type' => Mime::getMimeFromExtension($file->getFileExtension()),
+//                'filemeta' => [],
             ],
             new ResponseContext(201)
         );

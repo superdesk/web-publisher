@@ -1,0 +1,30 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  SWP\Bundle\ContentBundle\Factory\GCSClientFactory:
+    class: Google\Cloud\Storage\StorageClient
+    factory: ['SWP\Bundle\ContentBundle\Factory\GCSClientFactory', 'createGCSClient']
+    arguments:
+      - '@service_container'
+      - '%env(resolve:FS_GOOGLE_CREDENTIALS)%'
+      - '%env(resolve:FS_GOOGLE_PROJECT_ID)%'
+
+  swp.google_storage_bucket:
+    class: Google\Cloud\Storage\Bucket
+    factory: ['SWP\Bundle\ContentBundle\Factory\GCSClientFactory','bucket']
+    arguments:
+      - '@service_container'
+      - '%env(resolve:FS_GOOGLE_CREDENTIALS)%'
+      - '%env(resolve:FS_GOOGLE_PROJECT_ID)%'
+      - '%env(resolve:FS_GOOGLE_BUCKET)%'
+
+
+  SWP\Bundle\ContentBundle\Asset\GoogleAssetUrlGenerator:
+    arguments:
+      - '@swp.google_storage_bucket'
+
+  SWP\Bundle\ContentBundle\Asset\AssetUrlGeneratorInterface:
+    alias: SWP\Bundle\ContentBundle\Asset\GoogleAssetUrlGenerator
