@@ -8,6 +8,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GCSClientFactory
 {
+    /**
+     * @param ContainerInterface $container
+     * @param string $keyFilePath
+     * @param string $projectId
+     * @return StorageClient
+     */
     public static function createGCSClient(ContainerInterface $container, string $keyFilePath, string $projectId = ''): StorageClient
     {
         $path = $container->getParameter('kernel.project_dir') . '/config/gcs/' . $keyFilePath;
@@ -16,6 +22,13 @@ class GCSClientFactory
         ]);
     }
 
+    /**
+     * @param ContainerInterface $container
+     * @param string $keyFilePath
+     * @param string $projectId
+     * @param string $bucket
+     * @return Bucket
+     */
     public static function bucket(ContainerInterface $container, string $keyFilePath, string $projectId, string $bucket): Bucket
     {
         return self::createGCSClient($container, $keyFilePath, $projectId)->bucket($bucket);

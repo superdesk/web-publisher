@@ -10,14 +10,22 @@ class GoogleAssetUrlGenerator implements AssetUrlGeneratorInterface
 {
     protected Bucket $bucket;
 
+    /**
+     * @param Bucket $bucket
+     */
     public function __construct(Bucket $bucket)
     {
         $this->bucket = $bucket;
     }
 
+    /**
+     * @param FileInterface $file
+     * @param string $basePath
+     * @return string
+     */
     public function generateUrl(FileInterface $file, string $basePath): string
     {
-        $key = $basePath . DIRECTORY_SEPARATOR . $file->getAssetId() . '.' . $file->getFileExtension();
-        return $this->bucket->object($key)->gcsUri();
+        $key = $basePath . '/' . $file->getAssetId() . '.' . $file->getFileExtension();
+        return 'https://storage.googleapis.com/' . $this->bucket->name() . '/' . $key;
     }
 }
