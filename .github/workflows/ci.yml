@@ -18,10 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php: '7.4'
+          - php: '8.0'
             doctrine_cache_driver: 'memcached'
             composer_flags: 'install'
-          - php: '7.4'
+          - php: '8.0'
             doctrine_cache_driver: 'array'
             composer_flags: 'install'
 
