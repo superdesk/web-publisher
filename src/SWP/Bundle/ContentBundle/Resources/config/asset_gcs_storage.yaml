@@ -10,7 +10,6 @@ services:
     arguments:
       - '@service_container'
       - '%env(resolve:FS_GOOGLE_CREDENTIALS)%'
-      - '%env(resolve:FS_GOOGLE_PROJECT_ID)%'
 
   swp.google_storage_bucket:
     class: Google\Cloud\Storage\Bucket
@@ -18,7 +17,6 @@ services:
     arguments:
       - '@service_container'
       - '%env(resolve:FS_GOOGLE_CREDENTIALS)%'
-      - '%env(resolve:FS_GOOGLE_PROJECT_ID)%'
       - '%env(resolve:FS_GOOGLE_BUCKET)%'
 
 

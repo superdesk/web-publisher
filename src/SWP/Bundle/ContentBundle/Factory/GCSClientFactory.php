@@ -11,10 +11,9 @@ class GCSClientFactory
     /**
      * @param ContainerInterface $container
      * @param string $keyFilePath
-     * @param string $projectId
      * @return StorageClient
      */
-    public static function createGCSClient(ContainerInterface $container, string $keyFilePath, string $projectId = ''): StorageClient
+    public static function createGCSClient(ContainerInterface $container, string $keyFilePath): StorageClient
     {
         $path = $container->getParameter('kernel.project_dir') . '/config/gcs/' . $keyFilePath;
         return new StorageClient([
@@ -25,12 +24,11 @@ class GCSClientFactory
     /**
      * @param ContainerInterface $container
      * @param string $keyFilePath
-     * @param string $projectId
      * @param string $bucket
      * @return Bucket
      */
-    public static function bucket(ContainerInterface $container, string $keyFilePath, string $projectId, string $bucket): Bucket
+    public static function bucket(ContainerInterface $container, string $keyFilePath, string $bucket): Bucket
     {
-        return self::createGCSClient($container, $keyFilePath, $projectId)->bucket($bucket);
+        return self::createGCSClient($container, $keyFilePath)->bucket($bucket);
     }
 }
