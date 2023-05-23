@@ -45,7 +45,6 @@ class TenantResolver implements TenantResolverInterface
         $this->tenantRepository = $tenantRepository;
         $this->cacheProvider = $cacheProvider;
         $this->suffixListFilename = $suffixListFilename;
-        $this->publicSuffixList = Rules::fromString($this->getPublicSuffixList());
     }
 
     public function resolve(string $host = null): TenantInterface
@@ -112,7 +111,7 @@ class TenantResolver implements TenantResolverInterface
 
     private function extractHost($host): ResolvedDomainName
     {
-        return $this->publicSuffixList->resolve(Domain::fromIDNA2008($host));
+        return Rules::fromString($this->getPublicSuffixList())->resolve(Domain::fromIDNA2008($host));
     }
 
     /**
