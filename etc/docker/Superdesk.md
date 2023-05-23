@@ -2,7 +2,7 @@
 
 This guide installs Superdesk with the Publisher plugin with Docker, ready to be used with the Publisher. 
 
-To setup Publisher with Docker for using it with Superdesk, see [Publisher Docker installation guide](etc/docker/README.md). It is recommended to setup Superdesk first.
+To setup Publisher with Docker for using it with Superdesk, see [Publisher Docker installation guide](README.md). It is recommended to setup Superdesk first.
 
 ## Prerequisite
 
@@ -172,7 +172,7 @@ After the first start, Superdesk is being populated with demo data, which is gen
 
 After successfully finishing installation, there are additional steps in order to have articles being published from Superdesk to Publisher. 
 
-First of all, check if Superdesk and Publisher are talking to each other, assuming that the Publisher is installed and available at [publisher.local](http://publisher.local). To setup Publisher with Docker for using it with Superdesk, see [Publisher Docker installation guide](etc/docker/README.md).
+First of all, check if Superdesk and Publisher are talking to each other, assuming that the Publisher is installed and available at [publisher.local](http://publisher.local). To setup Publisher with Docker for using it with Superdesk, see [Publisher Docker installation guide](README.md).
 
 Go to the hamburger menu in the upper left corner, and choose Publisher Settings, Publisher tenant(s) should be listed.
  
