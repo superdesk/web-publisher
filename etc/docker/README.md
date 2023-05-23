@@ -2,7 +2,7 @@
 
 This guide installs the Publisher with Docker, ready to be used with Superdesk. 
 
-To setup Superdesk with Docker for using it with the Publisher, see [Superdesk with Publisher plugin Docker installation guide](Superdesk.md). It is recommended to setup Superdesk first.
+To setup Superdesk with Docker for using it with the Publisher, see [Superdesk with Publisher plugin Docker installation guide](etc/docker/Superdesk.md). It is recommended to setup Superdesk first.
 
 ## Prerequisite
 
@@ -74,7 +74,7 @@ docker-compose run php php bin/console doctrine:database:create
 docker-compose run php php bin/console doctrine:migrations:migrate --no-interaction 
 ```
 
-## Tenants and organizasion
+## Tenants and organisation
 
 There are two options:
 * Load tenants and organization sample data fixtures

@@ -1,8 +1,8 @@
 # How to install Superdesk with Docker, and connect it with the Publisher
 
-This guide installs the Publisher with Docker, ready to be used with Superdesk. 
+This guide installs Superdesk with the Publisher plugin with Docker, ready to be used with the Publisher. 
 
-To setup Publisher with Docker for using it with Superdesk, see [Publisher Docker installation guide](README.md). It is recommended to setup Superdesk first.
+To setup Publisher with Docker for using it with Superdesk, see [Publisher Docker installation guide](etc/docker/README.md). It is recommended to setup Superdesk first.
 
 ## Prerequisite
 
@@ -20,6 +20,81 @@ Before continuing, Docker network should be set, if it doesn't exist:
 docker network create sp-publisher-network
 ```
 
+Replace the contents of ```docker-compose.yml``` with the following:
+
+```
+version: "3.2"
+services:
+
+  mongodb:
+    image: mongo:4
+
+  redis:
+    image: redis:3
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    environment:
+      - discovery.type=single-node
+
+  superdesk-server:
+    build: ./server
+    depends_on:
+      - redis
+      - mongodb
+      - elastic
+    environment:
+      - SUPERDESK_URL=http://superdesk.local:8080/api
+      - DEMO_DATA=1 # install demo data, set to 0 if you want clean install
+      - WEB_CONCURRENCY=2
+      - SUPERDESK_CLIENT_URL=http://superdesk.local:8080
+      - CONTENTAPI_URL=http://superdesk.local:8080/capi
+      - MONGO_URI=mongodb://mongodb/superdesk
+      - CONTENTAPI_MONGO_URI=mongodb://mongodb/superdesk_capi
+      - PUBLICAPI_MONGO_URI=mongodb://mongodb/superdesk_papi
+      - LEGAL_ARCHIVE_URI=mongodb://mongodb/superdesk_legal
+      - ARCHIVED_URI=mongodb://mongodb/superdesk_archive
+      - ELASTICSEARCH_URL=http://elastic:9200
+      - ELASTICSEARCH_INDEX=superdesk
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - REDIS_URL=redis://redis:6379/1
+      - DEFAULT_TIMEZONE=Europe/Prague
+      - SECRET_KEY=secretkey
+      # More configuration options can be found at https://superdesk.readthedocs.io/en/latest/settings.html
+
+  superdesk-client:
+    build: ./client
+    environment:
+      # If not hosting on localhost, change these lines
+      - SUPERDESK_URL=http://superdesk.local:8080/api
+      - SUPERDESK_WS_URL=ws://superdesk.local:8080/ws
+      - IFRAMELY_KEY
+    depends_on:
+      - superdesk-server
+    ports:
+      - "8080:80"
+    networks:
+      default:
+        aliases:
+          - superdesk.local
+
+networks:
+    default:
+      external:
+        name: sp-publisher-network
+```
+
+If you want to use AWS S3 or Google CLoud Storade, add the following lines to ```superdesk-server``` container environment in ```docker-compose.yml```:
+
+```
+      - AMAZON_SERVE_DIRECT_LINKS=True
+      - AMAZON_ENDPOINT_URL=https://storage.googleapis.com
+      - AMAZON_ACCESS_KEY_ID=GOOGATXA6IMK7B7NJ5LW55TJ
+      - AMAZON_SECRET_ACCESS_KEY=qZjFYbipnzvUg6o2MwKZNroXXAm9mMw5m3XbJcb/
+      - AMAZON_REGION=auto
+      - AMAZON_CONTAINER_NAME=brasil-gcc-test-bucket
+```
+
 
 ## Install Superdesk
 
@@ -28,6 +103,9 @@ Clone Superdesk with the Publisher plugin repository and execute commands inside
 ``` bash
 git clone -b docker https://github.com/superdesk/superdesk-sp
 ```
+
+
+
 ``` bash
 cd superdesk-sp
 ```
@@ -82,3 +160,45 @@ window.superdeskConfig = {
 };
 ```
 
+## Restarting containers
+After the first start, Superdesk is being populated with demo data, which is generally good idea. However, reinserting demo data will create problems, so after the first ```docker-compose up -d``` run, change demo data environment variable in ```docker-compose.yml``` to ```0``` for the ```superdesk-server``` container:
+
+```
+- DEMO_DATA=0
+```
+
+
+## Setting up Superdesk to talk to Publisher
+
+After successfully finishing installation, there are additional steps in order to have articles being published from Superdesk to Publisher. 
+
+First of all, check if Superdesk and Publisher are talking to each other, assuming that the Publisher is installed and available at [publisher.local](http://publisher.local). To setup Publisher with Docker for using it with Superdesk, see [Publisher Docker installation guide](etc/docker/README.md).
+
+Go to the hamburger menu in the upper left corner, and choose Publisher Settings, Publisher tenant(s) should be listed.
+ 
+### Create product
+
+https://www.youtube.com/watch?v=g_lVOJ5aOzQ
+
+* Product Type: Both
+
+### Create Subscriber
+
+In order to push content from Superdesk to Publisher, a Subscriber must be added with following information (replicate the setup from the video):
+
+**Destination**
+* Resource URL: http://publisher.local/api/v2/content/push
+* Assest URL: http://publisher.local/api/v2/assets/push
+
+https://www.youtube.com/watch?v=wjsVBM88IRg (**older version with publisher.local:8080, use publisher.local instead**)
+
+### Create “catch all” publishing rule
+
+After the content is sent to Publisher’s subscriber, Publisher needs a generic rule to “catch” and publish it. Therefore one “catch all” rule must be created:
+
+
+### Create and publish an article
+
+https://www.youtube.com/watch?v=UDCZdEfGfHI
+
+This process can be automated by creating publishing rules with category targeting (specific category publishes to specific route). Article flow from Superdesk to Publisher  can be monitored in the Publisher Output Control.

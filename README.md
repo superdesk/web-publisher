@@ -1,10 +1,6 @@
-Superdesk Web Publisher
-=======================
+# Superdesk Web Publisher
 
-![Build Status](https://github.com/superdesk/web-publisher/workflows/CI/badge.svg)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/superdesk/web-publisher/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/superdesk/web-publisher/?branch=master)
-
-Superdesk Publisher - the next generation publishing platform for journalists and newsrooms.
+**Superdesk Publisher - the next generation publishing platform for journalists and newsrooms.**
 
 *The Superdesk Publisher is an API-centric delivery tool for all digital platforms. Written from scratch in 2016, it utilizes the knowledge gained from 17 years of delivering digital news at scale with [Newscoop][2]. The Publisher is designed to work with any editorial system. Naturally, it works the best with our in-house newsroom management system, [Superdesk][3]. Therefore, it allows independent maintenance, upgrade and change of the editorial back-end system.*
 
@@ -18,7 +14,7 @@ See [requirements](REQUIREMENTS.md) for general informations. And [composer.json
 
 ## Installation
 
-See [installation guide](INSTALL.md) for more details.
+See [installation guide](INSTALL.md) for more details. We **strongly recommend** [using Docker](etc/docker/README.md) for local installation and testing.
 
 [1]: http://superdesk-publisher.readthedocs.org/en/latest/
 [2]: https://www.sourcefabric.org/en/newscoop/
