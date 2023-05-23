@@ -84,7 +84,7 @@ networks:
         name: sp-publisher-network
 ```
 
-If you want to use AWS S3 or Google CLoud Storade, add the following lines to ```superdesk-server``` container environment in ```docker-compose.yml```:
+If you want to use AWS S3 or Google Cloud Storage, add the following lines to ```superdesk-server``` container environment in ```docker-compose.yml```:
 
 ```
       - AMAZON_SERVE_DIRECT_LINKS=True
@@ -126,7 +126,7 @@ docker-compose run superdesk-server /opt/superdesk/docker/start.sh
 
 This will install Superdesk with the Publisher plugin and make it available at [superdesk.local:8080](http://superdesk.local:8080). 
 
-In order to have it talk to the Publisher, attach to ```superdesk-sp_superdesk-client_1``` container and edit ``config.random.js``` (ie 		config.ec23ae24.js).
+In order to have it talk to the Publisher, attach to ```superdesk-sp_superdesk-client_1``` container and edit `config.random.js` (ie config.ec23ae24.js).
 
 ```bash
 docker exec -it superdesk-sp_superdesk-client_1 bash
@@ -194,7 +194,9 @@ https://www.youtube.com/watch?v=wjsVBM88IRg (**older version with publisher.loca
 
 ### Create “catch all” publishing rule
 
-After the content is sent to Publisher’s subscriber, Publisher needs a generic rule to “catch” and publish it. Therefore one “catch all” rule must be created:
+After the content is sent to Publisher’s subscriber, Publisher needs a generic rule to “catch” and publish it. Therefore one “catch all” rule should be created.
+
+In *[Publisher Settings](http://superdesk.local:8080/#/publisher/settings)* (available in the Superdesk "hamburger" menu) choose *Publishing Rules* from the left pane, click *Add new* and choose *Organizational rule*.  Name it *catch-all*, switch on *Catch all* toggle, click + button under *Destination (Tenants)*, choose your tenant and click *Save*.
 
 
 ### Create and publish an article
