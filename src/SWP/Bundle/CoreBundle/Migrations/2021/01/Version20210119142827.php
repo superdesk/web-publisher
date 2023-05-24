@@ -40,17 +40,17 @@ final class Version20210119142827 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('DROP SEQUENCE swp_user_reset_password_request_id_seq CASCADE');
-        $this->addSql('DROP TABLE swp_user_reset_password_request');
-        $this->addSql('DROP INDEX UNIQ_7384FB31F85E0677');
-        $this->addSql('DROP INDEX UNIQ_7384FB31E7927C74');
-        $this->addSql('ALTER TABLE swp_user ADD username_canonical VARCHAR(180) NOT NULL');
-        $this->addSql('ALTER TABLE swp_user ADD email_canonical VARCHAR(180) NOT NULL');
-        $this->addSql('ALTER TABLE swp_user ADD salt VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_user ADD last_login TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_user ADD password_requested_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_user RENAME COLUMN is_verified TO enabled');
-        $this->addSql('CREATE UNIQUE INDEX uniq_7384fb3192fc23a8 ON swp_user (username_canonical)');
-        $this->addSql('CREATE UNIQUE INDEX uniq_7384fb31a0d96fbf ON swp_user (email_canonical)');
+//        $this->addSql('DROP SEQUENCE swp_user_reset_password_request_id_seq CASCADE');
+//        $this->addSql('DROP TABLE swp_user_reset_password_request');
+//        $this->addSql('DROP INDEX UNIQ_7384FB31F85E0677');
+//        $this->addSql('DROP INDEX UNIQ_7384FB31E7927C74');
+//        $this->addSql('ALTER TABLE swp_user ADD username_canonical VARCHAR(180) NOT NULL');
+//        $this->addSql('ALTER TABLE swp_user ADD email_canonical VARCHAR(180) NOT NULL');
+//        $this->addSql('ALTER TABLE swp_user ADD salt VARCHAR(255) DEFAULT NULL');
+//        $this->addSql('ALTER TABLE swp_user ADD last_login TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+//        $this->addSql('ALTER TABLE swp_user ADD password_requested_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+//        $this->addSql('ALTER TABLE swp_user RENAME COLUMN is_verified TO enabled');
+//        $this->addSql('CREATE UNIQUE INDEX uniq_7384fb3192fc23a8 ON swp_user (username_canonical)');
+//        $this->addSql('CREATE UNIQUE INDEX uniq_7384fb31a0d96fbf ON swp_user (email_canonical)');
     }
 }
