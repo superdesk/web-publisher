@@ -35,7 +35,7 @@ RUN set -ex \
     && docker-php-ext-enable memcached \
     && pecl install amqp \
     && docker-php-ext-enable amqp \
-    && pecl install xdebug \
+    && pecl install xdebug-3.1.5 \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
     && docker-php-ext-configure gd --with-jpeg \

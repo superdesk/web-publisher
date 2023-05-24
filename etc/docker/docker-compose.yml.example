@@ -1,0 +1,81 @@
+version: "3.7"
+
+services:
+    postgres:
+        image: postgres
+        ports:
+            - "5433:5432"
+        environment:
+            - POSTGRES_DATABASE=publisher_${APP_ENV-dev}
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    memcached:
+        image: memcached
+        ports:
+            - 11211:11211
+    elasticsearch:
+        image: elasticsearch:7.10.1
+        environment:
+            - xpack.security.enabled=false
+            - discovery.type=single-node
+        ports:
+            - 9201:9200
+            - 9301:9300
+        volumes:
+            - ./elasticsearch:/var/lib/elasticsearch/data:cached
+    php:
+        extra_hosts:
+            - "host.docker.internal: 172.28.0.1"
+        build: php7-fpm
+        ports:
+            - "9001:9000"
+        depends_on:
+            - postgres
+            - memcached
+            - elasticsearch
+            - rabbitmq
+        volumes:
+            - ../../:/var/www/publisher:cached
+            - publisher_logs:/var/www/publisher/var/log:rw
+        env_file:
+            - .env
+    nginx:
+        build: nginx
+        ports:
+            - "80:80"
+        depends_on:
+            - php
+        volumes:
+            - nginx_logs:/var/log/nginx:rw
+        networks:
+            default:
+                aliases:
+                - publisher.local
+    rabbitmq:
+        image: rabbitmq
+        ports:
+            - 5672:5672
+    supervisor:
+        build: supervisor
+        ports:
+            - "8082:8080"
+            - "5555:5555"
+    test-api:
+        image: node:10-alpine
+        ports:
+            - "3000:3000"
+        volumes:
+            - ../../src/SWP/Bundle/CoreBundle/Tests/Functional/Resources:/app:rw
+        working_dir: /app
+        command: sh -c "npm install json-server && nohup node server.js"
+
+volumes:
+    publisher_logs:
+        driver: local
+    nginx_logs:
+        driver: local
+
+networks:
+    default:
+        external:
+            name: sp-publisher-network
