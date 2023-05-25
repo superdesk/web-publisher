@@ -65,7 +65,7 @@ class TenantResolver implements TenantResolverInterface
         return $tenant;
     }
 
-    protected function extractDomain(string $host = null): ?string
+    protected function extractDomain(string $host = null): string
     {
         if (null === $host || TenantResolverInterface::LOCALHOST === $host) {
             return TenantResolverInterface::LOCALHOST;
@@ -75,38 +75,34 @@ class TenantResolver implements TenantResolverInterface
 
         // handle case for ***.localhost
         if (TenantResolverInterface::LOCALHOST === $result->suffix()->toString() &&
-            null !== $result->secondLevelDomain()->toString() &&
-            null === $result->subDomain()->toString()
+            !empty($result->secondLevelDomain()->toString()) &&
+            empty($result->subDomain()->toString())
         ) {
             return $result->suffix()->toString();
         }
 
         $domainString = $result->secondLevelDomain()->toString();
-        if (null !== $result->suffix()->toString()) {
-            $domainString = $domainString . '.' . $result->suffix()->toString();
+        if (empty($result->suffix()->toString())) {
+            return $domainString;
         }
 
-        return $domainString;
+        return $domainString . '.' . $result->suffix()->toString();
     }
 
-    protected function extractSubdomain(string $host = null): ?string
+    protected function extractSubdomain(string $host = null): string
     {
         $result = $this->extractHost($host);
 
         // handle case for ***.localhost
         if (TenantResolverInterface::LOCALHOST === $result->suffix()->toString() &&
-            null !== $result->secondLevelDomain()->toString() &&
-            null === $result->subDomain()->toString()
+            !empty($result->secondLevelDomain()->toString()) &&
+            empty($result->subDomain()->toString())
         ) {
             return $result->secondLevelDomain()->toString();
         }
 
         $subdomain = $result->subDomain()->toString();
-        if (!empty($subdomain)) {
-            return $subdomain;
-        }
-
-        return null;
+        return !empty($subdomain) ? $subdomain : '';
     }
 
     private function extractHost($host): ResolvedDomainName
