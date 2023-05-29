@@ -1,12 +1,18 @@
 
-CHANGELOG for version <= 2.1.x
-==============================
+# CHANGELOG
 
-This changelog references the relevant changes (bug and security fixes) done in <= 2.1 minor versions.
+This changelog references the relevant changes (bug and security fixes).
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
-### 2.1
+## 2.2
+
+* migration to Symfony 5
+* various migration fixes
+* fix for Publisher not being available for new users
+* fix for article corrections not being published
+
+## 2.1
 * fix [#1183] for timestampable update error
 * fix [#1186] get client original extension from file as a fallback
 * fix [#1184] ES- Added asciifolding analyzer to package fields
@@ -76,7 +82,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 * fix [#1064] set validator for headline min length
 * fix [#1063] fixed date times when null and export only published articles
 
-### 2.1.0-RC
+## 2.1.0-RC
 
 * improvement [#1062] Add "default language" to tenant configuration
 * improvement [#0161] Allow filtering packages by language
@@ -96,7 +102,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 * improvement [#985]  @kottkrig  Add lazy load attribute to embedded images.
 * improvement [#982] Add feature media to package endpoint response
 
-### 2.0.4
+## 2.0.4
 
  * fix [#1039] handle items with slugline property set to empty string
  * improvement [#1038] search articles by exact author name
@@ -112,7 +118,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#1010] improve metadata matching in content lists filters
  * fix [#1005] fix article publishing with multiple tenant rules]
 
-### 2.0.3
+## 2.0.3
 
  * fix [#997] fix duplicated authors in package handling
  * feature [#996] handle new superdesk ways for unpublishing content
@@ -121,13 +127,13 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#989] add images length to the Image model
  * improvement [#984] expose route parent for templators
 
-### 2.0.2
+## 2.0.2
 
  * improvement [#981] clean up old slideshows on article update
  * fix [#980] Fix tags generation for cache invalidation requests
  * improvement [#979] set generated classes target dir to var/cache in PackageHydrator
 
-### 2.0.1
+## 2.0.1
 
  * improvement [#970, #973] Use varnish xtags instead cachetags
  * fix [#969] Properly save slideshows when package is updated
@@ -135,7 +141,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * fix [#963] Display slideshow's items in a proper order by default
  * fix [#958] Log this same (and more) data to filesystem and graylog
 
-### 2.0.0
+## 2.0.0
  * feature [#942] Redirect not found article request to route page  - controlled by ENV variable, disabled by default
  * feature [#925] oAuth client implementation
  * BC BREAK [#834] Changed query params publishedBefore and publishedAfter to published_before and published_after in ES bundle
@@ -151,7 +157,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#732] Set image byline/credit metadata field in the HTML output
  * improvement [#730] Allow to filter articles by data stored in extra
 
-### 1.5.0
+## 1.5.0
  * improvement [#727] Turn off loggable extensions on tables
  * feature [#724] Schedule article adding to manual content lists
  * fix [#722] Fix data send via webhook
@@ -184,7 +190,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * bug [#639] Error in generating url to avatar image
  * improvement [#630] Add otpion to exclude articles fron content list items
 
-### 1.4.0
+## 1.4.0
  * feature [#626] Allow to store files on AWS
  * feature [#621] Added support for audio/video files
  * feature [#620, #625] Add support for auth JWT tokens (used by Coral Talk)
@@ -225,7 +231,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#465] allow filtering by route name in content lists
  * feature [#459] Added an option to preview an article before even publishing it
 
-### 1.3.0
+## 1.3.0
  * feature [#462] Added template widget
  * bug [#460] Install assets when theme is installed
  * feature [#458] Added redirect and notFound functions for twig templates
@@ -254,7 +260,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#420] Add statistics to articles. Collect page views and make them visible in template and api
  * feature [#416] Add Webhooks system (with API) to publisher
  
-### 1.2.0
+## 1.2.0
  * feature [#394] Add "template_name" parameter to html widget
  * feature [#393] Introduce "without" keyword for gimmelist and add refactor article sources to allow better filtering
  * [BC Break] feature [#371] Handle article sources (Article source is now an array of sources instead of a string.)
@@ -264,7 +270,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#372] Add Liveblog widget, add external ESI renderer
  * feature [#368] Add Content List Loader
 
-### 1.1.0
+## 1.1.0
  * feature [#364] Add two new user settings
  * improvement [#360] Allow multiple routes filtering in articles loader
  * improvement [#359] Allow removing about field content in user profile
@@ -272,10 +278,10 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#352] Add caching to static theme assets
  * fix [#350] Add genre property to NINJS schema validator 
 
-### 1.0.1
+## 1.0.1
  * feature [RuleBundle] Implemented name and description fields in Rules API 
 
-### 1.0.0
+## 1.0.0
  * fix Adding article to content lists on publish (#349)
  * fix Set default value for urgency, handle genre as array in package item
  * feature ElasticSearch integration & bugfixes (#336)
@@ -288,7 +294,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  
  Full list of commits: https://github.com/superdesk/web-publisher/compare/cd75f77...046da8f
 
-### 0.6.0
+## 0.6.0
  * feature [#324] Added an option to sort collections
  * feature [#316] Add possibility to set custom headers and clear cookies with ResponseContext class.
  * feature [#314] Add more options to articles filtering api
@@ -299,7 +305,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#297] Add API to delete article
  * feature [#294] Add support for Manual Content List in API
 
-### 0.5.0
+## 0.5.0
  * feature [#281] Allow to filter articles by route id in API
  * feature [#280] Add correct Content-Type header to routes with extensions
  * feature [#279] Allow to filter articles by status in API
@@ -308,7 +314,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#212] Implement revisions system for containers
  * feature [#265] Add command to list tenants
 
-### 0.2.0
+## 0.2.0
  * feature [#235] Add API endpoint for rendering single container (and its content)
  * feature [#219] Automatically create menu widget when root menu/navigation is created
  * feature [#218] Assign article to route of type content automatically when article is published
@@ -320,37 +326,37 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#203] Added option to access theme assets with simple /public/{fileName} links
  * change [#207] Changed serialized properties naming strategy from underscore to camelCase
 
-### 0.1.0-11
+## 0.1.0-11
  * feature [#184] Added Google AMP HTML integration
 
-### 0.1.0-10
+## 0.1.0-10
  * feature [#182] [CoreBundle] Implement API token authentication
  * feature [#181] [MenuBundle] Implement possibility to move menu items
  * feature [#176] Added a new way to dynamically handle "resolve target entities"
  * feature [#176] Introduced better inheritance mapping
 
-### 0.1.0-9
+## 0.1.0-9
  * feature [#168] Added automatic content lists
  * feature [#173] Add user registration and login features
  
-### 0.1.0-8
+## 0.1.0-8
  * bug/feature/maintenance [#165] Switch to ORM as main storage backend 
 
-### 0.1.0-7
+## 0.1.0-7
  * maintenance [#156] added memcached to project requirements and configured it as default sessions handler
  * maintenance [#156] Specified project requirements
  * feature [#155] Upgrade Symfony version to 3.1
  * feature [#153] Bump lowest PHP version to ^7.0
  * bug [#152] [ContentBundle] If I correct a headline, it and its article are published in addition to the original (takeit)
 
-### 0.1.0-6
+## 0.1.0-6
  * feature [#138] [RuleBundle][Rule][ContentBundle] Added content to route mapping with simple rules managed by API (takeit)
  * feature [#139] Add default templates for error pages.
  * feature [#128] [ContentBundle] Add route type constraint validator (takeit)
  * bug [#128] [ContentBundle] Improve possibility to un-assign/assign parent routes (takeit)
  * feature [#132] [Template System][TemplateEngine Bundle] implement pagination in gimmelist
 
-### 0.1.0-5 
+## 0.1.0-5 
  * bug [#128] [ContentBundle] Un-assigning content from route doesn't work (takeit)
  * feature [#128] [ContentBundle] Allow to assign/un-assign route to article (takeit)
  * bug [#129] [CoreBundle][ContentBundle] Change template name discovery, add articles_template_name to route (see updated documentation)

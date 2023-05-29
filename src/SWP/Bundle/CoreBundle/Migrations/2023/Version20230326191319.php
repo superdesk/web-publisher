@@ -17,6 +17,7 @@ final class Version20230326191319 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
+        $this->addSql('ALTER TABLE swp_user ADD COLUMN IF NOT EXISTS enabled bool;'); //fixing potentially not executing earlier migrations - swp_user.enabled should exist alongside is_verified
         $this->addSql('ALTER TABLE swp_user ALTER COLUMN enabled SET DEFAULT true;');
     }
 
