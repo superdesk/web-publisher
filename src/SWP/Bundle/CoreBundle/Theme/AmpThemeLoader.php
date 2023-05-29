@@ -19,11 +19,12 @@ namespace SWP\Bundle\CoreBundle\Theme;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Takeit\Bundle\AmpHtmlBundle\Loader\ThemeLoaderInterface;
+use Twig\Loader\FilesystemLoader;
 
 final class AmpThemeLoader implements ThemeLoaderInterface
 {
     /**
-     * @var \Twig_Loader_Filesystem
+     * @var FilesystemLoader
      */
     private $filesystem;
 
@@ -45,13 +46,13 @@ final class AmpThemeLoader implements ThemeLoaderInterface
     /**
      * AmpThemeLoader constructor.
      *
-     * @param \Twig_Loader_Filesystem         $filesystem
+     * @param FilesystemLoader         $filesystem
      * @param ThemeContextInterface           $themeContext
      * @param ThemeHierarchyProviderInterface $themeHierarchyProvider
      * @param string                          $themePath
      */
     public function __construct(
-        \Twig_Loader_Filesystem $filesystem,
+        FilesystemLoader $filesystem,
         ThemeContextInterface $themeContext,
         ThemeHierarchyProviderInterface $themeHierarchyProvider,
         string $themePath

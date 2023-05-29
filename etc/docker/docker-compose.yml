@@ -16,14 +16,25 @@ services:
     elasticsearch:
         image: elasticsearch:7.10.1
         environment:
+            - xpack.security.enabled=false
             - discovery.type=single-node
         ports:
             - 9201:9200
             - 9301:9300
         volumes:
-            - ./elasticsearch:/usr/share/elasticsearch/data:cached
+            - ./elasticsearch:/var/lib/elasticsearch/data:cached
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.10.1
+        environment:
+            ELASTICSEARCH_URL: http://elasticsearch:9200
+        depends_on:
+            - elasticsearch
+        ports:
+            - 5601:5601
     php:
-        build: php7-fpm
+        extra_hosts:
+            - "host.docker.internal: 172.28.0.1"
+        build: php8-fpm
         ports:
             - "9001:9000"
         depends_on:
@@ -34,16 +45,26 @@ services:
         volumes:
             - ../../:/var/www/publisher:cached
             - publisher_logs:/var/www/publisher/var/log:rw
+        environment:
+            PHP_IDE_CONFIG: "serverName=publisher.local"
+            PHP_XDEBUG_ENABLED: 1
+            XDEBUG_CONFIG: client_host=host.docker.internal
+
         env_file:
             - .env
     nginx:
         build: nginx
         ports:
-            - "8080:80"
+            - "80:80"
         depends_on:
             - php
         volumes:
             - nginx_logs:/var/log/nginx:rw
+            - ../../:/var/www/publisher/
+        networks:
+            default:
+                aliases:
+                    - publisher.local
     rabbitmq:
         image: rabbitmq
         ports:
@@ -51,7 +72,7 @@ services:
     supervisor:
         build: supervisor
         ports:
-            - "8081:8080"
+            - "8082:8080"
             - "5555:5555"
     test-api:
         image: node:10-alpine
@@ -67,3 +88,8 @@ volumes:
         driver: local
     nginx_logs:
         driver: local
+
+networks:
+    default:
+        external:
+            name: sp-publisher-network

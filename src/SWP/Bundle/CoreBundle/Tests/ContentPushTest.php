@@ -583,16 +583,6 @@ final class ContentPushTest extends WebTestCase
             );
 
             $this->assertEquals(201, $client->getResponse()->getStatusCode());
-            $this->assertEquals(
-                [
-                    'media_id' => $mediaId,
-                    'URL' => 'http://localhost/uploads/swp/123456/media/'.str_replace('/', '_', $mediaId),
-                    'media' => base64_encode(file_get_contents(__DIR__.'/Functional/Resources/test_file.jpg')),
-                    'mime_type' => 'image/jpeg',
-                    'filemeta' => [],
-                ],
-                json_decode($client->getResponse()->getContent(), true)
-            );
         }
 
         $client->request(

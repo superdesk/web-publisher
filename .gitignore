@@ -21,6 +21,9 @@ RMT
 nohup.out
 /config/jwt/*.pem*
 !/config/jwt/
+## GCS credentials
+/config/gcs/*.json*
+!/config/gcs/
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -51,3 +54,4 @@ behat.yml
 ###< symfony/web-server-bundle ###
 
 .php-version
+.idea/

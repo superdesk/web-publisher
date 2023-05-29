@@ -14,18 +14,37 @@
 
 namespace SWP\Component\MultiTenancy\Resolver;
 
-use LayerShifter\TLDExtract\Extract;
+use Pdp\Domain;
+use Pdp\ResolvedDomainName;
+use Pdp\Rules;
+use Psr\Cache\InvalidArgumentException;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class TenantResolver implements TenantResolverInterface
 {
-    private $tenantRepository;
+    private Rules $publicSuffixList;
+    private CacheInterface $cacheProvider;
+    private string $suffixListFilename;
 
-    public function __construct(TenantRepositoryInterface $tenantRepository)
+    private TenantRepositoryInterface $tenantRepository;
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function __construct(
+        TenantRepositoryInterface $tenantRepository,
+        CacheInterface            $cacheProvider,
+        string                    $suffixListFilename,
+    )
     {
         $this->tenantRepository = $tenantRepository;
+        $this->cacheProvider = $cacheProvider;
+        $this->suffixListFilename = $suffixListFilename;
     }
 
     public function resolve(string $host = null): TenantInterface
@@ -33,7 +52,7 @@ class TenantResolver implements TenantResolverInterface
         $domain = $this->extractDomain($host);
         $subdomain = $this->extractSubdomain($host);
 
-        if (null !== $subdomain) {
+        if (!empty($subdomain)) {
             $tenant = $this->tenantRepository->findOneBySubdomainAndDomain($subdomain, $domain);
         } else {
             $tenant = $this->tenantRepository->findOneByDomain($domain);
@@ -46,7 +65,7 @@ class TenantResolver implements TenantResolverInterface
         return $tenant;
     }
 
-    protected function extractDomain(string $host = null): ?string
+    protected function extractDomain(string $host = null): string
     {
         if (null === $host || TenantResolverInterface::LOCALHOST === $host) {
             return TenantResolverInterface::LOCALHOST;
@@ -55,45 +74,60 @@ class TenantResolver implements TenantResolverInterface
         $result = $this->extractHost($host);
 
         // handle case for ***.localhost
-        if (TenantResolverInterface::LOCALHOST === $result->getSuffix() &&
-            null !== $result->getHostname() &&
-            null === $result->getSubdomain()
+        if (TenantResolverInterface::LOCALHOST === $result->suffix()->toString() &&
+            !empty($result->secondLevelDomain()->toString()) &&
+            empty($result->subDomain()->toString())
         ) {
-            return $result->getSuffix();
+            return $result->suffix()->toString();
         }
 
-        $domainString = $result->getHostname();
-        if (null !== $result->getSuffix()) {
-            $domainString = $domainString.'.'.$result->getSuffix();
+        $domainString = $result->secondLevelDomain()->toString();
+        if (empty($result->suffix()->toString())) {
+            return $domainString;
         }
 
-        return $domainString;
+        return $domainString . '.' . $result->suffix()->toString();
     }
 
-    protected function extractSubdomain(string $host = null): ?string
+    protected function extractSubdomain(string $host = null): string
     {
         $result = $this->extractHost($host);
 
         // handle case for ***.localhost
-        if (TenantResolverInterface::LOCALHOST === $result->getSuffix() &&
-            null !== $result->getHostname() &&
-            null === $result->getSubdomain()
+        if (TenantResolverInterface::LOCALHOST === $result->suffix()->toString() &&
+            !empty($result->secondLevelDomain()->toString()) &&
+            empty($result->subDomain()->toString())
         ) {
-            return $result->getHostname();
+            return $result->secondLevelDomain()->toString();
         }
 
-        $subdomain = $result->getSubdomain();
-        if (null !== $subdomain) {
-            return $subdomain;
-        }
-
-        return null;
+        $subdomain = $result->subDomain()->toString();
+        return !empty($subdomain) ? $subdomain : '';
     }
 
-    private function extractHost($host)
+    private function extractHost($host): ResolvedDomainName
     {
-        $extract = new Extract();
+        return Rules::fromString($this->getPublicSuffixList())->resolve(Domain::fromIDNA2008($host));
+    }
 
-        return $extract->parse($host);
+    /**
+     * We use public suffix list to resolve host. This file should be updated periodically.
+     *
+     * @see https://github.com/jeremykendall/php-domain-parser
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    private function getPublicSuffixList(): string
+    {
+        return $this->cacheProvider->get('suffix_list', function (ItemInterface $item) {
+            $dir = __DIR__ . '/../';
+            $filesystem = new Filesystem();
+            if (!$filesystem->exists($dir . $this->suffixListFilename)) {
+                throw new \LogicException(
+                    'Public suffix list file not found. Run swp:public-suffix-list:get command'
+                );
+            }
+            return file_get_contents($dir . $this->suffixListFilename);
+        });
     }
 }

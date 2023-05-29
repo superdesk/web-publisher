@@ -86,6 +86,11 @@ class Configuration implements ConfigurationInterface
 {
     public const AWS_ADAPTER = 'aws_adapter';
 
+    /**
+     * Google Cloud adapter
+     */
+    public const GCS_ADAPTER = 'gcs_adapter';
+
     public const LOCAL_ADAPTER = 'local_adapter';
 
     /**
@@ -100,7 +105,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue(self::LOCAL_ADAPTER)
                     ->info('Choose media storage adapter from the following list: "aws_adapter", "local_adapter"')
                     ->validate()
-                        ->ifNotInArray([self::AWS_ADAPTER, self::LOCAL_ADAPTER])
+                        ->ifNotInArray([self::AWS_ADAPTER, self::LOCAL_ADAPTER, self::GCS_ADAPTER])
                         ->thenInvalid('Invalid media adapter %s.')
                     ->end()
                 ->end()

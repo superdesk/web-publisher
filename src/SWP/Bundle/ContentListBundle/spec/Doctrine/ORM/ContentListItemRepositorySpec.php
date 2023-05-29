@@ -32,7 +32,7 @@ final class ContentListItemRepositorySpec extends ObjectBehavior
 {
     public function let(EntityManager $entityManager, ClassMetadata $classMetadata, EventManager $em)
     {
-        $em->getListeners()->willReturn([]);
+        $em->getAllListeners()->willReturn([]);
         $entityManager->getEventManager()->willReturn($em);
         $this->beConstructedWith($entityManager, $classMetadata);
     }

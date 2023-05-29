@@ -22,13 +22,14 @@ use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Takeit\Bundle\AmpHtmlBundle\Loader\ThemeLoaderInterface;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * @mixin AmpThemeLoader
  */
 final class AmpThemeLoaderSpec extends ObjectBehavior
 {
-    public function let(\Twig_Loader_Filesystem $filesystem, ThemeContextInterface $themeContext, ThemeHierarchyProviderInterface $themeHierarchyProvider)
+    public function let(FilesystemLoader $filesystem, ThemeContextInterface $themeContext, ThemeHierarchyProviderInterface $themeHierarchyProvider)
     {
         $this->beConstructedWith($filesystem, $themeContext, $themeHierarchyProvider, 'amp/amp-theme');
     }
@@ -44,7 +45,7 @@ final class AmpThemeLoaderSpec extends ObjectBehavior
     }
 
     public function it_loads_amp_theme(
-        \Twig_Loader_Filesystem $filesystem,
+        FilesystemLoader $filesystem,
         ThemeContextInterface $themeContext,
         ThemeHierarchyProviderInterface $themeHierarchyProvider,
         ThemeInterface $theme

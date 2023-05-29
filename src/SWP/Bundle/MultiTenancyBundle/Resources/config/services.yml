@@ -19,8 +19,11 @@ services:
     swp_multi_tenancy.tenant_resolver:
         class: '%swp_multi_tenancy.tenant_resolver.class%'
         lazy: true
+        bind:
+            $suffixListFilename: '%env(PUBLIC_SUFFIX_LIST_FILENAME)%'
         arguments:
             - '@swp.repository.tenant'
+            - '@doctrine.system_cache_pool'
 
     swp_multi_tenancy.tenant_context:
         class: '%swp_multi_tenancy.tenant_context.class%'

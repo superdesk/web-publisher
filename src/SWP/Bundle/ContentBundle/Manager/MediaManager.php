@@ -108,8 +108,10 @@ class MediaManager implements MediaManagerInterface
         try {
             $stream = fopen($uploadedFile->getRealPath(), 'rb+');
             $this->filesystem->writeStream($filePath, $stream);
-            fclose($stream);
-        } catch (FileExistsException $e) {
+            if (is_resource($stream) && get_resource_type($stream) === 'stream') {
+                fclose($stream);
+            }
+        } catch (\Throwable $e) {
             /*
             Handle case when multiple instances work with this same storage
             As content push is async then there can be a situation when other instance

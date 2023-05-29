@@ -6,5 +6,10 @@ sentry:
     options:
         environment: '%kernel.environment%'
         release: '2.1.0'
-        excluded_exceptions: #exclude validation errors
-            - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+
+services:
+    Sentry\Integration\IgnoreErrorsIntegration:
+        arguments:
+            $options:
+                ignore_exceptions:
+                    - Symfony\Component\HttpKernel\Exception\NotFoundHttpException

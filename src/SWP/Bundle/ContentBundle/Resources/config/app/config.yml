@@ -9,6 +9,7 @@ parameters:
     env(FS_AWS_S3_ENDPOINT): ''
     env(BLACKLISTED_KEYWORDS): '[]'
     env(REDIRECT_NOT_FOUND_ARTICLES_TO_ROUTE): false
+    env(FS_GOOGLE_BUCKET): ''
 
 jms_serializer:
     metadata:
@@ -68,6 +69,10 @@ oneup_flysystem:
                 prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
                 options:
                     ACL: 'public-read'
+        gcs_adapter:
+            googlecloudstorage:
+                client: SWP\Bundle\ContentBundle\Factory\GCSClientFactory
+                bucket: swp.google_storage_bucket
         local_adapter:
             local:
                 directory: '%kernel.project_dir%/public/uploads/'

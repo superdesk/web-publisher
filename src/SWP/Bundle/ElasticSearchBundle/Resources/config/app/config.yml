@@ -144,6 +144,8 @@ fos_elastica:
         source: { type: text }
         updatedAt:
           type: date
+        createdAt:
+          type: date
         organization:
           type: 'object'
           properties:
