@@ -161,9 +161,18 @@ final class ArticleSourcesTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
+        /**
+         * If regex is set in env `SLUG_REGEX` slug(id) will be replaced
+         */
+        $slugRegex = $client->getContainer()->getParameter('env(SLUG_REGEX)');
+        $slug = 'example-headline-2';
+        if (!empty($slugRegex)) {
+            $slug .= '-0123456789abc';
+        }
+
         $client->request(
             'GET',
-            $this->router->generate('swp_api_content_show_articles', ['id' => 'example-headline-2-0123456789abc'])
+            $this->router->generate('swp_api_content_show_articles', ['id' => $slug])
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
