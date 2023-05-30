@@ -166,7 +166,7 @@ final class ArticleSourcesTest extends WebTestCase
          */
         $slugRegex = $client->getContainer()->getParameter('env(SLUG_REGEX)');
         $slug = 'example-headline-2';
-        if (!empty($slugRegex)) {
+        if (!empty($slugRegex) && 1 === preg_match($slugRegex, $slug)) {
             $slug .= '-0123456789abc';
         }
 
