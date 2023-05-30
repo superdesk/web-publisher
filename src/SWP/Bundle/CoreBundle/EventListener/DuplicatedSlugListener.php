@@ -33,12 +33,9 @@ class DuplicatedSlugListener
      */
     protected $stringGenerator;
 
-    /**
-     * @var string|null
-     */
-    protected $slugRegex;
+    protected string $slugRegex;
 
-    public function __construct(ArticleRepositoryInterface $articleRepository, GeneratorInterface $stringGenerator, string $slugRegexp = null)
+    public function __construct(ArticleRepositoryInterface $articleRepository, GeneratorInterface $stringGenerator, string $slugRegexp = '')
     {
         $this->articleRepository = $articleRepository;
         $this->stringGenerator = $stringGenerator;
@@ -56,7 +53,7 @@ class DuplicatedSlugListener
             ->getOneOrNullResult();
 
         $regexpMatched = false;
-        if (null !== $this->slugRegex && 1 === preg_match('/.+(-\d+)$/m', $article->getSlug())) {
+        if (!empty($this->slugRegex) && 1 === preg_match($this->slugRegex, $article->getSlug())) {
             $regexpMatched = true;
         }
 
