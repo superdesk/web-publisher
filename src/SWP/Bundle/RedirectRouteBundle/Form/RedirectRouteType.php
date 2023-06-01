@@ -39,10 +39,7 @@ class RedirectRouteType extends AbstractType
                 ],
             ])
             ->add('uri', UrlType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Url(),
-                ],
+                'required' => false
             ])
             ->add('permanent', CheckboxType::class)
         ;
