@@ -98,8 +98,8 @@ class ArticleRepository extends Repository
             $nested = new Nested();
             $nested->setPath('authors');
             $functionScore = new Query\FunctionScore();
-            $functionScore->addWeightFunction(15, new Query\Match('authors.name', $term));
-            $functionScore->addWeightFunction(0.5, new Query\Match('authors.biography', $term));
+            $functionScore->addWeightFunction(15, new Query\MatchQuery('authors.name', $term));
+            $functionScore->addWeightFunction(0.5, new Query\MatchQuery('authors.biography', $term));
             $functionScore->addWeightFunction(15, new Query\MatchPhrase('authors.name', $term));
             $functionScore->addWeightFunction(1, new Query\MatchPhrase('authors.biography', $term));
             $functionScore->setQuery($bool);
@@ -145,7 +145,7 @@ class ArticleRepository extends Repository
         if (null !== $fields->get('metadata') && !empty($fields->get('metadata'))) {
             foreach ($fields->get('metadata') as $key => $values) {
                 foreach ((array) $values as $value) {
-                    $boolFilter->addFilter(new Query\Match($key, $value));
+                    $boolFilter->addFilter(new Query\MatchQuery($key, $value));
                 }
             }
         }
