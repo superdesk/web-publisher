@@ -66,9 +66,12 @@ services:
                 aliases:
                     - publisher.local
     rabbitmq:
-        image: rabbitmq
+        container_name: rabbitmq
+        image: rabbitmq:management
         ports:
+            - 15672:15672
             - 5672:5672
+
     supervisor:
         build: supervisor
         ports:
