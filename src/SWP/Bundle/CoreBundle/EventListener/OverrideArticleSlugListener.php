@@ -20,6 +20,7 @@ use Behat\Transliterator\Transliterator;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -42,22 +43,35 @@ final class OverrideArticleSlugListener
         $this->router = $router;
     }
 
+    /**
+     * We save previous url in two cases:
+     *  - when slug is changed, for example: `/politics/my-example-article` => `/politics/my-changed-example-article`
+     *  - when base route (category) is changed: `/politics/my-example-article` => `/sports/my-example-article`
+     *
+     * Please consider that both can be true in same request.
+     *
+     * @param ArticleEvent $event
+     * @return void
+     */
     public function overrideSlugIfNeeded(ArticleEvent $event): void
     {
         $article = $event->getArticle();
         $package = $event->getPackage();
+        $previousRoute = $event->getPreviousRoute();
 
         $overrideSlugOnCorrection = $this->settingsManager->get('override_slug_on_correction', 'tenant', $this->tenantContext->getTenant());
 
         if ($overrideSlugOnCorrection && null !== $article->getSlug()) {
-            $this->savePreviousRelativeUrl($article);
+            $this->savePreviousRelativeUrl($article, $previousRoute);
             $article->setSlug($package->getSlugline() ?? Transliterator::urlize($article->getTitle()));
+        } else if ($previousRoute) {
+            $this->savePreviousRelativeUrl($article, $previousRoute);
         }
     }
 
-    private function savePreviousRelativeUrl(ArticleInterface $article): void
+    private function savePreviousRelativeUrl(ArticleInterface $article, RouteInterface $route = null): void
     {
-        $route = $article->getRoute();
+        $route = $route ?? $article->getRoute();
         $relativeUrl = new ArticlePreviousRelativeUrl();
         $relativeUrl->setRelativeUrl($this->router->generate($route->getName(), ['slug' => $article->getSlug()]));
 

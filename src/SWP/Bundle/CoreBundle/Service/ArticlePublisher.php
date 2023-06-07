@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
+use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\CoreBundle\Model\CompositePublishActionInterface;
@@ -125,12 +126,16 @@ final class ArticlePublisher implements ArticlePublisherInterface
 
             /* @var ArticleInterface $article */
             if (null !== ($article = $this->findArticleByTenantAndCode($destination->getTenant()->getCode(), $package->getGuid()))) {
+                $originalRoute = null;
+                if ($article->getRoute()->getId() !== $destination->getRoute()->getId()) {
+                    $originalRoute = $article->getRoute();
+                }
                 $article->setRoute($destination->getRoute());
                 $article->setPublishedFBIA($destination->isPublishedFbia());
                 $article->setPaywallSecured($destination->isPaywallSecured());
                 $article->setPublishedToAppleNews($destination->isPublishedToAppleNews());
                 $this->eventDispatcher->dispatch(new GenericEvent($article), Events::SWP_VALIDATION);
-                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE), ArticleEvents::PRE_UPDATE);
+                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE, $originalRoute), ArticleEvents::PRE_UPDATE);
                 $this->articleRepository->flush();
 
                 if ($destination->isPublished()) {
