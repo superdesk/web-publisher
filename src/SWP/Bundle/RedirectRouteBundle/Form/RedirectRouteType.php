@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Url;
 
 class RedirectRouteType extends AbstractType
@@ -34,13 +35,11 @@ class RedirectRouteType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Length(['min' => 1]),
+                    new Regex('/^\//m')
                 ],
             ])
             ->add('uri', UrlType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Url(),
-                ],
+                'required' => false
             ])
             ->add('permanent', CheckboxType::class)
         ;
