@@ -14,7 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Factory;
 
-use FOS\UserBundle\Model\UserInterface;
+use Exception;
+use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 
 class ApiKeyFactory
@@ -36,11 +37,11 @@ class ApiKeyFactory
 
     /**
      * @param UserInterface $user
-     * @param string|null   $apiKeyValue
-     *
-     * @return mixed
+     * @param $apiKeyValue
+     * @return ApiKeyInterface
+     * @throws Exception
      */
-    public function create($user, $apiKeyValue = null)
+    public function create(UserInterface $user, $apiKeyValue = null)
     {
         /** @var ApiKeyInterface $apiKey */
         $apiKey = new $this->className();
