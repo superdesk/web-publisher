@@ -15,22 +15,31 @@
 namespace SWP\Bundle\ContentBundle\Event;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class ArticleEvent extends Event
 {
-    protected $article;
+    protected ArticleInterface $article;
 
-    protected $package;
+    protected ?PackageInterface $package;
 
-    protected $eventName;
+    protected ?string $eventName;
 
-    public function __construct(ArticleInterface $article, PackageInterface $package = null, $eventName = null)
+    protected ?RouteInterface $previousRoute;
+
+    public function __construct(
+        ArticleInterface $article,
+        PackageInterface $package = null,
+        $eventName = null,
+        $previousRoute = null
+    )
     {
         $this->article = $article;
         $this->package = $package;
         $this->eventName = $eventName;
+        $this->previousRoute = $previousRoute;
     }
 
     public function getArticle(): ArticleInterface
@@ -46,5 +55,10 @@ class ArticleEvent extends Event
     public function getEventName(): ?string
     {
         return $this->eventName;
+    }
+
+    public function getPreviousRoute(): ?RouteInterface
+    {
+        return $this->previousRoute;
     }
 }
