@@ -49,16 +49,16 @@ class ContentPushController extends AbstractController {
   private PackageRepository $packageRepository;//swp.repository.package
   private FileProviderInterface $fileProvider;
 
-  /**
-   * @param EventDispatcherInterface $eventDispatcher
-   * @param FormFactoryInterface $formFactory
-   * @param MessageBusInterface $messageBus
-   * @param DataTransformerInterface $dataTransformer
-   * @param MediaManagerInterface $mediaManager
-   * @param EntityManagerInterface $entityManager
-   * @param PackageRepositoryInterface $packageRepository
-   * @param FileProviderInterface $fileProvider
-   */
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param FormFactoryInterface $formFactory
+     * @param MessageBusInterface $messageBus
+     * @param DataTransformerInterface $dataTransformer
+     * @param MediaManagerInterface $mediaManager
+     * @param EntityManagerInterface $entityManager
+     * @param PackageRepository $packageRepository
+     * @param FileProviderInterface $fileProvider
+     */
   public function __construct(EventDispatcherInterface $eventDispatcher, FormFactoryInterface $formFactory,
                               MessageBusInterface      $messageBus,
                               DataTransformerInterface $dataTransformer, MediaManagerInterface $mediaManager,
