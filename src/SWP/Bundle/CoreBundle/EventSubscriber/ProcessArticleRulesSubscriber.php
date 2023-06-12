@@ -70,7 +70,7 @@ class ProcessArticleRulesSubscriber implements EventSubscriberInterface
         $article = $event->getArticle();
         $count = $this->publishDestinationProvider->countDestinations($package);
 
-        if (0 < $count || $article->isPublished()) {
+        if (0 < $count) {
             return;
         }
 
