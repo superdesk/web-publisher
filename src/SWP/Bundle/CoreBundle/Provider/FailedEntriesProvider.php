@@ -60,12 +60,12 @@ class FailedEntriesProvider
             $rows[] = new FailedEntry(
                 (int) $stamp->getId(),
                 get_class($envelope->getMessage()),
-                $history[0],
-                $errorDetailsStamp->getExceptionMessage(),
+                $history[0] ?? null,
+                $errorDetailsStamp?->getExceptionMessage(),
                 $sentToFailureTransportStamp->getOriginalReceiverName(),
                 $history,
                 $envelope->getMessage() instanceof MessageInterface ? $envelope->getMessage()->toArray() : [],
-                $errorDetailsStamp->getFlattenException()->getTraceAsString()
+                $errorDetailsStamp?->getFlattenException()->getTraceAsString()
             );
         }
 
