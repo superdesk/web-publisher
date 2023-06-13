@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Provider;
 use SWP\Bundle\CoreBundle\MessageHandler\Message\MessageInterface;
 use SWP\Bundle\CoreBundle\Model\FailedEntry;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Stamp\ErrorDetailsStamp;
 use Symfony\Component\Messenger\Stamp\RedeliveryStamp;
 use Symfony\Component\Messenger\Stamp\SentToFailureTransportStamp;
 use Symfony\Component\Messenger\Stamp\StampInterface;
@@ -28,7 +29,7 @@ use Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface;
 class FailedEntriesProvider
 {
     /** @var ReceiverInterface */
-    private $receiver;
+    private ReceiverInterface $receiver;
 
     public function __construct(ReceiverInterface $receiver)
     {
@@ -42,52 +43,32 @@ class FailedEntriesProvider
         $rows = [];
         $history = [];
         foreach ($envelopes as $envelope) {
-            $lastRedeliveryStampWithException = $this->getLastRedeliveryStampWithException($envelope);
             /** @var SentToFailureTransportStamp|null $sentToFailureTransportStamp */
             $sentToFailureTransportStamp = $envelope->last(SentToFailureTransportStamp::class);
 
             /** @var TransportMessageIdStamp $stamp */
             $stamp = $envelope->last(TransportMessageIdStamp::class);
-            $redeliveryStamps = $this->getRedeliveryStamps($envelope);
-            foreach ($redeliveryStamps as $redeliveryStamp) {
+            foreach (array_reverse($envelope->all(RedeliveryStamp::class)) as $redeliveryStamp) {
                 $history[] = $redeliveryStamp->getRedeliveredAt();
             }
+
+            /**
+             * @var ErrorDetailsStamp $errorDetailsStamp
+             */
+            $errorDetailsStamp = $envelope->last(ErrorDetailsStamp::class);
 
             $rows[] = new FailedEntry(
                 (int) $stamp->getId(),
                 get_class($envelope->getMessage()),
-                null === $lastRedeliveryStampWithException ? null : $lastRedeliveryStampWithException->getRedeliveredAt(),
-                null === $lastRedeliveryStampWithException ? null : $lastRedeliveryStampWithException->getExceptionMessage(),
+                $history[0] ?? null,
+                $errorDetailsStamp?->getExceptionMessage(),
                 $sentToFailureTransportStamp->getOriginalReceiverName(),
                 $history,
                 $envelope->getMessage() instanceof MessageInterface ? $envelope->getMessage()->toArray() : [],
-                $this->getExceptionTraceAsString($lastRedeliveryStampWithException)
+                $errorDetailsStamp?->getFlattenException()->getTraceAsString()
             );
         }
 
         return $rows;
-    }
-
-    private function getLastRedeliveryStampWithException(Envelope $envelope): ?StampInterface
-    {
-        /** @var RedeliveryStamp $stamp */
-        foreach (array_reverse($this->getRedeliveryStamps($envelope)) as $stamp) {
-            if (null !== $stamp->getExceptionMessage()) {
-                return $stamp;
-            }
-        }
-
-        return null;
-    }
-
-    protected function getRedeliveryStamps(Envelope $envelope): array
-    {
-        return $envelope->all(RedeliveryStamp::class);
-    }
-
-    protected function getExceptionTraceAsString(StampInterface $lastRedeliveryStampWithException): ?string
-    {
-        /* @var RedeliveryStamp $lastRedeliveryStampWithException */
-        return null === $lastRedeliveryStampWithException ? null : $lastRedeliveryStampWithException->getFlattenException()->getTraceAsString();
     }
 }
