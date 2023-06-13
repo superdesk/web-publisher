@@ -51,8 +51,8 @@ class FailedEntry
         ?string $errorMessage,
         string $transport,
         array $redeliveries = [],
-        array $message,
-        ?string $exceptionStacktrace
+        array $message = [],
+        ?string $exceptionStacktrace = null
     ) {
         $this->id = $id;
         $this->class = $class;
