@@ -50,8 +50,9 @@ class LinkRequestListener
 
     /**
      * @param RequestEvent $event
-     *
-     * @return array
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
+     * @return array|void
      */
     public function onKernelRequest(RequestEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
@@ -111,7 +112,12 @@ class LinkRequestListener
 
             $stubRequest->attributes->replace($route);
             $stubRequest->server = $event->getRequest()->server;
-            $stubRequest::setTrustedProxies(['192.0.0.1', '10.0.0.0/8', $event->getRequest()->server->get('REMOTE_ADDR')], Request::HEADER_X_FORWARDED_ALL);
+            $trustedHeaderSet = Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST |
+                Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO;
+            $stubRequest::setTrustedProxies(
+                ['192.0.0.1', '10.0.0.0/8', $event->getRequest()->server->get('REMOTE_ADDR')],
+                $trustedHeaderSet
+            );
             // Keep server name in sync with forwarded host
             if ($stubRequest->isFromTrustedProxy() && $stubRequest->server->has('HTTP_X_FORWARDED_HOST')) {
                 $stubRequest->server->set('SERVER_NAME', $stubRequest->server->has('HTTP_X_FORWARDED_HOST'));
