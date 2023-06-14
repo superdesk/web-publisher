@@ -52,7 +52,7 @@ final class ContentListAwareSerializationSubscriber implements EventSubscriberIn
 
     public function onPreSerialize(ObjectEvent $event)
     {
-        $masterRequest = $this->requestStack->getMasterRequest();
+        $masterRequest = $this->requestStack->getMainRequest();
         if (
             !$masterRequest ||
             !in_array(
