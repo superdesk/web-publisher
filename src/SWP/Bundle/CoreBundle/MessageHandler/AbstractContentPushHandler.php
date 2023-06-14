@@ -24,6 +24,7 @@ use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Hydrator\PackageHydratorInterface;
+use SWP\Bundle\CoreBundle\MessageHandler\Exception\LockConflictedException;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\Bridge\Events;
@@ -89,15 +90,11 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
             $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
 
-            $cacheDriver = $this->packageObjectManager->getConfiguration()->getMetadataCacheImpl();
+            $cacheDriver = $this->packageObjectManager->getConfiguration()->getMetadataCache();
             $cacheDriver->flushAll();
 
             throw $e;
-        } catch (DBALException | ORMException $e) {
-            $this->logException($e, $package);
-
-            throw $e;
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->logException($e, $package);
 
             throw $e;
