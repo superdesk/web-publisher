@@ -15,10 +15,9 @@
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 
-interface TenantInterface extends ThemeAwareTenantInterface, SettingsOwnerInterface
+interface TenantInterface extends ThemeAwareTenantInterface
 {
     /**
      * Gets the homepage.
