@@ -14,11 +14,11 @@
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\Mime\MimeTypes;
 
 /**
  * Class MimeTypeListener.
@@ -46,7 +46,8 @@ class MimeTypeListener
                         $extension = $event->getRequest()->get($matches[1]);
                     }
                 }
-                $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension).'; charset=UTF-8');
+                $mim = MimeTypes::getDefault()->getMimeTypes($extension)[0];
+                $response->headers->set('Content-Type', $mim .'; charset=UTF-8');
             }
         }
     }

@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Factory;
 
-use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\Mime\MimeTypes;
 
 class FileFactory implements FileFactoryInterface
 {
@@ -51,7 +51,7 @@ class FileFactory implements FileFactoryInterface
 
     public function createWith(string $assetId, string $extension): FileInterface
     {
-        $mimeType = Mime::getMimeFromExtension($extension);
+        $mimeType = MimeTypes::getDefault()->getMimeTypes($extension)[0] ?? null;
 
         if ($this->fileExtensionChecker->isImage($mimeType)) {
             /** @var ImageInterface $image */

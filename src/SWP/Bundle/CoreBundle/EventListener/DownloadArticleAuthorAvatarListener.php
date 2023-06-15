@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
-use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\CoreBundle\Model\Image;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +31,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
+use Symfony\Component\Mime\MimeTypes;
 
 final class DownloadArticleAuthorAvatarListener {
   /**
@@ -119,7 +119,7 @@ final class DownloadArticleAuthorAvatarListener {
 
         $uploadedFile = new UploadedFile($tempLocation,
             $assetId,
-            Mime::getMimeFromExtension($pathParts['extension']),
+            MimeTypes::getDefault()->guessMimeType($pathParts['extension']),
             \filesize($tempLocation),
             true
         );

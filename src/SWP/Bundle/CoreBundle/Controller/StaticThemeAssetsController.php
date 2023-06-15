@@ -14,8 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Hoa\File\Read;
-use Hoa\Mime\Mime;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
@@ -24,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StaticThemeAssetsController extends Controller {
@@ -108,8 +107,8 @@ class StaticThemeAssetsController extends Controller {
       $response->headers->set('Content-Disposition', $disposition);
 
       try {
-        $type = new Mime(new Read($filePath));
-        $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($type->getExtension()));
+        $mimes = MimeTypes::getDefault()->getMimeTypes($type->getExtension());
+        $mime = $mimes[0] === 'text/javascript' ? 'application/javascript' : $mimes[0];
       } catch (\Exception $e) {
         $mime = 'text/plain';
       }

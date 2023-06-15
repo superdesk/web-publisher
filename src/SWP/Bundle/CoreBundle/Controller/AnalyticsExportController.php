@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Behat\Testwork\Output\ServiceContainer\Formatter\FormatterFactory;
-use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
@@ -45,6 +44,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
 use FOS\RestBundle\Controller\Annotations\Route as FosRoute;
@@ -179,7 +179,7 @@ class AnalyticsExportController extends AbstractController {
     );
 
     $response->headers->set('Content-Disposition', $disposition);
-    $response->headers->set('Content-Type', Mime::getMimeFromExtension($analyticsReport->getFileExtension()));
+    $response->headers->set('Content-Type', MimeTypes::getDefault()->getMimeTypes($analyticsReport->getFileExtension())[0]);
 
     $response->setPublic();
     $response->setMaxAge(63072000);

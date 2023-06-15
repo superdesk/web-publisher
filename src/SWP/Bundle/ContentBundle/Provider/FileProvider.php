@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
-use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
+use Symfony\Component\Mime\MimeTypes;
 
 final class FileProvider implements FileProviderInterface
 {
@@ -51,7 +51,7 @@ final class FileProvider implements FileProviderInterface
 
     public function getFile(string $id, string $extension): ?FileInterface
     {
-        $mimeType = Mime::getMimeFromExtension($extension);
+        $mimeType = MimeTypes::getDefault()->getMimeTypes($extension)[0] ?? null;
 
         if (null === $mimeType) {
             return null;

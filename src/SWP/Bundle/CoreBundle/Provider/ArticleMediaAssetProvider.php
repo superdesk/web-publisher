@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Provider;
 
-use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
@@ -24,6 +23,7 @@ use SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProviderInterface;
 use SWP\Bundle\CoreBundle\Context\ArticlePreviewContextInterface;
 use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\Mime\MimeTypes;
 
 class ArticleMediaAssetProvider implements ArticleMediaAssetProviderInterface
 {
@@ -93,7 +93,7 @@ class ArticleMediaAssetProvider implements ArticleMediaAssetProviderInterface
         }
 
         try {
-            $mimeTypes = Mime::getExtensionsFromMime($rendition->getMimetype());
+            $mimeTypes = MimeTypes::getDefault()->getExtensions($rendition->getMimetype());
         } catch (\Exception $e) {
             return $file;
         }
