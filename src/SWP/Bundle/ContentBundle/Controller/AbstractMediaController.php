@@ -20,11 +20,11 @@ use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Provider\FileProviderInterface;
+use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Mime\MimeTypes;
 use Symfony\Contracts\Cache\CacheInterface;
 
 abstract class AbstractMediaController extends AbstractController
@@ -61,7 +61,7 @@ abstract class AbstractMediaController extends AbstractController
         }
 
         $response = new Response();
-        $mimeType = MimeTypes::getDefault()->getMimeTypes($extension)[0];
+        $mimeType = MimeTypeHelper::getByExtension($extension);
 
         if (!$this->fileExtensionChecker->isAttachment($mimeType)) {
             $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, str_replace('/', '_', $mediaId.'.'.$media->getFileExtension()));
@@ -70,7 +70,7 @@ abstract class AbstractMediaController extends AbstractController
         }
 
         $response->headers->set('Content-Disposition', $disposition);
-        $response->headers->set('Content-Type', MimeTypes::getDefault()->getMimeTypes($media->getFileExtension())[0]);
+        $response->headers->set('Content-Type', MimeTypeHelper::getByExtension($media->getFileExtension()));
 
         $response->setPublic();
         $response->setMaxAge(63072000);

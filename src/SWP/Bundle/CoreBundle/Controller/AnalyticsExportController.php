@@ -27,6 +27,7 @@ use SWP\Bundle\CoreBundle\Form\Type\ExportAnalyticsType;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Model\DateTime as PublisherDateTime;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -44,7 +45,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
 use FOS\RestBundle\Controller\Annotations\Route as FosRoute;
@@ -179,7 +179,7 @@ class AnalyticsExportController extends AbstractController {
     );
 
     $response->headers->set('Content-Disposition', $disposition);
-    $response->headers->set('Content-Type', MimeTypes::getDefault()->getMimeTypes($analyticsReport->getFileExtension())[0]);
+    $response->headers->set('Content-Type', MimeTypeHelper::getByExtension($analyticsReport->getFileExtension()));
 
     $response->setPublic();
     $response->setMaxAge(63072000);
