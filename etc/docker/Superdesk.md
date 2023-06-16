@@ -88,11 +88,11 @@ If you want to use AWS S3 or Google Cloud Storage, add the following lines to ``
 
 ```
       - AMAZON_SERVE_DIRECT_LINKS=True
-      - AMAZON_ENDPOINT_URL=https://storage.googleapis.com
-      - AMAZON_ACCESS_KEY_ID=GOOGATXA6IMK7B7NJ5LW55TJ
-      - AMAZON_SECRET_ACCESS_KEY=qZjFYbipnzvUg6o2MwKZNroXXAm9mMw5m3XbJcb/
+      - AMAZON_ENDPOINT_URL=
+      - AMAZON_ACCESS_KEY_ID=
+      - AMAZON_SECRET_ACCESS_KEY=
       - AMAZON_REGION=auto
-      - AMAZON_CONTAINER_NAME=brasil-gcc-test-bucket
+      - AMAZON_CONTAINER_NAME=
 ```
 
 

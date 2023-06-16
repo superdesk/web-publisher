@@ -1,4 +1,4 @@
- * PHP >= 7.4
+ * PHP = 8.0
    * iconv needs to be enabled
    * Intl needs to be installed with ICU 4+
    * pdo needs to be enabled

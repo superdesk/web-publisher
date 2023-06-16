@@ -5,6 +5,19 @@ This changelog references the relevant changes (bug and security fixes).
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+## 2.3
+
+* migration to PHP 8.0
+* native Google Cloud Storage support
+* slug change in Superdesk now affects article slug in the Publisher by default (with automatic redirection already available)
+* changing category covered by publishing rule now updates article URL
+* category change resulting article URL change is now addressed with proper redirection
+* introducing `SLUG_REGEX` environment variable for handling slug duplication criteria
+* fix for custom redirections
+* fix for sorting articles by creating time in the Output control
+* fix for the Error log view in the Publisher admin interface
+* .env.(local.)example updates with AWS S3 and Google Cloud Storage configuration templates
+
 ## 2.2
 
 * migration to Symfony 5
