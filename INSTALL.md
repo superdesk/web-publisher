@@ -12,6 +12,7 @@ This is the installation procedure using the code from the repository, assuming 
 
 Keep in mind:
 * Document root for Nginx vhost should be [public](public/) directory.
+* Configuration examples can be found in [Docker directory](etc/docker/) (nginx, PHP)
 * PostgreSQL must accept local connections with user ```postgres:postgres```
 
 
