@@ -16,7 +16,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 * fix for custom redirections
 * fix for sorting articles by creating time in the Output control
 * fix for the Error log view in the Publisher admin interface
-* .env.(local.)example updates with AWS S3 and Google Cloud Storage configuration templates
+* `.env.(local.)example` updates with AWS S3 and Google Cloud Storage configuration templates
 
 ## 2.2
 
