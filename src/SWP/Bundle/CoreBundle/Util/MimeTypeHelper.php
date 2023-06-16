@@ -31,11 +31,14 @@ class MimeTypeHelper
      * @param bool $all
      * @return array|string
      */
-    public static function getByExtension(string $path, bool $all = false): array|string
+    public static function getByExtension(string $ext, bool $all = false): array|string
     {
-        $ext = pathinfo($path, PATHINFO_EXTENSION);
         $mimeType = MimeTypes::getDefault();
         $types = $mimeType->getMimeTypes($ext);
+
+        if (empty($types)) {
+            return 'plain/text';
+        }
 
         if (str_contains($types[0], 'text')) {
             $types = array_reverse($types);
