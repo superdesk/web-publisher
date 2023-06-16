@@ -19,10 +19,10 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
-use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\CoreBundle\Model\Image;
 use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
 use Symfony\Component\Filesystem\Filesystem;
 use SWP\Bundle\ContentBundle\Model\AuthorMedia;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -119,7 +119,7 @@ final class DownloadArticleAuthorAvatarListener {
 
         $uploadedFile = new UploadedFile($tempLocation,
             $assetId,
-            Mime::getMimeFromExtension($pathParts['extension']),
+            MimeTypeHelper::getByExtension($pathParts['extension']),
             \filesize($tempLocation),
             true
         );
