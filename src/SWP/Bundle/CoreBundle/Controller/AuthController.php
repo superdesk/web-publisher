@@ -36,7 +36,8 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class AuthController extends AbstractController {
+class AuthController extends AbstractController
+{
   protected FormFactoryInterface $formFactory;
   protected ApiKeyRepositoryInterface $apiKeyRepository;
   protected ApiKeyFactory $apiKeyFactory;
@@ -48,8 +49,12 @@ class AuthController extends AbstractController {
    * @param ApiKeyFactory $apiKeyFactory
    * @param LockFactory $lockFactory
    */
-  public function __construct(FormFactoryInterface $formFactory, ApiKeyRepositoryInterface $apiKeyRepository,
-                              ApiKeyFactory        $apiKeyFactory, LockFactory $lockFactory) {
+  public function __construct(
+      FormFactoryInterface $formFactory,
+      ApiKeyRepositoryInterface $apiKeyRepository,
+      ApiKeyFactory$apiKeyFactory,
+      LockFactory $lockFactory
+  ) {
     $this->formFactory = $formFactory;
     $this->apiKeyRepository = $apiKeyRepository;
     $this->apiKeyFactory = $apiKeyFactory;
@@ -58,17 +63,26 @@ class AuthController extends AbstractController {
 
 
   /**
-   * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_auth")
+   * @Route(
+   *     "/api/{version}/auth/",
+   *     options={"expose"=true},
+   *     defaults={"version"="v2"},
+   *     methods={"POST"},
+   *     name="swp_api_auth"
+   * )
    */
-  public function authenticateAction(Request                     $request, UserProviderInterface $userProvider,
-                                     UserPasswordHasherInterface $userPasswordEncoder) {
+  public function authenticateAction(
+      Request $request,
+      UserProviderInterface $userProvider,
+      UserPasswordHasherInterface $userPasswordEncoder
+  ) {
     $form = $this->formFactory->createNamed('', UserAuthenticationType::class, []);
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
       $formData = $form->getData();
 
       try {
-        $user = $userProvider->loadUserByUsername($formData['username']);
+        $user = $userProvider->loadUserByIdentifier($formData['username']);
       } catch (AuthenticationException $e) {
         $user = null;
       }
@@ -85,7 +99,13 @@ class AuthController extends AbstractController {
   }
 
   /**
-   * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, methods={"POST"}, defaults={"version"="v2"}, name="swp_api_auth_superdesk")
+   * @Route(
+   *     "/api/{version}/auth/superdesk/",
+   *     options={"expose"=true},
+   *     methods={"POST"},
+   *     defaults={"version"="v2"},
+   *     name="swp_api_auth_superdesk"
+   * )
    */
   public function authenticateWithSuperdeskAction(
       Request               $request,
