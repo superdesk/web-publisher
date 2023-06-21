@@ -171,6 +171,8 @@ final class ArticlePublisher implements ArticlePublisherInterface
 
             $this->articleRepository->persist($article);
             $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE), ArticleEvents::PRE_CREATE);
+
+            $this->addToContentLists($destination->getContentLists(), $article);
             $this->articleRepository->flush();
             $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_CREATE), ArticleEvents::POST_CREATE);
 
@@ -179,8 +181,6 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_PUBLISH), ArticleEvents::POST_PUBLISH);
             }
 
-            $this->addToContentLists($destination->getContentLists(), $article);
-
             $this->articleRepository->flush();
         }
         $this->tenantContext->setTenant($originalRequestTenant);
@@ -188,6 +188,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
 
     private function addToContentLists(array $contentListsPositions, ArticleInterface $article): void
     {
+        $contentLists = [];
         foreach ($contentListsPositions as $contentListsPosition) {
             if (!is_int($contentListsPosition['id'])) {
                 return;
@@ -198,7 +199,11 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 continue;
             }
 
-            $existingItemOnList = $this->contentListItemRepository->findItemByArticleAndList($article, $contentList, ContentListInterface::TYPE_MANUAL);
+            $existingItemOnList = $this->contentListItemRepository->findItemByArticleAndList(
+                $article,
+                $contentList,
+                ContentListInterface::TYPE_MANUAL
+            );
             if (null === $existingItemOnList) {
                 $this->contentListService->addArticleToContentList(
                     $contentList,
@@ -206,7 +211,11 @@ final class ArticlePublisher implements ArticlePublisherInterface
                     $contentListsPosition['position']
                 );
             }
+
+            $contentLists[] = $contentList;
         }
+
+        $article->setContentLists($contentLists);
     }
 
     /**
