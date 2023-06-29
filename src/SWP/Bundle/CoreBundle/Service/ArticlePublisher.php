@@ -135,7 +135,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $article->setPaywallSecured($destination->isPaywallSecured());
                 $article->setPublishedToAppleNews($destination->isPublishedToAppleNews());
                 $this->eventDispatcher->dispatch(new GenericEvent($article), Events::SWP_VALIDATION);
-                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE, $originalRoute), ArticleEvents::PRE_UPDATE);
+                $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE, $article->getRoute()), ArticleEvents::PRE_UPDATE);
                 $this->articleRepository->flush();
 
                 if ($destination->isPublished()) {

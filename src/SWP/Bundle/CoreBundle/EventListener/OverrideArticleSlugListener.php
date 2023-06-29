@@ -61,19 +61,39 @@ final class OverrideArticleSlugListener
 
         $overrideSlugOnCorrection = $this->settingsManager->get('override_slug_on_correction', 'tenant', $this->tenantContext->getTenant());
 
-        if ($overrideSlugOnCorrection && null !== $article->getSlug()) {
+        if ($previousRoute && $overrideSlugOnCorrection && null !== $article->getSlug()) {
             $this->savePreviousRelativeUrl($article, $previousRoute);
             $article->setSlug($package->getSlugline() ?? Transliterator::urlize($article->getTitle()));
-        } else if ($previousRoute) {
+        }else if ($previousRoute) {
             $this->savePreviousRelativeUrl($article, $previousRoute);
         }
+    }
+
+    protected function duplicateUrl(ArticleInterface $article, string $route): bool
+    {
+        $previousUrl = $article->getPreviousRelativeUrl()?->getValues() ?? [];
+        if (empty($previousUrl)) {
+            return false;
+        }
+        /**
+         * @var ArticlePreviousRelativeUrl $previousUrl
+         */
+        $previousUrl = reset($previousUrl);
+        if ($previousUrl->getRelativeUrl() !== $route) {
+            return false;
+        }
+        return true;
     }
 
     private function savePreviousRelativeUrl(ArticleInterface $article, RouteInterface $route = null): void
     {
         $route = $route ?? $article->getRoute();
+        $relativeUrlString = $this->router->generate($route->getName(), ['slug' => $article->getSlug()]);
+        if ($this->duplicateUrl($article, $relativeUrlString)) {
+            return;
+        }
         $relativeUrl = new ArticlePreviousRelativeUrl();
-        $relativeUrl->setRelativeUrl($this->router->generate($route->getName(), ['slug' => $article->getSlug()]));
+        $relativeUrl->setRelativeUrl($relativeUrlString);
 
         $article->addPreviousRelativeUrl($relativeUrl);
     }
