@@ -64,18 +64,22 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
 
     private function refreshLists(ArticleInterface $article)
     {
+        $contentLists = [];
         $contentListItems = $this->contentListItemRepository->findItemsByArticle($article);
         /** @var ContentListItemInterface $item */
         foreach ($contentListItems as $item) {
+            $contentList = $item->getContentList();
             if (!$article->isPublished()) {
                 $this->manager->remove($item);
+            } else {
+                $contentLists[$contentList->getId()] = $contentList;
             }
-            $contentList = $item->getContentList();
             $item->getContentList()->setContentListItemsUpdatedAt(new \DateTime('now'));
             if ($contentList instanceof TimestampableCancelInterface) {
                 $contentList->cancelTimestampable(true);
             }
         }
         $this->manager->flush();
+        $article->setContentLists($contentLists);
     }
 }
