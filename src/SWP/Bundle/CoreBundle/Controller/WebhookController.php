@@ -15,9 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\WebhookBundle\Controller\AbstractAPIController;
-use SWP\Bundle\WebhookBundle\Model\WebhookInterface;
 use SWP\Bundle\WebhookBundle\Repository\WebhookRepositoryInterface;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
@@ -26,6 +24,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class WebhookController extends AbstractAPIController {
   private WebhookRepositoryInterface $webhookRepository;
@@ -61,11 +60,9 @@ class WebhookController extends AbstractAPIController {
 
   /**
    * @Route("/api/{version}/webhooks/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_webhook")
-   *
-   * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
    */
-  public function getAction(WebhookInterface $webhook): SingleResourceResponseInterface {
-    return $this->getSingleWebhook($webhook);
+  public function getAction(int $id): SingleResourceResponseInterface {
+    return $this->getSingleWebhook($this->findOr404($id));
   }
 
   /**
@@ -81,24 +78,29 @@ class WebhookController extends AbstractAPIController {
 
   /**
    * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_webhook", requirements={"id"="\d+"})
-   *
-   * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
    */
-  public function deleteAction(WebhookInterface $webhook): SingleResourceResponseInterface {
+  public function deleteAction(int $id): SingleResourceResponseInterface {
     $webhookRepository = $this->webhookRepository;
 
-    return $this->deleteWebhook($webhookRepository, $webhook);
+    return $this->deleteWebhook($webhookRepository, $this->findOr404($id));
   }
 
   /**
    * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_webhook", requirements={"id"="\d+"})
-   *
-   * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
    */
-  public function updateAction(Request $request, WebhookInterface $webhook): SingleResourceResponseInterface {
+  public function updateAction(Request $request, int $id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     $formFactory = $this->formFactory;
 
-    return $this->updateWebhook($objectManager, $request, $webhook, $formFactory);
+    return $this->updateWebhook($objectManager, $request, $this->findOr404($id), $formFactory);
   }
+
+    private function findOr404(int $id)
+    {
+        $rule = $this->webhookRepository->findOneBy(['id' => $id]);
+        if (null === ($rule)) {
+            throw new NotFoundHttpException('Webhook was not found.');
+        }
+        return $rule;
+    }
 }
