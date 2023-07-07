@@ -23,8 +23,7 @@ use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
-use Elastica\Suggest;
-use Elastica\Suggest\Phrase;
+use Elastica\QueryBuilder\DSL\Suggest;
 use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use FOS\ElasticaBundle\Repository;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
@@ -37,19 +36,29 @@ class ArticleRepository extends Repository
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
-        $term = $criteria->getTerm();
-        if (null !== $term && '' !== $term) {
-            $searchBy = ['title^10', 'lead^4', 'body^2', 'keywords.name'];
+        if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
+            $searchBy = ['title', 'lead', 'keywords.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
             }
 
             if ($searchByBody) {
-                array_splice($searchBy, 2, 0, ['body']);
+                $searchBy[] = 'body';
             }
 
-            $boolQuery = new BoolQuery();
+            $priority = 1;
+            foreach (array_reverse($searchBy) as $key => $field) {
+                $searchBy[$key] = $field.'^'.$priority;
+                ++$priority;
+            }
+            $query = new MultiMatch();
+            $query->setQuery($criteria->getTerm());
+            $query->setFields($searchBy);
+            $query->setType(MultiMatch::TYPE_PHRASE);
+            $boolFilter->addMust($query);
+
+            /*$boolQuery = new BoolQuery();
 
             $phraseMultiMatchQuery = new MultiMatch();
             $phraseMultiMatchQuery->setQuery($term);
@@ -99,14 +108,15 @@ class ArticleRepository extends Repository
             $nested->setPath('authors');
             $functionScore = new Query\FunctionScore();
             $functionScore->addWeightFunction(15, new Query\Match('authors.name', $term));
-            $functionScore->addWeightFunction(0.5, new Query\Match('authors.biography', $term));
+            $functionScore->addWeightFunction(5, new Query\Match('authors.biography', $term));
             $functionScore->addWeightFunction(15, new Query\MatchPhrase('authors.name', $term));
-            $functionScore->addWeightFunction(1, new Query\MatchPhrase('authors.biography', $term));
+            $functionScore->addWeightFunction(10, new Query\MatchPhrase('authors.biography', $term));
             $functionScore->setQuery($bool);
             $nested->setQuery($functionScore);
 
             $boolQuery->addShould($nested);
             $boolFilter->addMust($boolQuery);
+*/
         } else {
             $boolFilter->addMust(new MatchAll());
         }
@@ -202,10 +212,10 @@ class ArticleRepository extends Repository
 
         $functionScore->setQuery($boolFilter);
 
-        $query = Query::create($functionScore)
+        $query = Query::create($boolFilter)
             ->addSort([
-                '_score' => 'desc',
-                $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
+                //'_score' => 'desc',
+                'publishedAt' => $criteria->getOrder()->getDirection(),
             ]);
 
         $query->setSize(SearchResultLoader::MAX_RESULTS);
@@ -216,22 +226,31 @@ class ArticleRepository extends Repository
 
     public function getSuggestedTerm(string $term): string
     {
-        $suggest = new Suggest();
-        $phraseSuggest = new Phrase('our_suggestion', 'title');
-        $phraseSuggest->setText($term);
-        $suggest->addSuggestion($phraseSuggest);
+        $suggestQuery = new Suggest();
+        $suggestQuery->phrase('our_suggestion', '_all');
 
         $phraseMultiMatchQuery = new MultiMatch();
         $phraseMultiMatchQuery->setQuery($term);
+        $phraseMultiMatchQuery->setFields('_all');
         $phraseMultiMatchQuery->setType(MultiMatch::TYPE_PHRASE);
         $phraseMultiMatchQuery->setParam('boost', 50);
 
         $query = new \Elastica\Query($phraseMultiMatchQuery);
+        $suggest = new \Elastica\Suggest();
+        $suggest->setParam(
+            'phrase',
+            [
+                'text' => $term,
+                'phrase' => ['field' => '_all'],
+            ]
+        );
+
         $query->setSuggest($suggest);
 
         $adapter = $this->createPaginatorAdapter($query);
         $suggest = $adapter->getSuggests();
 
-        return $suggest['our_suggestion'][0]['options'][0]['text'] ?? '';
+        return $suggest['phrase'][0]['options'][0]['text'] ?? '';
     }
 }
+
