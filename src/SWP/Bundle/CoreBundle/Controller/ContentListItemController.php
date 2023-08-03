@@ -187,7 +187,12 @@ class ContentListItemController extends AbstractController {
             $contentListItem = $this->findByContentOr404($list, $contentId);
 
             if ($position !== $contentListItem->getPosition()) {
-                $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $position, $isSticky);
+                $this->ensureThereIsNoItemOnPositionOrThrow409(
+                    $listId,
+                    $position,
+                    $isSticky,
+                    ContentListAction::ACTION_MOVE
+                );
                 $contentListItem->setPosition($position);
                 $updated = true;
             }
@@ -206,7 +211,12 @@ class ContentListItemController extends AbstractController {
 
             break;
           case ContentListAction::ACTION_ADD:
-            $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $position);
+            $this->ensureThereIsNoItemOnPositionOrThrow409(
+                $listId,
+                $position,
+                $isSticky,
+                ContentListAction::ACTION_ADD
+            );
 
             $object = $articleRepository->findOneById($contentId);
             $contentListItem = $this->contentListService->addArticleToContentList($list, $object, $position, $isSticky);
@@ -269,15 +279,23 @@ class ContentListItemController extends AbstractController {
     return $listItem;
   }
 
-  private function ensureThereIsNoItemOnPositionOrThrow409(int $listId, int $position, bool $isSticky = false): void {
-    $existingContentListItem = $this->contentListService->isAnyItemPinnedOnPosition($listId, $position);
+  private function ensureThereIsNoItemOnPositionOrThrow409(
+      int $listId,
+      int $position,
+      bool $isSticky,
+      string $action): void {
+      $existingContentListItem = $this->contentListService->isAnyItemPinnedOnPosition($listId, $position);
 
       if (!$existingContentListItem && !$isSticky) {
           return;
       }
 
-    if ($isSticky || ($existingContentListItem && $existingContentListItem->isSticky())) {
-      throw new ConflictHttpException('There is already an item pinned on that position. Unpin it first.');
-    }
+      if ($existingContentListItem && $existingContentListItem->isSticky()) {
+        throw new ConflictHttpException('There is already an item pinned on that position. Unpin it first.');
+      }
+
+      if ($action === ContentListAction::ACTION_MOVE && $isSticky) {
+          throw new ConflictHttpException('Cannot move pinned item. Unpin it first.');
+      }
   }
 }
