@@ -85,7 +85,7 @@ final class UpdatedPackageListener
 
         foreach ($articles as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
-            $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE), ArticleEvents::PRE_UPDATE);
+            $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE, $article->getRoute()), ArticleEvents::PRE_UPDATE);
             // Flush in loop to emit POST_UPDATE article event
             $this->articleManager->flush();
             $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE), ArticleEvents::POST_UPDATE);
