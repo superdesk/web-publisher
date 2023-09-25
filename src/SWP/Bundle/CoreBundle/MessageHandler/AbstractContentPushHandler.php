@@ -39,6 +39,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 abstract class AbstractContentPushHandler implements MessageHandlerInterface
 {
+
     protected $logger;
 
     protected $packageRepository;
@@ -103,6 +104,7 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         }
     }
 
+
     private function generateLockId(string $guid): string
     {
         return md5(json_encode(['type' => 'package', 'guid' => $guid]));
@@ -144,6 +146,8 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         $this->reset();
     }
 
+
+
     protected function findExistingPackage(PackageInterface $package)
     {
         $existingPackage = $this->packageRepository->findOneBy(['guid' => $package->getEvolvedFrom() ?? $package->getGuid()]);
@@ -167,7 +171,7 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
         }
     }
 
-    protected function logException(\Exception $e, PackageInterface $package, string $defaultMessage = 'Unhandled exception'): void
+    protected function logException(\Throwable $e, PackageInterface $package, string $defaultMessage = 'Unhandled exception'): void
     {
         $this->logger->error('' !== $e->getMessage() ? $e->getMessage() : $defaultMessage, ['trace' => $e->getTraceAsString()]);
         $this->sentryHub->addBreadcrumb(new Breadcrumb(
