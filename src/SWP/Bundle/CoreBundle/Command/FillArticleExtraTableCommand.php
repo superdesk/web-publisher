@@ -39,11 +39,18 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+
+        ini_set('memory_limit', -1);
+
         $this->entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
 
         $batchSize = 500;
         $limit = $input->getOption('limit');
 
+        $sql = "select count(*) from swp_article  where extra not like  'a:0%'";
+        $query = $this->entityManager->getConnection()->prepare($sql);
+        $query->execute();
+        $articlesWithExtra = $query->fetchOne();
 
         $sql = "SELECT COUNT(id) FROM swp_article";
         $query = $this->entityManager->getConnection()->prepare($sql);
@@ -79,16 +86,19 @@ EOT
         echo "Info: " . $totalArticles . " articles will be processed\n" ;
         sleep(1);
         $startTime = microtime(true);
-        $iterations = 0;
-        $emptyExtra = 0;
+        $iterations = $emptyExtra = $invalidExtra = 0;
+        $processed = $duplicates = [];
         while ($isProcessing) {
             $iterations++;
             echo "\033[1A\033[K";
             echo "==> Processed: " . $totalArticlesProcessed . "/" . $totalArticles . " articles in " .  (microtime(true) - $startTime) . "\n";
-            $sql = "SELECT id, extra FROM swp_article LIMIT $limit OFFSET $totalArticlesProcessed";
+            $sql = "SELECT id, extra FROM swp_article order by id ASC  OFFSET (($iterations -1) * $limit) LIMIT $limit";
             $query = $this->entityManager->getConnection()->prepare($sql);
             $query->execute();
             $results = $query->fetchAll();
+            if (empty($results)) {
+                $isProcessing = false;
+            }
 
             foreach ($results as $result) {
                 /**
@@ -96,6 +106,11 @@ EOT
                  * user $result['id'] to find all article_extra for this id and remove them
                  * This way all new article extra fields that are not from migrated data will be preserved
                  */
+                if (in_array($result['extra'], ['a:0%', 'N;'])) {
+                    ++$emptyExtra;
+                    ++$totalArticlesProcessed;
+                    continue;
+                }
                 $legacyExtra = unserialize($result['extra']);
                 if (empty($legacyExtra)) {
                     ++$emptyExtra;
@@ -113,6 +128,16 @@ EOT
                 );
 
                 foreach ($legacyExtra as $key => $extraItem) {
+                    if (isset($processed[$result['id']][$key])) {
+                        $duplicates[] = [
+                            'id' => $result['id'],
+                            'key' => $key,
+                            'value' => $extraItem
+                        ];
+                        continue;
+                    } else {
+                        $processed[$result['id']][$key] = true;
+                    }
                     if (is_array($extraItem)) {
                         $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
                     } else {
@@ -152,6 +177,7 @@ EOT
 
             echo "Flush is needed. Insertions: $insertCount, Updates: $updateCount, Deletions: $deleteCount\n";
             $this->entityManager->flush();
+            $this->entityManager->clear();
         } else {
             echo "Nothing to flush...\n";
         }
@@ -160,9 +186,23 @@ EOT
         echo "================= DONE =================\n";
         echo "\t- Articles count: $totalArticles\n";
         echo "\t- Processed: $totalArticlesProcessed\n";
+        echo "\t- Empty extra: $emptyExtra\n";
+        echo "\t- Invalid extra: $invalidExtra\n";
         echo "\t- Iterations: $iterations\n";
+        echo "\t- Duplicates count: " . count($duplicates) . "\n";
         echo "=================------==================\n";
 
+        $finalResult = [
+            'articles_with_valid_extra' => $articlesWithExtra,
+            'total_articles' => $totalArticles,
+            'empty_extra' => $emptyExtra,
+            'invalid_extra' => $invalidExtra,
+            'duplicates' => $duplicates
+        ];
+        $fileName = '/tmp/fill-article-extra.json';
+        file_put_contents($fileName, PHP_EOL . json_encode($finalResult), FILE_APPEND);
+
+        echo ">> See more results in " . $fileName . " file";
         exit(1);
     }
 
