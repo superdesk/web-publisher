@@ -103,18 +103,26 @@ final class Version20210112135542 extends AbstractMigration implements Container
                 }
 
                 $entityManager->persist($extra);
+                ++$totalArticlesProcessed;
 
                 if (0 === ($totalArticlesProcessed % $batchSize)) {
                     $entityManager->flush();
                     $entityManager->clear();
                 }
-                ++$totalArticlesProcessed;
             }
 
-            if ($totalArticlesProcessed === $totalArticles) {
-                break;
+            if ($totalArticlesProcessed >= $totalArticles) {
+                $isProcessing = false;
             }
+        }
 
+        $unitOfWork = $entityManager->getUnitOfWork();
+        $insertions = $unitOfWork->getScheduledEntityInsertions();
+        $updates = $unitOfWork->getScheduledEntityUpdates();
+        $deletions = $unitOfWork->getScheduledEntityDeletions();
+
+        if (!empty($insertions) || !empty($updates) || !empty($deletions)) {
+            // Flush is needed, and you can check the count of changes
             $entityManager->flush();
         }
     }

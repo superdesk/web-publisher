@@ -44,24 +44,67 @@ EOT
         $batchSize = 500;
         $limit = $input->getOption('limit');
 
-        $totalArticles = $this->entityManager
-            ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a')
-            ->getSingleScalarResult();
+
+        $sql = "SELECT COUNT(id) FROM swp_article";
+        $query = $this->entityManager->getConnection()->prepare($sql);
+        $query->execute();
+        $totalArticles = $query->fetchOne();
+
+        $sql = "SELECT COUNT(id) FROM swp_article_extra";
+        $query = $this->entityManager->getConnection()->prepare($sql);
+        $query->execute();
+        $totalArticlesExtra = $query->fetchOne();
+
+        $truncate = true;
+        if ($totalArticlesExtra > 0) {
+            echo "Article extra table is not empty\n";
+            $options = "Article extra table is not empty, select option:\n";
+            $options .= "- Truncate [1]\n";
+            $options .= "- Overwrite [2]\n";
+            $options .= "- Exit [3]\n";
+            $res = (int)readline($options);
+            if ($res > 2) {
+                exit(1);
+            }
+            $truncate = $res === 1;
+        }
+
+        if ($truncate) {
+            $this->truncateExtra();
+        }
 
         $totalArticlesProcessed = 0;
         $isProcessing = true;
 
+        echo "Info: " . $totalArticles . " articles will be processed\n" ;
+        sleep(1);
+        $startTime = microtime(true);
+        $iterations = 0;
+        $emptyExtra = 0;
         while ($isProcessing) {
+            $iterations++;
+            echo "\033[1A\033[K";
+            echo "==> Processed: " . $totalArticlesProcessed . "/" . $totalArticles . " articles in " .  (microtime(true) - $startTime) . "\n";
             $sql = "SELECT id, extra FROM swp_article LIMIT $limit OFFSET $totalArticlesProcessed";
             $query = $this->entityManager->getConnection()->prepare($sql);
             $query->execute();
             $results = $query->fetchAll();
 
             foreach ($results as $result) {
+                /**
+                 * Here we should do checkup
+                 * user $result['id'] to find all article_extra for this id and remove them
+                 * This way all new article extra fields that are not from migrated data will be preserved
+                 */
                 $legacyExtra = unserialize($result['extra']);
                 if (empty($legacyExtra)) {
+                    ++$emptyExtra;
                     ++$totalArticlesProcessed;
                     continue;
+                }
+
+                if (!$truncate) {
+                    $this->deletePreviousExtra($result['id']);
                 }
 
                 $article = $this->entityManager->find(
@@ -79,22 +122,61 @@ EOT
                 }
 
                 $this->entityManager->persist($extra);
+                ++$totalArticlesProcessed;
 
                 if (0 === ($totalArticlesProcessed % $batchSize)) {
                     $this->entityManager->flush();
                     $this->entityManager->clear();
                 }
-                ++$totalArticlesProcessed;
             }
 
             if ($totalArticlesProcessed >= $totalArticles) {
                 $isProcessing = false;
-                break;
             }
 
-            $this->entityManager->flush();
         }
 
-        return 0;
+        echo "\n...almost finished, just to check if there is something to flush\n";
+
+        $unitOfWork = $this->entityManager->getUnitOfWork();
+
+        $insertions = $unitOfWork->getScheduledEntityInsertions();
+        $updates = $unitOfWork->getScheduledEntityUpdates();
+        $deletions = $unitOfWork->getScheduledEntityDeletions();
+
+        if (!empty($insertions) || !empty($updates) || !empty($deletions)) {
+            // Flush is needed, and you can check the count of changes
+            $insertCount = count($insertions);
+            $updateCount = count($updates);
+            $deleteCount = count($deletions);
+
+            echo "Flush is needed. Insertions: $insertCount, Updates: $updateCount, Deletions: $deleteCount\n";
+            $this->entityManager->flush();
+        } else {
+            echo "Nothing to flush...\n";
+        }
+
+        echo"\n";
+        echo "================= DONE =================\n";
+        echo "\t- Articles count: $totalArticles\n";
+        echo "\t- Processed: $totalArticlesProcessed\n";
+        echo "\t- Iterations: $iterations\n";
+        echo "=================------==================\n";
+
+        exit(1);
+    }
+
+    protected function truncateExtra()
+    {
+        $sql = "TRUNCATE swp_article_extra RESTART IDENTITY";
+        $query = $this->entityManager->getConnection()->prepare($sql);
+        $query->execute();
+    }
+
+    protected function deletePreviousExtra(int $id)
+    {
+        $sql = "DELETE FROM swp_article_extra sae WHERE sae.article_id=" . $id;
+        $query = $this->entityManager->getConnection()->prepare($sql);
+        $query->execute();
     }
 }
