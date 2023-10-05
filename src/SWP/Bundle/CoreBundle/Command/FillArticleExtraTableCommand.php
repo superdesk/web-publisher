@@ -208,15 +208,21 @@ EOT
 
     protected function truncateExtra()
     {
+        $this->entityManager->flush();
         $sql = "TRUNCATE swp_article_extra RESTART IDENTITY";
         $query = $this->entityManager->getConnection()->prepare($sql);
         $query->execute();
+        $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 
     protected function deletePreviousExtra(int $id)
     {
+        $this->entityManager->flush();
         $sql = "DELETE FROM swp_article_extra sae WHERE sae.article_id=" . $id;
         $query = $this->entityManager->getConnection()->prepare($sql);
         $query->execute();
+        $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 }
