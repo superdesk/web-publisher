@@ -37,6 +37,7 @@ class MenuType extends AbstractType
             ])
             ->add('label', TextType::class, [
                 'required' => false,
+                'empty_data' => '',
                 'help' => 'Menu item label',
             ])
             ->add('uri', TextType::class, [

@@ -60,7 +60,7 @@ class MenuItem implements MenuItemInterface
      *
      * @var string
      */
-    protected $label = null;
+    protected $label = '';
 
     /**
      * Attributes for the item link.
@@ -267,7 +267,7 @@ class MenuItem implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setLabel(?string $label): ItemInterface
+    public function setLabel(?string $label = ''): ItemInterface
     {
         $this->label = $label;
 
