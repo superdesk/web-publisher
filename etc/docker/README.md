@@ -143,12 +143,16 @@ docker-compose run php php bin/console sylius:theme:assets:install
 docker-compose run php php bin/console cache:clear
 ```
 
-## Set permissions for local image upload
+## Set permissions for local image upload and cache dir
 
 If you plan to use local storage for asset upload, permissions should be set first:
 
 ```bash
 docker exec docker_php_1 sh -c 'chown -R www-data:www-data /var/www/publisher/public/uploads'
+```
+
+```bash
+docker exec docker_php_1 sh -c 'chown -R www-data:www-data /var/www/publisher/var/cache'
 ```
 
 ## Preview
