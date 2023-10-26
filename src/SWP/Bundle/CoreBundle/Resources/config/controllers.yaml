@@ -146,6 +146,7 @@ services:
     bind:
       $seoMetadataFactory: '@swp.factory.seo_metadata'
       $seoMetadataRepository: '@swp.repository.seo_metadata'
+      $mediaManager: '@swp_core_bundle.manager.seo_media'
 
   SWP\Bundle\CoreBundle\Controller\SlideshowController:
     bind:

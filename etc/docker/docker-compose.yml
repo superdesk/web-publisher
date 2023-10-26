@@ -72,19 +72,6 @@ services:
             - 15672:15672
             - 5672:5672
 
-    supervisor:
-        build: supervisor
-        ports:
-            - "8082:8080"
-            - "5555:5555"
-    test-api:
-        image: node:10-alpine
-        ports:
-            - "3000:3000"
-        volumes:
-            - ../../src/SWP/Bundle/CoreBundle/Tests/Functional/Resources:/app:rw
-        working_dir: /app
-        command: sh -c "npm install json-server && nohup node server.js"
 
 volumes:
     publisher_logs:
