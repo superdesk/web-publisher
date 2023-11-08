@@ -746,7 +746,7 @@ services:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: setPublishDate }
             - { name: kernel.event_listener, event: swp.article.pre_update, method: setPublishDate }
 
-    SWP\Bundle\CoreBundle\EventListener\StopArticleUpdateAtChangeListener:
+    SWP\Bundle\CoreBundle\EventListener\DontChangeArticleUpdateAtListener:
         arguments:
             - '@swp_settings.manager.settings'
             - '@swp_multi_tenancy.tenant_context'
