@@ -29,6 +29,7 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepository;
+use SWP\Bundle\CoreBundle\Util\SwpLogger;
 use SWP\Component\Bridge\Events;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
@@ -136,7 +137,9 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $article->setPublishedToAppleNews($destination->isPublishedToAppleNews());
                 $this->eventDispatcher->dispatch(new GenericEvent($article), Events::SWP_VALIDATION);
                 $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE, $article->getRoute()), ArticleEvents::PRE_UPDATE);
+                SwpLogger::log('PRE_UPDATE before flush: ' . ($article->isTimestampableCanceled() ? 'Y' : 'N'));
                 $this->articleRepository->flush();
+                SwpLogger::log('PRE_UPDATE after flush: ' . ($article->isTimestampableCanceled() ? 'Y' : 'N'));
 
                 if ($destination->isPublished()) {
                     $this->eventDispatcher->dispatch(new ArticleEvent($article, $package, ArticleEvents::PUBLISH), ArticleEvents::PUBLISH);

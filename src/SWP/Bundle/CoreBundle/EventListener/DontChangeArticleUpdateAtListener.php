@@ -28,12 +28,15 @@ final class DontChangeArticleUpdateAtListener
 
     public function setUpdateAtDate(ArticleEvent $event): void
     {
+        SwpLogger::log('Listener is in use :-) ....');
         $article = $event->getArticle();
         /**
          * @var ?ArticleExtraTextField $dontUpdateDate
          */
         $dontUpdateDate = $article->getExtraByKey('dont_change_updated_at') ?? null;
+        SwpLogger::log('Dont update date is type of: ' . gettype($dontUpdateDate));
         if ($dontUpdateDate instanceof ArticleExtraTextField && strtolower($dontUpdateDate->getValue()) === 'on') {
+            SwpLogger::log('Dont update date: ' . $dontUpdateDate->getValue());
             $article->cancelTimestampable();
         }
     }
