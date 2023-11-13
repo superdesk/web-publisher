@@ -16,10 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
 use Psr\Cache\CacheItemInterface;
 use SWP\Bundle\CoreBundle\Theme\Uploader\ThemeLogoUploaderInterface;
+use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,7 +66,7 @@ class ThemeLogoController extends Controller {
       $response = new Response();
       $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, pathinfo($path, PATHINFO_BASENAME));
       $response->headers->set('Content-Disposition', $disposition);
-      $response->headers->set('Content-Type', Mime::getMimeFromExtension($path));
+      $response->headers->set('Content-Type', MimeTypeHelper::getByPath($path));
       $response->setPublic();
       $response->setMaxAge(63072000);
       $response->setSharedMaxAge(63072000);

@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use SWP\Bundle\CoreBundle\Theme\Model\Theme;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -80,7 +81,10 @@ final class ThemeSerializationSubscriber implements EventSubscriberInterface
                 $urlAwareScreenshot['description'] = $screenshot->getDescription();
                 $urlAwareScreenshots[] = $urlAwareScreenshot;
             }
-            $event->getVisitor()->setData('screenshots', $urlAwareScreenshots);
+            $event->getVisitor()->visitProperty(
+                new StaticPropertyMetadata('', 'screenshots', $urlAwareScreenshots),
+                $urlAwareScreenshots
+            );
         }
     }
 }

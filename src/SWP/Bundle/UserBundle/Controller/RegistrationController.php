@@ -31,12 +31,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations\Route as FOSRoute;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class RegistrationController extends AbstractController {
 
@@ -53,9 +56,13 @@ class RegistrationController extends AbstractController {
    * @param UserManagerInterface $userManager
    * @param EntityManagerInterface $entityManager
    */
-  public function __construct(SettingsManagerInterface $settingsManager, ScopeContextInterface $scopeContext,
-                              EmailVerifier            $emailVerifier, UserManagerInterface $userManager,
-                              EntityManagerInterface   $entityManager) {
+  public function __construct(
+      SettingsManagerInterface $settingsManager,
+      ScopeContextInterface $scopeContext,
+      EmailVerifier $emailVerifier,
+      UserManagerInterface $userManager,
+      EntityManagerInterface   $entityManager
+  ) {
     $this->settingsManager = $settingsManager;
     $this->scopeContext = $scopeContext;
     $this->emailVerifier = $emailVerifier;
@@ -65,11 +72,17 @@ class RegistrationController extends AbstractController {
 
 
   /**
-   * @FOSRoute("/api/{version}/users/register/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_register_user")
+   * @FOSRoute(
+   *     "/api/{version}/users/register/",
+   *     methods={"POST"},
+   *     options={"expose"=true},
+   *     defaults={"version"="v2"},
+   *     name="swp_api_core_register_user"
+   * )
    */
   public function registerAction(
       Request                     $request,
-      UserPasswordEncoderInterface $passwordEncoder,
+      UserPasswordHasherInterface $userPasswordEncoder,
       UserManagerInterface        $userManager,
       MailerInterface             $mailer
   ) {
@@ -88,7 +101,7 @@ class RegistrationController extends AbstractController {
       $user->addRole('ROLE_USER');
       // encode the plain password
       $user->setPassword(
-          $passwordEncoder->encodePassword(
+          $userPasswordEncoder->hashPassword(
               $user,
               $form->get('plainPassword')->getData()
           )
@@ -119,8 +132,11 @@ class RegistrationController extends AbstractController {
   /**
    * @Route("/verify/email", name="swp_user_verify_email")
    */
-  public function verifyUserEmail(Request            $request, GuardAuthenticatorHandler $guardHandler,
-                                  LoginAuthenticator $authenticator): Response {
+  public function verifyUserEmail(
+      Request $request,
+      GuardAuthenticatorHandler $guardHandler,
+      LoginAuthenticator $authenticator
+  ): Response {
     $id = (int)$request->get('id'); // retrieve the user id from the url
 
     if ($request->isXmlHttpRequest()) {
@@ -146,6 +162,7 @@ class RegistrationController extends AbstractController {
 
       return $this->redirectToRoute('homepage');
     }
+
 
     $guardHandler->authenticateUserAndHandleSuccess(
         $user,

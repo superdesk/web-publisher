@@ -23,6 +23,7 @@ use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twig\Environment as TwigEnvironment;
 
 /**
  * Class TenantAwareThemeUploader.
@@ -40,7 +41,7 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     private $themeLoader;
 
     /**
-     * @var \Twig_Environment
+     * @var TwigEnvironment
      */
     private $twig;
 
@@ -64,7 +65,7 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
      *
      * @param TenantContextInterface   $tenantContext
      * @param ThemeLoaderInterface     $themeLoader
-     * @param \Twig_Environment        $twig
+     * @param TwigEnvironment        $twig
      * @param string                   $baseDir
      * @param AssetsInstallerInterface $assetsInstaller
      * @param string                   $assetsDir
@@ -72,7 +73,7 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     public function __construct(
         TenantContextInterface $tenantContext,
         ThemeLoaderInterface $themeLoader,
-        \Twig_Environment $twig,
+        TwigEnvironment $twig,
         string $baseDir,
         AssetsInstallerInterface $assetsInstaller,
         string $assetsDir
