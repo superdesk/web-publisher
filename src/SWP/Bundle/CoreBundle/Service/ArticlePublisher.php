@@ -29,6 +29,7 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepository;
+use SWP\Bundle\CoreBundle\Util\SwpLogger;
 use SWP\Component\Bridge\Events;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
