@@ -58,7 +58,7 @@ EOT
             $results = $query->fetchAll();
 
             foreach ($results as $result) {
-                $legacyExtra = unserialize($result['extra']);
+                $legacyExtra = $this->unserializeExtraField($result['extra']);
                 if (empty($legacyExtra)) {
                     ++$totalArticlesProcessed;
                     continue;
@@ -76,6 +76,7 @@ EOT
                         $extra = ArticleExtraTextField::newFromValue($key, (string)$extraItem);
                     }
                     $extra->setArticle($article);
+                    $this->entityManager->persist($extra);
                 }
 
                 $this->entityManager->persist($extra);
@@ -85,16 +86,39 @@ EOT
                     $this->entityManager->clear();
                 }
                 ++$totalArticlesProcessed;
+                if (0 == ($totalArticlesProcessed % $batchSize)) {
+                    $this->entityManager->flush();
+                    $this->entityManager->clear();
+                }
             }
 
-            if ($totalArticlesProcessed >= $totalArticles) {
-                $isProcessing = false;
+            // flush remaining entities in queue and break loop
+            if ($totalArticlesProcessed === $totalArticles) {
+                $this->entityManager->flush();
+                $this->entityManager->clear();
                 break;
             }
+        }
+        return 0;
+    }
 
-            $this->entityManager->flush();
+    /**
+     * @param string $data
+     * @return mixed
+     */
+    private function unserializeExtraField(string $data)
+    {
+        $unserialized = @unserialize($data);
+        if ($unserialized) {
+            return $unserialized;
         }
 
-        return 0;
+        $callback = function ($matches) {
+            $matches[2] = trim(preg_replace('/\s\s+/', ' ', $matches[2]));
+            return 's:' . mb_strlen($matches[2]) . ':"' . $matches[2] . '";';
+        };
+
+        $fixedData = preg_replace_callback('!s:(\d+):"(.*?)";!s', $callback, $data);
+        return unserialize($fixedData);
     }
 }
