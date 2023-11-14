@@ -14,8 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Hoa\File\Read;
+use Hoa\Mime\Mime;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
-use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
@@ -107,7 +108,8 @@ class StaticThemeAssetsController extends Controller {
       $response->headers->set('Content-Disposition', $disposition);
 
       try {
-          $mime = MimeTypeHelper::getByPath($filePath);
+        $type = new Mime(new Read($filePath));
+        $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($type->getExtension()));
       } catch (\Exception $e) {
         $mime = 'text/plain';
       }

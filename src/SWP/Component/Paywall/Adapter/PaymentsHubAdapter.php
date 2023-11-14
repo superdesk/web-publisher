@@ -76,13 +76,14 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
 
         if (!isset($subscriptionsData['_embedded']) && !isset($subscriptionsData['_embedded']['items'])) {
-            return [];
+            return null;
         }
 
         $items = $subscriptionsData['_embedded']['items'];
 
         foreach ($items as $subscriptionData) {
-            $subscription = $this->createSubscription();
+            /** @var SubscriptionInterface $subscription */
+            $subscription = $subscription = $this->createSubscription();
             $subscription->setId((string) $subscriptionData['id']);
             $subscription->setCode((string) $subscriptionData['id']);
             $subscription->setType($subscriptionData['type']);

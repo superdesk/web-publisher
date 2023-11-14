@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Behat\Testwork\Output\ServiceContainer\Formatter\FormatterFactory;
+use Hoa\Mime\Mime;
 use League\Flysystem\Filesystem;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
@@ -27,7 +28,6 @@ use SWP\Bundle\CoreBundle\Form\Type\ExportAnalyticsType;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReport;
 use SWP\Bundle\CoreBundle\Model\AnalyticsReportInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
-use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Model\DateTime as PublisherDateTime;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -179,7 +179,7 @@ class AnalyticsExportController extends AbstractController {
     );
 
     $response->headers->set('Content-Disposition', $disposition);
-    $response->headers->set('Content-Type', MimeTypeHelper::getByExtension($analyticsReport->getFileExtension()));
+    $response->headers->set('Content-Type', Mime::getMimeFromExtension($analyticsReport->getFileExtension()));
 
     $response->setPublic();
     $response->setMaxAge(63072000);

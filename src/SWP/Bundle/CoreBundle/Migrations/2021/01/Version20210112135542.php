@@ -82,7 +82,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
             $results = $query->fetchAll();
 
             foreach ($results as $result) {
-                $legacyExtra = $this->unserializeExtraField($result['extra']);
+                $legacyExtra = unserialize($result['extra']);
                 if (empty($legacyExtra)) {
                     ++$totalArticlesProcessed;
                     continue;
@@ -97,41 +97,25 @@ final class Version20210112135542 extends AbstractMigration implements Container
                     if (is_array($extraItem)) {
                         $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
                     } else {
-                        $extra = ArticleExtraTextField::newFromValue($key, (string) $extraItem);
+                        $extra = ArticleExtraTextField::newFromValue($key, (string)$extraItem);
                     }
                     $extra->setArticle($article);
-                    $entityManager->persist($extra);
                 }
 
-                ++$totalArticlesProcessed;
-                if (0 == ($totalArticlesProcessed % $batchSize)) {
+                $entityManager->persist($extra);
+
+                if (0 === ($totalArticlesProcessed % $batchSize)) {
                     $entityManager->flush();
                     $entityManager->clear();
                 }
+                ++$totalArticlesProcessed;
             }
 
-            // flush remaining entities in queue and break loop
             if ($totalArticlesProcessed === $totalArticles) {
-                $entityManager->flush();
-                $entityManager->clear();
                 break;
             }
+
+            $entityManager->flush();
         }
-    }
-
-    private function unserializeExtraField(string $data)
-    {
-        $data = @unserialize($data);
-        if ($data) {
-            return $data;
-        }
-
-        $callback = function ($matches) {
-            $matches[2] = trim(preg_replace('/\s\s+/', ' ', $matches[2]));
-            return 's:' . mb_strlen($matches[2]) . ':"' . $matches[2] . '";';
-        };
-
-        $data = preg_replace_callback('!s:(\d+):"(.*?)";!s', $callback, $data);
-        return @unserialize($data);
     }
 }

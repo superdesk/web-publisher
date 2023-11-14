@@ -18,7 +18,6 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
-use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use SWP\Bundle\CoreBundle\Model\Settings;
 
 final class SettingSerializationSubscriber implements EventSubscriberInterface
@@ -45,7 +44,7 @@ final class SettingSerializationSubscriber implements EventSubscriberInterface
         $data = $event->getObject();
 
         if (\is_bool($data->getValue())) {
-            $event->getVisitor()->VisitProperty(new StaticPropertyMetadata('', 'value', (bool) $data->getValue()), (bool) $data->getValue());
+            $event->getVisitor()->setData('value', (bool) $data->getValue());
         }
     }
 }
