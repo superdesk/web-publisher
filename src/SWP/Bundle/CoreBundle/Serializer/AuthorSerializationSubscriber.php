@@ -18,7 +18,6 @@ namespace SWP\Bundle\CoreBundle\Serializer;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
-use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -56,10 +55,7 @@ final class AuthorSerializationSubscriber implements EventSubscriberInterface
                 'extension' => pathinfo($mediaId, PATHINFO_EXTENSION),
             ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-            $event->getVisitor()->visitProperty(
-                new StaticPropertyMetadata('', 'avatar_url', $url),
-                $url
-            );
+            $event->getVisitor()->setData('avatar_url', $url);
         }
     }
 }

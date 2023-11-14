@@ -17,10 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Hoa\Mime\Mime;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
-use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Symfony\Component\Mime\MimeTypes;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
@@ -146,7 +145,7 @@ class ContentPushController extends AbstractController {
         'media_id' => $mediaId,
         'URL' => $mediaManager->getMediaPublicUrl($file),
         'media' => base64_encode($mediaManager->getFile($file)),
-        'mime_type' => MimeTypeHelper::getByExtension($file->getFileExtension()),
+        'mime_type' => Mime::getMimeFromExtension($file->getFileExtension()),
         'filemeta' => [],
     ]);
   }

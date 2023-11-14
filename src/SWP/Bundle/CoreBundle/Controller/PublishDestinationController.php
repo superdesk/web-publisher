@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\PublishDestinationType;
 use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
@@ -31,7 +32,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PublishDestinationController extends Controller {
 
@@ -96,17 +96,15 @@ class PublishDestinationController extends Controller {
 
   /**
    * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
+   * @ParamConverter("publishDestination", class="SWP\Bundle\CoreBundle\Model\PublishDestination")
    */
-  public function updateAction(Request $request, $id): SingleResourceResponse {
+  public function updateAction(Request                     $request,
+                               PublishDestinationInterface $publishDestination): SingleResourceResponse {
     $objectManager = $this->entityManager;
-    $publishDestination = $this->findOr404($id);
 
-    $form = $this->formFactory->createNamed(
-        '',
-        PublishDestinationType::class,
-        $publishDestination,
-        ['method' => $request->getMethod()]
-    );
+    $form = $this->formFactory->createNamed('', PublishDestinationType::class, $publishDestination, [
+        'method' => $request->getMethod(),
+    ]);
 
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
@@ -118,13 +116,4 @@ class PublishDestinationController extends Controller {
 
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
-
-    private function findOr404(int $id)
-    {
-        $rule = $this->publishDestinationRepository->findOneBy(['id' => $id]);
-        if (null === ($rule)) {
-            throw new NotFoundHttpException('Publish Destination was not found.');
-        }
-        return $rule;
-    }
 }

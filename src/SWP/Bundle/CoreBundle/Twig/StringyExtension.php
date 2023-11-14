@@ -17,7 +17,6 @@ namespace SWP\Bundle\CoreBundle\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use Twig\Environment as TwigEnvironment;
 
 /**
  * Class StringyExtension.
@@ -29,7 +28,7 @@ class StringyExtension extends AbstractExtension
     protected $initialized = false;
 
     /**
-     * @var TwigEnvironment
+     * @var \Twig_Environment
      */
     protected $environment;
 
@@ -46,9 +45,9 @@ class StringyExtension extends AbstractExtension
     /**
      * StringyExtension constructor.
      *
-     * @param TwigEnvironment $environment
+     * @param \Twig_Environment $environment
      */
-    public function __construct(TwigEnvironment $environment)
+    public function __construct(\Twig_Environment $environment)
     {
         $this->environment = $environment;
     }

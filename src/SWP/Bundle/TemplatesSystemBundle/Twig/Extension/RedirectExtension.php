@@ -65,7 +65,7 @@ class RedirectExtension extends AbstractExtension
      */
     public function redirect($route, $code = 301, $parameters = [])
     {
-        if (!$request = $this->requestStack->getMainRequest()) {
+        if (!$request = $this->requestStack->getMasterRequest()) {
             return $route;
         }
 
@@ -89,7 +89,7 @@ class RedirectExtension extends AbstractExtension
      */
     public function redirectToNotFound(string $message)
     {
-        if (!$request = $this->requestStack->getMainRequest()) {
+        if (!$request = $this->requestStack->getMasterRequest()) {
             return;
         }
 

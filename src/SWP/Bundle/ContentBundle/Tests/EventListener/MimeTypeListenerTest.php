@@ -37,7 +37,7 @@ class MimeTypeListenerTest extends WebTestCase
         $event = new ResponseEvent(
             $this->getContainer()->get('kernel'),
             $request,
-            HttpKernelInterface::MAIN_REQUEST,
+            HttpKernelInterface::MASTER_REQUEST,
             new Response()
         );
         $listener->onKernelResponse($event);
@@ -51,7 +51,7 @@ class MimeTypeListenerTest extends WebTestCase
         $event = new ResponseEvent(
             $this->getContainer()->get('kernel'),
             $request,
-            HttpKernelInterface::MAIN_REQUEST,
+            HttpKernelInterface::MASTER_REQUEST,
             new Response()
         );
         $listener->onKernelResponse($event);
@@ -68,7 +68,7 @@ class MimeTypeListenerTest extends WebTestCase
         $event = new ResponseEvent(
             $this->getContainer()->get('kernel'),
             $request,
-            HttpKernelInterface::MAIN_REQUEST,
+            HttpKernelInterface::MASTER_REQUEST,
             new Response()
         );
         $listener->onKernelResponse($event);

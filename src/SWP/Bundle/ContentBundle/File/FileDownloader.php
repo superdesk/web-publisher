@@ -24,7 +24,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use SWP\Bundle\CoreBundle\Util\MimeTypeHelper;
+use Hoa\Mime\Mime;
 use function pathinfo;
 use Psr\Log\LoggerInterface;
 use function rtrim;
@@ -50,7 +50,7 @@ final class FileDownloader implements FileDownloaderInterface
     {
         $pathParts = pathinfo($url);
         if (null === $mimeType) {
-            $mimeType = MimeTypeHelper::getByExtension($pathParts['extension']);
+            $mimeType = Mime::getMimeFromExtension($pathParts['extension']);
         }
 
         $handlerStack = HandlerStack::create(new CurlHandler());

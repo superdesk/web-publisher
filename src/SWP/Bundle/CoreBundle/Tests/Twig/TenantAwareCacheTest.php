@@ -17,13 +17,11 @@ namespace SWP\Bundle\CoreBundle\Tests\Twig;
 use SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCache;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Twig\Environment as TwigEnvironment;
-use Twig\Loader\ArrayLoader as TwigArrayLoader;
 
 class TenantAwareCacheTest extends WebTestCase
 {
     /**
-     * @var TwigEnvironment
+     * @var \Twig_Environment
      */
     private $twig;
 
@@ -38,7 +36,7 @@ class TenantAwareCacheTest extends WebTestCase
 
         $this->loadCustomFixtures(['tenant']);
 
-        $this->twig = new TwigEnvironment(new TwigArrayLoader(), array('debug' => true, 'cache' => false));
+        $this->twig = new \Twig_Environment(new \Twig_Loader_Array(), array('debug' => true, 'cache' => false));
         $this->cachePath = __DIR__.'/../Functional/Resources/cache';
         $tenantAwareCache = new TenantAwareCache(
             $this->cachePath.'/twig',

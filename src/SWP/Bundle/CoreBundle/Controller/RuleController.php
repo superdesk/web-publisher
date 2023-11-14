@@ -16,12 +16,14 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController as FOSRestController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -72,9 +74,10 @@ class RuleController extends FOSRestController {
 
   /**
    * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_rule")
+   * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
    */
-  public function getAction(int $id) {
-    return new SingleResourceResponse($this->findOr404($id));
+  public function getAction(RuleInterface $rule) {
+    return new SingleResourceResponse($rule);
   }
 
   /**
@@ -97,19 +100,20 @@ class RuleController extends FOSRestController {
 
   /**
    * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_rule", methods={"DELETE"}, requirements={"id"="\d+"})
+   * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
    */
-  public function deleteAction(int $id) {
+  public function deleteAction(RuleInterface $rule) {
     $ruleRepository = $this->ruleRepository;
-    $ruleRepository->remove($this->findOr404($id));
+    $ruleRepository->remove($rule);
 
     return new SingleResourceResponse(null, new ResponseContext(204));
   }
 
   /**
    * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_rule", requirements={"id"="\d+"})
+   * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
    */
-  public function updateAction(Request $request, int $id) {
-    $rule = $this->findOr404($id);
+  public function updateAction(Request $request, RuleInterface $rule) {
     $objectManager = $this->entityManager;
 
     $form = $this->formFactory->createNamed('', RuleType::class, $rule, [
@@ -125,14 +129,5 @@ class RuleController extends FOSRestController {
     }
 
     return new SingleResourceResponse($form, new ResponseContext(400));
-  }
-
-  private function findOr404(int $id)
-  {
-      $rule = $this->ruleRepository->findOneBy(['id' => $id]);
-      if (null === ($rule)) {
-          throw new NotFoundHttpException('Rule was not found.');
-      }
-      return $rule;
   }
 }

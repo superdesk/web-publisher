@@ -146,7 +146,7 @@ final class TenantHandler implements EventSubscriberInterface, SubscribingHandle
         $visitor->visitProperty(new StaticPropertyMetadata('', 'fbia_enabled', null), $fbiaEnabled);
         $visitor->visitProperty(new StaticPropertyMetadata('', 'paywall_enabled', null), $paywallEnabled);
 
-        $masterRequest = $this->requestStack->getMainRequest();
+        $masterRequest = $this->requestStack->getMasterRequest();
         if (null !== $masterRequest && (null !== $masterRequest->get('withRoutes') || null !== $masterRequest->get('withContentLists'))) {
             $this->dispatcher->dispatch(new GenericEvent($tenant), MultiTenancyEvents::TENANTABLE_ENABLE);
             if (null !== $masterRequest->get('withRoutes')) {
