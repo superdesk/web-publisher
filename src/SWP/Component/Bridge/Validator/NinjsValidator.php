@@ -152,6 +152,10 @@ class NinjsValidator extends JsonValidator
           "name":{
             "description":"The name of the signal",
             "type":"string"
+          },
+          "scheme":{
+            "description":"The controlled vocabulary (scheme) identifier",
+            "type":"string"
           }
         }
       }
