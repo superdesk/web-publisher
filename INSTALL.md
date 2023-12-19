@@ -2,9 +2,7 @@
 
 We **strongly recommend** using Docker for local installation and testing.
 
-As it works with our in-house headless newsroom management system, Superdesk, we provide [the instructions](etc/docker/Superdesk.md) how to install Superdesk equipped with Publisher integration.
-
-After Superdesk installation, Publisher [should follow](etc/docker/README.md).
+As the Publisher works with our in-house headless newsroom management system Superdesk, [we provide the complete guide how to install Superdesk equipped with Publisher integration, and the Publisher](etc/docker/README.md).
 
 ## Installation from source
 

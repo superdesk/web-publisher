@@ -5,6 +5,21 @@ This changelog references the relevant changes (bug and security fixes).
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+## 2.4
+
+* keywords and assigned content lists are now being sent as part of the webhook payload
+* optimized redirection workflow (no more unnecessary redirections)
+* article SEO and social metadata handling improvements (saved metadata properly displayed)
+* content lists performance and maintenance improvements
+* article extra data migration improved
+	* if you are upgrading from an instance using `swp_article.extra` run `php bin/console swp:migration:fill-article-extra` after the upgrade
+* article date/time update switch
+* articles with *Legal* switch being turned on are publishing now
+* route description character limit increased to 1000
+* Superdesk and Superdesk Publisher plugin 2.7 compatibility
+* various PHP 8.0 and Symphony 5.4 issues fixed
+
+
 ## 2.3
 
 * migration to PHP 8.0
