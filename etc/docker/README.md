@@ -2,8 +2,6 @@
 
 This guide explains how to install complete Superdesk digital publishing system made of Superdesk headless CMS (with the Publisher plugin) and the Publisher, using Docker. 
 
-To setup Superdesk with Docker for using it with the Publisher, see [Superdesk with Publisher plugin Docker installation guide](Superdesk.md). It is recommended to setup Superdesk first.
-
 ## Prerequisites
 
 For using Superdesk and Publisher tohetger, the following line must be added the to `hosts` file on local machine, if it doesn't exist:
