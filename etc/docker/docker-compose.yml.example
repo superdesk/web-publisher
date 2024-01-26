@@ -61,13 +61,13 @@ services:
             - "8082:8080"
             - "5555:5555"
     test-api:
-        image: node:10-alpine
+        image: node:18-alpine
         ports:
             - "3000:3000"
         volumes:
             - ../../src/SWP/Bundle/CoreBundle/Tests/Functional/Resources:/app:rw
         working_dir: /app
-        command: sh -c "npm install json-server && nohup node server.js"
+        command: sh -c "npm install && nohup node server.js"
 
 volumes:
     publisher_logs:

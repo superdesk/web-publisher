@@ -97,7 +97,7 @@ jobs:
             ${{ runner.OS }}-
 
       - name: Install & run server.js
-        run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
+        run: cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install && nohup node server.js &
 
       - name: Test loading fixtures from dev env in test env
         run: |
