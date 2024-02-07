@@ -88,10 +88,6 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
     private function populateKeywords(ArticleInterface $article, PackageInterface $package): void
     {
-        if (0 === count($package->getKeywords())) {
-            return;
-        }
-
         foreach ($article->getKeywords() as $keyword) {
             $article->removeKeyword($keyword);
         }
