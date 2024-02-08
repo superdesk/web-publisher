@@ -70,7 +70,7 @@ class WebTestCase extends BaseWebTestCase {
 
   protected function loadCustomFixtures(array $fixtures) {
     $env = $this->getContainer()->getParameter('test_env');
-
+      echo "\n\n>>>>>>>>>>>>> Load Custom Fixtures ENV: " . $env . "\n\n";
     $registry = new FixtureRegistry();
     $registry->setEnvironment($env);
 
