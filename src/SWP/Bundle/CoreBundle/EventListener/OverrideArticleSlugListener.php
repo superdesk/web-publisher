@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticlePreviousRelativeUrl;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Tests\Controller\ArticleAutoPublishTest;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -88,7 +89,17 @@ final class OverrideArticleSlugListener
     private function savePreviousRelativeUrl(ArticleInterface $article, RouteInterface $route = null): void
     {
         $route = $route ?? $article->getRoute();
-        $relativeUrlString = $this->router->generate($route->getName(), ['slug' => $article->getSlug()]);
+
+        try {
+            $relativeUrlString = $this->router->generate($route->getName(), ['slug' => $article->getSlug()]);
+        } catch (\Throwable $e) {
+            /**
+             * Route probably not exist for current tenant. Silently skipp.
+             * @see ArticleAutoPublishTest::testContentCorrectOnPublishedToManyTenantsPackakage()
+             */
+            return;
+        }
+
         if ($this->duplicateUrl($article, $relativeUrlString)) {
             return;
         }
