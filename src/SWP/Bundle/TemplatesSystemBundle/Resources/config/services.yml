@@ -1,3 +1,6 @@
+parameters:
+    swp_template_engine.context_collector.template: '@@SWPTemplatesSystem/Collector/contextCollector.html.twig'
+    swp_template_engine.meta_loader_collector.template: '@@SWPTemplatesSystem/Collector/loadersCollector.html.twig'
 services:
     _defaults:
         public: true
@@ -57,7 +60,7 @@ services:
         arguments:
             - "@swp_template_engine_context"
         tags:
-            - { name: data_collector, template: "SWPTemplatesSystemBundle:Collector:contextCollector", id: "context_collector" }
+            - { name: data_collector, template: '%swp_template_engine.context_collector.template%', id: "context_collector" }
 
 
     swp_template_engine.data_collector.meta_loader_collector:
@@ -65,4 +68,4 @@ services:
         arguments:
             - "@swp_template_engine_loader_chain"
         tags:
-            - { name: data_collector, template: "SWPTemplatesSystemBundle:Collector:loadersCollector", id: "meta_loader_collector" }
+            - { name: data_collector, template: '%swp_template_engine.meta_loader_collector.template%', id: "meta_loader_collector" }
