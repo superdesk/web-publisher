@@ -225,6 +225,7 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
     {
         $articleDataProvider = $this->container->get(ArticleDataProvider::class);
 
+        echo "\n\n>>>>>>>>>>>>> Load Articles ENV: " . $env . "\n\n";
         if ('dev' === $env) {
             $data = $this->loadFixtures([
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
@@ -577,6 +578,7 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
 
     private function cropAndResizeImage($fakeImage, array $rendition, $targetFile): void
     {
+        ini_set('memory_limit', '-1');
         $image = imagecreatefromjpeg($fakeImage);
         list($width, $height) = getimagesize($fakeImage);
 

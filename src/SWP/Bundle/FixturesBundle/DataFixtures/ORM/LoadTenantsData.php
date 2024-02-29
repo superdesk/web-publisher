@@ -28,6 +28,7 @@ class LoadTenantsData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
+        echo "\n\n>>>>>>>>>>>>> Load Tenants ENV: " . $env . "\n\n";
 
         $this->loadFixtures(
             [
