@@ -1,20 +1,18 @@
 parameters:
     env(APP_LOCALE): en
     locale: '%env(resolve:APP_LOCALE)%'
+    env(MEMCACHED_DSN): 'memcached://localhost:11211'
 
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l'
     cache:
         pools:
             doctrine.result_cache_pool:
-                adapters:
-                   # - cache.adapter.apcu
-                    - cache.adapter.array
+                adapter: cache.adapter.memcached
+                provider: "%env(MEMCACHED_DSN)%"
             doctrine.system_cache_pool:
-                adapters:
-                    - cache.adapter.array
-               # adapter: cache.adapter.memcached
-               # provider: 'memcached://localhost'
+                adapter: cache.adapter.memcached
+                provider: "%env(MEMCACHED_DSN)%"
     esi: { enabled: true }
     translator:
         fallbacks: ["%locale%"]
