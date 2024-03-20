@@ -89,6 +89,7 @@
     "gos/web-socket-bundle": "^3.0",
     "graylog2/gelf-php": "^1.6",
     "guzzlehttp/guzzle": "^6.5",
+    "http-interop/http-factory-guzzle": "^1.2",
     "hoa/file": "1.17.07.11",
     "hoa/mime": "3.17.01.10",
     "jackalope/jackalope-doctrine-dbal": "^1.7",
