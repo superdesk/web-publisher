@@ -72,7 +72,7 @@ class ContentListController extends AbstractController {
       EventDispatcherInterface           $eventDispatcher,
       FactoryInterface                   $factory,
       string $invalidationCacheUrl,
-      string $invalidationToken,
+      string $invalidationToken
   ) {
     $this->contentListRepository = $contentListRepository;
     $this->contentListItemRepository = $contentListItemRepository;
