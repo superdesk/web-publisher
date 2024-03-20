@@ -37,19 +37,29 @@ class ArticleRepository extends Repository
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
-        $term = $criteria->getTerm();
-        if (null !== $term && '' !== $term) {
-            $searchBy = ['title^10', 'lead^4', 'body^2', 'keywords.name'];
+        if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
+            $searchBy = ['title', 'lead', 'keywords.name'];
 
             foreach ($extraFields as $extraField) {
                 $searchBy[] = 'extra.'.$extraField;
             }
 
             if ($searchByBody) {
-                array_splice($searchBy, 2, 0, ['body']);
+                $searchBy[] = 'body';
             }
 
-            $boolQuery = new BoolQuery();
+            $priority = 1;
+            foreach (array_reverse($searchBy) as $key => $field) {
+                $searchBy[$key] = $field.'^'.$priority;
+                ++$priority;
+            }
+            $query = new MultiMatch();
+            $query->setQuery($criteria->getTerm());
+            $query->setFields($searchBy);
+            $query->setType(MultiMatch::TYPE_PHRASE);
+            $boolFilter->addMust($query);
+
+            /*$boolQuery = new BoolQuery();
 
             $phraseMultiMatchQuery = new MultiMatch();
             $phraseMultiMatchQuery->setQuery($term);
@@ -99,14 +109,15 @@ class ArticleRepository extends Repository
             $nested->setPath('authors');
             $functionScore = new Query\FunctionScore();
             $functionScore->addWeightFunction(15, new Query\Match('authors.name', $term));
-            $functionScore->addWeightFunction(0.5, new Query\Match('authors.biography', $term));
+            $functionScore->addWeightFunction(5, new Query\Match('authors.biography', $term));
             $functionScore->addWeightFunction(15, new Query\MatchPhrase('authors.name', $term));
-            $functionScore->addWeightFunction(1, new Query\MatchPhrase('authors.biography', $term));
+            $functionScore->addWeightFunction(10, new Query\MatchPhrase('authors.biography', $term));
             $functionScore->setQuery($bool);
             $nested->setQuery($functionScore);
 
             $boolQuery->addShould($nested);
             $boolFilter->addMust($boolQuery);
+*/
         } else {
             $boolFilter->addMust(new MatchAll());
         }
@@ -204,8 +215,8 @@ class ArticleRepository extends Repository
 
         $query = Query::create($functionScore)
             ->addSort([
-                '_score' => 'desc',
-                $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
+                //'_score' => 'desc',
+                'publishedAt' => $criteria->getOrder()->getDirection(),
             ]);
 
         $query->setSize(SearchResultLoader::MAX_RESULTS);
