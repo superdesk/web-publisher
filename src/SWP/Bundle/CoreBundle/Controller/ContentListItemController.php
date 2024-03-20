@@ -62,7 +62,7 @@ class ContentListItemController extends AbstractController {
       ContentListServiceInterface $contentListService,
       EventDispatcherInterface $eventDispatcher,
       string $invalidationCacheUrl,
-      string $invalidationToken,
+      string $invalidationToken
   ) {
       $this->contentListItemRepository = $contentListItemRepository;
       $this->entityManager = $entityManager;
