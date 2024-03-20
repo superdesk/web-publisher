@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use GuzzleHttp\Client;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
@@ -50,6 +51,8 @@ class ContentListController extends AbstractController {
   private EntityManagerInterface $entityManager;
   private EventDispatcherInterface $eventDispatcher;
   private FactoryInterface $factory;
+  private string $invalidationCacheUrl;
+  private string $invalidationToken;
 
   /**
    * @param ContentListRepositoryInterface $contentListRepository
@@ -67,7 +70,9 @@ class ContentListController extends AbstractController {
       FormFactoryInterface               $formFactory,
       EntityManagerInterface             $entityManager,
       EventDispatcherInterface           $eventDispatcher,
-      FactoryInterface                   $factory
+      FactoryInterface                   $factory,
+      string $invalidationCacheUrl,
+      string $invalidationToken,
   ) {
     $this->contentListRepository = $contentListRepository;
     $this->contentListItemRepository = $contentListItemRepository;
@@ -76,6 +81,45 @@ class ContentListController extends AbstractController {
     $this->entityManager = $entityManager;
     $this->eventDispatcher = $eventDispatcher;
     $this->factory = $factory;
+    $this->invalidationCacheUrl = $invalidationCacheUrl;
+    $this->invalidationToken = $invalidationToken;
+  }
+
+  public static function invalidateCache(string $url, string $token, array $data = [])
+  {
+      try {
+          $client = new Client();
+
+          $headers = [
+              'Content-Type' => 'application/json',
+          ];
+          $queryParams = [
+              'secret' => $token,
+          ];
+
+          $response = $client->request('POST', $url,  [
+              'headers' => $headers,
+              'json' => $data,
+              'query' => $queryParams
+          ]);
+          $responseBody = $response->getBody()->getContents();
+          $result = [
+              'request' => [
+                  'headers' => $headers,
+                  'json' => $data,
+                  'query' => $queryParams
+              ],
+              'response' => [
+                  'status' => $response->getStatusCode(),
+                  'body' => $responseBody,
+                  'ReasonPhrase' => $response->getReasonPhrase()
+              ]
+          ];
+
+          file_put_contents('/tmp/cache_invalidation.json', json_encode($result) . PHP_EOL, FILE_APPEND);
+      } catch (\Throwable $e) {
+          file_put_contents('/tmp/cache_invalidation_errors.json', $e->getMessage() . PHP_EOL, FILE_APPEND);
+      }
   }
 
   /**
@@ -107,6 +151,16 @@ class ContentListController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
       $this->contentListRepository->add($contentList);
+      self::invalidateCache(
+          $this->invalidationCacheUrl,
+          $this->invalidationToken,
+          [
+              'id' => $contentList->getId(),
+              'name' => $contentList->getName(),
+              'type' => $contentList->getType(),
+              'action' => 'CREATE'
+          ]
+        );
 
       return new SingleResourceResponse($contentList, new ResponseContext(201));
     }
@@ -134,6 +188,16 @@ class ContentListController extends AbstractController {
       );
 
       $objectManager->flush();
+        self::invalidateCache(
+            $this->invalidationCacheUrl,
+            $this->invalidationToken,
+            [
+                'id' => $contentList->getId(),
+                'name' => $contentList->getName(),
+                'type' => $contentList->getType(),
+                'action' => 'UPDATE'
+            ]
+        );
 
       return new SingleResourceResponse($contentList);
     }
@@ -149,6 +213,16 @@ class ContentListController extends AbstractController {
     $contentList = $this->findOr404($id);
 
     $repository->remove($contentList);
+      self::invalidateCache(
+          $this->invalidationCacheUrl,
+          $this->invalidationToken,
+          [
+              'id' => $contentList->getId(),
+              'name' => $contentList->getName(),
+              'type' => $contentList->getType(),
+              'action' => 'DELETE'
+          ]
+      );
 
     return new SingleResourceResponse(null, new ResponseContext(204));
   }

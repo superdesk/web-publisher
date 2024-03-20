@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
 use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
+use SWP\Bundle\CoreBundle\Controller\ContentListController;
 use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
@@ -55,14 +56,20 @@ class ContentListItemController extends AbstractController {
    * @param ContentListServiceInterface $contentListService
    * @param EventDispatcherInterface $eventDispatcher
    */
-  public function __construct(ContentListItemRepositoryInterface                          $contentListItemRepository,
-                              EntityManagerInterface                                      $entityManager,
-                              ContentListServiceInterface                                 $contentListService,
-                              EventDispatcherInterface $eventDispatcher) {
-    $this->contentListItemRepository = $contentListItemRepository;
-    $this->entityManager = $entityManager;
-    $this->contentListService = $contentListService;
-    $this->eventDispatcher = $eventDispatcher;
+  public function __construct(
+      ContentListItemRepositoryInterface $contentListItemRepository,
+      EntityManagerInterface $entityManager,
+      ContentListServiceInterface $contentListService,
+      EventDispatcherInterface $eventDispatcher,
+      string $invalidationCacheUrl,
+      string $invalidationToken,
+  ) {
+      $this->contentListItemRepository = $contentListItemRepository;
+      $this->entityManager = $entityManager;
+      $this->contentListService = $contentListService;
+      $this->eventDispatcher = $eventDispatcher;
+      $this->invalidationCacheUrl = $invalidationCacheUrl;
+      $this->invalidationToken = $invalidationToken;
   }
 
 
@@ -137,6 +144,16 @@ class ContentListItemController extends AbstractController {
       }
 
       $this->entityManager->flush();
+        ContentListController::invalidateCache(
+            $this->invalidationCacheUrl,
+            $this->invalidationToken,
+            [
+                'id' => $contentListItem->getContentList()->getId(),
+                'name' => $contentListItem->getContentList()->getName(),
+                'type' => $contentListItem->getContentList()->getType(),
+                'action' => 'CREATE'
+            ]
+        );
 
       return new SingleResourceResponse($contentListItem);
     }
@@ -244,6 +261,16 @@ class ContentListItemController extends AbstractController {
             ArticleEvents::POST_UPDATE
         ), ArticleEvents::POST_UPDATE);
       }
+        ContentListController::invalidateCache(
+            $this->invalidationCacheUrl,
+            $this->invalidationToken,
+            [
+                'id' => $list->getId(),
+                'name' => $list->getName(),
+                'type' => $list->getType(),
+                'action' => 'BATCH-UPDATE'
+            ]
+        );
 
       return new SingleResourceResponse($list, new ResponseContext(201));
     }

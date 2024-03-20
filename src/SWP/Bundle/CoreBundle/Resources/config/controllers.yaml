@@ -13,6 +13,8 @@ services:
       $cachedTenantContext: '@swp_multi_tenancy.tenant_context'
       $packageRepository: '@swp.repository.package'
       $routeRepository: '@swp.repository.route'
+      $invalidationCacheUrl: '%env(INVALIDATION_CACHE_URL)%'
+      $invalidationToken: '%env(INVALIDATION_CACHE_TOKEN)%'
 
   SWP\Bundle\SettingsBundle\Controller\SettingsController: ~
 
