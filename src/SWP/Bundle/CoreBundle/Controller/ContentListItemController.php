@@ -23,6 +23,7 @@ use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
 use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Controller\ContentListController;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
@@ -55,16 +56,30 @@ class ContentListItemController extends AbstractController {
    * @param ContentListServiceInterface $contentListService
    * @param EventDispatcherInterface $eventDispatcher
    */
-  public function __construct(ContentListItemRepositoryInterface                          $contentListItemRepository,
-                              EntityManagerInterface                                      $entityManager,
-                              ContentListServiceInterface                                 $contentListService,
-                              EventDispatcherInterface $eventDispatcher) {
-    $this->contentListItemRepository = $contentListItemRepository;
-    $this->entityManager = $entityManager;
-    $this->contentListService = $contentListService;
-    $this->eventDispatcher = $eventDispatcher;
-  }
 
+ public function __construct(
+                              EntityManagerInterface                                      $entityManager,
+      ContentListItemRepositoryInterface $contentListItemRepository,
+                              ContentListServiceInterface                                 $contentListService,
+      EntityManagerInterface $entityManager,
+                              EventDispatcherInterface $eventDispatcher) {
+      ContentListServiceInterface $contentListService,
+    $this->contentListItemRepository = $contentListItemRepository;
+      EventDispatcherInterface $eventDispatcher,
+    $this->entityManager = $entityManager;
+      string $invalidationCacheUrl,
+    $this->contentListService = $contentListService;
+      string $invalidationToken,
+    $this->eventDispatcher = $eventDispatcher;
+  ) {
+      $this->contentListItemRepository = $contentListItemRepository;
+      $this->entityManager = $entityManager;
+      $this->contentListService = $contentListService;
+      $this->eventDispatcher = $eventDispatcher;
+      $this->invalidationCacheUrl = $invalidationCacheUrl;
+      $this->invalidationToken = $invalidationToken;
+  }
+  }
 
   /**
    * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
@@ -137,6 +152,16 @@ class ContentListItemController extends AbstractController {
       }
 
       $this->entityManager->flush();
+       ContentListController::invalidateCache(
+            $this->invalidationCacheUrl,
+            $this->invalidationToken,
+            [
+                'id' => $contentListItem->getContentList()->getId(),
+                'name' => $contentListItem->getContentList()->getName(),
+                'type' => $contentListItem->getContentList()->getType(),
+                'action' => 'CREATE'
+            ]
+        );
 
       return new SingleResourceResponse($contentListItem);
     }
@@ -224,6 +249,16 @@ class ContentListItemController extends AbstractController {
             ArticleEvents::POST_UPDATE
         ), ArticleEvents::POST_UPDATE);
       }
+       ContentListController::invalidateCache(
+            $this->invalidationCacheUrl,
+            $this->invalidationToken,
+            [
+                'id' => $list->getId(),
+                'name' => $list->getName(),
+                'type' => $list->getType(),
+                'action' => 'BATCH-UPDATE'
+            ]
+        );
 
       return new SingleResourceResponse($list, new ResponseContext(201));
     }
