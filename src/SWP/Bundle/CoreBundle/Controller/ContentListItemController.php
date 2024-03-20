@@ -21,9 +21,9 @@ use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
 use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
-use SWP\Bundle\CoreBundle\Controller\ContentListController;
 use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Controller\ContentListController;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
@@ -56,13 +56,21 @@ class ContentListItemController extends AbstractController {
    * @param ContentListServiceInterface $contentListService
    * @param EventDispatcherInterface $eventDispatcher
    */
-  public function __construct(
+
+ public function __construct(
+                              EntityManagerInterface                                      $entityManager,
       ContentListItemRepositoryInterface $contentListItemRepository,
+                              ContentListServiceInterface                                 $contentListService,
       EntityManagerInterface $entityManager,
+                              EventDispatcherInterface $eventDispatcher) {
       ContentListServiceInterface $contentListService,
+    $this->contentListItemRepository = $contentListItemRepository;
       EventDispatcherInterface $eventDispatcher,
+    $this->entityManager = $entityManager;
       string $invalidationCacheUrl,
-      string $invalidationToken
+    $this->contentListService = $contentListService;
+      string $invalidationToken,
+    $this->eventDispatcher = $eventDispatcher;
   ) {
       $this->contentListItemRepository = $contentListItemRepository;
       $this->entityManager = $entityManager;
@@ -71,7 +79,7 @@ class ContentListItemController extends AbstractController {
       $this->invalidationCacheUrl = $invalidationCacheUrl;
       $this->invalidationToken = $invalidationToken;
   }
-
+  }
 
   /**
    * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
@@ -144,7 +152,7 @@ class ContentListItemController extends AbstractController {
       }
 
       $this->entityManager->flush();
-        ContentListController::invalidateCache(
+       ContentListController::invalidateCache(
             $this->invalidationCacheUrl,
             $this->invalidationToken,
             [
@@ -200,40 +208,20 @@ class ContentListItemController extends AbstractController {
 
         switch ($item->getAction()) {
           case ContentListAction::ACTION_MOVE:
-            $updated = false;
             $contentListItem = $this->findByContentOr404($list, $contentId);
 
-            if ($position !== $contentListItem->getPosition()) {
-                $this->ensureThereIsNoItemOnPositionOrThrow409(
-                    $listId,
-                    $position,
-                    $isSticky,
-                    ContentListAction::ACTION_MOVE
-                );
-                $contentListItem->setPosition($position);
-                $updated = true;
-            }
+            $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $position, $isSticky);
 
-            if ($isSticky !== $contentListItem->getStickyPosition()) {
-                $this->contentListService->toggleStickOnItemPosition($contentListItem, $isSticky, $position);
-                $updated = true;
-            }
+            $contentListItem->setPosition($position);
+            $this->contentListService->toggleStickOnItemPosition($contentListItem, $isSticky, $position);
 
-            if ($updated) {
-                $list->setUpdatedAt(new DateTime('now'));
-                $this->entityManager->flush();
-            }
-
+            $list->setUpdatedAt(new DateTime('now'));
+            $this->entityManager->flush();
             $updatedArticles[$contentId] = $contentListItem->getContent();
 
             break;
           case ContentListAction::ACTION_ADD:
-            $this->ensureThereIsNoItemOnPositionOrThrow409(
-                $listId,
-                $position,
-                $isSticky,
-                ContentListAction::ACTION_ADD
-            );
+            $this->ensureThereIsNoItemOnPositionOrThrow409($listId, $position, $isSticky);
 
             $object = $articleRepository->findOneById($contentId);
             $contentListItem = $this->contentListService->addArticleToContentList($list, $object, $position, $isSticky);
@@ -261,7 +249,7 @@ class ContentListItemController extends AbstractController {
             ArticleEvents::POST_UPDATE
         ), ArticleEvents::POST_UPDATE);
       }
-        ContentListController::invalidateCache(
+       ContentListController::invalidateCache(
             $this->invalidationCacheUrl,
             $this->invalidationToken,
             [
@@ -306,23 +294,11 @@ class ContentListItemController extends AbstractController {
     return $listItem;
   }
 
-  private function ensureThereIsNoItemOnPositionOrThrow409(
-      int $listId,
-      int $position,
-      bool $isSticky,
-      string $action): void {
-      $existingContentListItem = $this->contentListService->isAnyItemPinnedOnPosition($listId, $position);
+  private function ensureThereIsNoItemOnPositionOrThrow409(int $listId, int $position, bool $isSticky): void {
+    $existingContentListItem = $this->contentListService->isAnyItemPinnedOnPosition($listId, $position);
 
-      if (!$existingContentListItem && !$isSticky) {
-          return;
-      }
-
-      if ($existingContentListItem && $existingContentListItem->isSticky()) {
-        throw new ConflictHttpException('There is already an item pinned on that position. Unpin it first.');
-      }
-
-      if ($action === ContentListAction::ACTION_MOVE && $isSticky) {
-          throw new ConflictHttpException('Cannot move pinned item. Unpin it first.');
-      }
+    if (null !== $existingContentListItem && $isSticky && $existingContentListItem->isSticky()) {
+      throw new ConflictHttpException('There is already an item pinned on that position. Unpin it first.');
+    }
   }
 }
