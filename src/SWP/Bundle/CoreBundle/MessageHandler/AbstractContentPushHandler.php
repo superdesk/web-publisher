@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\MessageHandler;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -88,6 +89,14 @@ abstract class AbstractContentPushHandler implements MessageHandlerInterface
             }
 
             $this->doExecute($tenantId, $package);
+        } catch (UniqueConstraintViolationException $e) {
+            $this->logException($e, $package, 'UniqueConstraintViolationException exception');
+
+            $cacheDriver = $this->packageObjectManager->getConfiguration()->getMetadataCacheImpl();
+            $cacheDriver->flushAll();
+
+            throw $e;
+
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
             $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
 
