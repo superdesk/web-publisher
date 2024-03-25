@@ -64,7 +64,7 @@ final class OverrideArticleSlugListener
 
         if ($previousRoute && $overrideSlugOnCorrection && null !== $article->getSlug()) {
             $this->savePreviousRelativeUrl($article, $previousRoute);
-            $slug = empty($package->getSlugline()) ?
+            $slug = !empty($package->getSlugline()) ?
                 $package->getSlugline() : Transliterator::urlize($article->getTitle());
             $article->setSlug($slug);
         } elseif ($previousRoute) {
