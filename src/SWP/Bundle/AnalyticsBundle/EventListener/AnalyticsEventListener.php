@@ -44,10 +44,16 @@ class AnalyticsEventListener
         if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT) &&
             in_array($request->getMethod(), ['POST', 'GET'])
         ) {
-            $httpReferrer = $request->server->get('HTTP_REFERER', $request->query->get('host', $request->getHost()));
+            $httpReferrer = $request->server->get('HTTP_REFERER', null);
+            if ($httpReferrer) {
+                $parsed_url = parse_url($httpReferrer);
+                $host = $parsed_url['host'];
+            } else {
+                $host = $request->query->get('host', $request->getHost());
+            }
 
             $this->messageBus->dispatch(new AnalyticsEvent(
-                $httpReferrer,
+                $host,
                 (int) $request->query->get('articleId', null),
                 $request->query->get('ref', null)
             ));
