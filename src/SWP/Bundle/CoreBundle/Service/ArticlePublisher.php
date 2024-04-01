@@ -128,7 +128,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             /* @var ArticleInterface $article */
             if (null !== ($article = $this->findArticleByTenantAndCode($destination->getTenant()->getCode(), $package->getGuid()))) {
                 $originalRoute = null;
-                if ($article->getRoute()->getId() !== $destination->getRoute()->getId()) {
+                if ($article->getRoute() !== null && $article->getRoute()->getId() !== $destination->getRoute()->getId()) {
                     $originalRoute = $article->getRoute();
                 }
                 $article->setRoute($destination->getRoute());
