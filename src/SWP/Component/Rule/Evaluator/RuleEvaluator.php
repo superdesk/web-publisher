@@ -52,6 +52,8 @@ final class RuleEvaluator implements RuleEvaluatorInterface
             return (bool) $this->expression->evaluate($rule->getExpression(), [$subject->getSubjectType() => $subject]);
         } catch (\Exception $e) {
             $this->logger->error(sprintf('%s', $e->getMessage()), ['exception' => $e]);
+        } catch (\TypeError $e) {
+            $this->logger->error(sprintf('%s', $e->getMessage()), ['exception' => $e]);
         }
 
         return false;
