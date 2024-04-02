@@ -72,6 +72,9 @@ class RedirectingController extends AbstractController {
       $parameters['amp'] = 1;
     }
 
-    return $this->router->generate($article->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+    $relativeUrl = $this->router->generate($article->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+    $customDomain = 'https://www.brasil247.com';
+    $absoluteUrl = rtrim($customDomain, '/') . '/' . ltrim($relativeUrl, '/');
+    return $absoluteUrl;
   }
 }
