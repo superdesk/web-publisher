@@ -131,7 +131,9 @@ final class Version20210112135542 extends AbstractMigration implements Container
             return 's:' . mb_strlen($matches[2]) . ':"' . $matches[2] . '";';
         };
 
-        $data = preg_replace_callback('!s:(\d+):"(.*?)";!s', $callback, $data);
-        return @unserialize($data);
+        if ($data !== null) {
+            $data = preg_replace_callback('!s:(\d+):"(.*?)";!s', $callback, $data);
+            return @unserialize($data);
+        }
     }
 }
