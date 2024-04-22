@@ -121,19 +121,22 @@ final class Version20210112135542 extends AbstractMigration implements Container
 
     private function unserializeExtraField(string $data)
     {
-        $data = @unserialize($data);
-        if ($data) {
-            return $data;
-        }
+            $unserializedData = @unserialize($data);
+    if ($unserializedData !== false) {
+        return $unserializedData;
+    }
 
-        $callback = function ($matches) {
-            $matches[2] = trim(preg_replace('/\s\s+/', ' ', $matches[2]));
-            return 's:' . mb_strlen($matches[2]) . ':"' . $matches[2] . '";';
-        };
+    $callback = function ($matches) {
+        $matches[2] = trim(preg_replace('/\s\s+/', ' ', $matches[2]));
+        return 's:' . mb_strlen($matches[2]) . ':"' . $matches[2] . '";';
+    };
 
-        if ($data !== null) {
-            $data = preg_replace_callback('!s:(\d+):"(.*?)";!s', $callback, $data);
-            return @unserialize($data);
-        }
+    // Check if $data is not null
+    if ($data !== null) {
+        $data = preg_replace_callback('!s:(\d+):"(.*?)";!s', $callback, $data);
+        return @unserialize($data);
+    }
+
+    return null; // Return null if $data is null
     }
 }
