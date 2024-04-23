@@ -39,6 +39,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
         $this->addSql(
             'CREATE TABLE IF NOT EXISTS swp_article_extra (id INT NOT NULL, article_id INT DEFAULT NULL, field_name VARCHAR(255) NOT NULL, discr VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, embed VARCHAR(255) DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))'
         );
+        die;
         $this->addSql('CREATE INDEX IF NOT EXISTS IDX_9E61B3177294869C ON swp_article_extra (article_id)');
         $this->addSql(
             'ALTER TABLE swp_article_extra DROP CONSTRAINT IF EXISTS FK_9E61B3177294869C'
@@ -48,17 +49,17 @@ final class Version20210112135542 extends AbstractMigration implements Container
         );
     }
 
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf(
-            'postgresql' !== $this->connection->getDatabasePlatform()->getName(),
-            'Migration can only be executed safely on \'postgresql\'.'
-        );
-
-        $this->addSql('DROP SEQUENCE swp_article_extra_id_seq CASCADE');
-        $this->addSql('DROP TABLE swp_article_extra');
-    }
+    // public function down(Schema $schema): void
+    // {
+    //     // this down() migration is auto-generated, please modify it to your needs
+    //     $this->abortIf(
+    //         'postgresql' !== $this->connection->getDatabasePlatform()->getName(),
+    //         'Migration can only be executed safely on \'postgresql\'.'
+    //     );
+    //
+    //     $this->addSql('DROP SEQUENCE swp_article_extra_id_seq CASCADE');
+    //     $this->addSql('DROP TABLE swp_article_extra');
+    // }
 
     public function postUp(Schema $schema): void
     {
