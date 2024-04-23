@@ -119,7 +119,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
             
             echo ">>  Articles processed: " . $totalArticlesProcessed .  " Total Articles: " . $totalArticles .  "\n";
             // flush remaining entities in queue and break loop
-            if ($totalArticlesProcessed === $totalArticles) {
+            if ($totalArticlesProcessed >= $totalArticles) {
                 $entityManager->flush();
                 $entityManager->clear();
                 $isProcessing = false;
