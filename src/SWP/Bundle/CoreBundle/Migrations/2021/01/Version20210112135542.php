@@ -83,7 +83,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
 
             foreach ($results as $result) {
                 $legacyExtra = $this->unserializeExtraField($result['extra']);
-                if (empty($legacyExtra)) {
+                if (!is_array($legacyExtra)) {
                     ++$totalArticlesProcessed;
                     continue;
                 }
@@ -92,8 +92,8 @@ final class Version20210112135542 extends AbstractMigration implements Container
                     Article::class,
                     $result['id']
                 );
-
-                foreach ($legacyExtra as $key => $extraItem) {
+            try {
+                 foreach ($legacyExtra as $key => $extraItem) {
                     if (is_array($extraItem)) {
                         $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
                     } else {
@@ -102,6 +102,9 @@ final class Version20210112135542 extends AbstractMigration implements Container
                     $extra->setArticle($article);
                     $entityManager->persist($extra);
                 }
+            } catch (\Throwable $e) {
+                echo ">>>> E: " . $e->getMessage() . "\n";
+            }
 
                 ++$totalArticlesProcessed;
                 if (0 == ($totalArticlesProcessed % $batchSize)) {
