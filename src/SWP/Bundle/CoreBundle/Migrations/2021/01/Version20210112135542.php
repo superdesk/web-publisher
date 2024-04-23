@@ -81,7 +81,8 @@ final class Version20210112135542 extends AbstractMigration implements Container
             $query->execute();
             $results = $query->fetchAll();
 
-            foreach ($results as $result) {
+            foreach ($results as $result)
+            {
                 $legacyExtra = $this->unserializeExtraField($result['extra']);
                 if (!is_array($legacyExtra)) {
                     ++$totalArticlesProcessed;
@@ -92,31 +93,36 @@ final class Version20210112135542 extends AbstractMigration implements Container
                     Article::class,
                     $result['id']
                 );
-            try {
-                 foreach ($legacyExtra as $key => $extraItem) {
-                    if (is_array($extraItem)) {
-                        $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
-                    } else {
-                        $extra = ArticleExtraTextField::newFromValue($key, (string) $extraItem);
+                try {
+                    foreach ($legacyExtra as $key => $extraItem) {
+                        if (is_array($extraItem)) {
+                            $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
+                        } else {
+                            $extra = ArticleExtraTextField::newFromValue($key, (string) $extraItem);
+                        }
+                        $extra->setArticle($article);
+                        $entityManager->persist($extra);
                     }
-                    $extra->setArticle($article);
-                    $entityManager->persist($extra);
+                } catch (\Throwable $e) {
+                    echo ">>>> E: " . $e->getMessage() . "\n";
                 }
-            } catch (\Throwable $e) {
-                echo ">>>> E: " . $e->getMessage() . "\n";
-            }
 
                 ++$totalArticlesProcessed;
+                echo ">>>> Total Articles processed: " . $totalArticlesProcessed . "\n";
+                echo ">>>> Mod: " . $totalArticlesProcessed % $batchSize . "\n";
                 if (0 == ($totalArticlesProcessed % $batchSize)) {
                     $entityManager->flush();
                     $entityManager->clear();
                 }
             }
 
+            
+            echo ">>  Articles processed: " . $totalArticlesProcessed .  " Total Articles: " . $totalArticles .  "\n";
             // flush remaining entities in queue and break loop
             if ($totalArticlesProcessed === $totalArticles) {
                 $entityManager->flush();
                 $entityManager->clear();
+                $isProcessing = false;
                 break;
             }
         }
