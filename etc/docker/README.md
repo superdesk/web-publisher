@@ -1,4 +1,4 @@
-# How to install Superdesk and Publisher with Docker
+# How to install Superdesk and Publisher using Docker
 
 This guide explains how to install a complete Superdesk digital publishing system made of Superdesk headless CMS (with the Publisher plugin) and the Publisher, using Docker.
 
@@ -28,83 +28,6 @@ Clone Superdesk with the Publisher plugin repository:
 git clone -b release/2.7 https://github.com/superdesk/superdesk-sp
 ```
 
-Replace the contents of ```docker-compose.yml``` with the following:
-
-```
-services:
-
-  mongodb:
-    image: mongo:4
-    expose:
-      - "27017"
-    ports:
-      - "27017:27017"
-
-  redis:
-    image: redis:3
-    expose:
-      - "6379"
-    ports:
-      - "6379:6379"
-
-  elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    environment:
-      - discovery.type=single-node
-    expose:
-      - "9200"
-      - "9300"
-    ports:
-      - "9200:9200"
-
-  superdesk-server:
-    build: ./server
-    depends_on:
-      - redis
-      - mongodb
-      - elastic
-    environment:
-      - SUPERDESK_URL=http://superdesk.local:8080/api
-      - DEMO_DATA=1 # install demo data, set to 0 if you want clean install
-      - WEB_CONCURRENCY=2
-      - SUPERDESK_CLIENT_URL=http://superdesk.local:8080
-      - CONTENTAPI_URL=http://superdesk.local:8080/capi
-      - MONGO_URI=mongodb://mongodb/superdesk
-      - CONTENTAPI_MONGO_URI=mongodb://mongodb/superdesk_capi
-      - PUBLICAPI_MONGO_URI=mongodb://mongodb/superdesk_papi
-      - LEGAL_ARCHIVE_URI=mongodb://mongodb/superdesk_legal
-      - ARCHIVED_URI=mongodb://mongodb/superdesk_archive
-      - ELASTICSEARCH_URL=http://elastic:9200
-      - ELASTICSEARCH_INDEX=superdesk
-      - CELERY_BROKER_URL=redis://redis:6379/1
-      - REDIS_URL=redis://redis:6379/1
-      - DEFAULT_TIMEZONE=Europe/Prague
-      - SECRET_KEY=secretkey
-      # More configuration options can be found at https://superdesk.readthedocs.io/en/latest/settings.html
-
-  superdesk-client:
-    build: ./client
-    environment:
-      # If not hosting on localhost, change these lines
-      - SUPERDESK_URL=http://superdesk.local:8080/api
-      - SUPERDESK_WS_URL=ws://superdesk.local:8080/ws
-      - IFRAMELY_KEY
-    depends_on:
-      - superdesk-server
-    ports:
-      - "8080:80"
-    networks:
-      default:
-        aliases:
-          - superdesk.local
-
-
-networks:
-    default:
-      external:
-        name: sp-publisher-network
-```
-
 If you want to use AWS S3 or Google Cloud Storage, add the following lines to ```superdesk-server``` container environment in ```docker-compose.yml```:
 
 ```
@@ -116,12 +39,14 @@ If you want to use AWS S3 or Google Cloud Storage, add the following lines to ``
       - AMAZON_CONTAINER_NAME=
 ```
 
-Execute commands inside ```superdesk-sp``` directory:
+Execute commands inside the ```superdesk-sp``` directory:
 
 
 ``` bash
 cd superdesk-sp
 ```
+
+```docker-compose.yml``` file contains an environment for having the Superdesk at [superdesk.local:8080](http://superdesk.local:8080) (```superdesk-client``` container), and available to the Publisher by using the ```sp-publisher-network``` network created earlier. In case you are trying a different setup, set it up before moving on.
 
 Start Superdesk using the ```docker-compose.yml``` file:
 
@@ -150,9 +75,11 @@ To have it talk to the Publisher, attach to ```superdesk-sp_superdesk-client_1``
 
 ```bash
 docker exec -it superdesk-sp_superdesk-client_1 bash
-apt update && apt -y install nano && nano config.ec23ae24.js
 ```
 
+```bash
+apt update && apt -y install nano && nano config.ec23ae24.js
+```
 
 ```
 window.superdeskConfig = {
@@ -167,7 +94,7 @@ window.superdeskConfig = {
 	raven: {
     		dsn: "https://17742b45c3ea48df9dabec80914aa6d2@sentry.sourcefabric.org/28"
 	},
-	apps: ['superdesk-publisher'],
+	apps: ['superdesk-publisher','superdesk-planning'],
 	publisher: {
     	protocol: "http",
     	tenant: '',
@@ -193,24 +120,17 @@ Clone the Publisher repository and move into the `etc/docker` directory
 
 ``` bash
 git clone -b v2.4.2 https://github.com/superdesk/web-publisher
+```
+
+``` bash
 cd web-publisher/etc/docker
 ```
 
 ### Prepare
 
-Copy `.env.example` to `.env`:
+```.env``` file contains an environment variable for having the Publisher available at [publisher.local](http://publisher.local), and connected to Superdesk at [superdesk.local:8080](http://superdesk.local:8080) (available in superdesk-client Docker container). In case you are trying a different setup, set it up before moving on.
 
-```bash
-cp .env.example .env
-```
-
-`.env.example` file contains an environment variable for having the Publisher available at [publisher.local](http://publisher.local), and connected to Superdesk at [superdesk.local:8080](http://superdesk.local:8080) (available in superdesk-client Docker container).
-
-Copy `.docker-compose.yml.example` to `.docker-compose.yml.`
-
-```bash
-cp docker-compose.yml.example docker-compose.yml
-```
+The same apples to `docker-compose.yml`. There is also a `docker-compose.yml.dev` with a more developer oriented setup.
 
 ### Build
 
@@ -261,7 +181,13 @@ docker compose run php php bin/console doctrine:fixtures:load --group=LoadTenant
 
 ```bash
 docker compose run php php bin/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
+```
+
+```bash
 docker compose run php php bin/console swp:theme:install 456def src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
+```
+
+```bash
 docker compose run php php bin/console sylius:theme:assets:install
 ```
 
@@ -302,6 +228,9 @@ Pay attention to the **tenant code** which will be needed in the next step.
 
 ```bash
 docker compose run php php bin/console swp:theme:install <tenant code> src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f --activate
+```
+
+```bash
 docker compose run php php bin/console sylius:theme:assets:install
 ```
 
