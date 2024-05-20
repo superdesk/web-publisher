@@ -71,10 +71,10 @@ After the first start, the Superdesk gets populated with the demo data, which is
 
 This will install Superdesk with the Publisher plugin and make it available at [superdesk.local:8080](http://superdesk.local:8080).
 
-To have it talk to the Publisher, attach to ```superdesk-sp_superdesk-client_1``` container and edit `config.random.js` (ie config.ec23ae24.js).
+To have it talk to the Publisher, attach to ```superdesk-sp-superdesk-client-1``` container and edit `config.random.js` (ie config.ec23ae24.js).
 
 ```bash
-docker exec -it superdesk-sp_superdesk-client_1 bash
+docker exec -it superdesk-sp-superdesk-client-1 bash
 ```
 
 ```bash
