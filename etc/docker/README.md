@@ -25,25 +25,37 @@ docker network create sp-publisher-network
 Clone Superdesk with the Publisher plugin repository:
 
 ``` bash
-git clone -b docker https://github.com/superdesk/superdesk-sp
+git clone -b release/2.7 https://github.com/superdesk/superdesk-sp
 ```
 
 Replace the contents of ```docker-compose.yml``` with the following:
 
 ```
-version: "3.2"
 services:
 
   mongodb:
     image: mongo:4
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
 
   redis:
     image: redis:3
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
 
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
     environment:
       - discovery.type=single-node
+    expose:
+      - "9200"
+      - "9300"
+    ports:
+      - "9200:9200"
 
   superdesk-server:
     build: ./server
@@ -86,6 +98,7 @@ services:
         aliases:
           - superdesk.local
 
+
 networks:
     default:
       external:
@@ -113,16 +126,16 @@ cd superdesk-sp
 Start Superdesk using the ```docker-compose.yml``` file:
 
 ``` bash
-docker-compose up -d
+docker compose up -d
 ```
 
 Finish Superdesk setup:
 
 ``` bash
-docker-compose run superdesk-server /opt/superdesk/docker/start.sh
+docker compose run superdesk-server /opt/superdesk/docker/start.sh
 ```
 
-After the first start, the Superdesk gets populated with the demo data, which is generally a good idea. However, reinserting demo data will create problems, so after the first ```docker-compose up -d``` run, change the ```DEMO_DATA``` environment variable in ```docker-compose.yml``` to ```0``` for the ```superdesk-server``` container:
+After the first start, the Superdesk gets populated with the demo data, which is generally a good idea. However, reinserting demo data will create problems, so after the first ```docker compose up -d``` run, change the ```DEMO_DATA``` environment variable in ```docker-compose.yml``` to ```0``` for the ```superdesk-server``` container:
 
 ```
 - DEMO_DATA=0
@@ -179,7 +192,7 @@ cd ..
 Clone the Publisher repository and move into the `etc/docker` directory
 
 ``` bash
-git clone -b 2.4 https://github.com/superdesk/web-publisher
+git clone -b v2.4.2 https://github.com/superdesk/web-publisher
 cd web-publisher/etc/docker
 ```
 
@@ -202,31 +215,31 @@ cp docker-compose.yml.example docker-compose.yml
 ### Build
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 ### Run containers
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Install all dependencies using Composer
 
 ```bash
-docker-compose run php php /usr/bin/composer install
+docker compose run php php /usr/bin/composer install
 ```
 
 ### Create database
 
 ```bash
-docker-compose run php php bin/console doctrine:database:create
+docker compose run php php bin/console doctrine:database:create
 ```
 
 ### Update database schema using Doctrine migrations
 
 ```bash
-docker-compose run php php bin/console doctrine:migrations:migrate --no-interaction
+docker compose run php php bin/console doctrine:migrations:migrate --no-interaction
 ```
 
 ### Tenants and organization
@@ -240,16 +253,16 @@ There are two options for creating organization and tenants:
 If you want, you can install sample tenant data. Configuration is available in  [tenant.yml](src/SWP/Bundle/FixturesBundle/Resources/fixtures/ORM/dev/tenant.yml)
 
 ```bash
-docker-compose run php php bin/console doctrine:fixtures:load --group=LoadTenantsData
+docker compose run php php bin/console doctrine:fixtures:load --group=LoadTenantsData
 ```
 
 
 ##### Install demo theme and its assets for both loaded tenants
 
 ```bash
-docker-compose run php php bin/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
-docker-compose run php php bin/console swp:theme:install 456def src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
-docker-compose run php php bin/console sylius:theme:assets:install
+docker compose run php php bin/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
+docker compose run php php bin/console swp:theme:install 456def src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
+docker compose run php php bin/console sylius:theme:assets:install
 ```
 
 Skip the next step (Setup the tenant manually)
@@ -259,13 +272,13 @@ Skip the next step (Setup the tenant manually)
 ##### Create Elasticsearch indexes
 
 ```bash
-docker-compose run php php bin/console fos:elastica:create
+docker compose run php php bin/console fos:elastica:create
 ```
 
 ##### Create organization
 
 ```bash
-docker-compose run php php bin/console swp:organization:create Publisher
+docker compose run php php bin/console swp:organization:create Publisher
 ```
 
 Pay attention to **organization code** which will be needed in the next step.
@@ -273,7 +286,7 @@ Pay attention to **organization code** which will be needed in the next step.
 ##### Create tenant
 
 ```bash
-docker-compose run php php bin/console swp:tenant:create
+docker compose run php php bin/console swp:tenant:create
 ```
 
 ```
@@ -288,26 +301,30 @@ Pay attention to the **tenant code** which will be needed in the next step.
 ##### Install theme
 
 ```bash
-docker-compose run php php bin/console swp:theme:install <tenant code> src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f --activate
-docker-compose run php php bin/console sylius:theme:assets:install
+docker compose run php php bin/console swp:theme:install <tenant code> src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f --activate
+docker compose run php php bin/console sylius:theme:assets:install
 ```
 
 ### Clear cache
 
 ```bash
-docker-compose run php php bin/console cache:clear
+docker compose run php php bin/console cache:clear
 ```
 
-### Set permissions for local image upload and cache dir
+### Set permissions for local log, image upload and cache dir
 
 If you plan to use local storage for asset upload, permissions should be set first:
 
 ```bash
-docker exec docker_php_1 sh -c 'chown -R www-data:www-data /var/www/publisher/public/uploads'
+docker exec docker-php-1 sh -c 'chown -R www-data:www-data /var/www/publisher/public/uploads'
 ```
 
 ```bash
-docker exec docker_php_1 sh -c 'chown -R www-data:www-data /var/www/publisher/var/cache'
+docker exec docker-php-1 sh -c 'chown -R www-data:www-data /var/www/publisher/var/cache'
+```
+
+```bash
+docker exec docker-php-1 sh -c 'chown -R www-data:www-data /var/www/publisher/var/log'
 ```
 
 ### Preview
