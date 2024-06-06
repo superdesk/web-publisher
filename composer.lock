@@ -16185,17 +16185,17 @@
             "time": "2020-05-04T11:53:13+00:00"
         },
         {
-            "name": "takeit/amp-html-bundle",
+            "name": "superdeskwebpublisher/amp-html-bundle",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/WeaponMan/AmpHtmlBundle.git",
-                "reference": "6b5f2ebbbcfe85d381385915e31b59d5163f3444"
+                "url": "https://github.com/SuperdeskWebPublisher/AmpHtmlBundle.git",
+                "reference": "7d8dba6ed7360a5b60cc217373669f636d99d92d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WeaponMan/AmpHtmlBundle/zipball/6b5f2ebbbcfe85d381385915e31b59d5163f3444",
-                "reference": "6b5f2ebbbcfe85d381385915e31b59d5163f3444",
+                "url": "https://api.github.com/repos/SuperdeskWebPublisher/AmpHtmlBundle/zipball/7d8dba6ed7360a5b60cc217373669f636d99d92d",
+                "reference": "7d8dba6ed7360a5b60cc217373669f636d99d92d",
                 "shasum": ""
             },
             "require": {
