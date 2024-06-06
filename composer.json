@@ -52,7 +52,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/WeaponMan/AmpHtmlBundle"
+      "url": "https://github.com/SuperdeskWebPublisher/AmpHtmlBundle"
     }
   ],
   "require": {
@@ -143,7 +143,7 @@
     "symfonycasts/reset-password-bundle": "^1.4",
     "symfonycasts/verify-email-bundle": "^1.2",
     "takeit/amp": "dev-master",
-    "takeit/amp-html-bundle": "dev-master",
+    "superdeskwebpublisher/amp-html-bundle": "master",
     "takeit/stringy": "dev-fix",
     "twig/cache-extension": "^1.4",
     "twig/extensions": "~1.5",
