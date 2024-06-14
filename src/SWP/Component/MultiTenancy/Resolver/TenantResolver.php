@@ -70,6 +70,10 @@ class TenantResolver implements TenantResolverInterface
                 $tenantDomain = $this->tenantDomainRepository->findOneByDomain($domain);
             }
 
+            if (null === $tenantDomain) {
+                throw new TenantNotFoundException($host);
+            }
+
             $tenant = $tenantDomain->getTenant();
         }
 
