@@ -20,6 +20,7 @@ use Pdp\Rules;
 use Psr\Cache\InvalidArgumentException;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\MultiTenancy\Repository\TenantDomainRepositoryInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -32,17 +33,20 @@ class TenantResolver implements TenantResolverInterface
     private string $suffixListFilename;
 
     private TenantRepositoryInterface $tenantRepository;
+    private TenantDomainRepositoryInterface $tenantDomainRepository;
 
     /**
      * @throws InvalidArgumentException
      */
     public function __construct(
         TenantRepositoryInterface $tenantRepository,
+        TenantDomainRepositoryInterface $tenantDomainRepository,
         CacheInterface            $cacheProvider,
         string                    $suffixListFilename,
     )
     {
         $this->tenantRepository = $tenantRepository;
+        $this->tenantDomainRepository = $tenantDomainRepository;
         $this->cacheProvider = $cacheProvider;
         $this->suffixListFilename = $suffixListFilename;
     }
@@ -59,9 +63,20 @@ class TenantResolver implements TenantResolverInterface
         }
 
         if (null === $tenant) {
-            throw new TenantNotFoundException($host);
+            // First check if there is domain defined in TenantDomain table
+            if (!empty($subdomain)) {
+                $tenantDomain = $this->tenantDomainRepository->findOneBySubdomainAndDomain($subdomain, $domain);
+            } else {
+                $tenantDomain = $this->tenantDomainRepository->findOneByDomain($domain);
+            }
+
+            $tenant = $tenantDomain->getTenant();
         }
 
+        if (null === $tenant) {
+            throw new TenantNotFoundException($host);
+        }
+            
         return $tenant;
     }
 
