@@ -19,6 +19,7 @@ use Pdp\ResolvedDomainName;
 use Pdp\Rules;
 use Psr\Cache\InvalidArgumentException;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Model\TenantDomainInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantDomainRepositoryInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -62,26 +63,33 @@ class TenantResolver implements TenantResolverInterface
             $tenant = $this->tenantRepository->findOneByDomain($domain);
         }
 
-        if (null === $tenant) {
-            // First check if there is domain defined in TenantDomain table
-            if (!empty($subdomain)) {
-                $tenantDomain = $this->tenantDomainRepository->findOneBySubdomainAndDomain($subdomain, $domain);
-            } else {
-                $tenantDomain = $this->tenantDomainRepository->findOneByDomain($domain);
-            }
-
-            if (null === $tenantDomain) {
-                throw new TenantNotFoundException($host);
-            }
-
-            $tenant = $tenantDomain->getTenant();
+        if ($tenant instanceof TenantInterface) {
+            return $tenant;
         }
 
-        if (null === $tenant) {
+        return $this->resolveByDomain($host);
+    }
+
+    /**
+     * @param string $host
+     * @return TenantInterface|null
+     */
+    public function resolveByDomain(string $host): ?TenantInterface
+    {
+        $domain = $this->extractDomain($host);
+        $subDomain = $this->extractSubdomain($host);
+        if ($subDomain) {
+            // First check if there is domain defined in TenantDomain table
+            $tenantDomain = $this->tenantDomainRepository->findOneBySubdomainAndDomain($subDomain, $domain);
+        } else {
+            $tenantDomain = $this->tenantDomainRepository->findOneByDomain($domain);
+        }
+
+        if (!$tenantDomain instanceof TenantDomainInterface) {
             throw new TenantNotFoundException($host);
         }
-            
-        return $tenant;
+
+        return $tenantDomain->getTenant();
     }
 
     protected function extractDomain(string $host = null): string

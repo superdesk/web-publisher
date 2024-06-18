@@ -18,7 +18,8 @@ use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 
-class TenantDomain implements TenantDomainInterface {
+class TenantDomain implements TenantDomainInterface
+{
     use SoftDeletableTrait;
     use TimestampableTrait;
     use EnableableTrait;
@@ -46,63 +47,72 @@ class TenantDomain implements TenantDomainInterface {
     /**
      * TenantDomain constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->createdAt = new \DateTime();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDomainName() {
+    public function getDomainName(): string
+    {
         return $this->domainName;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setDomainName($domain) {
-        $this->domainName = $domain;
+    public function setDomainName(string $domainName)
+    {
+        $this->domainName = $domainName;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSubdomain() {
+    public function getSubdomain(): string
+    {
         return $this->subdomain;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setSubdomain($subdomain) {
+    public function setSubdomain(string $subdomain)
+    {
         $this->subdomain = $subdomain;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTenant(TenantInterface $tenant) {
+    public function setTenant(TenantInterface $tenant)
+    {
         $this->tenant = $tenant;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTenant() {
+    public function getTenant(): TenantInterface
+    {
         return $this->tenant;
     }
 }

@@ -30,7 +30,7 @@ interface TenantDomainRepositoryInterface extends RepositoryInterface
      *
      * @return TenantDomainInterface|null The instance of TenantInterface or null
      */
-    public function findOneBySubdomainAndDomain($subdomain, $domain);
+    public function findOneBySubdomainAndDomain(string $subdomain, string $domain): ?TenantDomainInterface;
 
     /**
      * Finds the tenant by domain.
@@ -39,5 +39,5 @@ interface TenantDomainRepositoryInterface extends RepositoryInterface
      *
      * @return TenantDomainInterface|null The instance of TenantInterface or null
      */
-    public function findOneByDomain($domain);
+    public function findOneByDomain(string $domain): ?TenantDomainInterface;
 }

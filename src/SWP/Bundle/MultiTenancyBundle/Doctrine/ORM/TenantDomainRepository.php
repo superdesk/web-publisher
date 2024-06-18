@@ -15,6 +15,7 @@
 namespace SWP\Bundle\MultiTenancyBundle\Doctrine\ORM;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\MultiTenancy\Model\TenantDomainInterface;
 use SWP\Component\MultiTenancy\Repository\TenantDomainRepositoryInterface;
 
 /**
@@ -25,7 +26,7 @@ class TenantDomainRepository extends EntityRepository implements TenantDomainRep
     /**
      * {@inheritdoc}
      */
-    public function findOneBySubdomainAndDomain($subdomain, $domain)
+    public function findOneBySubdomainAndDomain(string $subdomain, string $domain): ?TenantDomainInterface
     {
         return $this
             ->createQueryBuilder('td')
@@ -44,7 +45,7 @@ class TenantDomainRepository extends EntityRepository implements TenantDomainRep
     /**
      * {@inheritdoc}
      */
-    public function findOneByDomain($domain)
+    public function findOneByDomain(string $domain): ?TenantDomainInterface
     {
         return $this
             ->createQueryBuilder('td')

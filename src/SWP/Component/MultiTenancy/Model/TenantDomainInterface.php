@@ -20,36 +20,42 @@ use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface TenantDomainInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface, PersistableInterface, SettingsOwnerInterface {
+interface TenantDomainInterface extends
+    TimestampableInterface,
+    EnableableInterface,
+    SoftDeletableInterface,
+    PersistableInterface,
+    SettingsOwnerInterface
+{
 
     /**
      * @return string
      */
-    public function getDomainName();
+    public function getDomainName(): string;
 
     /**
      * @param string $domainName
      */
-    public function setDomainName($domainName);
+    public function setDomainName(string $domainName);
 
     /**
      * Gets the tenant subdomain.
      *
      * @return string The tenant subdomain
      */
-    public function getSubdomain();
+    public function getSubdomain(): string;
 
     /**
      * Sets the tenant identifier.
      *
      * @param string $subdomain The tenant subdomain
      */
-    public function setSubdomain($subdomain);
+    public function setSubdomain(string $subdomain);
 
     /**
      * @return TenantInterface
      */
-    public function getTenant();
+    public function getTenant(): TenantInterface;
 
     public function setTenant(TenantInterface $tenant);
 }
