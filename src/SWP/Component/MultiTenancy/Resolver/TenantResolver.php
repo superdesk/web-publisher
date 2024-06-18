@@ -74,7 +74,7 @@ class TenantResolver implements TenantResolverInterface
      * @param string $host
      * @return TenantInterface|null
      */
-    public function resolveByDomain(string $host): ?TenantInterface
+    protected function resolveByDomain(string $host): ?TenantInterface
     {
         $domain = $this->extractDomain($host);
         $subDomain = $this->extractSubdomain($host);
