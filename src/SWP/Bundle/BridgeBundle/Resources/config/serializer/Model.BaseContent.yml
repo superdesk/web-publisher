@@ -81,7 +81,7 @@ SWP\Component\Bridge\Model\BaseContent:
             groups: [api]
         description:
             expose: true
-            serialized_name: description_text
+            serialized_name: description_html
             type: string
             groups: [api]
         keywords:
