@@ -749,7 +749,7 @@ final class ContentPushTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertArrayHasKey('lead', $content);
-        self::assertEquals('some abstract text', $content['lead']);
+        self::assertEquals('<p><b><u>some abstract text</u></b></p>', $content['lead']);
         self::assertArrayHasKey('keywords', $content);
         self::assertEquals(['name' => 'keyword1', 'slug' => 'keyword1'], $content['keywords'][0]);
         self::assertEquals(['name' => 'keyword2', 'slug' => 'keyword2'], $content['keywords'][1]);
