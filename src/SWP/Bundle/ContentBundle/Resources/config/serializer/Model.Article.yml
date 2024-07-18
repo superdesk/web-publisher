@@ -3,7 +3,7 @@ SWP\Bundle\ContentBundle\Model\Article:
     properties:
         id:
             expose: true
-            groups: [api, api_packages_list, api_articles_list]
+            groups: [api, api_packages_list, api_articles_list, public_api]
             type: integer
         title:
             expose: true
