@@ -69,11 +69,12 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
         /** @var ContentListItemInterface $item */
         foreach ($contentListItems as $item) {
             $contentList = $item->getContentList();
-            if (!$article->isPublished()) {
-                $this->manager->remove($item);
-            } else {
+            //Removing check if article is published
+            //if (!$article->isPublished()) {
+            //    $this->manager->remove($item);
+            //} else {
                 $contentLists[$contentList->getId()] = $contentList;
-            }
+            //}
             $item->getContentList()->setContentListItemsUpdatedAt(new \DateTime('now'));
             if ($contentList instanceof TimestampableCancelInterface) {
                 $contentList->cancelTimestampable(true);
