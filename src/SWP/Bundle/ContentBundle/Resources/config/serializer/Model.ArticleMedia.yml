@@ -41,6 +41,10 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
         license:
             expose: true
             groups: [api, public_api]
+        key:
+            expose: true
+            groups: [ api, public_api ]
+            type: string
     relations:
         -
             rel: download
