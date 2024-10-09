@@ -111,7 +111,30 @@ class ArticleController extends AbstractController {
     $article = $this->articleProvider->getOneById($id);
 
     if (null === $article) {
-      throw new NotFoundHttpException('Article was not found.');
+      throw new NotFoundHttpException('Article was not found');
+    }
+
+    return new SingleResourceResponse($article);
+  }
+
+  /**
+   * @Route("/api/{version}/content/article/search-code", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_articles_by_code", requirements={"code"=".+"})
+   */
+  public function getByCodeAction(Request $request): SingleResourceResponseInterface {
+    // Extract parameters from the request
+    $code = $request->query->get('code', '');
+    //$tenantCode = $request->query->get('tenant_code', '');
+
+    //var_dump($code, $tenantCode);
+
+    $article = $this->entityManager->createQuery('SELECT a.id FROM SWP\Bundle\ContentBundle\Model\Article a where a.code = :code')
+        ->setParameter('code', $code)
+        //->setParameter('tenant_code', $tenantCode)
+        ->setMaxResults(1)
+        ->getOneOrNullResult();
+
+    if (null === $article) {
+      throw new NotFoundHttpException('Article was not found');
     }
 
     return new SingleResourceResponse($article);
