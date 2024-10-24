@@ -80,6 +80,13 @@ final class UpdateContentListItemsListener
         ) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
             $filters = $this->determineLimit($contentList, $contentListFilters);
+            $metadata = $filters['metadata'] ?? [];
+            $subject = $metadata['subject'] ?? [];
+            foreach ($subject as $key => $item) {
+                if (isset($item['scheme']) && $item['scheme'] == 'urgency') {
+                    $filters['metadata']['subject'][$key]['code'] = (string)$item['code'];
+                }
+            }
             $criteria = new Criteria($filters);
             $criteria->set('status', ArticleInterface::STATUS_PUBLISHED);
             if (isset($filters['route'])) {
