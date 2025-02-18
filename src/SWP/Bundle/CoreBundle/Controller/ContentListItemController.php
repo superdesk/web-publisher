@@ -43,6 +43,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\Annotations\Route;
+use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
+use Gos\Bundle\WebSocketBundle\Pusher\PusherRegistry;
 
 class ContentListItemController extends AbstractController {
   private ContentListItemRepositoryInterface $contentListItemRepository;
@@ -51,25 +53,32 @@ class ContentListItemController extends AbstractController {
   private EventDispatcherInterface $eventDispatcher;
 
   /**
+   * @var PusherInterface
+   */
+  private $pusher;
+
+  /**
    * @param ContentListItemRepositoryInterface $contentListItemRepository
    * @param EntityManagerInterface $entityManager
    * @param ContentListServiceInterface $contentListService
    * @param EventDispatcherInterface $eventDispatcher
    */
   public function __construct(
-      ContentListItemRepositoryInterface $contentListItemRepository,
-      EntityManagerInterface $entityManager,
-      ContentListServiceInterface $contentListService,
-      EventDispatcherInterface $eventDispatcher,
-      string $invalidationCacheUrl,
-      string $invalidationToken
+    ContentListItemRepositoryInterface $contentListItemRepository,
+    EntityManagerInterface $entityManager,
+    ContentListServiceInterface $contentListService,
+    EventDispatcherInterface $eventDispatcher,
+    string $invalidationCacheUrl,
+    string $invalidationToken,
+    PusherRegistry $pusher
   ) {
-      $this->contentListItemRepository = $contentListItemRepository;
-      $this->entityManager = $entityManager;
-      $this->contentListService = $contentListService;
-      $this->eventDispatcher = $eventDispatcher;
-      $this->invalidationCacheUrl = $invalidationCacheUrl;
-      $this->invalidationToken = $invalidationToken;
+    $this->contentListItemRepository = $contentListItemRepository;
+    $this->entityManager = $entityManager;
+    $this->contentListService = $contentListService;
+    $this->eventDispatcher = $eventDispatcher;
+    $this->invalidationCacheUrl = $invalidationCacheUrl;
+    $this->invalidationToken = $invalidationToken;
+    $this->pusher = $pusher->getPusher('amqp');
   }
 
 
@@ -83,32 +92,32 @@ class ContentListItemController extends AbstractController {
     }
 
     $items = $this->contentListItemRepository->getPaginatedByCriteria(
-        $this->eventDispatcher,
-        new Criteria([
-            'contentList' => $id,
-            'sticky' => $request->query->get('sticky', ''),
-        ]),
-        $sort,
-        new PaginationData($request)
+      $this->eventDispatcher,
+      new Criteria([
+        'contentList' => $id,
+        'sticky' => $request->query->get('sticky', ''),
+      ]),
+      $sort,
+      new PaginationData($request)
     );
 
     $responseContext = new ResponseContext();
     $responseContext->setSerializationGroups(
-        [
-            'Default',
-            'api',
-            'api_packages_list',
-            'api_content_list_item_details',
-            'api_articles_list',
-            'api_articles_featuremedia',
-            'api_article_authors',
-            'api_article_media_list',
-            'api_article_media_renditions',
-            'api_articles_statistics_list',
-            'api_image_details',
-            'api_routes_list',
-            'api_tenant_list',
-        ]
+      [
+        'Default',
+        'api',
+        'api_packages_list',
+        'api_content_list_item_details',
+        'api_articles_list',
+        'api_articles_featuremedia',
+        'api_article_authors',
+        'api_article_media_list',
+        'api_article_media_renditions',
+        'api_articles_statistics_list',
+        'api_image_details',
+        'api_routes_list',
+        'api_tenant_list',
+      ]
     );
 
     return new ResourcesListResponse($items, $responseContext);
@@ -124,14 +133,18 @@ class ContentListItemController extends AbstractController {
   /**
    * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
    */
-  public function updateAction(Request $request, FormFactoryInterface $formFactory, $listId,
-                                       $id): SingleResourceResponseInterface {
+  public function updateAction(
+    Request $request,
+    FormFactoryInterface $formFactory,
+    $listId,
+    $id
+  ): SingleResourceResponseInterface {
     $contentListItem = $this->findOr404($listId, $id);
     $form = $formFactory->createNamed(
-        '',
-        ContentListItemType::class,
-        $contentListItem,
-        ['method' => $request->getMethod()]
+      '',
+      ContentListItemType::class,
+      $contentListItem,
+      ['method' => $request->getMethod()]
     );
 
     $form->handleRequest($request);
@@ -144,16 +157,16 @@ class ContentListItemController extends AbstractController {
       }
 
       $this->entityManager->flush();
-        ContentListController::invalidateCache(
-            $this->invalidationCacheUrl,
-            $this->invalidationToken,
-            [
-                'id' => $contentListItem->getContentList()->getId(),
-                'name' => $contentListItem->getContentList()->getName(),
-                'type' => $contentListItem->getContentList()->getType(),
-                'action' => 'CREATE'
-            ]
-        );
+      ContentListController::invalidateCache(
+        $this->invalidationCacheUrl,
+        $this->invalidationToken,
+        [
+          'id' => $contentListItem->getContentList()->getId(),
+          'name' => $contentListItem->getContentList()->getName(),
+          'type' => $contentListItem->getContentList()->getType(),
+          'action' => 'CREATE'
+        ]
+      );
 
       return new SingleResourceResponse($contentListItem);
     }
@@ -165,18 +178,21 @@ class ContentListItemController extends AbstractController {
    * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
    */
   public function batchUpdateAction(
-      Request                        $request,
-      FormFactoryInterface           $formFactory,
-      ContentListRepositoryInterface $contentListRepository,
-      ArticleRepositoryInterface     $articleRepository,
-      EventDispatcherInterface       $eventDispatcher,
-      int                            $listId
+    Request                        $request,
+    FormFactoryInterface           $formFactory,
+    ContentListRepositoryInterface $contentListRepository,
+    ArticleRepositoryInterface     $articleRepository,
+    EventDispatcherInterface       $eventDispatcher,
+    int                            $listId
   ): SingleResourceResponseInterface {
     /** @var ContentListInterface $list */
     $list = $contentListRepository->findOneBy(['id' => $listId]);
     if (null === $list) {
       throw new NotFoundHttpException(sprintf('Content list with id "%s" was not found.', $list));
     }
+
+    // Dispatch WebSocket update
+    $this->dispatchWebSocketUpdate('Manual list updated', 'BATCH-UPDATE');
 
     $form = $formFactory->createNamed('', ContentListItemsType::class, [], ['method' => $request->getMethod()]);
 
@@ -200,10 +216,10 @@ class ContentListItemController extends AbstractController {
         $contentId = $item->getContentId();
 
         $updatedItemsInvalidateCache[] = [
-            'id' => $contentId,
-            'action' => $item->getAction(),
-            'sticky' => $item->isSticky(),
-            'postition' => $item->getPosition()
+          'id' => $contentId,
+          'action' => $item->getAction(),
+          'sticky' => $item->isSticky(),
+          'postition' => $item->getPosition()
         ];
 
 
@@ -213,24 +229,24 @@ class ContentListItemController extends AbstractController {
             $contentListItem = $this->findByContentOr404($list, $contentId);
 
             if ($position !== $contentListItem->getPosition()) {
-                $this->ensureThereIsNoItemOnPositionOrThrow409(
-                    $listId,
-                    $position,
-                    $isSticky,
-                    ContentListAction::ACTION_MOVE
-                );
-                $contentListItem->setPosition($position);
-                $updated = true;
+              $this->ensureThereIsNoItemOnPositionOrThrow409(
+                $listId,
+                $position,
+                $isSticky,
+                ContentListAction::ACTION_MOVE
+              );
+              $contentListItem->setPosition($position);
+              $updated = true;
             }
 
             if ($isSticky !== $contentListItem->getStickyPosition()) {
-                $this->contentListService->toggleStickOnItemPosition($contentListItem, $isSticky, $position);
-                $updated = true;
+              $this->contentListService->toggleStickOnItemPosition($contentListItem, $isSticky, $position);
+              $updated = true;
             }
 
             if ($updated) {
-                $list->setUpdatedAt(new DateTime('now'));
-                $this->entityManager->flush();
+              $list->setUpdatedAt(new DateTime('now'));
+              $this->entityManager->flush();
             }
 
             $updatedArticles[$contentId] = $contentListItem->getContent();
@@ -238,10 +254,10 @@ class ContentListItemController extends AbstractController {
             break;
           case ContentListAction::ACTION_ADD:
             $this->ensureThereIsNoItemOnPositionOrThrow409(
-                $listId,
-                $position,
-                $isSticky,
-                ContentListAction::ACTION_ADD
+              $listId,
+              $position,
+              $isSticky,
+              ContentListAction::ACTION_ADD
             );
 
             $object = $articleRepository->findOneById($contentId);
@@ -265,25 +281,22 @@ class ContentListItemController extends AbstractController {
 
       foreach ($updatedArticles as $updatedArticle) {
         $eventDispatcher->dispatch(new ArticleEvent(
-            $updatedArticle,
-            $updatedArticle->getPackage(),
-            ArticleEvents::POST_UPDATE
+          $updatedArticle,
+          $updatedArticle->getPackage(),
+          ArticleEvents::POST_UPDATE
         ), ArticleEvents::POST_UPDATE);
       }
-        ContentListController::invalidateCache(
-            $this->invalidationCacheUrl,
-            $this->invalidationToken,
-            [
-                'id' => $list->getId(),
-                'name' => $list->getName(),
-                'type' => $list->getType(),
-                'action' => 'BATCH-UPDATE',
-                'items' => $updatedItemsInvalidateCache
-            ]
-        );
-
-      // Dispatch WebSocket update
-      $this->dispatchWebSocketUpdate($list, $updatedItemsInvalidateCache, 'BATCH-UPDATE');
+      ContentListController::invalidateCache(
+        $this->invalidationCacheUrl,
+        $this->invalidationToken,
+        [
+          'id' => $list->getId(),
+          'name' => $list->getName(),
+          'type' => $list->getType(),
+          'action' => 'BATCH-UPDATE',
+          'items' => $updatedItemsInvalidateCache
+        ]
+      );
 
       return new SingleResourceResponse($list, new ResponseContext(201));
     }
@@ -294,8 +307,8 @@ class ContentListItemController extends AbstractController {
   private function findByContentOr404($listId, $contentId): ContentListItemInterface {
     /** @var ContentListItemInterface $listItem */
     $listItem = $this->contentListItemRepository->findOneBy([
-        'contentList' => $listId,
-        'content' => $contentId,
+      'contentList' => $listId,
+      'content' => $contentId,
     ]);
 
     if (null === $listItem) {
@@ -308,8 +321,8 @@ class ContentListItemController extends AbstractController {
   private function findOr404($listId, $id): ContentListItemInterface {
     /** @var ContentListItemInterface $listItem */
     $listItem = $this->contentListItemRepository->findOneBy([
-        'contentList' => $listId,
-        'id' => $id,
+      'contentList' => $listId,
+      'id' => $id,
     ]);
 
     if (null === $listItem) {
@@ -320,36 +333,33 @@ class ContentListItemController extends AbstractController {
   }
 
   private function ensureThereIsNoItemOnPositionOrThrow409(
-      int $listId,
-      int $position,
-      bool $isSticky,
-      string $action): void {
-      $existingContentListItem = $this->contentListService->isAnyItemPinnedOnPosition($listId, $position);
+    int $listId,
+    int $position,
+    bool $isSticky,
+    string $action
+  ): void {
+    $existingContentListItem = $this->contentListService->isAnyItemPinnedOnPosition($listId, $position);
 
-      if (!$existingContentListItem && !$isSticky) {
-          return;
-      }
+    if (!$existingContentListItem && !$isSticky) {
+      return;
+    }
 
-      if ($existingContentListItem && $existingContentListItem->isSticky()) {
-        throw new ConflictHttpException('There is already an item pinned on that position. Unpin it first.');
-      }
+    if ($existingContentListItem && $existingContentListItem->isSticky()) {
+      throw new ConflictHttpException('There is already an item pinned on that position. Unpin it first.');
+    }
 
-      if ($action === ContentListAction::ACTION_MOVE && $isSticky) {
-          throw new ConflictHttpException('Cannot move pinned item. Unpin it first.');
-      }
+    if ($action === ContentListAction::ACTION_MOVE && $isSticky) {
+      throw new ConflictHttpException('Cannot move pinned item. Unpin it first.');
+    }
   }
 
-  private function dispatchWebSocketUpdate(ContentListInterface $list, array $updatedItems, string $action): void
-  {
+  private function dispatchWebSocketUpdate(string $message, string $action): void {
     $pushData = [
-      'contentListId' => $list->getId(),
+      'message' => $message,
       'action' => $action,
-      'items' => $updatedItems,
       'timestamp' => (new \DateTime())->format('c')
     ];
 
-    // Get the WebSocket pusher from the container
-    $pusher = $this->container->get('gos_web_socket.pusher.amqp');
-    $pusher->push($pushData, 'content_list.update');
+    $this->pusher->push($pushData, 'content_list_update');
   }
 }

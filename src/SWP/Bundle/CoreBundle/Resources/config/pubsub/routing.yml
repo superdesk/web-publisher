@@ -2,6 +2,6 @@ package_created:
     channel: package_created
     handler: 'swp.package'
 
-content_list_topic:
-    channel: content_list.update
-    handler: 'swp.content_list'
+content_list_update:
+    channel: content_list_update
+    handler: 'swp.article_content_list'
