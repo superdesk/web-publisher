@@ -9,3 +9,8 @@ services:
         parent: SWP\Bundle\CoreBundle\WebSocket\Topic\AbstractSecuredTopic
         tags:
             - { name: gos_web_socket.topic }
+
+    SWP\Bundle\CoreBundle\WebSocket\Topic\ContentListTopic:
+        parent: SWP\Bundle\CoreBundle\WebSocket\Topic\AbstractSecuredTopic
+        tags:
+            - { name: gos_web_socket.topic }
