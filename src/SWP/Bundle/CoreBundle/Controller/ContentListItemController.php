@@ -282,6 +282,9 @@ class ContentListItemController extends AbstractController {
             ]
         );
 
+      // Dispatch WebSocket update
+      $this->dispatchWebSocketUpdate($list, $updatedItemsInvalidateCache, 'BATCH-UPDATE');
+
       return new SingleResourceResponse($list, new ResponseContext(201));
     }
 
@@ -334,5 +337,19 @@ class ContentListItemController extends AbstractController {
       if ($action === ContentListAction::ACTION_MOVE && $isSticky) {
           throw new ConflictHttpException('Cannot move pinned item. Unpin it first.');
       }
+  }
+
+  private function dispatchWebSocketUpdate(ContentListInterface $list, array $updatedItems, string $action): void
+  {
+    $pushData = [
+      'contentListId' => $list->getId(),
+      'action' => $action,
+      'items' => $updatedItems,
+      'timestamp' => (new \DateTime())->format('c')
+    ];
+
+    // Get the WebSocket pusher from the container
+    $pusher = $this->container->get('gos_web_socket.pusher.amqp');
+    $pusher->push($pushData, 'content_list.update');
   }
 }

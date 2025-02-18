@@ -1,3 +1,8 @@
 package_created:
     channel: package_created
     handler: 'swp.package'
+
+content_list_topic:
+    channel: content_list.update
+    handler:
+        callback: 'SWP\Bundle\CoreBundle\WebSocket\Topic\ContentListTopic'
