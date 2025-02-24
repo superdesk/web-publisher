@@ -48,6 +48,14 @@ class ProfileController extends AbstractController {
     $this->userRepository = $userRepository;
   }
 
+  /**
+   * @Route("/api/{version}/users/profile/all", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profiles")
+   */
+ public function listProfiles() {
+    $profiles = $this->userRepository->findAll();
+
+    return new SingleResourceResponse($profiles);
+}
 
   /**
    * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
