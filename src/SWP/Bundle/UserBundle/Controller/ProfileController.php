@@ -65,14 +65,15 @@ class ProfileController extends AbstractController {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $limit = $request->query->get('limit', 10);
-        $page = $request->query->get('page', 1);
-        $offset = ($page - 1) * $limit;
-        $profiles = $this->userRepository->findBy([], ['id' => 'ASC'], $limit, $offset);
+        $limit = (int)$request->query->get('limit', 10);
+        $page = (int)$request->query->get('page', 1);
+        $profilesQuery = $this->userRepository->createQueryBuilder('u')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery();
 
-        $this->paginator->paginate($profiles, $limit, $offset);
+        $pagination = $this->paginator->paginate($profilesQuery, $page, $limit);
 
-        return new ResourcesListResponse($profiles);
+        return new ResourcesListResponse($pagination);
     }
 
   /**
