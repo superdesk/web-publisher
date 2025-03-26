@@ -17,9 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use SWP\Bundle\UserBundle\Form\ProfileFormType;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Repository\UserRepository;
+use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,19 +37,44 @@ class ProfileController extends AbstractController {
   private EntityManagerInterface $entityManager;
   private AuthorizationCheckerInterface $authorizationChecker;
   private UserRepository $userRepository;
+  private PaginatorInterface $paginator;
 
-  /**
-   * @param EntityManagerInterface $entityManager
-   * @param AuthorizationCheckerInterface $authorizationChecker
-   * @param UserRepository $userRepository
-   */
-  public function __construct(EntityManagerInterface        $entityManager,
-                              AuthorizationCheckerInterface $authorizationChecker, UserRepository $userRepository) {
-    $this->entityManager = $entityManager;
-    $this->authorizationChecker = $authorizationChecker;
-    $this->userRepository = $userRepository;
-  }
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param UserRepository $userRepository
+     * @param PaginatorInterface $paginator
+     */
+    public function __construct(EntityManagerInterface        $entityManager,
+                                AuthorizationCheckerInterface $authorizationChecker,
+                                UserRepository                $userRepository,
+                                PaginatorInterface            $paginator)
+    {
+        $this->entityManager = $entityManager;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->userRepository = $userRepository;
+        $this->paginator = $paginator;
+    }
 
+    /**
+     * @Route("/api/{version}/users/profiles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_list_user_profiles")
+     */
+    public function listAction(Request $request): ResourcesListResponse
+    {
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $limit = (int)$request->query->get('limit', 10);
+        $page = (int)$request->query->get('page', 1);
+        $profilesQuery = $this->userRepository->createQueryBuilder('u')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery();
+
+        $pagination = $this->paginator->paginate($profilesQuery, $page, $limit);
+
+        return new ResourcesListResponse($pagination);
+    }
 
   /**
    * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
