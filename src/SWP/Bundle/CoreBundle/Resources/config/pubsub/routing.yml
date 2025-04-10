@@ -4,4 +4,4 @@ package_created:
 
 content_list_update:
     channel: content_list_update
-    handler: 'swp.article_content_list'
+    handler: 'swp.content_list_update'
