@@ -168,6 +168,9 @@ class ContentListItemController extends AbstractController {
         ]
       );
 
+      // Dispatch WebSocket update
+      $this->dispatchWebSocketUpdate('Content list item updated', 'UPDATE', $contentListItem->getContentList()->getId());
+
       return new SingleResourceResponse($contentListItem);
     }
 
@@ -190,9 +193,6 @@ class ContentListItemController extends AbstractController {
     if (null === $list) {
       throw new NotFoundHttpException(sprintf('Content list with id "%s" was not found.', $list));
     }
-
-    // Dispatch WebSocket update
-    $this->dispatchWebSocketUpdate('Manual list updated', 'BATCH-UPDATE');
 
     $form = $formFactory->createNamed('', ContentListItemsType::class, [], ['method' => $request->getMethod()]);
 
@@ -298,6 +298,9 @@ class ContentListItemController extends AbstractController {
         ]
       );
 
+      // Dispatch WebSocket update
+      $this->dispatchWebSocketUpdate('Manual list updated', 'BATCH-UPDATE', $list->getId());
+
       return new SingleResourceResponse($list, new ResponseContext(201));
     }
 
@@ -353,12 +356,16 @@ class ContentListItemController extends AbstractController {
     }
   }
 
-  private function dispatchWebSocketUpdate(string $message, string $action): void {
+  private function dispatchWebSocketUpdate(string $message, string $action, ?int $contentListId = null): void {
     $pushData = [
       'message' => $message,
       'action' => $action,
       'timestamp' => (new \DateTime())->format('c')
     ];
+
+    if ($contentListId !== null) {
+      $pushData['content_list_id'] = $contentListId;
+    }
 
     $this->pusher->push($pushData, 'content_list_update');
   }

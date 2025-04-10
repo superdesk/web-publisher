@@ -57,6 +57,6 @@ final class ContentListTopic extends AbstractSecuredTopic implements TopicInterf
      * {@inheritdoc}
      */
     public function getName(): string {
-        return 'swp.content_list_update';
+        return 'content_list_update';
     }
 }
