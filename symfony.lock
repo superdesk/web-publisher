@@ -702,6 +702,9 @@
             "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
         }
     },
+    "superdeskwebpublisher/amp-html-bundle": {
+        "version": "dev-master"
+    },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.4"
     },

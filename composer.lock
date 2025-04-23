@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7df1ba4a9ee939daeaa7f80769f9b9d7",
+    "content-hash": "f87a1e728c52d2fe726d22384485a60b",
     "packages": [
         {
             "name": "apache/log4php",
@@ -3548,6 +3548,66 @@
                 }
             ],
             "time": "2022-09-20T01:46:13+00:00"
+        },
+        {
+            "name": "gos/react-amqp",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/ReactAMQP.git",
+                "reference": "b7af1f30c437657560c6ed4a050d14cac3ec2c36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/ReactAMQP/zipball/b7af1f30c437657560c6ed4a050d14cac3ec2c36",
+                "reference": "b7af1f30c437657560c6ed4a050d14cac3ec2c36",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0",
+                "ext-amqp": "*",
+                "php": ">=7.2",
+                "react/event-loop": "^1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.15.1",
+                "phpunit/phpunit": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Component\\ReactAMQP\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Cook",
+                    "email": "jeremycook0@gmail.com"
+                },
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                }
+            ],
+            "description": "AMQP bindings for ReactPHP",
+            "keywords": [
+                "AMQP",
+                "rabbitmq"
+            ],
+            "support": {
+                "issues": "https://github.com/GeniusesOfSymfony/ReactAMQP/issues",
+                "source": "https://github.com/GeniusesOfSymfony/ReactAMQP/tree/v0.3.0"
+            },
+            "time": "2019-08-26T18:17:51+00:00"
         },
         {
             "name": "gos/web-socket-bundle",
@@ -21119,9 +21179,9 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "emanueleminotto/twig-cache-bundle": 20,
+        "roave/security-advisories": 20,
         "takeit/amp": 20,
-        "takeit/stringy": 20,
-        "roave/security-advisories": 20
+        "takeit/stringy": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -21134,6 +21194,6 @@
         "ext-json": "*",
         "ext-zip": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
