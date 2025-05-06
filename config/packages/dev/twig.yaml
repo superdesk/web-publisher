@@ -1,3 +1,5 @@
 twig:
     cache: false
-    debug: true
+    debug: false
+    strict_variables: false
+    exception_controller: null
