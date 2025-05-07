@@ -74,7 +74,7 @@ class FailedEntriesProvider
 
     public function getFailedEntriesDescendingById(?int $max = null): array
     {
-        $envelopes = $this->receiver->all($max);
+        $envelopes = $this->receiver->all(null);
 
         $envelopesById = [];
         foreach ($envelopes as $envelope) {
@@ -87,8 +87,12 @@ class FailedEntriesProvider
         krsort($envelopesById);
 
         $rows = [];
+        $envelopeLimitCount = 0;
 
         foreach ($envelopesById as $id => $envelope) {
+
+            if ($envelopeLimitCount >= $max) { break; }
+
             /** @var SentToFailureTransportStamp|null $sentToFailureTransportStamp */
             $sentToFailureTransportStamp = $envelope->last(SentToFailureTransportStamp::class);
 
@@ -112,6 +116,8 @@ class FailedEntriesProvider
                 $envelope->getMessage() instanceof MessageInterface ? $envelope->getMessage()->toArray() : [],
                 $errorDetailsStamp?->getFlattenException()->getTraceAsString()
             );
+
+            $envelopeLimitCount++;
         }
 
         return $rows;
