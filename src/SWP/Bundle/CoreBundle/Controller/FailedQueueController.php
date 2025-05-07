@@ -30,7 +30,7 @@ class FailedQueueController extends AbstractController {
       try {
           $requestedLimit = $request->query->getInt('limit', 50);
           $max = $requestedLimit > 500 ? 500 : $requestedLimit;
-          $entries = $failedEntriesProvider->getFailedEntries($max);
+          $entries = $failedEntriesProvider->getFailedEntriesDescendingById($max);
           return new SingleResourceResponse($entries);
       } catch (\Exception $e) {
           return new SingleResourceResponse(
