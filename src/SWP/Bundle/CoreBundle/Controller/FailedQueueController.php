@@ -27,8 +27,16 @@ class FailedQueueController extends AbstractController {
    * @Route("/api/{version}/failed_queue/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_failed_queue")
    */
   public function listAction(Request $request, FailedEntriesProvider $failedEntriesProvider) {
-    $requestedLimit = $request->query->getInt('limit', 50);
-    $max = max(1, min($requestedLimit, 500));
-    $failedEntries = $failedEntriesProvider->getFailedEntries($max);
+      try {
+          $requestedLimit = $request->query->getInt('limit', 50);
+          $max = $requestedLimit > 500 ? 500 : $requestedLimit;
+          $entries = $failedEntriesProvider->getFailedEntries($max);
+          return new SingleResourceResponse($entries);
+      } catch (\Exception $e) {
+          return new SingleResourceResponse(
+              ['error' => 'An error occurred while retrieving failed entries'],
+              Response::HTTP_INTERNAL_SERVER_ERROR
+          );
+      }
   }
 }
