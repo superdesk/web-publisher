@@ -263,24 +263,17 @@ class ContentListItemController extends AbstractController {
 
       $this->contentListService->repositionStickyItems($list);
 
-      foreach ($updatedArticles as $updatedArticle) {
-        $eventDispatcher->dispatch(new ArticleEvent(
-            $updatedArticle,
-            $updatedArticle->getPackage(),
-            ArticleEvents::POST_UPDATE
-        ), ArticleEvents::POST_UPDATE);
-      }
-        ContentListController::invalidateCache(
-            $this->invalidationCacheUrl,
-            $this->invalidationToken,
-            [
-                'id' => $list->getId(),
-                'name' => $list->getName(),
-                'type' => $list->getType(),
-                'action' => 'BATCH-UPDATE',
-                'items' => $updatedItemsInvalidateCache
-            ]
-        );
+      ContentListController::invalidateCache(
+          $this->invalidationCacheUrl,
+          $this->invalidationToken,
+          [
+              'id' => $list->getId(),
+              'name' => $list->getName(),
+              'type' => $list->getType(),
+              'action' => 'BATCH-UPDATE',
+              'items' => $updatedItemsInvalidateCache
+          ]
+      );
 
       return new SingleResourceResponse($list, new ResponseContext(201));
     }
