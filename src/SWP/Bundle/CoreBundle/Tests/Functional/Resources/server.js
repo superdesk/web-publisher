@@ -172,6 +172,15 @@ server.get("/api/upload/:fileName/audio/raw", (req, res) => {
     res.sendFile("test_audio.mp3", { root: "./" });
 });
 
+//dummy post endpoint for things like webhook tests
+server.post("/dummy-post", (req, res) => {
+    res.status(200).json({
+        message: "POST request received",
+        path: req.path,
+        body: req.body
+    });
+});
+
 server.use("/api", router);
 server.listen(3000, () => {
     console.log("JSON Server is running");
