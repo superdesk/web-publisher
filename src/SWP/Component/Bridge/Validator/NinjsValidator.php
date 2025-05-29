@@ -404,7 +404,7 @@ class NinjsValidator extends JsonValidator
     },
     "attachments":{
       "description":"Wrapper for different attachments of non-textual content of the news object",
-      "type":"object",
+      "type":"array",
       "additionalProperties":false,
       "patternProperties":{
         "^[a-zA-Z0-9]+":{
