@@ -71,4 +71,55 @@ class FailedEntriesProvider
 
         return $rows;
     }
+
+    public function getFailedEntriesDescendingById(?int $max = null): array
+    {
+        $envelopes = $this->receiver->all(null);
+
+        $envelopesById = [];
+        foreach ($envelopes as $envelope) {
+            /** @var TransportMessageIdStamp $stamp */
+            $stamp = $envelope->last(TransportMessageIdStamp::class);
+            $id = (int) $stamp->getId();
+            $envelopesById[$id] = $envelope;
+        }
+
+        krsort($envelopesById);
+
+        $rows = [];
+        $envelopeLimitCount = 0;
+
+        foreach ($envelopesById as $id => $envelope) {
+
+            if ($envelopeLimitCount >= $max) { break; }
+
+            /** @var SentToFailureTransportStamp|null $sentToFailureTransportStamp */
+            $sentToFailureTransportStamp = $envelope->last(SentToFailureTransportStamp::class);
+
+            $history = [];
+            foreach (array_reverse($envelope->all(RedeliveryStamp::class)) as $redeliveryStamp) {
+                $history[] = $redeliveryStamp->getRedeliveredAt();
+            }
+
+            /**
+            * @var ErrorDetailsStamp $errorDetailsStamp
+            */
+            $errorDetailsStamp = $envelope->last(ErrorDetailsStamp::class);
+
+            $rows[] = new FailedEntry(
+                $id,
+                get_class($envelope->getMessage()),
+                $history[0] ?? null,
+                $errorDetailsStamp?->getExceptionMessage(),
+                $sentToFailureTransportStamp->getOriginalReceiverName(),
+                $history,
+                $envelope->getMessage() instanceof MessageInterface ? $envelope->getMessage()->toArray() : [],
+                $errorDetailsStamp?->getFlattenException()->getTraceAsString()
+            );
+
+            $envelopeLimitCount++;
+        }
+
+        return $rows;
+    }
 }
