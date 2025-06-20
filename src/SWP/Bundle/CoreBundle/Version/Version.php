@@ -21,7 +21,7 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $version = '2.5.1';
+    private $version = '2.5.2';
 
     /**
      * Code name string.
@@ -35,7 +35,7 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $releaseDate = '2021-03-01';
+    private $releaseDate = '2025-06-20';
 
     public function getVersion(): string
     {
