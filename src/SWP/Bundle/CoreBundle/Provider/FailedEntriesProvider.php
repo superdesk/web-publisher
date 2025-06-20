@@ -74,6 +74,7 @@ class FailedEntriesProvider
 
     public function getFailedEntriesDescendingById(?int $max = null): array
     {
+        ini_set('memory_limit', '256M'); //TEMP, see SWP-2350
         $envelopes = $this->receiver->all(null);
 
         $envelopesById = [];
