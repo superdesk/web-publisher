@@ -62,7 +62,10 @@ class NinjsValidator extends JsonValidator
     },
     "version":{
       "description":"The version of the news object which is identified by the uri property",
-      "type":"string"
+      "type":[
+        "integer",
+        "string"
+      ]
     },
     "versioncreated":{
       "description":"The date and time when this version of the news object was created",
