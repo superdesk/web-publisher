@@ -120,8 +120,15 @@ class DefaultController extends AbstractController {
 
       // Check RabbitMQ
       try {
-          if ($amqpConnection) {
-              $amqpConnection->channel();
+          $amqp = new \AMQPConnection([
+              'host'     => 'localhost',
+              'port'     => 5672,
+              'login'    => 'guest',
+              'password' => 'guest',
+              'vhost'    => '/',
+          ]);
+          $amqp->connect();
+          if ($amqp->isConnected()) {
               $status['rabbitmq'] = 'green';
           }
       } catch (\Throwable $e) {}
