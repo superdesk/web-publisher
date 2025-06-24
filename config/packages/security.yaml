@@ -20,6 +20,8 @@ security:
         health:
             pattern: ^/api/system/health
             security: false
+            anonymous: true
+            stateless: true
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js|)/
             security: false

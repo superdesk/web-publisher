@@ -79,7 +79,6 @@ class DefaultController extends AbstractController {
 
   /**
    * @Route("/api/system/health", methods={"GET"}, name="system_health")
-   * @IsGranted(null)
    */
   public function healthCheck(
       Connection $connection,
