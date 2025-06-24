@@ -87,6 +87,7 @@ security:
             anonymous: lazy
 
     access_control:
+        - { path: "^/api/system/health", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/preview/article", roles: ROLE_EDITOR }
         - { path: "^/api/[v0-9]{2}/users/profile/*", roles: ROLE_USER }
         - { path: "^/api/[v0-9]{2}/users/settings", roles: ROLE_USER }

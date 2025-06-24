@@ -30,6 +30,7 @@ use FOS\ElasticaBundle\Elastica\Client as ElasticaClient;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class DefaultController extends AbstractController {
 
@@ -79,6 +80,7 @@ class DefaultController extends AbstractController {
 
   /**
    * @Route("/api/system/health", methods={"GET"}, name="system_health")
+   * @IsGranted(null)
    */
   public function healthCheck(
       Connection $connection,
@@ -87,8 +89,9 @@ class DefaultController extends AbstractController {
       ?AMQPStreamConnection $amqpConnection = null
   ): JsonResponse {
       $status = [
+          'application_name' => 'Publisher',
           'postgres' => 'red',
-          'elasticsearch' => 'red',
+          'elastic' => 'red',
           'memcached' => 'red',
           'rabbitmq' => 'red',
       ];
@@ -104,7 +107,7 @@ class DefaultController extends AbstractController {
       // Check Elasticsearch
       try {
           $elasticaClient->getStatus();
-          $status['elasticsearch'] = 'green';
+          $status['elastic'] = 'green';
       } catch (\Throwable $e) {}
 
       // Check Memcached (Symfony Cache)
