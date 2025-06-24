@@ -31,4 +31,15 @@ services:
       - '@swp.repository.api_key'
       - '@swp.factory.api_key'
 
+  SWP\Bundle\CoreBundle\Controller\DefaultController:
+    arguments:
+      $tenantContext: '@swp_multi_tenancy.tenant_context'
+      $metaFactory: '@swp_template_engine_context.factory.meta_factory'
+      $templateEngineContext: '@swp_template_engine_context'
+      $routeFactory: '@swp.factory.route'
+      $connection: '@doctrine.dbal.default_connection'
+      $elasticaClient: '@fos_elastica.client.default'
+      $cachePool: '@session.memcached'
+      $amqpConnection: '@?app.amqp_connection'
+
 

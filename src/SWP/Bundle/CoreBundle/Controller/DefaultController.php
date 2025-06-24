@@ -25,6 +25,11 @@ use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\DBAL\Connection;
+use FOS\ElasticaBundle\Elastica\Client as ElasticaClient;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends AbstractController {
 
@@ -70,5 +75,54 @@ class DefaultController extends AbstractController {
     $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
 
     return $this->render('index.html.twig', [], $response);
+  }
+
+  /**
+   * @Route("/api/system/health", methods={"GET"}, name="system_health")
+   */
+  public function healthCheck(
+      Connection $connection,
+      ElasticaClient $elasticaClient,
+      AdapterInterface $cachePool,
+      ?AMQPStreamConnection $amqpConnection = null
+  ): JsonResponse {
+      $status = [
+          'postgres' => 'red',
+          'elasticsearch' => 'red',
+          'memcached' => 'red',
+          'rabbitmq' => 'red',
+      ];
+
+      // Check Postgres
+      try {
+          $connection->connect();
+          if ($connection->isConnected()) {
+              $status['postgres'] = 'green';
+          }
+      } catch (\Throwable $e) {}
+
+      // Check Elasticsearch
+      try {
+          $elasticaClient->getStatus();
+          $status['elasticsearch'] = 'green';
+      } catch (\Throwable $e) {}
+
+      // Check Memcached (Symfony Cache)
+      try {
+          $cacheKey = 'health_check_' . uniqid();
+          $cachePool->save($cachePool->getItem($cacheKey)->set('ok'));
+          $cachePool->deleteItem($cacheKey);
+          $status['memcached'] = 'green';
+      } catch (\Throwable $e) {}
+
+      // Check RabbitMQ
+      try {
+          if ($amqpConnection) {
+              $amqpConnection->channel();
+              $status['rabbitmq'] = 'green';
+          }
+      } catch (\Throwable $e) {}
+
+      return new JsonResponse($status);
   }
 }
