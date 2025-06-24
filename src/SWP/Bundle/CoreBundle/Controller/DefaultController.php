@@ -28,7 +28,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Connection;
 use FOS\ElasticaBundle\Elastica\Client as ElasticaClient;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -85,8 +84,7 @@ class DefaultController extends AbstractController {
   public function healthCheck(
       Connection $connection,
       ElasticaClient $elasticaClient,
-      AdapterInterface $cachePool,
-      ?AMQPStreamConnection $amqpConnection = null
+      AdapterInterface $cachePool
   ): JsonResponse {
       $status = [
           'application_name' => 'Publisher',
@@ -118,14 +116,14 @@ class DefaultController extends AbstractController {
           $status['memcached'] = 'green';
       } catch (\Throwable $e) {}
 
-      // Check RabbitMQ
+      // Check RabbitMQ using php-amqp extension
       try {
           $amqp = new \AMQPConnection([
-              'host'     => 'localhost',
-              'port'     => 5672,
-              'login'    => 'guest',
-              'password' => 'guest',
-              'vhost'    => '/',
+              'host'     => $_ENV['RABBIT_MQ_HOST'] ?? 'localhost',
+              'port'     => $_ENV['RABBIT_MQ_PORT'] ?? 5672,
+              'login'    => $_ENV['RABBIT_MQ_USER'] ?? 'guest',
+              'password' => $_ENV['RABBIT_MQ_PASSWORD'] ?? 'guest',
+              'vhost'    => $_ENV['RABBIT_MQ_VHOST'] ?? '/',
           ]);
           $amqp->connect();
           if ($amqp->isConnected()) {
