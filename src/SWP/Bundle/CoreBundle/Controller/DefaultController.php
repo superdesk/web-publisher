@@ -88,38 +88,50 @@ class DefaultController extends AbstractController {
       $status = [
           'application_name' => 'Publisher',
           'postgres' => 'red',
-          'elastic' => 'red',
+          'elasticsearch' => 'red',
           'memcached' => 'red',
           'rabbitmq' => 'red',
+          'supervisor' => 'red',
       ];
 
-      // Check Postgres
+      // Check PostgreSQL
       try {
           $connection->connect();
           if ($connection->isConnected()) {
               $status['postgres'] = 'green';
           }
-      } catch (\Throwable $e) {}
+      } catch (\Throwable $e) {
+          // Log error for debugging
+          error_log('PostgreSQL health check failed: ' . $e->getMessage());
+      }
 
       // Check Elasticsearch
       try {
           $elasticaClient->getStatus();
-          $status['elastic'] = 'green';
-      } catch (\Throwable $e) {}
+          $status['elasticsearch'] = 'green';
+      } catch (\Throwable $e) {
+          // Log error for debugging
+          error_log('Elasticsearch health check failed: ' . $e->getMessage());
+      }
 
       // Check Memcached (Symfony Cache)
       try {
           $cacheKey = 'health_check_' . uniqid();
-          $cachePool->save($cachePool->getItem($cacheKey)->set('ok'));
+          $cacheItem = $cachePool->getItem($cacheKey);
+          $cacheItem->set('ok');
+          $cachePool->save($cacheItem);
           $cachePool->deleteItem($cacheKey);
           $status['memcached'] = 'green';
-      } catch (\Throwable $e) {}
+      } catch (\Throwable $e) {
+          // Log error for debugging
+          error_log('Memcached health check failed: ' . $e->getMessage());
+      }
 
       // Check RabbitMQ using php-amqp extension
       try {
           $amqp = new \AMQPConnection([
               'host'     => $_ENV['RABBIT_MQ_HOST'] ?? 'localhost',
-              'port'     => $_ENV['RABBIT_MQ_PORT'] ?? 5672,
+              'port'     => (int)($_ENV['RABBIT_MQ_PORT'] ?? 5672),
               'login'    => $_ENV['RABBIT_MQ_USER'] ?? 'guest',
               'password' => $_ENV['RABBIT_MQ_PASSWORD'] ?? 'guest',
               'vhost'    => $_ENV['RABBIT_MQ_VHOST'] ?? '/',
@@ -128,7 +140,58 @@ class DefaultController extends AbstractController {
           if ($amqp->isConnected()) {
               $status['rabbitmq'] = 'green';
           }
-      } catch (\Throwable $e) {}
+      } catch (\Throwable $e) {
+          // Log error for debugging
+          error_log('RabbitMQ health check failed: ' . $e->getMessage());
+      }
+
+      // Check Supervisor processes
+      try {
+          $process = new \Symfony\Component\Process\Process(['supervisorctl', 'status', 'messenger-consume:*']);
+          $process->setTimeout(10);
+          $process->run();
+          
+          if ($process->isSuccessful()) {
+              $output = $process->getOutput();
+              $lines = explode(PHP_EOL, trim($output));
+              $runningProcesses = 0;
+              $totalProcesses = 0;
+              
+              foreach ($lines as $line) {
+                  if (trim($line) && stripos($line, 'RUNNING') !== false) {
+                      $runningProcesses++;
+                  }
+                  if (trim($line)) {
+                      $totalProcesses++;
+                  }
+              }
+              
+              if ($totalProcesses > 0 && $runningProcesses === $totalProcesses) {
+                  $status['supervisor'] = 'green';
+              }
+          }
+      } catch (\Throwable $e) {
+          // Log error for debugging
+          error_log('Supervisor health check failed: ' . $e->getMessage());
+      }
+
+      // Determine overall status
+      $redServices = 0;
+      $totalServices = count($status) - 1; // Exclude application_name from count
+      
+      foreach ($status as $service => $serviceStatus) {
+          if ($service !== 'application_name' && $serviceStatus === 'red') {
+              $redServices++;
+          }
+      }
+      
+      if ($redServices === 0) {
+          $status['status'] = 'green';
+      } elseif ($redServices === $totalServices) {
+          $status['status'] = 'red';
+      } else {
+          $status['status'] = 'orange';
+      }
 
       return new JsonResponse($status);
   }
