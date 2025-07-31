@@ -103,6 +103,7 @@ class DefaultController extends AbstractController {
       } catch (\Throwable $e) {
           // Log error for debugging
           error_log('PostgreSQL health check failed: ' . $e->getMessage());
+          $status['postgres'] = 'red';
       }
 
       // Check Elasticsearch
@@ -112,6 +113,7 @@ class DefaultController extends AbstractController {
       } catch (\Throwable $e) {
           // Log error for debugging
           error_log('Elasticsearch health check failed: ' . $e->getMessage());
+          $status['elasticsearch'] = 'red';
       }
 
       // Check Memcached (Symfony Cache)
@@ -125,6 +127,7 @@ class DefaultController extends AbstractController {
       } catch (\Throwable $e) {
           // Log error for debugging
           error_log('Memcached health check failed: ' . $e->getMessage());
+          $status['memcached'] = 'red';
       }
 
       // Check RabbitMQ using php-amqp extension
@@ -143,6 +146,7 @@ class DefaultController extends AbstractController {
       } catch (\Throwable $e) {
           // Log error for debugging
           error_log('RabbitMQ health check failed: ' . $e->getMessage());
+          $status['rabbitmq'] = 'red';
       }
 
       // Check Supervisor processes
@@ -168,11 +172,16 @@ class DefaultController extends AbstractController {
               
               if ($totalProcesses > 0 && $runningProcesses === $totalProcesses) {
                   $status['supervisor'] = 'green';
+              } else {
+                  $status['supervisor'] = 'red';
               }
+          } else {
+              $status['supervisor'] = 'red';
           }
       } catch (\Throwable $e) {
           // Log error for debugging
           error_log('Supervisor health check failed: ' . $e->getMessage());
+          $status['supervisor'] = 'red';
       }
 
       // Determine overall status
