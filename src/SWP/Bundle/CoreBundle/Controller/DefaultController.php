@@ -118,10 +118,27 @@ class DefaultController extends AbstractController {
 
       // Check Memcached (Symfony Cache)
       try {
+          // First check if we can connect to Memcached directly
+          $memcached = new \Memcached();
+          $memcached->addServer('localhost', 11211);
+          
+          // Test basic connectivity
+          if ($memcached->getVersion() === false) {
+              throw new \Exception('Cannot connect to Memcached server');
+          }
+          
+          // Test cache operations
           $cacheKey = 'health_check_' . uniqid();
           $cacheItem = $cachePool->getItem($cacheKey);
           $cacheItem->set('ok');
           $cachePool->save($cacheItem);
+          
+          // Verify the item was saved
+          $savedItem = $cachePool->getItem($cacheKey);
+          if (!$savedItem->isHit()) {
+              throw new \Exception('Cache item was not saved successfully');
+          }
+          
           $cachePool->deleteItem($cacheKey);
           $status['memcached'] = 'green';
       } catch (\Throwable $e) {
@@ -155,6 +172,11 @@ class DefaultController extends AbstractController {
           $process->setTimeout(10);
           $process->run();
           
+          // Log the raw output for debugging
+          error_log('Supervisor command output: ' . $process->getOutput());
+          error_log('Supervisor command error: ' . $process->getErrorOutput());
+          error_log('Supervisor command exit code: ' . $process->getExitCode());
+          
           if ($process->isSuccessful()) {
               $output = $process->getOutput();
               $lines = explode(PHP_EOL, trim($output));
@@ -162,13 +184,19 @@ class DefaultController extends AbstractController {
               $totalProcesses = 0;
               
               foreach ($lines as $line) {
-                  if (trim($line) && stripos($line, 'RUNNING') !== false) {
-                      $runningProcesses++;
-                  }
-                  if (trim($line)) {
+                  $line = trim($line);
+                  if ($line) {
                       $totalProcesses++;
+                      // Check for various running states
+                      if (stripos($line, 'RUNNING') !== false || 
+                          stripos($line, 'STARTING') !== false ||
+                          stripos($line, 'BACKOFF') !== false) {
+                          $runningProcesses++;
+                      }
                   }
               }
+              
+              error_log("Supervisor check - Total processes: $totalProcesses, Running processes: $runningProcesses");
               
               if ($totalProcesses > 0 && $runningProcesses === $totalProcesses) {
                   $status['supervisor'] = 'green';
@@ -176,7 +204,41 @@ class DefaultController extends AbstractController {
                   $status['supervisor'] = 'red';
               }
           } else {
-              $status['supervisor'] = 'red';
+              // Try alternative command if the first one fails
+              $process2 = new \Symfony\Component\Process\Process(['supervisorctl', 'status']);
+              $process2->setTimeout(10);
+              $process2->run();
+              
+              error_log('Alternative supervisor command output: ' . $process2->getOutput());
+              
+              if ($process2->isSuccessful()) {
+                  $output = $process2->getOutput();
+                  $lines = explode(PHP_EOL, trim($output));
+                  $runningProcesses = 0;
+                  $totalProcesses = 0;
+                  
+                  foreach ($lines as $line) {
+                      $line = trim($line);
+                      if ($line && stripos($line, 'messenger-consume') !== false) {
+                          $totalProcesses++;
+                          if (stripos($line, 'RUNNING') !== false || 
+                              stripos($line, 'STARTING') !== false ||
+                              stripos($line, 'BACKOFF') !== false) {
+                              $runningProcesses++;
+                          }
+                      }
+                  }
+                  
+                  error_log("Alternative supervisor check - Total messenger processes: $totalProcesses, Running processes: $runningProcesses");
+                  
+                  if ($totalProcesses > 0 && $runningProcesses === $totalProcesses) {
+                      $status['supervisor'] = 'green';
+                  } else {
+                      $status['supervisor'] = 'red';
+                  }
+              } else {
+                  $status['supervisor'] = 'red';
+              }
           }
       } catch (\Throwable $e) {
           // Log error for debugging
