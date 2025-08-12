@@ -56,7 +56,7 @@ class HealthCheckService implements HealthCheckServiceInterface
         ];
 
         $overallHealthy = true;
-        $criticalServices = ['database', 'cache'];
+        $criticalServices = ['database', 'cache', 'supervisor'];
 
         foreach ($this->checkers as $name => $checker) {
             try {
@@ -94,6 +94,66 @@ class HealthCheckService implements HealthCheckServiceInterface
         }
 
         $results['status'] = $overallHealthy ? 'healthy' : 'unhealthy';
+
+        return $results;
+    }
+
+    public function checkAllSimplified(): array
+    {
+        $results = [
+            'application_name' => 'Publish'
+        ];
+
+        $overallHealthy = true;
+        $criticalServices = ['database', 'cache', 'supervisor'];
+        
+        // Service name mapping for simplified output
+        $serviceMapping = [
+            'database' => 'postgresql',
+            'cache' => 'memcached',
+            'elasticsearch' => 'elastic',
+            'rabbitmq' => 'rabbitmq',
+            'mailer' => 'mailer',
+            'supervisor' => 'supervisor'
+        ];
+
+        foreach ($this->checkers as $name => $checker) {
+            $displayName = $serviceMapping[$name] ?? $name;
+            
+            try {
+                $serviceResult = $checker->check();
+                
+                // Convert boolean healthy status to color
+                if ($serviceResult['healthy']) {
+                    $results[$displayName] = 'green';
+                } else {
+                    // Check if it's a critical service
+                    if (in_array($name, $criticalServices, true)) {
+                        $results[$displayName] = 'red';
+                        $overallHealthy = false;
+                    } else {
+                        // Non-critical services show yellow when unhealthy
+                        $results[$displayName] = 'yellow';
+                    }
+                }
+            } catch (\Exception $e) {
+                // Exception means service is down
+                if (in_array($name, $criticalServices, true)) {
+                    $results[$displayName] = 'red';
+                    $overallHealthy = false;
+                } else {
+                    $results[$displayName] = 'yellow';
+                }
+
+                $this->logger->error(sprintf('Health check exception for service: %s', $name), [
+                    'service' => $name,
+                    'exception' => $e->getMessage()
+                ]);
+            }
+        }
+
+        // Set overall status
+        $results['status'] = $overallHealthy ? 'green' : 'red';
 
         return $results;
     }

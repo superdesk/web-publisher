@@ -42,11 +42,18 @@ class HealthCheckController extends AbstractController
 
         if ($service) {
             $result = $this->healthCheckService->checkService($service);
+            $statusCode = $result['status'] === 'healthy' ? 200 : 503;
         } else {
-            $result = $this->healthCheckService->checkAll($detailed);
+            if ($detailed) {
+                // Detailed format when ?detailed=true is passed
+                $result = $this->healthCheckService->checkAll(true);
+                $statusCode = $result['status'] === 'healthy' ? 200 : 503;
+            } else {
+                // Simplified format is now the default
+                $result = $this->healthCheckService->checkAllSimplified();
+                $statusCode = $result['status'] === 'green' ? 200 : 503;
+            }
         }
-
-        $statusCode = $result['status'] === 'healthy' ? 200 : 503;
 
         return new JsonResponse($result, $statusCode);
     }

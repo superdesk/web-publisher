@@ -14,9 +14,13 @@ services:
             - ['addChecker', ['rabbitmq', '@swp_core.health_check.checker.rabbitmq']]
             # - ['addChecker', ['s3_storage', '@swp_core.health_check.checker.s3_storage']]  # Disabled for now
             - ['addChecker', ['mailer', '@swp_core.health_check.checker.mailer']]
+            - ['addChecker', ['supervisor', '@swp_core.health_check.checker.supervisor']]
 
     # Health Check Controller
     SWP\Bundle\CoreBundle\Controller\HealthCheckController:
+        public: true
+        autowire: true
+        autoconfigure: true
         arguments:
             - '@swp_core.health_check.service'
         tags: ['controller.service_arguments']
@@ -69,3 +73,14 @@ services:
             - '@swiftmailer.mailer.default'
             - null  # Transport not directly available
             - 'contact@publisher.test'
+
+    # Supervisor Health Checker
+    # Note: Supervisor is a CRITICAL service for process management
+    # Expected to fail in local Docker development - will affect overall health status
+    swp_core.health_check.checker.supervisor:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\SupervisorChecker
+        arguments:
+            - 'supervisor'  # hostname
+            - 9001         # port
+            - ''           # username (empty for default)
+            - ''           # password (empty for default)

@@ -30,6 +30,11 @@ interface HealthCheckServiceInterface
     public function checkAll(bool $detailed = false): array;
 
     /**
+     * Check all services health status in simplified color-coded format.
+     */
+    public function checkAllSimplified(): array;
+
+    /**
      * Check specific service health status.
      */
     public function checkService(string $service): array;
