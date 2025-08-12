@@ -62,10 +62,10 @@ services:
             - ''    # No bucket configured
             - false # Disabled
 
-    # Mailer Health Checker
+    # Mailer Health Checker (SwiftMailer)
     swp_core.health_check.checker.mailer:
         class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\MailerChecker
         arguments:
-            - '@mailer'
+            - '@swiftmailer.mailer.default'
             - null  # Transport not directly available
             - 'contact@publisher.test'

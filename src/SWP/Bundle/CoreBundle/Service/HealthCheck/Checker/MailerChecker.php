@@ -14,23 +14,17 @@
 
 namespace SWP\Bundle\CoreBundle\Service\HealthCheck\Checker;
 
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mailer\Transport\TransportInterface;
-use Symfony\Component\Mime\Email;
-
 /**
  * Class MailerChecker.
  */
 class MailerChecker implements ServiceCheckerInterface
 {
-    private MailerInterface $mailer;
-    private ?TransportInterface $transport;
+    private $mailer;
     private string $fromEmail;
 
-    public function __construct(MailerInterface $mailer, ?TransportInterface $transport = null, string $fromEmail = 'test@example.com')
+    public function __construct($mailer, $transport = null, string $fromEmail = 'test@example.com')
     {
         $this->mailer = $mailer;
-        $this->transport = $transport;
         $this->fromEmail = $fromEmail;
     }
 
@@ -39,44 +33,32 @@ class MailerChecker implements ServiceCheckerInterface
         $startTime = microtime(true);
         
         try {
-            // Test transport connectivity if available
-            if ($this->transport) {
-                // Just verify the transport is configured properly
-                // Most transports don't support direct connectivity testing
-                $transportClass = get_class($this->transport);
-            }
+            // Check if mailer is available and get basic info
+            $mailerClass = get_class($this->mailer);
+            $isSwiftMailer = strpos($mailerClass, 'Swift') !== false;
             
-            // Create a test email (but don't send it)
-            $email = (new Email())
-                ->from($this->fromEmail)
-                ->to('healthcheck@example.com')
-                ->subject('Health Check Test')
-                ->text('This is a health check test email');
-
             $responseTime = round((microtime(true) - $startTime) * 1000, 2);
             
             $details = [
                 'response_time_ms' => $responseTime,
                 'from_email' => $this->fromEmail,
-                'transport_available' => $this->transport !== null,
+                'mailer_class' => $mailerClass,
+                'mailer_type' => $isSwiftMailer ? 'SwiftMailer' : 'Symfony Mailer',
             ];
 
-            // Get transport info if available
-            if ($this->transport) {
-                $details['transport_class'] = get_class($this->transport);
-                
-                            // Try to get additional transport details
-            if ($this->transport && method_exists($this->transport, '__toString')) {
+            // For SwiftMailer, try to get transport info
+            if ($isSwiftMailer && method_exists($this->mailer, 'getTransport')) {
                 try {
-                    $transportString = (string) $this->transport;
-                    // Parse DSN info safely
-                    if (preg_match('/^(\w+):\/\//', $transportString, $matches)) {
-                        $details['transport_scheme'] = $matches[1];
+                    $transport = $this->mailer->getTransport();
+                    $details['transport_class'] = get_class($transport);
+                    
+                    // Test transport connectivity for SwiftMailer
+                    if (method_exists($transport, 'isStarted')) {
+                        $details['transport_started'] = $transport->isStarted();
                     }
                 } catch (\Exception $e) {
-                    // Transport string conversion may fail
+                    $details['transport_error'] = $e->getMessage();
                 }
-            }
             }
 
             return [
@@ -93,7 +75,6 @@ class MailerChecker implements ServiceCheckerInterface
                 'details' => [
                     'response_time_ms' => round((microtime(true) - $startTime) * 1000, 2),
                     'from_email' => $this->fromEmail,
-                    'transport_available' => $this->transport !== null,
                 ]
             ];
         }
