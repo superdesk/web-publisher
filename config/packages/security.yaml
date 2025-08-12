@@ -20,6 +20,9 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js|)/
             security: false
+        health_check:
+            pattern: ^/(health|api/[v0-9]{2}/health)
+            security: false
         public:
             pattern: ^/api/(doc|[v0-9]{2}/(content/push|assets))
             security: false
