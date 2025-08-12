@@ -1,0 +1,71 @@
+services:
+    # Health Check Service
+    SWP\Bundle\CoreBundle\Service\HealthCheck\HealthCheckServiceInterface:
+        alias: 'swp_core.health_check.service'
+
+    swp_core.health_check.service:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\HealthCheckService
+        arguments:
+            - '@logger'
+        calls:
+            - ['addChecker', ['database', '@swp_core.health_check.checker.database']]
+            - ['addChecker', ['cache', '@swp_core.health_check.checker.memcached']]
+            - ['addChecker', ['elasticsearch', '@swp_core.health_check.checker.elasticsearch']]
+            - ['addChecker', ['rabbitmq', '@swp_core.health_check.checker.rabbitmq']]
+            # - ['addChecker', ['s3_storage', '@swp_core.health_check.checker.s3_storage']]  # Disabled for now
+            - ['addChecker', ['mailer', '@swp_core.health_check.checker.mailer']]
+
+    # Health Check Controller
+    SWP\Bundle\CoreBundle\Controller\HealthCheckController:
+        arguments:
+            - '@swp_core.health_check.service'
+        tags: ['controller.service_arguments']
+
+    # Database Health Checker
+    swp_core.health_check.checker.database:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\DatabaseChecker
+        arguments:
+            - '@doctrine.dbal.default_connection'
+
+    # Memcached Health Checker
+    swp_core.health_check.checker.memcached:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\MemcachedChecker
+        arguments:
+            - '@cache.app'
+            - '%env(SESSION_MEMCACHED_HOST)%'
+            - '%env(int:SESSION_MEMCACHED_PORT)%'
+
+    # Elasticsearch Health Checker
+    swp_core.health_check.checker.elasticsearch:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\ElasticsearchChecker
+        arguments:
+            - '@fos_elastica.client'
+            - '%env(ELASTICA_HOST)%'
+            - '%env(int:ELASTICA_PORT)%'
+            - '%env(ELASTICA_INDEX_NAME)%'
+
+    # RabbitMQ Health Checker
+    swp_core.health_check.checker.rabbitmq:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\RabbitMqChecker
+        arguments:
+            - '%env(RABBIT_MQ_HOST)%'
+            - '%env(int:RABBIT_MQ_PORT)%'
+            - '%env(RABBIT_MQ_USER)%'
+            - '%env(RABBIT_MQ_PASSWORD)%'
+            - '%env(RABBIT_MQ_VHOST)%'
+
+    # S3 Storage Health Checker (disabled for now)
+    swp_core.health_check.checker.s3_storage:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\S3StorageChecker
+        arguments:
+            - null  # S3 client not configured
+            - ''    # No bucket configured
+            - false # Disabled
+
+    # Mailer Health Checker
+    swp_core.health_check.checker.mailer:
+        class: SWP\Bundle\CoreBundle\Service\HealthCheck\Checker\MailerChecker
+        arguments:
+            - '@mailer'
+            - null  # Transport not directly available
+            - 'contact@publisher.test'
