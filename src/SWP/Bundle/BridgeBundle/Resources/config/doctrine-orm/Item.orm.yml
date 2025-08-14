@@ -24,7 +24,7 @@ SWP\Component\Bridge\Model\Item:
             type: string
             nullable: true
         byline:
-            type: string
+            type: text
             nullable: true
         language:
             type: string
