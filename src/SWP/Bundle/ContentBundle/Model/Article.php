@@ -533,6 +533,8 @@ class Article implements ArticleInterface
         }
 
         foreach ($extra as $key => $value) {
+            // Ensure field name is always a string, even for numeric-looking keys
+            $key = (string) $key;
             if (is_array($value)) {
                 $this->addEmbedExtra(ArticleExtraEmbedField::newFromValue($key, $value));
             } else {
