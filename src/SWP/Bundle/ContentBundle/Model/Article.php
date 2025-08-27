@@ -538,8 +538,11 @@ class Article implements ArticleInterface
             if (is_array($value)) {
                 $this->addEmbedExtra(ArticleExtraEmbedField::newFromValue($key, $value));
             } else {
-                if(is_int($value)) {
-                    $value = (string)$value;
+                // Coerce null and non-string scalars to string to satisfy strict types
+                if ($value === null) {
+                    $value = '';
+                } elseif (!is_string($value)) {
+                    $value = (string) $value;
                 }
                 $this->addTextExtra(ArticleExtraTextField::newFromValue($key, $value));
             }
