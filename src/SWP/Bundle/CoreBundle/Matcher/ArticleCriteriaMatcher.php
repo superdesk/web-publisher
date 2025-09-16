@@ -28,10 +28,28 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
         }
 
         if ($criteria->has('route')) {
-            foreach ($criteria->get('route') as $value) {
-                if (null !== $article->getRoute() && (int) $value !== $article->getRoute()->getId()) {
-                    return false;
+            $routeFilter = $criteria->get('route');
+            $articleRoute = $article->getRoute();
+
+            if (null === $articleRoute) {
+                return false;
+            }
+
+            $articleRouteId = $articleRoute->getId();
+
+            // Normalize route filter to an array of ids
+            $routeIds = [];
+            $values = is_array($routeFilter) ? $routeFilter : [$routeFilter];
+            foreach ($values as $value) {
+                if (is_object($value) && method_exists($value, 'getId')) {
+                    $routeIds[] = (int) $value->getId();
+                } else {
+                    $routeIds[] = (int) $value;
                 }
+            }
+
+            if (!in_array((int) $articleRouteId, $routeIds, true)) {
+                return false;
             }
         }
 
