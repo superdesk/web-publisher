@@ -59,95 +59,64 @@ final class Version20210112135542 extends AbstractMigration implements Container
         $this->addSql('DROP SEQUENCE swp_article_extra_id_seq CASCADE');
         $this->addSql('DROP TABLE swp_article_extra');
     }
+
     public function postUp(Schema $schema): void
     {
-        try {
-            $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-            $connection = $entityManager->getConnection();
-            $connection->getConfiguration()->setSQLLogger(null);
+        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+        $entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
 
-            // Verify table exists
-            $tableExists = $connection->executeQuery(
-                "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'swp_article_extra')"
-            )->fetchOne();
+        $batchSize = 500;
+        $numberOfRecordsPerPage = 2000;
 
-            if (!$tableExists) {
-                return;
-            }
+        $totalArticles = $entityManager
+            ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a')
+            ->getSingleScalarResult();
 
-            $batchSize = 500;
-            $numberOfRecordsPerPage = 2000;
+        $totalArticlesProcessed = 0;
+        $isProcessing = true;
 
-            // Get total count
-            $totalArticles = $entityManager
-                ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a WHERE a.extra IS NOT NULL')
-                ->getSingleScalarResult();
+       // while ($totalArticlesProcessed < $totalArticles) {
+            $sql = "SELECT id, extra FROM swp_article";
+            $query = $entityManager->getConnection()->prepare($sql);
+            $query->execute();
+            $results = $query->fetchAll();
 
-            if ($totalArticles == 0) {
-                return;
-            }
-
-            $totalArticlesProcessed = 0;
-
-            // Pagination loop
-            while ($totalArticlesProcessed < $totalArticles) {
-                $sql = "SELECT id, extra FROM swp_article WHERE extra IS NOT NULL ORDER BY id LIMIT ? OFFSET ?";
-                $query = $connection->prepare($sql);
-                $results = $query->executeQuery([$numberOfRecordsPerPage, $totalArticlesProcessed])->fetchAllAssociative();
-
-                // Break if no results (end of data)
-                if (empty($results)) {
-                    break;
+            foreach ($results as $result) {
+                $legacyExtra = $this->unserializeExtraField($result['extra']);
+                if (empty($legacyExtra)) {
+                    ++$totalArticlesProcessed;
+                    continue;
                 }
 
-                foreach ($results as $result) {
-                    try {
-                        $legacyExtra = $this->unserializeExtraField($result['extra']);
-                        if (empty($legacyExtra)) {
-                            ++$totalArticlesProcessed;
-                            continue;
-                        }
+                $article = $entityManager->find(
+                    Article::class,
+                    $result['id']
+                );
 
-                        $article = $entityManager->find(
-                            Article::class,
-                            $result['id']
-                        );
-
-                        if (!$article) {
-                            ++$totalArticlesProcessed;
-                            continue;
-                        }
-
-                        foreach ($legacyExtra as $key => $extraItem) {
-                            if (is_array($extraItem)) {
-                                $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
-                            } else {
-                                $extra = ArticleExtraTextField::newFromValue($key, (string) $extraItem);
-                            }
-                            $extra->setArticle($article);
-                            $entityManager->persist($extra);
-                        }
-
-                        ++$totalArticlesProcessed;
-                        if (0 == ($totalArticlesProcessed % $batchSize)) {
-                            $entityManager->flush();
-                            $entityManager->clear();
-                        }
-                    } catch (\Exception $e) {
-                        ++$totalArticlesProcessed;
-                        error_log('Error processing article ' . $result['id'] . ': ' . $e->getMessage());
-                        continue;
+                foreach ($legacyExtra as $key => $extraItem) {
+                    if (is_array($extraItem)) {
+                        $extra = ArticleExtraEmbedField::newFromValue($key, $extraItem);
+                    } else {
+                        $extra = ArticleExtraTextField::newFromValue($key, (string) $extraItem);
                     }
+                    $extra->setArticle($article);
+                    $entityManager->persist($extra);
+                }
+
+                ++$totalArticlesProcessed;
+                if (0 == ($totalArticlesProcessed % $batchSize)) {
+                    $entityManager->flush();
+                    $entityManager->clear();
                 }
             }
 
-            // Flush remaining entities
-            $entityManager->flush();
-            $entityManager->clear();
-        } catch (\Exception $e) {
-            error_log('postUp error: ' . $e->getMessage());
-            throw $e;
-        }
+            // flush remaining entities in queue and break loop
+            if ($totalArticlesProcessed === $totalArticles) {
+                $entityManager->flush();
+                $entityManager->clear();
+                break;
+            }
+       // }
     }
 
     private function unserializeExtraField(?string $data)
