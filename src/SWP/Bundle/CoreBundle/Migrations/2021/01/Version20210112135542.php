@@ -76,7 +76,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
         $isProcessing = true;
 
         while ($isProcessing) {
-            $sql = "SELECT id, extra FROM swp_article LIMIT $numberOfRecordsPerPage OFFSET $totalArticlesProcessed";
+            $sql = "SELECT id, extra FROM swp_article";
             $query = $entityManager->getConnection()->prepare($sql);
             $query->execute();
             $results = $query->fetchAll();
