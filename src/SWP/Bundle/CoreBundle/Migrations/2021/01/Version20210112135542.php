@@ -114,7 +114,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
             if ($totalArticlesProcessed === $totalArticles) {
                 $entityManager->flush();
                 $entityManager->clear();
-                break;
+              //  break;
             }
        // }
     }
