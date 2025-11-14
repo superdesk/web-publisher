@@ -33,7 +33,7 @@ SWP\Bundle\ContentBundle\Model\Metadata:
       type: string
       nullable: true
     byline:
-      type: string
+      type: text
       nullable: true
   oneToMany:
     subjects:

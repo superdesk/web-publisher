@@ -300,8 +300,7 @@ class NinjsValidator extends JsonValidator
     },
     "byline":{
       "description":"The name(s) of the creator(s) of the content",
-      "type":"string",
-      "maxLength": 255
+      "type":"string"
     },
     "source":{
       "description":"The source from which the item was ingested",

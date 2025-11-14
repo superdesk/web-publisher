@@ -21,7 +21,7 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             type: string
             nullable: true
         byLine:
-            type: string
+            type: text
             nullable: true
         mimetype:
             type: string
