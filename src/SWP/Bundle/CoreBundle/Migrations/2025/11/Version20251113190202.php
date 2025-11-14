@@ -20,6 +20,8 @@ final class Version20251113190202 extends AbstractMigration
 
         $this->addSql('ALTER TABLE swp_article_media ALTER by_line TYPE TEXT');
         $this->addSql('ALTER TABLE swp_article_metadata ALTER byline TYPE TEXT');
+        $this->addSql('ALTER TABLE swp_item ALTER byline TYPE TEXT');
+        $this->addSql('ALTER TABLE swp_package ALTER byline TYPE TEXT');
     }
 
     public function down(Schema $schema): void
@@ -28,6 +30,8 @@ final class Version20251113190202 extends AbstractMigration
 
         $this->addSql('ALTER TABLE swp_article_media ALTER by_line TYPE VARCHAR(255)');
         $this->addSql('ALTER TABLE swp_article_metadata ALTER byline TYPE VARCHAR(255)');
+        $this->addSql('ALTER TABLE swp_item ALTER byline TYPE VARCHAR(255)');
+        $this->addSql('ALTER TABLE swp_package ALTER byline TYPE VARCHAR(255)');
     }
 }
 
