@@ -364,6 +364,7 @@ services:
             - '@swp.repository.webhook'
             - '@swp_multi_tenancy.tenant_context'
             - '@swp.repository.tenant'
+            - '@logger'
         tags:
             - { name: kernel.event_subscriber }
 

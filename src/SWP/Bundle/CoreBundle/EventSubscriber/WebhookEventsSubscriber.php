@@ -29,6 +29,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Psr\Log\LoggerInterface;
 
 final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
 {
@@ -38,15 +39,22 @@ final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
     /** @var SerializerInterface */
     private $serializer;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         MessageBusInterface $messageBus,
         SerializerInterface $serializer,
         WebhookRepositoryInterface $webhooksRepository,
         TenantContext $tenantContext,
-        TenantRepositoryInterface $tenantRepository
+        TenantRepositoryInterface $tenantRepository,
+        LoggerInterface $logger
     ) {
         $this->messageBus = $messageBus;
         $this->serializer = $serializer;
+        $this->logger = $logger;
 
         parent::__construct($webhooksRepository, $tenantContext, $tenantRepository);
     }
@@ -79,14 +87,27 @@ final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
         $serializedSubject = $this->serializer->serialize($subject, 'json');
         /** @var WebhookInterface $webhook */
         foreach ($webhooks as $webhook) {
-            $this->messageBus->dispatch(new WebhookMessage(
-                $webhook->getUrl(),
-                $serializedSubject,
-                [
-                    'event' => $webhookEventName,
-                    'tenant' => $webhook->getTenantCode(),
-                ]
-            ));
+            try {
+                $this->messageBus->dispatch(new WebhookMessage(
+                    $webhook->getUrl(),
+                    $serializedSubject,
+                    [
+                        'event' => $webhookEventName,
+                        'tenant' => $webhook->getTenantCode(),
+                    ]
+                ));
+            } catch (\Throwable $e) {
+                // Do not block article publishing if the transport/broker is unavailable
+                $this->logger->error(
+                    'Failed to dispatch webhook message',
+                    [
+                        'url' => $webhook->getUrl(),
+                        'event' => $webhookEventName,
+                        'tenant' => $webhook->getTenantCode(),
+                        'exception' => $e->getMessage(),
+                    ]
+                );
+            }
         }
     }
 
