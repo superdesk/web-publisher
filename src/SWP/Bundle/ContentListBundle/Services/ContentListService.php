@@ -221,6 +221,13 @@ final class ContentListService implements ContentListServiceInterface
      * Restores sticky items to their target slot after a Gedmo Sortable shift
      * (which is unaware of stickiness) and clears stale sticky_position
      * fossils on non-sticky items so the manual-list view stays consistent.
+     *
+     * Stickies are processed in an order that prevents one restoration from
+     * bumping another unrestored sticky out of place: up-movers in descending
+     * target order, down-movers in ascending target order. Within a single
+     * Gedmo relocation cycle (which always shifts a contiguous range by ±1),
+     * this guarantees the next sticky's current position is never inside the
+     * range affected by the previous restore.
      */
     private function reconcileStickyState(ContentListInterface $list): void
     {
@@ -241,12 +248,27 @@ final class ContentListService implements ContentListServiceInterface
             'sticky' => true,
             'contentList' => $list,
         ]);
+
+        $upMovers = [];
+        $downMovers = [];
         foreach ($stickyItems as $item) {
             $target = $item->getStickyPosition();
-            if (null !== $target && $item->getPosition() !== $target) {
-                $item->setPosition($target);
-                $this->contentListItemRepository->flush();
+            if (null === $target || $item->getPosition() === $target) {
+                continue;
             }
+            if ($item->getPosition() < $target) {
+                $upMovers[] = $item;
+            } else {
+                $downMovers[] = $item;
+            }
+        }
+
+        usort($upMovers, static fn ($a, $b) => $b->getStickyPosition() <=> $a->getStickyPosition());
+        usort($downMovers, static fn ($a, $b) => $a->getStickyPosition() <=> $b->getStickyPosition());
+
+        foreach (array_merge($upMovers, $downMovers) as $item) {
+            $item->setPosition($item->getStickyPosition());
+            $this->contentListItemRepository->flush();
         }
     }
 }
