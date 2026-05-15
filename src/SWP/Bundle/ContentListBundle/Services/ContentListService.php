@@ -130,21 +130,13 @@ final class ContentListService implements ContentListServiceInterface
         $targetPos = $action->getPosition();
         $targetSticky = $action->isSticky();
 
-        $items = $this->contentListItemRepository->findBy(
-            ['contentList' => $list],
-            ['position' => 'ASC']
-        );
-
-        $byPos = [];
-        $byContent = [];
-        foreach ($items as $item) {
-            $byPos[$item->getPosition()] = $item;
-            $byContent[$item->getContent()->getId()] = $item;
-        }
+        $existing = $this->contentListItemRepository->findOneBy([
+            'contentList' => $list,
+            'content' => $contentId,
+        ]);
 
         switch ($action->getAction()) {
             case ContentListAction::ACTION_DELETE:
-                $existing = $byContent[$contentId] ?? null;
                 if (null === $existing) {
                     throw new NotFoundHttpException(sprintf(
                         'Content list item with content_id "%s" was not found on that list.',
@@ -152,6 +144,7 @@ final class ContentListService implements ContentListServiceInterface
                     ));
                 }
                 $this->contentListItemRepository->remove($existing);
+                $this->reconcileStickyState($list);
 
                 return $existing;
 
@@ -162,41 +155,60 @@ final class ContentListService implements ContentListServiceInterface
                         $contentId
                     ));
                 }
-                if (isset($byContent[$contentId])) {
+                if (null !== $existing) {
                     throw new ConflictHttpException(sprintf(
                         'Article "%s" is already in this list.',
                         $contentId
                     ));
                 }
-                if (isset($byPos[$targetPos]) && $byPos[$targetPos]->isSticky()) {
+                $occupant = $this->contentListItemRepository->findOneBy([
+                    'contentList' => $list,
+                    'position' => $targetPos,
+                ]);
+                if (null !== $occupant && $occupant->isSticky()) {
                     throw new ConflictHttpException(
                         'Target position is held by a sticky item. Unpin it first.'
                     );
                 }
 
-                $safePos = empty($byPos) ? 0 : max(array_keys($byPos)) + 1;
-                $new = $this->addArticleToContentList($list, $article, $safePos, false);
-                $byPos[$safePos] = $new;
-                $this->placeAt($byPos, $new, $targetPos, $targetSticky);
+                $new = $this->addArticleToContentList($list, $article, $targetPos, false);
+                if ($targetSticky) {
+                    $new->setSticky(true);
+                    $new->setStickyPosition($targetPos);
+                    $this->contentListItemRepository->flush();
+                }
+                $this->reconcileStickyState($list);
 
                 return $new;
 
             case ContentListAction::ACTION_MOVE:
-                $moving = $byContent[$contentId] ?? null;
-                if (null === $moving) {
+                if (null === $existing) {
                     throw new NotFoundHttpException(sprintf(
                         'Content list item with content_id "%s" was not found on that list.',
                         $contentId
                     ));
                 }
-                if ($moving->isSticky() && $moving->getPosition() !== $targetPos) {
+                if ($existing->isSticky() && $existing->getPosition() !== $targetPos) {
                     throw new ConflictHttpException(
                         'Sticky item cannot be moved. Unpin it first.'
                     );
                 }
-                $this->placeAt($byPos, $moving, $targetPos, $targetSticky);
+                $occupant = $this->contentListItemRepository->findOneBy([
+                    'contentList' => $list,
+                    'position' => $targetPos,
+                ]);
+                if (null !== $occupant && $occupant !== $existing && $occupant->isSticky()) {
+                    throw new ConflictHttpException(
+                        'Target position is held by a sticky item. Unpin it first.'
+                    );
+                }
+                $existing->setPosition($targetPos);
+                $existing->setSticky($targetSticky);
+                $existing->setStickyPosition($targetSticky ? $targetPos : null);
+                $this->contentListItemRepository->flush();
+                $this->reconcileStickyState($list);
 
-                return $moving;
+                return $existing;
         }
 
         throw new \InvalidArgumentException(sprintf(
@@ -205,61 +217,36 @@ final class ContentListService implements ContentListServiceInterface
         ));
     }
 
-    private function placeAt(
-        array &$byPos,
-        ContentListItemInterface $moving,
-        int $newPos,
-        bool $isSticky
-    ): void {
-        $oldPos = $moving->getPosition();
-
-        if ($oldPos === $newPos && $moving->isSticky() === $isSticky) {
-            return;
-        }
-
-        $occupant = $byPos[$newPos] ?? null;
-
-        if (null !== $occupant && $occupant !== $moving) {
-            if ($occupant->isSticky()) {
-                throw new ConflictHttpException(
-                    'Target position is held by a sticky item. Unpin it first.'
-                );
-            }
-            unset($byPos[$oldPos], $byPos[$newPos]);
-            $landing = $this->nextNonStickySlot($byPos, $oldPos);
-            $occupant->setPosition($landing);
-            if (!$occupant->isSticky()) {
-                $occupant->setStickyPosition(null);
-            }
-            $byPos[$landing] = $occupant;
-        } else {
-            unset($byPos[$oldPos]);
-        }
-
-        $moving->setPosition($newPos);
-        $moving->setSticky($isSticky);
-        $moving->setStickyPosition($isSticky ? $newPos : null);
-        $byPos[$newPos] = $moving;
-    }
-
-    private function nextNonStickySlot(array $byPos, int $preferred): int
+    /**
+     * Restores sticky items to their target slot after a Gedmo Sortable shift
+     * (which is unaware of stickiness) and clears stale sticky_position
+     * fossils on non-sticky items so the manual-list view stays consistent.
+     */
+    private function reconcileStickyState(ContentListInterface $list): void
     {
-        if (!isset($byPos[$preferred])) {
-            return $preferred;
-        }
+        $items = $this->contentListItemRepository->findBy(['contentList' => $list]);
 
-        $limit = (empty($byPos) ? 0 : max(array_keys($byPos))) + 2;
-        for ($delta = 1; $delta <= $limit; ++$delta) {
-            $down = $preferred - $delta;
-            if ($down >= 0 && !isset($byPos[$down])) {
-                return $down;
-            }
-            $up = $preferred + $delta;
-            if (!isset($byPos[$up])) {
-                return $up;
+        $cleanupFlush = false;
+        foreach ($items as $item) {
+            if (!$item->isSticky() && null !== $item->getStickyPosition()) {
+                $item->setStickyPosition(null);
+                $cleanupFlush = true;
             }
         }
+        if ($cleanupFlush) {
+            $this->contentListItemRepository->flush();
+        }
 
-        throw new \LogicException('Could not find a free slot.');
+        $stickyItems = $this->contentListItemRepository->findBy([
+            'sticky' => true,
+            'contentList' => $list,
+        ]);
+        foreach ($stickyItems as $item) {
+            $target = $item->getStickyPosition();
+            if (null !== $target && $item->getPosition() !== $target) {
+                $item->setPosition($target);
+                $this->contentListItemRepository->flush();
+            }
+        }
     }
 }
