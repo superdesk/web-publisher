@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentListBundle\Services;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\ContentList\Model\ContentListAction;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 
@@ -29,4 +30,10 @@ interface ContentListServiceInterface
     public function toggleStickOnItemPosition(ContentListItemInterface $contentListItem, bool $isSticky, int $position): void;
 
     public function repositionStickyItems(ContentListInterface $contentList): void;
+
+    public function applyManualListAction(
+        ContentListInterface $list,
+        ContentListAction $action,
+        ?ArticleInterface $article = null
+    ): ContentListItemInterface;
 }

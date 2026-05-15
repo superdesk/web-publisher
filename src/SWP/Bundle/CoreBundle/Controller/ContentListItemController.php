@@ -139,7 +139,8 @@ class ContentListItemController extends AbstractController {
     if ($form->isSubmitted() && $form->isValid()) {
       $contentListItem->getContentList()->setUpdatedAt(new DateTime());
 
-      if (null !== $contentListItem->getStickyPosition()) {
+      if (ContentListInterface::TYPE_MANUAL !== $contentListItem->getContentList()->getType()
+          && null !== $contentListItem->getStickyPosition()) {
         $contentListItem->setPosition($contentListItem->getStickyPosition());
       }
 
@@ -193,6 +194,7 @@ class ContentListItemController extends AbstractController {
 
       $updatedArticles = [];
       $updatedItemsInvalidateCache = [];
+      $isManualList = ContentListInterface::TYPE_MANUAL === $list->getType();
       /** @var ContentListAction $item */
       foreach ($data['items'] as $item) {
         $position = $item->getPosition();
@@ -206,6 +208,17 @@ class ContentListItemController extends AbstractController {
             'postition' => $item->getPosition()
         ];
 
+        if ($isManualList) {
+          $article = null;
+          if (ContentListAction::ACTION_ADD === $item->getAction()) {
+            $article = $articleRepository->findOneById($contentId);
+          }
+          $contentListItem = $this->contentListService->applyManualListAction($list, $item, $article);
+          $list->setUpdatedAt(new DateTime('now'));
+          $this->entityManager->flush();
+          $updatedArticles[$contentId] = $contentListItem->getContent();
+          continue;
+        }
 
         switch ($item->getAction()) {
           case ContentListAction::ACTION_MOVE:
@@ -261,7 +274,9 @@ class ContentListItemController extends AbstractController {
         }
       }
 
-      $this->contentListService->repositionStickyItems($list);
+      if (!$isManualList) {
+        $this->contentListService->repositionStickyItems($list);
+      }
 
       ContentListController::invalidateCache(
           $this->invalidationCacheUrl,
