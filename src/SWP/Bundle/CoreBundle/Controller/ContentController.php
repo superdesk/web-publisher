@@ -25,11 +25,11 @@ class ContentController extends AbstractController
   public function __construct() {
   }
 
-  public function renderPageAction(string $contentTemplate): Response
+  public function renderPageAction(string $template): Response
     {
         $response = new Response();
         $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
 
-        return $this->render($contentTemplate, [], $response);
+        return $this->render($template, [], $response);
     }
 }

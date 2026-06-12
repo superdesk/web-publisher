@@ -134,6 +134,6 @@ class BundleResourceLocator
 
     public function supports(string $template): bool
     {
-        return strpos($template, '@') !== 0;
+        return 0 === strpos($template, '@');
     }
 }

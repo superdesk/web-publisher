@@ -208,6 +208,16 @@ trait RouteTrait
         return $this->staticPrefix;
     }
 
+    public function getStaticPrefixForSerialization(): ?string
+    {
+        return '' === $this->staticPrefix ? null : $this->staticPrefix;
+    }
+
+    public function getVariablePatternForSerialization(): ?string
+    {
+        return '' === $this->variablePattern ? null : $this->variablePattern;
+    }
+
     /**
      * @param string $staticPrefix
      */

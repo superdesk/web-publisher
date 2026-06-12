@@ -12,7 +12,11 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             expose: true
             groups: [api]
             type: string
+            accessor:
+                getter: getStaticPrefixForSerialization
         variablePattern:
             expose: true
             groups: [api]
             type: string
+            accessor:
+                getter: getVariablePatternForSerialization
