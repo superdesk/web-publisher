@@ -208,6 +208,13 @@ trait RouteTrait
         return $this->staticPrefix;
     }
 
+    public function clearContent(): static
+    {
+        $this->content = null;
+
+        return $this;
+    }
+
     public function getStaticPrefixForSerialization(): ?string
     {
         return '' === $this->staticPrefix ? null : $this->staticPrefix;

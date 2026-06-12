@@ -72,6 +72,8 @@ class RedirectingController extends AbstractController {
       $parameters['amp'] = 1;
     }
 
-    return $this->router->generate($article->getRoute(), $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+    $parameters[\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT] = $article->getRoute();
+
+    return $this->router->generate(\Symfony\Cmf\Component\Routing\RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
   }
 }

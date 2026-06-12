@@ -56,7 +56,7 @@ final class RouteRemoveListener
     public function onDelete(RouteEvent $event)
     {
         $route = $event->getRoute();
-        if (\count($this->menuItemRepository->findByRoute($route->getId()))) {
+        if (\count($this->menuItemRepository->findByRoute((int) $route->getId()))) {
             throw new ConflictHttpException('Route has menu attached to it.');
         }
 

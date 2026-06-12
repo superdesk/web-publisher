@@ -53,12 +53,12 @@ class ThemeGenerateCommandTest extends WebTestCase
             $this->assertFalse($fileSystem->exists($themeDir), 'Theme already exists');
 
             $result = $this->runCommand('theme:generate', ['organizationName' => 'default', 'themeName' => 'booyaka'], true);
-            $this->assertContains('Theme booyaka has been generated successfully', $result);
+            $this->assertStringContainsString('Theme booyaka has been generated successfully', $result instanceof \Symfony\Component\Console\Tester\CommandTester ? $result->getDisplay() : (string) $result);
 
             $this->assertTrue($fileSystem->exists($themeDir), 'Theme not created');
 
             $result = $this->runCommand('theme:generate', ['organizationName' => 'default', 'themeName' => 'booyaka'], true);
-            $this->assertContains('Theme booyaka already exists!', $result);
+            $this->assertStringContainsString('Theme booyaka already exists!', $result instanceof \Symfony\Component\Console\Tester\CommandTester ? $result->getDisplay() : (string) $result);
         } catch (\Exception $e) {
         }
 

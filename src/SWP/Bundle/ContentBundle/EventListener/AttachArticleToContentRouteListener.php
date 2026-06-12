@@ -49,7 +49,7 @@ class AttachArticleToContentRouteListener
         $route = $articleEvent->getArticle()->getRoute();
 
         if ($route && RouteInterface::TYPE_CONTENT === $route->getType()) {
-            $route->setContent(null);
+            $route->clearContent();
             $this->routeRepository->flush();
         }
     }
