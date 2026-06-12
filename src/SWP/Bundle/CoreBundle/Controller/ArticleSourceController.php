@@ -40,9 +40,7 @@ class ArticleSourceController extends AbstractController {
     $this->eventDispatcher = $eventDispatcher;
   }
 
-  /**
-   * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_article_sources")
-   */
+  #[Route('/api/{version}/content/sources/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_article_sources')]
   public function listAction(Request $request): ResourcesListResponseInterface {
     $sorting = $request->query->all('sorting');
     $lists = $this->entityRepository->getPaginatedByCriteria(

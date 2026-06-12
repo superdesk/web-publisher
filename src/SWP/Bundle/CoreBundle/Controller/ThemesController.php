@@ -60,9 +60,7 @@ class ThemesController extends Controller {
   }
 
 
-  /**
-   * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_available_themes")
-   */
+  #[Route('/api/{version}/organization/themes/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_list_available_themes')]
   public function listAvailableAction(): ResourcesListResponseInterface {
     $themeLoader = $this->themeLoader;
     $themes = $themeLoader->load();
@@ -75,9 +73,7 @@ class ThemesController extends Controller {
     return new ResourcesListResponse($pagination);
   }
 
-  /**
-   * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_list_tenant_themes")
-   */
+  #[Route('/api/{version}/themes/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_list_tenant_themes')]
   public function listInstalledAction(ThemeRepositoryInterface $themeRepository): ResourcesListResponseInterface {
     /** @var TenantInterface $tenant */
     $tenant = $this->cachedTenantContext->getTenant();
@@ -100,9 +96,7 @@ class ThemesController extends Controller {
     return new ResourcesListResponse($pagination);
   }
 
-  /**
-   * @Route("/api/{version}/organization/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme")
-   */
+  #[Route('/api/{version}/organization/themes/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_upload_theme')]
   public function uploadThemeAction(Request $request): SingleResourceResponseInterface {
     $form = $this->formFactory->createNamed('', ThemeUploadType::class, []);
     $form->handleRequest($request);
@@ -123,9 +117,7 @@ class ThemesController extends Controller {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_install_theme")
-   */
+  #[Route('/api/{version}/themes/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_install_theme')]
   public function installThemeAction(Request $request): SingleResourceResponseInterface {
     $form = $this->formFactory->createNamed('', ThemeInstallType::class, []);
     $form->handleRequest($request);

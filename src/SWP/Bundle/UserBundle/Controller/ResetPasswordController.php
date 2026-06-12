@@ -31,9 +31,7 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
-/**
- * @Route("/reset-password")
- */
+#[Route(path: '/reset-password')]
 class ResetPasswordController extends AbstractController {
   use ResetPasswordControllerTrait;
 
@@ -53,9 +51,8 @@ class ResetPasswordController extends AbstractController {
 
   /**
    * Display & process form to request a password reset.
-   *
-   * @Route("", name="swp_user_forgot_password_request")
    */
+  #[Route(path: '', name: 'swp_user_forgot_password_request')]
   public function request(Request $request, MailerInterface $mailer): Response {
     $form = $this->createForm(ResetPasswordRequestFormType::class);
     $form->handleRequest($request);
@@ -74,9 +71,8 @@ class ResetPasswordController extends AbstractController {
 
   /**
    * Confirmation page after a user has requested a password reset.
-   *
-   * @Route("/check-email", name="swp_user_check_email")
    */
+  #[Route(path: '/check-email', name: 'swp_user_check_email')]
   public function checkEmail(): Response {
     // We prevent users from directly accessing this page
     if (!$this->canCheckEmail()) {
@@ -90,9 +86,8 @@ class ResetPasswordController extends AbstractController {
 
   /**
    * Validates and process the reset URL that the user clicked in their email.
-   *
-   * @Route("/reset/{token}", name="swp_user_reset_password")
    */
+  #[Route(path: '/reset/{token}', name: 'swp_user_reset_password')]
   public function reset(Request $request, UserPasswordHasherInterface $passwordEncoder,
                         string  $token = null): Response {
     if ($token) {

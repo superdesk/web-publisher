@@ -26,9 +26,7 @@ class SecurityController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/logout", name="swp_user_logout")
-     */
+    #[Route(path: '/logout', name: 'swp_user_logout')]
     public function logout()
     {
         return new Response('');

@@ -57,9 +57,7 @@ class ArticleCommentsController extends AbstractController {
   }
 
 
-  /**
-   * @Route("/api/{version}/content/articles", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_article_comments")
-   */
+  #[Route('/api/{version}/content/articles', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_article_comments')]
   public function updateAction(Request $request): SingleResourceResponseInterface {
     $repository = $this->articleRepository;
     $articleResolver = $this->articleResolver;

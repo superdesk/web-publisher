@@ -59,10 +59,8 @@ class CurrentThemeController extends AbstractController {
   }
 
 
-  /**
-   * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo_2")
-   * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_theme_logo")
-   */
+  #[Route('/api/{version}/theme/logo_upload/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_upload_theme_logo_2')]
+  #[Route('/api/{version}/theme/logo_upload/{type}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_upload_theme_logo')]
   public function uploadThemeLogoAction(Request $request,
                                         string  $type = ThemeLogoProviderInterface::SETTING_NAME_DEFAULT): SingleResourceResponseInterface {
     $themeContext = $this->tenantAwareThemeContext;
@@ -97,9 +95,7 @@ class CurrentThemeController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_theme_settings_list")
-   */
+  #[Route('/api/{version}/theme/settings/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_theme_settings_list')]
   public function listSettingsAction(): SingleResourceResponseInterface {
     $themeContext = $this->tenantAwareThemeContext;
 

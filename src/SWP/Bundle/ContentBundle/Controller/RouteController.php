@@ -78,9 +78,7 @@ class RouteController extends FOSRestController {
   }
 
 
-  /**
-   * @Route("/api/{version}/content/routes/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_routes")
-   */
+  #[Route('/api/{version}/content/routes/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_list_routes')]
   public function listAction(Request $request) {
     $routeRepository = $this->routeRepository;
 
@@ -91,16 +89,12 @@ class RouteController extends FOSRestController {
     return $this->handleView(View::create($this->knpPaginatorRepresentationFactory->createRepresentation($routes, $request), 200));
   }
 
-  /**
-   * @Route("/api/{version}/content/routes/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
-   */
+  #[Route('/api/{version}/content/routes/{id}', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_show_routes', requirements: ['id' => '.+'])]
   public function getAction($id) {
     return new SingleResourceResponse($this->findOr404($id));
   }
 
-  /**
-   * @Route("/api/{version}/content/routes/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
-   */
+  #[Route('/api/{version}/content/routes/{id}', methods: ['DELETE'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_delete_routes', requirements: ['id' => '.+'])]
   public function deleteAction(int $id): Response {
     $repository = $this->routeRepository;
     $route = $this->findOr404($id);
@@ -121,9 +115,7 @@ class RouteController extends FOSRestController {
     return $this->handleView(View::create(true, 204));
   }
 
-  /**
-   * @Route("/api/{version}/content/routes/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_create_routes")
-   */
+  #[Route('/api/{version}/content/routes/', methods: ['POST'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_create_routes')]
   public function createAction(Request $request): SingleResourceResponseInterface {
     /** @var RouteInterface $route */
     $route = $this->routeFactory->create();
@@ -143,9 +135,7 @@ class RouteController extends FOSRestController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/content/routes/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_routes", requirements={"id"=".+"})
-   */
+  #[Route('/api/{version}/content/routes/{id}', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_update_routes', requirements: ['id' => '.+'])]
   public function updateAction(Request $request, $id): Response {
     $objectManager = $this->entityManager;
     $route = $this->findOr404($id);

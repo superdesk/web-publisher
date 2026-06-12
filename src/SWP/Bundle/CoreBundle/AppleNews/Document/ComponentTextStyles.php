@@ -24,45 +24,39 @@ class ComponentTextStyles
     private $default;
 
     /**
-     * @SerializedName("default-body")
-     *
      * @var ComponentTextStyle
      */
+    #[SerializedName('default-body')]
     private $defaultBody;
 
     /**
-     * @SerializedName("default-title")
-     *
      * @var ComponentTextStyle
      */
+    #[SerializedName('default-title')]
     private $defaultTitle;
 
     /**
-     * @SerializedName("default-intro")
-     *
      * @var ComponentTextStyle
      */
+    #[SerializedName('default-intro')]
     private $defaultIntro;
 
     /**
-     * @SerializedName("default-byline")
-     *
      * @var ComponentTextStyle
      */
+    #[SerializedName('default-byline')]
     private $defaultByline;
 
     /**
-     * @SerializedName("default-quote")
-     *
      * @var ComponentTextStyle|null
      */
+    #[SerializedName('default-quote')]
     private $defaultQuote;
 
     /**
-     * @SerializedName("default-caption")
-     *
      * @var ComponentTextStyle|null
      */
+    #[SerializedName('default-caption')]
     private $defaultCaption;
 
     public function getDefault(): ComponentTextStyle

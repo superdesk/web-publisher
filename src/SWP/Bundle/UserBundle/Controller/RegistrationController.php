@@ -70,15 +70,7 @@ class RegistrationController extends AbstractController {
   }
 
 
-  /**
-   * @FOSRoute(
-   *     "/api/{version}/users/register/",
-   *     methods={"POST"},
-   *     options={"expose"=true},
-   *     defaults={"version"="v2"},
-   *     name="swp_api_core_register_user"
-   * )
-   */
+  #[FOSRoute('/api/{version}/users/register/', methods: ['POST'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_register_user')]
   public function registerAction(
       Request                     $request,
       UserPasswordHasherInterface $userPasswordEncoder,
@@ -128,9 +120,7 @@ class RegistrationController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/verify/email", name="swp_user_verify_email")
-   */
+  #[Route(path: '/verify/email', name: 'swp_user_verify_email')]
   public function verifyUserEmail(
       Request $request,
       GuardAuthenticatorHandler $guardHandler,

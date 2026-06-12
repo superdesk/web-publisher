@@ -73,9 +73,7 @@ class ContentListItemController extends AbstractController {
   }
 
 
-  /**
-   * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/content/lists/{id}/items/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_list_items', requirements: ['id' => '\d+'])]
   public function listAction(Request $request, int $id): ResourcesListResponseInterface {
     $sort = $request->query->all('sorting');
     if (empty($sort)) {
@@ -114,16 +112,12 @@ class ContentListItemController extends AbstractController {
     return new ResourcesListResponse($items, $responseContext);
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/content/lists/{listId}/items/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_show_lists_item', requirements: ['id' => '\d+'])]
   public function getAction($listId, $id) {
     return new SingleResourceResponse($this->findOr404($listId, $id));
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
-   */
+  #[Route('/api/{version}/content/lists/{listId}/items/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_update_lists_item', requirements: ['id' => '\d+', 'listId' => '\d+'])]
   public function updateAction(Request $request, FormFactoryInterface $formFactory, $listId,
                                        $id): SingleResourceResponseInterface {
     $contentListItem = $this->findOr404($listId, $id);
@@ -161,9 +155,7 @@ class ContentListItemController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
-   */
+  #[Route('/api/{version}/content/lists/{listId}/items/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_batch_update_lists_item', requirements: ['listId' => '\d+'])]
   public function batchUpdateAction(
       Request                        $request,
       FormFactoryInterface           $formFactory,

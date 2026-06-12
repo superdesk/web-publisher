@@ -73,9 +73,7 @@ class PackageController extends Controller {
   }
 
 
-  /**
-   * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_packages")
-   */
+  #[Route('/api/{version}/packages/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_list_packages')]
   public function listAction(Request $request) {
     $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
     $tenantContext = $this->cachedTenantContext;
@@ -89,16 +87,12 @@ class PackageController extends Controller {
     return new ResourcesListResponse($packages);
   }
 
-  /**
-   * @Route("/api/{version}/packages/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_show_package", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/packages/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_show_package', requirements: ['id' => '\d+'])]
   public function getAction(int $id): SingleResourceResponseInterface {
     return new SingleResourceResponse($this->findOr404($id));
   }
 
-  /**
-   * @Route("/api/{version}/packages/{id}/publish/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publish_package", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/packages/{id}/publish/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_publish_package', requirements: ['id' => '\d+'])]
   public function publishAction(Request $request, int $id): SingleResourceResponseInterface {
     $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
     /** @var PackageInterface $package */
@@ -117,9 +111,7 @@ class PackageController extends Controller {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/packages/{id}/unpublish/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_unpublish_package", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/packages/{id}/unpublish/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_unpublish_package', requirements: ['id' => '\d+'])]
   public function unpublishAction(Request $request, int $id): SingleResourceResponseInterface {
     $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
     $package = $this->findOr404($id);
@@ -139,10 +131,9 @@ class PackageController extends Controller {
   }
 
   /**
-   * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
-   *
    * @return SingleResourceResponse
    */
+  #[Route('/api/{version}/packages/{id}/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_update_package', requirements: ['id' => '\d+'])]
   public function updateAction(Request $request, int $id) {
     $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
     $package = $this->findOr404($id);

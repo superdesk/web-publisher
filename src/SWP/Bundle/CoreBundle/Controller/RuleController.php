@@ -56,9 +56,7 @@ class RuleController extends FOSRestController {
   }
 
 
-  /**
-   * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_rule")
-   */
+  #[Route('/api/{version}/rules/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_list_rule')]
   public function listAction(Request $request) {
     $rules = $this->ruleRepository
         ->getPaginatedByCriteria($this->eventDispatcher, new Criteria(), $request->query->all('sorting'), new PaginationData($request));
@@ -70,16 +68,12 @@ class RuleController extends FOSRestController {
     return new ResourcesListResponse($rules);
   }
 
-  /**
-   * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_rule")
-   */
+  #[Route('/api/{version}/rules/{id}', requirements: ['id' => '\d+'], options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_get_rule')]
   public function getAction(int $id) {
     return new SingleResourceResponse($this->findOr404($id));
   }
 
-  /**
-   * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_rule")
-   */
+  #[Route('/api/{version}/rules/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_create_rule')]
   public function createAction(Request $request) {
     $ruleRepository = $this->ruleRepository;
     $rule = $this->ruleFactory->create();
@@ -95,9 +89,7 @@ class RuleController extends FOSRestController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_rule", methods={"DELETE"}, requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/rules/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_delete_rule', methods: ['DELETE'], requirements: ['id' => '\d+'])]
   public function deleteAction(int $id) {
     $ruleRepository = $this->ruleRepository;
     $ruleRepository->remove($this->findOr404($id));
@@ -105,9 +97,7 @@ class RuleController extends FOSRestController {
     return new SingleResourceResponse(null, new ResponseContext(204));
   }
 
-  /**
-   * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_rule", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/rules/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_update_rule', requirements: ['id' => '\d+'])]
   public function updateAction(Request $request, int $id) {
     $rule = $this->findOr404($id);
     $objectManager = $this->entityManager;

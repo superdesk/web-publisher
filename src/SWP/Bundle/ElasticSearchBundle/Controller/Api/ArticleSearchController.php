@@ -43,9 +43,7 @@ class ArticleSearchController extends AbstractController {
     $this->paginator = $paginator;
   }
 
-  /**
-   * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_articles")
-   */
+  #[Route('/api/{version}/content/articles/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_list_articles')]
   public function searchAction(Request $request, RepositoryManagerInterface $repositoryManager) {
     $criteria = $this->createCriteriaFrom($request);
     $extraFields = $this->extraFields;

@@ -65,9 +65,7 @@ class RelatedArticleOrganizationController extends Controller {
   }
 
 
-  /**
-   * @Route("/api/{version}/organization/articles/related/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_organization_related_articles")
-   */
+  #[Route('/api/{version}/organization/articles/related/', methods: ['POST'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_organization_related_articles')]
   public function postAction(Request $request) {
     $content = $request->getContent();
     $package = $this->dataTransformer->transform($content);
@@ -76,9 +74,7 @@ class RelatedArticleOrganizationController extends Controller {
     return new SingleResourceResponse($relatedArticlesList);
   }
 
-  /**
-   * @Route("/api/{version}/packages/{id}/related/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_packages_related_articles", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/packages/{id}/related/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_packages_related_articles', requirements: ['id' => '\d+'])]
   public function getRelatedAction(string $id) {
     $package = $this->findOr404((int)$id);
 

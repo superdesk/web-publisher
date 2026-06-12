@@ -9,14 +9,14 @@ security_logout:
 
 swp_core:
     resource: "@SWPCoreBundle/Controller/"
-    type:     annotation
+    type:     attribute
 
 swp_user:
     resource: "@SWPUserBundle/Resources/config/routing.yml"
 
 swp_elasticsearch:
     resource: "@SWPElasticSearchBundle/Controller/Api"
-    type:     annotation
+    type:     attribute
 
 swp_redirecting_extra_data:
     path: /redirecting/extra/{key}/{value}

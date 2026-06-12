@@ -122,25 +122,19 @@ class ContentListController extends AbstractController {
       }
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_list_lists")
-   */
+  #[Route('/api/{version}/content/lists/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_content_list_lists')]
   public function listAction(Request $request): ResourcesListResponseInterface {
     $lists = $this->contentListRepository->getPaginatedByCriteria($this->eventDispatcher, new Criteria(), $request->query->all('sorting'), new PaginationData($request));
 
     return new ResourcesListResponse($lists);
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/content/lists/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_content_show_lists', requirements: ['id' => '\d+'])]
   public function getAction($id): SingleResourceResponseInterface {
     return new SingleResourceResponse($this->findOr404($id));
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_content_create_lists")
-   */
+  #[Route('/api/{version}/content/lists/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_content_create_lists')]
   public function createAction(Request $request): SingleResourceResponseInterface {
     /* @var ContentListInterface $contentList */
     $contentList = $this->factory->create();
@@ -168,9 +162,7 @@ class ContentListController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/content/lists/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_content_update_lists', requirements: ['id' => '\d+'])]
   public function updateAction(Request $request, int $id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     /** @var ContentListInterface $contentList */
@@ -205,9 +197,7 @@ class ContentListController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/content/lists/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['DELETE'], name: 'swp_api_content_delete_lists', requirements: ['id' => '\d+'])]
   public function deleteAction($id): SingleResourceResponseInterface {
     $repository = $this->contentListRepository;
     $contentList = $this->findOr404($id);
@@ -227,9 +217,7 @@ class ContentListController extends AbstractController {
     return new SingleResourceResponse(null, new ResponseContext(204));
   }
 
-  /**
-   * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v2"}, methods={"LINK","UNLINK"}, name="swp_api_content_list_link_unlink")
-   */
+  #[Route('/api/{version}/content/lists/{id}', requirements: ['id' => '\w+'], defaults: ['version' => 'v2'], methods: ['LINK', 'UNLINK'], name: 'swp_api_content_list_link_unlink')]
   public function linkUnlinkToContentListAction(Request $request, string $id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     /** @var ContentListInterface $contentList */

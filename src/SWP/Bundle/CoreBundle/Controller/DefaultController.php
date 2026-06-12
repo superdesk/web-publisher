@@ -45,9 +45,7 @@ class DefaultController extends AbstractController {
     $this->routeFactory = $routeFactory;
   }
 
-  /**
-   * @Route("/", methods={"GET","POST"}, name="homepage")
-   */
+  #[Route(path: '/', methods: ['GET', 'POST'], name: 'homepage')]
   public function indexAction(Request $request): Response {
     /** @var TenantInterface $currentTenant */
     $currentTenant = $this->tenantContext->getTenant();

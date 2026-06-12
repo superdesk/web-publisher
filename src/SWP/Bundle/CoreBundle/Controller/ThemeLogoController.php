@@ -45,9 +45,7 @@ class ThemeLogoController extends Controller {
     $this->cacheInterface = $cacheInterface;
   }
 
-  /**
-   * @Route("/theme_logo/{id}", options={"expose"=true}, requirements={"id"=".+"}, methods={"GET"}, name="swp_theme_logo_get")
-   */
+  #[Route(path: '/theme_logo/{id}', options: ['expose' => true], requirements: ['id' => '.+'], methods: ['GET'], name: 'swp_theme_logo_get')]
   public function getLogoAction(string $id) {
     $cacheKey = md5(serialize(['upload', $id]));
     return $this->cacheInterface->get($cacheKey, function (CacheItemInterface $item, &$save) use ($id) {

@@ -36,9 +36,7 @@ class AuthorController extends AbstractController {
     $this->articleAuthorRepository = $articleAuthorRepository;
   }
 
-  /**
-   * @Route("/api/{version}/authors/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_author", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/authors/{id}', methods: ['DELETE'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_delete_author', requirements: ['id' => '\d+'])]
   public function deleteAction(int $id): SingleResourceResponseInterface {
     $authorRepository = $this->articleAuthorRepository;
     $author = $this->findOr404($id);

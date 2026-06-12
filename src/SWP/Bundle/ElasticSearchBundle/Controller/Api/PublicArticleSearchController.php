@@ -23,9 +23,7 @@ use FOS\RestBundle\Controller\Annotations\Route;
 
 class PublicArticleSearchController extends ArticleSearchController
 {
-    /**
-     * @Route("/api/{version}/search/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_public_api_content_list_articles")
-     */
+    #[Route('/api/{version}/search/articles/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_public_api_content_list_articles')]
     public function searchAction(Request $request, RepositoryManagerInterface $repositoryManager)
     {
         return parent::searchAction($request, $repositoryManager);

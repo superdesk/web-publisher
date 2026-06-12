@@ -9,4 +9,4 @@ swp_api_content_list_related_articles:
 
 swp_content:
   resource: '@SWPContentBundle/Controller'
-  type: annotation
+  type: attribute

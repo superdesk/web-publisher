@@ -21,10 +21,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 abstract class UrlAwareComponent implements ComponentInterface
 {
     /**
-     * @SerializedName("URL")
-     *
      * @var string
      */
+    #[SerializedName('URL')]
     private $url;
 
     public function __construct(string $url)

@@ -23,9 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 
 class FailedQueueController extends AbstractController {
-  /**
-   * @Route("/api/{version}/failed_queue/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_failed_queue")
-   */
+  #[Route('/api/{version}/failed_queue/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_list_failed_queue')]
   public function listAction(Request $request, FailedEntriesProvider $failedEntriesProvider) {
       try {
           $requestedLimit = $request->query->getInt('limit', 50);

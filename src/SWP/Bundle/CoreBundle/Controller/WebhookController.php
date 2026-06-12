@@ -51,23 +51,17 @@ class WebhookController extends AbstractAPIController {
   }
 
 
-  /**
-   * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_webhook")
-   */
+  #[Route('/api/{version}/webhooks/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_list_webhook')]
   public function listAction(Request $request): ResourcesListResponseInterface {
     return $this->listWebhooks($this->eventDispatcher,$this->webhookRepository, $request);
   }
 
-  /**
-   * @Route("/api/{version}/webhooks/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_webhook")
-   */
+  #[Route('/api/{version}/webhooks/{id}', requirements: ['id' => '\d+'], options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_get_webhook')]
   public function getAction(int $id): SingleResourceResponseInterface {
     return $this->getSingleWebhook($this->findOr404($id));
   }
 
-  /**
-   * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_webhook")
-   */
+  #[Route('/api/{version}/webhooks/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_create_webhook')]
   public function createAction(Request $request): SingleResourceResponseInterface {
     $ruleRepository = $this->webhookRepository;
     $ruleFactory = $this->webhookFactory;
@@ -76,18 +70,14 @@ class WebhookController extends AbstractAPIController {
     return $this->createWebhook($ruleRepository, $ruleFactory, $request, $formFactory);
   }
 
-  /**
-   * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_webhook", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/webhooks/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['DELETE'], name: 'swp_api_core_delete_webhook', requirements: ['id' => '\d+'])]
   public function deleteAction(int $id): SingleResourceResponseInterface {
     $webhookRepository = $this->webhookRepository;
 
     return $this->deleteWebhook($webhookRepository, $this->findOr404($id));
   }
 
-  /**
-   * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_webhook", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/webhooks/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_update_webhook', requirements: ['id' => '\d+'])]
   public function updateAction(Request $request, int $id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     $formFactory = $this->formFactory;

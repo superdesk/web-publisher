@@ -48,9 +48,7 @@ class PackageSearchController extends AbstractController {
   }
 
 
-  /**
-   * @Route("/api/{version}/packages/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_packages")
-   */
+  #[Route('/api/{version}/packages/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_list_packages')]
   public function searchAction(Request $request, RepositoryManagerInterface $repositoryManager) {
     $this->eventDispatcher->dispatch( new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
     $currentTenant = $this->cachedTenantContext->getTenant();

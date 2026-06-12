@@ -49,11 +49,9 @@ class StaticThemeAssetsController extends Controller {
   }
 
 
-  /**
-   * @Route("/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads|OneSignalSDKWorker|OneSignalSDKUpdaterWorker|amp-web-push-helper-frame|amp-web-push-permission-dialog"})
-   * @Route("/public-{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root_public", requirements={"fileName"=".+"})
-   * @Route("/public/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_public", requirements={"fileName"=".+"})
-   */
+  #[Route(path: '/{fileName}.{fileExtension}', methods: ['GET'], name: 'static_theme_assets_root', requirements: ['fileName' => 'sw|manifest|favicon|ads|OneSignalSDKWorker|OneSignalSDKUpdaterWorker|amp-web-push-helper-frame|amp-web-push-permission-dialog'])]
+  #[Route(path: '/public-{fileName}.{fileExtension}', methods: ['GET'], name: 'static_theme_assets_root_public', requirements: ['fileName' => '.+'])]
+  #[Route(path: '/public/{fileName}.{fileExtension}', methods: ['GET'], name: 'static_theme_assets_public', requirements: ['fileName' => '.+'])]
   public function rootAction($fileName, $fileExtension, ThemeHierarchyProviderInterface $themeHierarchyProvider) {
     $themes = $themeHierarchyProvider->getThemeHierarchy(
         $this->tenantAwareThemeContext->getTheme()
@@ -70,11 +68,7 @@ class StaticThemeAssetsController extends Controller {
     throw new NotFoundHttpException('File was not found.');
   }
 
-  /**
-   * @Route("/themes/{type}/{themeName}/screenshots/{fileName}", methods={"GET"}, name="static_theme_screenshots", requirements={
-   *     "type": "organization|tenant"
-   * })
-   */
+  #[Route(path: '/themes/{type}/{themeName}/screenshots/{fileName}', methods: ['GET'], name: 'static_theme_screenshots', requirements: ['type' => 'organization|tenant'])]
   public function screenshotsAction(string $type, string $themeName, $fileName) {
     if ('organization' === $type) {
       $theme = $this->loadOrganizationTheme(str_replace('__', '/', $themeName));

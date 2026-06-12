@@ -77,9 +77,7 @@ class TenantController extends FOSRestController {
   }
 
 
-  /**
-   * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_tenants")
-   */
+  #[Route('/api/{version}/tenants/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_list_tenants')]
   public function listAction(Request $request) {
     $tenants = $this->getTenantRepository()
         ->getPaginatedByCriteria($this->eventDispatcher, new Criteria(), $request->query->all('sorting'), new PaginationData($request));
@@ -89,16 +87,12 @@ class TenantController extends FOSRestController {
     return new ResourcesListResponse($tenants, $responseContext);
   }
 
-  /**
-   * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_tenant", requirements={"code"="[a-z0-9]+"})
-   */
+  #[Route('/api/{version}/tenants/{code}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_get_tenant', requirements: ['code' => '[a-z0-9]+'])]
   public function getAction($code) {
     return new SingleResourceResponse($this->findOr404($code));
   }
 
-  /**
-   * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
-   */
+  #[Route('/api/{version}/tenants/{code}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['DELETE'], name: 'swp_api_core_delete_tenant', requirements: ['code' => '[a-z0-9]+'])]
   public function deleteAction(Request $request, $code) {
     $tenantContext = $this->cachedTenantContext;
     $eventDispatcher = $this->eventDispatcher;
@@ -126,9 +120,7 @@ class TenantController extends FOSRestController {
     return new SingleResourceResponse(null, new ResponseContext(204));
   }
 
-  /**
-   * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_tenant")
-   */
+  #[Route('/api/{version}/tenants/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_create_tenant')]
   public function createAction(Request $request) {
     $tenant = $this->tenantFactory->create();
     $tenantContext = $this->cachedTenantContext;
@@ -150,9 +142,7 @@ class TenantController extends FOSRestController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
-   */
+  #[Route('/api/{version}/tenants/{code}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_update_tenant', requirements: ['code' => '[a-z0-9]+'])]
   public function updateAction(Request $request, $code) {
     $tenant = $this->findOr404($code);
     $form = $this->formFactory->createNamed('', TenantType::class, $tenant, ['method' => $request->getMethod()]);

@@ -60,16 +60,12 @@ class SeoMediaController extends AbstractMediaController {
     parent::__construct($seoMediaManager, $cacheProvider, $fileProvider, $fileExtensionChecker);
   }
 
-  /**
-   * @Route("/seo/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_seo_media_get")
-   */
+  #[Route(path: '/seo/media/{mediaId}.{extension}', methods: ['GET'], options: ['expose' => true], requirements: ['mediaId' => '.+'], name: 'swp_seo_media_get')]
   public function getAction(string $mediaId, string $extension): Response {
     return $this->getMedia($mediaId, $extension);
   }
 
-  /**
-   * @FOSRoute("/api/{version}/upload/seo_image/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_seo_image")
-   */
+  #[FOSRoute('/api/{version}/upload/seo_image/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_upload_seo_image')]
   public function uploadSeoImageAction(Request                   $request, string $id,
                                        SeoImageUploaderInterface $seoImageUploader): SingleResourceResponse {
     $article = $this->findOr404($id);

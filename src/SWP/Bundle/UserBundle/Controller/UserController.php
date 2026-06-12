@@ -57,10 +57,8 @@ class UserController extends AbstractController
         $this->userManager = $userManager;
     }
 
-    /**
-     * @Route("/api/{version}/users/{id}/promote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_promote_user")
-     * @Route("/api/{version}/users/{id}/demote", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_demote_user")
-     */
+    #[Route('/api/{version}/users/{id}/promote', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_user_promote_user')]
+    #[Route('/api/{version}/users/{id}/demote', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_user_demote_user')]
     public function modifyRoles(
         Request $request,
         int $id,
@@ -96,9 +94,7 @@ class UserController extends AbstractController
         return new SingleResourceResponse($form);
     }
 
-    /**
-     * @Route("/api/{version}/users/settings/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_settings")
-     */
+    #[Route('/api/{version}/users/settings/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_user_get_settings')]
     public function listSettings(): SingleResourceResponseInterface
     {
         $user = $this->getUser();
@@ -114,9 +110,7 @@ class UserController extends AbstractController
         return new SingleResourceResponse($settings);
     }
 
-    /**
-     * @Route("/api/{version}/users/settings/", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_update_settings")
-     */
+    #[Route('/api/{version}/users/settings/', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_user_update_settings')]
     public function updateSettings(Request $request): SingleResourceResponseInterface
     {
         $form = $this->formFactory->createNamed('', SettingType::class, [], [

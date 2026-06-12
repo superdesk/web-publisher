@@ -20,9 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MediaController extends AbstractMediaController
 {
-    /**
-     * @Route("/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_media_get")
-     */
+    #[Route(path: '/media/{mediaId}.{extension}', methods: ['GET'], options: ['expose' => true], requirements: ['mediaId' => '.+'], name: 'swp_media_get')]
     public function getAction(string $mediaId, string $extension)
     {
         return $this->getMedia($mediaId, $extension);

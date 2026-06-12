@@ -56,9 +56,7 @@ class ProfileController extends AbstractController {
         $this->paginator = $paginator;
     }
 
-    /**
-     * @Route("/api/{version}/users/profiles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_list_user_profiles")
-     */
+    #[Route('/api/{version}/users/profiles/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_user_list_user_profiles')]
     public function listAction(Request $request): ResourcesListResponse
     {
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
@@ -76,9 +74,7 @@ class ProfileController extends AbstractController {
         return new ResourcesListResponse($pagination);
     }
 
-  /**
-   * @Route("/api/{version}/users/profile/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_get_user_profile")
-   */
+  #[Route('/api/{version}/users/profile/{id}', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_user_get_user_profile')]
   public function getAction($id) {
     $requestedUser = $this->userRepository->find($id);
     if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {
@@ -90,9 +86,7 @@ class ProfileController extends AbstractController {
     return new SingleResourceResponse($requestedUser);
   }
 
-  /**
-   * @Route("/api/{version}/users/profile/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_edit_user_profile")
-   */
+  #[Route('/api/{version}/users/profile/{id}', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_user_edit_user_profile')]
   public function editAction(Request $request, $id, UserPasswordHasherInterface $passwordEncoder) {
     $requestedUser = $this->userRepository->find($id);
     if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {

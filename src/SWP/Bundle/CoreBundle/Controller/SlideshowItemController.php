@@ -50,9 +50,7 @@ class SlideshowItemController extends Controller {
   }
 
 
-  /**
-   * @Route("/api/{version}/content/slideshows/{articleId}/{id}/items/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_slideshow_items", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/content/slideshows/{articleId}/{id}/items/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_slideshow_items', requirements: ['id' => '\d+'])]
   public function listAction(Request $request, string $articleId, string $id) {
     $article = $this->findArticleOr404($articleId);
     $repository = $this->slideshowItemRepository;

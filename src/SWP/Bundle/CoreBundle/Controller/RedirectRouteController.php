@@ -61,9 +61,7 @@ class RedirectRouteController extends AbstractController {
   }
 
 
-  /**
-   * @Route("/api/{version}/redirects/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_redirect_routes")
-   */
+  #[Route('/api/{version}/redirects/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_list_redirect_routes')]
   public function listAction(Request $request) {
     $redirectRouteRepository = $this->redirectRouteRepository;
 
@@ -72,9 +70,7 @@ class RedirectRouteController extends AbstractController {
     return new ResourcesListResponse($redirectRoutes);
   }
 
-  /**
-   * @Route("/api/{version}/redirects/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_delete_redirect_route", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/redirects/{id}', methods: ['DELETE'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_delete_redirect_route', requirements: ['id' => '\d+'])]
   public function deleteAction(int $id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     $redirectRoute = $this->findOr404($id);
@@ -85,9 +81,7 @@ class RedirectRouteController extends AbstractController {
     return new SingleResourceResponse(null, new ResponseContext(204));
   }
 
-  /**
-   * @Route("/api/{version}/redirects/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_create_redirect_route")
-   */
+  #[Route('/api/{version}/redirects/', methods: ['POST'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_create_redirect_route')]
   public function createAction(Request $request): SingleResourceResponseInterface {
     $redirectRoute = $this->redirectRouteFactory->create();
     $form = $this->formFactory->createNamed('', RedirectRouteType::class, $redirectRoute, ['method' => $request->getMethod()]);
@@ -113,9 +107,7 @@ class RedirectRouteController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/redirects/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_update_redirect_route", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/redirects/{id}', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_update_redirect_route', requirements: ['id' => '\d+'])]
   public function updateAction(Request $request, int $id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     $redirectRoute = $this->findOr404($id);

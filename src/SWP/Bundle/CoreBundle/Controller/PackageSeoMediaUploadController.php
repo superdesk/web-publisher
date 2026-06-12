@@ -54,9 +54,7 @@ class PackageSeoMediaUploadController extends AbstractController
     }
 
 
-    /**
-     * @Route("/api/{version}/packages/seo/upload/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_upload_package_seo_image")
-     */
+    #[Route('/api/{version}/packages/seo/upload/{packageGuid}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_upload_package_seo_image')]
     public function uploadAction(
         Request $request,
         string $packageGuid,

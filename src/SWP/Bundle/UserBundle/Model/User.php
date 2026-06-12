@@ -89,6 +89,11 @@ class User implements UserInterface
         return (string) $this->username;
     }
 
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
     /**
      * @see UserInterface
      */

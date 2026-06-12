@@ -21,9 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AuthorMediaController extends AbstractMediaController
 {
-    /**
-     * @Route("/author/media/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_author_media_get")
-     */
+    #[Route(path: '/author/media/{mediaId}.{extension}', methods: ['GET'], options: ['expose' => true], requirements: ['mediaId' => '.+'], name: 'swp_author_media_get')]
     public function getAction(string $mediaId, string $extension): Response
     {
         return $this->getMedia($mediaId, $extension);

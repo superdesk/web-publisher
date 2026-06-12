@@ -64,9 +64,7 @@ class PublishDestinationController extends Controller {
     $this->publishDestinationFactory = $publishDestinationFactory;
   }
 
-  /**
-   * @Route("/api/{version}/organization/destinations/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_publishing_destination_create")
-   */
+  #[Route('/api/{version}/organization/destinations/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_publishing_destination_create')]
   public function createAction(Request $request): SingleResourceResponse {
     $tenantContext = $this->cachedTenantContext;
 
@@ -94,9 +92,7 @@ class PublishDestinationController extends Controller {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/organization/destinations/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_publishing_destination_update', requirements: ['id' => '\d+'])]
   public function updateAction(Request $request, $id): SingleResourceResponse {
     $objectManager = $this->entityManager;
     $publishDestination = $this->findOr404($id);

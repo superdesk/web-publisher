@@ -91,10 +91,9 @@ class AnalyticsExportController extends AbstractController {
 
 
   /**
-   * @FosRoute("/api/{version}/export/analytics/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_analytics_export_post")
-   *
    * @throws \Exception
    */
+  #[FosRoute('/api/{version}/export/analytics/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_analytics_export_post')]
   public function post(Request $request): SingleResourceResponseInterface {
     /** @var UserInterface $currentlyLoggedInUser */
     $currentlyLoggedInUser = $this->getUser();
@@ -142,9 +141,7 @@ class AnalyticsExportController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @FosRoute("/api/{version}/export/analytics/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_core_list_analytics_reports")
-   */
+  #[FosRoute('/api/{version}/export/analytics/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_core_list_analytics_reports')]
   public function listAction(Request $request): ResourcesListResponseInterface {
     $sorting = $request->query->all('sorting');
     $reports = $this->analyticsReportRepository->getPaginatedByCriteria(
@@ -157,9 +154,7 @@ class AnalyticsExportController extends AbstractController {
     return new ResourcesListResponse($reports);
   }
 
-  /**
-   * @Route("/analytics/export/{fileName}", methods={"GET"}, options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_export_analytics_download")
-   */
+  #[Route(path: '/analytics/export/{fileName}', methods: ['GET'], options: ['expose' => true], requirements: ['mediaId' => '.+'], name: 'swp_export_analytics_download')]
   public function downloadFile(string $fileName): Response {
     $cacheKey = md5(serialize(['analytics_report', $fileName]));
 

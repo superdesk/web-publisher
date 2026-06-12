@@ -25,10 +25,9 @@ class LinkedArticle
     public const RELATIONSHIP_PROMOTED = 'promoted';
 
     /**
-     * @SerializedName("URL")
-     *
      * @var string
      */
+    #[SerializedName('URL')]
     private $url;
 
     /** @var string */

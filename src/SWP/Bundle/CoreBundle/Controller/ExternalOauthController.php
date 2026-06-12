@@ -24,9 +24,7 @@ class ExternalOauthController extends Controller {
     $this->clientRegistry = $clientRegistry;
   }
 
-  /**
-   * @Route("/connect/oauth", name="connect_oauth_start")
-   */
+  #[Route(path: '/connect/oauth', name: 'connect_oauth_start')]
   public function connectAction(Request $request): Response {
     $referer = $request->headers->get('referer');
 
@@ -39,9 +37,8 @@ class ExternalOauthController extends Controller {
 
   /**
    * This is where the user is redirected after being succesfully authenticated by the OAuth server.
-   *
-   * @Route("/connect/oauth/check", name="connect_oauth_check")
    */
+  #[Route(path: '/connect/oauth/check', name: 'connect_oauth_check')]
   public function connectCheckAction(Request $request, JWTTokenManagerInterface $jwtTokenManager): Response {
     // If we didn't log in, something went wrong. Throw an exception!
     if (!($user = $this->getUser())) {

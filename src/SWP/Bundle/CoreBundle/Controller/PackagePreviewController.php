@@ -89,9 +89,7 @@ class PackagePreviewController extends Controller {
   }
 
 
-  /**
-   * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"id"="\d+", "routeId"="\d+", "token"=".+"}, methods={"GET"}, name="swp_package_preview")
-   */
+  #[Route(path: '/preview/package/{routeId}/{id}', options: ['expose' => true], requirements: ['id' => '\d+', 'routeId' => '\d+', 'token' => '.+'], methods: ['GET'], name: 'swp_package_preview')]
   public function previewAction(int $routeId, $id) {
     /** @var RouteInterface $route */
     $route = $this->findRouteOr404($routeId);
@@ -118,9 +116,7 @@ class PackagePreviewController extends Controller {
     }
   }
 
-  /**
-   * @FOSRoute("/api/{version}/preview/package/generate_token/{routeId}", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_preview_package_token", requirements={"routeId"="\d+"})
-   */
+  #[FOSRoute('/api/{version}/preview/package/generate_token/{routeId}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_preview_package_token', requirements: ['routeId' => '\d+'])]
   public function generateTokenAction(Request $request, int $routeId): SingleResourceResponseInterface {
     $route = $this->findRouteOr404($routeId);
 
@@ -147,9 +143,7 @@ class PackagePreviewController extends Controller {
     return $this->returnResponseWithPreviewUrl($existingPreviewToken);
   }
 
-  /**
-   * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, methods={"GET"}, name="swp_package_preview_publish")
-   */
+  #[Route(path: '/preview/publish/package/{token}', options: ['expose' => true], requirements: ['token' => '.+'], methods: ['GET'], name: 'swp_package_preview_publish')]
   public function publishPreviewAction(string $token) {
     $existingPreviewToken = $this->packagePreviewTokenRepository->findOneBy(['token' => $token]);
 

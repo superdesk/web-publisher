@@ -62,15 +62,7 @@ class AuthController extends AbstractController
   }
 
 
-  /**
-   * @Route(
-   *     "/api/{version}/auth/",
-   *     options={"expose"=true},
-   *     defaults={"version"="v2"},
-   *     methods={"POST"},
-   *     name="swp_api_auth"
-   * )
-   */
+  #[Route('/api/{version}/auth/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_auth')]
   public function authenticateAction(
       Request $request,
       UserProviderInterface $userProvider,
@@ -98,15 +90,7 @@ class AuthController extends AbstractController
     ], new ResponseContext(401));
   }
 
-  /**
-   * @Route(
-   *     "/api/{version}/auth/superdesk/",
-   *     options={"expose"=true},
-   *     methods={"POST"},
-   *     defaults={"version"="v2"},
-   *     name="swp_api_auth_superdesk"
-   * )
-   */
+  #[Route('/api/{version}/auth/superdesk/', options: ['expose' => true], methods: ['POST'], defaults: ['version' => 'v2'], name: 'swp_api_auth_superdesk')]
   public function authenticateWithSuperdeskAction(
       Request               $request,
       LoggerInterface       $logger,

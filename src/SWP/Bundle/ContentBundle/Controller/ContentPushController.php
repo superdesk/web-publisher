@@ -86,9 +86,7 @@ class ContentPushController extends AbstractController {
   }
 
 
-  /**
-   * @Route("/api/{version}/content/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_push")
-   */
+  #[Route('/api/{version}/content/push', methods: ['POST'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_push')]
   public function pushContentAction(Request $request, TenantContextInterface $tenantContext): SingleResourceResponseInterface {
     $package = $this->dataTransformer->transform($request->getContent());
     $this->eventDispatcher->dispatch(new GenericEvent($package), Events::SWP_VALIDATION);
@@ -103,9 +101,7 @@ class ContentPushController extends AbstractController {
   }
 
 
-    /**
-     * @Route("/api/{version}/content/push-with-options", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_push_with_status")
-     */
+    #[Route('/api/{version}/content/push-with-options', methods: ['POST'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_push_with_status')]
     public function pushContentWithOptionsAction(
         Request $request,
         TenantContextInterface $tenantContext
@@ -128,9 +124,7 @@ class ContentPushController extends AbstractController {
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
 
-  /**
-   * @Route("/api/{version}/assets/push", methods={"POST"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_assets_push")
-   */
+  #[Route('/api/{version}/assets/push', methods: ['POST'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_assets_push')]
   public function pushAssetsAction(Request $request): SingleResourceResponseInterface {
     $form = $this->formFactory->createNamed('', MediaFileType::class);
     $form->handleRequest($request);
@@ -167,9 +161,7 @@ class ContentPushController extends AbstractController {
     return new SingleResourceResponse($form);
   }
 
-  /**
-   * @Route("/api/{version}/assets/{action}/{mediaId}.{extension}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, requirements={"mediaId"=".+", "action"="get|push"}, name="swp_api_assets_get")
-   */
+  #[Route('/api/{version}/assets/{action}/{mediaId}.{extension}', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], requirements: ['mediaId' => '.+', 'action' => 'get|push'], name: 'swp_api_assets_get')]
   public function getAssetsAction(string $mediaId, string $extension): SingleResourceResponseInterface {
     $fileProvider = $this->fileProvider;
     $file = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);

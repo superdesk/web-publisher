@@ -68,10 +68,9 @@ class ArticleController extends AbstractController {
 
 
   /**
-   * @Route("/api/{version}/content/articles/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_list_articles")
-   *
    * @throws \Exception
    */
+  #[Route('/api/{version}/content/articles/', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_list_articles')]
   public function listAction(Request $request): ResourcesListResponseInterface {
     $authors = '';
     if (null !== $request->query->get('author', null)) {
@@ -104,9 +103,7 @@ class ArticleController extends AbstractController {
     return new ResourcesListResponse($articles);
   }
 
-  /**
-   * @Route("/api/{version}/content/articles/{id}", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_articles", requirements={"id"=".+"})
-   */
+  #[Route('/api/{version}/content/articles/{id}', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_show_articles', requirements: ['id' => '.+'])]
   public function getAction($id): SingleResourceResponseInterface {
     $article = $this->articleProvider->getOneById($id);
 
@@ -117,9 +114,7 @@ class ArticleController extends AbstractController {
     return new SingleResourceResponse($article);
   }
 
-  /**
-   * @Route("/api/{version}/content/article/search-code", methods={"GET"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_show_articles_by_code", requirements={"code"=".+"})
-   */
+  #[Route('/api/{version}/content/article/search-code', methods: ['GET'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_show_articles_by_code', requirements: ['code' => '.+'])]
   public function getByCodeAction(Request $request): SingleResourceResponseInterface {
     // Extract parameters from the request
     $code = $request->query->get('code', '');
@@ -140,9 +135,7 @@ class ArticleController extends AbstractController {
     return new SingleResourceResponse($article);
   }
 
-  /**
-   * @Route("/api/{version}/content/articles/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_update_articles", requirements={"id"=".+"})
-   */
+  #[Route('/api/{version}/content/articles/{id}', methods: ['PATCH'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_update_articles', requirements: ['id' => '.+'])]
   public function updateAction(Request $request, $id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     $article = $this->findOr404($id);
@@ -162,9 +155,7 @@ class ArticleController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(500));
   }
 
-  /**
-   * @Route("/api/{version}/content/articles/{id}", methods={"DELETE"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
-   */
+  #[Route('/api/{version}/content/articles/{id}', methods: ['DELETE'], options: ['expose' => true], defaults: ['version' => 'v2'], name: 'swp_api_content_delete_articles', requirements: ['id' => '.+'])]
   public function deleteAction($id): SingleResourceResponseInterface {
     $objectManager = $this->entityManager;
     $objectManager->remove($this->findOr404($id));

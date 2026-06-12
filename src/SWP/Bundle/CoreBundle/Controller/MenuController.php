@@ -61,9 +61,7 @@ class MenuController extends AbstractFOSRestController {
   }
 
 
-  /**
-   * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_menu")
-   */
+  #[Route('/api/{version}/menus/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_list_menu')]
   public function listAction(Request $request): ResourcesListResponseInterface {
     $menuRepository = $this->menuItemRepository;
     $page = $request->query->get('page', 1);
@@ -72,9 +70,7 @@ class MenuController extends AbstractFOSRestController {
     return new ResourcesListResponse($menuRepository->findRootNodes($this->eventDispatcher, $page, $limit));
   }
 
-  /**
-   * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_list_children_menu")
-   */
+  #[Route('/api/{version}/menus/{id}/children/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_list_children_menu')]
   public function listChildrenAction($id): ResourcesListResponseInterface {
     $menuRepository = $this->menuItemRepository;
 
@@ -83,9 +79,7 @@ class MenuController extends AbstractFOSRestController {
     return new ResourcesListResponse($menus);
   }
 
-  /**
-   * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
-   */
+  #[Route('/api/{version}/menus/{id}/move/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_move_menu', requirements: ['id' => '\d+'])]
   public function moveAction(Request $request, $id): SingleResourceResponseInterface {
     $menuItem = $this->findOr404($id);
     $form = $this->formFactory->createNamed('', MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
@@ -103,16 +97,12 @@ class MenuController extends AbstractFOSRestController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_menu")
-   */
+  #[Route('/api/{version}/menus/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_get_menu')]
   public function getAction($id): SingleResourceResponseInterface {
     return new SingleResourceResponse($this->findOr404($id));
   }
 
-  /**
-   * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v2"}, methods={"POST"}, name="swp_api_core_create_menu")
-   */
+  #[Route('/api/{version}/menus/', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['POST'], name: 'swp_api_core_create_menu')]
   public function createAction(Request $request): SingleResourceResponseInterface {
     /* @var MenuItemInterface $menu */
     $menu = $this->menuFactory->create();
@@ -131,9 +121,7 @@ class MenuController extends AbstractFOSRestController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"DELETE"}, name="swp_api_core_delete_menu")
-   */
+  #[Route('/api/{version}/menus/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['DELETE'], name: 'swp_api_core_delete_menu')]
   public function deleteAction(int $id) {
     $repository = $this->menuItemRepository;
     $menu = $this->findOr404($id);
@@ -144,9 +132,7 @@ class MenuController extends AbstractFOSRestController {
     return new SingleResourceResponse(null, new ResponseContext(204));
   }
 
-  /**
-   * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PATCH"}, name="swp_api_core_update_menu")
-   */
+  #[Route('/api/{version}/menus/{id}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PATCH'], name: 'swp_api_core_update_menu')]
   public function updateAction(Request $request, $id): SingleResourceResponseInterface {
     $menu = $this->findOr404($id);
     $parent = $menu->getParent();

@@ -41,9 +41,7 @@ class ExternalDataController extends AbstractController {
     $this->factory = $factory;
   }
 
-  /**
-   * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_add_extra_data")
-   */
+  #[Route('/api/{version}/packages/extra/{slug}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PUT'], name: 'swp_api_core_add_extra_data')]
   public function setAction(Request $request, string $slug): SingleResourceResponseInterface {
     $packageRepository = $this->packageRepository;
     $existingPackage = $packageRepository->findOneBy(['slugline' => $slug]);
@@ -79,9 +77,7 @@ class ExternalDataController extends AbstractController {
     return new SingleResourceResponse(['Provided request content is not valid JSON'], new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_get_extra_data")
-   */
+  #[Route('/api/{version}/packages/extra/{slug}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_get_extra_data')]
   public function getAction(string $slug): SingleResourceResponseInterface {
     $packageRepository = $this->packageRepository;
     $existingPackage = $packageRepository->findOneBy(['slugline' => $slug]);

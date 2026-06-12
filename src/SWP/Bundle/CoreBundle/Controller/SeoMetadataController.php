@@ -47,9 +47,7 @@ class SeoMetadataController extends AbstractController {
       $this->mediaManager = $mediaManager;
   }
 
-  /**
-   * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"PUT"}, name="swp_api_core_seo_metadata_put")
-   */
+  #[Route('/api/{version}/packages/seo/{packageGuid}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['PUT'], name: 'swp_api_core_seo_metadata_put')]
   public function put(Request $request, string $packageGuid): SingleResourceResponse {
     $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
@@ -72,9 +70,7 @@ class SeoMetadataController extends AbstractController {
     return new SingleResourceResponse($form, new ResponseContext(400));
   }
 
-  /**
-   * @Route("/api/{version}/packages/seo/{packageGuid}", options={"expose"=true}, defaults={"version"="v2"}, methods={"GET"}, name="swp_api_core_seo_metadata_get")
-   */
+  #[Route('/api/{version}/packages/seo/{packageGuid}', options: ['expose' => true], defaults: ['version' => 'v2'], methods: ['GET'], name: 'swp_api_core_seo_metadata_get')]
   public function getAction(string $packageGuid): SingleResourceResponse {
     $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
 
