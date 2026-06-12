@@ -21,8 +21,6 @@ properties:
     type: boolean
   theme_name:
     type: string
-  amp_enabled:
-    type: boolean
   output_channel:
     $ref: ./OutputChannel.yaml
   apple_news_config:

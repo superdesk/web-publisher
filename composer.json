@@ -49,12 +49,6 @@
       "src/Kernel.php"
     ]
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/SuperdeskWebPublisher/AmpHtmlBundle"
-    }
-  ],
   "require": {
     "php": "^8.0",
     "ext-curl": "*",
@@ -142,8 +136,6 @@
     "symfony/yaml": "5.4.*",
     "symfonycasts/reset-password-bundle": "^1.4",
     "symfonycasts/verify-email-bundle": "^1.2",
-    "takeit/amp": "dev-master",
-    "superdeskwebpublisher/amp-html-bundle": "master",
     "takeit/stringy": "dev-fix",
     "twig/cache-extension": "^1.4",
     "twig/extensions": "~1.5",
@@ -211,8 +203,7 @@
     "swp/geo-ip-bundle": "self.version",
     "swp/geo-ip": "self.version",
     "swp/archiver": "self.version",
-    "swp/redirect-route-bundle": "self.version",
-    "lullabot/amp": "^1.0"
+    "swp/redirect-route-bundle": "self.version"
   },
   "conflict": {
     "doctrine/dbal": "^3",

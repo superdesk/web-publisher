@@ -1556,7 +1556,6 @@ Feature: Handling the custom media fields
         "domain_name": "localhost",
         "name": "Default tenant",
         "code": "123abc",
-        "amp_enabled": true,
         "pwa_config":[],
         "_links": {
           "self": {

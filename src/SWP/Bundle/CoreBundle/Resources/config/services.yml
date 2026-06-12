@@ -248,20 +248,6 @@ services:
         arguments:
             - '@SWP\Bundle\UserBundle\Model\UserManagerInterface'
 
-    swp.checker.amp_support:
-        class: SWP\Bundle\CoreBundle\Checker\AmpSupportChecker
-        arguments:
-            - "@swp_multi_tenancy.tenant_context"
-            - "@request_stack"
-
-    swp.loader.amp_theme:
-        class: SWP\Bundle\CoreBundle\Theme\AmpThemeLoader
-        arguments:
-            - "@twig.loader.filesystem"
-            - "@swp_core.theme.context.tenant_aware"
-            - '@Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface'
-            - "%takeit_amp_html.configuration.theme.theme_path%"
-
     swp.twig.cache.tenant_aware:
         class: SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCache
         arguments:
@@ -526,19 +512,6 @@ services:
             - method: setFragmentPath
               arguments:
                   - '%fragment.path%'
-
-    swp_core.param_converter.article_preview.resolve_entity_converter:
-        class: SWP\Bundle\CoreBundle\Request\ParamConverter\ResolveEntityParamConverter
-        public: false
-        tags:
-            - { name: request.param_converter, priority: 11, converter: doctrine.orm }
-        arguments:
-            - {'Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface': "%takeit_amp_html.configuration.model.class%"}
-            - '@swp_template_engine_context'
-            - '@SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor'
-            - '@swp.repository.package'
-            - '@swp.factory.article'
-            - '@?doctrine'
 
     swp.adder.tenant_aware_article_source:
         class: SWP\Bundle\CoreBundle\Service\TenantAwareArticleSourcesAdder

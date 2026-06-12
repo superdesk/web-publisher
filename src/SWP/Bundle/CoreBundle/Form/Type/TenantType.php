@@ -61,10 +61,6 @@ final class TenantType extends AbstractType
                 'required' => false,
                 'help' => 'Tenant organization code',
             ])
-            ->add('ampEnabled', BooleanType::class, [
-                'required' => false,
-                'help' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
-            ])
             ->add('fbiaEnabled', BooleanType::class, [
                 'mapped' => false,
                 'required' => false,

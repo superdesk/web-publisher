@@ -6,7 +6,6 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         themeName: "swp/default-theme"
         code: "123abc"
         organization: "@org1"
-        ampEnabled: true
     tenant2:
         name: "<company()>"
         subdomain: "client1"

@@ -241,7 +241,6 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
         "domain_name": "localhost",
         "name": "Default tenant",
         "code": "123abc",
-        "amp_enabled": true,
         "pwa_config":[],
         "_links": {
           "self": {

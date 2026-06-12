@@ -197,11 +197,4 @@ services:
 
 
 
-  takeit_amp_html.amp_controller:
-    class: SWP\Bundle\CoreBundle\Controller\AmpController
-    bind:
-      $ampConverter: '@takeit_amp_html.amp_converter'
-      $ampThemeLoader: '@takeit_amp_html.loader.theme'
-    public: true
-    tags: [ 'controller.service_arguments' ]
 

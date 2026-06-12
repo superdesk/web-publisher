@@ -4208,8 +4208,6 @@ components:
                     type: boolean
                 theme_name:
                     type: string
-                amp_enabled:
-                    type: boolean
                 output_channel:
                     $ref: "#/components/schemas/OutputChannel"
                 apple_news_config:
@@ -4237,8 +4235,6 @@ components:
                     enum:
                         - "654321"
                         - "123456"
-                ampEnabled:
-                    $ref: "#/components/schemas/BooleanType"
                 fbiaEnabled:
                     $ref: "#/components/schemas/BooleanType"
                 paywallEnabled:

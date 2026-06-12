@@ -173,16 +173,6 @@ stof_doctrine_extensions:
     class:
         timestampable:  SWP\Bundle\ContentBundle\EventListener\TimestampableListener
 
-takeit_amp_html:
-    theme:
-        loader: 'swp.loader.amp_theme'
-        theme_path: 'amp/amp-theme'
-    model: SWP\Bundle\CoreBundle\Model\Article
-    checker: 'swp.checker.amp_support'
-    routing:
-        parameter_strategy:
-            enabled: true
-
 swp_user:
     persistence:
         orm:

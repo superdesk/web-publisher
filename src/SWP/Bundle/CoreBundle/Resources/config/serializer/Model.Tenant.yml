@@ -12,9 +12,6 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         outputChannel:
             expose: true
             groups: [api]
-        ampEnabled:
-            expose: true
-            groups: [api]
         pwaConfig:
             expose: true
             groups: [api]

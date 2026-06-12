@@ -71,14 +71,4 @@ class TenantSpec extends ObjectBehavior
         $this->getDomainName()->shouldReturn('domain');
     }
 
-    public function its_amp_support_is_disabled_by_default()
-    {
-        $this->isAmpEnabled()->shouldReturn(false);
-    }
-
-    public function it_can_be_enabled()
-    {
-        $this->setAmpEnabled(true);
-        $this->isAmpEnabled()->shouldReturn(true);
-    }
 }

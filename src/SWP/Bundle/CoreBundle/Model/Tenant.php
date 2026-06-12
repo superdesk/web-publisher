@@ -34,11 +34,6 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
     protected $homepage;
 
     /**
-     * @var bool
-     */
-    protected $ampEnabled = false;
-
-    /**
      * @var BaseOutputChannelInterface|null
      */
     protected $outputChannel;
@@ -78,22 +73,6 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
     public function setHomepage(RouteInterface $homepage)
     {
         $this->homepage = $homepage;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAmpEnabled(): bool
-    {
-        return $this->ampEnabled;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setAmpEnabled(bool $ampEnabled)
-    {
-        $this->ampEnabled = $ampEnabled;
     }
 
     /**

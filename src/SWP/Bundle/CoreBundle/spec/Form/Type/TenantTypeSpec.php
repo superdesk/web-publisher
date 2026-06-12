@@ -97,14 +97,6 @@ class TenantTypeSpec extends ObjectBehavior
         ;
 
         $builder
-            ->add('ampEnabled', BooleanType::class, [
-                'required' => false,
-                'help' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
-            ])
-            ->willReturn($builder)
-        ;
-
-        $builder
             ->add('fbiaEnabled', BooleanType::class, [
                 'mapped' => false,
                 'required' => false,
