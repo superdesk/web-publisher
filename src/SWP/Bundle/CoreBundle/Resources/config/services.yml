@@ -253,6 +253,27 @@ services:
             - '%kernel.cache_dir%/twig'
             - '@swp_multi_tenancy.tenant_context'
 
+    twig_cache.provider:
+        class: SWP\Component\TwigCacheExtension\CacheProvider\PsrCacheAdapter
+        public: false
+        arguments:
+            - '@doctrine.system_cache_pool'
+
+    twig_cache.strategy.lifetime:
+        class: SWP\Bundle\CoreBundle\Twig\Cache\Strategy\LifetimeCacheStrategy
+        public: false
+        arguments:
+            - '@twig_cache.provider'
+            - '@swp_multi_tenancy.tenant_context'
+
+    twig_cache.strategy.generational:
+        class: SWP\Component\TwigCacheExtension\CacheStrategy\GenerationalCacheStrategy
+        public: false
+        arguments:
+            - '@twig_cache.provider'
+            - '@swp_core.key_generator.meta_key_generator'
+            - 0
+
     SWP\Bundle\CoreBundle\Twig\Cache\Strategy\TagAwareIndexedChainingCacheStrategy:
         arguments:
             - '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface'
@@ -260,6 +281,14 @@ services:
             -
                 gen: '@twig_cache.strategy.generational'
                 time: '@twig_cache.strategy.lifetime'
+
+    swp_core.twig.cache_extension:
+        class: SWP\Component\TwigCacheExtension\Extension\CacheExtension
+        public: false
+        arguments:
+            - '@SWP\Bundle\CoreBundle\Twig\Cache\Strategy\TagAwareIndexedChainingCacheStrategy'
+        tags:
+            - { name: twig.extension }
 
     SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector:
         autowire: true

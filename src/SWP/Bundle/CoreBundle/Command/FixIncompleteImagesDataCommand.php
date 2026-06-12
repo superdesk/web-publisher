@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use League\Flysystem\FileNotFoundException;
+use League\Flysystem\UnableToReadFile;
 use League\Flysystem\Filesystem;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
@@ -83,7 +83,7 @@ class FixIncompleteImagesDataCommand extends Command
                 $imageReference->setWidth(imagesx($imageResource));
                 $imageReference->setHeight(imagesy($imageResource));
                 ++$counter;
-            } catch (FileNotFoundException $e) {
+            } catch (UnableToReadFile $e) {
                 continue;
             }
 

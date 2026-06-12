@@ -64,7 +64,9 @@ final class ThemeLogoUploader implements ThemeLogoUploaderInterface
     public function remove(string $path): bool
     {
         if ($this->filesystem->has($path)) {
-            return $this->filesystem->delete($path);
+            $this->filesystem->delete($path);
+
+            return true;
         }
 
         return false;

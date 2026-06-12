@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
-use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
+use SWP\Bundle\StorageBundle\Form\Type\KeyValueType;
 use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;

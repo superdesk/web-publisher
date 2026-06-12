@@ -48,6 +48,17 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
         $loader->load('controllers.yaml');
         $loader->load('listeners.yaml');
 
+        $mainAdapter = $container->resolveEnvPlaceholders('%env(FS_MAIN_ADAPTER)%', true);
+        $fallbackDefinition = new \Symfony\Component\DependencyInjection\Definition(
+            \SWP\Bundle\ContentBundle\Flysystem\FallbackAdapter::class,
+            [
+                new \Symfony\Component\DependencyInjection\Reference(sprintf('oneup_flysystem.%s_adapter', $mainAdapter)),
+                new \Symfony\Component\DependencyInjection\Reference(sprintf('oneup_flysystem.%s_adapter', Configuration::LOCAL_ADAPTER)),
+            ]
+        );
+        $fallbackDefinition->setPublic(false);
+        $container->setDefinition('swp_content_bundle.flysystem.fallback_adapter', $fallbackDefinition);
+
         if ($config['persistence']['orm']['enabled']) {
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
             $loader->load('providers.orm.yml');
@@ -60,22 +71,15 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
             [
                 'adapters' => [
                     'fallback_adapter' => [
-                        'fallback' => [
-                            'mainAdapter' => '%env(FS_MAIN_ADAPTER)%',
-                            'fallback' => Configuration::LOCAL_ADAPTER,
-                            'forceCopyOnMain' => false,
+                        'custom' => [
+                            'service' => 'swp_content_bundle.flysystem.fallback_adapter',
                         ],
                     ],
                 ],
             ],
         ];
 
-        $config = $container->resolveEnvPlaceholders(
-            $config,
-            true
-        );
-
-        $mainAdapter = $config[0]['adapters']['fallback_adapter']['fallback']['mainAdapter'];
+        $mainAdapter = $container->resolveEnvPlaceholders('%env(FS_MAIN_ADAPTER)%', true);
 
         $container->prependExtensionConfig('oneup_flysystem', $config[0]);
         $container->prependExtensionConfig($this->getAlias(), [

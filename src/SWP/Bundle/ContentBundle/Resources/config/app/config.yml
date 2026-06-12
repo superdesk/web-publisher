@@ -67,15 +67,14 @@ oneup_flysystem:
                 client: SWP\Bundle\ContentBundle\Factory\S3ClientFactory
                 bucket: '%env(resolve:FS_AWS_S3_BUCKET)%'
                 prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
-                options:
-                    ACL: 'public-read'
+                visibility: public
         gcs_adapter:
             googlecloudstorage:
                 client: SWP\Bundle\ContentBundle\Factory\GCSClientFactory
                 bucket: swp.google_storage_bucket
         local_adapter:
             local:
-                directory: '%kernel.project_dir%/public/uploads/'
+                location: '%kernel.project_dir%/public/uploads/'
     filesystems:
         swp_filesystem:
             adapter: fallback_adapter # fallback_adapter defined via extension class

@@ -14,8 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Twig\Cache\Strategy;
 
-use Twig\CacheExtension\CacheProviderInterface;
-use Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy as BaseLifetimeCacheStrategy;
+use SWP\Component\TwigCacheExtension\CacheProviderInterface;
+use SWP\Component\TwigCacheExtension\CacheStrategy\LifetimeCacheStrategy as BaseLifetimeCacheStrategy;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
 class LifetimeCacheStrategy extends BaseLifetimeCacheStrategy

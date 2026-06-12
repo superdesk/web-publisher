@@ -18,7 +18,7 @@ namespace SWP\Bundle\ContentBundle\Processor;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
-use Zend\Stdlib\PriorityQueue;
+use Laminas\Stdlib\PriorityQueue;
 
 final class ArticleBodyProcessorChain implements ArticleBodyProcessorInterface
 {

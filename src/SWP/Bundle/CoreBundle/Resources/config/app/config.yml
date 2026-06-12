@@ -17,8 +17,8 @@ services:
         class:     "Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\MemcachedSessionHandler"
         arguments: ["@session.memcached", { prefix: "%env(resolve:SESSION_MEMCACHED_PREFIX)%", expiretime: "%env(resolve:SESSION_MEMCACHED_EXPIRE)%" }]
 
-    twig.extension.text:
-        class: Twig_Extensions_Extension_Text
+    twig.extension.legacy_filters:
+        class: SWP\Bundle\CoreBundle\Twig\LegacyFiltersExtension
         tags:
             - { name: twig.extension }
 

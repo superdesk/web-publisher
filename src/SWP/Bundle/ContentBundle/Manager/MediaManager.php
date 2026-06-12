@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Manager;
 
-use League\Flysystem\FileExistsException;
 use League\Flysystem\Filesystem;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;

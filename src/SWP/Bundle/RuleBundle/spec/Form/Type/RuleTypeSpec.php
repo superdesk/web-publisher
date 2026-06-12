@@ -14,7 +14,7 @@
 
 namespace spec\SWP\Bundle\RuleBundle\Form\Type;
 
-use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
+use SWP\Bundle\StorageBundle\Form\Type\KeyValueType;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\StorageBundle\Form\Type\UnstructuredType;

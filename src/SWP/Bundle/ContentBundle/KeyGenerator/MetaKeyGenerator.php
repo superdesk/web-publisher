@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\KeyGenerator;
 
-use Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
+use SWP\Component\TwigCacheExtension\CacheStrategy\KeyGeneratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticlesUpdatedTimeAwareInterface;
 use SWP\Bundle\ContentBundle\Model\MediaAwareInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
