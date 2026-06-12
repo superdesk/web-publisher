@@ -44,10 +44,10 @@ final class ArticleToIdTransformer implements DataTransformerInterface
      *
      * @return string
      */
-    public function transform($article)
+    public function transform(mixed $article): mixed
     {
         if (null === $article) {
-            return;
+            return null;
         }
 
         if (!$article instanceof ArticleInterface) {
@@ -66,10 +66,10 @@ final class ArticleToIdTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (article) is not found
      */
-    public function reverseTransform($articleId)
+    public function reverseTransform(mixed $articleId): mixed
     {
         if (null === $articleId) {
-            return;
+            return null;
         }
 
         $article = $this->articleProvider->getOneById($articleId);

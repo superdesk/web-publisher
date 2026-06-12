@@ -24,7 +24,7 @@ class BooleanStringToBooleanTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($value)
+    public function transform(mixed $value): mixed
     {
         return $value;
     }
@@ -32,7 +32,7 @@ class BooleanStringToBooleanTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): mixed
     {
         $allowed = ['true', 'false', '1', '0', null];
 

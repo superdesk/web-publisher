@@ -56,10 +56,10 @@ final class TenantAwareRouteToIdTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (route) is of wrong type
      */
-    public function transform($route)
+    public function transform(mixed $route): mixed
     {
         if (null === $route) {
-            return;
+            return null;
         }
 
         if (!$route instanceof RouteInterface) {
@@ -78,10 +78,10 @@ final class TenantAwareRouteToIdTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (route) is not found
      */
-    public function reverseTransform($routeId)
+    public function reverseTransform(mixed $routeId): mixed
     {
         if (null === $routeId) {
-            return;
+            return null;
         }
 
         $tenantCode = $this->tenantContext->getTenant()->getCode();

@@ -54,7 +54,7 @@ final class JsonToPackageTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($json)
+    public function transform(mixed $json): mixed
     {
         if (!$this->validatorChain->isValid($json)) {
             throw new TransformationFailedException('None of the chained validators were able to validate the data!');
@@ -73,7 +73,7 @@ final class JsonToPackageTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): mixed
     {
         throw new MethodNotSupportedException('reverseTransform');
     }

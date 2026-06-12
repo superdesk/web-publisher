@@ -31,10 +31,10 @@ final class AuthorToIdDataTransformer implements DataTransformerInterface
         $this->articleAuthorRepository = $articleAuthorRepository;
     }
 
-    public function transform($author)
+    public function transform(mixed $author): mixed
     {
         if (null === $author) {
-            return;
+            return null;
         }
 
         if (!$author instanceof ArticleAuthorInterface) {
@@ -44,10 +44,10 @@ final class AuthorToIdDataTransformer implements DataTransformerInterface
         return $author->getId();
     }
 
-    public function reverseTransform($authorId)
+    public function reverseTransform(mixed $authorId): mixed
     {
         if (null === $authorId) {
-            return;
+            return null;
         }
 
         $author = $this->articleAuthorRepository->findOneBy(['id' => $authorId]);

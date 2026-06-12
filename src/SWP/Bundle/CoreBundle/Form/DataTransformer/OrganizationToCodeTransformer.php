@@ -44,7 +44,7 @@ final class OrganizationToCodeTransformer implements DataTransformerInterface
      *
      * @return string
      */
-    public function transform($organization)
+    public function transform(mixed $organization): mixed
     {
         if (null === $organization) {
             return '';
@@ -66,10 +66,10 @@ final class OrganizationToCodeTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (organization) is not found
      */
-    public function reverseTransform($organizationCode)
+    public function reverseTransform(mixed $organizationCode): mixed
     {
         if (null === $organizationCode || '' === $organizationCode) {
-            return;
+            return null;
         }
 
         $organization = $this->organizationRepository->findOneByCode($organizationCode);

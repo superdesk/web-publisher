@@ -27,7 +27,7 @@ interface DataTransformerInterface
      *
      * @throws TransformationFailedException
      */
-    public function transform($value);
+    public function transform(mixed $value): mixed;
 
     /**
      * Transforms value in reverse mode.
@@ -38,5 +38,5 @@ interface DataTransformerInterface
      *
      * @throws TransformationFailedException
      */
-    public function reverseTransform($value);
+    public function reverseTransform(mixed $value): mixed;
 }

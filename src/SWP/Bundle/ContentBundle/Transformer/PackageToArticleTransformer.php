@@ -40,7 +40,7 @@ final class PackageToArticleTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($package)
+    public function transform(mixed $package): mixed
     {
         if (!$package instanceof PackageInterface) {
             throw new TransformationFailedException(sprintf('Expected a %s!', PackageInterface::class));
@@ -52,7 +52,7 @@ final class PackageToArticleTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): mixed
     {
         throw new MethodNotSupportedException('reverseTransform');
     }

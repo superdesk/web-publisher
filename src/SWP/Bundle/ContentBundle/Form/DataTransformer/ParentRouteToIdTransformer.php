@@ -46,10 +46,10 @@ final class ParentRouteToIdTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (route) is of wrong type
      */
-    public function transform($route)
+    public function transform(mixed $route): mixed
     {
         if (null === $route) {
-            return;
+            return null;
         }
 
         if ($route instanceof RouteInterface || $route instanceof Generic) {
@@ -73,7 +73,7 @@ final class ParentRouteToIdTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (route) is not found
      */
-    public function reverseTransform($routeId)
+    public function reverseTransform(mixed $routeId): mixed
     {
         $route = $this->routeProvider->getOneById($routeId);
 

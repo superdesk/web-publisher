@@ -43,10 +43,10 @@ final class MenuItemToIdTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (menu item) is of wrong type
      */
-    public function transform($menuItem)
+    public function transform(mixed $menuItem): mixed
     {
         if (null === $menuItem) {
-            return;
+            return null;
         }
 
         if (!$menuItem instanceof MenuItemInterface) {
@@ -65,10 +65,10 @@ final class MenuItemToIdTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException if object (menu item) is not found
      */
-    public function reverseTransform($menuItemId)
+    public function reverseTransform(mixed $menuItemId): mixed
     {
         if (null === $menuItemId) {
-            return;
+            return null;
         }
 
         $menuItem = $this->repository->getOneMenuItemById((int) $menuItemId);
