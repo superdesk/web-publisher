@@ -23,7 +23,7 @@ services:
             - ./elasticsearch:/var/lib/elasticsearch/data:cached
     php:
         extra_hosts:
-            - "host.docker.internal: 172.28.0.1"
+            - "host.docker.internal:172.28.0.1"
         build: php8-fpm
         ports:
             - "9001:9000"
