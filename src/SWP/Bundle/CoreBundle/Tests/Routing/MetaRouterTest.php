@@ -25,18 +25,18 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class MetaRouterTest extends WebTestCase
 {
-    public function testSupportsMeta()
+    public function testRejectsUnsupportedRouteNames()
     {
-        $article = $this->createMock('SWP\Bundle\ContentBundle\Model\ArticleInterface');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertTrue($router->supports(new Meta(new Context(new EventDispatcher(), new ArrayAdapter()), $article, ['name' => 'article', 'properties' => []])));
-    }
 
-    public function testSupports()
-    {
-        $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertTrue($router->supports('some_string'));
-        $this->assertTrue($router->supports(new Article()));
+        foreach (['homepage', 'swp_media_get', 'swp_author_media_get', 'swp_api_core_list_tenants'] as $unsupportedName) {
+            try {
+                $router->generate($unsupportedName);
+                $this->fail(sprintf('Expected RouteNotFoundException for "%s".', $unsupportedName));
+            } catch (\Symfony\Component\Routing\Exception\RouteNotFoundException $e) {
+                $this->addToAssertionCount(1);
+            }
+        }
     }
 
     public function testGenerate()
@@ -46,11 +46,17 @@ class MetaRouterTest extends WebTestCase
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
         $articleProvider = $this->getContainer()->get('swp.provider.article');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertEquals('/news/test-news-article', $router->generate($metaLoader->load('article', ['slug' => 'test-news-article'])));
+        $this->assertEquals('/news/test-news-article', $router->generate(
+            \Symfony\Cmf\Component\Routing\RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
+            [\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT => $metaLoader->load('article', ['slug' => 'test-news-article'])]
+        ));
 
         $criteria = new Criteria();
         $criteria->set('slug', 'test-news-article');
-        $this->assertEquals('/news/test-news-article', $router->generate($articleProvider->getOneByCriteria($criteria)));
+        $this->assertEquals('/news/test-news-article', $router->generate(
+            \Symfony\Cmf\Component\Routing\RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
+            [\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT => $articleProvider->getOneByCriteria($criteria)]
+        ));
     }
 
     public function testGenerateForRouteWithContentWithoutRouteAssigned()
@@ -64,7 +70,10 @@ class MetaRouterTest extends WebTestCase
         $context->setCurrentPage($routeMeta);
         $this->assertEquals(
             '/collection-with-content',
-            $router->generate($metaLoader->load('article', ['slug' => 'content-assigned-as-route-content']))
+            $router->generate(
+                \Symfony\Cmf\Component\Routing\RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
+                [\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT => $metaLoader->load('article', ['slug' => 'content-assigned-as-route-content'])]
+            )
         );
     }
 }

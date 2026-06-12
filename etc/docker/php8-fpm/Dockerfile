@@ -41,7 +41,7 @@ RUN set -ex \
     && docker-php-ext-install exif \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install zip gd bcmath
+    && docker-php-ext-install zip gd bcmath sysvsem
 
 # install xdebug and enable error logging
 RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/errors.ini

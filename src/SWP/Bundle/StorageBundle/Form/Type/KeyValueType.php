@@ -33,7 +33,7 @@ class KeyValueType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addViewTransformer(new CallbackTransformer(
+        $builder->addModelTransformer(new CallbackTransformer(
             static function ($hash) {
                 if (null === $hash) {
                     return [];

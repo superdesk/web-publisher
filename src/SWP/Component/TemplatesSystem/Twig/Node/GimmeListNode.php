@@ -134,7 +134,7 @@ class GimmeListNode extends \Twig\Node\Node
             $compiler->write('$swpContext'.$i."GimmeList = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();\n");
             $compiler->write('$swpIgnoreContext'.$i.'GimmeList = $swpContext'.$i.'GimmeList->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
         }
-        $compiler->write('')->subcompile($this->getNode('collectionType'))->raw(' = twig_ensure_traversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');
+        $compiler->write('')->subcompile($this->getNode('collectionType'))->raw(' = \\Twig\\Extension\\CoreExtension::ensureTraversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');
         $compiler->raw('$withParameters, $withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));')->raw("\n");
 
         // the (array) cast bypasses a PHP 5.2.6 bug

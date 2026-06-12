@@ -96,7 +96,7 @@ class SubscriptionLoaderTest extends WebTestCase
     private function logInUser()
     {
         $user = $this->getContainer()->get('swp.repository.user')->findOneByEmail('test.user@sourcefabric.org');
-        $token = new UsernamePasswordToken($user, $user->getPassword(), 'main', ['ROLE_USER']);
+        $token = new UsernamePasswordToken($user, 'main', ['ROLE_USER']);
 
         $tokenStorage = $this->getContainer()->get('security.token_storage');
 
