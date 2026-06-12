@@ -14,14 +14,24 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Doctrine\PHPCR;
 
+use Doctrine\Persistence\ManagerRegistry;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\PrefixCandidates as BasePrefixCandidates;
+use Symfony\Cmf\Component\Routing\Candidates\CandidatesInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class PrefixCandidates.
+ * Tenant aware candidates for PHPCR routing: prefixes are resolved through
+ * the tenant aware path builder on every call. Decorates the (final) CMF
+ * PrefixCandidates instead of extending it.
  */
-class PrefixCandidates extends BasePrefixCandidates
+class PrefixCandidates implements CandidatesInterface
 {
+    /**
+     * @var BasePrefixCandidates
+     */
+    protected $inner;
+
     /**
      * @var TenantAwarePathBuilderInterface
      */
@@ -32,31 +42,66 @@ class PrefixCandidates extends BasePrefixCandidates
      */
     protected $routePathsNames = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPrefixes()
+    public function __construct(array $prefixes = [], array $locales = [], ?ManagerRegistry $doctrine = null, int $limit = 20)
     {
-        $this->idPrefixes = (array) $this->pathBuilder->build($this->routePathsNames);
+        $this->inner = new BasePrefixCandidates($prefixes, $locales, $doctrine, $limit);
+    }
 
-        return $this->idPrefixes;
+    public function isCandidate(string $name): bool
+    {
+        $this->refreshPrefixes();
+
+        return $this->inner->isCandidate($name);
+    }
+
+    public function restrictQuery(object $queryBuilder): void
+    {
+        $this->refreshPrefixes();
+
+        $this->inner->restrictQuery($queryBuilder);
+    }
+
+    public function getCandidates(Request $request): array
+    {
+        $this->refreshPrefixes();
+
+        return $this->inner->getCandidates($request);
+    }
+
+    public function getPrefixes(): array
+    {
+        $this->refreshPrefixes();
+
+        return $this->inner->getPrefixes();
+    }
+
+    public function setPrefixes(array $prefixes): void
+    {
+        $this->inner->setPrefixes($prefixes);
+    }
+
+    public function setManagerName($manager): void
+    {
+        $this->inner->setManagerName($manager);
     }
 
     /**
      * Sets path builder.
-     *
-     * @param TenantAwarePathBuilderInterface $pathBuilder
      */
     public function setPathBuilder(TenantAwarePathBuilderInterface $pathBuilder)
     {
         $this->pathBuilder = $pathBuilder;
     }
 
-    /**
-     * @param array $routePathsNames
-     */
     public function setRoutePathsNames(array $routePathsNames = [])
     {
         $this->routePathsNames = $routePathsNames;
+    }
+
+    private function refreshPrefixes(): void
+    {
+        if (null !== $this->pathBuilder) {
+            $this->inner->setPrefixes((array) $this->pathBuilder->build($this->routePathsNames));
+        }
     }
 }

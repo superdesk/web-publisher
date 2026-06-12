@@ -37,7 +37,7 @@ class TenantAwareCache extends FilesystemCache implements TenantAwareCacheInterf
         parent::__construct($this->directory);
     }
 
-    public function generateKey($name, $className)
+    public function generateKey(string $name, string $className): string
     {
         if (null === $this->tenantContext->getTenant()) {
             return parent::generateKey($name, $className);

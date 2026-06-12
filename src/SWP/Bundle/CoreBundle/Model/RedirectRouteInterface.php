@@ -27,5 +27,5 @@ interface RedirectRouteInterface extends BaseRedirectRouteInterface, TenantAware
 
     public function setRouteName(string $routeName);
 
-    public function setStaticPrefix($prefix);
+    public function setStaticPrefix(string $prefix): static;
 }

@@ -8,11 +8,9 @@ framework:
     cache:
         pools:
             doctrine.result_cache_pool:
-                adapter: cache.adapter.memcached
-                provider: "%env(MEMCACHED_DSN)%"
+                adapter: cache.app
             doctrine.system_cache_pool:
-                adapter: cache.adapter.memcached
-                provider: "%env(MEMCACHED_DSN)%"
+                adapter: cache.system
     esi: { enabled: true }
     translator:
         fallbacks: ["%locale%"]

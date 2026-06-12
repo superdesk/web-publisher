@@ -22,6 +22,7 @@ use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 
@@ -45,8 +46,15 @@ class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInter
     parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
   }
 
-  public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
-    if (self::OBJECT_BASED_ROUTE_NAME === $meta
+  public static function getSubscribedServices(): array {
+    return array_merge(parent::getSubscribedServices(), [
+        'swp_core_bundle.manager.author_media' => \SWP\Bundle\ContentBundle\Manager\MediaManagerInterface::class,
+    ]);
+  }
+
+  public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string {
+    $meta = null;
+    if (self::OBJECT_BASED_ROUTE_NAME === $name
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
     ) {
       $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
@@ -57,23 +65,17 @@ class ArticleAuthorMediaRouter extends Router implements VersatileGeneratorInter
       return $this->authorMediaManager->getMediaPublicUrl($meta->getValues()->getImage());
     }
 
-    return '';
+    throw new RouteNotFoundException(sprintf('Route "%s" is not supported by this router.', $name));
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function supports($name) {
-    return (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) || ($name instanceof Meta && ($name->getValues() instanceof AuthorMediaInterface));
-  }
-
-  public function getRouteDebugMessage($name, array $parameters = []) {
+  public function getRouteDebugMessage(string $name, array $parameters = []): string {
     if (self::OBJECT_BASED_ROUTE_NAME === $name
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+        && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof Meta
     ) {
-      $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
-      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
+      return 'Route for article author media ' . $parameters[RouteObjectInterface::ROUTE_OBJECT]->getValues()->getId() . ' not found';
     }
-    return 'Route for article author media ' . $name->getValues()->getId() . ' not found';
+
+    return 'Route "' . $name . '" not found';
   }
 }

@@ -60,7 +60,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getRouteCollectionForRequest(Request $request)
+    public function getRouteCollectionForRequest(Request $request): \Symfony\Component\Routing\RouteCollection
     {
         $collection = new RouteCollection();
 
@@ -185,7 +185,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getRouteByName($name)
+    public function getRouteByName($name): \Symfony\Component\Routing\Route
     {
         if (array_key_exists($name, $this->internalRoutesCache)) {
             return $this->internalRoutesCache[$name];

@@ -66,6 +66,8 @@ services:
         public: true
         tags:
             - { name: router, priority: 300 }
+            - { name: container.service_subscriber, id: routing.loader }
+            - { name: container.service_subscriber, id: swp_core_bundle.manager.author_media }
 
     swp_core.provider.theme:
         class: SWP\Bundle\CoreBundle\Theme\Provider\ThemeProvider
@@ -163,10 +165,11 @@ services:
             - '@Sylius\Bundle\ThemeBundle\Factory\ThemeScreenshotFactoryInterface'
             - '@Sylius\Bundle\ThemeBundle\Loader\CircularDependencyCheckerInterface'
 
-    swp_core.security.session.domain_dynamic_storage:
-        class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
+    swp_core.security.session.domain_dynamic_storage_factory:
+        class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorageFactory
         arguments:
             - "@swp_multi_tenancy.tenant_context"
+            - "@session.handler.memcached"
 
     swp_core.listener.article_rules_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
@@ -241,6 +244,7 @@ services:
             - "@knpu.oauth2.registry"
             - '@SWP\Bundle\UserBundle\Model\UserManagerInterface'
             - "@security.helper"
+            - '@swp.security.user_provider'
 
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider

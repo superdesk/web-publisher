@@ -36,7 +36,7 @@ class CoreExtension extends AbstractExtension implements GlobalsInterface
     /**
      * {@inheritdoc}
      */
-    public function getGlobals()
+    public function getGlobals(): array
     {
         return [
             'theme' => $this->themeContext->getTheme(),

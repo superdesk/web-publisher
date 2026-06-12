@@ -4,7 +4,6 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $cacheService: '@doctrine.system_cache_pool'
       $superdeskServers: '%superdesk_servers%'
       $formFactory: '@form.factory'
       $eventDispatcher: '@event_dispatcher'

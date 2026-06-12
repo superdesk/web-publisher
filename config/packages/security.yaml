@@ -1,5 +1,5 @@
 security:
-    encoders:
+    password_hashers:
         SWP\Bundle\UserBundle\Model\User:
             algorithm: auto
 
@@ -42,33 +42,28 @@ security:
         refresh_jwt:
             pattern:  ^/api/[v0-9]{2}/token/refresh
             stateless: true
-            anonymous: true
+            refresh_jwt: ~
         article_search:
             pattern: ^/api/[v0-9]{2}/search/articles/
             stateless: true
-            anonymous: true
             security: false
         internal_api:
             pattern: ^/api/(?![v0-9]{2}/users/profile/*)
-            anonymous: false
-            logout: false
-            guard:
-                entry_point: lexik_jwt_authentication.jwt_token_authenticator
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
-                    - swp.security.token_authenticator
             stateless: true
+            entry_point: jwt
+            jwt: ~
+            custom_authenticators:
+                - swp.security.token_authenticator
         preview:
             pattern: ^/preview/package
-            anonymous: false
-            logout: false
-            guard:
-                authenticators:
-                    - swp.security.preview_token_authenticator
             stateless: true
+            custom_authenticators:
+                - swp.security.preview_token_authenticator
         main:
             provider: swp_user_provider
             pattern: ^/
+            lazy: true
+            entry_point: swp.security.external_oauth_authenticator
             form_login:
                 check_path: security_login_check
                 target_path_parameter: _login_success_path
@@ -77,19 +72,16 @@ security:
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
             logout:
                 path: security_logout
-            guard:
-                entry_point: swp.security.external_oauth_authenticator
-                authenticators:
-                    - swp.security.external_oauth_authenticator
-                    - lexik_jwt_authentication.jwt_token_authenticator
-                    - swp.security.token_authenticator
-                    - SWP\Bundle\UserBundle\Security\LoginAuthenticator
-            anonymous: lazy
+            jwt: ~
+            custom_authenticators:
+                - swp.security.external_oauth_authenticator
+                - swp.security.token_authenticator
+                - SWP\Bundle\UserBundle\Security\LoginAuthenticator
 
     access_control:
         - { path: "^/preview/article", roles: ROLE_EDITOR }
         - { path: "^/api/[v0-9]{2}/users/profile/*", roles: ROLE_USER }
         - { path: "^/api/[v0-9]{2}/users/settings", roles: ROLE_USER }
-        - { path: "^/api/[v0-9]{2}/token/refresh", roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/reset-password", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/api/[v0-9]{2}/token/refresh", roles: PUBLIC_ACCESS }
+        - { path: "^/reset-password", roles: PUBLIC_ACCESS }
         - { path: "^/api", roles: ROLE_INTERNAL_API }

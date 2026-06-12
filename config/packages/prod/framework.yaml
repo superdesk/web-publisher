@@ -1,0 +1,9 @@
+framework:
+    cache:
+        pools:
+            doctrine.result_cache_pool:
+                adapter: cache.adapter.memcached
+                provider: "%env(MEMCACHED_DSN)%"
+            doctrine.system_cache_pool:
+                adapter: cache.adapter.memcached
+                provider: "%env(MEMCACHED_DSN)%"

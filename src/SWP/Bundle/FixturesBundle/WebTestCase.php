@@ -77,7 +77,7 @@ class WebTestCase extends BaseWebTestCase {
     return $this->databaseTool->loadFixtures($registry->getFixtures($fixtures))->getReferenceRepository();
   }
 
-  public static function createClient(array $options = [], array $server = []) {
+  public static function createClient(array $options = [], array $server = []): \Symfony\Bundle\FrameworkBundle\KernelBrowser {
     if (!array_key_exists('HTTP_Authorization', $server)) {
       $server['HTTP_Authorization'] = base64_encode('test_token:');
     }

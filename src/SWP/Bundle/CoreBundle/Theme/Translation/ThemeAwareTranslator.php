@@ -107,6 +107,11 @@ final class ThemeAwareTranslator implements TranslatorInterface, TranslatorBagIn
         return $this->translator->getCatalogue($locale);
     }
 
+    public function getCatalogues(): array
+    {
+        return $this->translator->getCatalogues();
+    }
+
     /**
      * {@inheritdoc}
      */

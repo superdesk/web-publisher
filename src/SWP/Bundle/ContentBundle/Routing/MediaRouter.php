@@ -49,34 +49,37 @@ class MediaRouter extends Router implements VersatileGeneratorInterface {
     parent::__construct($container, $resource, $options, $context, $parameters, $logger, $defaultLocale);
   }
 
-  public function getRouteDebugMessage($meta, array $parameters = array()): string {
-    if (self::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
-      $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
-      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
+  public static function getSubscribedServices(): array {
+    return array_merge(parent::getSubscribedServices(), [
+        'swp_content_bundle.manager.media' => \SWP\Bundle\ContentBundle\Manager\MediaManagerInterface::class,
+    ]);
+  }
+
+  public function getRouteDebugMessage(string $name, array $parameters = []): string {
+    if (self::OBJECT_BASED_ROUTE_NAME === $name
+        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+        && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof Meta
+    ) {
+      return 'Route for media ' . $parameters[RouteObjectInterface::ROUTE_OBJECT]->getValues()->getId() . ' not found';
     }
-    return 'Route for media ' . $meta->getValues()->getId() . ' not found';
+
+    return 'Route "' . $name . '" not found';
   }
 
-  public function supports($name): bool {
-    return (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) ||
-        ($name instanceof Meta && (
-                $name->getValues() instanceof ArticleMediaInterface ||
-                $name->getValues() instanceof ImageRenditionInterface));
-  }
-
-  public function generate($meta, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string {
-    if (self::OBJECT_BASED_ROUTE_NAME === $meta && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
+  public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string {
+    $meta = null;
+    if (self::OBJECT_BASED_ROUTE_NAME === $name && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
       $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
 
     if (!$meta instanceof Meta) {
-      return '';
+      throw new RouteNotFoundException(sprintf('Route "%s" is not supported by this router.', $name));
     }
 
     $item = $this->getItem($meta);
     if (null === $item) {
-      return '';
+      throw new RouteNotFoundException('No media item found for the given route object.');
     }
 
     if ($meta->getValues() instanceof ImageRenditionInterface && null !== ($previewUrl = $meta->getValues()->getPreviewUrl())) {

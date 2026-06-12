@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Matcher\RedirectableUrlMatcher as BaseRedirectable
 
 class RedirectableUrlMatcher extends BaseRedirectableUrlMatcher
 {
-    public function redirect($path, $route, $scheme = null): array
+    public function redirect(string $path, string $route, ?string $scheme = null): array
     {
         return [
             '_controller' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::urlRedirectAction',

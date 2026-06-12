@@ -10,24 +10,11 @@ doctrine:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: false
                 metadata_cache_driver:
-                    type: service
-                    id: doctrine.system_cache_provider
+                    type: pool
+                    pool: doctrine.system_cache_pool
                 query_cache_driver:
-                    type: service
-                    id: doctrine.system_cache_provider
+                    type: pool
+                    pool: doctrine.system_cache_pool
                 result_cache_driver:
-                    type: service
-                    id: doctrine.result_cache_provider
-
-services:
-    doctrine.system_cache_provider:
-        class: Symfony\Component\Cache\DoctrineProvider
-        public: false
-        arguments:
-            - '@doctrine.system_cache_pool'
-
-    doctrine.result_cache_provider:
-        class: Symfony\Component\Cache\DoctrineProvider
-        public: false
-        arguments:
-            - '@doctrine.result_cache_pool'
+                    type: pool
+                    pool: doctrine.result_cache_pool

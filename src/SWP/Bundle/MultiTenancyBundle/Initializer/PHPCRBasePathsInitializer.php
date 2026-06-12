@@ -67,7 +67,7 @@ class PHPCRBasePathsInitializer implements InitializerInterface
     /**
      * {@inheritdoc}
      */
-    public function init(ManagerRegistry $registry)
+    public function init(ManagerRegistryInterface $registry): void
     {
         /** @var SessionInterface $session */
         $session = $registry->getConnection();

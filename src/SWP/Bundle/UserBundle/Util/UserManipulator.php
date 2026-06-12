@@ -19,7 +19,7 @@ namespace SWP\Bundle\UserBundle\Util;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Bundle\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Executes some manipulations on the users.
@@ -38,14 +38,14 @@ class UserManipulator
      */
     private $requestStack;
     /**
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     private $passwordEncoder;
 
     public function __construct(
         UserManagerInterface $userManager,
         RequestStack $requestStack,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordHasherInterface $passwordEncoder
     ) {
         $this->userManager = $userManager;
         $this->requestStack = $requestStack;
@@ -69,7 +69,7 @@ class UserManipulator
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setPassword(
-            $this->passwordEncoder->encodePassword(
+            $this->passwordEncoder->hashPassword(
                 $user,
                 $password
             )

@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.5-fpm-alpine
 LABEL authors="zkabic"
 RUN apk update
 RUN apk add curl-dev
@@ -38,8 +38,6 @@ RUN set -ex \
     && docker-php-ext-enable memcached \
     && pecl install amqp \
     && docker-php-ext-enable amqp \
-    && pecl install xdebug-3.1.5 \
-    && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-configure zip \
@@ -49,9 +47,6 @@ RUN set -ex \
 RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/errors.ini
 RUN echo "display_errors = On" >> /usr/local/etc/php/conf.d/errors.ini
 RUN echo "log_errors = On" >> /usr/local/etc/php/conf.d/errors.ini
-RUN echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.discover_client_host=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
 RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer

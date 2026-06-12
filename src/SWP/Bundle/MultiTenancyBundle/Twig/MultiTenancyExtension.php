@@ -36,7 +36,7 @@ class MultiTenancyExtension extends AbstractExtension implements GlobalsInterfac
     /**
      * {@inheritdoc}
      */
-    public function getGlobals()
+    public function getGlobals(): array
     {
         return [
             'tenant' => $this->tenantContext->getTenant(),

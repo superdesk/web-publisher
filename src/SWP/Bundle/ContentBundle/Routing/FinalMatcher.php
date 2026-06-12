@@ -26,7 +26,7 @@ class FinalMatcher extends RedirectableUrlMatcher implements FinalMatcherInterfa
     /**
      * {@inheritdoc}
      */
-    public function finalMatch(RouteCollection $collection, Request $request)
+    public function finalMatch(RouteCollection $collection, Request $request): array
     {
         $this->routes = $collection;
         $context = new RequestContext();
@@ -39,7 +39,7 @@ class FinalMatcher extends RedirectableUrlMatcher implements FinalMatcherInterfa
     /**
      * {@inheritdoc}
      */
-    protected function getAttributes(Route $route, $name, array $attributes)
+    protected function getAttributes(Route $route, string $name, array $attributes): array
     {
         if ($route instanceof RouteObjectInterface && is_string($route->getRouteKey())) {
             $name = $route->getRouteKey();

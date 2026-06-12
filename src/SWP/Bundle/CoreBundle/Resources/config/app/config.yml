@@ -24,7 +24,7 @@ services:
 
 framework:
     session:
-        storage_id: "swp_core.security.session.domain_dynamic_storage"
+        storage_factory_id: "swp_core.security.session.domain_dynamic_storage_factory"
         handler_id: "session.handler.memcached"
 
 doctrine:

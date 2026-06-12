@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProfileController extends AbstractController {
@@ -93,7 +93,7 @@ class ProfileController extends AbstractController {
   /**
    * @Route("/api/{version}/users/profile/{id}", methods={"PATCH"}, options={"expose"=true}, defaults={"version"="v2"}, name="swp_api_user_edit_user_profile")
    */
-  public function editAction(Request $request, $id, UserPasswordEncoderInterface $passwordEncoder) {
+  public function editAction(Request $request, $id, UserPasswordHasherInterface $passwordEncoder) {
     $requestedUser = $this->userRepository->find($id);
     if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {
       throw new NotFoundHttpException('Requested user don\'t exists');
@@ -109,7 +109,7 @@ class ProfileController extends AbstractController {
     if ($form->isSubmitted() && $form->isValid()) {
       if (!empty($form->get('plainPassword')->getData())) {
         $requestedUser->setPassword(
-            $passwordEncoder->encodePassword(
+            $passwordEncoder->hashPassword(
                 $requestedUser,
                 $form->get('plainPassword')->getData()
             )

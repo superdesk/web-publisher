@@ -5,11 +5,6 @@ sentry:
     dsn: '%env(resolve:SENTRY_DSN)%'
     options:
         environment: '%kernel.environment%'
-        release: '2.1.0'
-
-services:
-    Sentry\Integration\IgnoreErrorsIntegration:
-        arguments:
-            $options:
-                ignore_exceptions:
-                    - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+        release: '2.5.2'
+        ignore_exceptions:
+            - Symfony\Component\HttpKernel\Exception\NotFoundHttpException

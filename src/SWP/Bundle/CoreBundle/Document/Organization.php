@@ -45,7 +45,7 @@ class Organization extends BaseOrganization implements HierarchyInterface
     /**
      * {@inheritdoc}
      */
-    public function getParentDocument()
+    public function getParentDocument(): ?object
     {
         return $this->parent;
     }

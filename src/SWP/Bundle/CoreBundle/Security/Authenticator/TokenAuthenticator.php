@@ -16,9 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpFoundation\Response;
-use function stripslashes;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
@@ -26,15 +23,21 @@ use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
+use function stripslashes;
 
-class TokenAuthenticator extends AbstractGuardAuthenticator
+class TokenAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     protected $apiKeyRepository;
 
@@ -56,56 +59,65 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function getCredentials(Request $request): array
+    public function supports(Request $request): ?bool
     {
-        return [
-            'token' => $this->getToken($request),
-        ];
-    }
+        $token = $this->getToken($request);
+        $isApi = $request->attributes->get('_fos_rest_zone');
 
-    public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
-    {
-        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
-
-        /** @var ApiKeyInterface $apiKey */
-        $apiKey = $this->apiKeyRepository
-            ->getValidToken(str_replace('Basic ', '', stripslashes($credentials['token'])))
-            ->getQuery()
-            ->getOneOrNullResult();
-        $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
-
-        if (null === $apiKey) {
-            return null;
+        if (false === $isApi && $request->query->has('auth_token')) {
+            return true;
         }
 
-        // extend valid time after login
-        $apiKey->extendValidTo();
+        if (false === $isApi) {
+            return false;
+        }
 
-        /** @var CoreUserInterface $user */
-        $user = $apiKey->getUser();
-
-        return $user;
+        return null !== $token && false === strpos($token, 'Bearer ');
     }
 
-    public function checkCredentials($credentials, UserInterface $user): bool
+    public function authenticate(Request $request): Passport
     {
-        if ($user instanceof CoreUserInterface) {
+        $token = $this->getToken($request);
+        if (null === $token) {
+            throw new CustomUserMessageAuthenticationException('No API token provided.');
+        }
+
+        return new SelfValidatingPassport(new UserBadge($token, function (string $token) {
+            $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_DISABLE);
+
+            /** @var ApiKeyInterface|null $apiKey */
+            $apiKey = $this->apiKeyRepository
+                ->getValidToken(str_replace('Basic ', '', stripslashes($token)))
+                ->getQuery()
+                ->getOneOrNullResult();
+            $this->eventDispatcher->dispatch(new GenericEvent(), MultiTenancyEvents::TENANTABLE_ENABLE);
+
+            if (null === $apiKey) {
+                throw new CustomUserMessageAuthenticationException('Invalid API token.');
+            }
+
+            // extend valid time after login
+            $apiKey->extendValidTo();
+
+            /** @var CoreUserInterface $user */
+            $user = $apiKey->getUser();
+
             $currentOrganization = $this->tenantContext->getTenant()->getOrganization();
             $userOrganization = $user->getOrganization();
-            if ($currentOrganization->getId() === $userOrganization->getId()) {
-                return true;
+            if ($currentOrganization->getId() !== $userOrganization->getId()) {
+                throw new CustomUserMessageAuthenticationException('User does not belong to the current organization.');
             }
-        }
 
-        return false;
+            return $user;
+        }));
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return null;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $data = [
             'status' => Response::HTTP_FORBIDDEN,
@@ -123,27 +135,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
-    }
-
-    public function supportsRememberMe(): bool
-    {
-        return false;
-    }
-
-    public function supports(Request $request): bool
-    {
-        $token = $this->getToken($request);
-        $isApi = $request->attributes->get('_fos_rest_zone');
-
-        if (false === $isApi && $request->query->has('auth_token')) {
-            return true;
-        }
-
-        if (false === $isApi) {
-            return false;
-        }
-
-        return null !== $token && false === strpos($token, 'Bearer ');
     }
 
     private function getToken(Request $request): ?string

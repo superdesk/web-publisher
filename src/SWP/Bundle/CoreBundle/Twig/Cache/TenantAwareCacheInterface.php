@@ -17,7 +17,7 @@ namespace SWP\Bundle\CoreBundle\Twig\Cache;
 /**
  * Implements tenant aware Twig cache.
  */
-interface TenantAwareCacheInterface extends \Twig_CacheInterface
+interface TenantAwareCacheInterface extends \Twig\Cache\CacheInterface
 {
     /**
      * @return string

@@ -56,7 +56,7 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render($uri, Request $request, array $options = [])
+    public function render(\Symfony\Component\HttpKernel\Controller\ControllerReference|string $uri, Request $request, array $options = []): \Symfony\Component\HttpFoundation\Response
     {
         $level = ob_get_level();
 
@@ -92,7 +92,7 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'external';
     }

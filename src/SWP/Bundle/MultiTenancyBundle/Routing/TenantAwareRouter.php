@@ -28,25 +28,22 @@ class TenantAwareRouter extends DynamicRouter
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = [], $referenceType = false)
+    public function generate(string $name, array $parameters = [], int $referenceType = \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
-      if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
-          && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-      ) {
-        $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
-        unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
-      }
+        if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
+            && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+        ) {
+            return parent::generate($name, $parameters, $referenceType);
+        }
 
-        if (null === $name && isset($parameters['content_id'])) {
+        if (isset($parameters['content_id'])) {
             $contentId = $this->checkAndRemoveFirstSlash($parameters['content_id']);
             $parameters['content_id'] = $this->pathBuilder->build('/', $contentId);
         }
 
-        if (is_string($name)) {
-            $name = (string) $this->pathBuilder->build(
-                $this->checkAndRemoveFirstSlash($name)
-            );
-        }
+        $name = (string) $this->pathBuilder->build(
+            $this->checkAndRemoveFirstSlash($name)
+        );
 
         return parent::generate($name, $parameters, $referenceType);
     }

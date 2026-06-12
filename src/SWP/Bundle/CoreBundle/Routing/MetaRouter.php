@@ -28,8 +28,12 @@ class MetaRouter extends DynamicRouter {
 
   protected $internalRoutesCache = [];
 
-  public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
-    if (self::OBJECT_BASED_ROUTE_NAME === $name
+  public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string {
+    if (!$this->supportsRouteName($name)) {
+      throw new RouteNotFoundException(sprintf('Route "%s" is not supported by this router.', $name));
+    }
+
+    if ((self::OBJECT_BASED_ROUTE_NAME === $name || RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name)
         && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
     ) {
       $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
@@ -60,10 +64,15 @@ class MetaRouter extends DynamicRouter {
     }
 
     if (null === $route || is_array($route)) {
-      throw new RouteNotFoundException(sprintf('Unable to generate a URL for the named route "%s" as such route does not exist.', $name));
+      throw new RouteNotFoundException('Unable to generate a URL for the given route as such route does not exist.');
     }
 
-    $result = parent::generate($route, $parameters, $referenceType);
+    if (is_string($route)) {
+      $result = parent::generate($route, $parameters, $referenceType);
+    } else {
+      $parameters[RouteObjectInterface::ROUTE_OBJECT] = $route;
+      $result = parent::generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, $parameters, $referenceType);
+    }
     $this->internalRoutesCache[$cacheKey] = $result;
     unset($route);
 
@@ -87,20 +96,11 @@ class MetaRouter extends DynamicRouter {
     return md5($name . serialize($parameters) . $type);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function supports($name) {
+  private function supportsRouteName(string $name): bool {
     return
-        ($name instanceof Meta && (
-                $name->getValues() instanceof ArticleInterface ||
-                $name->getValues() instanceof RouteInterface
-            )) ||
-        $name instanceof RouteInterface ||
-        $name instanceof ArticleInterface ||
-        (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) ||
+        self::OBJECT_BASED_ROUTE_NAME === $name ||
+        RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name ||
         (
-            is_string($name) &&
             'homepage' !== $name &&
             'swp_author_media_get' !== $name &&
             'swp_media_get' !== $name &&

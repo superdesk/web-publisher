@@ -21,6 +21,7 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 
@@ -31,13 +32,18 @@ class SeoMediaRouter extends Router implements VersatileGeneratorInterface {
   /**
    * {@inheritdoc}
    */
-  public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
+  public function generate(string $name, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string {
+    $meta = null;
     if (self::OBJECT_BASED_ROUTE_NAME === $name && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
-      $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+      $meta = $parameters[RouteObjectInterface::ROUTE_OBJECT];
       unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
     }
 
-    $item = $name->getValues()->getImage();
+    if (!$meta instanceof Meta || !$meta->getValues() instanceof ArticleSeoMediaInterface) {
+      throw new RouteNotFoundException(sprintf('Route "%s" is not supported by this router.', $name));
+    }
+
+    $item = $meta->getValues()->getImage();
 
     $parameters['mediaId'] = $item->getAssetId();
     $parameters['extension'] = $item->getFileExtension();
@@ -45,16 +51,14 @@ class SeoMediaRouter extends Router implements VersatileGeneratorInterface {
     return parent::generate('swp_seo_media_get', $parameters, $referenceType);
   }
 
-  public function supports($name): bool {
-    return (is_string($name) && $name == self::OBJECT_BASED_ROUTE_NAME) || ($name instanceof Meta && $name->getValues() instanceof ArticleSeoMediaInterface);
-  }
-
-  public function getRouteDebugMessage($name, array $parameters = array()): string {
-    if (self::OBJECT_BASED_ROUTE_NAME === $name && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)) {
-      $name = $parameters[RouteObjectInterface::ROUTE_OBJECT];
-      unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
+  public function getRouteDebugMessage(string $name, array $parameters = []): string {
+    if (self::OBJECT_BASED_ROUTE_NAME === $name
+        && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+        && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof Meta
+    ) {
+      return 'Route for media ' . $parameters[RouteObjectInterface::ROUTE_OBJECT]->getValues()->getId() . ' not found';
     }
 
-    return 'Route for media ' . $name->getValues()->getId() . ' not found';
+    return 'Route "' . $name . '" not found';
   }
 }
