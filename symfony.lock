@@ -871,6 +871,18 @@
             "config/packages/mailer.yaml"
         ]
     },
+    "symfony/mercure-bundle": {
+        "version": "0.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "0.3",
+            "ref": "b682842d20a2e512913e3542c927b371d9ec1962"
+        },
+        "files": [
+            "config/packages/mercure.yaml"
+        ]
+    },
     "symfony/messenger": {
         "version": "4.3",
         "recipe": {
@@ -1168,6 +1180,9 @@
         "files": [
             "config/packages/twig_extensions.yaml"
         ]
+    },
+    "twig/extra-bundle": {
+        "version": "v3.24.0"
     },
     "twig/twig": {
         "version": "v2.14.1"

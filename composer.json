@@ -129,7 +129,8 @@
     "twig/string-extra": "^3.8",
     "twig/twig": "^3.8",
     "voku/stringy": "^6.5",
-    "willdurand/hateoas-bundle": "^2.6"
+    "willdurand/hateoas-bundle": "^2.6",
+    "doctrine/annotations": "^2.0"
   },
   "require-dev": {
     "behat/behat": "^3.14",

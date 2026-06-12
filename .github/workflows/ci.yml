@@ -18,10 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php: '8.0'
+          - php: '8.5'
             doctrine_cache_driver: 'memcached'
             composer_flags: 'install'
-          - php: '8.0'
+          - php: '8.5'
             doctrine_cache_driver: 'array'
             composer_flags: 'install'
 
@@ -57,7 +57,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           coverage: "none"
-          extensions: "json,memcached,amqp,pdo_sqlite,pgsql,mbstring,xml,ctype,iconv,intl"
+          extensions: "json,memcached,amqp,pdo_sqlite,pgsql,mbstring,xml,ctype,iconv,intl,gd,zip,fileinfo,sodium,sysvsem,sockets"
           ini-values: "memory_limit=-1, post_max_size=100M, upload_max_filesize=100M"
           php-version: "${{ matrix.php }}"
           tools: pecl
@@ -123,8 +123,8 @@ jobs:
           curl -XDELETE http://127.0.0.1:9200/swp_index-test
           php bin/console fos:elastica:populate --env=test
 
-#      - name: Run PHPSpec
-#        run: ./bin/phpspec run
+      - name: Run PHPSpec
+        run: php -d error_reporting='E_ALL & ~E_DEPRECATED' ./bin/phpspec run --no-interaction
 #
 #      - name: Run Behat tests
 #        run: ./bin/behat -f progress -vvv --tags '~@custom-env&&~@webp'
@@ -141,12 +141,12 @@ jobs:
       - name: Run PHPUnit tests
         run: |
           echo "::group::phpunit stderr"
-          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
-          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php
-          bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php
+          php -d error_reporting='E_ALL & ~E_DEPRECATED' bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
+          php -d error_reporting='E_ALL & ~E_DEPRECATED' bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php
+          php -d error_reporting='E_ALL & ~E_DEPRECATED' bin/phpunit --stderr src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php
           echo "::endgroup::"
           echo "::group::phpunit run"
-          bin/phpunit
+          php -d error_reporting='E_ALL & ~E_DEPRECATED' -d memory_limit=2G bin/phpunit
           echo "::endgroup::"
         env:
           DOCTRINE_CACHE_DRIVER: ${{ matrix.doctrine_cache_driver }}

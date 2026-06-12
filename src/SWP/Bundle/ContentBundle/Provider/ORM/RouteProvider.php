@@ -196,10 +196,10 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
         }
 
         $route = $this->getRouteRepository()->findOneBy(array('name' => $name));
-        $this->internalRoutesCache[$name] = $route;
         if (!$route) {
             throw new RouteNotFoundException("No route found for name '$name'");
         }
+        $this->internalRoutesCache[$name] = $route;
 
         return $route;
     }
