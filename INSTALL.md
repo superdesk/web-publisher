@@ -129,13 +129,14 @@ $ mv config/jwt/private2.pem config/jwt/private.pem
 
 For supervisor setup (and consumers managed by it) read instructions in `supervisor.md`
 
-#### Run WebSocket server:
+#### Run the Mercure hub (realtime package notifications)
 
-```bash
-php bin/console gos:websocket:server
-```
+Package create/update notifications are published to a [Mercure](https://mercure.rocks) hub
+on the `swp/package` topic (consumed via server-sent events from `MERCURE_PUBLIC_URL`).
 
-or it can be started using [Supervisor](supervisor.md#running-websocket-server).
+With Docker, the hub is part of [docker-compose](etc/docker/docker-compose.yml) (`mercure` service).
+For a manual setup, run a `dunglas/mercure` hub and set the `MERCURE_URL`, `MERCURE_PUBLIC_URL`
+and `MERCURE_JWT_SECRET` environment variables accordingly.
 
 #### Preview
 
