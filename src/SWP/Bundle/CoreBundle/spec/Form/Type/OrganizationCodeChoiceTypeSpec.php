@@ -55,7 +55,7 @@ class OrganizationCodeChoiceTypeSpec extends ObjectBehavior
         $resolver->setNormalizer('choices', Argument::type('callable'))->willReturn($resolver);
         $resolver->setDefaults([
             'invalid_message' => 'The selected organization does not exist',
-        ])->shouldBeCalled();
+        ])->willReturn($resolver)->willReturn($resolver)->shouldBeCalled();
 
         $this->configureOptions($resolver);
     }
@@ -67,7 +67,7 @@ class OrganizationCodeChoiceTypeSpec extends ObjectBehavior
 
     public function it_should_add_model_transformer(FormBuilderInterface $builder)
     {
-        $builder->addModelTransformer(Argument::type(OrganizationToCodeTransformer::class))->shouldBeCalled();
+        $builder->addModelTransformer(Argument::type(OrganizationToCodeTransformer::class))->willReturn($builder)->shouldBeCalled();
 
         $this->buildForm($builder, []);
     }

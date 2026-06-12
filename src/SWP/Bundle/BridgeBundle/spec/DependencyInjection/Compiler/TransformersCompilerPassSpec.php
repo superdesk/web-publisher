@@ -48,7 +48,7 @@ class TransformersCompilerPassSpec extends ObjectBehavior
             ],
         ]);
 
-        $definition->replaceArgument(0, Argument::type('array'))->shouldBeCalled();
+        $definition->replaceArgument(0, Argument::type('array'))->willReturn($definition)->shouldBeCalled();
 
         $this->process($container);
     }

@@ -48,7 +48,7 @@ final class TenantChoiceTypeSpec extends ObjectBehavior
         $builder
             ->addModelTransformer(
                 new CollectionToArrayTransformer()
-            )->shouldBeCalled();
+            )->willReturn($builder)->shouldBeCalled();
 
         $this->buildForm($builder, ['multiple' => true]);
     }

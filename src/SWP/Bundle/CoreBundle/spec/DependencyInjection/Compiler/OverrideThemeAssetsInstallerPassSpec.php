@@ -46,8 +46,8 @@ class OverrideThemeAssetsInstallerPassSpec extends ObjectBehavior
         $container->hasDefinition(AssetsInstallerInterface::class)->willReturn(true);
         $container->getDefinition(AssetsInstallerInterface::class)->willReturn($definition);
 
-        $definition->setArgument(4, new Reference(ThemeHierarchyProviderInterface::class))->shouldBeCalled();
-        $definition->setClass(AssetsInstaller::class)->shouldBeCalled();
+        $definition->setArgument(4, new Reference(ThemeHierarchyProviderInterface::class))->willReturn($definition)->shouldBeCalled();
+        $definition->setClass(AssetsInstaller::class)->willReturn($definition)->shouldBeCalled();
 
         $this->process($container);
     }

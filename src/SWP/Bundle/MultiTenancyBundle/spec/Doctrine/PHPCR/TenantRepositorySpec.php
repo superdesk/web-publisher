@@ -26,9 +26,10 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
  */
 class TenantRepositorySpec extends ObjectBehavior
 {
-    public function let(DocumentManagerInterface $documentManager, ClassMetadata $classMetadata)
+    public function let(DocumentManagerInterface $documentManager, \Doctrine\ODM\PHPCR\UnitOfWork $unitOfWork)
     {
-        $this->beConstructedWith($documentManager, $classMetadata);
+        $documentManager->getUnitOfWork()->willReturn($unitOfWork);
+        $this->beConstructedWith($documentManager, new ClassMetadata(\stdClass::class));
     }
 
     public function it_is_initializable()

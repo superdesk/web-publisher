@@ -52,7 +52,7 @@ class ThemeNameChoiceTypeSpec extends ObjectBehavior
         $themeProvider->getCurrentTenantAvailableThemes()->willReturn([$theme]);
 
         $resolver->setNormalizer('choices', Argument::type('callable'))->willReturn($resolver);
-        $resolver->setDefaults(['invalid_message' => 'The selected theme does not exist'])->shouldBeCalled();
+        $resolver->setDefaults(['invalid_message' => 'The selected theme does not exist'])->willReturn($resolver)->willReturn($resolver)->shouldBeCalled();
         $this->configureOptions($resolver);
     }
 

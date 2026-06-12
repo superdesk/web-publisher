@@ -131,7 +131,10 @@ class TenantController extends FOSRestController {
     if ($form->isSubmitted() && $form->isValid()) {
       $this->ensureTenantDontExists($tenant->getDomainName(), $tenant->getSubdomain());
       if (null === $tenant->getOrganization()) {
-        $organization = $tenantObjectManager->merge($tenantContext->getTenant()->getOrganization());
+        $organization = $tenantContext->getTenant()->getOrganization();
+        if (!$tenantObjectManager->contains($organization)) {
+          $organization = $tenantObjectManager->find(\get_class($organization), $organization->getId());
+        }
         $tenant->setOrganization($organization);
       }
       $this->getTenantRepository()->add($tenant);

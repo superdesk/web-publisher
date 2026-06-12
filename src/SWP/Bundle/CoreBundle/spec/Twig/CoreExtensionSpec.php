@@ -18,7 +18,7 @@ use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Twig\CoreExtension;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Twig_Extension;
+use Twig\Extension\AbstractExtension;
 
 class CoreExtensionSpec extends ObjectBehavior
 {
@@ -34,7 +34,7 @@ class CoreExtensionSpec extends ObjectBehavior
 
     public function it_is_a_twig_extension()
     {
-        $this->shouldHaveType(Twig_Extension::class);
+        $this->shouldHaveType(AbstractExtension::class);
     }
 
     public function it_should_return_global_variables(ThemeInterface $theme, ThemeContextInterface $themeContext)

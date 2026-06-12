@@ -26,7 +26,7 @@ class PrefixCandidatesSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\PrefixCandidates');
+        $this->shouldHaveType('Symfony\Cmf\Component\Routing\Candidates\CandidatesInterface');
     }
 
     public function it_should_get_tenant_aware_prefixes(TenantAwarePathBuilderInterface $pathBuilder)

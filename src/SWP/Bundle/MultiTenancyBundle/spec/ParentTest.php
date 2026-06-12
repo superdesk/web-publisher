@@ -20,7 +20,7 @@ class ParentTest implements HierarchyInterface
 {
     protected $parent;
 
-    public function getParentDocument()
+    public function getParentDocument(): ?object
     {
         return $this->parent;
     }
@@ -30,9 +30,11 @@ class ParentTest implements HierarchyInterface
         $this->getParentDocument();
     }
 
-    public function setParentDocument($parent)
+    public function setParentDocument(object $parent): HierarchyInterface
     {
         $this->parent = $parent;
+
+        return $this;
     }
 
     public function setParent($parent)

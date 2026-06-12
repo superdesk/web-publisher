@@ -51,7 +51,7 @@ final class ContentListTypeSpec extends ObjectBehavior
             ->setDefaults([
                 'csrf_protection' => false,
             ])
-            ->shouldBeCalled()
+            ->willReturn($resolver)->willReturn($resolver)->shouldBeCalled()
         ;
 
         $this->configureOptions($resolver);

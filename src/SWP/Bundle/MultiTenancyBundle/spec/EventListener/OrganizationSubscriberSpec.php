@@ -103,7 +103,7 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
 
         $organizationAware->getOrganization()->shouldBeCalled()->willReturn(null);
         $event->getEntity()->willReturn($organizationAware);
-        $objectManager->merge($organization)->willReturn($organization);
+        $objectManager->contains($organization)->willReturn(true);
         $event->getObjectManager()->willReturn($objectManager);
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
 

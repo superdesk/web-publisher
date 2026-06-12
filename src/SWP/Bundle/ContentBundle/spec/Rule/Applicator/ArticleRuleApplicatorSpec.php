@@ -145,7 +145,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $routeProvider->getOneById('some/route')->willReturn($route);
 
         $subject->setRoute($route)->shouldBeCalled();
-        $route->setContent($subject)->shouldBeCalled();
+        $route->setContent($subject)->willReturn($route)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();
         $eventDispatcher->dispatch(Argument::type(ArticleEvent::class), ArticleEvents::PUBLISH)->shouldBeCalled();
         $logger->info(Argument::any('string'))->shouldBeCalled();

@@ -25,9 +25,10 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
  */
 class DocumentRepositorySpec extends ObjectBehavior
 {
-    public function let(DocumentManagerInterface $manager, ClassMetadata $classMetadata)
+    public function let(DocumentManagerInterface $manager, \Doctrine\ODM\PHPCR\UnitOfWork $unitOfWork)
     {
-        $this->beConstructedWith($manager, $classMetadata);
+        $manager->getUnitOfWork()->willReturn($unitOfWork);
+        $this->beConstructedWith($manager, new ClassMetadata(\stdClass::class));
     }
 
     public function it_is_initializable()

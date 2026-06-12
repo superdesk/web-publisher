@@ -44,7 +44,7 @@ class OverrideThemeFactoryPassSpec extends ObjectBehavior
         $container->hasDefinition(ThemeFactoryInterface::class)->willReturn(true);
         $container->getDefinition(ThemeFactoryInterface::class)->willReturn($definition);
 
-        $definition->setClass(ThemeFactory::class)->shouldBeCalled();
+        $definition->setClass(ThemeFactory::class)->willReturn($definition)->shouldBeCalled();
 
         $this->process($container);
     }

@@ -85,8 +85,11 @@ final class OrganizationSubscriber implements EventSubscriber
             $organization = $tenantContext->getTenant()->getOrganization();
             $this->ensureOrganizationExists($organization);
 
-            /** @var OrganizationInterface $organization */
-            $organization = $args->getObjectManager()->merge($organization);
+            $objectManager = $args->getObjectManager();
+            if (!$objectManager->contains($organization)) {
+                /** @var OrganizationInterface $organization */
+                $organization = $objectManager->find(\get_class($organization), $organization->getId()) ?? $organization;
+            }
             $entity->setOrganization($organization);
         }
     }

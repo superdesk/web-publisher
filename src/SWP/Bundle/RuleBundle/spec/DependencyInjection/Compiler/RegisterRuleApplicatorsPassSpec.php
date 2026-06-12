@@ -48,7 +48,7 @@ final class RegisterRuleApplicatorsPassSpec extends ObjectBehavior
             ],
         ]);
 
-        $definition->addMethodCall('addApplicator', Argument::type('array'))->shouldBeCalled();
+        $definition->addMethodCall('addApplicator', Argument::type('array'))->willReturn($definition)->shouldBeCalled();
 
         $this->process($container);
     }

@@ -56,7 +56,7 @@ final class ContentListTypeSelectorTypeSpec extends ObjectBehavior
                     'Bucket' => ContentListInterface::TYPE_BUCKET,
                 ],
             ])
-            ->shouldBeCalled()
+            ->willReturn($resolver)->willReturn($resolver)->shouldBeCalled()
         ;
 
         $this->configureOptions($resolver);

@@ -44,7 +44,7 @@ class OverrideThemePathResolverPassSpec extends ObjectBehavior
         $container->hasDefinition(PathResolverInterface::class)->willReturn(true);
         $container->getDefinition(PathResolverInterface::class)->willReturn($definition);
 
-        $definition->setClass(PathResolver::class)->shouldBeCalled();
+        $definition->setClass(PathResolver::class)->willReturn($definition)->shouldBeCalled();
 
         $this->process($container);
     }

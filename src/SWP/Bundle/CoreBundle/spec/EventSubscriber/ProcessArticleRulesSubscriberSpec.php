@@ -27,9 +27,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final class ProcessArticleRulesSubscriberSpec extends ObjectBehavior
 {
-    public function let(RuleProcessorInterface $ruleProcessor)
+    public function let(RuleProcessorInterface $ruleProcessor, \SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface $publishDestinationProvider)
     {
-        $this->beConstructedWith($ruleProcessor);
+        $this->beConstructedWith($ruleProcessor, $publishDestinationProvider);
     }
 
     public function it_is_initializable()
@@ -45,16 +45,21 @@ final class ProcessArticleRulesSubscriberSpec extends ObjectBehavior
     public function it_subscribes_to_events()
     {
         $this->getSubscribedEvents()->shouldReturn([
-            ArticleEvents::PRE_CREATE => 'processRules',
+            ArticleEvents::POST_CREATE => 'processRules',
+            ArticleEvents::POST_UPDATE => 'processRules',
         ]);
     }
 
     public function it_processes_rules(
         ArticleEvent $event,
         ArticleInterface $article,
-        RuleProcessorInterface $ruleProcessor
+        \SWP\Bundle\CoreBundle\Model\PackageInterface $package,
+        RuleProcessorInterface $ruleProcessor,
+        \SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface $publishDestinationProvider
     ) {
         $event->getArticle()->willReturn($article);
+        $event->getPackage()->willReturn($package);
+        $publishDestinationProvider->countDestinations($package)->willReturn(0);
         $ruleProcessor->process($article)->shouldBeCalled();
 
         $this->processRules($event);

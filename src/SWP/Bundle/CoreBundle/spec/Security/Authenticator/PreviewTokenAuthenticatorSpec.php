@@ -28,7 +28,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
 
 final class PreviewTokenAuthenticatorSpec extends ObjectBehavior
 {
@@ -39,16 +38,7 @@ final class PreviewTokenAuthenticatorSpec extends ObjectBehavior
         EventDispatcherInterface $eventDispatcher,
         ContainerInterface $container
     ) {
-        $security = new Security(new class() implements ContainerInterface {
-            public function get($id)
-            {
-            }
-
-            public function has($id)
-            {
-            }
-        });
-        $this->beConstructedWith($apiKeyRepository, $tenantContext, $tenantRepository, $eventDispatcher, $security);
+        $this->beConstructedWith($apiKeyRepository, $tenantContext, $tenantRepository, $eventDispatcher);
     }
 
     public function it_is_initializable()

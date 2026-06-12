@@ -53,6 +53,9 @@ class AbstractAPIControllerSpec extends ObjectBehavior
     ) {
         $request = new Request();
         $formFactory->createNamed(Argument::cetera())->willReturn($form);
+        $form->handleRequest($request)->willReturn($form);
+        $form->isSubmitted()->willReturn(false);
+        $form->isValid()->willReturn(false);
         $this->createWebhook($repository, $factory, $request, $formFactory)->shouldReturnAnInstanceOf(SingleResourceResponse::class);
     }
 
@@ -60,6 +63,9 @@ class AbstractAPIControllerSpec extends ObjectBehavior
     {
         $request = new Request();
         $formFactory->createNamed(Argument::cetera())->willReturn($form);
+        $form->handleRequest($request)->willReturn($form);
+        $form->isSubmitted()->willReturn(false);
+        $form->isValid()->willReturn(false);
         $this->updateWebhook($objectManager, $request, $webhook, $formFactory)->shouldReturnAnInstanceOf(SingleResourceResponse::class);
     }
 

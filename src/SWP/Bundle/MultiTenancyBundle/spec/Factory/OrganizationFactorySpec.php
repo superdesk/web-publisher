@@ -29,7 +29,7 @@ class OrganizationFactorySpec extends ObjectBehavior
 {
     public function let(
         OrganizationFactoryInterface $factory,
-        ObjectManager $documentManager
+        \Doctrine\ODM\PHPCR\DocumentManagerInterface $documentManager
     ) {
         $this->beConstructedWith($factory, $documentManager, '/swp');
     }
@@ -64,13 +64,13 @@ class OrganizationFactorySpec extends ObjectBehavior
 
     public function it_creates_a_new_organization_with_code_and_parent_document(
         OrganizationFactoryInterface $factory,
-        ObjectManager $documentManager
+        \Doctrine\ODM\PHPCR\DocumentManagerInterface $documentManager
     ) {
         $organization = new ParentTest();
 
         $factory->createWithCode()->willReturn($organization);
 
-        $documentManager->find(null, '/swp')->shouldBeCalled();
+        $documentManager->find(null, '/swp')->willReturn(new ParentTest())->shouldBeCalled();
 
         $this->createWithCode()->shouldHaveType(HierarchyInterface::class);
     }

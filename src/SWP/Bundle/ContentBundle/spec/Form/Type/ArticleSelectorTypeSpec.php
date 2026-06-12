@@ -48,7 +48,7 @@ final class ArticleSelectorTypeSpec extends ObjectBehavior
         $builder
             ->addModelTransformer(
                 new ArticleToIdTransformer($articleProvider->getWrappedObject())
-            )->shouldBeCalled();
+            )->willReturn($builder)->shouldBeCalled();
 
         $this->buildForm($builder, []);
     }
@@ -57,7 +57,7 @@ final class ArticleSelectorTypeSpec extends ObjectBehavior
     {
         $resolver
             ->setDefaults(['invalid_message' => 'The selected article does not exist!'])
-            ->shouldBeCalled()
+            ->willReturn($resolver)->willReturn($resolver)->shouldBeCalled()
         ;
 
         $this->configureOptions($resolver);

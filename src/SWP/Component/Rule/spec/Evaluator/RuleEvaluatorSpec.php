@@ -48,12 +48,12 @@ final class RuleEvaluatorSpec extends ObjectBehavior
         RuleSubjectInterface $subject,
         ExpressionLanguage $expressionLanguage
     ) {
-        $rule->getExpression()->shouldBeCalled();
-        $subject->getSubjectType()->shouldBeCalled();
+        $rule->getExpression()->willReturn('some_expression')->shouldBeCalled();
+        $subject->getSubjectType()->willReturn('some_type')->shouldBeCalled();
 
         $expressionLanguage->evaluate(
             'some_expression',
-            ['some_type' => Argument::type(RuleSubjectInterface::class)]
+            ['some_type' => $subject]
         )->willReturn(false);
 
         $this->evaluate($rule, $subject)->shouldReturn(false);

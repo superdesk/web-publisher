@@ -36,7 +36,7 @@ class MultiTenancyExtensionSpec extends ObjectBehavior
 
     public function it_is_a_twig_extension()
     {
-        $this->shouldHaveType('Twig_Extension');
+        $this->shouldHaveType(\Twig\Extension\AbstractExtension::class);
     }
 
     public function it_should_return_global_variables(TenantInterface $tenant, TenantContextInterface $tenantContext)

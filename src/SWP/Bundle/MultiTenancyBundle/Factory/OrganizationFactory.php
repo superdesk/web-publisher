@@ -68,7 +68,12 @@ class OrganizationFactory implements OrganizationFactoryInterface
         $organization = $this->decoratedFactory->createWithCode();
 
         if ($organization instanceof HierarchyInterface) {
-            $organization->setParentDocument($this->documentManager->find(null, $this->rootPath));
+            $parent = $this->documentManager instanceof \Doctrine\ODM\PHPCR\DocumentManagerInterface
+                ? $this->documentManager->find(null, $this->rootPath)
+                : null;
+            if (null !== $parent) {
+                $organization->setParentDocument($parent);
+            }
         }
 
         return $organization;

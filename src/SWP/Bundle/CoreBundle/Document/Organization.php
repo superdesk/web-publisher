@@ -53,12 +53,10 @@ class Organization extends BaseOrganization implements HierarchyInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent)
+    public function setParentDocument(object $parent): \Doctrine\ODM\PHPCR\HierarchyInterface
     {
-        if (!is_object($parent)) {
-            throw new \InvalidArgumentException('Parent must be an object '.gettype($parent).' given.');
-        }
-
         $this->parent = $parent;
+
+        return $this;
     }
 }

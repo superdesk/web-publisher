@@ -89,7 +89,6 @@ class ImageConversionHandler implements MessageHandlerInterface
         }
 
         /** @var ImageInterface $image */
-        $image = $this->entityManager->merge($image);
         $mediaId = $image->getAssetId();
         $uid = sha1($mediaId);
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.$uid;

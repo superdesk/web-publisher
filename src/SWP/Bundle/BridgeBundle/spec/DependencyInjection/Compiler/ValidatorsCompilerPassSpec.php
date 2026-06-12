@@ -48,7 +48,7 @@ class ValidatorsCompilerPassSpec extends ObjectBehavior
             ],
         ]);
 
-        $definition->addMethodCall('addValidator', Argument::type('array'))->shouldBeCalled();
+        $definition->addMethodCall('addValidator', Argument::type('array'))->willReturn($definition)->shouldBeCalled();
 
         $this->process($container);
     }

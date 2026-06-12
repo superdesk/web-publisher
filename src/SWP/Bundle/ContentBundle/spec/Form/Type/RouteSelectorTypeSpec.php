@@ -48,7 +48,7 @@ final class RouteSelectorTypeSpec extends ObjectBehavior
         $builder
             ->addModelTransformer(
                 new RouteToIdTransformer($routeProvider->getWrappedObject())
-            )->shouldBeCalled();
+            )->willReturn($builder)->shouldBeCalled();
 
         $this->buildForm($builder, []);
     }
@@ -57,7 +57,7 @@ final class RouteSelectorTypeSpec extends ObjectBehavior
     {
         $resolver
             ->setDefaults(['invalid_message' => 'The selected route does not exist!'])
-            ->shouldBeCalled()
+            ->willReturn($resolver)->willReturn($resolver)->shouldBeCalled()
         ;
 
         $this->configureOptions($resolver);
