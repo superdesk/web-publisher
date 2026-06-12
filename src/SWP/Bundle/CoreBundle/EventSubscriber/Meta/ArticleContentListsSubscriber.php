@@ -31,7 +31,7 @@ class ArticleContentListsSubscriber implements EventSubscriberInterface
         $this->contentListItemRepository = $contentListItemRepository;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Context::META_EVENT_NAME => 'fetchContentLists',

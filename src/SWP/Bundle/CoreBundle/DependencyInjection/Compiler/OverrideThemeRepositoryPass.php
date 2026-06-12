@@ -23,7 +23,7 @@ final class OverrideThemeRepositoryPass extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $definition = $this->overrideDefinitionClassIfExists(
             $container,

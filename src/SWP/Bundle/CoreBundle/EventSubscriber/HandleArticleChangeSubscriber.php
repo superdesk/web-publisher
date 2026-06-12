@@ -37,7 +37,7 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
         $this->manager = $manager;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             ArticleEvents::POST_UPDATE => 'processArticle',

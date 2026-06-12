@@ -36,9 +36,9 @@ use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Lock\LockFactory;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-abstract class AbstractContentPushHandler implements MessageHandlerInterface
+abstract class AbstractContentPushHandler
 {
 
     protected $logger;

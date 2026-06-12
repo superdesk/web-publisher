@@ -28,10 +28,11 @@ use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Component\Common\Model\DateTime;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Throwable;
 
-final class ExportAnalyticsHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class ExportAnalyticsHandler
 {
     /** @var RepositoryManagerInterface */
     private $elasticaRepositoryManager;

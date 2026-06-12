@@ -37,14 +37,14 @@ class ListOrganizationsCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var OrganizationInterface[] $organizations */
         $organizations = $this->getContainer()->get('swp.repository.organization')->findAll();
         if (0 === count($organizations)) {
             $output->writeln('<error>There are no organizations defined.</error>');
 
-            return;
+            return 0;
         }
 
         $output->writeln('<info>List of all available organizations:</info>');
@@ -61,5 +61,7 @@ class ListOrganizationsCommand extends Command
         }
 
         $table->render();
+
+        return 0;
     }
 }

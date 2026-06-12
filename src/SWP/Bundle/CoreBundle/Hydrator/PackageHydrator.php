@@ -17,26 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Hydrator;
 
 use DateTime;
-use GeneratedHydrator\Configuration;
-use SWP\Bundle\CoreBundle\Model\Package;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 final class PackageHydrator implements PackageHydratorInterface
 {
-    private $generatedClassesTargetDir;
-
-    public function __construct(string $generatedClassesTargetDir)
-    {
-        $this->generatedClassesTargetDir = $generatedClassesTargetDir;
-    }
-
     public function hydrate(PackageInterface $newPackage, PackageInterface $existingPackage): PackageInterface
     {
-        $config = new Configuration(Package::class);
-        $config->setGeneratedClassesTargetDir($this->generatedClassesTargetDir);
-        $hydratorClass = $config->createFactory()->getHydratorClass();
-        $hydrator = new $hydratorClass();
-
         $newPackage->setCreatedAt($existingPackage->getCreatedAt());
         $newPackage->setUpdatedAt(new DateTime());
         $newPackage->setStatus($existingPackage->getStatus());
@@ -56,9 +42,31 @@ final class PackageHydrator implements PackageHydratorInterface
             $item->setPackage($existingPackage);
         }
 
-        $result = $hydrator->extract($newPackage);
-        $hydrator->hydrate($result, $existingPackage);
+        $this->copyProperties($newPackage, $existingPackage);
 
         return $existingPackage;
+    }
+
+    /**
+     * Copies all instance properties (including inherited private ones),
+     * replacing the previously used ocramius/generated-hydrator.
+     */
+    private function copyProperties(object $from, object $to): void
+    {
+        $reflection = new \ReflectionObject($from);
+
+        do {
+            foreach ($reflection->getProperties() as $property) {
+                if ($property->isStatic()) {
+                    continue;
+                }
+
+                if (!$property->isInitialized($from)) {
+                    continue;
+                }
+
+                $property->setValue($to, $property->getValue($from));
+            }
+        } while ($reflection = $reflection->getParentClass());
     }
 }

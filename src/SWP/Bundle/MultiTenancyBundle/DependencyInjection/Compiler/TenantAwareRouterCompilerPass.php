@@ -28,7 +28,7 @@ class TenantAwareRouterCompilerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasParameter('cmf_routing.backend_type_phpcr')
             || !$container->hasParameter('swp_multi_tenancy.backend_type_phpcr')) {

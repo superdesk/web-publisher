@@ -46,7 +46,7 @@ final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
         parent::__construct($webhooksRepository, $tenantContext, $tenantRepository);
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             ArticleEvents::PREVIEW => 'processEvent',

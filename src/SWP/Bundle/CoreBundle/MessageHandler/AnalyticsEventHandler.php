@@ -12,9 +12,10 @@ use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleStatistics;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class AnalyticsEventHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class AnalyticsEventHandler
 {
     /** @var ArticleStatisticsServiceInterface */
     private $articleStatisticsService;

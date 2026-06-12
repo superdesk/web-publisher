@@ -23,9 +23,10 @@ use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class PublishToAppleNewsHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class PublishToAppleNewsHandler
 {
     private $appleNewsPublisher;
 

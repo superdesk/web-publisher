@@ -29,7 +29,7 @@ class GetPublicSuffixListCommand extends Command
         parent::__construct();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Fetching data from </info> ' . $this->suffixListEndpoint);
         $filesystem = new Filesystem();

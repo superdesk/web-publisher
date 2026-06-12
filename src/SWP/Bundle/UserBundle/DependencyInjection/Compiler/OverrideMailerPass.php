@@ -27,7 +27,7 @@ final class OverrideMailerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $serviceId = Mailer::class;
         $multitenancyContextServiceId = 'swp_multi_tenancy.tenant_context';

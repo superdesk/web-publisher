@@ -139,7 +139,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $fileSystem = new Filesystem();
         $sourceDir = $input->getArgument('theme_dir');

@@ -35,7 +35,7 @@ final class ThemeConfiguration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): \Symfony\Component\Config\Definition\Builder\TreeBuilder
     {
         $treeBuilder = new TreeBuilder('sylius_theme');
         $rootNodeDefinition = $treeBuilder->getRootNode();

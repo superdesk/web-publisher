@@ -17,17 +17,21 @@ namespace SWP\Bundle\FixturesBundle;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Abstract fixture class.
  */
-abstract class AbstractFixture extends Fixture implements ContainerAwareInterface
+abstract class AbstractFixture extends Fixture
 {
-    const DEFAULT_TENANT_DOMAIN = 'localhost';
+    protected ContainerInterface $container;
 
-    use ContainerAwareTrait;
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    const DEFAULT_TENANT_DOMAIN = 'localhost';
 
     /**
      * Get current kernel environment.

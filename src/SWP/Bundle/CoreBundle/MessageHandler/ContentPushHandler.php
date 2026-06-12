@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\MessageHandler;
 
 use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMessage;
 
+#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
 class ContentPushHandler extends AbstractContentPushHandler
 {
     public function __invoke(ContentPushMessage $contentPushMessage)

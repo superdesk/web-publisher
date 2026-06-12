@@ -22,7 +22,7 @@ final class AddCustomTwigCachePass extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (false === $container->getParameter('kernel.debug')) {
             $twig = $this->getDefinitionIfExists($container, 'twig');

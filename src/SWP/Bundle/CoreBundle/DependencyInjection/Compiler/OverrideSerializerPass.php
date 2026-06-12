@@ -24,7 +24,7 @@ class OverrideSerializerPass extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $definition = $this->getDefinitionIfExists($container, 'swp.serializer');
         if (null !== $definition) {

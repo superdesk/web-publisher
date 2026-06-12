@@ -38,9 +38,10 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class ImageConversionHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class ImageConversionHandler
 {
     protected $serializer;
 

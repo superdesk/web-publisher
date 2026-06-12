@@ -35,7 +35,7 @@ final class ContentListSerializationSubscriber implements EventSubscriberInterfa
         $this->contentListItemRepository = $contentListItemRepository;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             [

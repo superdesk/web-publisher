@@ -31,7 +31,7 @@ final class OrganizationThemesProviderPass extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $compositeConfigurationProvider = new Definition(CompositeConfigurationProvider::class);
 

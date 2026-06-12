@@ -115,11 +115,13 @@ final class ThemeAwareTranslator implements TranslatorInterface, TranslatorBagIn
     /**
      * {@inheritdoc}
      */
-    public function warmUp($cacheDir): void
+    public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         if ($this->translator instanceof WarmableInterface) {
-            $this->translator->warmUp($cacheDir);
+            return $this->translator->warmUp($cacheDir, $buildDir);
         }
+
+        return [];
     }
 
     /**

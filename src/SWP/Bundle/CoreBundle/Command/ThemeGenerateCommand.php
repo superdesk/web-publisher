@@ -78,7 +78,7 @@ class ThemeGenerateCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $themeName = $input->getArgument('themeName');
 

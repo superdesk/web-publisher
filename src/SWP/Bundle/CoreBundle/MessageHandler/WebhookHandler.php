@@ -19,9 +19,10 @@ namespace SWP\Bundle\CoreBundle\MessageHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use SWP\Bundle\CoreBundle\Webhook\Message\WebhookMessage;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class WebhookHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class WebhookHandler
 {
     public function __invoke(WebhookMessage $webhookMessage)
     {

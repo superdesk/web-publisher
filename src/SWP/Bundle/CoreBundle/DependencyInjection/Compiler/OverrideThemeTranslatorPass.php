@@ -24,7 +24,7 @@ final class OverrideThemeTranslatorPass extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $this->overrideDefinitionClassIfExists(
             $container,

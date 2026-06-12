@@ -61,7 +61,7 @@ class UpdateGeoIPDatabaseCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $url = (string) $input->getArgument('url');
         $zipFile = $this->targetDir.'/GeoLite2.tar.gz';
@@ -95,5 +95,7 @@ class UpdateGeoIPDatabaseCommand extends Command
         $this->filesystem->copy($database, $this->databasePath, true);
         $this->filesystem->remove([$zipFile, $tempUntar, $tarFile]);
         $output->writeln("GeoLite2 database has been copied to $this->databasePath!");
+
+        return 0;
     }
 }

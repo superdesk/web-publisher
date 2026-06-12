@@ -25,7 +25,7 @@ final class OverrideAssetLocationResolver extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $assetLocationResolverDefinition = $this->getDefinitionIfExists($container, 'swp.resolver.asset_location');
         if (null !== $assetLocationResolverDefinition) {

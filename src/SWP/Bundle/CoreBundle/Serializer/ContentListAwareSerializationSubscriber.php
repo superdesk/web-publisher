@@ -39,7 +39,7 @@ final class ContentListAwareSerializationSubscriber implements EventSubscriberIn
         $this->requestStack = $requestStack;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             [

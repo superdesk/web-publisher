@@ -68,7 +68,7 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshUser(SecurityUserInterface $user)
+    public function refreshUser(SecurityUserInterface $user): SecurityUserInterface
     {
         if (!$user instanceof UserInterface) {
             throw new UnsupportedUserException(sprintf('Expected an instance of SWP\Bundle\UserBundle\Model\UserInterface, but got "%s".', get_class($user)));
@@ -88,7 +88,7 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         $userClass = $this->userManager->getClass();
 

@@ -26,7 +26,7 @@ class CreateUserCommand extends BaseCreateUserCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             parent::execute($input, $output);

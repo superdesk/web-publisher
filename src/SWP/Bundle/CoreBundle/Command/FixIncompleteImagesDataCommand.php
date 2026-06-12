@@ -55,7 +55,7 @@ class FixIncompleteImagesDataCommand extends Command
             ->setDescription('Finds image renditions with width and height set to 0 and sets if from file.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $query = $this->entityManager->createQuery('
             SELECT 

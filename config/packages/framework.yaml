@@ -20,7 +20,7 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: true
-    validation:      { enable_annotations: false }
+    validation:      ~
     default_locale:  "%locale%"
     trusted_hosts:   ~
     fragments: { path: /_fragment }

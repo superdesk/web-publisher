@@ -6,3 +6,5 @@ services:
 
     SWP\Bundle\FixturesBundle\DataFixtures\ORM\:
         resource: '../../DataFixtures/ORM/*'
+        bind:
+            $container: '@service_container'

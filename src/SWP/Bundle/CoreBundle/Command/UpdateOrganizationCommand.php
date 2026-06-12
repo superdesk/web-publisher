@@ -53,7 +53,7 @@ EOT
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $disabled = $input->getOption('disabled');

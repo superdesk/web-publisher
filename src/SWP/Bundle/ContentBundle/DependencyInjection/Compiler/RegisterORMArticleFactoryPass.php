@@ -25,7 +25,7 @@ class RegisterORMArticleFactoryPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('swp.factory.article') ||
             !$container->hasParameter('swp_content.backend_type_orm')) {

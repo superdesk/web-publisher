@@ -27,7 +27,7 @@ class OverridePackagePreviewTokenFactoryPass extends AbstractOverridePass
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('swp.factory.package_preview_token')) {
             return;

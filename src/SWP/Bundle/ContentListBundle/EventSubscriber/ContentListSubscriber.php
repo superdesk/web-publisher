@@ -30,7 +30,7 @@ final class ContentListSubscriber implements EventSubscriberInterface
         $this->contentListService = $contentListService;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             ContentListEvents::POST_ITEM_ADD => 'postItemAdd',

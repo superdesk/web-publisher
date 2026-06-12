@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\MessageHandler;
 use SWP\Bundle\CoreBundle\Exception\PackageNotFoundException;
 use SWP\Bundle\CoreBundle\MessageHandler\Message\ContentPushMigrationMessage;
 
+#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
 class ContentPushMigrationHandler extends AbstractContentPushHandler
 {
     public function __invoke(ContentPushMigrationMessage $contentPushMessage)

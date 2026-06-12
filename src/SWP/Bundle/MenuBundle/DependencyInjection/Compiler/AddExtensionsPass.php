@@ -25,7 +25,7 @@ class AddExtensionsPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('swp_menu.extension_chain')) {
             return;
