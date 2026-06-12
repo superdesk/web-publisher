@@ -298,6 +298,10 @@ services:
         autowire: true
     SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface: '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector'
 
+    SWP\Bundle\CoreBundle\EventListener\RouteStaticPrefixMetadataListener:
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata }
+
     swp_core.listener.preview_mode:
         class: SWP\Bundle\CoreBundle\EventListener\PreviewModeListener
         arguments:

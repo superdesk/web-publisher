@@ -1,0 +1,5 @@
+services:
+    # Public alias used by FixturesBundle data fixtures (container->get)
+    swp.security.user_password_hasher.public:
+        alias: security.user_password_hasher
+        public: true

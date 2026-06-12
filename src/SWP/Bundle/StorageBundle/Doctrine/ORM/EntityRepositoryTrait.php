@@ -111,7 +111,7 @@ trait EntityRepositoryTrait
      */
     protected function getPaginator(EventDispatcherInterface $eventDispatcher, QueryBuilder $queryBuilder, PaginationData $paginationData)
     {
-        $paginator = new Paginator($eventDispatcher);
+        $paginator = new Paginator($eventDispatcher, new \SWP\Bundle\StorageBundle\Pagination\NullArgumentAccess());
 
         return $paginator->paginate($queryBuilder, $paginationData->getPageNumber(), $paginationData->getLimit());
     }

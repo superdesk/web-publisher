@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SWP\Behat\Contexts;
 
-use Behatch\Context\BaseContext;
+use Behat\Behat\Context\Context;
 use SplFileObject;
 
-class CsvFileContext extends BaseContext
+class CsvFileContext implements Context
 {
     /** @var string */
     private $projectDir;

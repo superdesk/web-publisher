@@ -1,4 +1,4 @@
 security:
-    encoders:
+    password_hashers:
         SWP\Bundle\UserBundle\Model\User:
             algorithm: plaintext

@@ -1,6 +1,8 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        types:
+            empty_string_or_null_string: SWP\Bundle\ContentBundle\Doctrine\Types\EmptyStringOrNullStringType
         mapping_types:
             json: string
     orm:

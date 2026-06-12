@@ -36,10 +36,10 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
         $user->setUsername('test.user');
         $user->setEmail('test.user@sourcefabric.org');
         
-        $passwordEncoder = $this->container->get('security.password_encoder');          
+        $passwordEncoder = $this->container->get('swp.security.user_password_hasher.public');
 
         $user->setPassword(
-            $passwordEncoder->encodePassword(
+            $passwordEncoder->hashPassword(
                 $user,
                 'testPassword'
             )
@@ -56,7 +56,7 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
         $user->setUsername('test.client1');
         $user->setEmail('test.client1@sourcefabric.org');
         $user->setPassword(
-            $passwordEncoder->encodePassword(
+            $passwordEncoder->hashPassword(
                 $user,
                 'testPassword'
             )
@@ -74,7 +74,7 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Ordered
         $user->setUsername('test.client2');
         $user->setEmail('test.client2@sourcefabric.org');
         $user->setPassword(
-            $passwordEncoder->encodePassword(
+            $passwordEncoder->hashPassword(
                 $user,
                 'testPassword'
             )
