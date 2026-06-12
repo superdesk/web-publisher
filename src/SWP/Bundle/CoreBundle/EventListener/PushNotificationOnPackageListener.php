@@ -20,6 +20,8 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\Common\Serializer\SerializerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 
@@ -35,10 +37,13 @@ final class PushNotificationOnPackageListener
 
     private SerializerInterface $serializer;
 
-    public function __construct(HubInterface $hub, SerializerInterface $serializer)
+    private LoggerInterface $logger;
+
+    public function __construct(HubInterface $hub, SerializerInterface $serializer, ?LoggerInterface $logger = null)
     {
         $this->hub = $hub;
         $this->serializer = $serializer;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public function onPostCreate(GenericEvent $event): void
@@ -57,14 +62,19 @@ final class PushNotificationOnPackageListener
 
     private function pushNotification(PackageInterface $package, string $state): void
     {
-        $this->hub->publish(new Update(
-            self::TOPIC,
-            json_encode([
-                'package' => json_decode($this->serializer->serialize($package, 'json'), true),
-                'state' => $state,
-            ], JSON_THROW_ON_ERROR),
-            true
-        ));
+        try {
+            $this->hub->publish(new Update(
+                self::TOPIC,
+                json_encode([
+                    'package' => json_decode($this->serializer->serialize($package, 'json'), true),
+                    'state' => $state,
+                ], JSON_THROW_ON_ERROR),
+                true
+            ));
+        } catch (\Throwable $e) {
+            // A failing realtime notification must never break content push.
+            $this->logger->error('Could not publish package update to the Mercure hub.', ['exception' => $e]);
+        }
     }
 
     private function getPackage(GenericEvent $event): PackageInterface

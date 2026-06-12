@@ -48,7 +48,7 @@ class WebTestCase extends BaseWebTestCase
         $schemaTool->createSchema($metadata);
     }
 
-    public static function createClient(array $options = [], array $server = [])
+    public static function createClient(array $options = [], array $server = []): \Symfony\Bundle\FrameworkBundle\KernelBrowser
     {
         $server['PHP_AUTH_USER'] = 'publisher';
         $server['PHP_AUTH_PW'] = 'testpass';

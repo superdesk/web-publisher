@@ -129,9 +129,9 @@ trait RouteTrait
     /**
      * @param string $variablePattern
      */
-    public function setVariablePattern(string $variablePattern): static
+    public function setVariablePattern(?string $variablePattern): static
     {
-        $this->variablePattern = $variablePattern;
+        $this->variablePattern = (string) $variablePattern;
 
         return $this;
     }

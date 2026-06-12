@@ -60,7 +60,7 @@ class ThemeLogoController extends Controller {
         throw new NotFoundHttpException('File was not found.');
       }
 
-      $path = $fileSystem->get($id)->getPath();
+      $path = $id;
       $response = new Response();
       $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, pathinfo($path, PATHINFO_BASENAME));
       $response->headers->set('Content-Disposition', $disposition);

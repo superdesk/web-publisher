@@ -51,7 +51,9 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
         $route = $this->container->get('swp.factory.route')->create();
         $route->setName($data['name']);
         $route->setType($data['type']);
-        $route->setContent($data['content']);
+        if (null !== $data['content']) {
+            $route->setContent($data['content']);
+        }
         if (isset($data['cacheTimeInSeconds'])) {
             $route->setCacheTimeInSeconds($data['cacheTimeInSeconds']);
         }

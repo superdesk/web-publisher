@@ -59,7 +59,7 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      *
      * @param string $pattern
      */
-    public function setVariablePattern(string $pattern): static;
+    public function setVariablePattern(?string $pattern): static;
 
     /**
      * Gets variable pattern - the variable part of the url pattern.
