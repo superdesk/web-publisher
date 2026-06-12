@@ -41,7 +41,6 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
         $loader->load('rules.yml');
         $loader->load('form.yml');
         $loader->load('output_channel_adapter.yml');
-        $loader->load('websocket.yml');
         $loader->load('commands.yml');
         $loader->load('controllers.yaml');
         $loader->load('subscribers.yaml');

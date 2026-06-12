@@ -16,12 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
-use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
-use Gos\Bundle\WebSocketBundle\Pusher\PusherRegistry;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\Common\Serializer\SerializerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 final class PushNotificationOnPackageListener
 {
@@ -29,19 +29,15 @@ final class PushNotificationOnPackageListener
 
     public const PACKAGE_STATE_CREATE = 'create';
 
-    /**
-     * @var PusherInterface
-     */
-    private $pusher;
+    public const TOPIC = 'swp/package';
 
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private HubInterface $hub;
 
-    public function __construct(PusherRegistry $pusher, SerializerInterface $serializer)
+    private SerializerInterface $serializer;
+
+    public function __construct(HubInterface $hub, SerializerInterface $serializer)
     {
-        $this->pusher = $pusher->getPusher('amqp');
+        $this->hub = $hub;
         $this->serializer = $serializer;
     }
 
@@ -59,14 +55,16 @@ final class PushNotificationOnPackageListener
         $this->pushNotification($package, self::PACKAGE_STATE_UPDATE);
     }
 
-    private function pushNotification(PackageInterface $package, string $state)
+    private function pushNotification(PackageInterface $package, string $state): void
     {
-        $this->pusher->push([
-            'package' => json_decode($this->serializer->serialize($package, 'json'), true),
-            'state' => $state,
-        ],
-            'package_created'
-        );
+        $this->hub->publish(new Update(
+            self::TOPIC,
+            json_encode([
+                'package' => json_decode($this->serializer->serialize($package, 'json'), true),
+                'state' => $state,
+            ], JSON_THROW_ON_ERROR),
+            true
+        ));
     }
 
     private function getPackage(GenericEvent $event): PackageInterface

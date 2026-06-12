@@ -593,7 +593,7 @@ services:
 
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
-            - '@gos_web_socket.registry.pusher'
+            - '@mercure.hub.default'
             - '@swp.serializer'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onPostUpdate, priority: -10 }

@@ -1,3 +1,0 @@
-package_created:
-    channel: package_created
-    handler: 'swp.package'

@@ -53,10 +53,17 @@ services:
         image: rabbitmq
         ports:
             - 5672:5672
+    mercure:
+        image: dunglas/mercure
+        ports:
+            - "3001:80"
+        environment:
+            - MERCURE_PUBLISHER_JWT_KEY=!ChangeThisMercureHubJWTSecretKey!
+            - MERCURE_SUBSCRIBER_JWT_KEY=!ChangeThisMercureHubJWTSecretKey!
+            - MERCURE_EXTRA_DIRECTIVES=cors_origins *
     supervisor:
         build: supervisor
         ports:
-            - "8082:8080"
             - "5555:5555"
     test-api:
         image: node:18-alpine

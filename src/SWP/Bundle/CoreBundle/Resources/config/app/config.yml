@@ -290,23 +290,6 @@ bazinga_hateoas:
     twig_extension:
         enabled: false
 
-gos_web_socket:
-    server:
-        port: '%env(WEBSOCKET_PORT)%'
-        host: '%env(WEBSOCKET_HOST)%'
-        router:
-            resources:
-                - '@SWPCoreBundle/Resources/config/pubsub/routing.yml'
-    pushers:
-        amqp:
-            host: '%env(RABBIT_MQ_HOST)%'
-            port: '%env(RABBIT_MQ_PORT)%'
-            login: '%env(RABBIT_MQ_USER)%'
-            password: '%env(RABBIT_MQ_PASSWORD)%'
-            vhost: '%env(RABBIT_MQ_VHOST)%'
-            queue_name: '%env(WEBSOCKET_QUEUE_NAME)%'
-            exchange_name: '%env(WEBSOCKET_EXCHANGE_NAME)%'
-
 swp_redirect_route:
     persistence:
         orm:
