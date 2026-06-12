@@ -22,7 +22,6 @@ Feature: Managing targeted publishing destinations with content lists
       {
             "tenant":"123abc",
             "route":5,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
@@ -82,7 +81,6 @@ Feature: Managing targeted publishing destinations with content lists
       {
             "tenant":"123abc",
             "route":5,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
@@ -100,7 +98,6 @@ Feature: Managing targeted publishing destinations with content lists
       {
             "tenant":"123abc",
             "route":5,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 2, "position": 0},

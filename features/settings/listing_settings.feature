@@ -110,12 +110,6 @@ Feature: Checking if settings work correctly
         "type":"boolean",
         "scope":"tenant",
         "value":false,
-        "name":"fbia_enabled"
-      },
-      {
-        "type":"boolean",
-        "scope":"tenant",
-        "value":false,
         "name":"paywall_enabled"
       },
       {

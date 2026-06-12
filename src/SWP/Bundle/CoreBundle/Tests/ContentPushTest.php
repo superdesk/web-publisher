@@ -107,7 +107,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -266,7 +265,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -369,7 +367,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -462,7 +459,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -533,7 +529,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -624,7 +619,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -692,7 +686,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -732,7 +725,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -786,7 +778,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -871,7 +862,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -946,7 +936,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -1121,7 +1110,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => 3,
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],
@@ -1177,7 +1165,6 @@ final class ContentPushTest extends WebTestCase
                     [
                         'tenant' => '123abc',
                         'route' => $childRouteContent['id'],
-                        'isPublishedFbia' => false,
                         'published' => true,
                     ],
                 ],

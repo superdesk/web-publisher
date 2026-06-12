@@ -1,3 +1,0 @@
-swp_facebook_instant_articles_autorization:
-    resource: "@SWPFacebookInstantArticlesBundle/Controller/AutorizationController.php"
-    type:     annotation

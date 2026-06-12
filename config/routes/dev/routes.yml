@@ -10,5 +10,3 @@ _profiler:
 #    resource: "@TwigBundle/Resources/config/routing/errors.xml"
 #    prefix:   /_error
 
-_swp_facebook_instant_articles:
-    resource: "@SWPFacebookInstantArticlesBundle/Resources/config/routing_dev.yml"

@@ -118,7 +118,6 @@ Feature: Set article's published at datetime from package's firstpublished prope
             {
               "tenant":"123abc",
               "route":6,
-              "is_published_fbia":false,
               "published": true
             }
           ]

@@ -336,7 +336,6 @@ class RuleControllerTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],

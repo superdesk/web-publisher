@@ -52,7 +52,6 @@ Feature: Working with Content List limit
             {
               "tenant":"123abc",
               "route":1,
-              "is_published_fbia":false,
               "published":true,
               "content_lists":[
                 {"id":1,"position":0}

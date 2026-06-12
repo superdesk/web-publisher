@@ -119,34 +119,6 @@ class AddArticleToListListener
         }
     }
 
-    public function addArticleToBucket(ArticleEvent $event): void
-    {
-        /** @var ArticleInterface $article */
-        $article = $event->getArticle();
-
-        /** @var ContentListInterface[] $buckets */
-        $buckets = $this->listRepository->findByTypes([
-            ContentListInterface::TYPE_BUCKET,
-        ]);
-
-        if (empty($buckets)) {
-            return;
-        }
-
-        foreach ($buckets as $bucket) {
-            $item = $this->contentListItemRepository->findItemByArticleAndList($article, $bucket);
-
-            if ((null === $item) && $article->isPublishedFBIA()) {
-                $this->createAndAddItem($article, $bucket);
-            }
-
-            if ((null !== $item) && !$article->isPublishedFBIA() && $item->getContentList() === $bucket) {
-                $this->listRepository->remove($item);
-                $bucket->setUpdatedAt(new \DateTime());
-            }
-        }
-    }
-
     private function createAndAddItem(ArticleInterface $article, ContentListInterface $bucket): void
     {
         /* @var ContentListItemInterface $contentListItem */

@@ -85,7 +85,6 @@ Feature: As a user I want to be able to re-publish un-published package to one o
             {
               "tenant":"123abc",
               "route":6,
-              "is_published_fbia":false,
               "published":true
             }
           ]

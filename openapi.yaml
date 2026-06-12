@@ -1086,111 +1086,6 @@ paths:
                     description: Unexpected error.
             tags:
                 - facebook instant articles
-    "/api/{version}/facebook/instantarticles/articles/":
-        get:
-            summary: Lists Facebook Instant Articles submitted articles
-            parameters:
-                - name: sorting
-                  in: query
-                  required: false
-                  description: "example: [updatedAt]=asc|desc"
-                  schema:
-                      type: string
-                - name: version
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                "200":
-                    description: Returned on success.
-                    content:
-                        "*/*":
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/FacebookInstantArticlesArticle"
-                                type: array
-                "500":
-                    description: Unexpected error.
-            tags:
-                - facebook instant articles
-    "/api/{version}/facebook/instantarticles/articles/{submissionId}":
-        post:
-            summary: Updates status of submitted Instant Article
-            parameters:
-                - name: version
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-                - name: submissionId
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                "200":
-                    description: Returned on success.
-                    content:
-                        "*/*":
-                            schema:
-                                $ref: "#/components/schemas/FacebookInstantArticlesArticle"
-                "500":
-                    description: Unexpected error.
-            tags:
-                - facebook instant articles
-    "/api/{version}/facebook/instantarticles/feed/":
-        get:
-            summary: Lists Facebook Instant Articles feeds
-            parameters:
-                - name: sorting
-                  in: query
-                  required: false
-                  description: "example: [updatedAt]=asc|desc"
-                  schema:
-                      type: string
-                - name: version
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                "200":
-                    description: Returned on success.
-                    content:
-                        "*/*":
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/FacebookInstantArticlesFeed"
-                                type: array
-                "500":
-                    description: Unexpected error.
-            tags:
-                - facebook instant articles
-        post:
-            summary: Create Facebook Instant Articles feed content list
-            parameters:
-                - name: version
-                  in: path
-                  required: true
-                  schema:
-                      type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/FacebookInstantArticlesFeedType"
-            responses:
-                "201":
-                    description: Returned on success.
-                    content:
-                        "*/*":
-                            schema:
-                                $ref: "#/components/schemas/FacebookInstantArticlesFeed"
-                "400":
-                    description: Returned when not valid data.
-            tags:
-                - facebook instant articles
     "/api/{version}/menus/":
         get:
             summary: Lists all registered menus
@@ -3280,8 +3175,6 @@ components:
                     $ref: "#/components/schemas/ArticleSeoMetadata"
                 feature_media:
                     $ref: "#/components/schemas/ArticleMedia"
-                is_published_fbia:
-                    type: boolean
                 article_statistics:
                     $ref: "#/components/schemas/ArticleStatistics"
                 external_article:
@@ -3683,59 +3576,6 @@ components:
                 name:
                     type: string
             type: object
-        FacebookInstantArticlesArticle:
-            properties:
-                id:
-                    type: string
-                submission_id:
-                    type: string
-                article:
-                    $ref: "#/components/schemas/Article"
-                status:
-                    type: string
-                errors:
-                    type: string
-                feed:
-                    $ref: "#/components/schemas/FacebookInstantArticlesFeed"
-                created_at:
-                    type: string
-                    format: date-time
-                updated_at:
-                    type: string
-                    format: date-time
-            type: object
-        FacebookInstantArticlesFeed:
-            properties:
-                id:
-                    type: string
-                content_bucket:
-                    $ref: "#/components/schemas/ContentList"
-                facebook_page:
-                    $ref: "#/components/schemas/FacebookPage"
-                mode:
-                    type: integer
-                created_at:
-                    type: string
-                    format: date-time
-                updated_at:
-                    type: string
-                    format: date-time
-            type: object
-        FacebookInstantArticlesFeedType:
-            required:
-                - contentBucket
-                - facebookPage
-                - mode
-            properties:
-                contentBucket:
-                    type: string
-                    format: SWP\Bundle\CoreBundle\Model\ContentList id
-                facebookPage:
-                    type: string
-                    format: SWP\Bundle\CoreBundle\Model\FacebookPage id
-                mode:
-                    type: integer
-            type: object
         MenuItem:
             properties:
                 id:
@@ -4039,7 +3879,6 @@ components:
             required:
                 - tenant
                 - route
-                - isPublishedFbia
                 - isPublishedToAppleNews
                 - packageGuid
                 - published
@@ -4049,8 +3888,6 @@ components:
                     type: string
                 route:
                     type: string
-                isPublishedFbia:
-                    $ref: "#/components/schemas/BooleanType"
                 isPublishedToAppleNews:
                     $ref: "#/components/schemas/BooleanType"
                 packageGuid:
@@ -4072,8 +3909,6 @@ components:
                     $ref: "#/components/schemas/Tenant"
                 route:
                     $ref: "#/components/schemas/Route"
-                is_published_fbia:
-                    type: boolean
                 published:
                     type: boolean
                 package_guid:
@@ -4235,8 +4070,6 @@ components:
                     enum:
                         - "654321"
                         - "123456"
-                fbiaEnabled:
-                    $ref: "#/components/schemas/BooleanType"
                 paywallEnabled:
                     $ref: "#/components/schemas/BooleanType"
                 outputChannel:
@@ -4538,8 +4371,6 @@ components:
                     $ref: "#/components/schemas/ArticleSeoMetadata2"
                 feature_media:
                     $ref: "#/components/schemas/ArticleMedia2"
-                is_published_fbia:
-                    type: boolean
                 article_statistics:
                     $ref: "#/components/schemas/ArticleStatistics2"
                 external_article:

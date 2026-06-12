@@ -132,7 +132,6 @@ final class ArticlePublisher implements ArticlePublisherInterface
                     $originalRoute = $article->getRoute();
                 }
                 $article->setRoute($destination->getRoute());
-                $article->setPublishedFBIA($destination->isPublishedFbia());
                 $article->setPaywallSecured($destination->isPaywallSecured());
                 $article->setPublishedToAppleNews($destination->isPublishedToAppleNews());
                 $this->eventDispatcher->dispatch(new GenericEvent($article), Events::SWP_VALIDATION);
@@ -165,7 +164,6 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $route->setArticlesUpdatedAt(new \DateTime());
                 $article->setRoute($route);
             }
-            $article->setPublishedFBIA($destination->isPublishedFbia());
             $article->setPaywallSecured($destination->isPaywallSecured());
             $article->setPublishedToAppleNews($destination->isPublishedToAppleNews());
             $article->setArticleStatistics($articleStatistics);

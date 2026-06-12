@@ -1,7 +1,6 @@
 required:
   - tenant
   - route
-  - isPublishedFbia
   - isPublishedToAppleNews
   - packageGuid
   - published
@@ -11,8 +10,6 @@ properties:
     type: string
   route:
     type: string
-  isPublishedFbia:
-    $ref: ./BooleanType.yaml
   isPublishedToAppleNews:
     $ref: ./BooleanType.yaml
   packageGuid:

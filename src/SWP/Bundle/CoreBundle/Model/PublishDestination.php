@@ -45,7 +45,6 @@ class PublishDestination implements PublishDestinationInterface
     /**
      * @var bool
      */
-    protected $isPublishedFbia = true;
 
     /**
      * @var bool
@@ -105,22 +104,6 @@ class PublishDestination implements PublishDestinationInterface
     public function setRoute(RouteInterface $route)
     {
         $this->route = $route;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isPublishedFbia(): bool
-    {
-        return $this->isPublishedFbia;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setIsPublishedFbia(bool $isPublishedFbia): void
-    {
-        $this->isPublishedFbia = $isPublishedFbia;
     }
 
     /**

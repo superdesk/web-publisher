@@ -57,12 +57,6 @@ paths:
     $ref: 'paths/api@{version}@facebook@pages@.yaml'
   '/api/{version}/facebook/pages/{id}':
     $ref: 'paths/api@{version}@facebook@pages@{id}.yaml'
-  '/api/{version}/facebook/instantarticles/articles/':
-    $ref: 'paths/api@{version}@facebook@instantarticles@articles@.yaml'
-  '/api/{version}/facebook/instantarticles/articles/{submissionId}':
-    $ref: 'paths/api@{version}@facebook@instantarticles@articles@{submissionId}.yaml'
-  '/api/{version}/facebook/instantarticles/feed/':
-    $ref: 'paths/api@{version}@facebook@instantarticles@feed@.yaml'
   '/api/{version}/menus/':
     $ref: 'paths/api@{version}@menus@.yaml'
   '/api/{version}/menus/{id}/children/':

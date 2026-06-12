@@ -45,7 +45,6 @@ Feature: Unpublish corrected article when kill signal is sent and the publish de
       {
           "tenant":"123abc",
           "route":1,
-          "is_published_fbia":false,
           "published":true,
           "package_guid": "urn:newsml:localhost:2019-05-28T12:19:18.951780:34bedd17-9d28-4f89-afc3-dff84f44a17d"
       }

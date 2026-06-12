@@ -9,7 +9,6 @@ Feature: Updating existing article.
       {
           "tenant":"123abc",
           "route":6,
-          "isPublishedFbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2019-08-14T11:14:54.501451:794e7c20-1013-47ec-bb25-3f398315d104",
           "paywallSecured":false

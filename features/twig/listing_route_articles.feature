@@ -76,7 +76,6 @@ Feature: Listing single route by slug or name
             {
               "tenant":"123abc",
               "route":7,
-              "is_published_fbia":false,
               "published":true
             }
           ]

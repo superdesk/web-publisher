@@ -48,8 +48,6 @@ properties:
     $ref: ./ArticleSeoMetadata2.yaml
   feature_media:
     $ref: ./ArticleMedia2.yaml
-  is_published_fbia:
-    type: boolean
   article_statistics:
     $ref: ./ArticleStatistics2.yaml
   external_article:

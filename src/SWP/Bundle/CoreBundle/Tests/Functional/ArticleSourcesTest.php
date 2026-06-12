@@ -69,7 +69,6 @@ final class ArticleSourcesTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -125,7 +124,6 @@ final class ArticleSourcesTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -152,7 +150,6 @@ final class ArticleSourcesTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -222,13 +219,11 @@ final class ArticleSourcesTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                         [
                             'tenant' => '678iop',
                             'route' => 4,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],

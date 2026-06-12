@@ -49,7 +49,6 @@ Feature: Modify limit on manual content lists
       {
             "tenant":"123abc",
             "route":1,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
@@ -78,7 +77,6 @@ Feature: Modify limit on manual content lists
       {
             "tenant":"123abc",
             "route":1,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
@@ -107,7 +105,6 @@ Feature: Modify limit on manual content lists
       {
             "tenant":"123abc",
             "route":1,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
@@ -135,7 +132,6 @@ Feature: Modify limit on manual content lists
       {
             "tenant":"123abc",
             "route":1,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
@@ -163,7 +159,6 @@ Feature: Modify limit on manual content lists
       {
             "tenant":"123abc",
             "route":1,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}
@@ -191,7 +186,6 @@ Feature: Modify limit on manual content lists
       {
             "tenant":"123abc",
             "route":1,
-            "is_published_fbia":false,
             "published":true,
             "contentLists": [
               {"id": 1, "position": 0}

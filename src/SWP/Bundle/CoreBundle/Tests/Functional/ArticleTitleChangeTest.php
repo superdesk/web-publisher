@@ -77,7 +77,6 @@ final class ArticleTitleChangeTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -156,7 +155,6 @@ final class ArticleTitleChangeTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -235,7 +233,6 @@ final class ArticleTitleChangeTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],

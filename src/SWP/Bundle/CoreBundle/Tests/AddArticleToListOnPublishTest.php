@@ -226,7 +226,6 @@ final class AddArticleToListOnPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => $routeContent['id'],
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],

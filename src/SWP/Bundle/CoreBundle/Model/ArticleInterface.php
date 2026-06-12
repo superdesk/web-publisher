@@ -39,15 +39,6 @@ interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, L
      */
     public function setPackage(?PackageInterface $package);
 
-    /**
-     * @return bool
-     */
-    public function isPublishedFBIA(): bool;
-
-    /**
-     * @param bool $isPublished
-     */
-    public function setPublishedFBIA(bool $isPublished);
 
     /**
      * @return ArticleStatisticsInterface

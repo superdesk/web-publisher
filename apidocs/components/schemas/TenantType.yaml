@@ -17,8 +17,6 @@ properties:
     enum:
       - '654321'
       - '123456'
-  fbiaEnabled:
-    $ref: ./BooleanType.yaml
   paywallEnabled:
     $ref: ./BooleanType.yaml
   outputChannel:

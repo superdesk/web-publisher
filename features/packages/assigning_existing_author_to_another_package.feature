@@ -110,8 +110,7 @@ Feature: Assigning already existing author to another package
           "destinations":[
             {
               "tenant":"123abc",
-              "route":6,
-              "is_published_fbia":false
+              "route":6
             }
           ]
       }
@@ -227,8 +226,7 @@ Feature: Assigning already existing author to another package
           "destinations":[
             {
               "tenant":"123abc",
-              "route":7,
-              "is_published_fbia":false
+              "route":7
             }
           ]
       }

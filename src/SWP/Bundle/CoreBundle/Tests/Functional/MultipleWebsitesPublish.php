@@ -205,13 +205,11 @@ final class MultipleWebsitesPublish extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                         [
                             'tenant' => '678iop',
                             'route' => 4,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -307,13 +305,11 @@ final class MultipleWebsitesPublish extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                         [
                             'tenant' => '678iop',
                             'route' => 4,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -422,7 +418,6 @@ final class MultipleWebsitesPublish extends WebTestCase
         $client2->request('POST', $this->router->generate('swp_api_core_publishing_destination_create'), [
                 'tenant' => '678iop',
                 'route' => 3,
-                'isPublishedFbia' => false,
                 'published' => true,
                 'packageGuid' => 'urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0',
         ]);

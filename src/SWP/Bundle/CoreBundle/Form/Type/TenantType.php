@@ -61,11 +61,6 @@ final class TenantType extends AbstractType
                 'required' => false,
                 'help' => 'Tenant organization code',
             ])
-            ->add('fbiaEnabled', BooleanType::class, [
-                'mapped' => false,
-                'required' => false,
-                'help' => 'Defines whether Facebook Instant Articles support is enabled or not (true or false).',
-            ])
             ->add('paywallEnabled', BooleanType::class, [
                 'mapped' => false,
                 'required' => false,

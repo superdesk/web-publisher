@@ -9,7 +9,6 @@ Feature: Correcting existing article.
       {
           "tenant":"123abc",
           "route":6,
-          "isPublishedFbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2019-08-14T12:20:11.255319:877237b8-0983-4318-b28f-f919c6691bf1",
           "paywallSecured":false

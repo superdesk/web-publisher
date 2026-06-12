@@ -1,6 +1,0 @@
-SWP\Bundle\CoreBundle\Model\FacebookPage:
-    exclusion_policy: ALL
-    relations:
-        -   rel: list
-            href:
-                route: swp_api_list_facebook_pages

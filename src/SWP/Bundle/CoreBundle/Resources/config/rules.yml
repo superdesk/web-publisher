@@ -37,15 +37,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    swp_core.applicator.rule.publish_article_to_fbia:
-        class: SWP\Bundle\CoreBundle\Rule\Applicator\PublishArticleToFBIARuleApplicator
-        arguments:
-            - '@event_dispatcher'
-        calls:
-             - [setLogger, ['@logger']]
-        tags:
-            - { name: applicator.rule_applicator }
-
     SWP\Bundle\CoreBundle\Rule\Applicator\PublishArticleToAppleNewsRuleApplicator:
         arguments:
             - '@event_dispatcher'

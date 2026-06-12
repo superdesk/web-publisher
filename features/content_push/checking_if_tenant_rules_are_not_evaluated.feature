@@ -51,7 +51,6 @@ Feature: Making sure that the tenant rules are ignored
 
           "tenant":"123abc",
           "route":3,
-          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
       }
@@ -163,7 +162,6 @@ Feature: Making sure that the tenant rules are ignored
       {
            "tenant":"123abc",
            "route":3,
-           "is_published_fbia":false,
            "published":false,
            "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf1"
       }

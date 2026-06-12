@@ -137,7 +137,6 @@ Feature: Marking article as paywall-secured using rules
     Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the Json node "is_publishable" should be true
-    And the Json node "is_published_fbia" should be false
     And the Json node "published_at" should not be null
     And the Json node "route.id" should be equal to "7"
     And the Json node "status" should be equal to "published"
@@ -175,10 +174,6 @@ Feature: Marking article as paywall-secured using rules
             {
               "key":"route",
               "value":7
-            },
-            {
-              "key":"isPublishedFbia",
-              "value":false
             }
           ]
       }
@@ -240,7 +235,6 @@ Feature: Marking article as paywall-secured using rules
     Then I send a "GET" request to "/api/v2/content/articles/abstract-html-test-paywalled"
     Then the response status code should be 200
     And the Json node "is_publishable" should be true
-    And the Json node "is_published_fbia" should be false
     And the Json node "published_at" should not be null
     And the Json node "route.id" should be equal to "7"
     And the Json node "status" should be equal to "published"

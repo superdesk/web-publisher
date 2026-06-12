@@ -226,7 +226,6 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
       ],
       "keywords": [],
       "media": [],
-      "is_published_fbia": false,
       "article_statistics": {
         "impressions_number": 0,
         "page_views_number": 0,
@@ -248,7 +247,6 @@ Feature: Making sure that the "body" HTML tag is not added to article's body
           }
         },
         "default_language": "",
-        "fbia_enabled": false,
         "paywall_enabled": false
       },
       "paywall_secured": false,

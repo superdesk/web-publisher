@@ -154,7 +154,6 @@ class TenantControllerTest extends WebTestCase
                         [
                             'tenant' => $content['code'],
                             'route' => $routeContent['id'],
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -224,13 +223,12 @@ class TenantControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
             'code' => '123abc',
         ]), [
-                'fbiaEnabled' => true,
                 'paywallEnabled' => true,
         ]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"fbia_enabled": true, "paywall_enabled": true}', true),
+            '{"paywall_enabled": true}', true),
             json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
@@ -241,7 +239,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"fbia_enabled": true, "paywall_enabled": false}', true),
+            '{"paywall_enabled": false}', true),
             json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
@@ -252,7 +250,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"fbia_enabled": true, "paywall_enabled": false, "default_language": "pl"}', true),
+            '{"paywall_enabled": false, "default_language": "pl"}', true),
             json_decode($client->getResponse()->getContent(), true));
     }
 

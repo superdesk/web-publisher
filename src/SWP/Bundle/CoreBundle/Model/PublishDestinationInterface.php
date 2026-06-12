@@ -31,10 +31,6 @@ interface PublishDestinationInterface extends TimestampableInterface, Persistabl
 
     public function setTenant(TenantInterface $tenant);
 
-    public function isPublishedFbia(): bool;
-
-    public function setIsPublishedFbia(bool $isPublishedFbia): void;
-
     public function isPublished(): bool;
 
     public function setPublished(bool $published): void;

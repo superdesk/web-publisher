@@ -62,7 +62,6 @@ Feature: Adding a new tenant with PWA config
             "domainName": {},
             "themeName": {},
             "organization": {},
-            "fbiaEnabled": {},
             "paywallEnabled": {},
             "outputChannel": {
               "children": {

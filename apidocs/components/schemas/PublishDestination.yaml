@@ -5,8 +5,6 @@ properties:
     $ref: ./Tenant.yaml
   route:
     $ref: ./Route.yaml
-  is_published_fbia:
-    type: boolean
   published:
     type: boolean
   package_guid:

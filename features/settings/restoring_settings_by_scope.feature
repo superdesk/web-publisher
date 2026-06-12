@@ -109,12 +109,6 @@ Feature: Checking if restoring settings by scope works correctly
         "type":"boolean",
         "scope":"tenant",
         "value":false,
-        "name":"fbia_enabled"
-      },
-      {
-        "type":"boolean",
-        "scope":"tenant",
-        "value":false,
         "name":"paywall_enabled"
       },
       {
@@ -343,12 +337,6 @@ Feature: Checking if restoring settings by scope works correctly
         "type":"boolean",
         "scope":"tenant",
         "value":false,
-        "name":"fbia_enabled"
-      },
-      {
-        "type":"boolean",
-        "scope":"tenant",
-        "value":false,
         "name":"paywall_enabled"
       },
       {
@@ -545,12 +533,6 @@ Feature: Checking if restoring settings by scope works correctly
         "scope": "tenant",
         "value": "(Photo: {{ author }})",
         "name": "embedded_image_author_template"
-      },
-      {
-        "type":"boolean",
-        "scope":"tenant",
-        "value":false,
-        "name":"fbia_enabled"
       },
       {
         "type":"boolean",

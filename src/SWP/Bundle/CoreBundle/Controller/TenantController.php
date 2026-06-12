@@ -168,9 +168,6 @@ class TenantController extends FOSRestController {
 
       $settingsManager = $this->settingsManager;
 
-      if (array_key_exists('fbiaEnabled', $formData)) {
-        $settingsManager->set('fbia_enabled', (bool)$formData['fbiaEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
-      }
       if (array_key_exists('paywallEnabled', $formData)) {
         $settingsManager->set('paywall_enabled', (bool)$formData['paywallEnabled'], ScopeContextInterface::SCOPE_TENANT, $tenant);
       }

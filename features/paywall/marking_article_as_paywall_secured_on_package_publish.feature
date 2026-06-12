@@ -86,7 +86,6 @@ Feature: Marking article as paywall-secured using direct package publish
             {
               "tenant":"123abc",
               "route":6,
-              "is_published_fbia":false,
               "published":true,
               "paywall_secured":true
             }

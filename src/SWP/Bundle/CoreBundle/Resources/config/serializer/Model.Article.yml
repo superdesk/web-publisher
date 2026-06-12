@@ -1,9 +1,6 @@
 SWP\Bundle\CoreBundle\Model\Article:
     exclusion_policy: ALL
     properties:
-        isPublishedFBIA:
-            expose: true
-            groups: [api, api_articles_list]
         tenantCode:
             serialized_name: tenant
             expose: true

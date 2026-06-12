@@ -62,7 +62,6 @@ Feature: Allow to change the article's slug based on settings.
             {
               "tenant":"123abc",
               "route":6,
-              "isPublishedFbia":false,
               "published":true
             }
           ]

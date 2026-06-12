@@ -1541,7 +1541,6 @@ Feature: Handling the custom media fields
           }
         }
       },
-      "is_published_fbia": false,
       "article_statistics": {
         "impressions_number": 0,
         "page_views_number": 0,
@@ -1563,7 +1562,6 @@ Feature: Handling the custom media fields
           }
         },
         "default_language": "",
-        "fbia_enabled": false,
         "paywall_enabled": false
       },
       "paywall_secured": false,

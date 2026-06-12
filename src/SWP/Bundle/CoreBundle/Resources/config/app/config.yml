@@ -118,16 +118,6 @@ swp_content_list:
                 list_content:
                     model: SWP\Bundle\CoreBundle\Model\Article
 
-swp_facebook_instant_articles:
-        persistence:
-            orm:
-                enabled: true
-                classes:
-                    facebook_application:
-                        model: SWP\Bundle\CoreBundle\Model\FacebookApplication
-                    facebook_page:
-                        model: SWP\Bundle\CoreBundle\Model\FacebookPage
-
 swp_bridge:
     persistence:
         orm:
@@ -268,10 +258,6 @@ swp_settings:
             type: string
             scope: tenant
             value: "(Photo: {{ author }})"
-        fbia_enabled:
-            type: boolean
-            scope: tenant
-            value: false
         paywall_enabled:
             type: boolean
             scope: tenant

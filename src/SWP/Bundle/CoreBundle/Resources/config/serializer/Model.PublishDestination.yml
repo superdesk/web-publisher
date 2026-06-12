@@ -5,10 +5,6 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
             expose: true
             groups: [api]
             type: string
-        isPublishedFbia:
-            expose: true
-            groups: [api]
-            type: boolean
         isPublishedToAppleNews:
             expose: true
             groups: [api]

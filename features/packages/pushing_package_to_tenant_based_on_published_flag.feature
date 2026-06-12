@@ -83,7 +83,6 @@ Feature: As a user I want to be able to publish package to one of the tenants
             {
               "tenant":"123abc",
               "route":6,
-              "is_published_fbia":false,
               "published":false
             }
           ]
@@ -178,7 +177,6 @@ Feature: As a user I want to be able to publish package to one of the tenants
             {
               "tenant":"123abc",
               "route":6,
-              "is_published_fbia":false,
               "published":true
             }
           ]

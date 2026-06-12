@@ -66,7 +66,6 @@ Feature: Find related articles which were already published based on package dat
       {
           "tenant":"678iop",
           "route":7,
-          "is_published_fbia":false,
           "published":true,
           "packageGuid": "urn:newsml:sd-master.test.superdesk.org:2019-02-28T12:17:59.728688:e51c6cef-2c23-4a15-abdc-fb9f37141d55"
       }

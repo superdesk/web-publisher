@@ -102,7 +102,6 @@ final class RulesProcessor implements RulesProcessorInterface
                 }
 
                 $tenant[self::KEY_ROUTE] = $route;
-                $tenant[self::KEY_FBIA] = isset($ruleConfig[self::KEY_FBIA]) ?? false;
                 $tenant[self::KEY_PUBLISHED] = isset($ruleConfig[self::KEY_PUBLISHED]) ?? false;
                 $tenant[self::KEY_PAYWALL_SECURED] = isset($ruleConfig[self::KEY_PAYWALL_SECURED]) ?? false;
                 $tenant[self::KEY_APPLE_NEWS] = isset($ruleConfig[self::KEY_APPLE_NEWS]) ?? false;

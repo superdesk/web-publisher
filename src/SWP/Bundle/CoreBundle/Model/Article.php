@@ -37,11 +37,6 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
     protected $package;
 
     /**
-     * @var bool
-     */
-    protected $isPublishedFBIA = false;
-
-    /**
      * @var ArticleStatisticsInterface
      */
     protected $articleStatistics;
@@ -87,22 +82,6 @@ class Article extends BaseArticle implements ArticleInterface, GeoIpPlaceInterfa
     public function setPackage(?PackageInterface $package)
     {
         $this->package = $package;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isPublishedFBIA(): bool
-    {
-        return $this->isPublishedFBIA;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setPublishedFBIA(bool $isPublished)
-    {
-        $this->isPublishedFBIA = $isPublished;
     }
 
     /**

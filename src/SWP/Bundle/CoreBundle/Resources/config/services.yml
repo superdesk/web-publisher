@@ -189,7 +189,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.post_update, method: addArticleToList }
-            - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToBucket }
 
     SWP\Bundle\CoreBundle\EventSubscriber\HandleArticleChangeSubscriber:
         arguments:
@@ -265,29 +264,6 @@ services:
     SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector:
         autowire: true
     SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollectorInterface: '@SWP\Bundle\ContentBundle\Twig\Cache\CacheBlockTagsCollector'
-
-    swp.facebook.service.instant_articles:
-        class: SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService
-        arguments:
-            - "@swp_facebook.instant_articles_manager"
-            - "@swp.factory.facebook_instant_articles_article"
-            - "@swp.repository.facebook_instant_articles_article"
-            - "@router"
-            - "@logger"
-
-    swp.facebook.listener.instant_articles:
-        class: SWP\Bundle\CoreBundle\EventListener\FacebookInstantArticlesListener
-        arguments:
-            - "@swp_facebook.template_parser"
-            - "@swp_template_engine_context.factory.meta_factory"
-            - "@swp.repository.facebook_instant_articles_feed"
-            - "@swp.repository.facebook_page"
-            - "@swp.facebook.service.instant_articles"
-            - "@swp.repository.facebook_instant_articles_article"
-        tags:
-            - { name: kernel.event_listener, event: swp.content_list.post_item_add, method: sendArticleToFacebook }
-            - { name: kernel.event_listener, event: swp.article.post_update, method: resendUpdatedArticleToFacebook }
-            - { name: kernel.event_listener, event: swp.article.unpublished, method: removeArticleFromFacebook }
 
     swp_core.listener.preview_mode:
         class: SWP\Bundle\CoreBundle\EventListener\PreviewModeListener

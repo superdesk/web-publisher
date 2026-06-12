@@ -61,28 +61,6 @@ services:
     bind:
       $clientRegistry: '@knpu.oauth2.registry'
 
-  SWP\Bundle\CoreBundle\Controller\FbApplicationController:
-    bind:
-      $facebookAppRepository: '@swp.repository.facebook_application'
-      $facebookAppFactory: '@swp.factory.facebook_application'
-      $facebookPageRepository: '@swp.repository.facebook_page'
-
-  SWP\Bundle\CoreBundle\Controller\FbiaArticleController:
-    bind:
-      $facebookInstantArticlesArticleRepository: '@swp.repository.facebook_instant_articles_article'
-      $facebookInstantArticlesService: '@swp.facebook.service.instant_articles'
-
-  SWP\Bundle\CoreBundle\Controller\FbiaFeedController:
-    bind:
-      $facebookInstantArticlesFeedRepository: '@swp.repository.facebook_instant_articles_feed'
-      $facebookInstantArticlesFeedFactory: '@swp.factory.facebook_instant_articles_feed'
-
-  SWP\Bundle\CoreBundle\Controller\FbPageController:
-    bind:
-      $facebookInstantArticlesFeedRepository: '@swp.repository.facebook_instant_articles_feed'
-      $facebookPageFactory: '@swp.factory.facebook_page'
-      $facebookPageRepository: '@swp.repository.facebook_page'
-
   SWP\Bundle\CoreBundle\Controller\MenuController:
     bind:
       $menuItemRepository: '@swp.repository.menu'

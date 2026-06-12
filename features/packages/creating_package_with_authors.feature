@@ -117,7 +117,6 @@ Feature: Checking if the package authors are saved properly
             {
               "tenant":"123abc",
               "route":6,
-              "is_published_fbia":false,
               "published":true
             }
           ]
@@ -227,8 +226,7 @@ Feature: Checking if the package authors are saved properly
           "destinations":[
             {
               "tenant":"123abc",
-              "route":6,
-              "is_published_fbia":false
+              "route":6
             }
           ]
       }

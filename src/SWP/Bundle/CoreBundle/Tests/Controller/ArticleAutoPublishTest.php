@@ -76,7 +76,6 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertArrayHasKey('is_publishable', $content);
         self::assertEquals($content['is_publishable'], false);
-        self::assertEquals($content['is_published_fbia'], false);
         self::assertNull($content['published_at']);
         self::assertNull($content['route']);
         self::assertEquals($content['status'], 'new');
@@ -121,7 +120,6 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertArrayHasKey('is_publishable', $content);
         self::assertEquals($content['is_publishable'], false);
-        self::assertEquals($content['is_published_fbia'], false);
         self::assertNull($content['published_at']);
         self::assertNull($content['route']);
         self::assertEquals($content['status'], 'new');
@@ -188,7 +186,6 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertArrayHasKey('is_publishable', $content);
         self::assertEquals($content['is_publishable'], true);
-        self::assertEquals($content['is_published_fbia'], false);
         self::assertNotNull($content['published_at']);
         self::assertEquals($content['route']['id'], $route['id']);
         self::assertEquals($content['status'], 'published');
@@ -318,13 +315,11 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 4,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                         [
                             'tenant' => '678iop',
                             'route' => 5,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -472,7 +467,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -512,7 +506,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => true,
                             'published' => true,
                         ],
                     ],
@@ -547,7 +540,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => true,
                             'published' => true,
                         ],
                     ],
@@ -559,7 +551,6 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => $bucket['id']]));
 
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertTrue($content['_embedded']['_items'][0]['content']['is_published_fbia']);
         self::assertEquals(1, $content['total']);
 
         $client->request(
@@ -569,7 +560,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -604,7 +594,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
