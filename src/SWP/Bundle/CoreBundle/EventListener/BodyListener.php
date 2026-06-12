@@ -86,7 +86,7 @@ class BodyListener
         $decoder = $this->decoderProvider->getDecoder($format);
         $data = $decoder->decode($content);
         if (is_array($data)) {
-          $request->request = new ParameterBag($data);
+          $request->request = new \Symfony\Component\HttpFoundation\InputBag($data);
           $normalizeRequest = true;
         } else {
           throw new BadRequestHttpException('Invalid '.$format.' message received');
@@ -103,7 +103,7 @@ class BodyListener
         throw new BadRequestHttpException($e->getMessage());
       }
 
-      $request->request = new ParameterBag($data);
+      $request->request = new \Symfony\Component\HttpFoundation\InputBag($data);
 
       if(!empty($request->files->all())) {
         $data = $request->files->all();
@@ -114,7 +114,7 @@ class BodyListener
           throw new BadRequestHttpException($e->getMessage());
         }
 
-        $request->files = new ParameterBag($data);
+        $request->files = new \Symfony\Component\HttpFoundation\FileBag($data);
       }
     }
   }

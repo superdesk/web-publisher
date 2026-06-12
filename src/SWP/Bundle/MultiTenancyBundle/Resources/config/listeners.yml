@@ -14,11 +14,13 @@ services:
         arguments:
             - '@service_container'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
     swp_multi_tenancy.organization_subscriber:
         class: SWP\Bundle\MultiTenancyBundle\EventListener\OrganizationSubscriber
         arguments:
             - '@service_container'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }

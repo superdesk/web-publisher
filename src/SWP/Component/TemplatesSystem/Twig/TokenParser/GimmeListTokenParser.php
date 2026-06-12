@@ -77,7 +77,7 @@ class GimmeListTokenParser extends \Twig\TokenParser\AbstractTokenParser
 
         $ignoreContext = null;
         if ($stream->nextIf(\Twig\Token::NAME_TYPE, 'ignoreContext')) {
-            if ($stream->test(\Twig\Token::PUNCTUATION_TYPE, '[')) {
+            if ($stream->test(\Twig\Token::PUNCTUATION_TYPE, '[') || $stream->test(\Twig\Token::OPERATOR_TYPE, '[')) {
                 $ignoreContext = $this->parser->getExpressionParser()->parseExpression();
             } else {
                 $ignoreContext = new \Twig\Node\Expression\ArrayExpression([], $token->getLine());
