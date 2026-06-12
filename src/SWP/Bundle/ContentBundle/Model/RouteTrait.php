@@ -54,12 +54,12 @@ trait RouteTrait
     /**
      * @var string
      */
-    protected $variablePattern;
+    protected string $variablePattern = '';
 
     /**
      * @var string
      */
-    protected $staticPrefix;
+    protected string $staticPrefix = '';
 
     /**
      * @var int
@@ -121,7 +121,7 @@ trait RouteTrait
     /**
      * @return string
      */
-    public function getVariablePattern()
+    public function getVariablePattern(): string
     {
         return $this->variablePattern;
     }
@@ -129,9 +129,11 @@ trait RouteTrait
     /**
      * @param string $variablePattern
      */
-    public function setVariablePattern($variablePattern)
+    public function setVariablePattern(string $variablePattern): static
     {
         $this->variablePattern = $variablePattern;
+
+        return $this;
     }
 
     /**
@@ -201,7 +203,7 @@ trait RouteTrait
     /**
      * @return string
      */
-    public function getStaticPrefix()
+    public function getStaticPrefix(): string
     {
         return $this->staticPrefix;
     }
@@ -209,9 +211,11 @@ trait RouteTrait
     /**
      * @param string $staticPrefix
      */
-    public function setStaticPrefix($staticPrefix)
+    public function setStaticPrefix(string $staticPrefix): static
     {
         $this->staticPrefix = $staticPrefix;
+
+        return $this;
     }
 
     /**

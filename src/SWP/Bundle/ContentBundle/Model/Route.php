@@ -69,7 +69,7 @@ class Route extends BaseRoute implements RouteInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): string
     {
         return parent::getId();
     }

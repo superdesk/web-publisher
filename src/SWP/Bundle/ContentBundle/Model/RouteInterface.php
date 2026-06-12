@@ -59,24 +59,24 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      *
      * @param string $pattern
      */
-    public function setVariablePattern($pattern);
+    public function setVariablePattern(string $pattern): static;
 
     /**
      * Gets variable pattern - the variable part of the url pattern.
      *
      * @return string
      */
-    public function getVariablePattern();
+    public function getVariablePattern(): string;
 
     /**
      * @param $prefix string
      */
-    public function setStaticPrefix($prefix);
+    public function setStaticPrefix(string $prefix): static;
 
     /**
      * @return string
      */
-    public function getStaticPrefix();
+    public function getStaticPrefix(): string;
 
     /**
      * Sets requirements for route.
@@ -180,14 +180,14 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      * @param mixed $object A content object that can be persisted by the
      *                      storage layer
      */
-    public function setContent($object);
+    public function setContent(object $object): static;
 
     /**
      * Get the object this url points to.
      *
      * @return mixed
      */
-    public function getContent();
+    public function getContent(): ?object;
 
     /**
      * @return int|null

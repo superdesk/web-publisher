@@ -28,11 +28,11 @@ RUN set -ex \
         vim \
         nano \
         libwebp-dev \
+        linux-headers \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql \
-    && docker-php-ext-install opcache \
+    && docker-php-ext-install pdo_pgsql pgsql \
     && docker-php-ext-install sockets \
     && pecl install memcached \
     && docker-php-ext-enable memcached \
@@ -41,7 +41,7 @@ RUN set -ex \
     && docker-php-ext-install exif \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install zip xml gd mbstring curl bcmath
+    && docker-php-ext-install zip gd bcmath
 
 # install xdebug and enable error logging
 RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/errors.ini

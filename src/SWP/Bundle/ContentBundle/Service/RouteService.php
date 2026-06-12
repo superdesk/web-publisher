@@ -78,7 +78,7 @@ class RouteService implements RouteServiceInterface
 
         switch ($route->getType()) {
             case RouteInterface::TYPE_CONTENT:
-                $route->setVariablePattern(null);
+                $route->setVariablePattern('');
                 $route->setStaticPrefix($this->generatePath($route));
                 $route->setRequirements([]);
 
