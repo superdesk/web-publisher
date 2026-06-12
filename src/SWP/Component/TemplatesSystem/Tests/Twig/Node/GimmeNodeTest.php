@@ -73,7 +73,7 @@ class GimmeNodeTest extends NodeTestCase
 $swpMetaLoader3 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 $context["article"] = $swpMetaLoader3->load("article", []);
 if ($context["article"] !== false) {
-    echo "Test body";
+    yield "Test body";
 }
 unset($context["article"]);
 EOF
@@ -83,7 +83,7 @@ EOF
 $swpMetaLoader4 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 $context["article"] = $swpMetaLoader4->load("article", null);
 if ($context["article"] !== false) {
-    echo "Test body";
+    yield "Test body";
 }
 unset($context["article"]);
 EOF
@@ -93,7 +93,7 @@ EOF
 $swpMetaLoader5 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 $context["article"] = $swpMetaLoader5->load("article", ["foo" => true]);
 if ($context["article"] !== false) {
-    echo "Test body";
+    yield "Test body";
 }
 unset($context["article"]);
 EOF
@@ -105,7 +105,7 @@ $swpContext6Gimme = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig
 $swpIgnoreContext6Gimme = $swpContext6Gimme->temporaryUnset([]);
 $context["article"] = $swpMetaLoader6->load("article", ["foo" => true]);
 if ($context["article"] !== false) {
-    echo "Test body";
+    yield "Test body";
 }
 $swpContext6Gimme->restoreTemporaryUnset($swpIgnoreContext6Gimme);
 unset($context["article"]);

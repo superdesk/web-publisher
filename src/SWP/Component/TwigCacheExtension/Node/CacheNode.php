@@ -16,10 +16,12 @@ declare(strict_types=1);
 namespace SWP\Component\TwigCacheExtension\Node;
 
 use SWP\Component\TwigCacheExtension\Extension\CacheExtension;
+use Twig\Attribute\YieldReady;
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
 use Twig\Node\Node;
 
+#[YieldReady]
 class CacheNode extends Node
 {
     private static int $cacheCount = 0;
@@ -29,8 +31,7 @@ class CacheNode extends Node
         parent::__construct(
             ['annotation' => $annotation, 'key' => $keyInfo, 'body' => $body],
             [],
-            $lineno,
-            $tag
+            $lineno
         );
     }
 
@@ -39,6 +40,7 @@ class CacheNode extends Node
         $i = self::$cacheCount++;
 
         $extension = var_export(CacheExtension::class, true);
+        $useYield = method_exists($compiler->getEnvironment(), 'useYield') && $compiler->getEnvironment()->useYield();
 
         $compiler
             ->addDebugInfo($this)
@@ -51,12 +53,18 @@ class CacheNode extends Node
             ->write(sprintf('$swpCacheBody%d = $swpCacheStrategy%d->fetchBlock($swpCacheKey%d);', $i, $i, $i)."\n")
             ->write(sprintf('if (false === $swpCacheBody%d) {', $i)."\n")
             ->indent()
-            ->write("ob_start();\n")
+            ->write(sprintf('$swpCacheBody%d = ', $i))
+            ->raw($useYield ? "implode('', iterator_to_array(" : '\\Twig\\Extension\\CoreExtension::captureOutput(')
+            ->raw("(function () use (&\$context, \$macros, \$blocks) {\n")
+            ->indent()
             ->subcompile($this->getNode('body'))
-            ->write(sprintf('$swpCacheBody%d = ob_get_clean();', $i)."\n")
+            ->write("yield from [];\n")
+            ->outdent()
+            ->write('})()')
+            ->raw($useYield ? ", false));\n" : ");\n")
             ->write(sprintf('$swpCacheStrategy%d->saveBlock($swpCacheKey%d, $swpCacheBody%d);', $i, $i, $i)."\n")
             ->outdent()
             ->write("}\n")
-            ->write(sprintf('echo $swpCacheBody%d;', $i)."\n");
+            ->write(($useYield ? 'yield' : 'echo').sprintf(' $swpCacheBody%d;', $i)."\n");
     }
 }

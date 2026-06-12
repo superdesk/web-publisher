@@ -89,7 +89,7 @@ class GimmeExtension extends AbstractExtension implements GlobalsInterface
 
                 return $node;
             }, ['needs_context' => false]),
-            new TwigFilter('order', function ($node, $value1, $value2) {
+            new TwigFilter('order', function ($node, $value1, $value2 = null) {
                 $node['_collection_type_filters']['order'][] = [$value1, $value2];
 
                 return $node;

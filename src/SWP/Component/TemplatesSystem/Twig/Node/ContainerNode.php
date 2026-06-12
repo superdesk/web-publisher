@@ -21,6 +21,7 @@ use Twig\Node\Node;
  * @deprecated since 2.0, will be removed in 3.0
  * Container twig node.
  */
+#[\Twig\Attribute\YieldReady]
 class ContainerNode extends Node
 {
     public function __construct(Node $name, \Twig\Node\Expression\AbstractExpression $parameters = null, Node $body, $lineno, $tag = null)
@@ -39,8 +40,10 @@ class ContainerNode extends Node
 
     public function compile(Compiler $compiler)
     {
+        $statement = method_exists($compiler->getEnvironment(), 'useYield') && $compiler->getEnvironment()->useYield() ? 'yield' : 'echo';
+
         $compiler
             ->addDebugInfo($this)
-            ->write("echo \"<!-- @deprecated: Container nodes are deprecated from 2.0, will be removed in 3.0 -->\"; \n");
+            ->write($statement." \"<!-- @deprecated: Container nodes are deprecated from 2.0, will be removed in 3.0 -->\"; \n");
     }
 }

@@ -156,11 +156,11 @@ if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Com
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
-    echo "";
+    yield "";
     ++\$context['loop']['index0'];
     ++\$context['loop']['index'];
     \$context['loop']['first'] = false;
-    if (isset(\$context['loop']['length'])) {
+    if (isset(\$context['loop']['revindex0'], \$context['loop']['revindex'])) {
         --\$context['loop']['revindex0'];
         --\$context['loop']['revindex'];
         \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
@@ -188,17 +188,22 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], "", false, false, false, 0) == "New article")) {
+    if ((CoreExtension::getAttribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], "", false, false, false, 0) == "New article")) {
         // line 1
-        echo "";
+        yield "";
         \$context['_iterated'] = true;
         ++\$context['loop']['index0'];
         ++\$context['loop']['index'];
         \$context['loop']['first'] = false;
+        if (isset(\$context['loop']['revindex0'], \$context['loop']['revindex'])) {
+            --\$context['loop']['revindex0'];
+            --\$context['loop']['revindex'];
+            \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
+        }
     }
 }
 if (!\$context['_iterated']) {
-    echo "";
+    yield "";
 }
 \$_parent = \$context['_parent'];
 unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
@@ -234,11 +239,11 @@ if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Com
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
-    echo "";
+    yield "";
     ++\$context['loop']['index0'];
     ++\$context['loop']['index'];
     \$context['loop']['first'] = false;
-    if (isset(\$context['loop']['length'])) {
+    if (isset(\$context['loop']['revindex0'], \$context['loop']['revindex'])) {
         --\$context['loop']['revindex0'];
         --\$context['loop']['revindex'];
         \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
@@ -278,11 +283,11 @@ if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Com
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
-    echo "";
+    yield "";
     ++\$context['loop']['index0'];
     ++\$context['loop']['index'];
     \$context['loop']['first'] = false;
-    if (isset(\$context['loop']['length'])) {
+    if (isset(\$context['loop']['revindex0'], \$context['loop']['revindex'])) {
         --\$context['loop']['revindex0'];
         --\$context['loop']['revindex'];
         \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
@@ -310,12 +315,17 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], "", false, false, false, 0) == "New article")) {
+    if ((CoreExtension::getAttribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], "", false, false, false, 0) == "New article")) {
         // line 1
-        echo "";
+        yield "";
         ++\$context['loop']['index0'];
         ++\$context['loop']['index'];
         \$context['loop']['first'] = false;
+        if (isset(\$context['loop']['revindex0'], \$context['loop']['revindex'])) {
+            --\$context['loop']['revindex0'];
+            --\$context['loop']['revindex'];
+            \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
+        }
     }
 }
 \$_parent = \$context['_parent'];
@@ -342,12 +352,17 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], "", false, false, false, 0) == "New article")) {
+    if ((CoreExtension::getAttribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", [], "", false, false, false, 0) == "New article")) {
         // line 1
-        echo "";
+        yield "";
         ++\$context['loop']['index0'];
         ++\$context['loop']['index'];
         \$context['loop']['first'] = false;
+        if (isset(\$context['loop']['revindex0'], \$context['loop']['revindex'])) {
+            --\$context['loop']['revindex0'];
+            --\$context['loop']['revindex'];
+            \$context['loop']['last'] = 0 === \$context['loop']['revindex0'];
+        }
     }
 }
 \$swpContext6GimmeList->restoreTemporaryUnset(\$swpIgnoreContext6GimmeList);
