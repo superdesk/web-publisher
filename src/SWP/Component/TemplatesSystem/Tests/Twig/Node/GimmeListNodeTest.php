@@ -135,7 +135,7 @@ class GimmeListNodeTest extends NodeTestCase
 \$withParameters = [];
 \$withoutParameters = [];
 \$swpCollectionMetaLoader1 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
-\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader1->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context["articles"] = \\Twig\\Extension\\CoreExtension::ensureTraversable(\$swpCollectionMetaLoader1->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
 \$context['loop'] = array(
   'parent' => \$context['_parent'],
@@ -178,7 +178,7 @@ EOF
 \$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader2 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
-\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader2->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context["articles"] = \\Twig\\Extension\\CoreExtension::ensureTraversable(\$swpCollectionMetaLoader2->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
 \$context['_iterated'] = false;
 \$context['loop'] = array(
@@ -218,7 +218,7 @@ EOF
 \$withParameters = \$context['_collection_type_filters'];
 \$withoutParameters = [];
 \$swpCollectionMetaLoader3 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
-\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader3->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context["articles"] = \\Twig\\Extension\\CoreExtension::ensureTraversable(\$swpCollectionMetaLoader3->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
 \$context['loop'] = array(
   'parent' => \$context['_parent'],
@@ -262,7 +262,7 @@ EOF
 \$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader4 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
-\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader4->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context["articles"] = \\Twig\\Extension\\CoreExtension::ensureTraversable(\$swpCollectionMetaLoader4->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
 \$context['loop'] = array(
   'parent' => \$context['_parent'],
@@ -306,7 +306,7 @@ EOF
 \$withParameters = array_merge([], \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader5 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
-\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader5->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context["articles"] = \\Twig\\Extension\\CoreExtension::ensureTraversable(\$swpCollectionMetaLoader5->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
 \$context['loop'] = array(
   'parent' => \$context['_parent'],
@@ -343,7 +343,7 @@ EOF
 \$swpCollectionMetaLoader6 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 \$swpContext6GimmeList = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();
 \$swpIgnoreContext6GimmeList = \$swpContext6GimmeList->temporaryUnset([]);
-\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader6->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context["articles"] = \\Twig\\Extension\\CoreExtension::ensureTraversable(\$swpCollectionMetaLoader6->load("articles", \$withParameters, \$withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
 \$context['loop'] = array(
   'parent' => \$context['_parent'],

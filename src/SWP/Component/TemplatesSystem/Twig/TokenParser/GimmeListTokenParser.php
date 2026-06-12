@@ -58,7 +58,11 @@ class GimmeListTokenParser extends \Twig\TokenParser\AbstractTokenParser
 
         $collectionFilters = null;
         if ($stream->test(\Twig\Token::PUNCTUATION_TYPE, '|') || $stream->test(\Twig\Token::OPERATOR_TYPE, '|')) {
-            $collectionFilters = $this->parser->getExpressionParser()->parsePostfixExpression($collectionType);
+            $stream->next();
+            $filterBase = $collectionType instanceof \Twig\Node\Expression\AbstractExpression
+                ? $collectionType
+                : $collectionType->getNode('0');
+            $collectionFilters = $this->parser->getExpressionParser()->parseFilterExpressionRaw($filterBase);
         }
 
         $withParameters = null;

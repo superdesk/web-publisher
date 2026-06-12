@@ -78,7 +78,7 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
         }
 
         if (null === $paginationData) {
-            $paginator = new Paginator($eventDispatcher, new \SWP\Bundle\StorageBundle\Pagination\NullArgumentAccess());
+            $paginator = new Paginator($eventDispatcher);
             return $paginator->paginate(
                 $queryBuilder,
                 (int)$criteria->get('firstResult', 0),
