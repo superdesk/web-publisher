@@ -73,6 +73,9 @@ class Paginator implements PaginatorInterface {
     }
 
     $request = null === $this->requestStack ? Request::createFromGlobals() : $this->requestStack->getCurrentRequest();
+    if (null === $request) {
+      $request = Request::createFromGlobals();
+    }
 
     // default sort field and direction are set based on options (if available)
     if (isset($options[self::DEFAULT_SORT_FIELD_NAME]) && !$request->query->has($options[self::SORT_FIELD_PARAMETER_NAME])) {
@@ -83,11 +86,15 @@ class Paginator implements PaginatorInterface {
       }
     }
 
+    $argumentAccessStack = new \Symfony\Component\HttpFoundation\RequestStack();
+    $argumentAccessStack->push($request);
+    $argumentAccess = new \Knp\Component\Pager\ArgumentAccess\RequestArgumentAccess($argumentAccessStack);
+
     // before pagination start
-    $beforeEvent = new Event\BeforeEvent($this->eventDispatcher, $request);
+    $beforeEvent = new Event\BeforeEvent($this->eventDispatcher, $argumentAccess);
     $this->eventDispatcher->dispatch($beforeEvent, 'knp_pager.before');
     // items
-    $itemsEvent = new Event\ItemsEvent($offset, $limit);
+    $itemsEvent = new Event\ItemsEvent($offset, $limit, $argumentAccess);
     $itemsEvent->options = &$options;
     $itemsEvent->target = &$target;
     $this->eventDispatcher->dispatch($itemsEvent, 'knp_pager.items');
