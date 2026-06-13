@@ -104,15 +104,15 @@ class ArticleSearchController extends AbstractController {
 
   protected function createAdditionalCriteria(Request $request): array {
     return [
-        'routes' => array_filter((array)$request->query->get('route', [])),
-        'statuses' => array_filter((array)$request->query->get('status', [])),
-        'authors' => array_filter((array)$request->query->get('author', [])),
+        'routes' => array_filter((array)($request->query->all()['route'] ?? [])),
+        'statuses' => array_filter((array)($request->query->all()['status'] ?? [])),
+        'authors' => array_filter((array)($request->query->all()['author'] ?? [])),
         'publishedBefore' => $request->query->has('published_before') ? new \DateTime($request->query->get('published_before')) : null,
         'publishedAfter' => $request->query->has('published_after') ? new \DateTime($request->query->get('published_after')) : null,
         'publishedAt' => $request->query->get('published_at'),
-        'sources' => array_filter((array)$request->query->get('source', [])),
-        'metadata' => array_filter((array)$request->query->get('metadata', [])),
-        'keywords' => array_filter((array)$request->query->get('keywords', [])),
+        'sources' => array_filter((array)($request->query->all()['source'] ?? [])),
+        'metadata' => array_filter((array)($request->query->all()['metadata'] ?? [])),
+        'keywords' => array_filter((array)($request->query->all()['keywords'] ?? [])),
     ];
   }
 }
