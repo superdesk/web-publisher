@@ -82,5 +82,5 @@ volumes:
 
 networks:
     default:
-        external:
-            name: sp-publisher-network
+        name: sp-publisher-network
+        external: true
