@@ -57,7 +57,7 @@ class PackageSearchController extends AbstractController {
         $request->query->get('term', ''),
         [
             'page' => $request->query->get('page'),
-            'sort' => $request->query->get('sorting'),
+            'sort' => $request->query->all('sorting') ?: null,
             'limit' => $request->query->get('limit', 10),
             'authors' => array_filter((array)($request->query->all()['author'] ?? [])),
             'publishedBefore' => $request->query->get('published_before'),

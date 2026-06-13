@@ -49,7 +49,7 @@ class AuthorSearchController extends AbstractController {
         $request->query->get('term', ''),
         [
             'page' => $request->query->get('page'),
-            'sort' => $request->query->get('sorting'),
+            'sort' => $request->query->all('sorting') ?: null,
             'limit' => $request->query->get('limit', 10),
         ]
     );

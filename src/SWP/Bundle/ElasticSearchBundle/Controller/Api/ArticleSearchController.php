@@ -81,7 +81,7 @@ class ArticleSearchController extends AbstractController {
 
     return [
         'page' => $request->query->get('page'),
-        'sort' => $request->query->get('sorting'),
+        'sort' => $request->query->all('sorting') ?: null,
         'limit' => $request->query->get('limit', 10),
         'tenantCode' => $currentTenant->getCode(),
     ];
