@@ -32,11 +32,18 @@ services:
             - memcached
             - elasticsearch
             - rabbitmq
+            - mailcrab
+        environment:
+            - MAILER_DSN=smtp://mailcrab:1025
         volumes:
             - ../../:/var/www/publisher:cached
             - publisher_logs:/var/www/publisher/var/log:rw
         env_file:
             - .env
+    mailcrab:
+        image: marlonb/mailcrab:latest
+        ports:
+            - "1080:1080"
     nginx:
         build: nginx
         ports:

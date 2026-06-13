@@ -138,6 +138,15 @@ With Docker, the hub is part of [docker-compose](etc/docker/docker-compose.yml) 
 For a manual setup, run a `dunglas/mercure` hub and set the `MERCURE_URL`, `MERCURE_PUBLIC_URL`
 and `MERCURE_JWT_SECRET` environment variables accordingly.
 
+#### E-mails (registration / password reset)
+
+E-mail delivery uses `symfony/mailer` via the `MAILER_DSN` environment variable. The Docker
+stack ships a [Mailcrab](https://github.com/tweedegolf/mailcrab) catcher (`mailcrab` service):
+the `php` container sends to `smtp://mailcrab:1025` and captured mails (including the account
+activation link) are browsable at [localhost:1080](http://localhost:1080). For a manual setup,
+point `MAILER_DSN` at your own SMTP server (or `null://null` to discard mails — the registration
+endpoint also returns the activation link in its JSON response).
+
 #### Preview
 
 http://localhost
