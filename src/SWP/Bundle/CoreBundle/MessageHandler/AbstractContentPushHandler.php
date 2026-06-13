@@ -20,6 +20,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Sentry\Breadcrumb;
 use Sentry\State\HubInterface;
@@ -92,16 +93,14 @@ abstract class AbstractContentPushHandler
         } catch (UniqueConstraintViolationException $e) {
             $this->logException($e, $package, 'UniqueConstraintViolationException exception');
 
-            $cacheDriver = $this->packageObjectManager->getConfiguration()->getMetadataCacheImpl();
-            $cacheDriver->flushAll();
+            $this->clearMetadataCache();
 
             throw $e;
 
         } catch (NonUniqueResultException | NotNullConstraintViolationException $e) {
             $this->logException($e, $package, 'Unhandled NonUnique or NotNullConstraint exception');
 
-            $cacheDriver = $this->packageObjectManager->getConfiguration()->getMetadataCache();
-            $cacheDriver->flushAll();
+            $this->clearMetadataCache();
 
             throw $e;
         } catch (\Throwable $e) {
@@ -117,6 +116,19 @@ abstract class AbstractContentPushHandler
     private function generateLockId(string $guid): string
     {
         return md5(json_encode(['type' => 'package', 'guid' => $guid]));
+    }
+
+    /**
+     * Clears the ORM metadata cache. Doctrine ORM exposes a PSR-6
+     * CacheItemPoolInterface (getMetadataCache()); the legacy
+     * getMetadataCacheImpl()->flushAll() API was removed, so use clear().
+     */
+    private function clearMetadataCache(): void
+    {
+        $cache = $this->packageObjectManager->getConfiguration()->getMetadataCache();
+        if ($cache instanceof CacheItemPoolInterface) {
+            $cache->clear();
+        }
     }
 
     private function doExecute(int $tenantId, PackageInterface $package, array $options = []): void
