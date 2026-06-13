@@ -76,6 +76,17 @@ oneup_flysystem:
         local_adapter:
             local:
                 location: '%kernel.project_dir%/public/uploads/'
+                # Uploads are served as static files by the web server, so they
+                # must be world-readable. Without this, league/flysystem v3
+                # defaults to "private" visibility (dirs 0700) and the web server
+                # process cannot traverse the media directories.
+                permissions:
+                    file:
+                        public: 0644
+                        private: 0644
+                    dir:
+                        public: 0755
+                        private: 0755
     filesystems:
         swp_filesystem:
             adapter: fallback_adapter # fallback_adapter defined via extension class

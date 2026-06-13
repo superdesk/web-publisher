@@ -18,7 +18,6 @@ namespace SWP\Bundle\ContentBundle\File;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -59,7 +58,10 @@ final class FileDownloader implements FileDownloaderInterface
         $tempLocation = rtrim(sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.sha1($mediaId.date('his'));
         $client->request('GET', $url, ['sink' => $tempLocation]);
 
-        return new UploadedFile($tempLocation, $mediaId, $mimeType, strlen($tempLocation), true);
+        // Symfony 7 dropped the $size constructor argument; the 4th argument is
+        // now the upload error code. Pass null (UPLOAD_ERR_OK) so the file is
+        // considered valid, and true to enable test mode for the local file.
+        return new UploadedFile($tempLocation, $mediaId, $mimeType, null, true);
     }
 
     private function retryDecider(): callable
@@ -68,7 +70,7 @@ final class FileDownloader implements FileDownloaderInterface
             $retries,
             Request $request,
             Response $response = null,
-            RequestException $exception = null
+            \Throwable $exception = null
         ): bool {
             $retry = false;
             if (!$this->retryDownloads) {

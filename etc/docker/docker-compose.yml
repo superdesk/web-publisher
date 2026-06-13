@@ -23,7 +23,8 @@ services:
             - ./elasticsearch:/var/lib/elasticsearch/data:cached
     php:
         extra_hosts:
-            - "host.docker.internal:172.28.0.1"
+            - "host.docker.internal:host-gateway"
+            - "superdesk.local:host-gateway"
         build: php8-fpm
         ports:
             - "9001:9000"
@@ -51,6 +52,7 @@ services:
         depends_on:
             - php
         volumes:
+            - ../../:/var/www/publisher:cached
             - nginx_logs:/var/log/nginx:rw
         networks:
             default:
