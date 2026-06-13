@@ -21,10 +21,15 @@ use SWP\Bundle\ContentBundle\Doctrine\Types\EmptyStringOrNullStringType;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as CmfRoute;
 
 /**
- * The typed CMF Route::$staticPrefix property defaults to '' instead of
- * null. The (staticprefix, tenant_code) unique index relies on unset
- * prefixes being NULL, so the column is remapped to a type that stores
- * empty strings as NULL.
+ * Adjusts the inherited CMF Route mapping to match the existing schema:
+ *
+ *  - The typed CMF Route::$staticPrefix property defaults to '' instead of
+ *    null; the (staticprefix, tenant_code) unique index relies on unset
+ *    prefixes being NULL, so the column is remapped to a type that stores
+ *    empty strings as NULL.
+ *  - Newer CMF maps Route::$condition to a (reserved-word) `condition`
+ *    column, while the schema has always used `condition_expr`; the column
+ *    is remapped to keep existing data and avoid the reserved word.
  */
 final class RouteStaticPrefixMetadataListener
 {
@@ -39,6 +44,11 @@ final class RouteStaticPrefixMetadataListener
         if (isset($classMetadata->fieldMappings['staticPrefix'])) {
             $classMetadata->fieldMappings['staticPrefix']['type'] = EmptyStringOrNullStringType::NAME;
             $classMetadata->fieldMappings['staticPrefix']['nullable'] = true;
+        }
+
+        if (isset($classMetadata->fieldMappings['condition'])) {
+            $classMetadata->fieldMappings['condition']['columnName'] = 'condition_expr';
+            $classMetadata->fieldMappings['condition']['nullable'] = true;
         }
     }
 }
