@@ -9,7 +9,7 @@ use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

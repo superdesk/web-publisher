@@ -8,7 +8,7 @@ use Behat\Transliterator\Transliterator;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

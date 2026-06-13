@@ -6,8 +6,8 @@ namespace SWP\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareTrait;
 
 /**
  * Auto-generated Migration: Please modify to your needs!

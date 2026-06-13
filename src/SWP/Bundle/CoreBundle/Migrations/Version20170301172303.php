@@ -5,7 +5,7 @@ namespace SWP\Migrations;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

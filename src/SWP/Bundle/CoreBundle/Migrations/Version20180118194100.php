@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -51,7 +51,7 @@ class Version20180118194100 extends AbstractMigration implements ContainerAwareI
 
         $dbConnection = $entityManager->getConnection();
         $nextvalQuery = $dbConnection->getDatabasePlatform()->getSequenceNextValSQL('swp_article_statistics_id_seq');
-        $newId = (int) $dbConnection->fetchColumn($nextvalQuery);
+        $newId = (int) $dbConnection->fetchOne($nextvalQuery);
 
         /* @var ArticleInterface $article */
         foreach ($articles as $article) {

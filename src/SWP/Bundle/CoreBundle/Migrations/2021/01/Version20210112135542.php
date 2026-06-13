@@ -9,7 +9,7 @@ use Doctrine\Migrations\AbstractMigration;
 use SWP\Bundle\ContentBundle\Model\ArticleExtraEmbedField;
 use SWP\Bundle\ContentBundle\Model\ArticleExtraTextField;
 use SWP\Bundle\CoreBundle\Model\Article;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -77,9 +77,7 @@ final class Version20210112135542 extends AbstractMigration implements Container
 
         while ($isProcessing) {
             $sql = "SELECT id, extra FROM swp_article LIMIT $numberOfRecordsPerPage OFFSET $totalArticlesProcessed";
-            $query = $entityManager->getConnection()->prepare($sql);
-            $query->execute();
-            $results = $query->fetchAll();
+            $results = $entityManager->getConnection()->executeQuery($sql)->fetchAllAssociative();
 
             foreach ($results as $result) {
                 $legacyExtra = $this->unserializeExtraField($result['extra']);

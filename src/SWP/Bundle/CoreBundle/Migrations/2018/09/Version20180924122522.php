@@ -8,7 +8,7 @@ use Behat\Transliterator\Transliterator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -44,7 +44,7 @@ final class Version20180924122522 extends AbstractMigration implements Container
 
         $dbConnection = $entityManager->getConnection();
         $nextvalQuery = $dbConnection->getDatabasePlatform()->getSequenceNextValSQL('swp_keyword_id_seq');
-        $newId = (int) $dbConnection->fetchColumn($nextvalQuery);
+        $newId = (int) $dbConnection->fetchOne($nextvalQuery);
 
         $keywords = [];
         foreach ($articles as $article) {

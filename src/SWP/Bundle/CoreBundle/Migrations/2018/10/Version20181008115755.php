@@ -8,8 +8,8 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareTrait;
 
 /**
  * Auto-generated Migration: Please modify to your needs!

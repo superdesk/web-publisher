@@ -11,7 +11,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\CoreBundle\Model\Settings;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use SWP\Bundle\CoreBundle\Migrations\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
