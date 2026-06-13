@@ -44,7 +44,10 @@ RUN set -ex \
     && docker-php-ext-install zip gd bcmath sysvsem
 
 # install xdebug and enable error logging
-RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/errors.ini
+# Deprecations are logged (and shown in the Symfony profiler), not echoed into
+# responses: on PHP 8.4+ third-party deprecations fire at class-load time and
+# would otherwise corrupt headers ("headers already sent").
+RUN echo "error_reporting = E_ALL & ~E_DEPRECATED" >> /usr/local/etc/php/conf.d/errors.ini
 RUN echo "display_errors = On" >> /usr/local/etc/php/conf.d/errors.ini
 RUN echo "log_errors = On" >> /usr/local/etc/php/conf.d/errors.ini
 
