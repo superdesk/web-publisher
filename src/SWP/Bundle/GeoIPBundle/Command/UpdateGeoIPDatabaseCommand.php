@@ -16,15 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\GeoIPBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+#[AsCommand(name: 'swp:geoip:db:update', description: 'Downloads and updates the Geo IP database.')]
 class UpdateGeoIPDatabaseCommand extends Command
 {
-    protected static $defaultName = 'swp:geoip:db:update';
 
     /** @var string */
     private $targetDir;

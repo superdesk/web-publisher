@@ -3,15 +3,16 @@
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
 use Pdp\Rules;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+#[AsCommand(name: 'swp:public-suffix-list:get', description: 'Downloads the public suffix list.')]
 class GetPublicSuffixListCommand extends Command
 {
-    protected static $defaultName = 'swp:public-suffix-list:get';
 
     private ContainerInterface $container;
     private string $suffixListEndpoint;
