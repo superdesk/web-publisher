@@ -10,7 +10,7 @@
 namespace SWP\Bundle\CoreBundle\Util;
 
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Symfony\Component\HttpKernel\UriSigner;
+use Symfony\Component\HttpFoundation\UriSigner;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\ExpiredSignatureException;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\InvalidSignatureException;
