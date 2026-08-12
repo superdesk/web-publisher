@@ -137,6 +137,10 @@ class NinjsValidator extends JsonValidator
           "name":{
             "description":"The name of the genre",
             "type":"string"
+          },
+          "translations":{
+            "description":"Translations of the genre fields, keyed by field name and then by language code",
+            "type":"object"
           }
         }
       }
@@ -272,6 +276,10 @@ class NinjsValidator extends JsonValidator
           "state_code":{
             "description":"The state code",
             "type":"string"
+          },
+          "translations":{
+            "description":"Translations of the place fields, keyed by field name and then by language code",
+            "type":"object"
           }
         }
       }
@@ -294,6 +302,10 @@ class NinjsValidator extends JsonValidator
           "scheme":{
             "description":"The controlled vocabulary (scheme) identifier",
             "type":"string"
+          },
+          "translations":{
+            "description":"Translations of the subject fields, keyed by field name and then by language code",
+            "type":"object"
           }
         }
       }
